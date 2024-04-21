@@ -8,10 +8,10 @@ permissions:
 env:
   AWS_REGION: 'us-east-1'
   AWS_ACCOUNT_ID: '339713122183'
-  ROLE_TO_ASSUME: 'arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/github-actions-admin-aws'
+  ROLE_TO_ASSUME: 'arn:aws:iam::339713122183:role/github-actions-admin-aws'
   ROLE_SESSION_NAME: 'GitHubActions'
   REPO_NAME: "${{ github.event.repository.name }}"
-  ECR_REPO: "${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.REPO_NAME }}"
+  ECR_REPO: "339713122183.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}"
   ECS_CLUSTER: 'ecs-cluster'
   ECS_SERVICE: 'webapp_service'
 
