@@ -4,17 +4,6 @@ permissions:
   id-token: write  # Required for OIDC-based authentication
   contents: read   # Required for actions/checkout
 
-# Reusable variables for common elements
-env:
-  AWS_REGION: 'us-east-1'
-  AWS_ACCOUNT_ID: '339713122183'
-  ROLE_TO_ASSUME: 'arn:aws:iam::339713122183:role/github-actions-admin-aws'
-  ROLE_SESSION_NAME: 'GitHubActions'
-  REPO_NAME: "${{ github.event.repository.name }}"
-  ECR_REPO: "339713122183.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}"
-  ECS_CLUSTER: 'ecs-cluster'
-  ECS_SERVICE: 'webapp_service'
-
 on:
   push:
     branches: [ "main" ]
@@ -23,7 +12,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and Test Golang Project
+    name: Build and Test Webapp
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,13 +37,14 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ env.ROLE_TO_ASSUME }}
-          role-session-name: ${{ env.ROLE_SESSION_NAME }}
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::339713122183:role/github-actions-admin-aws
+          role-session-name: GitHubActions
           web-identity-token-file: ${{ github.token_path }}
       - name: Upsert ECR repository
         run: |
-          aws ecr describe-repositories --repository-names ${{ env.REPO_NAME }} || aws ecr create-repository --repository-name ${{ env.REPO_NAME }}
+          REPO_NAME="${{ github.event.repository.name }}"
+          aws ecr describe-repositories --repository-names $REPO_NAME || aws ecr create-repository --repository-name $REPO_NAME
 
   docker-build-and-push:
     name: Build and Push Docker Image
@@ -65,32 +55,35 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ env.ROLE_TO_ASSUME }}
-          role-session-name: ${{ env.ROLE_SESSION_NAME }}
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::339713122183:role/github-actions-admin-aws
+          role-session-name: GitHubActions
           web-identity-token-file: ${{ github.token_path }}
       - name: Build and push Docker image
         run: |
-          echo "Building Docker image REPO_NAME ${{ env.REPO_NAME }}"
-          IMAGE_SHA_TAG="${{ env.REPO_NAME }}:${{ github.sha }}"  # Tag with commit SHA
-          IMAGE_LATEST_TAG="${{ env.REPO_NAME }}:latest"  # Tag with "latest"
+          REPO_NAME="${{ github.event.repository.name }}"
+          IMAGE_SHA_TAG="${REPO_NAME}:${{ github.sha }}"  # Tag with commit SHA
+          IMAGE_LATEST_TAG="${REPO_NAME}:latest"  # Tag with "latest"
+          ECR_REPO="339713122183.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME"
+
           # Authenticate with ECR
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REPO }}
-          
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPO
+
           # Build the Docker image and tag with the unique SHA tag
-          docker build -t ${{ IMAGE_SHA_TAG }} .
-          
+          docker build -t "$REPO_NAME:${{ github.sha }}" .
+
           # Tag the built image with the SHA in ECR
-          docker tag ${{ IMAGE_SHA_TAG }} ${{ env.ECR_REPO }}:${{ github.sha }}
-          
+          docker tag "$REPO_NAME:${{ github.sha }}" "$ECR_REPO:${{ github.sha }}"
+
           # Tag the built image with "latest" in ECR
-          docker tag ${{ IMAGE_SHA_TAG }} ${{ env.ECR_REPO }}:latest
-          
+          docker tag "$REPO_NAME:${{ github.sha }}" "$ECR_REPO:latest"
+
           # Push the unique SHA tag to ECR
-          docker push ${{ env.ECR_REPO }}:${{ github.sha }}
-          
+          docker push "$ECR_REPO:${{ github.sha }}"
+
           # Push the "latest" tag to ECR
-          docker push ${{ env.ECR_REPO }}:latest
+          docker push "$ECR_REPO:latest"
+
   deploy-ecs:
     name: Deploy
     runs-on: ubuntu-latest
@@ -99,10 +92,12 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ env.ROLE_TO_ASSUME }}
-          role-session-name: ${{ env.ROLE_SESSION_NAME }}
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::339713122183:role/github-actions-admin-aws
+          role-session-name: GitHubActions
           web-identity-token-file: ${{ github.token_path }}
       - name: Deploy to ECS
         run: |
-          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment --region ${{ env.AWS_REGION }}
+          # Trigger ECS service redeployment with force flag
+          aws ecs update-service --cluster ecs-cluster --service webapp_service --force-new-deployment --region us-east-1
+  
