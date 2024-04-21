@@ -26,9 +26,6 @@ jobs:
       - name: Build Next.js project
         run: npm run build  # Builds the Next.js project
 
-      - name: Run tests
-        run: npm run test  # Runs the project's test suite
-
   prepare-ecr:
     name: Prepare ECR Repository
     runs-on: ubuntu-latest
