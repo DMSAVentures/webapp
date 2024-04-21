@@ -71,6 +71,7 @@ jobs:
           web-identity-token-file: ${{ github.token_path }}
       - name: Build and push Docker image
         run: |
+          echo "Building Docker image REPO_NAME ${{ env.REPO_NAME }}"
           IMAGE_SHA_TAG="${{ env.REPO_NAME }}:${{ github.sha }}"  # Tag with commit SHA
           IMAGE_LATEST_TAG="${{ env.REPO_NAME }}:latest"  # Tag with "latest"
           # Authenticate with ECR
