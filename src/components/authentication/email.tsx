@@ -1,4 +1,5 @@
-import React, { useReducer } from "react";
+import React, {useEffect, useReducer} from "react";
+import {useSubmitLogin} from "@/hooks/useSubmitLogin";
 
 type EmailFormErrors = {
     email?: string;
@@ -9,14 +10,12 @@ type EmailFormState = {
     email: string;
     password: string;
     errors: EmailFormErrors
-    isSubmitting: boolean;
 };
 // Define the initial state for the form
 const initialState: EmailFormState = {
     email: "",
     password: "",
     errors: {} as EmailFormErrors,
-    isSubmitting: false,
 };
 
 // Define enum for EmailFormAction
@@ -53,11 +52,6 @@ function formReducer(state: EmailFormState, action: Action) {
                     [action.field]: action.error,
                 },
             };
-        case EmailFormAction.SUBMIT_FORM:
-            return {
-                ...state,
-                isSubmitting: true,
-            };
         case EmailFormAction.RESET_FORM:
             return initialState; // Reset form state
         default:
@@ -68,9 +62,19 @@ function formReducer(state: EmailFormState, action: Action) {
 // Email/Password login form component using useReducer
 export default function EmailSignIn() {
     const [state, dispatch] = useReducer(formReducer, initialState);
+    const { submitLogin, data, error, loading } = useSubmitLogin()
+
+    useEffect(() => {
+        if (data) {
+            // Save token to local storage
+            localStorage.setItem("token", data.token);
+            // Redirect to home page using nextjs router
+            window.location.href = "/";
+        }
+    }, [data]);
 
     // Handle form submission
-    function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+    async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const email = state.email.trim();
@@ -110,12 +114,11 @@ export default function EmailSignIn() {
         if (valid) {
             dispatch({ type: EmailFormAction.SUBMIT_FORM });
             console.log("Form submitted:", { email, password });
-
-            // Simulate a form submission with a timeout
-            setTimeout(() => {
-                console.log("Form submission successful!");
-                dispatch({ type: EmailFormAction.RESET_FORM });
-            }, 2000); // Simulate form processing time
+            try {
+                await submitLogin(email, password);
+            } catch (error) {
+                console.error("Login failed", error);
+            }
         }
     }
 
@@ -162,8 +165,9 @@ export default function EmailSignIn() {
                         <span style={{ color: "red" }}>{state.errors.password}</span>
                     )}
                 </div>
-                <button type="submit" disabled={state.isSubmitting}>
-                    {state.isSubmitting ? "Signing in..." : "Sign in"}
+                {error && <div style={{ color: "red" }}>{error.message}</div>}
+                <button type="submit" disabled={loading}>
+                    {loading ? "Signing in..." : "Sign in"}
                 </button>
             </form>
         </div>

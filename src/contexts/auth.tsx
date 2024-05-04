@@ -19,10 +19,8 @@ export function AuthProvider(props: { children: React.ReactNode }){
     useEffect(() => {
         // Check local storage for a token to set the initial state
         const token = localStorage.getItem('token');
-        console.log(token);
         setIsLoggedIn(!!token); // True if token is present
-    }, []);
-    console.log(isLoggedIn);
+    }, [setIsLoggedIn]);
     return (
         <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
             {props.children}
