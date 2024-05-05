@@ -1,0 +1,8 @@
+@import "src/globalstyles/variables.scss";
+
+hr {
+  height: 1px;
+  background-color: $color-primary; /* Color of the line */
+  border: none; /* Remove default border */
+  margin: 25px 0; /* Add some vertical spacing */
+}

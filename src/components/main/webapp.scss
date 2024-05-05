@@ -1,0 +1,16 @@
+@import "src/globalstyles/mixin.scss";
+
+main {
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 10px;
+  // Use the responsive mixin for padding
+  @include respond-to('medium'){
+    padding: 0 20px; // More padding on medium devices and up
+  }
+
+  @include respond-to('small') {
+    padding: 0 30px; // Less padding on small devices
+  }
+}

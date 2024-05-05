@@ -1,24 +1,27 @@
 'use client'
-import React, {useContext, useEffect, useState} from "react";
+import "./webapp.scss"
+import React, {useContext} from "react";
 import {AuthContext} from "@/contexts/auth";
-import Login from "@/components/authentication/login";
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function WebApp (): React.JSX.Element {
+    const router = useRouter();
     const authContext = useContext(AuthContext);
+    useEffect(() => {
+        if (!authContext.isLoggedIn) {
+            router.push('/signin');
+        }
+    }, [authContext.isLoggedIn, router]);
 
-    if (authContext.loading) {
-        // Show loading indicator while checking authentication status
-        return <div>Loading...</div>;
-    }
-    if (!authContext.isLoggedIn) {
-        return (
-            <Login/>
-        );
-    }
     return (
-        <div>
-            <h1>Webapp - WEBAPP GIG</h1>
-            <p>This is a message</p>
-        </div>
+        <>
+        <main>
+            <div>
+                <h1>Webapp - WEBAPP GIG</h1>
+                <p>This is a message</p>
+            </div>
+        </main>
+        </>
     );
 }

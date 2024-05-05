@@ -1,0 +1,47 @@
+@import "src/globalstyles/mixin.scss";
+@import "src/globalstyles/variables.scss";
+
+.email-sign-in-button {
+  background-color: $color-primary;
+  color: white;
+  border: $border-base;
+  border-radius: $border-radius-md;
+  border-color: $color-primary;
+  padding: 10px 20px;
+  width: 100%;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+  &:hover {
+    //background-color: darken($color-background, 2%);
+    //border-color: $color-primary;
+    box-shadow: 0 0 0 2px $color-primary;
+    text-decoration: none;
+  }
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: $border-base;
+    border-radius: $border-radius-md;
+    border-color: $color-text-secondary;
+    transition: box-shadow 0.3s, border-color 0.3s;
+    &:focus {
+        border-color: white;
+        box-shadow: 0 0 0 2px $color-primary;
+    }
+}
+
+label {
+  font-size: small;
+}
+
+.validation-error {
+  font-size: smaller;
+  color: $color-error;
+}
+
+.form-item {
+  margin: 10px 0;
+}

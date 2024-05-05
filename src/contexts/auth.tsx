@@ -16,7 +16,6 @@ export const AuthContext = createContext(defaultAuthContext);
 export function AuthProvider(props: { children: React.ReactNode }){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         // Check local storage for a token to set the initial state
         const token = localStorage.getItem('token');

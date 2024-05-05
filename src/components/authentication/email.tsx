@@ -1,3 +1,4 @@
+import "./email.scss"
 import React, {useEffect, useReducer} from "react";
 import {useSubmitLogin} from "@/hooks/useSubmitLogin";
 
@@ -124,9 +125,8 @@ export default function EmailSignIn() {
 
     return (
         <div>
-            <h1>Sign in with Email</h1>
             <form onSubmit={handleLogin}>
-                <div>
+                <div className={"form-item"}>
                     <label htmlFor="email">Email:</label>
                     <input
                         id="email"
@@ -143,10 +143,10 @@ export default function EmailSignIn() {
                         }
                     />
                     {state.errors.email && (
-                        <span style={{ color: "red" }}>{state.errors.email}</span>
+                        <span className={"validation-error"}>{state.errors.email}</span>
                     )}
                 </div>
-                <div>
+                <div className={"form-item"}>
                     <label htmlFor="password">Password:</label>
                     <input
                         id="password"
@@ -162,11 +162,11 @@ export default function EmailSignIn() {
                         }
                     />
                     {state.errors.password && (
-                        <span style={{ color: "red" }}>{state.errors.password}</span>
+                        <span className={"validation-error"}>{state.errors.password}</span>
                     )}
                 </div>
                 {error && <div style={{ color: "red" }}>{error.message}</div>}
-                <button type="submit" disabled={loading}>
+                <button className={"email-sign-in-button"} type="submit" disabled={loading}>
                     {loading ? "Signing in..." : "Sign in"}
                 </button>
             </form>

@@ -2,7 +2,7 @@
 $color-primary: #5b21b6; // Primary color
 $color-secondary: #f97316; // Secondary color
 $color-accent: #22c55e; // Accent color
-$color-background: #f9fafb; // Background color
+$color-background: #fcfcfc; // Background color
 $color-text: #111827; // Primary text color
 $color-text-secondary: #6b7280; // Secondary text color
 
@@ -47,50 +47,5 @@ $border-radius-lg: 0.5rem;
 // Breakpoints
 $breakpoint-sm: 640px; // Small devices (landscape phones)
 $breakpoint-md: 768px; // Medium devices (tablets)
-$breakpoint-lg: 1024px; // Large devices (desktops)
-$breakpoint-xl: 1280px; // Extra large devices (large desktops)
-
-
-// Mixins
-@mixin respond-to($breakpoint) {
-  @if $breakpoint == 'sm' {
-    @media (min-width: $breakpoint-sm) { @content; }
-  } @else if $breakpoint == 'md' {
-    @media (min-width: $breakpoint-md) { @content; }
-  } @else if $breakpoint == 'lg' {
-    @media (min-width: $breakpoint-lg) { @content; }
-  } @else if $breakpoint == 'xl' {
-    @media (min-width: $breakpoint-xl) { @content; }
-  }
-}
-
-@mixin text-truncate {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-
-
-// Global Styles
-body {
-  font-family: $font-primary;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $color-text;
-  background-color: $color-background;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: $font-weight-bold;
-}
-
-a {
-  color: $color-primary;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
+$breakpoint-lg: 1200px; // Large devices (desktops)
+$breakpoint-xl: 1680px;

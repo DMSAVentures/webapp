@@ -1,0 +1,24 @@
+@import "src/globalstyles/mixin.scss";
+@import "src/globalstyles/variables";
+.login {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  background:
+          radial-gradient(circle at top left, lighten($color-primary, 50%) 10%, transparent 35%),
+          radial-gradient(circle at bottom right, lighten($color-primary, 50%) 5%, transparent 15%);
+}
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login-form {
+  width: 400px;
+  padding: 20px;
+  border: $border-base;
+  border-radius: $border-radius-md;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
