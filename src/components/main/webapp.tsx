@@ -9,10 +9,10 @@ export default function WebApp (): React.JSX.Element {
     const router = useRouter();
     const authContext = useContext(AuthContext);
     useEffect(() => {
-        if (!authContext.isLoggedIn) {
+        if (!authContext.loading && !authContext.isLoggedIn) {
             router.push('/signin');
         }
-    }, [authContext.isLoggedIn, router]);
+    }, [authContext, router]);
 
     return (
         <>

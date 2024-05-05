@@ -11,10 +11,10 @@ export default function Page() {
     const router = useRouter();
     const authContext = useContext(AuthContext);
     useEffect(() => {
-        if (authContext.isLoggedIn) {
+        if (!authContext.loading && authContext.isLoggedIn) {
            router.push("/");
         }
-    }, [authContext.isLoggedIn, router]);
+    }, [authContext, router]);
 
     return (
         <div className={"login"}>
