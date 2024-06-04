@@ -1,0 +1,177 @@
+@import "src/globalstyles/variables.scss";
+
+// Mixins for button styles
+@mixin button-filled-style($color) {
+  background-color: $color;
+  color: $color-neutral-100;
+  &:hover {
+    background-color: if($color == $color-neutral, lighten($color, 15%), darken($color, 10%));
+  }
+  &:disabled {
+    background-color: $color-neutral-300;
+    color: $color-text-muted;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  &:focus {
+    outline: 3px solid #fff;
+    box-shadow: 0 0 0 0.35rem rgba($color, 0.1);
+  }
+}
+
+@mixin button-stroke-style($color) {
+  background-color: transparent;
+  border: 1px solid $color;
+  color: $color;
+  &:hover {
+    background-color: lighten($color, 35%);
+    border: none;
+  }
+  &:disabled {
+    border-color: $color-neutral-300;
+    color: $color-text-muted;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  &:focus {
+    background-color: transparent;
+    border: 1px solid $color;
+    outline: 3px solid #fff;
+    box-shadow: 0 0 0 0.35rem rgba($color, 0.1);
+  }
+}
+
+@mixin button-lighter-style($color) {
+  background-color: lighten($color, 35%);
+  color: $color;
+  &:hover {
+    border: 1px solid $color;
+    background-color: transparent;
+  }
+  &:disabled {
+    color: $color-text-muted;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  &:focus {
+    background-color: transparent;
+    border: 1px solid $color;
+    outline: 3px solid #fff;
+    box-shadow: 0 0 0 0.35rem rgba($color, 0.1);
+  }
+}
+
+@mixin button-ghost-style($color) {
+  background-color: transparent;
+  color: $color;
+  border: none;
+  &:hover {
+    background-color: rgba($color, 0.1);
+  }
+  &:disabled {
+    color: $color-text-muted;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  &:focus {
+    background-color: transparent;
+    border: 1px solid $color;
+    outline: 3px solid #fff;
+    box-shadow: 0 0 0 0.35rem rgba($color, 0.1);
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: background-color $transition-duration-normal $transition-ease-in-out;
+  font-weight: $font-weight-medium;
+  &--2x-small {
+    gap: $spacing-2;
+    border-radius: $border-radius-8;
+    padding: $spacing-4 $spacing-6;
+    font-size: $font-size-base;
+  }
+
+  &--x-small {
+    gap: $spacing-2;
+    border-radius: $border-radius-8;
+    padding: $spacing-6;
+    font-size: $font-size-base;
+  }
+
+  &--small {
+    gap: $spacing-2;
+    border-radius: $border-radius-8;
+    padding: $spacing-8;
+    font-size: $font-size-base;
+  }
+
+  &--medium {
+    gap: $spacing-4;
+    border-radius: $border-radius-10;
+    padding: $spacing-10;
+    font-size: $font-size-base;
+  }
+
+  &--icon-only {
+    border-radius: $border-radius-8;
+    height: 40px;
+    width: 40px;
+    padding: $spacing-6;
+    gap: $spacing-2;
+  }
+
+  .button__icon {
+    padding: 0 $spacing-2;
+    &--left {
+      margin-right: $spacing-2;
+    }
+
+    &--right {
+      margin-left: $spacing-2;
+    }
+  }
+}
+
+// Variant styles
+.button--primary.button--filled {
+  @include button-filled-style($color-primary);
+}
+.button--primary.button--stroke {
+  @include button-stroke-style($color-primary);
+}
+.button--primary.button--lighter {
+  @include button-lighter-style($color-primary);
+}
+.button--primary.button--ghost {
+  @include button-ghost-style($color-primary);
+}
+
+.button--neutral.button--filled {
+  @include button-filled-style($color-neutral);
+}
+.button--neutral.button--stroke {
+  @include button-stroke-style($color-neutral);
+}
+.button--neutral.button--lighter {
+  @include button-lighter-style($color-neutral);
+}
+.button--neutral.button--ghost {
+  @include button-ghost-style($color-neutral);
+}
+
+.button--error.button--filled {
+  @include button-filled-style($color-error);
+}
+.button--error.button--stroke {
+  @include button-stroke-style($color-error);
+}
+.button--error.button--lighter {
+  @include button-lighter-style($color-error);
+}
+.button--error.button--ghost {
+  @include button-ghost-style($color-error);
+}

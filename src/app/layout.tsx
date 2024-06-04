@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import "../globalstyles/globals.scss";
+
+import type { Metadata } from "next";
 import React from "react";
 import {Providers} from "@/contexts/providers";
 
@@ -26,7 +27,7 @@ export default function RootLayout({
     </head>
     <body>
     <Providers>
-      {children}
+          {children}
     </Providers>
     </body>
     </html>

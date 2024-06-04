@@ -1,51 +1,7 @@
-// Color Palette
-$color-primary: #5b21b6; // Primary color
-$color-secondary: #f97316; // Secondary color
-$color-accent: #22c55e; // Accent color
-$color-background: #fcfcfc; // Background color
-$color-text: #111827; // Primary text color
-$color-text-secondary: #6b7280; // Secondary text color
-
-// Semantic Colors for System Feedback
-$color-success: #10b981;
-$color-info: #3b82f6;
-$color-warning: #f59e0b;
-$color-error: #ef4444;
-
-
-// Typography
-$font-primary: 'Radio Canada Big', sans-serif;
-$font-secondary: 'Arial', sans-serif;
-
-$font-size-root: 16px; // Root font size
-$font-size-base: 1rem; // Base font size for paragraphs
-$font-size-lg: 1.125rem; // Large font size
-$font-size-sm: 0.875rem; // Small font size
-
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-bold: 700;
-
-$line-height-base: 1.5;
-
-
-// Spacing
-$spacing-xs: 0.25rem;
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$spacing-lg: 2rem;
-$spacing-xl: 3rem;
-$spacing-2xl: 4rem;
-
-// Borders
-$border-base: 1px solid $color-text-secondary;
-$border-radius-sm: 0.125rem;
-$border-radius-md: 0.375rem;
-$border-radius-lg: 0.5rem;
-
-
-// Breakpoints
-$breakpoint-sm: 640px; // Small devices (landscape phones)
-$breakpoint-md: 768px; // Medium devices (tablets)
-$breakpoint-lg: 1200px; // Large devices (desktops)
-$breakpoint-xl: 1680px;
+@import "typography";
+@import "colors";
+@import "spacing";
+@import "shadow";
+@import "transition";
+@import "breakpoint";
+@import "border";
