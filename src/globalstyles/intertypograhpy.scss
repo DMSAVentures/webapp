@@ -1,0 +1,194 @@
+// Font Imports
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Display:wght@400;500;600;700&display=swap');
+
+// Base Typography Styles
+body {
+  font-family: 'Inter', sans-serif;
+  color: $text-strong-950;
+  background-color: $bg-white-0;
+}
+
+// Heading Styles
+h1, .h1 {
+  font-family: 'Inter Display', sans-serif;
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 64px;
+  letter-spacing: -1%;
+}
+
+h2, .h2 {
+  font-family: 'Inter Display', sans-serif;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: -1%;
+}
+
+h3, .h3 {
+  font-family: 'Inter Display', sans-serif;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -1%;
+}
+
+h4, .h4 {
+  font-family: 'Inter Display', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.5%;
+}
+
+h5, .h5 {
+  font-family: 'Inter Display', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: unset;
+}
+
+h6, .h6 {
+  font-family: 'Inter Display', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: unset;
+}
+
+// Label Styles
+.label-xl, .label-x-large {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -1.5%;
+}
+
+.label-lg, .label-large {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -1.5%;
+}
+
+.label-md, .label-medium {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -1.1%;
+}
+
+.label-sm, .label-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.6%;
+}
+
+.label-xs, .label-x-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: unset;
+}
+
+
+// Paragraph Styles
+.paragraph-xl, .paragraph-x-large {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -1.5%;
+}
+
+.paragraph-lg, .paragraph-large {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -1.5%;
+}
+
+.paragraph-md, .paragraph-medium {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -1.1%;
+}
+
+.paragraph-sm, .paragraph-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.6%;
+}
+
+.paragraph-xs, .paragraph-x-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: unset;
+}
+
+
+// Subheading Styles
+.subheading-md, .subheading-medium {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: unset;
+}
+
+.subheading-sm, .subheading-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: unset;
+}
+
+.subheading-xs, .subheading-x-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 4%;
+}
+
+.subheading-xxs, .subheading-xx-small {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 12px;
+  letter-spacing: 2%;
+}
+
+
+// Docs Styles
+.docs-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -1.5%;
+}
+
+.docs-paragraph {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -1.5%;
+}
