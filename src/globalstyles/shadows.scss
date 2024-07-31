@@ -1,0 +1,35 @@
+// Variables for shadow properties
+$shadow-color-xs: rgba(14,18,27,0.03);
+$shadow-color-md: rgba(14,18,27,0.1);
+
+// Mixin for shadows
+@mixin box-shadow($x, $y, $blur, $spread, $color) {
+  box-shadow: $x $y $blur $spread $color;
+}
+
+// Shadow styles
+.shadow-xs {
+  @include box-shadow(0px, 1px, 2px, 0px, $shadow-color-xs);
+}
+
+.shadow-md {
+  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+}
+
+
+// Example usage
+.shadow-container {
+  padding: 20px;
+  margin: 10px;
+  background-color: #fff;
+
+  &.shadow-xs {
+    @extend .shadow-xs;
+  }
+
+
+  &.shadow-md {
+    @extend .shadow-md;
+  }
+
+}

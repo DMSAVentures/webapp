@@ -1,0 +1,59 @@
+// Navigation container to hold sidebar and submenu
+.navigation-container {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: $sidebar-expanded-width;
+    background-color: #f0f0f0; // Example background color
+    transition: width 0.3s; // Transition for collapsing/expanding
+  }
+
+  .submenu {
+    width: $sidebar-submenu-expanded-width;
+    background-color: #e0e0e0; // Example background color
+    transition: width 0.3s; // Transition for collapsing/expanding
+    @media (max-width: 768px) {
+      display: none; // Hide submenu when width is less than 768px
+    }
+  }
+
+  &.collapsed-sidebar .sidebar {
+    width: $sidebar-collapsed-width;
+  }
+
+  &.collapsed-sidebar .submenu {
+    display: none;
+  }
+}
+
+// Flex container to hold navigation container and main content
+.flex-container {
+  display: flex;
+}
+
+// Main content area
+.main-content {
+  flex-grow: 1; // Allow main content to grow and fill remaining space
+
+  &.grid-expanded-sidebar {
+    @include grid-layout($column-width-sidebar-expanded, $gutter-width, $safe-area-sidebar-layout);
+  }
+
+  &.grid-collapsed-sidebar {
+    @include grid-layout($column-width-sidebar-collapsed, $gutter-width, $safe-area-sidebar-layout);
+  }
+
+  &.grid-sidebar-with-submenu {
+    @include grid-layout($column-width-sidebar-with-submenu, $gutter-width, $safe-area-sidebar-layout);
+  }
+
+  .content-item {
+    background-color: #ccc; // Example background color for content items
+    padding: 20px;
+    margin: 10px;
+  }
+}

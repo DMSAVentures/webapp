@@ -1,8 +1,66 @@
-// transition.scss
-$transition-duration-fast: 0.2s;
-$transition-duration-normal: 0.3s;
-$transition-duration-slow: 0.5s;
+// Variables for transition speeds
+$transition-extra-fast: 100ms;
+$transition-fast: 200ms;
+$transition-normal: 300ms;
+$transition-slow: 400ms;
+$transition-extra-slow: 500ms;
 
-$transition-ease-in: cubic-bezier(0.4, 0, 1, 1);
-$transition-ease-out: cubic-bezier(0, 0, 0.2, 1);
-$transition-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+// Transition types
+$transition-type-dissolve: ease-out;
+
+// Mixin for transitions
+@mixin transition($property, $duration, $timing-function) {
+  transition: $property $duration $timing-function;
+}
+
+// Speed options
+%transition-extra-fast {
+  @include transition(all, $transition-extra-fast, $transition-type-dissolve);
+}
+
+%transition-fast {
+  @include transition(all, $transition-fast, $transition-type-dissolve);
+}
+
+%transition-normal {
+  @include transition(all, $transition-normal, $transition-type-dissolve);
+}
+
+%transition-slow {
+  @include transition(all, $transition-slow, $transition-type-dissolve);
+}
+
+%transition-extra-slow {
+  @include transition(all, $transition-extra-slow, $transition-type-dissolve);
+}
+
+// Example usage
+.transition-container {
+  &.extra-fast {
+    @extend %transition-extra-fast;
+  }
+
+  &.fast {
+    @extend %transition-fast;
+  }
+
+  &.normal {
+    @extend %transition-normal;
+  }
+
+  &.slow {
+    @extend %transition-slow;
+  }
+
+  &.extra-slow {
+    @extend %transition-extra-slow;
+  }
+}
+
+// Hover effects
+.hover-effect {
+  &:hover {
+    @extend %transition-normal;
+    transform: scale(1.05); // Example hover effect
+  }
+}
