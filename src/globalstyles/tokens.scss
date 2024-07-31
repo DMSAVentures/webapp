@@ -1,0 +1,172 @@
+$primary-dark: $blue-800;   // blue-800
+$primary-darker: $blue-700; // blue-700
+$primary-base: $blue-500;   // blue-500
+$primary-alpha-16: $blue-alpha-16; // blue-alpha-16
+$primary-alpha-10: $blue-alpha-10; // blue-alpha-10
+
+
+$static-black: $neutral-950; // neutral-950
+$static-white: $neutral-0; // neutral-0
+
+$bg-strong-950: $neutral-950; // neutral-950
+$bg-surface-800: $neutral-800; // neutral-800
+$bg-sub-300: $neutral-300; // neutral-300
+$bg-soft-200: $neutral-200; // neutral-200
+$bg-weak-50: $neutral-50; // neutral-50
+$bg-white-0: $neutral-0; // neutral-0
+
+$bg-strong-950-dark: $neutral-0; // neutral-0
+$bg-surface-800-dark: $neutral-200; // neutral-200
+$bg-sub-300-dark: $neutral-600; // neutral-600
+$bg-soft-200-dark: $neutral-700; // neutral-700
+$bg-weak-50-dark: $neutral-900; // neutral-900
+$bg-white-0-dark: $neutral-950; // neutral-950
+
+
+$text-strong-950: $neutral-950; // neutral-950
+$text-sub-600: $neutral-600; // neutral-600
+$text-soft-400: $neutral-400; // neutral-400
+$text-disabled-300: $neutral-300; // neutral-300
+$text-white-0: $neutral-0; // neutral-0
+
+$text-strong-950-dark: $neutral-0; // neutral-0
+$text-sub-600-dark: $neutral-400; // neutral-400
+$text-soft-400-dark: $neutral-500; // neutral-500
+$text-disabled-300-dark: $neutral-600; // neutral-600
+$text-white-0-dark: $neutral-950; // neutral-950
+
+
+$stroke-strong-950: $neutral-950; // neutral-950
+$stroke-sub-300: $neutral-300; // neutral-300
+$stroke-soft-200: $neutral-200; // neutral-200
+$stroke-white-0: $neutral-0; // neutral-0
+
+$stroke-strong-950-dark: $neutral-0; // neutral-0
+$stroke-sub-300-dark: $neutral-600; // neutral-600
+$stroke-soft-200-dark: $neutral-700; // neutral-700
+$stroke-white-0-dark: $neutral-950; // neutral-950
+
+
+$icon-strong-950: $neutral-950; // neutral-950
+$icon-sub-600: $neutral-600; // neutral-600
+$icon-soft-400: $neutral-400; // neutral-400
+$icon-disabled-300: $neutral-300; // neutral-300
+$icon-white-0: $neutral-0; // neutral-0
+
+$icon-strong-950-dark: $neutral-0; // neutral-0
+$icon-sub-600-dark: $neutral-400; // neutral-400
+$icon-soft-400-dark: $neutral-500; // neutral-500
+$icon-disabled-300-dark: $neutral-600; // neutral-600
+$icon-white-0-dark: $neutral-950; // neutral-950
+
+
+// States
+
+$faded-dark: $neutral-800;   // Light mode
+$faded-base: $neutral-500;   // Light mode
+$faded-light: $neutral-200;  // Light mode
+$faded-lighter: $neutral-100; // Light mode
+
+$faded-dark-dark: $neutral-300;   // Dark mode
+$faded-base-dark: $neutral-500;   // Dark mode
+$faded-light-dark: $neutral-alpha-24;  // Dark mode
+$faded-lighter-dark: $neutral-alpha-16; // Dark mode
+
+
+$information-dark: $blue-950;   // Light mode
+$information-base: $blue-500;   // Light mode
+$information-light: $blue-200;  // Light mode
+$information-lighter: $blue-50; // Light mode
+
+$information-dark-dark: $blue-400;   // Dark mode
+$information-base-dark: $blue-500;   // Dark mode
+$information-light-dark: $blue-alpha-24;  // Dark mode
+$information-lighter-dark: $blue-alpha-16; // Dark mode
+
+
+$warning-dark: $orange-950;   // Light mode
+$warning-base: $orange-500;   // Light mode
+$warning-light: $orange-200;  // Light mode
+$warning-lighter: $orange-50; // Light mode
+
+$warning-dark-dark: $orange-400;   // Dark mode
+$warning-base-dark: $orange-600;   // Dark mode
+$warning-light-dark: $orange-alpha-24;  // Dark mode
+$warning-lighter-dark: $orange-alpha-16; // Dark mode
+
+
+$error-dark: $red-950;   // Light mode
+$error-base: $red-500;   // Light mode
+$error-light: $red-200;  // Light mode
+$error-lighter: $red-50; // Light mode
+
+$error-dark-dark: $red-400;   // Dark mode
+$error-base-dark: $red-600;   // Dark mode
+$error-light-dark: $red-alpha-24;  // Dark mode
+$error-lighter-dark: $red-alpha-16; // Dark mode
+
+
+$success-dark: $green-950;   // Light mode
+$success-base: $green-500;   // Light mode
+$success-light: $green-200;  // Light mode
+$success-lighter: $green-50; // Light mode
+
+$success-dark-dark: $green-400;   // Dark mode
+$success-base-dark: $green-600;   // Dark mode
+$success-light-dark: $green-alpha-24;  // Dark mode
+$success-lighter-dark: $green-alpha-16; // Dark mode
+
+
+$away-dark: $yellow-950;   // Light mode
+$away-base: $yellow-500;   // Light mode
+$away-light: $yellow-200;  // Light mode
+$away-lighter: $yellow-50; // Light mode
+
+$away-dark-dark: $yellow-400;   // Dark mode
+$away-base-dark: $yellow-600;   // Dark mode
+$away-light-dark: $yellow-alpha-24;  // Dark mode
+$away-lighter-dark: $yellow-alpha-16; // Dark mode
+
+
+$feature-dark: $purple-950;   // Light mode
+$feature-base: $purple-500;   // Light mode
+$feature-light: $purple-200;  // Light mode
+$feature-lighter: $purple-50; // Light mode
+
+$feature-dark-dark: $purple-400;   // Dark mode
+$feature-base-dark: $purple-500;   // Dark mode
+$feature-light-dark: $purple-alpha-24;  // Dark mode
+$feature-lighter-dark: $purple-alpha-16; // Dark mode
+
+
+$verified-dark: $sky-950;   // Light mode
+$verified-base: $sky-500;   // Light mode
+$verified-light: $sky-200;  // Light mode
+$verified-lighter: $sky-50; // Light mode
+
+$verified-dark-dark: $sky-400;   // Dark mode
+$verified-base-dark: $sky-600;   // Dark mode
+$verified-light-dark: $sky-alpha-24;  // Dark mode
+$verified-lighter-dark: $sky-alpha-16; // Dark mode
+
+
+$highlighted-dark: $pink-950;   // Light mode
+$highlighted-base: $pink-500;   // Light mode
+$highlighted-light: $pink-200;  // Light mode
+$highlighted-lighter: $pink-50; // Light mode
+
+$highlighted-dark-dark: $pink-400;   // Dark mode
+$highlighted-base-dark: $pink-600;   // Dark mode
+$highlighted-light-dark: $pink-alpha-24;  // Dark mode
+$highlighted-lighter-dark: $pink-alpha-16; // Dark mode
+
+
+$stable-dark: $teal-950;   // Light mode
+$stable-base: $teal-500;   // Light mode
+$stable-light: $teal-200;  // Light mode
+$stable-lighter: $teal-50; // Light mode
+
+$stable-dark-dark: $teal-400;   // Dark mode
+$stable-base-dark: $teal-600;   // Dark mode
+$stable-light-dark: $teal-alpha-24;  // Dark mode
+$stable-lighter-dark: $teal-alpha-16; // Dark mode
