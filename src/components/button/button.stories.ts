@@ -22,10 +22,6 @@ const meta = {
       control: 'select',
       options: ['filled', 'stroke', 'lighter', 'ghost'],
     },
-    state: {
-      control: 'select',
-      options: ['default', 'hover', 'focus', 'disabled'],
-    },
     size: {
       control: 'select',
       options: ['2x-small', 'x-small','small', 'medium'],
