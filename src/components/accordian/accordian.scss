@@ -5,27 +5,48 @@
   border-radius: $radius-10;
   border: 1px solid $neutral-200;
   padding: $spacing-14;
+
+  display: flex;
+  cursor: pointer;
+  text-align: left;
   gap: $spacing-10;
+  transition: height $transition-extra-slow $transition-type-dissolve;
 
   &:hover {
     border: none;
     background-color: $neutral-50;
+    transition: background-color $transition-slow $transition-type-dissolve, border $transition-normal $transition-type-dissolve;
   }
-}
-
-.accordian__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    text-align: left;
-    @extend .label-small
+  @extend .label-small
 }
 
 .accordian__title {
-  min-width: 352px;
+  flex: 1;
 }
+
+.accordian__content {
+  margin-top: $spacing-6;
+  color: $neutral-600;
+  white-space: normal;
+  @extend .paragraph-small
+}
+
 .accordian__icon {
-    width: 20px;
+    flex: 0;
+    min-width: 20px;
     height: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .accordian {
+    width: 320px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .accordian {
+    width: 280px;
+  }
 }
