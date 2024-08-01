@@ -21,14 +21,18 @@ const Accordian: React.FC<AccordianProps> = ({
     const [showContent, setShowContent] = React.useState(false);
         return (
             <div className={showContent ? 'accordian  accordian--show' : 'accordian' } {...props}>
-                    {leftIcon && <span className="accordian__icon">{leftIcon}</span>}
+                    {flipIcon && changeIcon ?
+                        <span className={'accordian__icon'} onClick={() => setShowContent((prevShowContent) => !prevShowContent)}>{changeIcon}</span>
+                        :
+                        leftIcon && <span className="accordian__icon">{leftIcon}</span>}
+
                     <div className="accordian__title">
                         {title}
                         {showContent && <div className="accordian__content">
                             {description}
                         </div>}
                     </div>
-                    {changeIcon && <span className={`accordian__icon ${flipIcon ? 'accordian__icon--flip' : ''}`} onClick={() => setShowContent((prevShowContent) => !prevShowContent)}>{changeIcon}</span>}
+                    {!flipIcon && changeIcon && <span className={'accordian__icon'} onClick={() => setShowContent((prevShowContent) => !prevShowContent)}>{changeIcon}</span>}
             </div>
         );
 };
