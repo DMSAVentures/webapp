@@ -1,7 +1,7 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
 import './accordian.scss';
 
-interface AccordianProps extends ButtonHTMLAttributes<HTMLElement> {
+interface AccordianProps extends HTMLAttributes<HTMLElement> {
     flipIcon?: boolean;
     leftIcon?: React.ReactNode;
     changeIcon?: React.ReactNode;
