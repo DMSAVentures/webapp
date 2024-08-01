@@ -1,0 +1,31 @@
+@import "src/globalstyles/variables.scss";
+
+.accordian {
+  width: 440px;
+  border-radius: $radius-10;
+  border: 1px solid $neutral-200;
+  padding: $spacing-14;
+  gap: $spacing-10;
+
+  &:hover {
+    border: none;
+    background-color: $neutral-50;
+  }
+}
+
+.accordian__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    text-align: left;
+    @extend .label-small
+}
+
+.accordian__title {
+  min-width: 352px;
+}
+.accordian__icon {
+    width: 20px;
+    height: 20px;
+}
