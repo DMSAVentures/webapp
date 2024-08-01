@@ -20,7 +20,7 @@ const meta = {
     },
     styleType: {
       control: 'select',
-      options: ['lighter', 'ghost'],
+      options: ['lighter'],
     },
     size: {
       control: 'select',
@@ -44,7 +44,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    styleType: 'ghost',
+    styleType: 'lighter',
     size: 'medium',
     text: 'Button',
   },
@@ -53,7 +53,7 @@ export const Primary: Story = {
 export const Neutral: Story = {
   args: {
     variant: 'neutral',
-    styleType: 'ghost',
+    styleType: 'lighter',
 
     size: 'medium',
     text: 'Neutral Linkbutton',
@@ -63,7 +63,7 @@ export const Neutral: Story = {
 export const Error: Story = {
   args: {
     variant: 'error',
-    styleType: 'ghost',
+    styleType: 'lighter',
     size: 'medium',
     text: 'Error Linkbutton',
   },
@@ -72,7 +72,7 @@ export const Error: Story = {
 export const Disabled: Story = {
   args: {
     variant: 'primary',
-    styleType: 'ghost',
+    styleType: 'lighter',
     disabled: true,
     size: 'medium',
     text: 'Disabled Linkbutton',
@@ -82,7 +82,7 @@ export const Disabled: Story = {
 export const LeftIcon: Story = {
   args: {
     variant: 'primary',
-    styleType: 'ghost',
+    styleType: 'lighter',
     size: 'medium',
     text: 'Search',
     leftIcon: '🔍',
@@ -92,7 +92,7 @@ export const LeftIcon: Story = {
 export const RightIcon: Story = {
   args: {
     variant: 'primary',
-    styleType: 'ghost',
+    styleType: 'lighter',
     size: 'medium',
     text: 'Send',
     rightIcon: '📤',

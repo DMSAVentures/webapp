@@ -1,28 +1,12 @@
 @import "src/globalstyles/variables.scss";
 
 // Mixins for button styles
-@mixin button-lighter-style($color) {
+@mixin button-lighter-style($color, $hover-color) {
   background-color: transparent;
   color: $color;
   &:hover .linkbutton__text {
       text-decoration: underline;
-  }
-  &:disabled {
-    color: $neutral-300;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-  &:focus .linkbutton__text {
-    text-decoration: underline;
-  }
-}
-
-@mixin button-ghost-style($color) {
-  background-color: transparent;
-  color: $color;
-  border: none;
-  &:hover .linkbutton__text {
-      text-decoration: underline;
+      color: $hover-color;
   }
   &:disabled {
     color: $neutral-300;
@@ -71,31 +55,17 @@
 
 // Variant styles
 .linkbutton--primary.linkbutton--lighter {
-  @include button-lighter-style($blue-500);
-}
-.linkbutton--primary.linkbutton--ghost {
-  @include button-ghost-style($blue-500);
+  @include button-lighter-style($blue-500, $blue-700);
 }
 
 .linkbutton--gray.linkbutton--lighter {
-  @include button-lighter-style($color-grey);
+  @include button-lighter-style($color-grey,$color-grey);
 }
-.linkbutton--gray.linkbutton--ghost {
-  @include button-ghost-style($color-grey);
-}
-
 
 .linkbutton--neutral.linkbutton--lighter {
-  @include button-lighter-style($color-neutral);
+  @include button-lighter-style($color-neutral, $neutral-700);
 }
-.linkbutton--neutral.linkbutton--ghost {
-  @include button-ghost-style($color-neutral);
-}
-
 
 .linkbutton--error.linkbutton--lighter {
-  @include button-lighter-style($red-500);
-}
-.linkbutton--error.linkbutton--ghost {
-  @include button-ghost-style($red-500);
+  @include button-lighter-style($red-500, $red-700);
 }

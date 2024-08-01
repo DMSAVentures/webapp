@@ -3,7 +3,7 @@ import './linkbutton.scss';
 
 interface LinkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'gray' | 'primary' | 'neutral' | 'error';
-    styleType?: 'lighter' | 'ghost';
+    styleType?: 'lighter';
     size?: '2x-small' | 'x-small' | 'small' | 'medium'
     underline?: boolean;
     leftIcon?: React.ReactNode;
