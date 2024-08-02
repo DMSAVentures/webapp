@@ -1,0 +1,120 @@
+@import "../../../globalstyles/variables";
+
+@mixin banner-style($color, $text-color, $link-color, $icon-color) {
+  background-color: $color;
+  color: $text-color;
+  .banner__link {
+    color: $link-color;
+  }
+
+  .banner__icon {
+    color: $icon-color;
+  }
+  .banner__dismiss {
+    opacity: if($text-color == #ffffff, 0.72, 0.40);
+  }
+}
+
+.banner {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: $spacing-12 $spacing-48;
+  gap: $spacing-12;
+
+  .banner__icon, .banner__dismiss {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    align-content: center;
+    cursor: pointer;
+  }
+
+
+    .banner__title {
+      @extend .label-small
+    }
+    .banner__description {
+      @extend .paragraph-small
+    }
+}
+
+
+
+
+.banner--error.banner--filled {
+  @include banner-style($red-500, $neutral-0, $neutral-0,$neutral-0);
+}
+.banner--success.banner--filled {
+  @include banner-style($green-500, $neutral-0, $neutral-0, $neutral-0);
+}
+.banner--warning.banner--filled {
+  @include banner-style($orange-500, $neutral-0, $neutral-0, $neutral-0);
+}
+.banner--info.banner--filled {
+  @include banner-style($blue-500, $neutral-0, $neutral-0, $neutral-0);
+}
+.banner--feature.banner--filled {
+  @include banner-style($neutral-500, $neutral-0, $neutral-0, $neutral-0);
+}
+
+.banner--error.banner--light {
+  @include banner-style($red-200, $neutral-950, $neutral-950, $red-500);
+}
+.banner--success.banner--light {
+  @include banner-style($green-200, $neutral-950, $neutral-950, $green-500);
+}
+.banner--warning.banner--light {
+  @include banner-style($orange-200, $neutral-950, $neutral-950, $orange-500);
+}
+.banner--info.banner--light {
+  @include banner-style($blue-200, $neutral-950, $neutral-950, $blue-500);
+}
+.banner--feature.banner--light {
+  @include banner-style($neutral-200, $neutral-950, $neutral-950, $neutral-500);
+}
+
+.banner--error.banner--lighter{
+  @include banner-style($red-50, $neutral-950, $neutral-950, $red-500);
+}
+.banner--success.banner--lighter{
+  @include banner-style($green-50, $neutral-950, $neutral-950, $green-500);
+}
+.banner--warning.banner--lighter{
+  @include banner-style($orange-50, $neutral-950, $neutral-950, $orange-500);
+}
+.banner--info.banner--lighter{
+  @include banner-style($blue-50, $neutral-950, $neutral-950, $blue-500);
+}
+.banner--feature.banner--lighter{
+  @include banner-style($neutral-50, $neutral-950, $neutral-950, $neutral-500);
+}
+
+.banner--error.banner--stroke {
+    @include banner-style($neutral-0, $neutral-950, $neutral-950, $red-500);
+    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+    border: 1px $neutral-200 solid;
+
+}
+.banner--success.banner--stroke {
+    @include banner-style($neutral-0, $neutral-950, $neutral-950, $green-500);
+    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+    border: 1px $neutral-200 solid;
+}
+.banner--warning.banner--stroke {
+    @include banner-style($neutral-0, $neutral-950, $neutral-950, $orange-500);
+    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+    border: 1px $neutral-200 solid;
+}
+.banner--info.banner--stroke {
+  @include banner-style($neutral-0, $neutral-950, $neutral-950, $blue-500);
+  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+  border: 1px $neutral-200 solid;
+}
+.banner--feature.banner--stroke {
+  @include banner-style($neutral-0, $neutral-950, $neutral-950, $neutral-950);
+  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+  border: 1px $neutral-200 solid;
+}
