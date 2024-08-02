@@ -1,13 +1,15 @@
 import React, { HTMLAttributes } from 'react';
 import './feedback.scss';
+import Linkbutton from "@/components/linkbutton/linkbutton";
 
 function isDetailedFeedbackProps(props: any): props is DetailedFeedbackProps {
-    return 'alertDescription' in props;
+    return 'alertDescription' in props && props.alertDescription != "";
 }
 
 interface SimpleFeedbackProps extends HTMLAttributes<HTMLElement> {
     feedbackType: 'success' | 'error' | 'warning' | 'info' | 'feature';
     variant: 'filled' | 'light' | 'lighter' | 'stroke';
+    size: 'large';
     dismissable?: boolean;
     alertTitle: string;
     linkTitle?: string;
@@ -16,6 +18,7 @@ interface SimpleFeedbackProps extends HTMLAttributes<HTMLElement> {
 interface DetailedFeedbackProps extends HTMLAttributes<HTMLElement> {
     feedbackType: 'success' | 'error' | 'warning' | 'info' | 'feature';
     variant: 'filled' | 'light' | 'lighter' | 'stroke';
+    size: 'small' | 'x-small';
     dismissable?: boolean;
     alertTitle: string;
     alertDescription: string;
@@ -62,11 +65,11 @@ function getIconBasedOnFeedbackType(feedbackType: string, variant: string) {
 const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
     return (
-        <div className={'feedback'}>
-            <span className={'feedback__icon'}>{feedbackIcon}</span>
+        <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
+            <span className={'feedback__icon'}>i</span>
             <div className="feedback__title">{props.alertTitle}</div>
-            {props.linkTitle && <a href={"#"} className={'feedback__link'}>{props.linkTitle}</a>}
-            {props.dismissable && <span className={'feedback__dismiss'}>X</span>}
+            {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'small'} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
+            {props.dismissable && <span className={'feedback__dismiss'}>x</span>}
         </div>
     );
 }
@@ -74,17 +77,24 @@ const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
 const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
     return (
-        <div className={'feedback'}>
-            <span className={'feedback__icon'}>{feedbackIcon}</span>
+        <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
+            <span className={'feedback__icon'}>s</span>
             <div className='feedback-detailed__content'>
-                <div className="feedback__title">{props.alertTitle}</div>
-                <div className="feedback__description">{props.alertDescription}</div>
+                <div className='feedback-detailed__text'>
+                    <div className="feedback__title">{props.alertTitle}</div>
+                    <div className="feedback__description">{props.alertDescription}</div>
+                </div>
                 <div className={'feedback-detailed__buttons'}>
-                    {props.linkTitle && <a href={props.linkHref} className={'feedback__link'}>{props.linkTitle}</a>}
-                    {props.secondaryLinkTitle && <a href={props.secondaryLinkHref} className={'feedback__link'}>{props.secondaryLinkTitle}</a>}
+                    <div>
+                        {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
+                    </div>
+                    <div>
+                        {props.secondaryLinkTitle &&
+                            <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} text={props.secondaryLinkTitle} href={props.secondaryLinkHref} underline={false} />}
+                    </div>
                 </div>
             </div>
-            {props.dismissable && <span className={'feedback__dismiss'}>X</span>}
+            {props.dismissable && <span className={'feedback__dismiss'}>x</span>}
         </div>
     );
 }

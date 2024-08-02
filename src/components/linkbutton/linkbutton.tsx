@@ -11,6 +11,7 @@ interface LinkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     pickLeft?: boolean;
     pickRight?: boolean;
     text?: string;
+    href?: string;
 }
 
 const Linkbutton: React.FC<LinkButtonProps> = ({
@@ -32,9 +33,9 @@ const Linkbutton: React.FC<LinkButtonProps> = ({
             {...props}
         >
             {leftIcon && <span className="linkbutton__icon linkbutton__icon--left">{leftIcon}</span>}
-            <span className={`linkbutton__text ${
+            <a href={props.href} className={`linkbutton__text ${
                 underline ? 'linkbutton--underline' : ''
-            }`}>{text || children}</span>
+            }`}>{text || children}</a>
             {rightIcon && <span className="linkbutton__icon linkbutton__icon--right">{rightIcon}</span>}
         </button>
     );

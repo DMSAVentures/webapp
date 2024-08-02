@@ -19,6 +19,10 @@ const meta: Meta = {
             control: 'select',
             options: ['filled', 'light', 'lighter', 'stroke'],
         },
+        size: {
+            control: 'select',
+            options: ['x-small', 'small', 'large'],
+        },
         dismissable: {
             control: 'boolean',
         },
@@ -52,6 +56,7 @@ export const Filled: Story = {
     args: {
         feedbackType: 'success',
         variant: 'filled',
+        size: 'small',
         dismissable: false,
         alertTitle: 'Success',
         alertDescription: 'This is a success message',
@@ -64,6 +69,7 @@ export const Light: Story = {
     args: {
         feedbackType: 'error',
         variant: 'light',
+        size: 'small',
         dismissable: true,
         alertTitle: 'Error',
         alertDescription: 'This is an error message',
@@ -76,6 +82,7 @@ export const Lighter: Story = {
     args: {
         feedbackType: 'warning',
         variant: 'lighter',
+        size: 'small',
         dismissable: false,
         alertTitle: 'Warning',
         alertDescription: 'This is a warning message',
@@ -88,6 +95,7 @@ export const Stroke: Story = {
     args: {
         feedbackType: 'info',
         variant: 'stroke',
+        size: 'small',
         dismissable: true,
         alertTitle: 'Info',
         alertDescription: 'This is an info message',
