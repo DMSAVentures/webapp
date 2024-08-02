@@ -13,7 +13,6 @@ const meta: Meta = {
     argTypes: {
         flipIcon: { control: 'boolean' },
         leftIcon: { control: 'text' },
-        changeIcon: { control: 'text' },
         title: { control: 'text' },
         description: { control: 'text' },
     },
@@ -27,8 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         flipIcon: false,
-        leftIcon: "s",
-        changeIcon: "k",
+        leftIcon: "ri-question-line",
         title: 'Title',
         description: 'Description',
     },
