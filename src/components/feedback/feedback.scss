@@ -1,14 +1,20 @@
 @import "src/globalstyles/variables.scss";
 
-@mixin feedback-style($color, $text-color, $link-color) {
+@mixin feedback-style($color, $text-color, $link-color, $icon-color) {
   background-color: $color;
   color: $text-color;
   .feedback__link {
     color: $link-color;
   }
 
+  .feedback__icon {
+    color: $icon-color;
+  }
+  .feedback-detailed__buttons__separator {
+    opacity: if($text-color == #ffffff, 0.72, 0.40);
+  }
   .feedback__dismiss {
-    opacity: 72%;
+    opacity: if($text-color == #ffffff, 0.72, 0.40);
   }
 }
 
@@ -18,20 +24,18 @@
   flex-direction: row;
   align-items: center;
   padding: $spacing-8;
-  gap: $spacing-4;
+  gap: $spacing-8;
   border-radius: $radius-8;
 
+  .feedback__icon, .feedback__dismiss {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    align-content: center;
+  }
+
   &--small {
-    .feedback__icon {
-      height: 20px;
-      width: 20px;
-    }
-    .feedback__dismiss {
-      height: 20px;
-      width: 20px;
-      // TODO: Opacity changes based on style type of feedback
-      opacity: 72%;
-    }
+    gap: $spacing-8 $spacing-10;
 
     .feedback__title {
       flex: 1;
@@ -44,18 +48,11 @@
     gap: $spacing-8;
     height: 32px;
 
-    .feedback__icon {
+    .feedback__icon, .feedback__dismiss {
       height: 16px;
       width: 16px;
-      text-align: center;
-    }
-
-    .feedback__dismiss {
-      height: 16px;
-      width: 16px;
-      text-align: center;
-      // TODO: Opacity changes based on style type of feedback
-      opacity: 72%;
+      font-size: 16px;
+      align-content: center;
     }
 
     .feedback__title {
@@ -69,17 +66,6 @@
     padding: $spacing-14 $spacing-16;
     border-radius: $radius-12;
     align-items: baseline;
-
-    feedback__icon {
-      height: 20px;
-      width: 20px;
-    }
-    .feedback__dismiss {
-      height: 20px;
-      width: 20px;
-      // TODO: Opacity changes based on style type of feedback
-      opacity: 72%;
-    }
 
     .feedback-detailed__content {
       flex: 1;
@@ -104,6 +90,9 @@
       display: flex;
       flex-direction: row;
       gap: $spacing-8;
+      //Link buttons have default padding of 10px so we need to remove it
+      margin-left: -10px;
+      align-items: center;
     }
   }
 
@@ -117,56 +106,76 @@
 
 
 .feedback--error.feedback--filled {
-  @include feedback-style($red-500, $neutral-0, $neutral-0);
+  @include feedback-style($red-500, $neutral-0, $neutral-0,$neutral-0);
 }
 .feedback--success.feedback--filled {
-  @include feedback-style($green-500, $neutral-0, $neutral-0);
+  @include feedback-style($green-500, $neutral-0, $neutral-0, $neutral-0);
 }
 .feedback--warning.feedback--filled {
-  @include feedback-style($orange-500, $neutral-0, $neutral-0);
+  @include feedback-style($orange-500, $neutral-0, $neutral-0, $neutral-0);
 }
 .feedback--info.feedback--filled {
-  @include feedback-style($blue-500, $neutral-0, $neutral-0);
+  @include feedback-style($blue-500, $neutral-0, $neutral-0, $neutral-0);
 }
 .feedback--feature.feedback--filled {
-  @include feedback-style($neutral-500, $neutral-0, $neutral-0);
+  @include feedback-style($neutral-500, $neutral-0, $neutral-0, $neutral-0);
 }
 
 .feedback--error.feedback--light {
-  @include feedback-style($red-200, $neutral-950, $neutral-950);
+  @include feedback-style($red-200, $neutral-950, $neutral-950, $red-500);
 }
 .feedback--success.feedback--light {
-  @include feedback-style($green-200, $neutral-950, $neutral-950);
+  @include feedback-style($green-200, $neutral-950, $neutral-950, $green-500);
 }
 .feedback--warning.feedback--light {
-  @include feedback-style($orange-200, $neutral-950, $neutral-950);
+  @include feedback-style($orange-200, $neutral-950, $neutral-950, $orange-500);
 }
 .feedback--info.feedback--light {
-  @include feedback-style($blue-200, $neutral-950, $neutral-950);
+  @include feedback-style($blue-200, $neutral-950, $neutral-950, $blue-500);
 }
 .feedback--feature.feedback--light {
-  @include feedback-style($neutral-200, $neutral-950, $neutral-950);
+  @include feedback-style($neutral-200, $neutral-950, $neutral-950, $neutral-500);
 }
 
 .feedback--error.feedback--lighter{
-  @include feedback-style($red-50, $neutral-950, $neutral-950);
+  @include feedback-style($red-50, $neutral-950, $neutral-950, $red-500);
 }
 .feedback--success.feedback--lighter{
-  @include feedback-style($green-50, $neutral-950, $neutral-950);
+  @include feedback-style($green-50, $neutral-950, $neutral-950, $green-500);
 }
 .feedback--warning.feedback--lighter{
-  @include feedback-style($orange-50, $neutral-950, $neutral-950);
+  @include feedback-style($orange-50, $neutral-950, $neutral-950, $orange-500);
 }
 .feedback--info.feedback--lighter{
-  @include feedback-style($blue-50, $neutral-950, $neutral-950);
+  @include feedback-style($blue-50, $neutral-950, $neutral-950, $blue-500);
 }
 .feedback--feature.feedback--lighter{
-  @include feedback-style($neutral-50, $neutral-950, $neutral-950);
+  @include feedback-style($neutral-50, $neutral-950, $neutral-950, $neutral-500);
 }
 
-.feedback--error.feedback--stroke, .feedback--success.feedback--stroke,
-.feedback--warning.feedback--stroke, .feedback--info.feedback--stroke,
+.feedback--error.feedback--stroke {
+    @include feedback-style($neutral-0, $neutral-950, $neutral-950, $red-500);
+    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+    border: 1px $neutral-200 solid;
+
+}
+.feedback--success.feedback--stroke {
+    @include feedback-style($neutral-0, $neutral-950, $neutral-950, $green-500);
+    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+    border: 1px $neutral-200 solid;
+}
+.feedback--warning.feedback--stroke {
+    @include feedback-style($neutral-0, $neutral-950, $neutral-950, $orange-500);
+    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+    border: 1px $neutral-200 solid;
+}
+.feedback--info.feedback--stroke {
+  @include feedback-style($neutral-0, $neutral-950, $neutral-950, $blue-500);
+  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+  border: 1px $neutral-200 solid;
+}
 .feedback--feature.feedback--stroke {
-  @include feedback-style($neutral-0, $neutral-950, $neutral-950);
+  @include feedback-style($neutral-0, $neutral-950, $neutral-950, $neutral-950);
+  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
   border: 1px $neutral-200 solid;
 }

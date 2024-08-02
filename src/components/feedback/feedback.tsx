@@ -1,5 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 import './feedback.scss';
+import 'remixicon/fonts/remixicon.css';
 import Linkbutton from "@/components/linkbutton/linkbutton";
 
 function isDetailedFeedbackProps(props: any): props is DetailedFeedbackProps {
@@ -9,7 +10,7 @@ function isDetailedFeedbackProps(props: any): props is DetailedFeedbackProps {
 interface SimpleFeedbackProps extends HTMLAttributes<HTMLElement> {
     feedbackType: 'success' | 'error' | 'warning' | 'info' | 'feature';
     variant: 'filled' | 'light' | 'lighter' | 'stroke';
-    size: 'large';
+    size: 'small' | 'x-small';
     dismissable?: boolean;
     alertTitle: string;
     linkTitle?: string;
@@ -18,7 +19,7 @@ interface SimpleFeedbackProps extends HTMLAttributes<HTMLElement> {
 interface DetailedFeedbackProps extends HTMLAttributes<HTMLElement> {
     feedbackType: 'success' | 'error' | 'warning' | 'info' | 'feature';
     variant: 'filled' | 'light' | 'lighter' | 'stroke';
-    size: 'small' | 'x-small';
+    size: 'large';
     dismissable?: boolean;
     alertTitle: string;
     alertDescription: string;
@@ -29,47 +30,30 @@ interface DetailedFeedbackProps extends HTMLAttributes<HTMLElement> {
 }
 
 function getIconBasedOnFeedbackType(feedbackType: string, variant: string) {
-    if (variant === 'filled') {
         switch (feedbackType) {
             case 'success':
-                return 'check-circle-white';
+                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
             case 'error':
-                return 'exclamation-circle-white';
+                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
             case 'warning':
-                return 'exclamation-triangle-white';
+                return <i className="feedback__icon ri-alert-fill"></i>;
             case 'info':
-                return 'info-circle-white';
+                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
             case 'feature':
-                return 'lightbulb-white';
+                return <i className="feedback__icon ri-magic-fill"></i>;
             default:
-                return 'info-circle-white';
+                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
         }
-    } else {
-        switch (feedbackType) {
-            case 'success':
-                return 'check-circle';
-            case 'error':
-                return 'exclamation-circle';
-            case 'warning':
-                return 'exclamation-triangle';
-            case 'info':
-                return 'info-circle';
-            case 'feature':
-                return 'lightbulb';
-            default:
-                return 'info-circle';
-        }
-    }
 }
 
 const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
     return (
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
-            <span className={'feedback__icon'}>i</span>
+            {feedbackIcon}
             <div className="feedback__title">{props.alertTitle}</div>
-            {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'small'} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
-            {props.dismissable && <span className={'feedback__dismiss'}>x</span>}
+            {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={props.size} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
+            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} />}
         </div>
     );
 }
@@ -78,7 +62,7 @@ const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
     return (
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
-            <span className={'feedback__icon'}>s</span>
+            {feedbackIcon}
             <div className='feedback-detailed__content'>
                 <div className='feedback-detailed__text'>
                     <div className="feedback__title">{props.alertTitle}</div>
@@ -88,13 +72,14 @@ const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
                     <div>
                         {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
                     </div>
+                    <div className={'feedback-detailed__buttons__separator'}>&#8226;</div>
                     <div>
                         {props.secondaryLinkTitle &&
                             <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} text={props.secondaryLinkTitle} href={props.secondaryLinkHref} underline={false} />}
                     </div>
                 </div>
             </div>
-            {props.dismissable && <span className={'feedback__dismiss'}>x</span>}
+            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} />}
         </div>
     );
 }
