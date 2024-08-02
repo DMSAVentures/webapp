@@ -3,7 +3,7 @@ import Badge from "@/components/baseui/badge/badge";
 import  {Meta, StoryObj} from "@storybook/react";
 
 const meta: Meta = {
-    title: 'Components/Statusbadge',
+    title: 'Components/Badge',
     component: Badge,
     parameters: {
         layout: 'centered',

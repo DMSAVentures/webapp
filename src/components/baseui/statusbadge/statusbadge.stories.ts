@@ -3,7 +3,7 @@ import StatusBadge from '@/components/baseui/statusbadge/statusbadge';
 import  {Meta, StoryObj} from "@storybook/react";
 
 const meta: Meta = {
-    title: 'Components/StatusBadge',
+    title: 'Components/Status Badge',
     component: StatusBadge,
     parameters: {
         layout: 'centered',
@@ -26,7 +26,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const Completed: Story = {
     args: {
         text: 'some text',
         variant: 'completed',
