@@ -1,115 +1,57 @@
 @import "src/globalstyles/variables.scss";
 
-@mixin statusbadge-style($color, $text-color) {
+@mixin statusbadge-style($color, $text-color, $icon-color) {
   background-color: $color;
   color: $text-color;
   .statusbadge__icon {
-    color: $text-color;
+    color: $icon-color;
   }
 }
 
 .statusbadge {
-  border-radius: $radius-full;
+  border-radius: $radius-6;
   display: flex;
-  gap: $spacing-2;
-  padding: $spacing-2 $spacing-8;
-  text-transform: uppercase;
+  gap: $spacing-4;
+  padding: $spacing-4 $spacing-8;
   align-items: center;
-
-
-  &--small {
-    @extend .subheading-xx-small;
+  text-align: center;
+  @extend .label-x-small;
+  .statusbadge__icon {
     height: 16px;
+    width: 16px;
+    font-size: 12px;
+    text-align: center;
 
-    .badge__icon {
-      height: 16px;
-      width: 16px;
-      font-size: 16px;
-      align-content: center;
-    }
-  }
-
-  &--medium {
-    @extend .label-x-small;
-    height: 20px;
-
-    .badge__icon {
-      height: 20px;
-      width: 20px;
-      font-size: 20px;
-      align-content: center;
-    }
   }
 }
 
-.statusbadge--gray.statusbadge--light {
-  @include statusbadge-style($neutral-200, $neutral-950);
-}
-.statusbadge--blue.statusbadge--light {
-  @include statusbadge-style($blue-200, $blue-950);
-}
-.statusbadge--green.statusbadge--light {
-  @include statusbadge-style($green-200, $green-950);
-}
-.statusbadge--red.statusbadge--light {
-  @include statusbadge-style($red-200, $red-950);
-}
-.statusbadge--yellow.statusbadge--light {
-  @include statusbadge-style($yellow-200, $yellow-950);
-}
-.statusbadge--purple.statusbadge--light {
-  @include statusbadge-style($purple-200, $purple-950);
-}
-.statusbadge--orange.statusbadge--light {
-  @include statusbadge-style($orange-200, $orange-950);
-}
-.statusbadge--pink.statusbadge--light {
-  @include statusbadge-style($pink-200, $pink-950);
-}
-.statusbadge--sky.statusbadge--light {
-  @include statusbadge-style($sky-200, $sky-950);
-}
-.statusbadge--teal.statusbadge--light {
-  @include statusbadge-style($teal-200, $teal-950);
+.statusbadge--disabled.statusbadge--light {
+  @include statusbadge-style($neutral-50, $neutral-500, $neutral-500);
 }
 
-.statusbadge--gray.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $neutral-500);
-  border: 1px solid $neutral-500;
+.statusbadge--completed.statusbadge--light {
+  @include statusbadge-style($green-50, $green-500, $green-500);
 }
-.statusbadge--blue.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $blue-500);
-  border: 1px solid $blue-500;
+.statusbadge--failed.statusbadge--light {
+  @include statusbadge-style($red-50, $red-500, $red-500);
 }
-.statusbadge--green.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $green-500);
-  border: 1px solid $green-500;
+.statusbadge--pending.statusbadge--light {
+  @include statusbadge-style($orange-50, $orange-500, $orange-500);
 }
-.statusbadge--red.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $red-500);
-  border: 1px solid $red-500;
+
+.statusbadge--disabled.statusbadge--stroke {
+  @include statusbadge-style($neutral-0, $neutral-600, $neutral-500);
+  border: 1px solid $neutral-200;
 }
-.statusbadge--yellow.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $yellow-500);
-  border: 1px solid $yellow-500;
+.statusbadge--completed.statusbadge--stroke {
+  @include statusbadge-style($neutral-0,$neutral-600, $green-500);
+  border: 1px solid $neutral-200;
 }
-.statusbadge--purple.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $purple-500);
-  border: 1px solid $purple-500;
+.statusbadge--failed.statusbadge--stroke {
+  @include statusbadge-style($neutral-0,$neutral-600, $red-500);
+  border: 1px solid $neutral-200;
 }
-.statusbadge--orange.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $orange-500);
-  border: 1px solid $orange-500;
-}
-.statusbadge--pink.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $pink-500);
-  border: 1px solid $pink-500;
-}
-.statusbadge--sky.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $sky-500);
-  border: 1px solid $sky-500;
-}
-.statusbadge--teal.statusbadge--stroke {
-  @include statusbadge-style($neutral-0, $teal-500);
-  border: 1px solid $teal-500;
+.statusbadge--pending.statusbadge--stroke {
+  @include statusbadge-style($neutral-0,$neutral-600, $orange-500);
+  border: 1px solid $neutral-200;
 }

@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Completed: Story = {
     args: {
-        text: 'some text',
+        text: 'Done',
         variant: 'completed',
         styleType: 'light',
     },

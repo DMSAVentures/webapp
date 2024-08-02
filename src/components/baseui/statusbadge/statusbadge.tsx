@@ -14,9 +14,9 @@ const StatusBadge: React.FC<StatusBadgeProps> = (props) => {
                         ?
                         <i className={`statusbadge__icon ${props.icon}`}/>
                         :
-                        <i className={`statusbadge__icon ri-xxs ri-circle-fill`}/>
+                        <i className={`statusbadge__icon ri-circle-fill`}/>
                     }
-                    {props.text}
+                    <div>{props.text}</div>
                 </div>
             );
 }
