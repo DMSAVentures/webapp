@@ -1,4 +1,4 @@
-import Accordian     from "@/components/accordian/accordian";
+import Accordian     from "@/components/baseui/accordian/accordian";
 import {Meta, type StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
 

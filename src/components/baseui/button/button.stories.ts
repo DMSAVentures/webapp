@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import Linkbutton from "@/components/linkbutton/linkbutton";
+import Button from "@/components/baseui/button/button";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Components/Linkbutton',
-  component: Linkbutton,
+  title: 'Components/Button',
+  component: Button,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -16,17 +16,17 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'gray', 'neutral', 'error'],
+      options: ['primary', 'neutral', 'error'],
     },
     styleType: {
       control: 'select',
-      options: ['lighter'],
+      options: ['filled', 'stroke', 'lighter', 'ghost'],
     },
     size: {
       control: 'select',
-      options: ['small', 'medium'],
+      options: ['2x-small', 'x-small','small', 'medium'],
     },
-    underline: { control: 'boolean' },
+    onlyIcon: { control: 'boolean' },
     leftIcon: { control: 'text' },
     rightIcon: { control: 'text' },
     pickLeft: { control: 'boolean' },
@@ -35,7 +35,7 @@ const meta = {
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
-} satisfies Meta<typeof Linkbutton>;
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -44,7 +44,8 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    styleType: 'lighter',
+    styleType: 'filled',
+
     size: 'medium',
     text: 'Button',
   },
@@ -53,36 +54,46 @@ export const Primary: Story = {
 export const Neutral: Story = {
   args: {
     variant: 'neutral',
-    styleType: 'lighter',
+    styleType: 'filled',
 
     size: 'medium',
-    text: 'Neutral Linkbutton',
+    text: 'Neutral Button',
   },
 };
 
 export const Error: Story = {
   args: {
     variant: 'error',
-    styleType: 'lighter',
+    styleType: 'filled',
     size: 'medium',
-    text: 'Error Linkbutton',
+    text: 'Error Button',
   },
 };
 
 export const Disabled: Story = {
   args: {
     variant: 'primary',
-    styleType: 'lighter',
+    styleType: 'filled',
     disabled: true,
     size: 'medium',
-    text: 'Disabled Linkbutton',
+    text: 'Disabled Button',
+  },
+};
+
+export const IconOnly: Story = {
+  args: {
+    variant: 'primary',
+    styleType: 'filled',
+    size: 'medium',
+    onlyIcon: true,
+    leftIcon: '🔍',
   },
 };
 
 export const LeftIcon: Story = {
   args: {
     variant: 'primary',
-    styleType: 'lighter',
+    styleType: 'filled',
     size: 'medium',
     text: 'Search',
     leftIcon: '🔍',
@@ -92,7 +103,7 @@ export const LeftIcon: Story = {
 export const RightIcon: Story = {
   args: {
     variant: 'primary',
-    styleType: 'lighter',
+    styleType: 'filled',
     size: 'medium',
     text: 'Send',
     rightIcon: '📤',

@@ -1,4 +1,4 @@
-import Feedback     from "@/components/feedback/feedback";
+import Feedback     from "@/components/baseui/feedback/feedback";
 import {Meta, type StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
 

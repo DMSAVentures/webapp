@@ -1,7 +1,7 @@
 import React, {HTMLAttributes, useState} from 'react';
 import './feedback.scss';
 import 'remixicon/fonts/remixicon.css';
-import Linkbutton from "@/components/linkbutton/linkbutton";
+import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
 
 function isDetailedFeedbackProps(props: any): props is DetailedFeedbackProps {
     return 'alertDescription' in props && props.alertDescription != "";

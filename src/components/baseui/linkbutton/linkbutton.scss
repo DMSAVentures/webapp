@@ -1,4 +1,4 @@
-@import "src/globalstyles/variables.scss";
+@import "../../../globalstyles/variables";
 
 // Mixins for button styles
 @mixin button-lighter-style($color, $hover-color) {
