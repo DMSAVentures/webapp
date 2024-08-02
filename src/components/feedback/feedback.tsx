@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes, useState} from 'react';
 import './feedback.scss';
 import 'remixicon/fonts/remixicon.css';
 import Linkbutton from "@/components/linkbutton/linkbutton";
@@ -47,18 +47,24 @@ function getIconBasedOnFeedbackType(feedbackType: string, variant: string) {
 }
 
 const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
+    const [visible, setVisible] = useState(true);
+
+    if (!visible) return null;
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
     return (
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
             {feedbackIcon}
             <div className="feedback__title">{props.alertTitle}</div>
             {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={props.size} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
-            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} />}
+            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} onClick={() => setVisible(false)} />}
         </div>
     );
 }
 
 const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
+    const [visible, setVisible] = useState(true);
+
+    if (!visible) return null;
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
     return (
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
@@ -79,7 +85,7 @@ const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
                     </div>
                 </div>
             </div>
-            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} />}
+            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} onClick={() => setVisible(false)} />}
         </div>
     );
 }
