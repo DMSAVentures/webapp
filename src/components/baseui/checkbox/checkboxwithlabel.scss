@@ -30,3 +30,7 @@
     @extend .paragraph-x-small;
     color: $neutral-600;
 }
+
+.checkbox-labeled__link {
+    margin-left: - $spacing-8;
+}

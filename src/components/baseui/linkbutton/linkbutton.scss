@@ -25,9 +25,9 @@
 }
 
 .linkbutton {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  //justify-content: center;
   border: none;
   cursor: pointer;
   transition: background-color $transition-normal $transition-type-dissolve;

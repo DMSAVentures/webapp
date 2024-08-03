@@ -30,7 +30,7 @@ const CheckboxWithLabel: React.FC<CheckboxWithLabel> = (props): JSX.Element => {
                 {props.editDescription && <span className={'checkbox-labeled__description__string'}>
                     {props.editDescription}
                 </span>}
-                {props.linkButton && <Linkbutton variant={'primary'} styleType={'lighter'} size={'small'} text={props.linkTitle} href={props.linkHref} underline={false} />}
+                {props.linkButton && <Linkbutton className={'checkbox-labeled__link'} variant={'primary'} styleType={'lighter'} size={'small'} text={props.linkTitle} href={props.linkHref} underline={false} />}
             </div>
         </div>
     );

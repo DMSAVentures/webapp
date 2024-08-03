@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import './linkbutton.scss';
 
-interface LinkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface LinkButtonProps extends ButtonHTMLAttributes<HTMLElement> {
     variant?: 'gray' | 'primary' | 'neutral' | 'error';
     styleType?: 'lighter';
     size?: '2x-small' | 'x-small' | 'small' | 'medium'
@@ -28,16 +28,15 @@ const Linkbutton: React.FC<LinkButtonProps> = ({
                                            ...props
                                        }) => {
     return (
-        <button
-            className={`linkbutton linkbutton--${variant} linkbutton--${styleType} linkbutton--${size} ${pickLeft ? 'linkbutton--pick-left' : ''} ${pickRight ? 'linkbutton--pick-right' : ''}`}
-            {...props}
+        <div
+            className={`linkbutton linkbutton--${variant} linkbutton--${styleType} linkbutton--${size} ${pickLeft ? 'linkbutton--pick-left' : ''} ${pickRight ? 'linkbutton--pick-right' : ''} ${props.className || ''}`}
         >
             {leftIcon && <span className="linkbutton__icon linkbutton__icon--left">{leftIcon}</span>}
             <a href={props.href} className={`linkbutton__text ${
                 underline ? 'linkbutton--underline' : ''
             }`}>{text || children}</a>
             {rightIcon && <span className="linkbutton__icon linkbutton__icon--right">{rightIcon}</span>}
-        </button>
+        </div>
     );
 };
 
