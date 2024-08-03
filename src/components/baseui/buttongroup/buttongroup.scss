@@ -1,0 +1,72 @@
+@import "src/globalstyles/variables.scss";
+
+.button-group {
+  display: flex;
+
+  // Size Modifiers
+  &--small {
+    .button-item {
+      padding: $spacing-8 $spacing-16;
+      gap: $spacing-8;
+    }
+  }
+
+  &--x-small {
+    .button-item {
+      padding: $spacing-6 $spacing-14;
+      gap: $spacing-6;
+    }
+  }
+
+  &--2x-small {
+    @extend .label-x-small;
+    .button-item {
+      padding: $spacing-4 $spacing-12;
+      gap: $spacing-4;
+    }
+  }
+
+  .button-item {
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: none;
+    background-color: white;
+    color: $neutral-600;
+    cursor: pointer;
+    @extend .label-small;
+
+    &:hover {
+      background-color: $neutral-100;
+    }
+
+    // First Child Styles
+    &:first-child {
+      border-width: 1px;
+      border-color: $neutral-200;
+      border-radius: $spacing-8 0 0 $spacing-8;
+      border-style: solid;
+    }
+
+    // Middle Children Styles
+    &:not(:first-child):not(:last-child) {
+      border-width: 1px 1px 1px 0;
+      border-color: $neutral-200;
+      border-radius: 0;
+      border-style: solid;
+    }
+
+    // Last Child Styles
+    &:last-child {
+      border-width: 1px 1px 1px 0;
+      border-color: $neutral-200;
+      border-radius: 0 $spacing-8 $spacing-8 0;
+      border-style: solid;
+    }
+
+    // Icon Alignment Modifier
+    &__icon--right {
+      flex-direction: row-reverse;
+    }
+  }
+}
