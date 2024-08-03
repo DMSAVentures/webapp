@@ -11,7 +11,7 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        feedbackType: {
+        bannerType: {
             control: 'select',
             options: ['success', 'error', 'warning', 'info', 'feature'],
         },
@@ -41,10 +41,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Filled: Story = {
     args: {
-        feedbackType: 'success',
+        bannerType: 'success',
         variant: 'filled',
-        size: 'small',
-        dismissable: false,
         alertTitle: 'Success',
         alertDescription: 'This is a success message',
         linkTitle: 'Learn more',
@@ -54,10 +52,8 @@ export const Filled: Story = {
 
 export const Light: Story = {
     args: {
-        feedbackType: 'error',
+        bannerType: 'error',
         variant: 'light',
-        size: 'small',
-        dismissable: true,
         alertTitle: 'Error',
         alertDescription: 'This is an error message',
         linkTitle: 'Learn more',
@@ -67,10 +63,8 @@ export const Light: Story = {
 
 export const Lighter: Story = {
     args: {
-        feedbackType: 'warning',
+        bannerType: 'warning',
         variant: 'lighter',
-        size: 'small',
-        dismissable: false,
         alertTitle: 'Warning',
         alertDescription: 'This is a warning message',
         linkTitle: 'Learn more',
@@ -80,10 +74,8 @@ export const Lighter: Story = {
 
 export const Stroke: Story = {
     args: {
-        feedbackType: 'info',
+        bannerType: 'info',
         variant: 'stroke',
-        size: 'small',
-        dismissable: true,
         alertTitle: 'Info',
         alertDescription: 'This is an info message',
         linkTitle: 'Learn more',
