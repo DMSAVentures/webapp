@@ -20,7 +20,7 @@ interface BreadcrumbItemWithTextAndIconProps {
     onClick?: () => void;
 }
 
-type BreadcrumbItemProps = BreadcrumbItemWithTextProps | BreadcrumbItemWithIconProps | BreadcrumbItemWithTextAndIconProps;
+export type BreadcrumbItemProps = BreadcrumbItemWithTextProps | BreadcrumbItemWithIconProps | BreadcrumbItemWithTextAndIconProps;
 const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
     const { state } = props;
     return (

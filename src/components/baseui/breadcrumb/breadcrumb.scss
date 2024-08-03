@@ -1,0 +1,17 @@
+@import "src/globalstyles/variables.scss";
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+  color: $neutral-500;
+
+  .breadcrumb__separator {
+    @extend .label-small;
+    padding-left: $spacing-4;
+  }
+
+  .breadcrumb__item {
+    display: flex;
+  }
+}
