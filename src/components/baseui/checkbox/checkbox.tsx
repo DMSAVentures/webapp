@@ -25,7 +25,7 @@ const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
         }
     }
     return (
-        <div className="checkbox-container">
+        <div className={`checkbox-container checkbox-container--${props.size}`}>
             <input type="checkbox" id="checkbox" className="custom-checkbox-input" disabled={props.disabled} checked={checked} onChange={handleChange}/>
             <label htmlFor="checkbox" className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>
                 {checked ? <i className="checkbox__icon ri-check-fill"></i> : null}

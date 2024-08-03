@@ -1,239 +1,170 @@
 @import "src/globalstyles/variables.scss";
 
 .checkbox-container {
-  display: inline-block;
-  position: relative;
+    display: inline-block;
+    position: relative;
 
-  &--small .custom-checkbox-label {
-    width: 30px;
-    height: 30px;
-    .checkbox__icon {
-      font-size: 18px;
-    }
-  }
+    .custom-checkbox-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border: 0.5px solid white; /* Inner border color */
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 2px 2px 0 $shadow-color-md;
+        position: relative;
 
-  &--x-small .custom-checkbox-label {
-    width: 20px;
-    height: 20px;
-    .checkbox__icon {
-      font-size: 12px;
+        .checkbox__icon {
+            font-size: 40px;
+            color: $neutral-0;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 4px solid $neutral-200; /* Outer border color */
+            border-radius: 13px;
+            z-index: -1;
+
+            &:hover {
+                border-color: $neutral-300;
+            }
+
+            &:focus-within {
+                border-color: $blue-700;
+            }
+        }
+
+        &:hover {
+            border-color: $neutral-300;
+            &::before {
+                border-color: $neutral-300;
+            }
+        }
+
+        &:disabled + &:hover {
+            pointer-events: none;
+        }
+
+        &:focus-within {
+            border-color: $blue-600;
+            &::before {
+                border-color: $blue-600;
+            }
+        }
+
+        &.indeterminate {
+            background-color: $blue-500;
+            border-color: $blue-500;
+            box-shadow: none;
+
+            &::before {
+                border-color: $blue-500;
+            }
+
+            .checkbox__icon {
+                display: block;
+            }
+
+            &:hover {
+                background-color: $blue-600;
+                border-color: $blue-600;
+                &::before {
+                    border-color: $blue-600;
+                }
+            }
+
+            &:focus-within {
+                background-color: $blue-700;
+                border-color: $blue-700;
+                &::before {
+                    border-color: $blue-700;
+                }
+            }
+        }
+
+        &.checked {
+            background-color: $blue-500;
+            border-color: $blue-500;
+            box-shadow: none;
+
+            &::before {
+                border-color: $blue-500;
+            }
+
+            .checkbox__icon {
+                display: block;
+            }
+
+            &:hover {
+                background-color: $blue-600;
+                border-color: $blue-600;
+                &::before {
+                    border-color: $blue-600;
+                }
+            }
+
+            &:focus-within {
+                background-color: $blue-700;
+                border-color: $blue-700;
+                &::before {
+                    border-color: $blue-700;
+                }
+            }
+        }
+
+        // Works fine in all cases
+        &.disabled {
+            background-color: $neutral-200;
+            border-color: $neutral-200;
+            cursor: not-allowed;
+            box-shadow: none;
+
+            &::before {
+                border-color: $neutral-200;
+            }
+        }
+
     }
-  }
+
+    &--small .custom-checkbox-label {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+
+        &::before {
+            border-radius: 8px;
+        }
+
+        .checkbox__icon {
+            font-size: 30px;
+        }
+    }
+
+    &--x-small .custom-checkbox-label {
+        width: 15px;
+        height: 15px;
+        border-radius: 2px;
+
+        &::before {
+            border-radius: 5px;
+        }
+
+        .checkbox__icon {
+            font-size: 20px;
+        }
+    }
 }
 
 .custom-checkbox-input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.custom-checkbox-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  border: 0.5px solid white; /* Inner border color */
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 2px 2px 0 $shadow-color-md;
-  position: relative;
-
-  .checkbox__icon {
-    font-size: 40px;
-    color: $neutral-0;
-  }
-
-
-  &::before {
-    content: '';
     position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border: 4px solid $neutral-200; /* Outer border color */
-    border-radius: 13px;
-    z-index: -1;
-
-    &:hover {
-      border-color: $neutral-300;
-    }
-
-    &:focus-within {
-      border-color: $blue-700;
-    }
-
-    &.indeterminate, &.checked {
-      background-color: $blue-500;
-      border-color: $blue-500;
-      box-shadow: none;
-
-      &::before {
-        border-color: $blue-500;
-      }
-
-      .checkbox__icon {
-        display: block;
-      }
-    }
-
-    &.disabled {
-      background-color: $neutral-200;
-      border-color: $neutral-200;
-      cursor: not-allowed;
-
-      &::before {
-        border-color: $neutral-200;
-      }
-    }
-  }
-}
-//
-//.custom-checkbox-label--indeterminate {
-//  background-color: $blue-500;
-//  border-color: $blue-500; /* Inner border color when checked */
-//  box-shadow: none;
-//
-//  &::before {
-//    border-color: $blue-500; /* Outer border color when checked */
-//  }
-//}
-//
-//.custom-checkbox-input, .custom-checkbox-label {
-//  &:hover {
-//    background-color: $blue-700;
-//    border-color: $blue-700;
-//
-//    &::before {
-//      border-color: $blue-700; /* Outer border color when checked */
-//    }
-//  }
-//
-//  &:focus {
-//    background-color: $blue-800;
-//    border-color: $blue-800;
-//
-//    &::before {
-//      border-color: $blue-800; /* Outer border color when checked */
-//    }
-//  }
-//
-//  &:disabled {
-//    background-color: $neutral-400;
-//    border-color: $neutral-400;
-//
-//    &::before {
-//      border-color: $neutral-400; /* Outer border color when checked */
-//    }
-//  }
-//}
-//
-//.custom-checkbox-input:disabled + .custom-checkbox-label {
-//  background-color: $neutral-200;
-//  border-color: $neutral-200; /* Inner border color when checked */
-//  box-shadow: none;
-//
-//  &::before {
-//    border-color: $neutral-200; /* Outer border color when checked */
-//  }
-//
-//  &:hover {
-//    pointer-events: none;
-//  }
-//}
-//
-//.custom-checkbox-input:checked + .custom-checkbox-label {
-//  background-color: #3b82f6;
-//  border-color: #3b82f6; /* Inner border color when checked */
-//  box-shadow: none;
-//
-//  &::before {
-//    border-color: #3b82f6; /* Outer border color when checked */
-//  }
-//
-//  .checkmark {
-//    display: block;
-//  }
-//}
-//
-//.custom-checkbox-input:hover + .custom-checkbox-label {
-//  background-color: $neutral-0;
-//  border-color: $neutral-400; /* Inner border color when checked */
-//  box-shadow: none;
-//
-//  &::before {
-//    border-color: $neutral-400; /* Outer border color when checked */
-//  }
-//
-//  .checkmark {
-//    display: block;
-//  }
-//}
-//
-//.custom-checkbox-input:focus + .custom-checkbox-label {
-//  background-color: $neutral-0;
-//  border-color: $blue-700; /* Inner border color when checked */
-//  box-shadow: none;
-//
-//  &::before {
-//    border-color: $blue-700; /* Outer border color when checked */
-//  }
-//
-//  .checkmark {
-//    display: block;
-//  }
-//}
-
-
-
-.custom-checkbox-input:hover + .custom-checkbox-label {
-  background-color: $neutral-100;
-  border-color: $neutral-300;
-
-  &::before {
-    border-color: $neutral-300;
-  }
-}
-
-.custom-checkbox-input:focus + .custom-checkbox-label {
-  border-color: $blue-700;
-
-  &::before {
-    border-color: $blue-700;
-  }
-}
-
-.custom-checkbox-input:checked + .custom-checkbox-label,
-.custom-checkbox-input:indeterminate + .custom-checkbox-label {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
-
-  &::before {
-    border-color: #3b82f6;
-  }
-
-  .checkbox__icon {
-    display: block;
-  }
-}
-
-.custom-checkbox-input:disabled + .custom-checkbox-label {
-  background-color: $neutral-200;
-  border-color: $neutral-200;
-  cursor: not-allowed;
-
-  &::before {
-    border-color: $neutral-200;
-  }
-
-  &:hover {
-    background-color: $neutral-200;
-    border-color: $neutral-200;
-
-    &::before {
-      border-color: $neutral-200;
-    }
-  }
+    opacity: 0;
+    cursor: pointer;
 }
