@@ -16,14 +16,11 @@
 }
 
 .banner {
-  width: 100%;
   height: 44px;
   align-items: center;
   display: flex;
   flex-direction: row;
-  position: relative;
-
-  padding: $spacing-12 $spacing-48;
+  padding: $spacing-12;
   gap: $spacing-12;
 
   .banner__content {
@@ -49,8 +46,8 @@
     font-size: 20px;
     align-content: center;
     cursor: pointer;
-    position: absolute;
     right: 20px;
+    margin-left: auto;
   }
 
   .banner__separator {
@@ -119,7 +116,7 @@
 
 .banner--error.banner--stroke {
     @include banner-style($neutral-0, $neutral-950, $neutral-950, $red-500);
-  
+
   border: $neutral-200 solid;
   border-width: 0 0 1px 0;
 

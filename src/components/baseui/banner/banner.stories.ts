@@ -7,7 +7,7 @@ const meta: Meta = {
     title: 'Components/Banner',
     component: Banner,
     parameters: {
-        layout: 'centered',
+        layout: 'fullscreen'
     },
     tags: ['autodocs'],
     argTypes: {
