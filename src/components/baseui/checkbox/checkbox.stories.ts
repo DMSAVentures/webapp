@@ -20,10 +20,34 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const SmallChecked: Story = {
     args: {
         size: 'small',
         disabled: false,
         checked: 'checked',
+    },
+};
+
+export const XSmallUnchecked: Story = {
+    args: {
+        size: 'x-small',
+        disabled: true,
+        checked: 'unchecked',
+    },
+};
+
+export const SmallIndeterminate: Story = {
+    args: {
+        size: 'small',
+        disabled: false,
+        checked: 'indeterminate',
+    },
+};
+
+export const XSmallIndeterminateDisabled: Story = {
+    args: {
+        size: 'x-small',
+        disabled: true,
+        checked: 'indeterminate',
     },
 };
