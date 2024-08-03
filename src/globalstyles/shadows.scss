@@ -1,6 +1,7 @@
 // Variables for shadow properties
 $shadow-color-xs: rgba(14,18,27,0.03);
 $shadow-color-md: rgba(14,18,27,0.1);
+$shadow-color-lg: rgba(27, 28, 29, 0.12);
 
 // Mixin for shadows
 @mixin box-shadow($x, $y, $blur, $spread, $color) {
