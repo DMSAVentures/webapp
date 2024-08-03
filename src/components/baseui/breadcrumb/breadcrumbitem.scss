@@ -1,0 +1,44 @@
+@import "src/globalstyles/variables.scss";
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  gap: $spacing-6;
+  color: $neutral-400;
+  @extend .label-small;
+
+  &:hover .breadcrumb-item__text {
+    text-decoration: underline;
+  }
+
+  &:hover .breadcrumb-item__icon {
+    text-decoration: underline;
+    text-underline-offset: 2.5px;
+    text-decoration-thickness: 1px;
+  }
+
+  &:focus .breadcrumb-item__text {
+    text-decoration: underline;
+  }
+
+  &:focus .breadcrumb-item__icon {
+    text-decoration: underline;
+    text-underline-offset: 2.5px;
+    text-decoration-thickness: 1px;
+  }
+
+  &--disabled {
+    color: $neutral-300;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &--active {
+    color: $neutral-900;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
