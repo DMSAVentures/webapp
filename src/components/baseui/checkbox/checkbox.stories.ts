@@ -10,7 +10,6 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        size: {control: 'select', options: ['small', 'x-small']},
         disabled: {control: 'boolean'},
         checked: {control: 'select', options: ['checked', 'unchecked', 'indeterminate']},
     },
@@ -20,33 +19,23 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const SmallChecked: Story = {
+export const Checked: Story = {
     args: {
-        size: 'small',
         disabled: false,
         checked: 'checked',
     },
 };
 
-export const XSmallUnchecked: Story = {
-    args: {
-        size: 'x-small',
-        disabled: true,
-        checked: 'unchecked',
-    },
-};
 
-export const SmallIndeterminate: Story = {
+export const Indeterminate: Story = {
     args: {
-        size: 'small',
         disabled: false,
         checked: 'indeterminate',
     },
 };
 
-export const XSmallIndeterminateDisabled: Story = {
+export const IndeterminateDisabled: Story = {
     args: {
-        size: 'x-small',
         disabled: true,
         checked: 'indeterminate',
     },

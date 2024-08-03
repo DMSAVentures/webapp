@@ -1,0 +1,32 @@
+@import "src/globalstyles/variables.scss";
+
+.checkbox-labeled__container {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-8;
+    align-items: baseline;
+}
+
+.checkbox-labeled__label-container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-10;
+    //align-items: center;
+    //justify-content: center;
+}
+
+.checkbox-labeled__label {
+    display: flex;
+    gap: $spacing-4;
+    align-items: center;
+}
+
+.checkbox-labeled__label__string {
+    @extend .paragraph-small;
+    color: $neutral-950;
+}
+
+.checkbox-labeled__sublabel__string, .checkbox-labeled__description__string {
+    @extend .paragraph-x-small;
+    color: $neutral-600;
+}

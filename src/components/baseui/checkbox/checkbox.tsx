@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import './checkbox.scss';
 import 'remixicon/fonts/remixicon.css';
-interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement>{
-    size: 'small' | 'x-small';
+export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement>{
     disabled?: boolean;
     checked?: 'checked' | 'unchecked' | 'indeterminate';
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,7 +24,7 @@ const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
         }
     }
     return (
-        <div className={`checkbox-container checkbox-container--${props.size}`}>
+        <div className={`checkbox-container checkbox-container--small`}>
             <input type="checkbox" id="checkbox" className="custom-checkbox-input" disabled={props.disabled} checked={checked} onChange={handleChange}/>
             <label htmlFor="checkbox" className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>
                 {checked ? <i className="checkbox__icon ri-check-fill"></i> : null}
