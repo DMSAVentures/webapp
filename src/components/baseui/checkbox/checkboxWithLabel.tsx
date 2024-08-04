@@ -4,7 +4,7 @@ import Badge from "@/components/baseui/badge/badge";
 import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
 import './checkboxwithlabel.scss'
 
-interface CheckboxWithLabel extends CheckboxProps {
+export interface CheckboxWithLabelProps extends CheckboxProps {
     subLabel: boolean;
     badge: boolean;
     badgeString: string;
@@ -17,20 +17,20 @@ interface CheckboxWithLabel extends CheckboxProps {
     flipCheckboxToRight: boolean;
 }
 
-const CheckboxWithLabel: React.FC<CheckboxWithLabel> = (props): JSX.Element => {
+const CheckboxWithLabel: React.FC<CheckboxWithLabelProps> = (props): JSX.Element => {
     return (
-        <div className={`checkbox-labeled__container ${props.flipCheckboxToRight ? 'checkbox-labeled__container--reversed' : ''}`}>
+        <div className={`checkbox-labeled__container ${props.flipCheckboxToRight ? 'checkbox-labeled__container--reversed' : ''} ${props.disabled ? 'checkbox-card__container--disabled' : ''}`}>
             <Checkbox disabled={props.disabled} checked={props.checked} onChange={props.onChange}/>
             <div className={'checkbox-labeled__label-container'}>
                 <div className={'checkbox-labeled__label'}>
                     <span className={'checkbox-labeled__label__string'}>{props.editLabel}</span>
                     {props.subLabel && <span className={'checkbox-labeled__sublabel__string'}>({props.editSubLabel})</span>}
-                    {props.badge && <Badge text={props.badgeString} variant={'blue'} styleType={'lighter'} size={'small'}/>}
+                    {props.badge && <Badge text={props.badgeString} variant={'blue'} styleType={'lighter'} size={'small'} disabled={props.disabled}/>}
                 </div>
                 {props.editDescription && <span className={'checkbox-labeled__description__string'}>
                     {props.editDescription}
                 </span>}
-                {props.linkButton && <Linkbutton className={'checkbox-labeled__link'} variant={'primary'} styleType={'lighter'} size={'small'} text={props.linkTitle} href={props.linkHref} underline={false} />}
+                {props.linkButton && <Linkbutton className={'checkbox-labeled__link'} variant={'primary'} styleType={'lighter'} size={'small'} disabled={props.disabled} text={props.linkTitle} href={props.linkHref} underline={false} />}
             </div>
         </div>
     );

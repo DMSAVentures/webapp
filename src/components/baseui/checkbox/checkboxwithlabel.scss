@@ -50,6 +50,12 @@
             flex-grow: 1;
         }
     }
+
+    &--disabled {
+        .checkbox-labeled__sublabel__string, .checkbox-labeled__description__string {
+            color: $neutral-200;
+        }
+    }
 }
 
 

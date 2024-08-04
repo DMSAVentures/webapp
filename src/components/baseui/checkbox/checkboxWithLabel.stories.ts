@@ -64,3 +64,22 @@ export const SmallCheckedWithLabelWithLongDescription: Story = {
         flipCheckboxToRight: false,
     },
 };
+
+
+export const CheckboxDisabledWithLabel: Story = {
+    args: {
+        size: 'small',
+        disabled: true,
+        checked: 'checked',
+        subLabel: true,
+        badge: true,
+        badgeString: 'Badge',
+        linkButton: true,
+        editLabel: 'Label',
+        editSubLabel: 'Sublabel',
+        editDescription: 'Description',
+        linkTitle: 'Link',
+        linkHref: 'https://www.google.com',
+        flipCheckboxToRight: false,
+    },
+};
