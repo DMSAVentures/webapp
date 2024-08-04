@@ -64,6 +64,13 @@
       border-style: solid;
     }
 
+     &:only-child {
+          border-width: 1px;
+          border-color: $neutral-200;
+          border-radius: $spacing-8;
+          border-style: solid;
+      }
+
     // Icon Alignment Modifier
     &__icon--right {
       flex-direction: row-reverse;

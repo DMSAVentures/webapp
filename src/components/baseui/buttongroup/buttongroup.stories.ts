@@ -60,3 +60,12 @@ export const ButtonGroupWithRightIcons : Story = {
         size: 'small',
     },
 };
+
+export const ButtonGroupWithSingleButton : Story = {
+    args: {
+        items: [
+            { text: 'Button 1', iconPosition: 'right', icon: 'ri-home-line', iconOnly: false, onClick: fn(), disabled: false },
+        ],
+        size: 'small',
+    },
+};

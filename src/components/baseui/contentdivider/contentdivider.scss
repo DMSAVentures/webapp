@@ -1,0 +1,66 @@
+@import "src/globalstyles/variables.scss";
+
+.content-divider-line {
+        color: $neutral-200;
+        width: 300px;
+        border: none;
+        border-top: 1px solid $neutral-200;
+        overflow: visible;
+        text-align: center;
+        height: 5px;
+        @extend .subheading-xx-small;
+
+        &--text::after {
+            background: #fff;
+            content: attr(data-content);
+            padding: 0 6px;
+            position: relative;
+            top: -10px;
+            text-transform: uppercase;
+        }
+}
+
+.content-divider-banner {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    text-transform: uppercase;
+    @extend .subheading-x-small;
+
+    &--light {
+        padding: $spacing-4 $spacing-8;
+        gap: $spacing-8;
+        background-color: $neutral-0;
+        color: $neutral-400;
+    }
+
+    &--gray {
+        padding: $spacing-6 $spacing-20;
+        gap: $spacing-6;
+        background-color: $neutral-50;
+        color: $neutral-400;
+    }
+}
+
+.content-divider-buttongroup {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+
+    &::after, &::before {
+        content: '';
+        flex-grow: 1;
+        height: 1px;
+        background: $neutral-200;
+    }
+
+    &::before {
+        margin-right: 10px; // Adjust spacing as needed
+    }
+
+    &::after {
+        margin-left: 10px; // Adjust spacing as needed
+    }
+}
+

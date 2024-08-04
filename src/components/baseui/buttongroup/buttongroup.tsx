@@ -2,7 +2,7 @@ import React from 'react';
 import './buttongroup.scss';
 import 'remixicon/fonts/remixicon.css';
 
-interface ButtonItemProps {
+export interface ButtonItemProps {
     text: string;
     iconPosition: 'left' | 'right';
     icon: string;
