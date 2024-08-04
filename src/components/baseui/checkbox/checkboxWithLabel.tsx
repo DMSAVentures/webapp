@@ -19,7 +19,7 @@ interface CheckboxWithLabel extends CheckboxProps {
 
 const CheckboxWithLabel: React.FC<CheckboxWithLabel> = (props): JSX.Element => {
     return (
-        <div className={"checkbox-labeled__container"}>
+        <div className={`checkbox-labeled__container ${props.flipCheckboxToRight ? 'checkbox-labeled__container--reversed' : ''}`}>
             <Checkbox disabled={props.disabled} checked={props.checked} onChange={props.onChange}/>
             <div className={'checkbox-labeled__label-container'}>
                 <div className={'checkbox-labeled__label'}>

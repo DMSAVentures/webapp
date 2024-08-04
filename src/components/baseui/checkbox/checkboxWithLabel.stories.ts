@@ -10,7 +10,6 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        size: {control: 'select', options: ['small', 'x-small']},
         disabled: {control: 'boolean'},
         checked: {control: 'select', options: ['checked', 'unchecked', 'indeterminate']},
         subLabel: {control: 'boolean'},
@@ -42,6 +41,24 @@ export const SmallCheckedWithLabel: Story = {
         editLabel: 'Label',
         editSubLabel: 'Sublabel',
         editDescription: 'Description',
+        linkTitle: 'Link',
+        linkHref: 'https://www.google.com',
+        flipCheckboxToRight: false,
+    },
+};
+
+export const SmallCheckedWithLabelWithLongDescription: Story = {
+    args: {
+        size: 'small',
+        disabled: false,
+        checked: 'checked',
+        subLabel: true,
+        badge: true,
+        badgeString: 'Badge',
+        linkButton: true,
+        editLabel: 'Email Notifications',
+        editSubLabel: 'Priority',
+        editDescription: 'Receive email notifications for all priority alerts. This includes alerts for all high and medium priority incidents.',
         linkTitle: 'Link',
         linkHref: 'https://www.google.com',
         flipCheckboxToRight: false,
