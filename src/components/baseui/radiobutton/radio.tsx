@@ -22,7 +22,7 @@ const Radio: React.FC<RadioProps> = (props): JSX.Element => {
         <div className={`radio-container radio-container--small`}>
             <input type="radio" id="radio" className="custom-radio-input" disabled={props.disabled} checked={checked} onChange={handleChange}/>
             <label htmlFor="radio" className={`custom-radio-label ${checked ? 'checked' : ''} ${props.disabled ? 'disabled' : ''}`}>
-                {checked ? <i className="radio__icon ri-check-fill"></i> : null}
+                {checked ? <i className="radio__icon ri-circle-fill"></i> : null}
             </label>
         </div>
 
