@@ -5,10 +5,11 @@
     display: flex;
     width: 280px;
     flex-direction: column;
+    gap: $spacing-8;
     .dropdown__label-container {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        //justify-content: space-around;
         gap: $spacing-4;
         padding: $spacing-4;
 
@@ -17,7 +18,7 @@
             color: $neutral-600;
         }
         .dropdown__optional {
-            font-size: 16px;
+            @extend .paragraph-small;
             color: $neutral-600;
         }
 
@@ -45,7 +46,7 @@
             color: $neutral-600;
             cursor: pointer;
             outline: none;
-            @extend .label-small;
+            @extend .paragraph-small;
 
             .dropdown__icon {
                 font-size: 20px;
@@ -105,6 +106,8 @@
     }
 
     .dropdown__hint {
+        display: flex;
+        gap: $spacing-4;
         color: $neutral-400;
 
         &--hide {

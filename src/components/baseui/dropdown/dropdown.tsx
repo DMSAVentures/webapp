@@ -51,7 +51,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             <div className="dropdown__label-container">
                 {props.label && <label className="dropdown__label">{props.label}</label>}
                 {props.optional && <label className="dropdown__optional">(Optional)</label>}
-                {props.badge && <span className="dropdown__badge">{props.badge}</span>}
                 {props.tooltip && <i className="dropdown__tooltip ri-information-line"/>}
             </div>
             <div className="dropdown__select-container" ref={selectRef}>
@@ -73,8 +72,11 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                     </div>)}
             </div>
             {props.hintText &&
-                <span className={`dropdown__hint dropdown__hint--${isOpen ? 'hide' : ''}`}>{props.hintText}</span>}
-        </div>);
+                <div className={`dropdown__hint dropdown__hint--${isOpen ? 'hide' : ''}`}>
+                    <i className="dropdown__tooltip ri-information-fill"/>
+                    <span className={`dropdown__hint__text`}>{props.hintText}</span>
+                </div>}
+    </div>);
 };
 
 export default Dropdown;
