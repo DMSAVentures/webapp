@@ -1,9 +1,10 @@
 @import "src/globalstyles/variables.scss";
 
 .dropdown {
+    position: relative;
     display: flex;
+    width: 280px;
     flex-direction: column;
-    gap: $spacing-8;
     .dropdown__label-container {
         display: flex;
         align-items: center;
@@ -34,18 +35,9 @@
         gap: $spacing-8;
         align-items: center;
 
-        .dropdown__icon {
-            font-size: 20px;
-            color: $neutral-300;
-
-            &:hover {
-                color: $neutral-400;
-                cursor: pointer;
-            }
-        }
-
         .dropdown__select {
             display: flex;
+            width: 100%;
             gap: $spacing-8;
             align-items: center;
             border: none;
@@ -54,27 +46,35 @@
             cursor: pointer;
             outline: none;
             @extend .label-small;
+
+            .dropdown__icon {
+                font-size: 20px;
+                color: $neutral-300;
+                flex-shrink: 0;
+
+                &:hover {
+                    color: $neutral-400;
+                    cursor: pointer;
+                }
+            }
+
+            .dropdown__select__text {
+                flex-grow: 1;
+            }
         }
 
-        .dropdown__option {
-            appearance: none;
-            padding: $spacing-8 $spacing-12;
-            color: $neutral-600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color $transition-normal $transition-type-dissolve;
-
-            &:hover {
-                background-color: $neutral-100;
-            }
-
-            &.selected {
-                background-color: $neutral-100;
-            }
+        &:hover {
+            background-color: $neutral-100;
+            transition: background-color, $transition-normal, $transition-type-dissolve;
         }
     }
 
     .dropdown__options-container {
+        position: absolute;
+        margin-top: $spacing-10;
+        top: 100%;
+        left: 0;
+        right: 0;
         display: flex;
         flex-direction: column;
         border-radius: $radius-10;
@@ -106,6 +106,11 @@
 
     .dropdown__hint {
         color: $neutral-400;
+
+        &--hide {
+            display: none;
+        }
+
         @extend .paragraph-x-small
     }
 }

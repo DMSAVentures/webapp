@@ -1,4 +1,4 @@
-import React, {EventHandler, HTMLAttributes, MouseEventHandler, useEffect, useRef, useState} from "react";
+import React, {MouseEvent, useEffect, useRef, useState} from "react";
 import './dropdown.scss';
 import 'remixicon/fonts/remixicon.css';
 
@@ -7,13 +7,9 @@ interface Option {
     label: string;
 }
 
-interface CustomSelectProps {
+interface DropdownProps {
     options: Option[];
-    placeholder: string;
-}
-
-interface DropdownProps extends HTMLAttributes<HTMLInputElement> {
-    dropdownType?: string;
+    placeholderText: string;
     size: 'medium' | 'small' | 'x-small';
     optional?: boolean;
     tooltip?: string;
@@ -21,8 +17,6 @@ interface DropdownProps extends HTMLAttributes<HTMLInputElement> {
     hintText?: string;
     badge?: string;
     leftIcon?: string;
-    placeholderText?: string;
-    options: Option[];
 }
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
@@ -33,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     const toggleOpen = () => setIsOpen(!isOpen);
 
     const handleOptionClick = (option: Option) => {
-        console.log(option);
+        console.log("Option clicked:", option);
         setSelectedOption(option);
         setIsOpen(false);
     };
@@ -42,8 +36,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
             setIsOpen(false);
         }
-
-    }
+    };
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -51,34 +44,37 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    console.log(selectedOption);
+
+    console.log("Selected Option:", selectedOption);
+
     return (<div className={`dropdown dropdown--${props.size}`}>
-            <div className={'dropdown__label-container'}>
+            <div className="dropdown__label-container">
                 {props.label && <label className="dropdown__label">{props.label}</label>}
                 {props.optional && <label className="dropdown__optional">(Optional)</label>}
                 {props.badge && <span className="dropdown__badge">{props.badge}</span>}
                 {props.tooltip && <i className="dropdown__tooltip ri-information-line"/>}
             </div>
-            <div className={`dropdown__select-container`} ref={selectRef}>
-                <div className={`dropdown__select`} onClick={toggleOpen}>
+            <div className="dropdown__select-container" ref={selectRef}>
+                <div className="dropdown__select" onClick={toggleOpen}>
                     {props.leftIcon && <i className={`dropdown__icon ${props.leftIcon}`}/>}
-                    <div className={'dropdown__select-text'}>
+                    <div className="dropdown__select__text">
                         {selectedOption ? selectedOption.label : props.placeholderText}
                     </div>
                     <i className="dropdown__icon ri-arrow-down-s-line"/>
                 </div>
-            </div>
-            {isOpen && (<div className="dropdown__options-container">
-                    {props.options.map((option) => (<span
-                            key={option.value}
-                            className={`dropdown-option ${selectedOption && selectedOption.value === option.value ? 'selected' : ''}`}
-                            onClick={() => handleOptionClick(option)}>
+                {isOpen && (<div className="dropdown__options-container">
+                        {props.options.map((option) => (<span
+                                key={option.value}
+                                className={`dropdown-option ${selectedOption && selectedOption.value === option.value ? 'selected' : ''}`}
+                                onClick={() => handleOptionClick(option)}
+                            >
                 {option.label}
               </span>))}
-                </div>)}
-            {props.hintText && <span className="dropdown__hint">{props.hintText}</span>}
+                    </div>)}
+            </div>
+            {props.hintText &&
+                <span className={`dropdown__hint dropdown__hint--${isOpen ? 'hide' : ''}`}>{props.hintText}</span>}
         </div>);
 };
-
 
 export default Dropdown;

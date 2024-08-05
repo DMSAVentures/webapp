@@ -6,7 +6,7 @@ const meta: Meta = {
     title: 'Components/Dropdown',
     component: Dropdown,
     parameters: {
-        layout: 'centered',
+        layout: 'fullscreen',
     },
     tags: ['autodocs'],
     argTypes: {
