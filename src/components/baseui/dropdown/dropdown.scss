@@ -1,0 +1,111 @@
+@import "src/globalstyles/variables.scss";
+
+.dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+    .dropdown__label-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $spacing-4;
+        padding: $spacing-4;
+
+        .dropdown__label {
+            @extend .label-small;
+            color: $neutral-600;
+        }
+        .dropdown__optional {
+            font-size: 16px;
+            color: $neutral-600;
+        }
+
+        .dropdown__tooltip {
+            font-size: 16px;
+            color: $neutral-600;
+        }
+    }
+
+    .dropdown__select-container {
+        display: flex;
+        border-radius: $radius-10;
+        border: 1px solid $neutral-200;
+        padding: $spacing-10 $spacing-10 $spacing-10 $spacing-12;
+        gap: $spacing-8;
+        align-items: center;
+
+        .dropdown__icon {
+            font-size: 20px;
+            color: $neutral-300;
+
+            &:hover {
+                color: $neutral-400;
+                cursor: pointer;
+            }
+        }
+
+        .dropdown__select {
+            display: flex;
+            gap: $spacing-8;
+            align-items: center;
+            border: none;
+            background-color: transparent;
+            color: $neutral-600;
+            cursor: pointer;
+            outline: none;
+            @extend .label-small;
+        }
+
+        .dropdown__option {
+            appearance: none;
+            padding: $spacing-8 $spacing-12;
+            color: $neutral-600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color $transition-normal $transition-type-dissolve;
+
+            &:hover {
+                background-color: $neutral-100;
+            }
+
+            &.selected {
+                background-color: $neutral-100;
+            }
+        }
+    }
+
+    .dropdown__options-container {
+        display: flex;
+        flex-direction: column;
+        border-radius: $radius-10;
+        border: 1px solid $neutral-200;
+        padding: $spacing-10 $spacing-10 $spacing-10 $spacing-12;
+        align-items: center;
+        box-shadow: 0 2px 2px 0 $neutral-100;
+        z-index: 1;
+
+        .dropdown-option {
+            display: flex;
+            width: 100%;
+            gap: $spacing-4;
+            align-items: center;
+            padding: $spacing-8 $spacing-12;
+            color: $neutral-600;
+            cursor: pointer;
+            transition: background-color $transition-normal $transition-type-dissolve;
+            @extend .label-small;
+            &:hover {
+                background-color: $neutral-100;
+            }
+
+            &.selected {
+                background-color: $neutral-100;
+            }
+        }
+    }
+
+    .dropdown__hint {
+        color: $neutral-400;
+        @extend .paragraph-x-small
+    }
+}
