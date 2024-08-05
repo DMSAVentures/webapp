@@ -64,7 +64,7 @@
             }
         }
 
-        &:hover {
+        &:hover, &--open {
             background-color: $neutral-100;
             transition: background-color, $transition-normal, $transition-type-dissolve;
         }
@@ -84,6 +84,7 @@
         align-items: center;
         box-shadow: 0 2px 2px 0 $neutral-100;
         z-index: 1;
+        transition: all $transition-slow $transition-type-dissolve;
 
         .dropdown-option {
             display: flex;

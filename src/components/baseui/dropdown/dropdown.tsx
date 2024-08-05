@@ -53,7 +53,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                 {props.optional && <label className="dropdown__optional">(Optional)</label>}
                 {props.tooltip && <i className="dropdown__tooltip ri-information-line"/>}
             </div>
-            <div className="dropdown__select-container" ref={selectRef}>
+            <div className={`dropdown__select-container dropdown__select-container--${isOpen ? 'open' : ''}`} ref={selectRef}>
                 <div className="dropdown__select" onClick={toggleOpen}>
                     {props.leftIcon && <i className={`dropdown__icon ${props.leftIcon}`}/>}
                     <div className="dropdown__select__text">

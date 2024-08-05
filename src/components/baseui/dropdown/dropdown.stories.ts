@@ -39,7 +39,6 @@ export const Primary: Story = {
         leftIcon: 'ri-question-line',
         placeholderText: 'Placeholder Text',
         options: [
-            {value: '', label: 'Placeholder Text'},
             {value: '1', label: 'Option 1'},
             {value: '2', label: 'Option 2'},
             {value: '3', label: 'Option 3'}
