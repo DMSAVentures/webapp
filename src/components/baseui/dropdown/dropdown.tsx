@@ -31,7 +31,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         setIsOpen(false);
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: Event) => {
         if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
             setIsOpen(false);
         }
@@ -39,12 +39,12 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
         };
     }, []);
-
-    console.log("Selected Option:", selectedOption);
 
     return (<div className={`dropdown dropdown--${props.size}`}>
             <div className="dropdown__label-container">
