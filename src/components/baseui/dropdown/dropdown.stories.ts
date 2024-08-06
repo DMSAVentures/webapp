@@ -10,7 +10,6 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        dropdownType: { control: 'text' },
         size: { control: 'select', options: ['medium', 'small', 'x-small'] },
         optional: { control: 'boolean' },
         tooltip: { control: 'text' },
@@ -19,8 +18,9 @@ const meta: Meta = {
         badge: { control: 'text' },
         leftIcon: { control: 'text' },
         placeholderText: { control: 'text' },
+        disabled: { control: 'boolean' },
+        error: { control: 'text' },
     },
-    args: { onClick: fn() },
 } satisfies Meta<typeof Dropdown>;
 
 
@@ -38,6 +38,46 @@ export const Primary: Story = {
         badge: 'Badge',
         leftIcon: 'ri-question-line',
         placeholderText: 'Placeholder Text',
+        options: [
+            {value: '1', label: 'Option 1'},
+            {value: '2', label: 'Option 2'},
+            {value: '3', label: 'Option 3'}
+        ]
+    },
+};
+
+export const Disabled: Story = {
+    args: {
+        dropdownType: 'text',
+        size: 'medium',
+        optional: false,
+        tooltip: 'Tooltip',
+        label: 'Label',
+        hintText: 'Hint Text',
+        badge: 'Badge',
+        leftIcon: 'ri-question-line',
+        placeholderText: 'Placeholder Text',
+        disabled: true,
+        options: [
+            {value: '1', label: 'Option 1'},
+            {value: '2', label: 'Option 2'},
+            {value: '3', label: 'Option 3'}
+        ]
+    },
+};
+
+export const Error: Story = {
+    args: {
+        dropdownType: 'text',
+        size: 'medium',
+        optional: false,
+        tooltip: 'Tooltip',
+        label: 'Label',
+        hintText: 'Hint Text',
+        badge: 'Badge',
+        leftIcon: 'ri-question-line',
+        placeholderText: 'Placeholder Text',
+        error: 'Please select an option before proceeding.',
         options: [
             {value: '1', label: 'Option 1'},
             {value: '2', label: 'Option 2'},

@@ -68,6 +68,19 @@
             background-color: $neutral-100;
             transition: background-color, $transition-normal, $transition-type-dissolve;
         }
+
+        &--disabled {
+            background-color: $neutral-100;
+            cursor: not-allowed;
+            pointer-events: none;
+            .dropdown__select__text {
+                color: $neutral-300;
+            }
+        }
+
+        &--error {
+           border-color: $red-500;
+        }
     }
 
     .dropdown__options-container {
@@ -85,25 +98,6 @@
         box-shadow: 0 2px 2px 0 $neutral-100;
         z-index: 1;
         transition: all $transition-slow $transition-type-dissolve;
-
-        .dropdown-option {
-            display: flex;
-            width: 100%;
-            gap: $spacing-4;
-            align-items: center;
-            padding: $spacing-8 $spacing-12;
-            color: $neutral-600;
-            cursor: pointer;
-            transition: background-color $transition-normal $transition-type-dissolve;
-            @extend .label-small;
-            &:hover {
-                background-color: $neutral-100;
-            }
-
-            &.selected {
-                background-color: $neutral-100;
-            }
-        }
     }
 
     .dropdown__hint {
@@ -113,6 +107,10 @@
 
         &--hide {
             display: none;
+        }
+
+        &--error {
+            color: $red-500;
         }
 
         @extend .paragraph-x-small
