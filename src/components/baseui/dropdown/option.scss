@@ -15,7 +15,7 @@
         border-radius: $radius-10;
     }
 
-    &.selected {
+    &--selected {
         background-color: $neutral-100;
     }
 
@@ -36,6 +36,19 @@
         &__description {
             color: $neutral-600;
             @extend .paragraph-x-small;
+        }
+    }
+
+    &--disabled {
+
+        pointer-events: none;
+
+        .dropdown-option__text__label, .dropdown-option__text__description {
+            color: $neutral-300;
+        }
+
+        .dropdown-option__text__img {
+            opacity: 70%;
         }
     }
 }

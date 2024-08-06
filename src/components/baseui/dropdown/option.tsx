@@ -9,13 +9,14 @@ export interface DropdownOptionProps {
     size: 'small' | 'medium';
     onClick: (props: DropdownOptionProps) => void;
     selected?: boolean;
+    disabled?: boolean;
 }
 
 const DropdownOption: React.FC<DropdownOptionProps> = (props) => {
     return (
         (<div
             key={props.value}
-            className={`dropdown-option dropdown-option--${props.selected ? 'selected' : ''}`}
+            className={`dropdown-option ${props.selected ? 'dropdown-option--selected' : ''} ${props.disabled ? 'dropdown-option--disabled' : ''}`}
             onClick={() => props.onClick(props)}
         >
             {props.imgSrc && <img src={props.imgSrc} alt={props.label} className={`dropdown-option__img dropdown-option__img--${props.size}`}/>}
