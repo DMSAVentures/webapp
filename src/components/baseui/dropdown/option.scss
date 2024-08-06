@@ -25,14 +25,31 @@
         border-radius: $radius-full;
     }
 
+    &__icon {
+        height: 40px;
+        width: 40px;
+        align-content: center;
+        text-align: center;
+    }
+
     &__text {
         display: flex;
         flex-direction: column;
         gap: $spacing-4;
         &__label {
+            display: flex;
+            align-items: center;
+            gap: $spacing-6;
             color: $neutral-900;
             @extend .label-small;
+
         }
+
+        &__sublabel {
+            color: $neutral-400;
+            @extend .paragraph-x-small;
+        }
+
         &__description {
             color: $neutral-600;
             @extend .paragraph-x-small;
@@ -47,7 +64,7 @@
             color: $neutral-300;
         }
 
-        .dropdown-option__text__img {
+        .dropdown-option__text__img, .dropdown-option__text__icon {
             opacity: 70%;
         }
     }

@@ -20,6 +20,7 @@ const meta: Meta = {
         placeholderText: { control: 'text' },
         disabled: { control: 'boolean' },
         error: { control: 'text' },
+        options: { control: 'object' },
     },
 } satisfies Meta<typeof Dropdown>;
 
@@ -79,8 +80,8 @@ export const Error: Story = {
         placeholderText: 'Placeholder Text',
         error: 'Please select an option before proceeding.',
         options: [
-            {value: '1', label: 'Option 1'},
-            {value: '2', label: 'Option 2'},
+            {value: '1', label: 'Option 1', sublabel: '@shreyas', description: 'Description 1', imgSrc: 'https://via.placeholder.com/150', disabled: false},
+            {value: '2', label: 'Option 2', sublabel: '@shelly', description: 'Description 1', icon: 'ri-user-line', disabled: false},
             {value: '3', label: 'Option 3'}
         ]
     },

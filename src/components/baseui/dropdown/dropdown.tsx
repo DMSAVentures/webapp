@@ -62,7 +62,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                 </div>
                 {isOpen && (<div className="dropdown__options-container">
                         {props.options.map((option) => {
-                            return <DropdownOption key={option.value} label={option.label} value={option.value} onClick={handleOptionClick} size={'small'} description={"some description"} disabled={true} imgSrc={'https://placeholder.com/150'}/>;
+                            return <DropdownOption key={option.value} label={option.label} value={option.value} onClick={handleOptionClick} size={'small'} description={option.description} disabled={option.disabled} sublabel={option.sublabel} icon={option.icon} imgSrc={option.imgSrc}/>;
                         })}
                     </div>)}
             </div>
