@@ -12,7 +12,8 @@ const meta: Meta = {
     tags: ['autodocs'],
     argTypes: {
         hintText: { control: 'text' },
-        state: { control: 'select', options: ['default', 'error', 'disabled', 'hide'] },
+        state: { control: 'select', options: ['default', 'error', 'disabled'] },
+        hide: { control: 'boolean' },
     },
     args: { onClick: fn() },
 };
@@ -44,6 +45,6 @@ export const Disabled: HintTextStory = {
 export const Hide: HintTextStory = {
     args: {
         hintText: 'Hint Text',
-        state: 'hide',
+        hide: true,
     },
 };
