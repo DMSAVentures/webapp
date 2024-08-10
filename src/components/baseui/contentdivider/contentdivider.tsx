@@ -14,7 +14,7 @@ interface ButtonGroupContentDividerProps {
     buttonGroup: React.ReactNode;
 }
 
-type ContentDividerProps = LineContentDividerProps | BannerContentDividerProps | ButtonGroupContentDividerProps;
+export type ContentDividerProps = LineContentDividerProps | BannerContentDividerProps | ButtonGroupContentDividerProps;
 
 function isLineContentDividerProps(props: ContentDividerProps): props is LineContentDividerProps {
     return 'size' in props;
