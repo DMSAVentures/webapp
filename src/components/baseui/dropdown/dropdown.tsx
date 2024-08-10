@@ -2,6 +2,7 @@ import React, {MouseEvent, useEffect, useRef, useState} from "react";
 import './dropdown.scss';
 import 'remixicon/fonts/remixicon.css';
 import DropdownOption, {DropdownOptionProps} from "@/components/baseui/dropdown/option";
+import HintText from "@/components/baseui/hinttext/hinttext";
 
 
 interface DropdownProps {
@@ -67,10 +68,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                     </div>)}
             </div>
             {props.hintText &&
-                <div className={`dropdown__hint dropdown__hint--${isOpen ? 'hide' : ''} dropdown__hint--${props.error ? 'error' : ''}`}>
-                    <i className="dropdown__tooltip ri-information-fill"/>
-                    <span className={`dropdown__hint__text`}>{props.hintText}</span>
-                </div>}
+                <HintText hintText={props.hintText} state={ props.error ? 'error' : 'default'} hide={isOpen}/>}
     </div>);
 };
 
