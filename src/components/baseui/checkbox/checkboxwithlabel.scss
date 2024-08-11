@@ -4,14 +4,9 @@
     display: flex;
     flex-direction: row;
     gap: $spacing-8;
-    align-items: baseline;
+    padding: $spacing-8;
     width: 300px;
 
-    .checkbox-labeled__label-container {
-        display: flex;
-        flex-direction: column;
-        gap: $spacing-10;
-    }
 
     .checkbox-labeled__label {
         display: flex;

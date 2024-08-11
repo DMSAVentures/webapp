@@ -2,7 +2,7 @@ import Label, {LabelProps} from "@/components/baseui/label/label";
 import React from "react";
 import './contentlabel.scss';
 import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
-interface ContentLabelProps extends LabelProps {
+export interface ContentLabelProps extends LabelProps {
     imageSrc?: string;
     centeredImage?: boolean;
     description: string;

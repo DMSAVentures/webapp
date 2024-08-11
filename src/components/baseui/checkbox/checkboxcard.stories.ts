@@ -10,14 +10,17 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        subLabel: {control: 'boolean'},
-        badge: {control: 'boolean'},
-        badgeString: {control: 'text'},
-        editLabel: {control: 'text'},
-        editSubLabel: {control: 'text'},
-        editDescription: {control: 'text'},
-        imageSrc: {control: 'text'},
-        centeredImage: {control: 'boolean'},
+        disabled: { control: 'boolean' },
+        checked: { control: 'select', options: ['checked', 'unchecked', 'indeterminate'] },
+        badgeString: { control: 'text' },
+        badgeColour: { control: 'select', options: ['blue', 'green', 'red', 'yellow'] },
+        text: { control: 'text' },
+        subText: { control: 'text' },
+        description: { control: 'text' },
+        flipCheckboxToRight: { control: 'boolean' },
+        required: { control: 'boolean' },
+        imageSrc: { control: 'text' },
+        centeredImage: { control: 'boolean' },
     },
     args: { onClick: fn() },
 } satisfies Meta<typeof CheckboxCard>;
@@ -25,30 +28,51 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const SmallCheckedWithLabel: Story = {
     args: {
-        subLabel: true,
-        badge: true,
+        disabled: false,
+        text: 'Label',
+        checked: 'checked',
         badgeString: 'Badge',
-        editLabel: 'Label',
-        editSubLabel: 'Sublabel',
-        editDescription: 'Description',
+        flipCheckboxToRight: false,
+        description: 'Description',
+        subText: 'Subtext',
+        required: false,
         imageSrc: 'https://via.placeholder.com/150',
-        centeredImage: false,
     },
 };
 
-export const Disabled: Story = {
+export const SmallCheckedWithLabelWithLongDescription: Story = {
     args: {
+        size: 'small',
+        disabled: false,
+        checked: 'checked',
         subLabel: true,
         badge: true,
         badgeString: 'Badge',
-        editLabel: 'Label',
-        editSubLabel: 'Sublabel',
-        editDescription: 'Description',
-        imageSrc: 'https://via.placeholder.com/150',
-        centeredImage: false,
+        linkButton: true,
+        text: 'Email Notifications',
+        subText: 'Priority',
+        description: 'Receive email notifications for all priority alerts. This includes alerts for all high and medium priority incidents.',
+        linkTitle: 'Link',
+        linkHref: 'https://www.google.com',
+        flipCheckboxToRight: false,
+    },
+};
+
+export const CheckboxDisabledWithLabel: Story = {
+    args: {
+        size: 'small',
         disabled: true,
+        checked: 'checked',
+        subLabel: true,
+        badge: true,
+        badgeString: 'Badge',
+        text: 'Email Notifications',
+        subText: 'Priority',
+        description: 'Receive email notifications for all priority alerts. This includes alerts for all high and medium priority incidents.',
+        linkTitle: 'Link',
+        linkHref: 'https://www.google.com',
+        flipCheckboxToRight: false,
     },
 };
-

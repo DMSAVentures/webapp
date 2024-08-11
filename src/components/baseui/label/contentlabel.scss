@@ -2,17 +2,17 @@
 
 .content-label__container {
     display: flex;
-    padding: $spacing-16;
+    //padding: $spacing-16;
     gap: $spacing-16;
     border-radius: $radius-12;
     width: 300px;
     align-items: center;
 
-    &:hover {
-        background-color: $neutral-50;
-        border: 1px solid $neutral-50;
-        transition: background-color $transition-normal $transition-type-dissolve;
-    }
+    //&:hover {
+    //    background-color: $neutral-50;
+    //    border: 1px solid $neutral-50;
+    //    transition: background-color $transition-normal $transition-type-dissolve;
+    //}
 
     .content-label__image {
         width: 40px;
