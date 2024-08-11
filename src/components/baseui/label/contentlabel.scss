@@ -1,0 +1,48 @@
+@import "src/globalstyles/variables.scss";
+
+.content-label__container {
+    display: flex;
+    padding: $spacing-16;
+    gap: $spacing-16;
+    border-radius: $radius-12;
+    width: 300px;
+    align-items: center;
+
+    &:hover {
+        background-color: $neutral-50;
+        border: 1px solid $neutral-50;
+        transition: background-color $transition-normal $transition-type-dissolve;
+    }
+
+    .content-label__image {
+        width: 40px;
+        height: 40px;
+        border-radius: $radius-full;
+    }
+
+    .content-label__text {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-8;
+        align-items: baseline;
+
+
+        .content-label__description__string {
+            @extend .paragraph-x-small;
+            color: $neutral-600;
+            width: 100%;
+            overflow-wrap: break-word; // Break words to prevent overflow
+            word-wrap: break-word; // For IE compatibility
+            word-break: break-word; // Additional word break support
+            white-space: normal; // Allow text to wrap normally
+
+            &--disabled {
+                color: $neutral-200;
+            }
+        }
+
+    }
+
+
+
+}

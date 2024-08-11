@@ -2,7 +2,7 @@ import Badge from "@/components/baseui/badge/badge";
 import React from "react";
 import './label.scss';
 
-interface LabelProps {
+export interface LabelProps {
     text: string;
     subText?: string;
     badgeString?: string;

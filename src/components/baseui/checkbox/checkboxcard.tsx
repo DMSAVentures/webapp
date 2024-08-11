@@ -10,6 +10,7 @@ interface CheckboxCardProps extends CheckboxWithLabelWithoutLinkProps {
 const CheckboxCard: React.FC<CheckboxCardProps> = (props) => {
 return (
     <div className={`checkbox-card__container`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         {props.imageSrc && <img src={props.imageSrc} className={`checkbox-card__image ${props.centeredImage ? 'checkbox-card__image--centered' : ''}`} alt={'checkbox card image'}/>}
         <CheckboxWithLabel
             disabled={props.disabled}
@@ -21,7 +22,6 @@ return (
             editDescription={props.editDescription}
             flipCheckboxToRight={true}
             linkButton={false}/>
-
     </div>
 );
 }
