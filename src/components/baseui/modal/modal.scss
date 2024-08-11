@@ -1,0 +1,121 @@
+@import "src/globalstyles/variables";
+
+@mixin modal-icon-style($color) {
+    color: $color;
+}
+
+.modal__container {
+    display: flex;
+    flex-direction: column;
+    border-radius: $radius-12;
+    border: 1px solid $neutral-200;
+    width: 300px;
+
+    .modal__content {
+
+    }
+
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-14;
+    //padding: $spacing-16 $spacing-16 $spacing-16 $spacing-20;
+
+    .modal__title {
+        @extend .label-small;
+        color: $neutral-950;
+    }
+
+    .modal__close {
+        cursor: pointer;
+        padding: $spacing-8;
+        border-radius: $radius-8;
+
+        transition: background-color $transition-normal $transition-type-dissolve;
+
+        &:hover {
+            background-color: $neutral-100;
+        }
+    }
+}
+
+.modal__icon {
+
+    &--info  {
+        @include modal-icon-style($blue-500);
+        &.modal__icon--medium {
+            padding: $spacing-8;
+            border-radius: $radius-full;
+            background-color: $blue-alpha-24;
+        }
+    }
+    &--success {
+        @include modal-icon-style($green-500);
+        &.modal__icon--medium {
+            padding: $spacing-8;
+            border-radius: $radius-full;
+            background-color: $green-alpha-24;
+        }
+    }
+
+    &--warning {
+        @include modal-icon-style($orange-500);
+        &.modal__icon--medium {
+            padding: $spacing-10;
+            align-self: center;
+            border-radius: $radius-full;
+            background-color: $orange-alpha-24;
+        }
+    }
+
+
+    &--alert {
+        @include modal-icon-style($red-500);
+        &.modal__icon--medium {
+            padding: $spacing-8;
+            border-radius: $radius-full;
+            background-color: $red-alpha-24;
+        }
+    }
+
+    &--feature {
+        @include modal-icon-style($neutral-500);
+        &.modal__icon--medium {
+            padding: $spacing-8;
+            border-radius: $radius-full;
+            border: 1px solid $neutral-200;
+        }
+    }
+}
+
+.modal__footer {
+    display: flex;
+    //padding: $spacing-16 $spacing-20 $spacing-16 $spacing-20;
+    gap: $spacing-12;
+
+    .modal__footer-left {
+        display: flex;
+        align-self: center;
+        text-align: left;
+        gap: $spacing-12;
+    }
+
+    .modal__footer-right {
+        display: flex;
+        width: 100%;
+        align-self: center;
+        gap: $spacing-12;
+    }
+}
+
+
+.modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-12;
+    padding: $spacing-16 $spacing-20 $spacing-16 $spacing-20;
+}
+
