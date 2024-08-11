@@ -19,6 +19,8 @@ const meta: Meta = {
         imageSrc: { control: 'text' },
         centeredImage: { control: 'boolean' },
         description: { control: 'text' },
+        linkTitle: { control: 'text' },
+        linkHref: { control: 'text' },
     },
 } satisfies Meta<typeof ContentLabel>;
 
@@ -77,3 +79,19 @@ export const Required: ContentLabelStory = {
         description: 'Description',
     },
 };
+
+export const Link: ContentLabelStory = {
+    args: {
+        text: 'Label',
+        subText: 'Sublabel',
+        badgeString: 'Badge',
+        badgeColour: 'blue',
+        disabled: false,
+        imageSrc: 'https://via.placeholder.com/150',
+        centeredImage: false,
+        description: 'Description',
+        linkTitle: 'Link',
+        linkHref: 'https://www.google.com',
+    },
+};
+

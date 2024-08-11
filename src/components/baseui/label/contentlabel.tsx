@@ -1,10 +1,13 @@
 import Label, {LabelProps} from "@/components/baseui/label/label";
 import React from "react";
 import './contentlabel.scss';
+import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
 interface ContentLabelProps extends LabelProps {
     imageSrc?: string;
     centeredImage?: boolean;
     description: string;
+    linkTitle?: string;
+    linkHref?: string;
 }
 const ContentLabel: React.FC<ContentLabelProps> = (props) => {
     return (
@@ -16,6 +19,7 @@ const ContentLabel: React.FC<ContentLabelProps> = (props) => {
                 <span className={`content-label__description__string ${props.disabled ?  'content-label__description__string--disabled' : ''}`}>
                     {props.description}
                 </span>
+                {props.linkTitle && props.linkHref && <Linkbutton className={'content-label__link'} variant={'primary'} styleType={'lighter'} size={'small'} disabled={props.disabled} text={props.linkTitle} href={props.linkHref} underline={false} />}
             </div>
         </div>
     );
