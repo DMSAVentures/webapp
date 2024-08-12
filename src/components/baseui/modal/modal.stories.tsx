@@ -1,20 +1,36 @@
-import Modal from "@/components/baseui/modal/modal";
 import {Meta, type StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
 import HintText from "@/components/baseui/hinttext/hinttext";
 
+import React, { useState } from 'react';
+import Modal, { ModalProps } from "@/components/baseui/modal/modal";
+
+const ModalStoryWrapper: React.FC<ModalProps> = (props) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleClose = () => {
+        setIsOpen(false);
+    };
+
+    return (
+        <div>
+            <button onClick={() => setIsOpen(true)}>Open Modal</button>
+            <Modal {...props} isOpen={isOpen} onClose={handleClose} />
+        </div>
+    );
+};
+
 const meta: Meta = {
     title: 'Components/Modal',
-    component: Modal,
+    component: ModalStoryWrapper,
     parameters: {
         layout: 'centered',
     },
     tags: ['autodocs'],
     argTypes: {
-        isOpen: { control: 'boolean' },
         title: { control: 'text' },
         onClose: { action: 'closed' },
-        icon: { control: 'select', options: ['success', 'error', 'warning', 'info', 'feature']},
+        icon: { control: 'select', options: ['success', 'error', 'warning', 'info', 'feature'] },
         footerLeftChildren: { control: 'object' },
         footerFullWithButtons: { control: 'boolean' },
         description: { control: 'text' },
@@ -24,15 +40,15 @@ const meta: Meta = {
         proceedText: { control: 'text' },
     },
     args: { onClick: fn() },
-} satisfies Meta<typeof Modal>;
+} satisfies Meta<typeof ModalStoryWrapper>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 
 export const SuccessModal: Story = {
+    render: (args) => <ModalStoryWrapper {...args} />,
     args: {
-        isOpen: true,
         title: 'Title',
         icon: 'success',
         onCancel: fn(),
@@ -42,8 +58,8 @@ export const SuccessModal: Story = {
     },
 };
 export const SuccessWithDescriptionModal: Story = {
+    render: (args) => <ModalStoryWrapper {...args} />,
     args: {
-        isOpen: true,
         title: 'Title',
         icon: 'success',
         description: 'Description',
@@ -55,6 +71,7 @@ export const SuccessWithDescriptionModal: Story = {
 };
 
 export const ErrorModal: Story = {
+    render: (args) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
@@ -67,6 +84,7 @@ export const ErrorModal: Story = {
 };
 
 export const ErrorWithDescriptionModal: Story = {
+    render: (args) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
@@ -80,6 +98,7 @@ export const ErrorWithDescriptionModal: Story = {
 };
 
 export const FeatureModal: Story = {
+    render: (args) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
@@ -92,6 +111,7 @@ export const FeatureModal: Story = {
 };
 
 export const FeatureWithDescriptionModal: Story = {
+    render: (args) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
