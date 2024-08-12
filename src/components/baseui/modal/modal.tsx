@@ -60,7 +60,13 @@ const ModalHeader: React.FC<ModalProps> = (props) => {
     return <div className={"modal__header"}>
         {props.icon &&
             <i className={`modal__icon ${props.description ? "modal__icon--medium" : ""} modal__icon--${props.icon} ${iconComponent}`}></i>}
-        <div className={"modal__title"}>{props.title}</div>
+        <div className={'modal__header__text'}>
+            <div className={"modal__title"}>
+                {props.title}
+            </div>
+            {props.description && <span className={'modal__description'}>{props.description}</span>}
+        </div>
+
         <i className={"modal__close ri-close-fill"} onClick={props.onClose}/>
     </div>;
 }
@@ -85,9 +91,9 @@ const Modal = (props: ModalProps) => {
             <div className={'modal__content'}>
                 <ModalHeader icon={props.icon} description={props.description} title={props.title}
                              onClose={props.onClose}/>
-                <div className={'modal__body'}>
-                    This is test body
-                </div>
+                {props.children && <div className={'modal__body'}>
+                    {props.children}
+                </div>}
                 <ModalFooter footerFullWithButtons={props.footerFullWithButtons} footerLeftChildren={props.footerLeftChildren} cancelText={props.cancelText} proceedText={props.proceedText} onCancel={props.onCancel} onProceed={props.onProceed}/>
             </div>
         </dialog>
