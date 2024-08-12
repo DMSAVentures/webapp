@@ -13,9 +13,9 @@
     box-shadow: none;
     overflow: hidden;
     &::backdrop {
-        background-color: $neutral-100;
-        opacity: 0.2;
-        backdrop-filter: blur(1px);
+        background-color: $neutral-800;
+        opacity: 0.8;
+        backdrop-filter: blur(4px);
     }
 }
 
