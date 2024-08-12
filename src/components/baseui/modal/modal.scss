@@ -26,6 +26,11 @@
     gap: $spacing-14;
     padding-bottom: $spacing-16;
     border-bottom: 1px solid $neutral-200;
+
+    &--centered {
+        flex-direction: column;
+        text-align: center;
+    }
     .modal__header__text {
         display: flex;
         width: 100%;
@@ -120,6 +125,7 @@
 
     .modal__footer-right {
         display: flex;
+        flex-flow: row-reverse;
         width: 100%;
         align-self: center;
         gap: $spacing-12;

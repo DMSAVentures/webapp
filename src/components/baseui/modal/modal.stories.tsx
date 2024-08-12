@@ -182,3 +182,13 @@ export const ModalWithFooter: Story = {
     },
 };
 
+export const ModalWithInfoTitleDescriptionOnly: Story = {
+    args: {
+        isOpen: true,
+        title: "Payment Received",
+        icon: "success",
+        description: "Description",
+        proceedText: "Proceed"
+    }
+};
+

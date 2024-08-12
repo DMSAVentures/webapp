@@ -13,14 +13,16 @@ interface ModalProps extends Props {
     icon: 'success' | 'error' | 'warning' | 'info' | 'feature';
     footerLeftChildren?: React.ReactNode;
     footerFullWithButtons?: boolean;
+    dismissibleByCloseIcon?: boolean;
+    centeredHeader?: boolean;
 }
 
 interface ModalFooterProps {
     footerLeftChildren?: React.ReactNode;
     footerFullWithButtons?: boolean;
-    onCancel: () => void;
+    onCancel?: () => void;
     onProceed: () => void;
-    cancelText: string;
+    cancelText?: string;
     proceedText: string;
 }
 
@@ -42,22 +44,25 @@ function getIconBasedOnIconType(icon: string) {
 }
 
 const ModalFooter: React.FC<ModalFooterProps> = (props) => {
+    const buttonStyle = props.footerFullWithButtons ? { width: "100%" } : {};
+
     return <div className={'modal__footer'}>
         {props.footerLeftChildren && <div className={'modal__footer-left'}>
             {props.footerLeftChildren}
         </div>}
         <div className={'modal__footer-right'}>
-            <Button style={{width: "100%"}} variant={'neutral'} styleType={'stroke'} size={'small'}
-                    text={props.cancelText} onClick={props.onCancel}/>
-            <Button style={{width: "100%"}} variant={'primary'} text={props.proceedText} size={'small'}
+            <Button style={buttonStyle} variant={'primary'} text={props.proceedText} size={'small'}
                     onClick={props.onProceed}/>
+            {props.cancelText && <Button style={buttonStyle} variant={'neutral'} styleType={'stroke'} size={'small'}
+                    text={props.cancelText} onClick={props.onCancel}/>}
         </div>
     </div>;
 }
-type ModalHeaderProps = Pick<ModalProps, 'description' | 'icon' | 'onClose' | 'title'>
+
+type ModalHeaderProps = Pick<ModalProps, 'description' | 'icon' | 'onClose' | 'title' | 'dismissibleByCloseIcon' | 'centeredHeader'>
 const ModalHeader: React.FC<ModalHeaderProps> = (props) => {
     const iconComponent = getIconBasedOnIconType(props.icon);
-    return <div className={"modal__header"}>
+    return (<div className={`modal__header ${props.centeredHeader ? 'modal__header--centered' : ''}`}>
         {props.icon &&
             <i className={`modal__icon ${props.description ? "modal__icon--medium" : ""} modal__icon--${props.icon} ${iconComponent}`}></i>}
         <div className={'modal__header__text'}>
@@ -67,8 +72,8 @@ const ModalHeader: React.FC<ModalHeaderProps> = (props) => {
             {props.description && <span className={'modal__description'}>{props.description}</span>}
         </div>
 
-        <i className={"modal__close ri-close-fill"} onClick={props.onClose}/>
-    </div>;
+        {!props.centeredHeader && props.dismissibleByCloseIcon && <i className={"modal__close ri-close-fill"} onClick={props.onClose}/>}
+    </div>);
 }
 
 const Modal = (props: ModalProps) => {
@@ -88,7 +93,7 @@ const Modal = (props: ModalProps) => {
     return (<dialog className={'modal__container'} ref={dialogRef} onClose={props.onClose}>
             <div className={'modal__content'}>
                 <ModalHeader icon={props.icon} description={props.description} title={props.title}
-                             onClose={props.onClose}/>
+                             onClose={props.onClose} dismissibleByCloseIcon={props.dismissibleByCloseIcon ?? true} centeredHeader={props.centeredHeader}/>
                 {props.children && <div className={'modal__body'}>
                     {props.children}
                 </div>}
