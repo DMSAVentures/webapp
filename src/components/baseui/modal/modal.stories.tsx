@@ -1,6 +1,7 @@
 import Modal from "@/components/baseui/modal/modal";
 import {Meta, type StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
+import HintText from "@/components/baseui/hinttext/hinttext";
 
 const meta: Meta = {
     title: 'Components/Modal',
@@ -13,7 +14,14 @@ const meta: Meta = {
         isOpen: { control: 'boolean' },
         title: { control: 'text' },
         onClose: { action: 'closed' },
-        icon: { control: 'select', options: ['success', 'error', 'warning', 'info', 'feature']}
+        icon: { control: 'select', options: ['success', 'error', 'warning', 'info', 'feature']},
+        footerLeftChildren: { control: 'object' },
+        footerFullWithButtons: { control: 'boolean' },
+        description: { control: 'text' },
+        onCancel: { action: 'cancel' },
+        onProceed: { action: 'proceed' },
+        cancelText: { control: 'text' },
+        proceedText: { control: 'text' },
     },
     args: { onClick: fn() },
 } satisfies Meta<typeof Modal>;
@@ -27,6 +35,10 @@ export const SuccessModal: Story = {
         isOpen: true,
         title: 'Title',
         icon: 'success',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 export const SuccessWithDescriptionModal: Story = {
@@ -35,6 +47,10 @@ export const SuccessWithDescriptionModal: Story = {
         title: 'Title',
         icon: 'success',
         description: 'Description',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -43,6 +59,10 @@ export const ErrorModal: Story = {
         isOpen: true,
         title: 'Title',
         icon: 'error',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -52,6 +72,10 @@ export const ErrorWithDescriptionModal: Story = {
         title: 'Title',
         icon: 'error',
         description: 'Description',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -60,6 +84,10 @@ export const FeatureModal: Story = {
         isOpen: true,
         title: 'Title',
         icon: 'feature',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -69,6 +97,10 @@ export const FeatureWithDescriptionModal: Story = {
         title: 'Title',
         icon: 'feature',
         description: 'Description',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -78,6 +110,10 @@ export const WarningWithDescriptionModal: Story = {
         title: 'Title',
         icon: 'warning',
         description: 'Description',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -86,6 +122,10 @@ export const WarningModal: Story = {
         isOpen: true,
         title: 'Title',
         icon: 'warning',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -94,6 +134,10 @@ export const InfoModal: Story = {
         isOpen: true,
         title: 'Title',
         icon: 'info',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -104,6 +148,10 @@ export const InfoWithDescriptionModal: Story = {
         title: 'Title',
         icon: 'info',
         description: 'Description',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
@@ -113,8 +161,24 @@ export const ModalWithoutIcon: Story = {
         isOpen: true,
         title: 'Title',
         description: 'Description',
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
     },
 };
 
-
+export const ModalWithFooter: Story = {
+    args: {
+        isOpen: true,
+        title: 'Title',
+        description: 'Description',
+        footerLeftChildren: <HintText hintText={'Footer Left'} state={'default'}/>,
+        footerFullWithButtons: false,
+        onCancel: fn(),
+        onProceed: fn(),
+        cancelText: 'Cancel',
+        proceedText: 'Proceed',
+    },
+};
 

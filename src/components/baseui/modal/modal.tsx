@@ -4,7 +4,8 @@ import 'remixicon/fonts/remixicon.css';
 import Button from "@/components/baseui/button/button";
 import HintText from "@/components/baseui/hinttext/hinttext";
 
-interface ModalProps extends React.HTMLProps<HTMLDialogElement>{
+type Props = React.HTMLProps<HTMLDialogElement> & ModalFooterProps;
+interface ModalProps extends Props {
     isOpen: boolean;
     onClose: () => void;
     title: string;
@@ -17,6 +18,10 @@ interface ModalProps extends React.HTMLProps<HTMLDialogElement>{
 interface ModalFooterProps {
     footerLeftChildren?: React.ReactNode;
     footerFullWithButtons?: boolean;
+    onCancel: () => void;
+    onProceed: () => void;
+    cancelText: string;
+    proceedText: string;
 }
 
 function getIconBasedOnIconType(icon: string) {
@@ -44,8 +49,8 @@ const ModalFooter: React.FC<ModalFooterProps> = (props) => {
             </div>
         }
         <div className={'modal__footer-right'}>
-            <Button style={{width: "100%"}} variant={'neutral'} styleType={'stroke'} size={'small'} text={'Cancel'}/>
-            <Button style={{width: "100%"}} variant={'primary'} text={'Continue'} size={'small'}/>
+            <Button style={{width: "100%"}} variant={'neutral'} styleType={'stroke'} size={'small'} text={props.cancelText} onClick={props.onCancel}/>
+            <Button style={{width: "100%"}} variant={'primary'} text={props.proceedText} size={'small'} onClick={props.onProceed}/>
         </div>
     </div>;
 }
@@ -60,30 +65,30 @@ const ModalHeader: React.FC<ModalProps> = (props) => {
     </div>;
 }
 
-const Modal = ({ isOpen, onClose, title, description, icon, children }: ModalProps) => {
+const Modal = (props: ModalProps) => {
     const dialogRef = React.useRef(null);
 
     React.useEffect(() => {
         if (dialogRef.current === null) {
             return;
         }
-        if (isOpen) {
+        if (props.isOpen) {
             dialogRef.current.showModal();
         } else {
             dialogRef.current.close();
         }
-    }, [isOpen]);
+    }, [props.isOpen]);
 
 
     return (
-        <dialog className={'modal__container'} ref={dialogRef} onClose={onClose}>
+        <dialog className={'modal__container'} ref={dialogRef} onClose={props.onClose}>
             <div className={'modal__content'}>
-                <ModalHeader icon={icon} description={description} title={title}
-                             onClose={onClose}/>
+                <ModalHeader icon={props.icon} description={props.description} title={props.title}
+                             onClose={props.onClose}/>
                 <div className={'modal__body'}>
                     This is test body
                 </div>
-                <ModalFooter footerFullWithButtons={true}/>
+                <ModalFooter footerFullWithButtons={props.footerFullWithButtons} footerLeftChildren={props.footerLeftChildren} cancelText={props.cancelText} proceedText={props.proceedText} onCancel={props.onCancel} onProceed={props.onProceed}/>
             </div>
         </dialog>
     );

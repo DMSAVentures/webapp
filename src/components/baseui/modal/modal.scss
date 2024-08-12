@@ -10,6 +10,13 @@
     border-radius: $radius-12;
     border: 1px solid $neutral-200;
     width: 300px;
+    box-shadow: none;
+    overflow: hidden;
+    &::backdrop {
+        background-color: $neutral-100;
+        opacity: 0.2;
+        backdrop-filter: blur(1px);
+    }
 
     .modal__content {
 
@@ -100,6 +107,7 @@
         display: flex;
         align-self: center;
         text-align: left;
+        width: 100%;
         gap: $spacing-12;
     }
 
@@ -116,6 +124,6 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-12;
-    padding: $spacing-16 $spacing-20 $spacing-16 $spacing-20;
+    padding: $spacing-16 0 $spacing-16 0;
 }
 
