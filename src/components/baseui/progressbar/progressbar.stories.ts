@@ -11,9 +11,11 @@ const meta: Meta = {
     argTypes: {
         progress: { control: 'number' },
         variant: { control: 'select', options: ['info', 'success', 'warning', 'error'] },
+        showPercentage: { control: 'boolean' },
+        size: { control: 'select', options: ['small', 'medium', 'large'] },
     },
 
-} as Meta<typeof ProgressBarLine>;
+} satisfies Meta<typeof ProgressBarLine>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
