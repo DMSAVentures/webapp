@@ -1,0 +1,81 @@
+@import "src/globalstyles/variables.scss";
+
+
+.radial-progress {
+    width: 64px;
+    height: 64px;
+    border-radius: calc(infinity * 1px);
+    display: flex;
+
+    .center-content {
+        background: white;
+        width: 90%;
+        height: 90%;
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        color: $neutral-600;
+        @extend .paragraph-x-small;
+    }
+
+    &--x-small {
+        width: 48px;
+        height: 48px;
+
+        .center-content {
+            width: 80%;
+            height: 80%;
+        }
+    }
+    &--small {
+        width: 56px;
+        height: 56px;
+
+        .center-content {
+            width: 85%;
+            height: 85%;
+        }
+    }
+    &--medium {
+        width: 64px;
+        height: 64px;
+
+        .center-content {
+            width: 90%;
+            height: 90%;
+        }
+    }
+    &--large {
+        width: 72px;
+        height: 72px;
+
+        .center-content {
+            width: 95%;
+            height: 95%;
+        }
+    }
+    &--x-large {
+        width: 80px;
+        height: 80px;
+
+        .center-content {
+            width: 95%;
+            height: 95%;
+        }
+    }
+
+    &--info {
+        background: conic-gradient($blue-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+    }
+    &--success {
+        background: conic-gradient($green-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+    }
+    &--warning {
+        background: conic-gradient($orange-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+    }
+    &--error {
+        background: conic-gradient($red-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+    }
+}
