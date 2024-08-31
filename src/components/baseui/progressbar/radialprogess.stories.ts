@@ -1,8 +1,8 @@
-import RadialProgress from "@/components/baseui/progressbar/radialProgressProps";
+import RadialProgress from "@/components/baseui/progressbar/radialprogress";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta = {
-    title: 'Components/RadialProgress',
+    title: 'Components/Radialprogress',
     component: RadialProgress,
     parameters: {
         layout: 'centered',

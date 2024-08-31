@@ -1,14 +1,14 @@
 import React from 'react';
 import './radialprogress.scss';
 
-interface RadialProgressProps {
+interface Radialprogress {
     percentage: number;
     size: 'x-small' | 'small' | 'medium' | 'large';
     variant: 'success' | 'warning' | 'error' | 'info';
     showPercentage: boolean;
 }
 
-const RadialProgress: React.FC<RadialProgressProps> = (props) => {
+const RadialProgress: React.FC<Radialprogress> = (props) => {
     const clampedPercentage = Math.min(100, Math.max(0, props.percentage));
 
     return (
