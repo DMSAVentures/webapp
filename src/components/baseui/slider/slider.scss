@@ -1,0 +1,64 @@
+@import "src/globalstyles/variables.scss";
+
+.slider {
+    display: flex;
+    gap: $spacing-4;
+    flex-direction: column;
+    width: 240px;
+
+    .slider__input {
+        appearance: none;
+        outline: none;
+        border-radius: $spacing-8;
+        height: $spacing-6;
+        background: $neutral-100;
+        padding: 0;
+        margin: 0;
+
+        &:focus {
+            outline: none;
+        }
+
+        &::-moz-range-track, &::-webkit-slider-runnable-track {
+            width: 100%;
+            cursor: pointer;
+            border-radius: $spacing-8;
+            height: $spacing-6;
+            background: $bg-soft-200;
+        }
+
+        &::-moz-range-thumb, &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            box-shadow: 0 4px 4px 0 $black-alpha-16;
+            border: 4px solid $neutral-0;
+            height: $spacing-8;
+            width:  $spacing-8;
+            border-radius: $radius-full;
+            background: $blue-500;
+            cursor: pointer;
+
+        }
+
+        &:disabled {
+            &::-moz-range-thumb, &::-webkit-slider-thumb {
+                background: $bg-soft-200;
+            }
+        }
+
+        &::-moz-range-progress {
+            background: $blue-500;
+            height: $spacing-6;
+            border-radius: $spacing-8;
+        }
+    }
+
+    .slider__label {
+        display: flex;
+        justify-content: space-between;
+        @extend .paragraph-x-small;
+        color: $neutral-200;
+        padding: 0;
+    }
+
+
+}
