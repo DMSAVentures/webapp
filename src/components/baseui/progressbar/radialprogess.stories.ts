@@ -1,9 +1,9 @@
-import CircularProgress from "@/components/baseui/progressbar/circularbar";
+import RadialProgress from "@/components/baseui/progressbar/radialProgressProps";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta = {
-    title: 'Components/CircularBar',
-    component: CircularProgress,
+    title: 'Components/RadialProgress',
+    component: RadialProgress,
     parameters: {
         layout: 'centered',
     },
@@ -15,7 +15,7 @@ const meta: Meta = {
         variant: { control: 'select', options: ['success', 'info', 'warning', 'error'] },
     },
 
-} satisfies Meta<typeof CircularProgress>;
+} satisfies Meta<typeof RadialProgress>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

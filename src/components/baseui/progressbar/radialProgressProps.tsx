@@ -1,14 +1,14 @@
 import React from 'react';
-import './circularbar.scss';
+import './radialprogress.scss';
 
-interface CircularProgressProps {
+interface RadialProgressProps {
     percentage: number;
     size: 'x-small' | 'small' | 'medium' | 'large';
     variant: 'success' | 'warning' | 'error' | 'info';
     showPercentage: boolean;
 }
 
-const CircularProgress: React.FC<CircularProgressProps> = (props) => {
+const RadialProgress: React.FC<RadialProgressProps> = (props) => {
     const clampedPercentage = Math.min(100, Math.max(0, props.percentage));
 
     return (
@@ -21,4 +21,4 @@ const CircularProgress: React.FC<CircularProgressProps> = (props) => {
     );
 };
 
-export default CircularProgress;
+export default RadialProgress;
