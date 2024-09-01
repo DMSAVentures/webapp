@@ -7,14 +7,14 @@ const meta: Meta = {
     title: 'Components/TabMenuHorizontal',
     component: TabMenuHorizontal,
     parameters: {
-        layout: 'centered',
+        layout: 'fullscreen',
     },
     tags: ['autodocs'],
     argTypes: {
-        items: { control: 'array' },
+        items: { control: 'object' },
         activeTab: { control: 'number' },
     },
-    args: { onClick: fn() },
+    args: { onTabClick: fn() },
 } satisfies Meta<typeof TabMenuHorizontal>;
 
 export default meta;
