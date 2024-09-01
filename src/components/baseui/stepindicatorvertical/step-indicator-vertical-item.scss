@@ -1,0 +1,39 @@
+@import "src/globalstyles/variables.scss";
+
+.step-indicator-vertical-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  max-height: $spacing-20;
+  gap: $spacing-8;
+  color: $neutral-950;
+  @extend .paragraph-small;
+
+  &--default {
+    color: $neutral-600;
+  }
+
+  .step-indicator-vertical-item__icon {
+    @extend .label-x-small;
+    height: $spacing-20;
+    width: $spacing-20;
+    align-content: center;
+    vertical-align: center;
+    text-align: center;
+    border-radius: $radius-full;
+
+    &--completed {
+      color: $neutral-0;
+      background-color: $green-500;
+    }
+    &--active {
+      color: $neutral-0;
+        background-color: $blue-500;
+    }
+
+    &--default {
+      border: 1px solid $neutral-300;
+    }
+  }
+}
