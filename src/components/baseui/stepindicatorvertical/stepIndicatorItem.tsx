@@ -1,7 +1,6 @@
-import React, {ComponentProps} from 'react';
+import React from 'react';
 import './step-indicator-vertical-item.scss';
 import 'remixicon/fonts/remixicon.css';
-import {ppath} from "@yarnpkg/fslib";
 export interface StepIndicatorVerticalItemProps {
     state: 'default' | 'active' | 'completed' | 'disabled';
     idx: number;
@@ -26,6 +25,7 @@ const StepIndicatorVerticalItem: React.FC<StepIndicatorVerticalItemProps> = (pro
         <div className={`step-indicator-vertical-item step-indicator-vertical-item--${state}`}>
             <StepIndicatorVerticalItemIcon {...props} />
             { 'text' in props && <span className={'step-indicator-vertical-item__text'}>{props.text}</span> }
+            {state === 'active' && <i className={'step-indicator-vertical-item__icon ri-arrow-right-s-line'}/> }
         </div>
     );
 }
