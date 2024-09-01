@@ -21,6 +21,7 @@ const StepIndicatorVertical: React.FC<StepIndicatorVerticalProps> = (props) => {
                     );
                 })}
             </div>
+            <span className={'step-indicator-vertical-sidebar__footer'}>&copy; {new Date().getFullYear()} Shubhanshu</span>
         </div>
     );
 }

@@ -6,7 +6,7 @@ const meta: Meta = {
     title: 'Components/StepIndicator Vertical',
     component: StepIndicatorVertical,
     parameters: {
-        layout: 'centered',
+        layout: 'fullscreen',
     },
     tags: ['autodocs'],
     argTypes: {
