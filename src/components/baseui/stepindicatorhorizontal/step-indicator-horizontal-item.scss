@@ -1,0 +1,44 @@
+@import "src/globalstyles/variables.scss";
+
+.step-indicator-horizontal-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  gap: $spacing-6;
+  color: $neutral-400;
+  @extend .label-small;
+
+  &:hover .step-indicator-horizontal-item__text {
+    text-decoration: underline;
+  }
+
+  &:hover .step-indicator-horizontal-item__icon {
+    text-decoration: underline;
+    text-underline-offset: 2.5px;
+    text-decoration-thickness: 1px;
+  }
+
+  &:focus .step-indicator-horizontal-item__text {
+    text-decoration: underline;
+  }
+
+  &:focus .step-indicator-horizontal-item__icon {
+    text-decoration: underline;
+    text-underline-offset: 2.5px;
+    text-decoration-thickness: 1px;
+  }
+
+  &--disabled {
+    color: $neutral-300;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &--active {
+    color: $neutral-900;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}

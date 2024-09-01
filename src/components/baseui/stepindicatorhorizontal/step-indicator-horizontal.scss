@@ -1,0 +1,17 @@
+@import "src/globalstyles/variables.scss";
+
+.step-indicator-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+  color: $neutral-500;
+
+  .step-indicator-horizontal__separator {
+    @extend .label-small;
+    padding-left: $spacing-4;
+  }
+
+  .step-indicator-horizontal__item {
+    display: flex;
+  }
+}
