@@ -64,6 +64,12 @@
 
             }
 
+            &:hover, &:focus {
+                &::-moz-range-thumb, &::-webkit-slider-thumb {
+                    background: $blue-700;
+                }
+            }
+
             &:disabled {
                 &::-moz-range-thumb, &::-webkit-slider-thumb {
                     background: $bg-soft-200;
