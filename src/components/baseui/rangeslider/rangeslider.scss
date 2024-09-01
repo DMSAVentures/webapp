@@ -16,22 +16,25 @@
 
     .rangeslider__container {
         position: relative;
+        height: $spacing-10;
+        background: $bg-soft-200;
+        border-radius: $spacing-8;
         .rangeslider__range {
             position: absolute;
-            top: 0;
-            height: $spacing-6;
+            height: 100%;
             background: $blue-500;
-            border-radius: $spacing-8;
-            z-index: 3;
-        }
-        .rangeslider__range_bg {
-            height: $spacing-6;
-            background: $bg-soft-200;
             border-radius: $spacing-8;
         }
         .rangeslider__input {
             appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             outline: none;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
             border-radius: $spacing-8;
             height: $spacing-6;
             background: none;
@@ -57,6 +60,7 @@
                 border-radius: $radius-full;
                 background: $blue-500;
                 cursor: pointer;
+                pointer-events: auto;
 
             }
 
@@ -70,23 +74,6 @@
                 background: none;
                 height: 0;
             }
-
-            &--min {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 50%;
-                z-index: 4;
-            }
-
-            &--max {
-                position: absolute;
-                left: 50%;
-                top: 0;
-                width: 50%;
-                z-index: 4;
-            }
         }
     }
-
 }
