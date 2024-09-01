@@ -11,6 +11,7 @@ const meta: Meta = {
     tags: ['autodocs'],
     argTypes: {
         items: { control: 'object' },
+        title: { control: 'text' },
     },
 } satisfies Meta<typeof StepIndicatorVertical>;
 
@@ -23,5 +24,18 @@ export const Primary: Story = {
             <StepIndicatorVerticalItem idx={2} text="Experience" state={'active'} />,
             <StepIndicatorVerticalItem idx={3} text="References" state={'default'} />,
         ],
+        title: 'Step Indicator Vertical',
+    },
+};
+
+export const Secondary: Story = {
+    args: {
+        items: [
+            <StepIndicatorVerticalItem idx={1} text="Experience" state={'active'} />,
+            <StepIndicatorVerticalItem idx={2} text="References" state={'default'} />,
+            <StepIndicatorVerticalItem idx={3} text="Certifications" state={'default'} />,
+            <StepIndicatorVerticalItem idx={4} text="Summary" state={'default'} />,
+        ],
+        title: 'Step Indicator Vertical',
     },
 };

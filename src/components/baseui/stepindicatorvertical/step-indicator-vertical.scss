@@ -1,17 +1,27 @@
 @import "src/globalstyles/variables.scss";
 
-.step-indicator-vertical {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-4;
-  color: $neutral-500;
-
-  .step-indicator-vertical__separator {
-    @extend .label-small;
-    padding-left: $spacing-4;
-  }
-
-  .step-indicator-vertical__item {
+.step-indicator-vertical-sidebar {
     display: flex;
+    flex-direction: column;
+    gap: $spacing-12;
+    padding: $spacing-20 $spacing-16  $spacing-16  $spacing-16;
+    border-radius: $radius-10;
+    width: 264px;
+    height: 100%;
+    background-color: $bg-weak-50;
+  &__title {
+      @extend .subheading-x-small;
+      color: $neutral-400;
+        text-transform: uppercase;
+  }
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+    color: $neutral-500;
+
+    .step-indicator-vertical__item {
+      display: flex;
+    }
   }
 }
