@@ -15,15 +15,15 @@
     }
 
     &__left-icon {
-        @extend .label-large;
+        @extend .label-small;
         height: $spacing-20;
         width: $spacing-20;
         //align-content: center;
-        //text-align: center;
+        text-align: center;
     }
 
     &__right-icon {
-        @extend .label-large;
+        @extend .label-small;
         height: $spacing-20;
         width: $spacing-20;
         align-content: center;
