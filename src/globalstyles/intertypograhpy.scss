@@ -15,7 +15,7 @@ h1, .h1 {
   font-weight: 500;
   font-size: 56px;
   line-height: 64px;
-  letter-spacing: -1%;
+  letter-spacing: -0.01em;
 }
 
 h2, .h2 {
@@ -23,7 +23,7 @@ h2, .h2 {
   font-weight: 500;
   font-size: 48px;
   line-height: 56px;
-  letter-spacing: -1%;
+  letter-spacing: -0.01em;
 }
 
 h3, .h3 {
@@ -31,7 +31,7 @@ h3, .h3 {
   font-weight: 500;
   font-size: 40px;
   line-height: 48px;
-  letter-spacing: -1%;
+  letter-spacing: -0.01em;
 }
 
 h4, .h4 {
@@ -39,7 +39,7 @@ h4, .h4 {
   font-weight: 500;
   font-size: 32px;
   line-height: 40px;
-  letter-spacing: -0.5%;
+  letter-spacing: -0.005em;
 }
 
 h5, .h5 {
@@ -47,7 +47,7 @@ h5, .h5 {
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
-  letter-spacing: unset;
+  letter-spacing: 0;
 }
 
 h6, .h6 {
@@ -55,7 +55,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
-  letter-spacing: unset;
+  letter-spacing: 0;
 }
 
 // Label Styles
@@ -64,7 +64,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.015em;
 }
 
 .label-lg, .label-large {
@@ -72,7 +72,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 18px;
   line-height: 24px;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.015em;
 }
 
 .label-md, .label-medium {
@@ -80,7 +80,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: -1.1%;
+  letter-spacing: -0.011em;
 }
 
 .label-sm, .label-small {
@@ -88,7 +88,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: -0.6%;
+  letter-spacing: -0.006em;
 }
 
 .label-xs, .label-x-small {
@@ -96,7 +96,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  letter-spacing: unset;
+  letter-spacing: 0;
 }
 
 
@@ -106,7 +106,7 @@ h6, .h6 {
   font-weight: 400;
   font-size: 24px;
   line-height: 32px;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.15em;
 }
 
 .paragraph-lg, .paragraph-large {
@@ -114,7 +114,7 @@ h6, .h6 {
   font-weight: 400;
   font-size: 18px;
   line-height: 24px;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.015em;
 }
 
 .paragraph-md, .paragraph-medium {
@@ -122,7 +122,7 @@ h6, .h6 {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: -1.1%;
+  letter-spacing: -0.011em;
 }
 
 .paragraph-sm, .paragraph-small {
@@ -130,7 +130,7 @@ h6, .h6 {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: -0.6%;
+  letter-spacing: -0.006em;
 }
 
 .paragraph-xs, .paragraph-x-small {
@@ -138,7 +138,7 @@ h6, .h6 {
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
-  letter-spacing: unset;
+  letter-spacing: 0;
 }
 
 
@@ -148,7 +148,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: unset;
+  letter-spacing: 0.06em;
 }
 
 .subheading-sm, .subheading-small {
@@ -156,7 +156,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: unset;
+  letter-spacing: 0.06em;
 }
 
 .subheading-xs, .subheading-x-small {
@@ -164,7 +164,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  letter-spacing: 4%;
+  letter-spacing: 0.04em;
 }
 
 .subheading-xxs, .subheading-xx-small {
@@ -172,7 +172,7 @@ h6, .h6 {
   font-weight: 500;
   font-size: 11px;
   line-height: 12px;
-  letter-spacing: 2%;
+  letter-spacing: 0.02em;
 }
 
 
@@ -181,8 +181,8 @@ h6, .h6 {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 18px;
-  line-height: 24px;
-  letter-spacing: -1.5%;
+  line-height: px;
+  letter-spacing: -0.015em;
 }
 
 .docs-paragraph {
@@ -190,5 +190,5 @@ h6, .h6 {
   font-weight: 400;
   font-size: 18px;
   line-height: 24px;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.15em;
 }
