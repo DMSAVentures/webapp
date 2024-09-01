@@ -1,8 +1,9 @@
 import React, {useCallback} from 'react';
 import './tab-menu-horizontal.scss';
+import {TabMenuHorizontalItemProps} from "@/components/baseui/tabMenu/tabMenuHorizontal/tabMenuHorizontalItem";
 
 interface TabMenuHorizontalProps {
-    items: string[];
+    items: React.ReactElement<TabMenuHorizontalItemProps>[];
     activeTab?: number;
     onTabClick: (index: number) => void;
 }
@@ -19,10 +20,7 @@ export const TabMenuHorizontal: React.FC<TabMenuHorizontalProps> = (props) => {
             {itemsMemo.map((item, index) => {
                 return (
                     <li aria-selected={activeTab === index} className={`tab-menu-horizontal__item ${activeTab === index ? 'tab-menu-horizontal__item--active' : ''}`}  onClick={() => handleTabClick(index)} key={index}>
-                    <span>
                         {item}
-                    </span>
-                        {/*{activeTab === index && <div className="tab-menu-horizontal__active-tab-indicator"></div>}*/}
                     </li>
                 );
             })}

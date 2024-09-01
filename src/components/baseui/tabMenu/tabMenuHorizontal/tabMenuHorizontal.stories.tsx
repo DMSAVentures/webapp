@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TabMenuHorizontal } from "@/components/baseui/tabMenu/tabMenuHorizontal/tabMenuHorizontal";
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
+import {TabMenuHorizontalItem} from "@/components/baseui/tabMenu/tabMenuHorizontal/tabMenuHorizontalItem";
 
 const meta: Meta = {
     title: 'Components/TabMenuHorizontal',
@@ -28,10 +29,16 @@ const TabMenuWrapper: React.FC<{ items: string[], initialActiveTab: number }> = 
         setActiveTab(index);
     };
 
+    const tabItems = [
+        <TabMenuHorizontalItem key={1} text={items[0]} onClick={() => handleTabClick(0)} active={activeTab === 0} leftIcon={'ri-question-line'} rightIcon={'ri-arrow-right-s-line'} />,
+        <TabMenuHorizontalItem key={2} text={items[1]} onClick={() => handleTabClick(1)} active={activeTab === 1} />,
+        <TabMenuHorizontalItem key={3} text={items[2]} onClick={() => handleTabClick(2)} active={activeTab === 2} />,
+    ];
+
     return (
         <div>
     <TabMenuHorizontal
-        items={items}
+        items={tabItems}
     activeTab={activeTab}
     onTabClick={handleTabClick}
     />
