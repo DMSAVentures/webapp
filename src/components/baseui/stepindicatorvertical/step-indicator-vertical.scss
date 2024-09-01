@@ -3,6 +3,7 @@
 .step-indicator-vertical-sidebar {
     display: flex;
     flex-direction: column;
+    align-content: center;
     gap: $spacing-12;
     padding: $spacing-20 $spacing-16  $spacing-16  $spacing-16;
     border-radius: $radius-10;

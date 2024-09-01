@@ -12,7 +12,7 @@ const StepIndicatorVertical: React.FC<StepIndicatorVerticalProps> = (props) => {
     return (
         <div className={`step-indicator-vertical-sidebar`}>
             <span className={'step-indicator-vertical-sidebar__title'}>{props.title}</span>
-            <div className={`step-indicator-vertical__container`}>
+            <div className={`step-indicator-vertical-sidebar__container`}>
                 {props.items.map((item, index) => {
                     return (
                         <span className={'step-indicator-vertical__item'} key={index}>
