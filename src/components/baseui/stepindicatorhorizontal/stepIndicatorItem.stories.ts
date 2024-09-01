@@ -10,9 +10,9 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        state: { control: 'select', options: ['default', 'active', 'disabled'] },
+        state: { control: 'select', options: ['default', 'active', 'completed', 'disabled'] },
         text: { control: 'text' },
-        icon: { control: 'text' },
+        idx: { control: 'number' },
     },
     args: { onClick: fn() },
 } satisfies Meta<typeof StepIndicatorHorizontalItem>;
@@ -20,32 +20,27 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+
+export const Default: Story = {
     args: {
         state: 'default',
         text: 'Text',
+        idx: 4,
     },
 };
 
-export const WithIcon: Story = {
+export const Completed: Story = {
     args: {
-        state: 'default',
-        icon: 'ri-home-line',
-    },
-};
-
-export const WithTextAndIcon: Story = {
-    args: {
-        state: 'default',
+        state: 'completed',
         text: 'Text',
-        icon: 'ri-home-line',
+        idx: 1,
     },
 };
 
-export const Disabled: Story = {
+export const Active: Story = {
     args: {
-        state: 'disabled',
+        state: 'active',
         text: 'Text',
-        icon: 'ri-home-line',
+        idx: 2,
     },
 };

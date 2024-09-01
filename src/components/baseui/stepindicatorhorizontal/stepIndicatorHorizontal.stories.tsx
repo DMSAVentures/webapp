@@ -11,7 +11,6 @@ const meta: Meta = {
     tags: ['autodocs'],
     argTypes: {
         items: { control: 'object' },
-        divider: { control: 'select', options: ['arrow', 'dot', 'slash'] },
     },
 } satisfies Meta<typeof StepIndicatorHorizontal>;
 
@@ -20,61 +19,9 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         items: [
-            <StepIndicatorHorizontalItem text="Home"  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" state={'default'} />,
+            <StepIndicatorHorizontalItem idx={1} text={'Personal Details'} state={'completed'}/>,
+            <StepIndicatorHorizontalItem idx={2} text="Experience" state={'active'} />,
+            <StepIndicatorHorizontalItem idx={3} text="References" state={'default'} />,
         ],
-        divider: 'arrow',
-    },
-};
-
-export const WithDotDivider: Story = {
-    args: {
-        items: [
-            <StepIndicatorHorizontalItem text="Home"  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" state={'default'} />,
-        ],
-        divider: 'dot',
-    },
-};
-
-export const WithSlashDivider: Story = {
-    args: {
-        items: [
-            <StepIndicatorHorizontalItem text="Home"  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" state={'default'} />,
-        ],
-        divider: 'slash',
-    },
-};
-
-export const WithIcon: Story = {
-    args: {
-        items: [
-            <StepIndicatorHorizontalItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" icon={'ri-database-line'} state={'default'} />,
-        ],
-        divider: 'arrow',
-    },
-};
-
-
-export const TooManyItems: Story = {
-    args: {
-        items: [
-            <StepIndicatorHorizontalItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" icon={'ri-database-line'} state={'default'} />,
-            <StepIndicatorHorizontalItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" icon={'ri-database-line'} state={'default'} />,
-            <StepIndicatorHorizontalItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <StepIndicatorHorizontalItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <StepIndicatorHorizontalItem text="Data" icon={'ri-database-line'} state={'default'} />,
-        ],
-        divider: 'arrow',
     },
 };

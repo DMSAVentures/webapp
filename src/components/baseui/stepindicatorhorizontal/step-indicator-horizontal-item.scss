@@ -1,44 +1,39 @@
 @import "src/globalstyles/variables.scss";
 
 .step-indicator-horizontal-item {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  cursor: pointer;
-  gap: $spacing-6;
-  color: $neutral-400;
-  @extend .label-small;
+  max-height: $spacing-20;
+  gap: $spacing-8;
+  color: $neutral-950;
+  @extend .paragraph-small;
 
-  &:hover .step-indicator-horizontal-item__text {
-    text-decoration: underline;
+  &--default {
+    color: $neutral-600;
   }
 
-  &:hover .step-indicator-horizontal-item__icon {
-    text-decoration: underline;
-    text-underline-offset: 2.5px;
-    text-decoration-thickness: 1px;
-  }
+  .step-indicator-horizontal-item__icon {
+    @extend .label-x-small;
+    height: $spacing-20;
+    width: $spacing-20;
+    align-content: center;
+    vertical-align: center;
+    text-align: center;
+    border-radius: $radius-full;
 
-  &:focus .step-indicator-horizontal-item__text {
-    text-decoration: underline;
-  }
+    &--completed {
+      color: $neutral-0;
+      background-color: $green-500;
+    }
+    &--active {
+      color: $neutral-0;
+        background-color: $blue-500;
+    }
 
-  &:focus .step-indicator-horizontal-item__icon {
-    text-decoration: underline;
-    text-underline-offset: 2.5px;
-    text-decoration-thickness: 1px;
-  }
-
-  &--disabled {
-    color: $neutral-300;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-
-  &--active {
-    color: $neutral-900;
-    cursor: not-allowed;
-    pointer-events: none;
+    &--default {
+      border: 1px solid $neutral-300;
+    }
   }
 }
