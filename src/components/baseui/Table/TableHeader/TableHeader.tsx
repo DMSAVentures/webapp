@@ -32,7 +32,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ children, ...props }) 
     return (
         <th className={`table-header`} {...props} aria-disabled={props.disabled}>
             {props.selectable ? <Checkbox onClick={handleCheckboxClick} disabled={props.disabled} /> : null}
-            {children ? children : '\u00A0'}
+            <div className={'table-header__container'}>
+                {children ? children : '\u00A0'}
+            </div>
             {props.sortable ? sortIcon : null}
         </th>
     );
