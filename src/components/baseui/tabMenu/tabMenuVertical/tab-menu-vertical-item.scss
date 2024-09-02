@@ -1,0 +1,64 @@
+@import "src/globalstyles/variables.scss";
+
+.tab-menu-vertical-item {
+    display: flex;
+    align-items: start;
+    border: none;
+    max-height: $spacing-28;
+    width: 100%;
+    padding: $spacing-8;
+    gap: $spacing-10;
+    background-color: $neutral-0;
+    color: $neutral-600;
+    border-radius: $radius-10;
+    @extend .paragraph-small;
+
+    &__text {
+        vertical-align: center;
+    }
+
+    &__left-icon {
+        @extend .label-small;
+        height: $spacing-20;
+        width: $spacing-20;
+        //align-content: center;
+        text-align: center;
+    }
+
+    &__right-icon {
+        @extend .label-small;
+        height: $spacing-20;
+        width: $spacing-20;
+        align-content: center;
+        text-align: center;
+    }
+
+    &__badge {
+        @extend .label-x-small;
+        height: $spacing-20;
+        width: $spacing-20;
+        align-content: center;
+        vertical-align: center;
+        text-align: center;
+        border-radius: $radius-full;
+        background-color: $red-500;
+        color: $neutral-0;
+    }
+
+    &--active {
+        background-color: $bg-weak-50;
+        color: $neutral-950;
+        @extend .shadow-xs;
+
+        .tab-menu-vertical-item__left-icon {
+            color: $blue-500;
+        }
+
+    }
+
+    &:hover {
+        background-color: $bg-weak-50;
+        color: $neutral-950;
+        @extend .shadow-xs;
+    }
+}
