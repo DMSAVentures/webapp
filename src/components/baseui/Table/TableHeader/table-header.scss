@@ -1,0 +1,16 @@
+@import "src/globalstyles/variables.scss";
+
+.table-header {
+    display: flex;
+    align-content: center;
+    gap: $spacing-10;
+    padding: $spacing-8 $spacing-12;
+    min-width: $spacing-80;
+    @extend .paragraph-small;
+    color: $neutral-600;
+    background-color: $neutral-50;
+
+    &[aria-disabled='true']{
+        color: $neutral-300;
+    }
+}
