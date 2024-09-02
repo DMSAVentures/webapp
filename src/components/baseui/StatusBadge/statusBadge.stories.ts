@@ -1,4 +1,4 @@
-import StatusBadge from '@/components/baseui/StatusBadge/statusbadge';
+import StatusBadge from '@/components/baseui/StatusBadge/statusBadge';
 
 import  {Meta, StoryObj} from "@storybook/react";
 
