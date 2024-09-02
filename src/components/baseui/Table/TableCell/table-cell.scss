@@ -1,0 +1,21 @@
+@import "src/globalstyles/variables.scss";
+
+.table-cell {
+    &--large {
+        min-height: $spacing-60;
+    }
+
+    &--medium {
+        min-height: $spacing-48;
+    }
+
+    &__content-label {
+        padding: $spacing-12 $spacing-20 $spacing-12 $spacing-12;
+        gap: $spacing-12;
+    }
+
+    &__misc {
+        padding: $spacing-12;
+        gap: $spacing-12;
+    }
+}

@@ -1,4 +1,4 @@
-import {TableHeader} from "@/components/baseui/Table/TableHeader/TableHeader";
+import {TableHeader} from "@/components/baseui/Table/TableHeader/tableHeader";
 import {Meta, StoryObj} from "@storybook/react";
 import {fn} from "@storybook/test";
 
