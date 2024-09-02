@@ -1,5 +1,6 @@
 // Variables for shadow properties
 $shadow-color-xs: rgba(14,18,27,0.03);
+$shadow-color-sm: rgba(10, 13, 20, 0.03);
 $shadow-color-md: rgba(14,18,27,0.1);
 $shadow-color-lg: rgba(27, 28, 29, 0.12);
 
@@ -11,6 +12,10 @@ $shadow-color-lg: rgba(27, 28, 29, 0.12);
 // Shadow styles
 .shadow-xs {
   @include box-shadow(0px, 1px, 2px, 0px, $shadow-color-xs);
+}
+
+.shadow-sm {
+  @include box-shadow(0px, 1px, 2px, 0px, $shadow-color-sm);
 }
 
 .shadow-md {
