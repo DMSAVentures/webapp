@@ -1,12 +1,14 @@
 @import "src/globalstyles/variables.scss";
 
 .table-cell {
+    display: flex;
+    align-items: center;
     &--large {
-        min-height: $spacing-60;
+        height: $spacing-64;
     }
 
     &--medium {
-        min-height: $spacing-48;
+        height: $spacing-48;
     }
 
     &__content-label {

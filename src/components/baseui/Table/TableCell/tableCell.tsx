@@ -27,7 +27,7 @@ export const TableCell: React.FC<TableCellProps> = (props: TableCellProps) => {
     const { size, children } = props;
     const isLabel = isContentLabelComponent(children)
     return (
-        <td className={`table-cell table-cell--${size} table-cell__${isLabel ? 'content-label' : 'misc'}`}>
+        <td className={`table-cell table-cell--${size ?? 'medium'} table-cell__${isLabel ? 'content-label' : 'misc'}`}>
             {children}
         </td>
     )

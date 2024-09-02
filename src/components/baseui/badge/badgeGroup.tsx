@@ -18,7 +18,7 @@ export const BadgeGroup: React.FC<BadgeGroupProps> = (props: BadgeGroupProps) =>
                 </React.Fragment>
             ))}
             {hiddenBadgesCount > 0 && (
-                <Badge size={'small'} styleType={'filled'} variant={"gray"} text={`+${hiddenBadgesCount}`}/>
+                <Badge size={'small'} styleType={'filled'} variant={"gray"} text={`+ ${hiddenBadgesCount}`}/>
             )}
         </div>
     );

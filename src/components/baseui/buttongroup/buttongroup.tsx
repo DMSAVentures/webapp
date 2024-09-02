@@ -15,10 +15,11 @@ export interface ButtonItemProps {
 interface ButtonGroupProps {
     items: ButtonItemProps[];
     size: 'small' | 'x-small' | '2x-small';
+    noBorder?: boolean;
 }
 const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
     return (
-        <div className={`button-group button-group--${props.size}`}>
+        <div className={`button-group button-group--${props.size} button-group--${props.noBorder ? 'no-border' : ''}`}>
             {props.items.map((item, index) => {
                 return (
                     <button

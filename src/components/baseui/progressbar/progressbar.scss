@@ -34,4 +34,16 @@
         @extend .paragraph-x-small;
         color: $neutral-600;
     }
+
+    &--small {
+        min-width: $spacing-80;
+    }
+
+    &--medium {
+        min-width: $spacing-128;
+    }
+
+    &--large {
+        min-width: $spacing-256;
+    }
 }

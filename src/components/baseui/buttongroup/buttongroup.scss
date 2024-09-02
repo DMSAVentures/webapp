@@ -76,4 +76,11 @@
       flex-direction: row-reverse;
     }
   }
+
+  &--no-border {
+    .button-item {
+      border: none !important;
+      border-radius: 0 !important;
+    }
+  }
 }
