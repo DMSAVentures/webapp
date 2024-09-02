@@ -1,0 +1,6 @@
+@import "src/globalstyles/variables.scss";
+
+.badge-group {
+    display: inline-flex;
+    gap: $spacing-8;
+}

@@ -10,7 +10,7 @@ interface BadgeProps {
     iconPosition?: 'left' | 'right';
     disabled?: boolean;
 }
-const Badge: React.FC<BadgeProps> = (props) => {
+export const Badge: React.FC<BadgeProps> = (props) => {
     const num = parseInt(props.text.toString())
     if (num) {
         if (props.disabled) {
@@ -49,5 +49,3 @@ const Badge: React.FC<BadgeProps> = (props) => {
         }
     }
 }
-
-export default Badge;
