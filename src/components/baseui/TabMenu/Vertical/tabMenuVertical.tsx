@@ -1,5 +1,5 @@
 import React from "react";
-import {TabMenuVerticalItemProps} from "@/components/baseui/tabMenu/tabMenuVertical/tabMenuVerticalItem";
+import {TabMenuVerticalItemProps} from "@/components/baseui/TabMenu/Vertical/tabMenuVerticalItem";
 import './tab-menu-vertical.scss';
 interface TabMenuVerticalProps {
     items: React.ReactElement<TabMenuVerticalItemProps>[];

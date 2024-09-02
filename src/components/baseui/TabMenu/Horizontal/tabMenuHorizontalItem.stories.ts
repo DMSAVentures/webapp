@@ -1,9 +1,9 @@
-import {TabMenuVerticalItem} from "@/components/baseui/tabMenu/tabMenuVertical/tabMenuVerticalItem";
+import {TabMenuHorizontalItem} from "@/components/baseui/TabMenu/Horizontal/tabMenuHorizontalItem";
 import {Meta, type StoryObj} from '@storybook/react';
 
 const meta: Meta = {
-    title: 'Components/TabMenuVertical Item',
-    component: TabMenuVerticalItem,
+    title: 'Components/TabMenuHorizontal Item',
+    component: TabMenuHorizontalItem,
     parameters: {
         layout: 'centered',
     },
@@ -16,7 +16,7 @@ const meta: Meta = {
         rightIcon: { control: 'text' },
         number: { control: 'number' },
     },
-} satisfies Meta<typeof TabMenuVerticalItem>;
+} satisfies Meta<typeof TabMenuHorizontalItem>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

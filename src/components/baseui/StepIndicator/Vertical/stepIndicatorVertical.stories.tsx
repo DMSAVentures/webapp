@@ -1,5 +1,5 @@
-import StepIndicatorVertical  from "@/components/baseui/stepindicatorvertical/stepIndicatorVertical";
-import StepIndicatorVerticalItem  from "@/components/baseui/stepindicatorvertical/stepIndicatorItem";
+import StepIndicatorVertical  from "@/components/baseui/StepIndicator/Vertical/stepIndicatorVertical";
+import StepIndicatorVerticalItem  from "@/components/baseui/StepIndicator/Vertical/stepIndicatorItem";
 import {Meta, type StoryObj} from '@storybook/react';
 
 const meta: Meta = {

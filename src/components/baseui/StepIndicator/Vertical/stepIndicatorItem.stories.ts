@@ -1,4 +1,4 @@
-import StepIndicatorVerticalItem   from "@/components/baseui/stepindicatorvertical/stepIndicatorItem"
+import StepIndicatorVerticalItem   from "@/components/baseui/StepIndicator/Vertical/stepIndicatorItem"
 import {Meta, type StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
 

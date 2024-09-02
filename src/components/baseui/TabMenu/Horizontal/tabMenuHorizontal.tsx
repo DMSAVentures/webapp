@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import './tab-menu-horizontal.scss';
-import {TabMenuHorizontalItemProps} from "@/components/baseui/tabMenu/tabMenuHorizontal/tabMenuHorizontalItem";
+import {TabMenuHorizontalItemProps} from "@/components/baseui/TabMenu/Horizontal/tabMenuHorizontalItem";
 
 interface TabMenuHorizontalProps {
     items: React.ReactElement<TabMenuHorizontalItemProps>[];

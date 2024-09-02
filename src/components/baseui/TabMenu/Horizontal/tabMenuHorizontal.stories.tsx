@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TabMenuHorizontal } from "@/components/baseui/tabMenu/tabMenuHorizontal/tabMenuHorizontal";
+import { TabMenuHorizontal } from "@/components/baseui/TabMenu/Horizontal/tabMenuHorizontal";
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import {TabMenuHorizontalItem} from "@/components/baseui/tabMenu/tabMenuHorizontal/tabMenuHorizontalItem";
+import {TabMenuHorizontalItem} from "@/components/baseui/TabMenu/Horizontal/tabMenuHorizontalItem";
 
 const meta: Meta = {
     title: 'Components/TabMenuHorizontal',

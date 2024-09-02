@@ -1,7 +1,7 @@
 import React from 'react';
 import './step-indicator-vertical.scss';
 import 'remixicon/fonts/remixicon.css';
-import type {StepIndicatorVerticalItemProps}  from "@/components/baseui/stepindicatorvertical/stepIndicatorItem";
+import type {StepIndicatorVerticalItemProps}  from "@/components/baseui/StepIndicator/Vertical/stepIndicatorItem";
 
 interface StepIndicatorVerticalProps {
     items: React.ReactElement<StepIndicatorVerticalItemProps>[];

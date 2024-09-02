@@ -1,5 +1,5 @@
-import {TabMenuVertical} from '@/components/baseui/tabMenu/tabMenuVertical/tabMenuVertical'
-import {TabMenuVerticalItem} from '@/components/baseui/tabMenu/tabMenuVertical/tabMenuVerticalItem'
+import {TabMenuVertical} from '@/components/baseui/TabMenu/Vertical/tabMenuVertical'
+import {TabMenuVerticalItem} from '@/components/baseui/TabMenu/Vertical/tabMenuVerticalItem'
 import {Meta, StoryObj} from '@storybook/react';
 
 const meta: Meta = {
