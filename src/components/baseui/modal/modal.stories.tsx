@@ -47,7 +47,7 @@ type Story = StoryObj<typeof meta>;
 
 
 export const SuccessModal: Story = {
-    render: (args) => <ModalStoryWrapper {...args} />,
+    render: (args: any) => <ModalStoryWrapper {...args} />,
     args: {
         title: 'Title',
         icon: 'success',
@@ -58,7 +58,7 @@ export const SuccessModal: Story = {
     },
 };
 export const SuccessWithDescriptionModal: Story = {
-    render: (args) => <ModalStoryWrapper {...args} />,
+    render: (args: any) => <ModalStoryWrapper {...args} />,
     args: {
         title: 'Title',
         icon: 'success',
@@ -71,7 +71,7 @@ export const SuccessWithDescriptionModal: Story = {
 };
 
 export const ErrorModal: Story = {
-    render: (args) => <ModalStoryWrapper {...args} />,
+    render: (args: any) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
@@ -84,7 +84,7 @@ export const ErrorModal: Story = {
 };
 
 export const ErrorWithDescriptionModal: Story = {
-    render: (args) => <ModalStoryWrapper {...args} />,
+    render: (args: any) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
@@ -98,7 +98,7 @@ export const ErrorWithDescriptionModal: Story = {
 };
 
 export const FeatureModal: Story = {
-    render: (args) => <ModalStoryWrapper {...args} />,
+    render: (args: any) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',
@@ -111,7 +111,7 @@ export const FeatureModal: Story = {
 };
 
 export const FeatureWithDescriptionModal: Story = {
-    render: (args) => <ModalStoryWrapper {...args} />,
+    render: (args: any) => <ModalStoryWrapper {...args} />,
     args: {
         isOpen: true,
         title: 'Title',

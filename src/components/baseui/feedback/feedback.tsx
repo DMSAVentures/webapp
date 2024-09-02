@@ -55,7 +55,7 @@ const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
             {feedbackIcon}
             <div className="feedback__title">{props.alertTitle}</div>
-            {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={props.size} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
+            {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={props.size == 'small' ? 'medium' : 'small'} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
             {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} onClick={() => setVisible(false)} />}
         </div>
     );

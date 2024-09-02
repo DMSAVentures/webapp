@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './pagination.scss';
 
-interface PaginationProps {
+export interface PaginationProps {
     totalPages: number;
     itemsPerPage: number;
     currentPage: number;

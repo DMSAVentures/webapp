@@ -1,4 +1,4 @@
-import Pagination from "@/components/baseui/pagination/pagination";
+import Pagination, {PaginationProps} from "@/components/baseui/pagination/pagination";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import {useState} from "react";
@@ -17,15 +17,15 @@ const meta: Meta = {
         style: { control: 'select', options: ['rounded', 'squared', 'row'] },
         onPageChange: { action: 'pageChanged' },
     },
-    args: { onClick: fn() },
-} as Meta<typeof Pagination>;
+    args: { onPageChange: fn() },
+} satisfies Meta<typeof Pagination>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Helper to create stories with dynamic page handling
-const createPaginationStory = (initialArgs) => {
-    const StoryComponent = (args) => {
+const createPaginationStory = (initialArgs: Omit<PaginationProps, 'onPageChange'>) => {
+    const StoryComponent = (args: PaginationProps) => {
         const [currentPage, setCurrentPage] = useState(args.currentPage);
 
         const handlePageChange = (page: number) => {
@@ -37,7 +37,7 @@ const createPaginationStory = (initialArgs) => {
     };
 
     return {
-        render: (args) => <StoryComponent {...args} />,
+        render: (args: any) => <StoryComponent {...args} />,
     args: initialArgs,
 };
 };
