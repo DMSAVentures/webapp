@@ -1,23 +1,25 @@
 @import "src/globalstyles/variables.scss";
+td {
+    .table-cell {
+        display: flex;
+        align-items: center;
+        &--large {
+            height: $spacing-64;
+        }
 
-.table-cell {
-    display: flex;
-    align-items: center;
-    &--large {
-        height: $spacing-64;
-    }
+        &--medium {
+            height: $spacing-48;
+        }
 
-    &--medium {
-        height: $spacing-48;
-    }
+        &__content-label {
+            padding: $spacing-12 $spacing-20 $spacing-12 $spacing-12;
+            gap: $spacing-12;
+        }
 
-    &__content-label {
-        padding: $spacing-12 $spacing-20 $spacing-12 $spacing-12;
-        gap: $spacing-12;
-    }
-
-    &__misc {
-        padding: $spacing-12;
-        gap: $spacing-12;
+        &__misc {
+            padding: $spacing-12;
+            gap: $spacing-12;
+        }
     }
 }
+
