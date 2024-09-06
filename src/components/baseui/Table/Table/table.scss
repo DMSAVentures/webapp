@@ -20,4 +20,14 @@ table {
     tr td {
         border-bottom: 2px solid $neutral-50; // Border for all sides of the <td> except the last one
     }
+
+    tr.table-row {
+        &--large {
+            height: $spacing-64;
+        }
+
+        &--medium {
+            height: $spacing-48;
+        }
+    }
 }

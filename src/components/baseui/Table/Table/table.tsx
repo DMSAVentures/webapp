@@ -16,7 +16,7 @@ export const Table = () => {
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr className={'table-row--large'}>
                 <TableCell>Q1</TableCell>
                 <TableCell>$100,000</TableCell>
                 <TableCell>$60,000</TableCell>

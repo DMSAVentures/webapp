@@ -19,7 +19,7 @@ type AllowedChildren = ReactElement<typeof ContentLabel> |
     number |
     boolean;
 interface TableCellProps extends React.HTMLAttributes<HTMLTableCellElement>{
-    size: 'medium' | 'large';
+    size?: 'medium' | 'large';
     children: AllowedChildren;
 }
 

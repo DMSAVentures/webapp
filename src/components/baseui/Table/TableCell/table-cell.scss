@@ -3,13 +3,6 @@ td {
     .table-cell {
         display: flex;
         align-items: center;
-        &--large {
-            height: $spacing-64;
-        }
-
-        &--medium {
-            height: $spacing-48;
-        }
 
         &__content-label {
             padding: $spacing-12 $spacing-20 $spacing-12 $spacing-12;
