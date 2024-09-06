@@ -14,7 +14,10 @@ type AllowedChildren = ReactElement<typeof ContentLabel> |
     ReactElement<typeof ProgressBarLine> |
     ReactElement<typeof StatusBadge> |
     ReactElement<typeof Checkbox> |
-    ReactElement<typeof BadgeGroup>;
+    ReactElement<typeof BadgeGroup> |
+    string |
+    number |
+    boolean;
 interface TableCellProps extends React.HTMLAttributes<HTMLTableCellElement>{
     size: 'medium' | 'large';
     children: AllowedChildren;
@@ -27,8 +30,10 @@ export const TableCell: React.FC<TableCellProps> = (props: TableCellProps) => {
     const { size, children } = props;
     const isLabel = isContentLabelComponent(children)
     return (
-        <td className={`table-cell table-cell--${size ?? 'medium'} table-cell__${isLabel ? 'content-label' : 'misc'}`}>
+        <td>
+        <div className={`table-cell table-cell--${size ?? 'medium'} table-cell__${isLabel ? 'content-label' : 'misc'}`}>
             {children}
+        </div>
         </td>
     )
 }

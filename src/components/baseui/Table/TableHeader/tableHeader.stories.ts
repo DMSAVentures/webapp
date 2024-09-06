@@ -1,4 +1,4 @@
-import {TableHeader} from "@/components/baseui/Table/TableHeader/tableHeader";
+import {TableHeaderCell} from "@/components/baseui/Table/TableHeader/tableHeaderCell";
 import {Meta, StoryObj} from "@storybook/react";
 import {fn} from "@storybook/test";
 
@@ -11,7 +11,7 @@ const onSelectAll = (checked: boolean) => {
 }
 const meta: Meta = {
     title: 'Components/TableHeader',
-    component: TableHeader,
+    component: TableHeaderCell,
     parameters: {
         layout: 'centered',
     },
@@ -25,7 +25,7 @@ const meta: Meta = {
         selectable: { control: 'boolean' },
     },
     args: { onSort, onSelectAll},
-} satisfies Meta<typeof TableHeader>;
+} satisfies Meta<typeof TableHeaderCell>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

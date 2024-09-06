@@ -1,19 +1,25 @@
 @import "src/globalstyles/variables.scss";
 
-.table-header {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: start;
-    gap: $spacing-10;
-    padding: $spacing-8 $spacing-12;
-    min-width: $spacing-128;
-    max-width: $spacing-256;
-    @extend .paragraph-small;
+th {
     color: $neutral-600;
     background-color: $neutral-50;
+    .table-header {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: start;
+        width: fit-content;
+        gap: $spacing-10;
+        padding: $spacing-8 $spacing-12;
+        min-width: $spacing-128;
+        max-width: $spacing-256;
+        @extend .paragraph-small;
+        //color: $neutral-600;
+        //background-color: $neutral-50;
 
-    &[aria-disabled='true']{
-        color: $neutral-300;
+        &[aria-disabled='true']{
+            color: $neutral-300;
+        }
     }
 }
+

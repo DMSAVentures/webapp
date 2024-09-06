@@ -21,7 +21,7 @@ function evaluateSortIcon(sortDirection: 'asc' | 'desc' | undefined, onClick?: (
     return <i className="ri-expand-up-down-fill" onClick={() => onClick && onClick('asc')}></i>
 }
 
-export const TableHeader: React.FC<TableHeaderProps> = ({ children, ...props }) => {
+export const TableHeaderCell: React.FC<TableHeaderProps> = ({ children, ...props }) => {
 
     const sortIcon = evaluateSortIcon(props.sortDirection, props.onSort);
     const handleCheckboxClick = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -30,12 +30,14 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ children, ...props }) 
         }
     }
     return (
-        <th className={`table-header`} {...props} aria-disabled={props.disabled}>
+        <th>
+        <div className={`table-header`} {...props} aria-disabled={props.disabled}>
             {props.selectable ? <Checkbox onClick={handleCheckboxClick} disabled={props.disabled} /> : null}
             <div className={'table-header__container'}>
                 {children ? children : '\u00A0'}
             </div>
             {props.sortable ? sortIcon : null}
+        </div>
         </th>
     );
 }
