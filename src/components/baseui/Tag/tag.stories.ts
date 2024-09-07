@@ -17,6 +17,7 @@ const meta: Meta = {
     tags: ['autodocs'],
     argTypes: {
         icon: { control: 'text' },
+        image: { control: 'text' },
     },
     args: {
         onRemove: onRemove,
@@ -65,6 +66,13 @@ export const RemoveableDisabled: Story = {
         icon: 'ri-user-line',
         state: 'disabled',
         removeable: true,
+    },
+};
+
+export const Image: Story = {
+    args: {
+        children: 'Image Tag',
+        image: 'https://via.placeholder.com/150',
     },
 };
 

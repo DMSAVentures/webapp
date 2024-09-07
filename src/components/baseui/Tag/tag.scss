@@ -11,6 +11,14 @@
     @extend .label-x-small;
     color: $neutral-600;
 
+    &__image {
+        border-radius: $radius-full;
+        height: 1em; // Set height to match the line-height of the text
+        width: auto; // Maintain aspect ratio
+        max-height: 100%; // Ensure it doesn't exceed container height
+        object-fit: contain; // Ensure the entire image is visible
+    }
+
     &:hover {
         background-color: $neutral-200;
         cursor: pointer;

@@ -4,6 +4,7 @@ import "remixicon/fonts/remixicon.css";
 interface TagProps {
     children: string;
     icon?: string;
+    image?: string;
     state: 'active' | 'disabled';
     onSelect?: (setSelection: boolean) => void;
     removeable?: boolean;
@@ -33,9 +34,10 @@ export const Tag: React.FC<TagProps> = (props) => {
     }
     return (
         <div className="tag" aria-disabled={props.state === 'disabled'} aria-selected={selected} onClick={handleClick}>
-            {props.icon && <i className={`tag__icon ${props.icon}`}></i>}
+            {props.icon && <i className={`${props.icon}`}></i>}
+            {!props.icon && props.image && <img className={'tag__image'} src={props.image} alt="tag" />}
             <span className="tag__text">{props.children}</span>
-            {props.removeable && <i className="tag__remove ri-close-fill"></i>}
+            {props.removeable && <i className="ri-close-fill"></i>}
         </div>
     );
 }
