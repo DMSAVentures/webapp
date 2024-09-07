@@ -8,6 +8,9 @@ const meta: Meta = {
         layout: 'fullscreen',
     },
     argTypes: {
+        title: {
+            control: 'text',
+        },
         totalPages: {
             control: 'number',
         },
@@ -39,6 +42,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
+        title: 'Table Title',
         totalPages: 1,
         itemsPerPage: 10,
         currentPage: 1,

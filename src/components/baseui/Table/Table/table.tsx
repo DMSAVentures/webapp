@@ -3,6 +3,7 @@ import React from "react";
 import './table.scss';
 import {TableCell, TableCellProps} from "@/components/baseui/Table/TableCell/tableCell";
 import Pagination from "@/components/baseui/pagination/pagination";
+import Label from "@/components/baseui/label/label";
 
 interface TableProps {
     totalPages: number;
@@ -12,10 +13,12 @@ interface TableProps {
     tableHeader: TableHeaderProps[]
     tableRows: TableCellProps[][]; // Array of table rows
     tableFooter?: TableCellProps[]; // Array of table footer cells
+    title: string;
 }
 
 export const Table = (props: TableProps) => {
     return (<div className={'table'}>
+            <p>{props.title}</p>
             <span>
                 filter
             </span>
@@ -29,7 +32,7 @@ export const Table = (props: TableProps) => {
                 </thead>
                 <tbody>
                 {props.tableRows.map((row, index) => {
-                    return (<tr className={'table-row--large'} key={index}>
+                    return (<tr className={'table-row--medium'} key={index}>
                             {row.map((cell, index) => {
                                 return (<TableCell key={index} {...cell}>{cell.children}</TableCell>);
                             })}
@@ -37,7 +40,7 @@ export const Table = (props: TableProps) => {
                 })}
                 </tbody>
                 {props.tableFooter && <tfoot>
-                <tr className={'table-row--large'}>
+                <tr className={'table-row--medium'}>
                     {props.tableFooter.map((cell, index) => {
                         return (<TableCell key={index} {...cell}>{cell.children}</TableCell>);
                     })}

@@ -30,10 +30,12 @@ table {
     tr.table-row {
         &--large {
             height: $spacing-64;
+            @extend .label-small;
         }
 
         &--medium {
             height: $spacing-48;
+            @extend .label-x-small;
         }
     }
 }
@@ -46,4 +48,8 @@ table {
     align-content: flex-start;
     gap: $spacing-16;
     padding: $spacing-12;
+    p {
+        align-self: start;
+        @extend .label-medium;
+    }
 }
