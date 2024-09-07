@@ -18,8 +18,7 @@ type AllowedChildren = ReactElement<typeof ContentLabel> |
     string |
     number |
     boolean;
-interface TableCellProps extends React.HTMLAttributes<HTMLTableCellElement>{
-    size?: 'medium' | 'large';
+export interface TableCellProps extends React.HTMLAttributes<HTMLTableCellElement>{
     children: AllowedChildren;
 }
 
@@ -27,12 +26,11 @@ const isContentLabelComponent = (child: React.ReactNode): boolean => {
     return React.isValidElement(child) && child.type === ContentLabel;
 };
 export const TableCell: React.FC<TableCellProps> = (props: TableCellProps) => {
-    const { size, children } = props;
-    const isLabel = isContentLabelComponent(children)
+    const isLabel = isContentLabelComponent(props.children)
     return (
         <td>
-        <div className={`table-cell table-cell--${size ?? 'medium'} table-cell__${isLabel ? 'content-label' : 'misc'}`}>
-            {children}
+        <div className={`table-cell table-cell__${isLabel ? 'content-label' : 'misc'}`}>
+            {props.children}
         </div>
         </td>
     )

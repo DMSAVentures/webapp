@@ -4,6 +4,12 @@ table {
     border-collapse: separate;
     border-spacing: 0;
 
+    caption {
+        @extend .label-medium;
+        color: $neutral-950;
+        margin-bottom: $spacing-24;
+    }
+
     tr:first-child th {
         border: 1px solid $neutral-50; // Border for all sides of the first row's <th>
 
@@ -30,4 +36,14 @@ table {
             height: $spacing-48;
         }
     }
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    align-items: center;
+    align-content: flex-start;
+    gap: $spacing-16;
+    padding: $spacing-12;
 }

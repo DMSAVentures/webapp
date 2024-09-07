@@ -2,7 +2,7 @@ import React from 'react';
 import './table-header.scss';
 import Checkbox from "@/components/baseui/checkbox/checkbox";
 
-interface TableHeaderProps extends React.HTMLAttributes<HTMLTableCellElement> {
+export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableCellElement> {
     onSort?: (sortOrder:'asc' | 'desc') => void;
     sortDirection?: 'asc' | 'desc';
     sortable?: boolean;

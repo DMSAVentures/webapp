@@ -1,42 +1,52 @@
-import {TableHeaderCell} from "@/components/baseui/Table/TableHeader/tableHeaderCell";
+import {TableHeaderCell, TableHeaderProps} from "@/components/baseui/Table/TableHeader/tableHeaderCell";
 import React from "react";
 import './table.scss';
-import {TableCell} from "@/components/baseui/Table/TableCell/tableCell";
+import {TableCell, TableCellProps} from "@/components/baseui/Table/TableCell/tableCell";
+import Pagination from "@/components/baseui/pagination/pagination";
 
-export const Table = () => {
-    return (
-        <table className={'table'}>
-            <caption>Quarterly Financial Overview</caption>
-            <thead>
-            <tr>
-                <TableHeaderCell selectable={true}>Quarter</TableHeaderCell>
-                <TableHeaderCell>Revenue</TableHeaderCell>
-                <TableHeaderCell>Expenses</TableHeaderCell>
-                <TableHeaderCell>Net Profit</TableHeaderCell>
-            </tr>
-            </thead>
-            <tbody>
-            <tr className={'table-row--large'}>
-                <TableCell>Q1</TableCell>
-                <TableCell>$100,000</TableCell>
-                <TableCell>$60,000</TableCell>
-                <TableCell>$40,000</TableCell>
-            </tr>
-            <tr>
-                <TableCell>Q2</TableCell>
-                <TableCell>$120,000</TableCell>
-                <TableCell>$70,000</TableCell>
-                <TableCell>$50,000</TableCell>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <TableCell>Total</TableCell>
-                <TableCell>$220,000</TableCell>
-                <TableCell>$130,000</TableCell>
-                <TableCell>$90,000</TableCell>
-            </tr>
-            </tfoot>
-        </table>
-    )
+interface TableProps {
+    totalPages: number;
+    itemsPerPage: number;
+    currentPage: number;
+    onPageChange: (page: number) => void;
+    tableHeader: TableHeaderProps[]
+    tableRows: TableCellProps[][]; // Array of table rows
+    tableFooter?: TableCellProps[]; // Array of table footer cells
+}
+
+export const Table = (props: TableProps) => {
+    return (<div className={'table'}>
+            <span>
+                filter
+            </span>
+            <table>
+                <thead>
+                <tr>
+                    {props.tableHeader.map((header, index) => {
+                        return (<TableHeaderCell key={index} {...header}/>);
+                    })}
+                </tr>
+                </thead>
+                <tbody>
+                {props.tableRows.map((row, index) => {
+                    return (<tr className={'table-row--large'} key={index}>
+                            {row.map((cell, index) => {
+                                return (<TableCell key={index} {...cell}>{cell.children}</TableCell>);
+                            })}
+                        </tr>);
+                })}
+                </tbody>
+                {props.tableFooter && <tfoot>
+                <tr className={'table-row--large'}>
+                    {props.tableFooter.map((cell, index) => {
+                        return (<TableCell key={index} {...cell}>{cell.children}</TableCell>);
+                    })}
+                </tr>
+                </tfoot>}
+            </table>
+            <div className={'table__pagination'}>
+            <Pagination totalPages={props.totalPages} itemsPerPage={props.itemsPerPage} currentPage={props.currentPage}
+                        style={'squared'} onPageChange={props.onPageChange}/>
+            </div>
+        </div>)
 }
