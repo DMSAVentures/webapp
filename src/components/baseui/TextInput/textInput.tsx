@@ -1,0 +1,30 @@
+import React from 'react'
+import './text-input.scss'
+import 'remixicon/fonts/remixicon.css'
+import HintText from "@/components/baseui/hinttext/hinttext";
+import Label from "@/components/baseui/label/label";
+
+export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label: string;
+    hint?: string;
+    error?: string;
+    leftIcon?: string;
+    showLeftIcon?: boolean;
+    rightIcon?: string;
+    showRightIcon?: boolean;
+
+}
+
+export const TextInput = (props: TextInputProps) => {
+    return (
+        <div className={`text-input ${props.error ? 'text-input--error' : ''}`}>
+            <Label text={props.label} required={props.required} subText={!props.required ? 'Optional' : ''}/>
+            <div className={`text-input__input-container ${props.error ? 'text-input__input-container--error' : ''} ${props.disabled ? 'text-input__input-container--disabled' : ''}`}>
+                {props.showLeftIcon && <i className={`text-input__input-container__icon text-input__input-container__icon--left ${props.leftIcon} `}/>}
+                <input {...props}/>
+                {props.showRightIcon && <i className={`text-input__input-container__icon text-input__input-container__icon--right ${props.rightIcon} `}/>}
+            </div>
+            {props.hint && <HintText hintText={props.hint} state={props.error ? 'error' : 'default'}/>}
+        </div>
+    );
+}
