@@ -20,20 +20,20 @@ const meta: Meta = {
         currentPage: {
             control: 'number',
         },
-        onPageChange: {
-            control: 'function',
-        },
         tableHeader: {
-            control: 'array',
+            control: 'object',
         },
         tableRows: {
-            control: 'array',
+            control: 'object',
         },
         tableFooter: {
-            control: 'array',
+            control: 'object',
         },
     },
     tags: ['autodocs'],
+    args: {
+        onPageChange: () => {},
+    }
 } satisfies Meta<typeof Table>;
 
 export default meta;

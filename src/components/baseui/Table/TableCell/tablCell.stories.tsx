@@ -15,10 +15,6 @@ const meta: Meta = {
     tags: ['autodocs'],
     argTypes: {
         children: { control: 'text' },
-        size: {
-            control: 'select',
-            options: ['medium', 'large'],
-        },
     },
 } satisfies Meta<typeof TableCell>;
 
