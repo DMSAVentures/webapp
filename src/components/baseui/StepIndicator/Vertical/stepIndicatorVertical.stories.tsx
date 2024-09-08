@@ -20,9 +20,9 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         items: [
-            <StepIndicatorVerticalItem idx={1} text={'Personal Details'} state={'completed'}/>,
-            <StepIndicatorVerticalItem idx={2} text="Experience" state={'active'} />,
-            <StepIndicatorVerticalItem idx={3} text="References" state={'default'} />,
+            <StepIndicatorVerticalItem key={1} idx={1} text={'Personal Details'} state={'completed'}/>,
+            <StepIndicatorVerticalItem key={2} idx={2} text="Experience" state={'active'} />,
+            <StepIndicatorVerticalItem key={3} idx={3} text="References" state={'default'} />,
         ],
         title: 'Step Indicator Vertical',
     },
@@ -31,10 +31,10 @@ export const Primary: Story = {
 export const Secondary: Story = {
     args: {
         items: [
-            <StepIndicatorVerticalItem idx={1} text="Experience" state={'active'} />,
-            <StepIndicatorVerticalItem idx={2} text="References" state={'default'} />,
-            <StepIndicatorVerticalItem idx={3} text="Certifications" state={'default'} />,
-            <StepIndicatorVerticalItem idx={4} text="Summary" state={'default'} />,
+            <StepIndicatorVerticalItem key={1} idx={1} text="Experience" state={'active'} />,
+            <StepIndicatorVerticalItem key={2} idx={2} text="References" state={'default'} />,
+            <StepIndicatorVerticalItem key={3} idx={3} text="Certifications" state={'default'} />,
+            <StepIndicatorVerticalItem key={4} idx={4} text="Summary" state={'default'} />,
         ],
         title: 'Step Indicator Vertical',
     },

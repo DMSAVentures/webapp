@@ -25,9 +25,9 @@ export const Primary: Story = {
         title: 'Tab Menu Vertical',
         variant: 'default',
         items: [
-            <TabMenuVerticalItem text={'Personal Details'} active={false} />,
-            <TabMenuVerticalItem text="Experience" active={true} />,
-            <TabMenuVerticalItem text="References" active={false} />,
+            <TabMenuVerticalItem key={1} text={'Personal Details'} active={false} />,
+            <TabMenuVerticalItem key={2} text="Experience" active={true} />,
+            <TabMenuVerticalItem key={3} text="References" active={false} />,
         ],
     },
 }
@@ -38,9 +38,9 @@ export const VerticalCardMenu: Story = {
         title: 'Tab Menu Vertical',
         variant: 'card',
         items: [
-            <TabMenuVerticalItem text={'Personal Details'} active={false} />,
-            <TabMenuVerticalItem text="Experience" active={true} />,
-            <TabMenuVerticalItem text="References" active={false} />,
+            <TabMenuVerticalItem key={1} text={'Personal Details'} active={false} />,
+            <TabMenuVerticalItem key={2} text="Experience" active={true} />,
+            <TabMenuVerticalItem key={3} text="References" active={false} />,
         ],
     },
 }

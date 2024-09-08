@@ -19,9 +19,9 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         items: [
-            <StepIndicatorHorizontalItem idx={1} text={'Personal Details'} state={'completed'}/>,
-            <StepIndicatorHorizontalItem idx={2} text="Experience" state={'active'} />,
-            <StepIndicatorHorizontalItem idx={3} text="References" state={'default'} />,
+            <StepIndicatorHorizontalItem key={1} idx={1} text={'Personal Details'} state={'completed'}/>,
+            <StepIndicatorHorizontalItem key={2} idx={2} text="Experience" state={'active'} />,
+            <StepIndicatorHorizontalItem key={3} idx={3} text="References" state={'default'} />,
         ],
     },
 };
