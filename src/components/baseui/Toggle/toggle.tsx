@@ -1,7 +1,7 @@
 import React, {useId, useRef} from "react";
 import './toggle.scss'
 
-type ToggleProps =  React.InputHTMLAttributes<HTMLInputElement>;
+export type ToggleProps =  React.InputHTMLAttributes<HTMLInputElement>;
 
 export const Toggle = (props: ToggleProps) => {
     const inputRef = useRef<HTMLInputElement>(null); // Reference to the input element

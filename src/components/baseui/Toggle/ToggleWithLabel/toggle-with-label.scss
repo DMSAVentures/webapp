@@ -1,0 +1,22 @@
+@import "src/globalstyles/variables.scss";
+
+.toggle-labeled__container {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-8;
+    width: 300px;
+
+    &--reversed {
+        flex-direction: row-reverse;
+
+        .toggle-labeled__label-container {
+            flex-grow: 1;
+        }
+    }
+
+    &--disabled {
+        .toggle-labeled__sublabel__string, .toggle-labeled__description__string {
+            color: $neutral-200;
+        }
+    }
+}
