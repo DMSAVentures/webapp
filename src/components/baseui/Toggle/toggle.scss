@@ -1,0 +1,86 @@
+@import "src/globalstyles/variables.scss";
+
+/* Main toggle switch container */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: $spacing-24;
+
+    /* Hidden checkbox input */
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* Common Slider (Toggle Background) Styles */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $neutral-200; /* Default background color */
+        border-radius: $radius-full; /* Rounded slider */
+        @extend %transition-slow; /* Smooth transitions */
+
+        /* Common knob (Toggle Button) Styles */
+        &:before {
+            content: "";
+            position: absolute;
+            height: $spacing-6;
+            width: $spacing-6;
+            left: $spacing-6 / 2;
+            bottom: $spacing-6 / 2;
+            background-color: $neutral-200;
+            border-radius: $radius-full;
+            border: $spacing-6 solid $neutral-0;
+            box-shadow: 0 2px 4px rgba(14, 18, 27, 0.08), 0 4px 8px rgba(27, 28, 29, 0.06); /* Subtle shadow */
+        }
+    }
+
+    /* Checked State */
+    input[type="checkbox"]:checked + .slider {
+        background-color: $blue-500; /* Background when checked */
+
+        &:before {
+            transform: translateX(26px); /* Move knob to the right */
+            background-color: $blue-500; /* Knob color when checked */
+        }
+    }
+
+    /* Focus State (for accessibility) */
+    &:focus-within .slider {
+        box-shadow: 0 0 1px $blue-500;
+    }
+
+    /* Hover State */
+    &:hover .slider {
+        background-color: $neutral-300;
+    }
+
+    &:hover input[type="checkbox"]:checked + .slider {
+        background-color: $blue-700; /* Darker blue when checked and hovered */
+
+        &:before {
+            background-color: $blue-700;
+        }
+    }
+
+    /* Disabled State: Override only the necessary properties */
+    input[type="checkbox"]:disabled + .slider {
+        background-color: $neutral-0;
+        border: 1px solid $neutral-100;
+        cursor: not-allowed;
+
+        /* Override knob (before) styles in the disabled state */
+        &:before {
+            background-color: $neutral-100;
+            border: $spacing-6 solid $neutral-100; /* Match knob border to background */
+            //box-shadow: none; /* Remove shadow in disabled state */
+            //bottom: 2px; /* Adjust knob position */
+        }
+    }
+}
