@@ -1,0 +1,7 @@
+@import "src/globalstyles/mixin.scss";
+
+.email-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-18;
+}

@@ -2,6 +2,7 @@ import React, {useEffect, useReducer} from "react";
 import {useSubmitLogin} from "@/hooks/useSubmitLogin";
 import Button from "@/components/baseui/button/button";
 import {TextInput} from "@/components/baseui/TextInput/textInput";
+import "./email.scss";
 
 type EmailFormErrors = {
     email?: string;
@@ -125,8 +126,7 @@ export default function EmailSignIn() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
+            <form className={'email-login-form'} onSubmit={handleLogin}>
                 <div className={"form-item"}>
                     <TextInput id="email"
                                name="email"
@@ -144,16 +144,15 @@ export default function EmailSignIn() {
                                type="password" label={'Password'} onChange={(e) =>
                         dispatch({
                             type: EmailFormAction.SET_FIELD,
-                            field: "email",
+                            field: "password",
                             value: e.target.value,
                         })
                     } error={state.errors.password} />
                 </div>
-                {error && <div style={{ color: "red" }}>{error.message}</div>}
                 <Button type="submit" disabled={loading}>
                     {loading ? "Signing in..." : "Sign in"}
                 </Button>
+                {error && <div style={{ color: "red" }}>{error.message}</div>}
             </form>
-        </div>
     );
 }
