@@ -10,12 +10,10 @@ const meta: Meta = {
     },
     tags: ['autodocs'],
     argTypes: {
-        subLabel: {control: 'boolean'},
-        badge: {control: 'boolean'},
         badgeString: {control: 'text'},
-        editLabel: {control: 'text'},
-        editSubLabel: {control: 'text'},
-        editDescription: {control: 'text'},
+        text: {control: 'text'},
+        subText: {control: 'text'},
+        description: {control: 'text'},
         imageSrc: {control: 'text'},
         centeredImage: {control: 'boolean'},
     },
@@ -27,12 +25,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        subLabel: true,
-        badge: true,
         badgeString: 'Badge',
-        editLabel: 'Label',
-        editSubLabel: 'Sublabel',
-        editDescription: 'Description',
+        text: 'Label',
+        subText: 'Sublabel',
+        description: 'Description',
         imageSrc: 'https://via.placeholder.com/150',
         centeredImage: false,
     },
@@ -40,12 +36,10 @@ export const Default: Story = {
 
 export const Disabled: Story = {
     args: {
-        subLabel: true,
-        badge: true,
         badgeString: 'Badge',
-        editLabel: 'Label',
-        editSubLabel: 'Sublabel',
-        editDescription: 'Description',
+        text: 'Label',
+        subText: 'Sublabel',
+        description: 'Description',
         imageSrc: 'https://via.placeholder.com/150',
         centeredImage: false,
         disabled: true,
