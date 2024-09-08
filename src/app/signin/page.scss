@@ -1,25 +1,55 @@
 @import "src/globalstyles/mixin.scss";
 @import "src/globalstyles/variables";
-.login-page {
-  height: 100%;
-  margin: 0;
-  padding: 0;
 
-  background:
-          radial-gradient(circle at top left, lighten($blue-500, 50%) 10%, transparent 35%),
-          radial-gradient(circle at bottom right, lighten($blue-500, 50%) 5%, transparent 15%);
+.login-page {
+    height: 100%;
+    margin: 0;
+    padding: $spacing-24;
+    background: radial-gradient(circle at top left, lighten($blue-900, 49%) 10%, transparent 27%),
+    radial-gradient(circle at bottom right, lighten($blue-900, 50%) 5%, transparent 19%);
+
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+
+        .login-form {
+            width: 320px;
+            min-height: 400px;
+            padding: $spacing-12;
+            border: 1px solid $neutral-300;
+            border-radius: $radius-8;
+            @extend .shadow-md;
+        }
+    }
+
+    /* Tablet and up (medium screens) */
+    @include respond-to('medium') {
+        padding: $spacing-16;
+        background: radial-gradient(circle at top left, lighten($blue-900, 60%) 2%, transparent 30%),
+        radial-gradient(circle at bottom right, lighten($blue-900, 60%) 5%, transparent 30%);
+
+        .centered-container {
+            .login-form {
+                max-width: 350px; /* Max width for tablets */
+                min-height: 350px;
+            }
+        }
+    }
+
+    /* Desktop and up (large screens) */
+    @include respond-to('large') {
+        padding: $spacing-24;
+        background: radial-gradient(circle at top left, lighten($blue-900, 60%) 2%, transparent 30%),
+        radial-gradient(circle at bottom right, lighten($blue-900, 60%) 5%, transparent 30%);
+
+        .centered-container {
+            .login-form {
+                max-width: 400px; /* Max width for desktops */
+                min-height: 400px;
+            }
+        }
+    }
 }
-.centered-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-.login-form {
-  width: 400px;
-    min-height: 400px;
-  padding: 20px;
-  border: 1px solid $neutral-300;
-  border-radius: $radius-8;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+

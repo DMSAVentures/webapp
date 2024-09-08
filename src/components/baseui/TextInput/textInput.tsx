@@ -19,7 +19,9 @@ export const TextInput = (props: TextInputProps) => {
     const inputRef = React.createRef<HTMLInputElement>();
 
     const handleFocus = () => {
-        inputRef.current?.focus();
+        if (inputRef.current !== document.activeElement) {
+            inputRef.current?.focus();
+        }
     }
     return (
         <div className={`text-input ${props.error ? 'text-input--error' : ''}`}>

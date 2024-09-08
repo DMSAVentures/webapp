@@ -3,8 +3,6 @@ import Login from "@/components/authentication/login";
 import "./page.scss";
 import {useContext, useEffect} from "react";
 import {AuthContext} from "@/contexts/auth";
-import LoadingSpinner from "@/components/loading/loadingSpinner";
-import Loading from "@/app/signin/loading";
 import {useRouter} from "next/navigation";
 
 export default function Page() {
