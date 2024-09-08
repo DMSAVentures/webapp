@@ -1,0 +1,22 @@
+@import "src/globalstyles/variables.scss";
+
+.toggle-card__container {
+    display: flex;
+    padding: $spacing-16;
+    gap: $spacing-16;
+    border-radius: $radius-12;
+    border: 1px solid $neutral-200;
+
+
+    &:hover {
+        background-color: $neutral-50;
+        border: 1px solid $neutral-50;
+        transition: background-color $transition-normal $transition-type-dissolve;
+    }
+
+    //.toggle-card__image {
+    //    width: 40px;
+    //    height: 40px;
+    //    border-radius: $radius-full;
+    //}
+}
