@@ -1,6 +1,7 @@
-import "./email.scss"
 import React, {useEffect, useReducer} from "react";
 import {useSubmitLogin} from "@/hooks/useSubmitLogin";
+import Button from "@/components/baseui/button/button";
+import {TextInput} from "@/components/baseui/TextInput/textInput";
 
 type EmailFormErrors = {
     email?: string;
@@ -127,48 +128,31 @@ export default function EmailSignIn() {
         <div>
             <form onSubmit={handleLogin}>
                 <div className={"form-item"}>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        id="email"
-                        name="email"
-                        type="text"
-                        formNoValidate={true}
-                        value={state.email}
-                        onChange={(e) =>
-                            dispatch({
-                                type: EmailFormAction.SET_FIELD,
-                                field: "email",
-                                value: e.target.value,
-                            })
-                        }
-                    />
-                    {state.errors.email && (
-                        <span className={"validation-error"}>{state.errors.email}</span>
-                    )}
+                    <TextInput id="email"
+                               name="email"
+                               type="text" label={'Email'} onChange={(e) =>
+                        dispatch({
+                            type: EmailFormAction.SET_FIELD,
+                            field: "email",
+                            value: e.target.value,
+                        })
+                    } error={state.errors.email} formNoValidate={true} />
                 </div>
                 <div className={"form-item"}>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        value={state.password}
-                        onChange={(e) =>
-                            dispatch({
-                                type: EmailFormAction.SET_FIELD,
-                                field: "password",
-                                value: e.target.value,
-                            })
-                        }
-                    />
-                    {state.errors.password && (
-                        <span className={"validation-error"}>{state.errors.password}</span>
-                    )}
+                    <TextInput id="password"
+                               name="password"
+                               type="password" label={'Password'} onChange={(e) =>
+                        dispatch({
+                            type: EmailFormAction.SET_FIELD,
+                            field: "email",
+                            value: e.target.value,
+                        })
+                    } error={state.errors.password} />
                 </div>
                 {error && <div style={{ color: "red" }}>{error.message}</div>}
-                <button className={"email-sign-in-button"} type="submit" disabled={loading}>
+                <Button type="submit" disabled={loading}>
                     {loading ? "Signing in..." : "Sign in"}
-                </button>
+                </Button>
             </form>
         </div>
     );

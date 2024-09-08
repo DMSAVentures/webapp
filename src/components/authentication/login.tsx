@@ -1,4 +1,3 @@
-import "./login.scss"
 import EmailSignIn from "@/components/authentication/email";
 import GoogleSignIn from "@/components/authentication/googlesignin";
 

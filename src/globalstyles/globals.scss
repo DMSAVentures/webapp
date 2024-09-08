@@ -3,24 +3,20 @@
 
 // Global Styles
 body {
-  font-family: $font-primary;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $color-text-primary;
-  background-color: $color-neutral-100;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: $heading-font-weight;
+  font-family: 'Inter', 'sans-serif';
+  font-size: 14px;
+  line-height: 1.1em;
+  color: $neutral-950;
+  background-color: $neutral-0;
 }
 
 a {
-  color: $color-primary;
+  color: $blue-500;
   text-decoration: none;
 
   &:hover {
     text-decoration: none;
-    color: $color-primary-dark;
+    color: $blue-800;
   }
 }
 

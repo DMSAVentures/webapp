@@ -6,8 +6,8 @@
   padding: 0;
 
   background:
-          radial-gradient(circle at top left, lighten($color-primary, 50%) 10%, transparent 35%),
-          radial-gradient(circle at bottom right, lighten($color-primary, 50%) 5%, transparent 15%);
+          radial-gradient(circle at top left, lighten($blue-500, 50%) 10%, transparent 35%),
+          radial-gradient(circle at bottom right, lighten($blue-500, 50%) 5%, transparent 15%);
 }
 .centered-container {
     display: flex;
@@ -18,7 +18,7 @@
 .login-form {
   width: 400px;
   padding: 20px;
-  border: $border-base;
-  border-radius: $border-radius-md;
+  border: 1px solid $neutral-300;
+  border-radius: $radius-8;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
