@@ -5,7 +5,7 @@
     height: 100%;
     margin: 0;
     padding: $spacing-24;
-    background: radial-gradient(circle at top left, lighten($blue-900, 49%) 10%, transparent 27%),
+    background: radial-gradient(circle at top left, lighten($blue-900, 49%) 5%, transparent 20%),
     radial-gradient(circle at bottom right, lighten($blue-900, 50%) 5%, transparent 19%);
 
     .centered-container {
@@ -46,7 +46,7 @@
 
         .centered-container {
             .login-form {
-                max-width: 400px; /* Max width for desktops */
+                min-width: 400px; /* Max width for desktops */
                 min-height: 400px;
             }
         }
