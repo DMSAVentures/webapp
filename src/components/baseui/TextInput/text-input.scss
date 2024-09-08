@@ -12,6 +12,7 @@
         border: 1px solid $neutral-100;
         border-radius: $radius-10;
         padding: $spacing-10 $spacing-10 $spacing-10 $spacing-12;
+        cursor: text;
 
         &__icon {
             height: 1em;
@@ -74,6 +75,10 @@
             }
         }
 
+    }
+
+    &__hint {
+        min-height: 1.3em;
     }
 
 
