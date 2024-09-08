@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     rightIcon?: React.ReactNode;
     pickLeft?: boolean;
     pickRight?: boolean;
-    text?: string;
+    children: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,7 +22,6 @@ const Button: React.FC<ButtonProps> = ({
                                            rightIcon,
                                            pickLeft = false,
                                            pickRight = false,
-                                           text,
                                            children,
                                            ...props
                                        }) => {
@@ -34,10 +33,11 @@ const Button: React.FC<ButtonProps> = ({
             {...props}
         >
             {leftIcon && !onlyIcon && <span className="button__icon button__icon--left">{leftIcon}</span>}
-            {!onlyIcon && <span className="button__text">{text || children}</span>}
+            {!onlyIcon && <span className="button__text">{children}</span>}
             {rightIcon && !onlyIcon && <span className="button__icon button__icon--right">{rightIcon}</span>}
             {onlyIcon && (leftIcon || rightIcon)}
         </button>
+
     );
 };
 

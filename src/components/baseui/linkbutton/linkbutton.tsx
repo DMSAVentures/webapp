@@ -16,7 +16,7 @@ interface LinkButtonProps extends ButtonHTMLAttributes<HTMLElement> {
 
 const Linkbutton: React.FC<LinkButtonProps> = ({
                                            variant = 'primary',
-                                           styleType = 'filled',
+                                           styleType = 'lighter',
                                            size = 'medium',
                                            underline = false,
                                            leftIcon,

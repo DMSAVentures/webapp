@@ -18,7 +18,7 @@ export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 export const TextInput = (props: TextInputProps) => {
     return (
         <div className={`text-input ${props.error ? 'text-input--error' : ''}`}>
-            <Label text={props.label} required={props.required} subText={!props.required ? 'Optional' : ''}/>
+            <Label text={props.label} required={props.required} />
             <div className={`text-input__input-container ${props.error ? 'text-input__input-container--error' : ''} ${props.disabled ? 'text-input__input-container--disabled' : ''}`}>
                 {props.showLeftIcon && <i className={`text-input__input-container__icon text-input__input-container__icon--left ${props.leftIcon} `}/>}
                 <input {...props}/>

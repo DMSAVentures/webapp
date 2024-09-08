@@ -1,0 +1,7 @@
+@import "src/globalstyles/variables.scss";
+
+.login {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-14;
+}

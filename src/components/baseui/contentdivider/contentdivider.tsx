@@ -11,7 +11,7 @@ interface BannerContentDividerProps {
 }
 
 interface ButtonGroupContentDividerProps {
-    buttonGroup: React.ReactNode;
+    buttonGroup?: React.ReactNode;
 }
 
 export type ContentDividerProps = LineContentDividerProps | BannerContentDividerProps | ButtonGroupContentDividerProps;

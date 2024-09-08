@@ -19,9 +19,7 @@ export default function Page() {
     return (
         <div className={"login"}>
             <div className={"centered-container"}>
-                <div className={"login-form"}>
                     <Login/>
-                </div>
             </div>
         </div>
     );
