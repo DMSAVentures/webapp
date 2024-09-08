@@ -20,9 +20,9 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         items: [
-            <BreadcrumbItem text="Home"  state={'active'}/>,
-            <BreadcrumbItem text="Library" state={'default'} />,
-            <BreadcrumbItem text="Data" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-1'} text="Home" state={'active'} />,
+            <BreadcrumbItem key={'breadcrumb-2'} text="Library" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-3'} text="Data" state={'default'} />,
         ],
         divider: 'arrow',
     },
@@ -31,9 +31,9 @@ export const Primary: Story = {
 export const WithDotDivider: Story = {
     args: {
         items: [
-            <BreadcrumbItem text="Home"  state={'active'}/>,
-            <BreadcrumbItem text="Library" state={'default'} />,
-            <BreadcrumbItem text="Data" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-1'} text="Home" state={'active'} />,
+            <BreadcrumbItem key={'breadcrumb-2'} text="Library" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-3'} text="Data" state={'default'} />,
         ],
         divider: 'dot',
     },
@@ -42,9 +42,9 @@ export const WithDotDivider: Story = {
 export const WithSlashDivider: Story = {
     args: {
         items: [
-            <BreadcrumbItem text="Home"  state={'active'}/>,
-            <BreadcrumbItem text="Library" state={'default'} />,
-            <BreadcrumbItem text="Data" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-1'} text="Home" state={'active'} />,
+            <BreadcrumbItem key={'breadcrumb-2'} text="Library" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-3'} text="Data" state={'default'} />,
         ],
         divider: 'slash',
     },
@@ -53,9 +53,9 @@ export const WithSlashDivider: Story = {
 export const WithIcon: Story = {
     args: {
         items: [
-            <BreadcrumbItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <BreadcrumbItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <BreadcrumbItem text="Data" icon={'ri-database-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-1'} text="Home" state={'active'} />,
+            <BreadcrumbItem key={'breadcrumb-2'} text="Library" state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-3'} text="Data" state={'default'} />,
         ],
         divider: 'arrow',
     },
@@ -65,15 +65,15 @@ export const WithIcon: Story = {
 export const TooManyItems: Story = {
     args: {
         items: [
-            <BreadcrumbItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <BreadcrumbItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <BreadcrumbItem text="Data" icon={'ri-database-line'} state={'default'} />,
-            <BreadcrumbItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <BreadcrumbItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <BreadcrumbItem text="Data" icon={'ri-database-line'} state={'default'} />,
-            <BreadcrumbItem text="Home" icon={'ri-home-line'}  state={'active'}/>,
-            <BreadcrumbItem text="Library" icon={'ri-book-line'} state={'default'} />,
-            <BreadcrumbItem text="Data" icon={'ri-database-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-1'} text="Home" icon={'ri-home-line'}  state={'active'}/>,
+            <BreadcrumbItem key={'breadcrumb-2'} text="Library" icon={'ri-book-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-3'} text="Data" icon={'ri-database-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-4'} text="Home" icon={'ri-home-line'}  state={'active'}/>,
+            <BreadcrumbItem key={'breadcrumb-5'} text="Library" icon={'ri-book-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-6'} text="Data" icon={'ri-database-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-7'} text="Home" icon={'ri-home-line'}  state={'active'}/>,
+            <BreadcrumbItem key={'breadcrumb-8'} text="Library" icon={'ri-book-line'} state={'default'} />,
+            <BreadcrumbItem key={'breadcrumb-9'} text="Data" icon={'ri-database-line'} state={'default'} />,
         ],
         divider: 'arrow',
     },

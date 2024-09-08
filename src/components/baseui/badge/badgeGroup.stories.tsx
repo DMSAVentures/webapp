@@ -20,10 +20,10 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         children: [
-            <Badge styleType={'filled'} size={'small'} variant={"green"} text={"Badge 1"}/>,
-            <Badge styleType={'filled'} size={'small'} variant={"blue"} text={"Badge 2"}/>,
-            <Badge styleType={'filled'} size={'small'} variant={"red"} text={"Badge 3"}/>,
-            <Badge styleType={'filled'} size={'small'} variant={"red"} text={"Badge 4"}/>,
+            <Badge key={'badge-1'} styleType={'filled'} size={'small'} variant={"green"} text={"Badge 1"}/>,
+            <Badge key={'badge-2'} styleType={'filled'} size={'small'} variant={"blue"} text={"Badge 2"}/>,
+            <Badge key={'badge-3'} styleType={'filled'} size={'small'} variant={"red"} text={"Badge 3"}/>,
+            <Badge key={'badge-4'} styleType={'filled'} size={'small'} variant={"red"} text={"Badge 4"}/>,
         ],
     },
 }
