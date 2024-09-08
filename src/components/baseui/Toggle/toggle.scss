@@ -24,7 +24,7 @@
         bottom: 0;
         background-color: $neutral-200; /* Default background color */
         border-radius: $radius-full; /* Rounded slider */
-        @extend %transition-slow; /* Smooth transitions */
+        @extend %transition-fast; /* Smooth transitions */
 
         /* Common knob (Toggle Button) Styles */
         &:before {
@@ -38,6 +38,7 @@
             border-radius: $radius-full;
             border: $spacing-6 solid $neutral-0;
             box-shadow: 0 2px 4px rgba(14, 18, 27, 0.08), 0 4px 8px rgba(27, 28, 29, 0.06); /* Subtle shadow */
+            @extend %transition-fast; /* Smooth transitions */
         }
     }
 
@@ -71,16 +72,28 @@
 
     /* Disabled State: Override only the necessary properties */
     input[type="checkbox"]:disabled + .slider {
-        background-color: $neutral-0;
-        border: 1px solid $neutral-100;
+        background-color: $neutral-50;
+        //border: 1px solid $neutral-100;
         cursor: not-allowed;
 
         /* Override knob (before) styles in the disabled state */
         &:before {
-            background-color: $neutral-100;
-            border: $spacing-6 solid $neutral-100; /* Match knob border to background */
+            background-color: $neutral-50;
+            //border: $spacing-6 solid $neutral-100; /* Match knob border to background */
+            border-color: $neutral-50;
             //box-shadow: none; /* Remove shadow in disabled state */
             //bottom: 2px; /* Adjust knob position */
+        }
+    }
+
+    input[type="checkbox"]:checked:disabled + .slider {
+        background-color: $blue-300;
+        border: none;
+        cursor: not-allowed;
+
+        &:before {
+            background-color: $blue-500; /* Example: change knob color */
+            cursor: not-allowed; /* Indicate that it's disabled */
         }
     }
 }

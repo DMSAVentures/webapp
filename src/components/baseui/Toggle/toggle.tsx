@@ -1,20 +1,21 @@
-import React, {useId} from "react";
+import React, {useId, useRef} from "react";
 import './toggle.scss'
 
 type ToggleProps =  React.InputHTMLAttributes<HTMLInputElement>;
 
 export const Toggle = (props: ToggleProps) => {
-    const [checked, setChecked] = React.useState(Boolean(props.checked))
-    const onChange = (e: React.MouseEvent<HTMLDivElement>) => {
-        setChecked(!checked)
-        // if (props.onChange) {
-        //     props.onChange(e)
-        // }
-    }
+    const inputRef = useRef<HTMLInputElement>(null); // Reference to the input element
+
+    const handleDivClick = () => {
+        if (inputRef.current) {
+            // Programmatically trigger input click event
+            inputRef.current.click();
+        }
+    };
 
     return (
-        <div className="toggle" onClick={onChange}>
-            <input type="checkbox" checked={checked} {...props}/>
+        <div className="toggle" onClick={handleDivClick}>
+            <input ref={inputRef}  type="checkbox" {...props}/>
             <span className="slider"></span>
         </div>
     );

@@ -1,7 +1,8 @@
 import {Toggle} from "@/components/baseui/Toggle/toggle";
 import {Meta, StoryObj} from "@storybook/react";
+import {useState} from "react";
 
-const meta: Meta =  {
+const meta: Meta = {
     title: 'Components/Toggle',
     component: Toggle,
     argTypes: {
@@ -13,19 +14,32 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const Template = (args: any) => {
+    const [checked, setChecked] = useState(args.checked);
+
+    const handleChange = () => {
+        setChecked(!checked);
+    };
+
+    return <Toggle {...args} checked={checked} onChange={handleChange} />;
+};
+
 export const Default: Story = {
+    render: Template.bind({}),
     args: {
         checked: false,
     },
 };
 
 export const Checked: Story = {
+    render: Template.bind({}),
     args: {
         checked: true,
     },
 };
 
 export const Disabled: Story = {
+    render: Template.bind({}),
     args: {
         checked: false,
         disabled: true,
@@ -33,6 +47,7 @@ export const Disabled: Story = {
 };
 
 export const CheckedDisabled: Story = {
+    render: Template.bind({}),
     args: {
         checked: true,
         disabled: true,
@@ -40,6 +55,7 @@ export const CheckedDisabled: Story = {
 };
 
 export const WithLabel: Story = {
+    render: Template.bind({}),
     args: {
         checked: false,
         label: 'Toggle',
