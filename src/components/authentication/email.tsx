@@ -3,6 +3,7 @@ import {useSubmitLogin} from "@/hooks/useSubmitLogin";
 import Button from "@/components/baseui/button/button";
 import {TextInput} from "@/components/baseui/TextInput/textInput";
 import "./email.scss";
+import Banner from "@/components/baseui/banner/banner";
 
 type EmailFormErrors = {
     email?: string;
@@ -121,6 +122,7 @@ export default function EmailSignIn() {
                 await submitLogin(email, password);
             } catch (error) {
                 console.error("Login failed", error);
+                dispatch({ type: EmailFormAction.RESET_FORM });
             }
         }
     }
@@ -152,7 +154,8 @@ export default function EmailSignIn() {
                 <Button type="submit" disabled={loading}>
                     {loading ? "Signing in..." : "Sign in"}
                 </Button>
-                {error && <div style={{ color: "red" }}>{error.message}</div>}
+                {error &&
+                <Banner bannerType={'error'} variant={'filled'} alertTitle={error?.message} alertDescription={'Login failed'} />}
             </form>
     );
 }

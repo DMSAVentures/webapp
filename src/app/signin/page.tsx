@@ -17,9 +17,11 @@ export default function Page() {
     }, [authContext, router]);
 
     return (
-        <div className={"login"}>
+        <div className={"login-page"}>
             <div className={"centered-container"}>
+                <div className={'login-form'}>
                     <Login/>
+                </div>
             </div>
         </div>
     );

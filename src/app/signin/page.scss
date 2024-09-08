@@ -1,6 +1,6 @@
 @import "src/globalstyles/mixin.scss";
 @import "src/globalstyles/variables";
-.login {
+.login-page {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -17,6 +17,7 @@
 }
 .login-form {
   width: 400px;
+    min-height: 400px;
   padding: 20px;
   border: 1px solid $neutral-300;
   border-radius: $radius-8;

@@ -1,5 +1,4 @@
 import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
-import Button from "@/components/baseui/button/button";
 
 export default function GoogleSignIn() {
     //TODO: This is process env vars are undefined on client side.
@@ -7,10 +6,8 @@ export default function GoogleSignIn() {
 
 
     return (
-        <div className={"button-container"}>
         <Linkbutton href={googleAuthUrl}>
             Sign In with Google
         </Linkbutton>
-        </div>
     );
 }

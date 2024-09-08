@@ -4,4 +4,10 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-14;
+    align-items: center;
+
+    hr {
+        margin-top: $spacing-12;
+        width: 100%;
+    }
 }

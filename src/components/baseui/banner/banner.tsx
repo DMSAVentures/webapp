@@ -17,7 +17,7 @@ function getIconBasedOnbannerType(bannerType: string) {
             case 'success':
                 return <i className="banner__icon ri-checkbox-circle-fill"></i>;
             case 'error':
-                return <i className="banner__icon ri-checkbox-circle-fill"></i>;
+                return <i className="banner__icon ri-alert-fill"></i>;
             case 'warning':
                 return <i className="banner__icon ri-alert-fill"></i>;
             case 'info':
