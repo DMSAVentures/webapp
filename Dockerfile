@@ -27,7 +27,7 @@ ENV NEXT_PUBLIC_GOOGLE_REDIRECT_URI=${NEXT_PUBLIC_GOOGLE_REDIRECT_URI}
 RUN npm run build
 
 # Use a lightweight image for the final container
-FROM node:18-alpine AS runner
+FROM node:22-alpine AS runner
 
 # Install curl
 RUN apk --no-cache add curl
