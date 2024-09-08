@@ -31,7 +31,6 @@ const meta = {
     rightIcon: { control: 'text' },
     pickLeft: { control: 'boolean' },
     pickRight: { control: 'boolean' },
-    text: { control: 'text' },
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
@@ -47,7 +46,7 @@ export const Primary: Story = {
     styleType: 'filled',
 
     size: 'medium',
-    text: 'Button',
+    children: 'Button',
   },
 };
 
@@ -57,7 +56,7 @@ export const Neutral: Story = {
     styleType: 'filled',
 
     size: 'medium',
-    text: 'Neutral Button',
+    children: 'Neutral Button',
   },
 };
 
@@ -66,7 +65,7 @@ export const Error: Story = {
     variant: 'error',
     styleType: 'filled',
     size: 'medium',
-    text: 'Error Button',
+    children: 'Error Button',
   },
 };
 
@@ -76,7 +75,7 @@ export const Disabled: Story = {
     styleType: 'filled',
     disabled: true,
     size: 'medium',
-    text: 'Disabled Button',
+    children: 'Disabled Button',
   },
 };
 
@@ -87,6 +86,7 @@ export const IconOnly: Story = {
     size: 'medium',
     onlyIcon: true,
     leftIcon: '🔍',
+    children: ''
   },
 };
 
@@ -95,7 +95,7 @@ export const LeftIcon: Story = {
     variant: 'primary',
     styleType: 'filled',
     size: 'medium',
-    text: 'Search',
+    children: 'Search',
     leftIcon: '🔍',
   },
 };
@@ -105,7 +105,7 @@ export const RightIcon: Story = {
     variant: 'primary',
     styleType: 'filled',
     size: 'medium',
-    text: 'Send',
+    children: 'Send',
     rightIcon: '📤',
   },
 };

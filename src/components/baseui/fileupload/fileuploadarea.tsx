@@ -73,7 +73,7 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = (props: FileUploadAreaProp
                     <div className={'fileuploadarea__title'}>Choose a file or drag & drop it here.
                         <p className={'fileuploadarea_supported_meta'}>JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
                     </div>
-                    <Button type={'button'} variant={'neutral'} styleType={'stroke'} size={'small'} text={'Browse'} onClick={onButtonClick}/>
+                    <Button type={'button'} variant={'neutral'} styleType={'stroke'} size={'small'} onClick={onButtonClick}>Browse</Button>
                     {fileName && <p className="fileuploadarea__filename">{fileName}</p>}
                 </label>
 

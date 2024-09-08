@@ -10,7 +10,7 @@ interface ModalFooterProps {
     onCancel?: () => void;
     onProceed?: () => void;
     cancelText?: string;
-    proceedText?: string;
+    proceedText: string;
 }
 
 // Define ModalHeaderProps based on the modal's header requirements
@@ -54,10 +54,10 @@ const ModalFooter: React.FC<ModalFooterProps> = (props) => {
             {props.footerLeftChildren}
         </div>}
         <div className={'modal__footer-right'}>
-            <Button style={buttonStyle} variant={'primary'} text={props.proceedText} size={'small'}
-                    onClick={props.onProceed}/>
+            <Button style={buttonStyle} variant={'primary'} size={'small'}
+                    onClick={props.onProceed}>{props.proceedText!}</Button>
             {props.cancelText && <Button style={buttonStyle} variant={'neutral'} styleType={'stroke'} size={'small'}
-                    text={props.cancelText} onClick={props.onCancel}/>}
+                                         onClick={props.onCancel}>{props.cancelText}</Button>}
         </div>
     </div>;
 }

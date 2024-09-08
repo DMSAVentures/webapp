@@ -120,7 +120,7 @@ const items = [
 export const Primary: Story = {
     args: {
         items: items,
-        bottomButton: <Button variant="neutral" styleType={'stroke'} text="Button"  size={'2x-small'}/>,
+        bottomButton: <Button variant="neutral" styleType={'stroke'} size={'2x-small'}>Button</Button>,
         caption: 'v1.2.0',
     },
 };
@@ -213,7 +213,7 @@ const itemsWithoutSublabels = [
 export const itemsWithoutSublabelsStory: Story = {
     args: {
         items: itemsWithoutSublabels,
-        bottomButton: <Button variant="neutral" styleType={'stroke'} text="Button"  size={'2x-small'}/>,
+        bottomButton: <Button variant="neutral" styleType={'stroke'}  size={'2x-small'}>Button</Button>,
         caption: 'v1.2.0',
     },
 };
