@@ -24,7 +24,8 @@ export const TextInput = (props: TextInputProps) => {
                 <input {...props}/>
                 {props.showRightIcon && <i className={`text-input__input-container__icon text-input__input-container__icon--right ${props.rightIcon} `}/>}
             </div>
-            {props.hint && <HintText hintText={props.hint} state={props.error ? 'error' : 'default'}/>}
+            {!props.error && props.hint && <HintText hintText={props.hint} state={props.error ? 'error' : 'default'}/>}
+            {props.error && <HintText hintText={props.error} state={props.error ? 'error' : 'default'}/>}
         </div>
     );
 }
