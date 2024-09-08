@@ -1,6 +1,11 @@
 # Use an official Node.js image as a base image
 FROM node:22-alpine AS builder
 
+
+# Accept build arguments for environment variables
+ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID
+ARG NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -12,6 +17,11 @@ RUN npm ci
 
 # Copy the rest of your Next.js app into the container
 COPY . .
+
+# Set environment variables at build time
+ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID=${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+ENV NEXT_PUBLIC_GOOGLE_REDIRECT_URI=${NEXT_PUBLIC_GOOGLE_REDIRECT_URI}
+
 
 # Build the Next.js app
 RUN npm run build
