@@ -9,10 +9,15 @@ export default function Page() {
     const router = useRouter();
     const authContext = useContext(AuthContext);
     useEffect(() => {
-        if (!authContext.loading && authContext.isLoggedIn) {
+        if (authContext.isLoggedIn) {
            router.push("/");
         }
     }, [authContext, router]);
+
+    // If the user is logged in, immediately redirect (handled by the effect)
+    if (authContext.isLoggedIn) {
+        return null;
+    }
 
     return (
         <div className={"login-page"}>
