@@ -1,11 +1,11 @@
 'use client'
 import Login from "@/components/authentication/login";
 import "./page.scss";
-import {useContext, useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {AuthContext} from "@/contexts/auth";
 import {useRouter} from "next/navigation";
 
-export default function Page() {
+export default function Page(): React.JSX.Element {
     const router = useRouter();
     const authContext = useContext(AuthContext);
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function Page() {
 
     // If the user is logged in, immediately redirect (handled by the effect)
     if (authContext.isLoggedIn) {
-        return null;
+        return <></>;
     }
 
     return (
