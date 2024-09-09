@@ -70,6 +70,7 @@ jobs:
           docker build \
           --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID=264792512466-81b98c4ctp11qj177mgmj817o23a12bn.apps.googleusercontent.com \
           --build-arg NEXT_PUBLIC_GOOGLE_REDIRECT_URI=https://protoapp.xyz/api/auth/google/callback \
+          --build-arg ARG NEXT_PUBLIC_API_URL=https://protoapp.xyz/api \
           -t "$REPO_NAME:${{ github.sha }}" .
 
           # Tag the built image with the SHA in ECR

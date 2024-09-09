@@ -5,6 +5,7 @@ FROM node:22-alpine AS builder
 # Accept build arguments for environment variables
 ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID
 ARG NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+ARG NEXT_PUBLIC_API_URL
 
 # Set the working directory in the container
 WORKDIR /app
