@@ -8,14 +8,14 @@ import {Elements} from "@stripe/react-stripe-js";
 import CompletePage from "@/app/complete/completepage";
 import CheckoutForm from "@/app/checkout/checkoutform";
 import React, {useEffect} from "react";
-import {useCreatePaymentIntent} from "@/hooks/useCreatePaymentIntent";
+import { useCreateSubscriptionIntent } from "@/hooks/useCreateSubscriptionIntent";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 export default function Home() {
-    const {createPaymentIntent, loading, error, clientSecret} = useCreatePaymentIntent()
+    const {createSubscriptionIntent, loading, error, clientSecret} = useCreateSubscriptionIntent()
     const [confirmed, setConfirmed] = React.useState<string | null>(null);
     useEffect(() => {
-        createPaymentIntent(100)
+        createSubscriptionIntent("price_1Q1hE200n5jvBrdMFEzIQj4n")
     }, []);
 
     React.useEffect(() => {

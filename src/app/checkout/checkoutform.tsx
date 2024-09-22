@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
     PaymentElement,
     useStripe,
-    useElements
+    useElements, AddressElement
 } from "@stripe/react-stripe-js";
 import { StripePaymentElementOptions} from "@stripe/stripe-js";
 
@@ -28,7 +28,7 @@ export default function CheckoutForm() {
             elements,
             confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: "http://localhost:3000/pay",
+                return_url: "http://localhost:3000/complete",
             },
         });
 
@@ -47,13 +47,23 @@ export default function CheckoutForm() {
     };
 
     const paymentElementOptions: StripePaymentElementOptions = {
-        layout: "tabs"
-    }
+        layout: "tabs",
+        fields: {
+            billingDetails: {
+                name: "auto",
+                email: "auto",
+                address: "auto",
+            },
+        }
+    };
+
+
 
     return (
         <>
             <form id="payment-form" onSubmit={handleSubmit}>
                 <PaymentElement id="payment-element" options={paymentElementOptions} />
+                <AddressElement options={{mode: 'billing'}} />
                 <button disabled={isLoading || !stripe || !elements} id="submit">
           <span id="button-text">
             {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}

@@ -20,7 +20,7 @@ export const useCreatePaymentIntent = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/pay/create-payment-intent`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/create-payment-intent`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -53,6 +53,6 @@ export const useCreatePaymentIntent = () => {
         loading,
         error,
         clientSecret,
-        createPaymentIntent,
+        createPaymentIntent: createSubscriptionIntent,
     };
 }

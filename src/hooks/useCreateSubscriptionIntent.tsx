@@ -6,13 +6,13 @@ interface ErrorResponse {
     code: string;
 }
 
-export const useCreatePaymentIntent = () => {
+export const useCreateSubscriptionIntent = () => {
     let doneOnce = false;
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ErrorResponse | null>(null);
     const [clientSecret, setClientSecret] = useState<string | null>(null);
 
-    const createPaymentIntent = async (amount: number) => {
+    const createSubscriptionIntent = async (price_id: string) => {
         if (doneOnce) {
             return
         }
@@ -20,13 +20,13 @@ export const useCreatePaymentIntent = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/pay/create-payment-intent`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/create-subscription-intent`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-                body: JSON.stringify({items:[{ id: '123', amount }]}),
+                body: JSON.stringify({price_id}),
             });
 
             if (!response.ok) {
@@ -53,6 +53,6 @@ export const useCreatePaymentIntent = () => {
         loading,
         error,
         clientSecret,
-        createPaymentIntent,
+        createSubscriptionIntent,
     };
 }
