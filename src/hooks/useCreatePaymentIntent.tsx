@@ -2,8 +2,6 @@ import {useState} from "react";
 
 interface ErrorResponse {
     error: string;
-    message: string;
-    code: string;
 }
 
 export const useCreatePaymentIntent = () => {
@@ -39,9 +37,9 @@ export const useCreatePaymentIntent = () => {
         } catch (error: any) {
             console.error("Create payment intent failed", error);
             if (error instanceof Error) {
-                setError({ code: "unknown", message: error.message });
+                setError({ error: error.message });
             } else {
-                setError({ code: "unknown", message: "An unknown error occurred" });
+                setError({ error: "An unknown error occurred" });
             }
         } finally {
             setLoading(false);
@@ -53,6 +51,6 @@ export const useCreatePaymentIntent = () => {
         loading,
         error,
         clientSecret,
-        createPaymentIntent: createSubscriptionIntent,
+        createPaymentIntent: createPaymentIntent,
     };
 }
