@@ -1,5 +1,3 @@
-import "../globalstyles/globals.scss";
-
 import type { Metadata } from "next";
 import React from "react";
 import {Providers} from "@/contexts/providers";
@@ -20,9 +18,9 @@ export default function RootLayout({
       <link rel="preconnect" href="https://fonts.googleapis.com"/>
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'anonymous'}/>
       {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link
-          href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&display=swap"
-          rel="stylesheet"/>
+      {/*<link*/}
+      {/*    href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&display=swap"*/}
+      {/*    rel="stylesheet"/>*/}
       <title>{metadata.title?.toString()}</title>
     </head>
     <body>

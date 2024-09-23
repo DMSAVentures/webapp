@@ -15,7 +15,7 @@ export default function Home() {
     const {createSubscriptionIntent, loading, error, clientSecret} = useCreateSubscriptionIntent()
     const [confirmed, setConfirmed] = React.useState<string | null>(null);
     useEffect(() => {
-        createSubscriptionIntent("price_1Q1hE200n5jvBrdMFEzIQj4n")
+        createSubscriptionIntent("price_1Q1y7700n5jvBrdM89uWe7aj")
     }, []);
 
     React.useEffect(() => {

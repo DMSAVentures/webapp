@@ -1,7 +1,6 @@
 @import "tokens";
 // Font Imports
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter+Display:wght@400;500;600;700&display=swap');
 // Base Typography Styles
 body {
   font-family: 'Inter', sans-serif;
@@ -11,7 +10,7 @@ body {
 
 // Heading Styles
 h1, .h1 {
-  font-family: 'Inter Display', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 56px;
   line-height: 64px;
@@ -19,7 +18,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-family: 'Inter Display', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 48px;
   line-height: 56px;
@@ -27,7 +26,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  font-family: 'Inter Display', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 40px;
   line-height: 48px;
@@ -35,7 +34,7 @@ h3, .h3 {
 }
 
 h4, .h4 {
-  font-family: 'Inter Display', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 32px;
   line-height: 40px;
@@ -43,7 +42,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-family: 'Inter Display', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
@@ -51,7 +50,7 @@ h5, .h5 {
 }
 
 h6, .h6 {
-  font-family: 'Inter Display', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
