@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useState, useEffect } from 'react';
 
 type AuthContextType = {
@@ -17,7 +18,7 @@ export function AuthProvider(props: { children: React.ReactNode }){
         // Check local storage for a token to set the initial state
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token); // True if token is present
-    }, [setIsLoggedIn]);
+    }, []);
     return (
         <AuthContext.Provider value={{ isLoggedIn }}>
             {props.children}
