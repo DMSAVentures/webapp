@@ -35,7 +35,12 @@ export const fetcher = async <T>(url: string, options: FetcherOptions = {}): Pro
 
         // For non-2xx responses, throw an error with the message
         throw new Error(data.error || 'An error occurred');
-    } catch (error) {
+    } catch (error: any) {
+        // Handle abort signal
+        if (error.name === 'AbortError') {
+            console.debug('Fetch request was aborted');
+            return Promise.reject(error); // Reject with the abort error or handle it accordingly
+        }
         // Handle token expiration
         if (error instanceof Error && error.message === 'Token expired') {
             localStorage.removeItem('token');
