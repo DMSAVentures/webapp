@@ -1,46 +1,37 @@
-import {useState} from "react";
+import { useState } from 'react';
+import {ApiError, fetcher } from './fetcher' // Adjust the path to your fetcher
 
-interface ErrorResponse {
-    error: string;
+interface CreateSubscriptionIntentResponse {
+    client_secret: string;
 }
 
 export const useCreateSubscriptionIntent = () => {
     let doneOnce = false;
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ErrorResponse | null>(null);
+    const [error, setError] = useState<ApiError | null>(null);
     const [clientSecret, setClientSecret] = useState<string | null>(null);
 
     const createSubscriptionIntent = async (price_id: string) => {
         if (doneOnce) {
-            return
+            return;
         }
         setLoading(true);
-        setError(null);
-
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/create-subscription-intent`, {
-                method: "POST",
+            // Use the custom fetcher here
+            const response = await fetcher<CreateSubscriptionIntentResponse>(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/create-subscription-intent`, {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({price_id}),
+                body: JSON.stringify({ price_id }),
             });
 
-            if (!response.ok) {
-                const errorData: ErrorResponse = await response.json();
-                setError(errorData);
-            } else {
-                const responseData = await response.json();
-                setClientSecret(responseData.client_secret);
-            }
+            // Successful response, set the client secret
+            setClientSecret(response.client_secret);
         } catch (error: any) {
-            console.error("Create payment intent failed", error);
-            if (error instanceof Error) {
-                setError({error: error.message });
-            } else {
-                setError({ error: "An unknown error occurred" });
-            }
+            console.error('Create subscription intent failed', error);
+            // Since fetcher throws a proper error, simply set it
+            setError({ error: error.message });
         } finally {
             setLoading(false);
             doneOnce = true;
@@ -53,4 +44,4 @@ export const useCreateSubscriptionIntent = () => {
         clientSecret,
         createSubscriptionIntent,
     };
-}
+};
