@@ -5,6 +5,7 @@ export default function OAuthSignedIn() {
         const url = new URL(window.location.href);
         const token = url.searchParams.get("token");
         if (token) {
+            console.log("token", token);
             // Save token to local storage
             localStorage.setItem("token", token);
             // Redirect to home page using nextjs router

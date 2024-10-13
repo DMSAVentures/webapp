@@ -9,7 +9,7 @@ interface Price {
 
 type PriceResponse = Price[];
 
-const useGetAllPrices = () => {
+export const useGetAllPrices = () => {
     const [prices, setPrices] = useState<PriceResponse | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -19,7 +19,7 @@ const useGetAllPrices = () => {
         setError(null);
 
         try {
-            const response = await fetcher<PriceResponse>(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/prices`, {
+            const response = await fetcher<PriceResponse>(`${process.env.NEXT_PUBLIC_API_URI}/api/billing/plans`, {
                 method: "GET",
                 signal,
             });

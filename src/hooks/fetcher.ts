@@ -1,4 +1,6 @@
 import Router from 'next/router';
+import {redirect} from "next/navigation";
+import {RedirectType} from "next/dist/client/components/redirect";
 
 interface FetcherOptions extends RequestInit {
     headers?: Record<string, string>;
@@ -23,7 +25,7 @@ export const fetcher = async <T>(url: string, options: FetcherOptions = {}): Pro
         const response = await fetch(url, {
             ...options,
             headers,
-            credentials: 'include',
+            // credentials: 'include',
         });
 
         const data = await response.json();
@@ -42,9 +44,8 @@ export const fetcher = async <T>(url: string, options: FetcherOptions = {}): Pro
             return Promise.reject(error); // Reject with the abort error or handle it accordingly
         }
         // Handle token expiration
-        if (error instanceof Error && error.message === 'Token expired') {
+        if (error instanceof Error && error.message === 'expired jwt token') {
             localStorage.removeItem('token');
-            Router.push('/signin');
         }
 
         // Throw error for the calling function to catch

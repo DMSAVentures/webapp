@@ -7,16 +7,18 @@ import {Appearance, loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
 import {Elements} from "@stripe/react-stripe-js";
 import CompletePage from "@/app/complete/completepage";
 import CheckoutForm from "@/app/checkout/checkoutform";
-import React, {useEffect} from "react";
+import React from "react";
 import { useCreateSubscriptionIntent } from "@/hooks/useCreateSubscriptionIntent";
+import { useSearchParams} from "next/navigation";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 export default function Home() {
-    const {createSubscriptionIntent, loading, error, clientSecret} = useCreateSubscriptionIntent()
+    const searchParams = useSearchParams();
+    const plan = searchParams?.get("plan");
+    console.log(plan)
+    const {clientSecret, loading, error} =  useCreateSubscriptionIntent({priceId: plan!})
+    console.log(error, loading)
     const [confirmed, setConfirmed] = React.useState<string | null>(null);
-    useEffect(() => {
-        createSubscriptionIntent("price_1Q1y7700n5jvBrdM89uWe7aj")
-    }, []);
 
     React.useEffect(() => {
         setConfirmed(new URLSearchParams(window.location.search).get(
