@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {fetcher} from "@/hooks/fetcher";
 
-interface Price {
+export interface Price {
     product_id: string;
     price_id: string;
     description: string;
@@ -10,7 +10,7 @@ interface Price {
 type PriceResponse = Price[];
 
 export const useGetAllPrices = () => {
-    const [prices, setPrices] = useState<PriceResponse | null>(null);
+    const [prices, setPrices] = useState<PriceResponse>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 

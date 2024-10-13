@@ -47,8 +47,9 @@ export const fetcher = async <T>(url: string, options: FetcherOptions = {}): Pro
         if (error instanceof Error && error.message === 'expired jwt token') {
             localStorage.removeItem('token');
         }
+        console.log('Error fetching request', error);
 
         // Throw error for the calling function to catch
-        throw error;
+        throw new Error('An error occurred');
     }
 };
