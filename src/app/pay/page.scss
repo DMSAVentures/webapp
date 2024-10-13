@@ -1,0 +1,17 @@
+@import "src/globalstyles/variables";
+
+.payment-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    .plan-container {
+
+        display: flex;
+    }
+    .checkout-container {
+        display: flex;
+    }
+
+}

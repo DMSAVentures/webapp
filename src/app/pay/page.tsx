@@ -10,6 +10,7 @@ import CheckoutForm from "@/app/checkout/checkoutform";
 import React from "react";
 import { useCreateSubscriptionIntent } from "@/hooks/useCreateSubscriptionIntent";
 import { useSearchParams} from "next/navigation";
+import "./page.scss"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 export default function Home() {
@@ -36,7 +37,7 @@ export default function Home() {
     }
 
     const appearance: Appearance = {
-        theme: 'stripe',
+        theme: 'flat',
     };
     const options: StripeElementsOptions = {
         clientSecret: clientSecret!,
@@ -46,12 +47,17 @@ export default function Home() {
 
 
     return (
-        <div className="App">
-            {clientSecret && (
-                <Elements options={options} stripe={stripePromise}>
-                    {confirmed ? <CompletePage /> : <CheckoutForm />}
-                </Elements>
-            )}
+        <div className={'payment-container'}>
+            <div className={'checkout-container'}>
+                {clientSecret && (
+                    <Elements options={options} stripe={stripePromise}>
+                        {confirmed ? <CompletePage/> : <CheckoutForm/>}
+                    </Elements>
+                )}
+            </div>
+            <div className={'plan-container'}>
+                <p>Plan: {plan}</p>
+            </div>
         </div>
     );
 }
