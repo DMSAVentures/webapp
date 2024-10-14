@@ -1,12 +1,11 @@
 'use client'
 import {useGetCheckoutSession} from "@/hooks/useGetCheckoutSession";
 
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
 export default function Page() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const sessionId = urlParams.get('session_id');
+    const searchParams = useSearchParams();  // Use useSearchParams to access query parameters
+    const sessionId = searchParams?.get('session_id');
     const router = useRouter();
     const {error, loading, data} = useGetCheckoutSession({sessionID: sessionId!})
 
