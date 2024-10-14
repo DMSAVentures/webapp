@@ -1,6 +1,6 @@
 'use client'
 import React, {createContext, useState, useEffect, useMemo} from 'react';
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 type AuthContextType = {
     isLoggedIn: boolean;
@@ -16,16 +16,14 @@ export const AuthContext = createContext(defaultAuthContext);
 export function AuthProvider(props: { children: React.ReactNode }){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const router = useRouter();
-    const url = new URL(window.location.href);
+    const pathname = usePathname();
     useEffect(() => {
-        if (typeof window !== 'undefined') {
         // Check local storage for a token to set the initial state
         const token = localStorage.getItem('token');
         if (token) {
             setIsLoggedIn(true);
-        } else if (url.pathname !== 'oauth/signedin') {
+        } else if (pathname !== 'oauth/signedin') {
             router.push('/signin');
-        }
         }
     }, []);
 
