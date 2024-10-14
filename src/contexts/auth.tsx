@@ -18,12 +18,14 @@ export function AuthProvider(props: { children: React.ReactNode }){
     const router = useRouter();
     const url = new URL(window.location.href);
     useEffect(() => {
+        if (typeof window !== 'undefined') {
         // Check local storage for a token to set the initial state
         const token = localStorage.getItem('token');
         if (token) {
             setIsLoggedIn(true);
         } else if (url.pathname !== 'oauth/signedin') {
             router.push('/signin');
+        }
         }
     }, []);
 
