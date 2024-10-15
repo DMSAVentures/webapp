@@ -1,17 +1,15 @@
 'use client'
+import {useRouter, useSearchParams} from "next/navigation";
+
 export default function OAuthSignedIn() {
-    // Get token from URL
-    if (typeof window !== "undefined") {
-        const url = new URL(window.location.href);
-        const token = url.searchParams.get("token");
-        if (token) {
-            console.log("token", token);
-            // Save token to local storage
-            localStorage.setItem("token", token);
-            // Redirect to home page using nextjs router
-            window.location.href = "/";
-        }
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const token = searchParams?.get("token");
+    if (token) {
+        localStorage.setItem("token", token);
+        router.push("/")
     }
+
 
     return (
         <div>

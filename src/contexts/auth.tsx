@@ -22,7 +22,7 @@ export function AuthProvider(props: { children: React.ReactNode }){
         const token = localStorage.getItem('token');
         if (token) {
             setIsLoggedIn(true);
-        } else if (pathname !== 'oauth/signedin') {
+        } else if (!token && pathname !== 'oauth/signedin') {
             router.push('/signin');
         }
     }, []);
