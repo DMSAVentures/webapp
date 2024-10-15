@@ -1,5 +1,5 @@
-import {ApiError, fetcher} from "@/hooks/fetcher";
 import React from "react";
+import {ApiError, fetcher} from "@/hooks/fetcher";
 
 interface GetCurrentSubscriptionResponse {
     id: string;

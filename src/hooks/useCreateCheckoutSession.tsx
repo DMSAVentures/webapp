@@ -1,5 +1,5 @@
 import {useState, useCallback, useEffect} from 'react';
-import { fetcher } from './fetcher'; // Adjust the path to your fetcher
+import {fetcher} from "@/hooks/fetcher";
 
 interface CreateCheckoutSessionResponse {
     client_secret: string;

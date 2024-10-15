@@ -1,14 +1,10 @@
 import {useState, useCallback, useEffect} from 'react';
-import { fetcher } from './fetcher'; // Adjust the path to your fetcher
+import {ApiError, fetcher} from "@/hooks/fetcher";
 
 interface GetCheckoutSessionResponse {
     session_id: string
     status: string
     payment_status: string
-}
-
-interface ApiError {
-    error: string;
 }
 
 interface IArguments {

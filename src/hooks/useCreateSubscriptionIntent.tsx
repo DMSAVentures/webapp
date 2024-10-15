@@ -1,12 +1,8 @@
 import {useState, useCallback, useEffect} from 'react';
-import { fetcher } from './fetcher'; // Adjust the path to your fetcher
+import {ApiError, fetcher} from "@/hooks/fetcher";
 
 interface CreateSubscriptionIntentResponse {
     client_secret: string;
-}
-
-interface ApiError {
-    error: string;
 }
 
 interface IArguments {

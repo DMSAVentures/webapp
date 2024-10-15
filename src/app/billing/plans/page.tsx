@@ -1,26 +1,12 @@
-'use client'
-import {useGetAllPrices} from "@/hooks/useGetAllPrices";
-import { useRouter } from 'next/navigation';
+import PlanToPay from "@/components/billing/plans/planPay";
+import {getPlans} from "@/hooks/getPlans";
 
 
-export default function Page() {
-    const router = useRouter();
-    const {prices, loading, error} = useGetAllPrices()
+export default async function Page() {
+    const prices = await getPlans();  // This will trigger loading.tsx and error.tsx automatically if needed
 
-    const handlePay = (price_id: string) => {
-        router.push(`/pay?plan=${price_id}`)
-    }
-
-    if (loading) {
-        return "Loading..."
-    }
-
-    if (error) {
-        return <div>{error}</div>
-    }
-
-    if (!prices) {
-        return <div>No prices found</div>
+    if (!prices.length) {
+        return <div>No pricing plans available.</div>;
     }
 
     return (
@@ -28,9 +14,7 @@ export default function Page() {
             <h1>Plans</h1>
             <ul>
                 {prices.map((price) => (
-                    <li key={price.price_id}>
-                        <button onClick={() => handlePay(price.price_id)}> Pay - {price.description}</button>
-                    </li>
+                    <PlanToPay key={price.price_id} product_id={price.product_id} price_id={price.price_id} description={price.description}/>
                 ))}
             </ul>
         </div>

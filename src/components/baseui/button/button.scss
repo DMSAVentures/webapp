@@ -90,6 +90,7 @@
   align-items: center;
   justify-content: center;
   border: none;
+  min-width: $spacing-64;
   transition: background-color $transition-normal $transition-type-dissolve;
   &--2x-small {
     gap: $spacing-2;
