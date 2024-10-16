@@ -1,7 +1,7 @@
-import React, {ComponentProps} from 'react';
+import React from 'react';
 import './step-indicator-horizontal-item.scss';
 import 'remixicon/fonts/remixicon.css';
-import {ppath} from "@yarnpkg/fslib";
+
 export interface StepIndicatorHorizontalItemProps {
     state: 'default' | 'active' | 'completed' | 'disabled';
     idx: number;
