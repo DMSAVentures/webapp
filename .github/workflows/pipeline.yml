@@ -15,9 +15,9 @@ jobs:
     name: Build and Test Webapp
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_API_URI: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:3000
       NEXT_PUBLIC_GOOGLE_CLIENT_ID: dummyclientid
-      NEXT_PUBLIC_GOOGLE_REDIRECT_URI: http://localhost:8080/api/auth/google/callback
+      NEXT_PUBLIC_GOOGLE_REDIRECT_URL: http://localhost:8080/api/auth/google/callback
       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: dummykey
     steps:
       - uses: actions/checkout@v4
@@ -74,7 +74,7 @@ jobs:
           # Build the Docker image and tag with the unique SHA tag
           docker build \
           --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID=264792512466-81b98c4ctp11qj177mgmj817o23a12bn.apps.googleusercontent.com \
-          --build-arg NEXT_PUBLIC_GOOGLE_REDIRECT_URI=https://protoapp.xyz/api/auth/google/callback \
+          --build-arg NEXT_PUBLIC_GOOGLE_REDIRECT_URL=https://protoapp.xyz/api/auth/google/callback \
           --build-arg NEXT_PUBLIC_API_URL=https://protoapp.xyz/api \
           --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_51PxCuHP3M2g0n0x3rpcflZx5JgmeMo7Le4eQFEj2coL6EwODaZ4L0YsfUGm32hXjzMruRZtmQXqUlvHcz2ZsVCwZ00O8C2Is5h \
           -t "$REPO_NAME:${{ github.sha }}" .

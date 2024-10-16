@@ -17,7 +17,7 @@ export const useCreateSubscriptionIntent =  (args: IArguments) => {
     const createSubscriptionIntent = useCallback(async (price_id: string): Promise<void> => {
         setLoading(true);
         try {
-            const response = await fetcher<CreateSubscriptionIntentResponse>(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/create-subscription-intent`, {
+            const response = await fetcher<CreateSubscriptionIntentResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/create-subscription-intent`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

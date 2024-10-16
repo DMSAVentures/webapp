@@ -7,7 +7,7 @@ export async function getCurrentSubscription(): Promise<GetCurrentSubscriptionRe
     const incomingHeaders = headers();
     const token = incomingHeaders.get('cookie'); // Extract only the cookie header
 
-    const response = await fetcher<GetCurrentSubscriptionResponse>(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/subscription`, {
+    const response = await fetcher<GetCurrentSubscriptionResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/subscription`, {
         method: "GET",
         headers: {
             'cookie': token || '',  // Forward the token from cookies if available
