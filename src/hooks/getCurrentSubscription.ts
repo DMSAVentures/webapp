@@ -4,9 +4,14 @@ import {fetcher} from "@/hooks/fetcher";
 
 
 export async function getCurrentSubscription(): Promise<GetCurrentSubscriptionResponse> {
+    const incomingHeaders = headers();
+    const token = incomingHeaders.get('cookie'); // Extract only the cookie header
+
     const response = await fetcher<GetCurrentSubscriptionResponse>(`${process.env.NEXT_PUBLIC_API_URI}/api/protected/billing/subscription`, {
         method: "GET",
-        ...headers(),
+        headers: {
+            'cookie': token || '',  // Forward the token from cookies if available
+        },
     });
     // Convert date strings to native Date objects
     return  {
