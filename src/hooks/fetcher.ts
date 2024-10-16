@@ -1,5 +1,5 @@
 interface FetcherOptions extends RequestInit {
-    headers?: Record<string, string>;
+    headers?: HeadersInit
 }
 
 export interface ApiError {
@@ -9,10 +9,15 @@ export interface ApiError {
 export const fetcher = async <T>(url: string, options: FetcherOptions = {}): Promise<T> => {
     try {
         // Add token to headers if it exists
-        const headers = {
-            'Content-Type': 'application/json',
-            ...options.headers,
-        };
+        const headers = new Headers({
+                'Content-Type': 'application/json',
+                ...options.headers,
+            })
+
+        // Remove the 'connection' header if it exists
+        if (headers.has('connection')) {
+            headers.delete('connection');
+        }
 
         const response = await fetch(url, {
             ...options,

@@ -1,3 +1,4 @@
+'use client';
 import { useGetAllPrices} from "@/hooks/useGetAllPrices";
 
 interface PlanCardProps {

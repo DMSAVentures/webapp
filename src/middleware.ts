@@ -14,5 +14,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/"],
+    matcher: [
+        "/((?!billing/plans|_next|signin).*)",  // Match all routes except /billing/plans and /signin
+    ],
 }
