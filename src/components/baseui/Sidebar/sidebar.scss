@@ -1,0 +1,59 @@
+@import "src/globalstyles/variables";
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: $neutral-0;
+    display: flex;
+    flex-direction: column;
+    z-index: 30;
+    width: fit-content;
+    //max-width: fit-content;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-in-out; // Ensure transition is applied in both open and closed states
+
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: $spacing-16;
+    }
+
+    &-nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        // Select the second-to-last child and add auto margin to push the last child down
+        & > :nth-last-child(2) {
+            margin-bottom: auto;
+        }
+        height: 100%;
+        overflow-y: scroll;
+        width: fit-content;
+    }
+
+    &.open {
+        //transition: transform 0.4s ease-in-out;
+        transform: translateX(0);
+        width: fit-content;
+    }
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    //left: 285px;
+    //width: 100%;
+    //height: 100%;
+    background-color: $neutral-200;
+    opacity: 0.5;
+    z-index: 20;
+    display: none;
+    &.visible {
+        display: block;
+    }
+}

@@ -5,6 +5,7 @@ interface TabMenuVerticalProps {
     items: React.ReactElement<TabMenuVerticalItemProps>[];
     title: string;
     variant: 'card' | 'default';
+    showFooter?: boolean;
 }
 export const TabMenuVertical : React.FC<TabMenuVerticalProps> = (props) => {
     return (
@@ -19,7 +20,7 @@ export const TabMenuVertical : React.FC<TabMenuVerticalProps> = (props) => {
                     );
                 })}
             </div>
-            <span className={'tab-menu-vertical-sidebar__footer'}>&copy; {new Date().getFullYear()} Shubhanshu</span>
+            {props.showFooter ? <span className={'tab-menu-vertical-sidebar__footer'}>&copy; {new Date().getFullYear()} Shubhanshu</span> : null }
         </div>
     );
 }
