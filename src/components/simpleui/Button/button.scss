@@ -1,0 +1,95 @@
+@import "../../../globalstyles/v2/variables";
+
+
+// ==============================
+// Button Component Styles
+// ==============================
+
+.button {
+    font-family: inherit;
+    font-size: 1rem;                    // Base font size
+    font-weight: $font-weight-semibold; // Slightly bold weight from tokens
+    padding: $spacing-03 $spacing-05;   // Padding using spacing tokens
+    border-radius: $spacing-03; // Rounded corners
+    //border: $border-width-interactive solid transparent; // Only visible in interactive states
+    border: none;
+    cursor: pointer;
+    transition: background-color $duration-moderate-01 $easing-productive-standard,
+    color $duration-moderate-01 $easing-productive-standard,
+    border-color $duration-moderate-01 $easing-productive-standard;
+
+    min-width: $spacing-07;
+
+    @media (min-width: $breakpoint-md) {
+        min-width: $spacing-08;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        min-width: $spacing-09;
+    }
+
+    @media (min-width: $breakpoint-xlg) {
+        min-width: $spacing-10;
+    }
+
+    // Default color for primary button
+    background-color: var(--color-text);
+    color: var(--color-bg); // Text color for contrast on primary button
+
+    // Hover State
+    &:hover {
+        background-color: $interactive-hover-bg;
+        color: $interactive-hover-text;
+    }
+
+    // Active State
+    &:active {
+        background-color: $interactive-active-bg;
+        color: $interactive-active-text;
+        border-color: $interactive-active-border;
+    }
+
+    // Focus State
+    &:focus {
+        outline: none;
+        border-color: $interactive-focus-border;
+        box-shadow: 0 0 0 2px rgba($interactive-focus-border, 0.5);
+    }
+
+    // Disabled State
+    &:disabled {
+        background-color: $interactive-disabled-bg;
+        color: $interactive-disabled-text;
+        border-color: $interactive-disabled-border;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+}
+
+// ==============================
+// Secondary Button Variant
+// ==============================
+
+.button--secondary {
+    background-color: transparent;
+    border-color: $interactive-hover-border;
+    color: var(--color-text);
+
+    &:hover {
+        background-color: $interactive-hover-bg;
+        color: $interactive-hover-text;
+        border-color: $interactive-hover-border;
+    }
+
+    &:active {
+        background-color: $interactive-active-bg;
+        color: $interactive-active-text;
+        border-color: $interactive-active-border;
+    }
+
+    &:disabled {
+        background-color: $interactive-disabled-bg;
+        color: $interactive-disabled-text;
+        border-color: $interactive-disabled-border;
+    }
+}

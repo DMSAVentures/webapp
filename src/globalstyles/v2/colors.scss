@@ -1,0 +1,32 @@
+
+:root {
+    // Light mode colors
+    --color-bg: #ffffff;
+    --color-text: #000000;
+    --color-primary: #4a4a4a;
+    --color-secondary: #393939;
+    --color-muted: #6f6f6f;
+    --color-border: #e0e0e0;
+
+    // Typography-specific colors
+    --color-heading: var(--color-text);
+    --color-body-text: var(--color-secondary);
+    --color-caption-text: var(--color-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        // Dark mode colors
+        --color-bg: #121212;
+        --color-text: #ffffff;
+        --color-primary: #c6c6c6;
+        --color-secondary: #e0e0e0;
+        --color-muted: #8d8d8d;
+        --color-border: #3a3a3a;
+
+        // Typography-specific colors for dark mode
+        --color-heading: var(--color-text);
+        --color-body-text: var(--color-secondary);
+        --color-caption-text: var(--color-muted);
+    }
+}
