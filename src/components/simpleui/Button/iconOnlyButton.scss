@@ -1,0 +1,49 @@
+@import "../../../globalstyles/v2/variables";
+
+.icon-only-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-03;      // Equal padding on all sides
+    width: $spacing-08;             // Fixed square dimensions
+    height: $spacing-08;
+    border-radius: $spacing-03;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color $duration-moderate-01 $easing-productive-standard,
+    color $duration-moderate-01 $easing-productive-standard;
+
+    .ri {
+        font-size: 1.5rem; // Icon size adjustment
+    }
+
+    &--secondary {
+        background-color: var(--color-secondary);
+        color: var(--color-bg);
+    }
+
+    &:hover {
+        background-color: $interactive-hover-bg;
+        color: $interactive-hover-text;
+    }
+
+    &:active {
+        background-color: $interactive-active-bg;
+        color: $interactive-active-text;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($interactive-focus-border, 0.5);
+    }
+
+    &:disabled {
+        background-color: $interactive-disabled-bg;
+        color: $interactive-disabled-text;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+}

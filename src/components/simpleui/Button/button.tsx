@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 // Button component
-const Button: FC<ButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
                                      variant = 'primary',
                                      disabled = false,
                                      onClick,
@@ -34,4 +34,4 @@ const Button: FC<ButtonProps> = ({
     );
 };
 
-export default Button;
+// export default Button;

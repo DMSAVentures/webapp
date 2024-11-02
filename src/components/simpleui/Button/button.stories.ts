@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import Button from "@/components/simpleui/Button/button";
+import {Button} from "@/components/simpleui/Button/button";
 
 // Storybook metadata and configuration
 const meta: Meta<typeof Button> = {
