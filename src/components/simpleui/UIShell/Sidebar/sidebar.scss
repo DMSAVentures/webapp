@@ -27,7 +27,7 @@
     inset: 0;
     //inset: $spacing-08 0 0 0;
     width: 100%;
-    //min-height: 100vh;
+    height: calc(100vh - $spacing-11);
     background-color: var(--color-secondary-bg);
     opacity: 0;
     z-index: 20;
@@ -43,5 +43,4 @@
 .sidebar-container {
     position: relative;
     min-width: 100vh;
-    height: calc(100vh - $spacing-11);
 }

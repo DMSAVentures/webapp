@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeft
             {navItems && <HeaderNav items={navItems} />}
             {actionItems && <HeaderActions items={actionItems} />}
         </header>
-        <Sidebar isOpen={isLeftNavOpen!} onClose={toggleLeftNav!}>
+        <Sidebar isOpen={isLeftNavOpen!} onClose={()=>{}}>
             <SidebarContent/>
             <SidebarFooter/>
         </Sidebar>
