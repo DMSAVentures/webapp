@@ -4,7 +4,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: calc(100vh - $spacing-11);
+    overflow: scroll;
     background-color: var(--color-bg);
     display: flex;
     flex-direction: column;
@@ -14,24 +15,10 @@
     transition: transform $duration-slow-01 $easing-productive-exit;
     padding: $spacing-03 $spacing-05;
 
-    &-nav {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-
-        // Select the second-to-last child and add auto margin to push the last child down
-        & > :nth-last-child(2) {
-            margin-bottom: auto;
-        }
-        height: 100%;
-        overflow-y: scroll;
-        width: fit-content;
-    }
-
     &.open {
         transition: transform $duration-slow-01 $easing-productive-entrance;
         transform: translateX(0);
-        width: $spacing-12 * 3;
+        width: $spacing-12 * 2;
     }
 }
 
@@ -40,7 +27,7 @@
     inset: 0;
     //inset: $spacing-08 0 0 0;
     width: 100%;
-    min-height: 100vh;
+    //min-height: 100vh;
     background-color: var(--color-secondary-bg);
     opacity: 0;
     z-index: 20;
@@ -56,4 +43,5 @@
 .sidebar-container {
     position: relative;
     min-width: 100vh;
+    height: calc(100vh - $spacing-11);
 }

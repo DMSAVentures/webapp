@@ -14,7 +14,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, iconClass
     return (
         <Link className={'sidebar__item__link'} href={href}>
         <li className={`sidebar__item ${isActive ? 'active' : ''}`}>
-            {iconClass && <i className={`${iconClass}`}></i>}
+            {iconClass && <i className={`ri-${iconClass}`}></i>}
             {label}
         </li>
         </Link>

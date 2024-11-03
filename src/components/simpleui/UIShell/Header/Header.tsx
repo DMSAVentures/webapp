@@ -6,6 +6,7 @@ import './Header.scss';
 import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
 import {Sidebar} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
+import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 
 interface HeaderProps {
     logo: string;
@@ -28,6 +29,7 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeft
         </header>
         <Sidebar isOpen={isLeftNavOpen!} onClose={toggleLeftNav!}>
             <SidebarContent/>
+            <SidebarFooter/>
         </Sidebar>
         </div>
     );
