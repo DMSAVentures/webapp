@@ -1,0 +1,8 @@
+@import "src/globalstyles/v2/variables";
+
+.sidebar__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-05;
+    height: 100vh;
+}

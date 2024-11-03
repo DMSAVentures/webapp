@@ -38,16 +38,16 @@ const navItems: NavItem[] = [
 ];
 
 const actionItems: ActionItem[] = [
-    { iconClass: 'ri-search-line', label: 'Search', href: '#' },
+    { iconClass: 'search-line', label: 'Search', href: '#' },
     {
-        iconClass: 'ri-notification-line',
+        iconClass: 'notification-line',
         label: 'Notifications',
         subItems: [
             { label: 'Alert 1', href: '#' },
             { label: 'Alert 2', href: '#' },
         ],
     },
-    { iconClass: 'ri-apps-2-line', label: 'Apps' },
+    { iconClass: 'apps-2-line', label: 'Apps' },
 ];
 
 // Default Header story with toggleLeftNav functionality

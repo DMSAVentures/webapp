@@ -17,9 +17,13 @@
 
     &__nav {
         //margin-left: auto;
-        display: flex;
+        display: none;
         align-items: center;
         gap: $spacing-09;
+
+        @media (min-width: $breakpoint-md) {
+            display: flex;
+        }
     }
 
      &__actions {

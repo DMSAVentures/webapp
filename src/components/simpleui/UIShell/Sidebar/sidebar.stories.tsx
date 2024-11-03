@@ -1,6 +1,7 @@
-import Sidebar, {SidebarProps} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
+import {Sidebar, SidebarProps} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
 import {Meta, StoryObj} from "@storybook/react";
 import React, {useState} from "react";
+import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
 
 const SidebarStoryWrapper: React.FC<SidebarProps> = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,9 @@ const SidebarStoryWrapper: React.FC<SidebarProps> = (props) => {
     return (
         <div>
             <button onClick={() => setIsOpen(true)}>Open Sidebar</button>
-            <Sidebar {...props} isOpen={isOpen} onClose={handleClose} />
+            <Sidebar {...props} isOpen={isOpen} onClose={handleClose}>
+                <SidebarContent/>
+            </Sidebar>
         </div>
     );
 };

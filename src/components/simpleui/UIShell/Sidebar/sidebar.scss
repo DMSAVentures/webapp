@@ -10,9 +10,9 @@
     flex-direction: column;
     z-index: 30;
     width: $spacing-12;
-    transform: translateX(-100%);
+    transform: translateX(-200%);
     transition: transform $duration-slow-01 $easing-productive-exit;
-
+    padding: $spacing-03 $spacing-05;
 
     &-nav {
         display: flex;
@@ -42,16 +42,18 @@
     width: 100%;
     min-height: 100vh;
     background-color: var(--color-secondary-bg);
-    opacity: 0.5;
+    opacity: 0;
     z-index: 20;
-    display: none;
+    visibility: hidden;
     &.visible {
-        display: block;
-        //transition: background-color $duration-slow-01 $easing-productive-entrance;
+        visibility: visible;
+        opacity: 0.5;
+        transition: opacity $duration-slow-02 $easing-productive-entrance;
         //will-change: contents;
     }
 }
 
 .sidebar-container {
     position: relative;
+    min-width: 100vh;
 }
