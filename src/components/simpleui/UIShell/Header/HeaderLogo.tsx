@@ -9,7 +9,7 @@ interface HeaderLogoProps {
 const HeaderLogo: React.FC<HeaderLogoProps> = ({ logo }) => {
     return (
         <span className="header__logo">
-            <Link href="/">
+            <Link href="/public">
                 {logo}
             </Link>
         </span>

@@ -1,0 +1,57 @@
+@import "src/globalstyles/v2/variables";
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    z-index: 30;
+    width: $spacing-12;
+    transform: translateX(-100%);
+    transition: transform $duration-slow-01 $easing-productive-exit;
+
+
+    &-nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        // Select the second-to-last child and add auto margin to push the last child down
+        & > :nth-last-child(2) {
+            margin-bottom: auto;
+        }
+        height: 100%;
+        overflow-y: scroll;
+        width: fit-content;
+    }
+
+    &.open {
+        transition: transform $duration-slow-01 $easing-productive-entrance;
+        transform: translateX(0);
+        width: $spacing-12 * 3;
+    }
+}
+
+.sidebar-overlay {
+    position: absolute;
+    inset: 0;
+    //inset: $spacing-08 0 0 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--color-secondary-bg);
+    opacity: 0.5;
+    z-index: 20;
+    display: none;
+    &.visible {
+        display: block;
+        //transition: background-color $duration-slow-01 $easing-productive-entrance;
+        //will-change: contents;
+    }
+}
+
+.sidebar-container {
+    position: relative;
+}
