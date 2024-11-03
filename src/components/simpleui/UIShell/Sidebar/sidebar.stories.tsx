@@ -1,49 +1,45 @@
-import {Sidebar, SidebarProps} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
-import {Meta, StoryObj} from "@storybook/react";
-import React, {useState} from "react";
+import { Meta, StoryObj } from "@storybook/react";
+import React from "react";
+import { Sidebar } from "@/components/simpleui/UIShell/Sidebar/Sidebar";
+// import './Sidebar.stories.scss';
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
 
-const SidebarStoryWrapper: React.FC<SidebarProps> = (props) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const handleClose = () => {
-        setIsOpen(false);
-    };
-
+// Sidebar Story Wrapper to showcase Persistent Sidebar
+const SidebarStoryWrapper: React.FC = () => {
     return (
-        <div>
-            <button onClick={() => setIsOpen(true)}>Open Sidebar</button>
-            <Sidebar {...props} isOpen={isOpen} onClose={handleClose}>
-                <SidebarContent/>
-            </Sidebar>
+        <div className="sidebar-story-container" style={{ display: 'grid', gridTemplateColumns: '18rem 1fr'}}>
+
+                <Sidebar>
+                    <SidebarContent />
+                </Sidebar>
+            <div className="sidebar-story-content">
+                Main content area for visualization
+            </div>
         </div>
     );
 };
 
+// Storybook metadata
 const meta: Meta = {
     title: "SimpleUI/Sidebar",
-    component: SidebarStoryWrapper,
+    component: Sidebar,
     parameters: {
-        layout: "centered",
+        layout: "fullscreen",
     },
-    argTypes: {
-        isOpen: {control: "boolean"},
-        onClose: {action: "closed"},
-    },
-    args: {
-        isOpen: false,
-    },
-
 } satisfies Meta<typeof Sidebar>;
+
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-
-
-export const Open: Story = {
-    args: {
-        isOpen: true,
+// Persistent Sidebar story, always open
+export const Persistent: Story = {
+    render: () => <SidebarStoryWrapper />,
+    parameters: {
+        docs: {
+            description: {
+                story: "This is a persistent sidebar, always open on larger screens and without overlay.",
+            },
+        },
     },
 };
-

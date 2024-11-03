@@ -1,24 +1,28 @@
 @import "src/globalstyles/v2/variables";
 
 .sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
     height: calc(100vh - $spacing-11);
     overflow: scroll;
     background-color: var(--color-bg);
     display: flex;
     flex-direction: column;
     z-index: 30;
-    width: $spacing-12;
-    transform: translateX(-200%);
-    transition: transform $duration-slow-01 $easing-productive-exit;
     padding: $spacing-03 $spacing-05;
+    width: $spacing-12 * 3;
+
+    &--collapsible {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $spacing-12;
+        transform: translateX(-200%);
+        transition: transform $duration-slow-01 $easing-productive-exit;
+    }
 
     &.open {
         transition: transform $duration-slow-01 $easing-productive-entrance;
         transform: translateX(0);
-        width: $spacing-12 * 2;
+        width: $spacing-12 * 3;
     }
 }
 

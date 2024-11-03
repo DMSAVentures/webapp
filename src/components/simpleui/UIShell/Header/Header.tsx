@@ -4,7 +4,7 @@ import HeaderNav, { NavItem } from './HeaderNav';
 import HeaderActions, { ActionItem } from './HeaderActions';
 import './Header.scss';
 import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
-import {Sidebar} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
+import {SidebarCollapsible} from "@/components/simpleui/UIShell/Sidebar/SidebarCollapsible";
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
 import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 
@@ -27,10 +27,6 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeft
             {navItems && <HeaderNav items={navItems} />}
             {actionItems && <HeaderActions items={actionItems} />}
         </header>
-        <Sidebar isOpen={isLeftNavOpen!} onClose={()=>{}}>
-            <SidebarContent/>
-            <SidebarFooter/>
-        </Sidebar>
         </div>
     );
 };
