@@ -11,8 +11,8 @@
     border: none;
     cursor: pointer;
     box-sizing: border-box;
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--color-text);
+    color:  var(--color-bg); // Text color for contrast on primary button
     transition: background-color $duration-moderate-01 $easing-productive-standard,
     color $duration-moderate-01 $easing-productive-standard;
 
@@ -21,29 +21,51 @@
     }
 
     &--secondary {
-        background-color: var(--color-secondary);
-        color: var(--color-bg);
+        background-color: var(--color-secondary-bg);
+        color: $color-neutral-900;
     }
 
     &:hover {
-        background-color: $interactive-hover-bg;
-        color: $interactive-hover-text;
+        background-color: $interactive-primary-hover-bg;
     }
 
     &:active {
-        background-color: $interactive-active-bg;
-        color: $interactive-active-text;
+        background-color: $interactive-primary-active-bg;
     }
 
-    &:focus {
+    &:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 2px rgba($interactive-focus-border, 0.5);
+        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
     }
 
     &:disabled {
-        background-color: $interactive-disabled-bg;
-        color: $interactive-disabled-text;
+        background-color: $interactive-primary-disabled-bg;
+        color: $interactive-primary-disabled-text;
         cursor: not-allowed;
-        opacity: 0.6;
+    }
+}
+
+.icon-only-button--secondary {
+    background-color: var(--color-secondary-bg);
+    color: $color-neutral-900;
+
+
+    &:hover {
+        background-color: $interactive-secondary-hover-bg;
+    }
+
+    &:active {
+        background-color: $interactive-secondary-active-bg;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+    }
+
+    &:disabled {
+        background-color: $interactive-primary-disabled-bg;
+        color: $interactive-primary-disabled-text;
+        cursor: not-allowed;
     }
 }
