@@ -10,9 +10,9 @@ export interface SidebarProps {
 
 export const SidebarCollapsible: React.FC<SidebarProps> = (props: SidebarProps) => {
     return (
-        <div className={`sidebar-container`}>
+        <div className={`sidebar-container ${props.isOpen ? 'expanded' : ''}`}>
             <div className={`sidebar-overlay ${props.isOpen ? 'visible' : ''}`} onClick={props.onClose}/>
-            <aside className={`sidebar sidebar--collapsible ${props.isOpen ? 'open' : ''}`}>
+            <aside className={`sidebar ${props.isOpen ? 'sidebar--collapsible open' : ''}`}>
                 {props.children}
             </aside>
         </div>
