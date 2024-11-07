@@ -18,20 +18,20 @@ $sizing-scale: (
 // ==============================
 
 $breakpoint-sm: 320px;
-$breakpoint-md: 672px;
-$breakpoint-lg: 1056px;
-$breakpoint-xlg: 1312px;
-$breakpoint-max: 1584px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1280px;
+$breakpoint-xlg: 1536px;
+$breakpoint-max: 2560px;
 
 // ==============================
 // Column Count Tokens
 // ==============================
 
-$columns-sm: 4;
+$columns-sm: 8;
 $columns-md: 8;
-$columns-lg: 16;
+$columns-lg: 12;
 $columns-xlg: 16;
-$columns-max: 16;
+$columns-max: 32;
 
 // ==============================
 // Column Width (Percentage) Tokens
@@ -53,7 +53,7 @@ $padding: 16px;
 // Margin Tokens
 // ==============================
 
-$margin-sm: 0;
+$margin-sm: 8px;
 $margin-md: 16px;
 $margin-lg: 16px;
 $margin-xlg: 16px;
@@ -87,10 +87,10 @@ $container-width-max: $breakpoint-max;
     grid-template-columns: repeat($columns, 1fr);
     gap: $gutter; // Space between columns
     margin-left: auto;
-    margin-right: auto;
-    padding-left: $margin;
-    padding-right: $margin;
-    max-width: $container-width;
+    margin-right:  auto;
+    padding-left: $padding;
+    padding-right:  $padding;
+    //max-width: $container-width;
 }
 
 // ==============================

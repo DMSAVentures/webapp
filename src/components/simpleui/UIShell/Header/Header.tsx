@@ -27,6 +27,9 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeft
             {navItems && <HeaderNav items={navItems} />}
             {actionItems && <HeaderActions items={actionItems} />}
         </header>
+            <SidebarCollapsible isOpen={isLeftNavOpen!} onClose={toggleLeftNav!}>
+                <SidebarContent/>
+            </SidebarCollapsible>
         </div>
     );
 };

@@ -15,12 +15,12 @@ export const UIShellWithCollapsibleNavigation: React.FC = () => {
         <div className="shell">
             <Header logo={'DMSA'} isLeftNavOpen={isLeftNavOpen} toggleLeftNav={toggleLeftNav}/>
             <div className={'shell-container'}>
-                    <SidebarCollapsible isOpen={isLeftNavOpen} onClose={toggleLeftNav}>
-                        <SidebarContent/>
-                    </SidebarCollapsible>
                 <div className="grid-wide">
-                    <Column sm={4} md={8} lg={2} xlg={2}>
-                        Some Content
+                    <Column sm={{span: 2, start: 7}}>
+                            Titles
+                    </Column>
+                    <Column sm={{span: 1, start: 4}}>
+                        Content
                     </Column>
                 </div>
             </div>

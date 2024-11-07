@@ -1,11 +1,9 @@
 @import "src/globalstyles/v2/variables";
 
 .shell-container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-
-    & > *:nth-child(2) {
-        margin-top: 2rem;
+    .grid-wide:first-child {
+        @media (min-width: $breakpoint-lg) {
+            margin-left: $spacing-12 * 3;
+        }
     }
 }

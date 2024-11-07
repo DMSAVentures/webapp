@@ -5,9 +5,9 @@ $breakpoints: (
         md: $breakpoint-md,
         lg: $breakpoint-lg,
         xlg: $breakpoint-xlg,
+        max: $breakpoint-max,
 );
 
-// Helper map for column counts based on each breakpoint
 $columns: (
         sm: $columns-sm,
         md: $columns-md,
@@ -16,13 +16,30 @@ $columns: (
         max: $columns-max,
 );
 
-// Generate responsive column classes for each breakpoint
+//@each $breakpoint, $value in $breakpoints {
+//    @media (min-width: #{$value}) {
+//        .test-media-#{$breakpoint} {
+//            color: blue;
+//        }
+//    }
+//}
+
+
 @each $breakpoint, $col-count in $columns {
-    @for $i from 1 through $col-count {
-        .column--#{$breakpoint}-#{$i} {
-            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
-                grid-column: span $i;
+    @for $start from 1 through $col-count {
+        $max-span: $col-count - $start + 1;
+        @if $max-span > 0 {
+            @for $span from 1 through $max-span {
+                .column--#{$breakpoint}-start-#{$start}-span-#{$span} {
+                    @media (min-width: map-get($breakpoints, $breakpoint)) {
+                        grid-column: $start / span $span;
+                    }
+                }
             }
         }
+
+        //@for $span from 1 through ($col-count - $start + 1) {
+        //
+        //}
     }
 }
