@@ -10,7 +10,7 @@ interface SidebarGroupProps {
 export const SidebarGroup: React.FC<SidebarGroupProps> & { Item: typeof SidebarItem } = ({ label, children }) => {
     return (
         <div className="sidebar__group">
-            <h6 className="sidebar__group-label">{label}</h6>
+            <small className="sidebar__group-label">{label}</small>
             <ul className="sidebar__group-items">
                 {children}
             </ul>

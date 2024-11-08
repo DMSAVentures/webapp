@@ -15,7 +15,7 @@ $color-neutral-100: #ffffff;
     --color-bg: #{$color-neutral-100};
     --color-secondary-bg: #{$color-neutral-200};
 
-    --color-text: #{$color-neutral-900};
+    --color-text: #{$color-neutral-800};
     --color-primary: #{$color-neutral-900};
     --color-hover-primary: #{$color-neutral-800};
     --color-active-primary: #{$color-neutral-700};
@@ -30,7 +30,7 @@ $color-neutral-100: #ffffff;
 
     // Typography-specific colors
     --color-heading: var(--color-primary);
-    --color-body-text: var(--color-primary);
+    --color-body-text: var(--color-text);
     --color-caption-text: var(--color-muted);
 }
 
