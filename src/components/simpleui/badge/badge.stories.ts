@@ -23,7 +23,7 @@ const meta: Meta = {
             control: 'select',
             options: ['small', 'medium'],
         },
-        icon: { control: 'text' },
+        iconClass: { control: 'text' },
         iconPosition: {
             control: 'select',
             options: ['left', 'right'],

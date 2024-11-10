@@ -6,7 +6,7 @@ interface BadgeProps {
     variant: 'gray' | 'blue' | 'orange' | 'red' | 'green' | 'purple' | 'yellow' | 'pink' | 'sky' | 'teal';
     styleType?: 'filled' | 'light' | 'lighter' | 'stroke';
     size?: 'small' | 'medium';
-    icon?: string;
+    iconClass?: string;
     iconPosition?: 'left' | 'right';
     disabled?: boolean;
 }
@@ -33,17 +33,17 @@ export const Badge: React.FC<BadgeProps> = (props) => {
         if (props.disabled) {
             return (
                 <div className={`badge badge--${props.size} badge--disabled`}>
-                    {props.icon && props.iconPosition === 'left' && <i className={`badge__icon ${props.icon}`}/>}
+                    {props.iconClass && props.iconPosition === 'left' && <i className={`badge__icon ri-${props.iconClass}`}/>}
                     {props.text}
-                    {props.icon && props.iconPosition === 'right' && <i className={`badge__icon ${props.icon}`}/>}
+                    {props.iconClass && props.iconPosition === 'right' && <i className={`badge__icon ri-${props.iconClass}`}/>}
                 </div>
             );
         } else {
             return (
                 <div className={`badge badge--${props.size} badge--${props.variant} badge--${props.styleType}`}>
-                    {props.icon && props.iconPosition === 'left' && <i className={`badge__icon ${props.icon}`}/>}
+                    {props.iconClass && props.iconPosition === 'left' && <i className={`badge__icon ri-${props.iconClass}`}/>}
                     <span>{props.text}</span>
-                    {props.icon && props.iconPosition === 'right' && <i className={`badge__icon ${props.icon}`}/>}
+                    {props.iconClass && props.iconPosition === 'right' && <i className={`badge__icon ri-${props.iconClass}`}/>}
                 </div>
             );
         }
