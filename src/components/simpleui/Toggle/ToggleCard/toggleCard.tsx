@@ -1,6 +1,6 @@
 import React from "react";
 import './toggle-card.scss';
-import {ToggleWithLabel, ToggleWithLabelProps} from "@/components/baseui/Toggle/ToggleWithLabel/toggleWithLabel";
+import {ToggleWithLabel, ToggleWithLabelProps} from "@/components/simpleui/Toggle/ToggleWithLabel/toggleWithLabel";
 
 type ToggleCardProps = Omit<ToggleWithLabelProps, | 'linkTitle' | 'linkHref'>;
 
