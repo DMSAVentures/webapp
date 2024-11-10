@@ -1,4 +1,5 @@
 import "remixicon/fonts/remixicon.css";
+import "./badge.scss";
 import React from "react";
 interface BadgeProps {
     text: string | number;
@@ -41,7 +42,7 @@ export const Badge: React.FC<BadgeProps> = (props) => {
             return (
                 <div className={`badge badge--${props.size} badge--${props.variant} badge--${props.styleType}`}>
                     {props.icon && props.iconPosition === 'left' && <i className={`badge__icon ${props.icon}`}/>}
-                    {props.text}
+                    <span>{props.text}</span>
                     {props.icon && props.iconPosition === 'right' && <i className={`badge__icon ${props.icon}`}/>}
                 </div>
             );

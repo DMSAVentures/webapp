@@ -1,5 +1,6 @@
 import React, {Children, ReactElement} from "react";
-import {Badge} from "@/components/baseui/badge/badge";
+import {Badge} from "@/components/simpleui/badge/badge";
+import './badge-group.scss';
 
 interface BadgeGroupProps {
     children: ReactElement<typeof Badge>[];
