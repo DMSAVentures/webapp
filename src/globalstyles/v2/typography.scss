@@ -1,9 +1,10 @@
 @import 'colors.scss';
 @import "layout.scss";
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 // ==============================
 // Font Family Tokens`
 // ==============================
-$font-family-sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+$font-family-sans: "Instrument Sans", Arial, sans-serif;
 $font-family-serif: 'IBM Plex Serif', 'Georgia', Times, serif;
 $font-family-mono: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;
 
