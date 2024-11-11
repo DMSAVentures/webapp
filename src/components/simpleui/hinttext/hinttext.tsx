@@ -15,7 +15,7 @@ const HintText: React.FC<HintTextProps> = (props) => {
     return (
         <div className={`hint-text hint-text--${props.state} ${props.hide ? 'hint-text--hide' : ''}`}>
             <i className="hint-text__tooltip ri-information-fill"/>
-            <span>{props.hintText}</span>
+            <small>{props.hintText}</small>
         </div>)
 }
 

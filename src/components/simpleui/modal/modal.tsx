@@ -1,6 +1,8 @@
 import React from 'react';
+import './modal.scss';
 import 'remixicon/fonts/remixicon.css';
-import Button from "@/components/baseui/button/button";
+import {Button} from "@/components/simpleui/Button/button";
+import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
 
 // Define ModalFooterProps first
 interface ModalFooterProps {
@@ -53,9 +55,9 @@ const ModalFooter: React.FC<ModalFooterProps> = (props) => {
             {props.footerLeftChildren}
         </div>}
         <div className={'modal__footer-right'}>
-            <Button style={buttonStyle} variant={'primary'} size={'small'}
+            <Button style={buttonStyle} variant={'primary'}
                     onClick={props.onProceed}>{props.proceedText!}</Button>
-            {props.cancelText && <Button style={buttonStyle} variant={'neutral'} styleType={'stroke'} size={'small'}
+            {props.cancelText && <Button style={buttonStyle} variant={'secondary'}
                                          onClick={props.onCancel}>{props.cancelText}</Button>}
         </div>
     </div>;
@@ -70,10 +72,10 @@ const ModalHeader: React.FC<ModalHeaderProps> = (props) => {
             <div className={"modal__title"}>
                 {props.title}
             </div>
-            {props.description && <span className={'modal__description'}>{props.description}</span>}
+            {props.description && <p className={'modal__description'}>{props.description}</p>}
         </div>
 
-        {!props.centeredHeader && props.dismissibleByCloseIcon && <i className={"modal__close ri-close-fill"} onClick={props.onClose}/>}
+        {!props.centeredHeader && props.dismissibleByCloseIcon && <IconOnlyButton variant={'secondary'} iconClass={'close-fill'} onClick={props.onClose}>Close</IconOnlyButton>}
     </div>);
 }
 
@@ -106,7 +108,8 @@ const Modal: React.FC<ModalProps> = (props: ModalProps) => {
     if (!props.isOpen) {
         return null;
     }
-    return (<dialog className={'modal__container'} ref={dialogRef} onClose={props.onClose}>
+    return (
+        <dialog className={'modal__container'} ref={dialogRef} onClose={props.onClose}>
             <div className={'modal__content'}>
                 <ModalHeader icon={props.icon} description={props.description} title={props.title}
                              onClose={closeModal} dismissibleByCloseIcon={props.dismissibleByCloseIcon ?? true} centeredHeader={props.centeredHeader}/>

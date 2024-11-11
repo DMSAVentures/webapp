@@ -1,9 +1,9 @@
 import {Meta, type StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
-import HintText from "@/components/baseui/hinttext/hinttext";
+import HintText from "@/components/simpleui/hinttext/hinttext";
 
 import React, { useState } from 'react';
-import Modal, { ModalProps } from "@/components/baseui/modal/modal";
+import Modal, { ModalProps } from "@/components/simpleui/modal/modal";
 
 const ModalStoryWrapper: React.FC<ModalProps> = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const ModalStoryWrapper: React.FC<ModalProps> = (props) => {
 };
 
 const meta: Meta = {
-    title: 'Components/Modal',
+    title: 'SimpleUI/Modal',
     component: ModalStoryWrapper,
     parameters: {
         layout: 'centered',
@@ -62,7 +62,7 @@ export const SuccessWithDescriptionModal: Story = {
     args: {
         title: 'Title',
         icon: 'success',
-        description: 'Description',
+        description: "This is a long description for the modal box where all tha content is going to fit and this should not expand.",
         onCancel: fn(),
         onProceed: fn(),
         cancelText: 'Cancel',
@@ -193,7 +193,7 @@ export const ModalWithFooter: Story = {
         isOpen: true,
         title: 'Title',
         description: 'Description',
-        footerLeftChildren: <HintText hintText={'Footer Left'} state={'default'}/>,
+        footerLeftChildren: <HintText hintText={'Terms and conditions apply'} state={'default'}/>,
         footerFullWithButtons: false,
         onCancel: fn(),
         onProceed: fn(),

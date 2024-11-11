@@ -4,7 +4,7 @@
 .hint-text {
     display: flex;
     gap: $spacing-03;
-    align-items: baseline;
+    align-items: center;
     color: var(--color-secondary);
 
     &--hide {
