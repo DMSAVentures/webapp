@@ -1,6 +1,7 @@
 import React, {MouseEvent, useEffect, useRef, useState} from "react";
+import './dropdown.scss';
 import 'remixicon/fonts/remixicon.css';
-import DropdownOption, {DropdownOptionProps} from "@/components/baseui/dropdown/option";
+import DropdownOption, {DropdownOptionProps} from "@/components/simpleui/dropdown/option";
 import HintText from "@/components/baseui/hinttext/hinttext";
 
 
@@ -58,9 +59,10 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                     <div className="dropdown__select__text">
                         {selectedOption ? selectedOption.label : props.placeholderText}
                     </div>
-                    <i className="dropdown__icon ri-arrow-down-s-line"/>
-                </div>
-                {isOpen && (<div className="dropdown__options-container">
+                    {isOpen ? <i className="dropdown__icon ri-arrow-up-s-line"/> :
+                        <i className="dropdown__icon ri-arrow-down-s-line"/>}
+                        </div>
+                    {isOpen && (<div className="dropdown__options-container">
                         {props.options.map((option) => {
                             return <DropdownOption key={option.value} label={option.label} value={option.value} onClick={handleOptionClick} size={'small'} description={option.description} disabled={option.disabled} sublabel={option.sublabel} icon={option.icon} imgSrc={option.imgSrc}/>;
                         })}
