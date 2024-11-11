@@ -1,5 +1,5 @@
 import React from "react";
-import Checkbox, {CheckboxProps} from "@/components/baseui/checkbox/checkbox";
+import Checkbox, {CheckboxProps} from "@/components/simpleui/checkbox/checkbox";
 import './checkboxwithlabel.scss'
 import ContentLabel, {ContentLabelProps} from "@/components/baseui/label/contentlabel";
 

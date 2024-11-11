@@ -1,5 +1,5 @@
 import React from "react";
-import CheckboxWithLabel, {CheckboxWithLabelProps} from "@/components/baseui/checkbox/checkboxWithLabel";
+import CheckboxWithLabel, {CheckboxWithLabelProps} from "@/components/simpleui/checkbox/checkboxWithLabel";
 import './checkboxcard.scss';
 
 type CheckboxCardProps = Omit<CheckboxWithLabelProps, | 'linkTitle' | 'linkHref'>;
