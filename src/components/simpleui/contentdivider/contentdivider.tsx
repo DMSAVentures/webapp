@@ -1,5 +1,5 @@
 import React from 'react';
-// import './contentdivider.scss';
+import './contentdivider.scss';
 interface LineContentDividerProps {
     size: 'thin' | 'thick'
     text?: string;

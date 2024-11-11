@@ -1,21 +1,21 @@
-@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/v2/variables.scss";
 
 .content-divider-line {
-        color: $neutral-200;
-        width: 300px;
+        color: var(--color-hover-secondary);
+        width: $spacing-13 * 2;
         border: none;
-        border-top: 1px solid $neutral-200;
+        border-top: 1px solid var(--color-hover-secondary);
         overflow: visible;
         text-align: center;
-        height: 5px;
-        @extend .subheading-xx-small;
+        height: $spacing-05;
+        //@extend .subheading-xx-small;
 
         &--text::after {
             background: #fff;
             content: attr(data-content);
-            padding: 0 6px;
+            padding: 0 $spacing-03;
             position: relative;
-            top: -10px;
+            top: -$spacing-04;
             text-transform: uppercase;
         }
 }
@@ -25,20 +25,18 @@
     align-items: center;
     justify-content: left;
     text-transform: uppercase;
-    @extend .subheading-x-small;
+    padding: $spacing-02 $spacing-05;
+    gap: $spacing-05;
+    //@extend .subheading-x-small;
 
     &--light {
-        padding: $spacing-4 $spacing-8;
-        gap: $spacing-8;
-        background-color: $neutral-0;
-        color: $neutral-400;
+        background-color: var(--color-bg);
+        color: var(--color-secondary);
     }
 
     &--gray {
-        padding: $spacing-6 $spacing-20;
-        gap: $spacing-6;
-        background-color: $neutral-50;
-        color: $neutral-400;
+        background-color: var(--color-hover-secondary);
+        color: var(--color-secondary);
     }
 }
 
@@ -47,12 +45,13 @@
     align-items: center;
     width: 100%;
     position: relative;
+    padding: $spacing-05 0;
 
     &::after, &::before {
         content: '';
         flex-grow: 1;
         height: 1px;
-        background: $neutral-200;
+        background: var(--color-hover-secondary);
     }
 
     &::before {
