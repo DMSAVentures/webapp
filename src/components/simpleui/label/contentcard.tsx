@@ -1,4 +1,4 @@
-import ContentLabel, {ContentLabelProps} from "@/components/baseui/label/contentlabel";
+import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";
 import React from "react";
 import './contentcard.scss';
 import 'remixicon/fonts/remixicon.css';

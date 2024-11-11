@@ -1,7 +1,7 @@
 import React from 'react';
 import './breadcrumb.scss';
 import 'remixicon/fonts/remixicon.css';
-import type {BreadcrumbItemProps}  from "@/components/baseui/breadcrumb/breadcrumbitem";
+import type {BreadcrumbItemProps}  from "@/components/simpleui/breadcrumb/breadcrumbitem";
 
 interface BreadcrumbProps {
     items: React.ReactElement<BreadcrumbItemProps>[];

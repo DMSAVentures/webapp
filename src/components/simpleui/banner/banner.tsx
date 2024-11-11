@@ -1,7 +1,7 @@
 import React, {HTMLAttributes, useState} from 'react';
 import './banner.scss';
 import 'remixicon/fonts/remixicon.css';
-import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
+import Linkbutton from "@/components/simpleui/linkbutton/linkbutton";
 
 interface BannerProps extends HTMLAttributes<HTMLElement> {
     bannerType: 'success' | 'error' | 'warning' | 'info' | 'feature';
@@ -41,7 +41,7 @@ const Banner: React.FC<BannerProps> = (props) => {
                         <div className="banner__title">{props.alertTitle}</div>
                         <i className={"banner__separator ri-circle-fill"}></i>
                         <div className="banner__description">{props.alertDescription}</div>
-                        {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} text={props.linkTitle} href={props.linkHref} underline={true} />}
+                        {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} href={props.linkHref!} underline={true}>{props.linkTitle}</Linkbutton>}
                     </div>
                     <i className={'banner__dismiss ri-close-fill'} onClick={() => setVisible(false)} />
         </div>

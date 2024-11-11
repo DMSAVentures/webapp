@@ -1,6 +1,6 @@
 import {Toggle, ToggleProps} from "@/components/simpleui/Toggle/toggle";
 import './toggle-with-label.scss'
-import ContentLabel, {ContentLabelProps} from "@/components/baseui/label/contentlabel";
+import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";
 import React from "react";
 
 type ToggleAndLabelProps = ContentLabelProps & ToggleProps;

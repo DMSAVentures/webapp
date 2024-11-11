@@ -1,7 +1,7 @@
 import React from "react";
 import Checkbox, {CheckboxProps} from "@/components/simpleui/checkbox/checkbox";
 import './checkboxwithlabel.scss'
-import ContentLabel, {ContentLabelProps} from "@/components/baseui/label/contentlabel";
+import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";
 
 type CheckboxAndLabelProps = ContentLabelProps & CheckboxProps;
 export interface CheckboxWithLabelProps extends CheckboxAndLabelProps {
