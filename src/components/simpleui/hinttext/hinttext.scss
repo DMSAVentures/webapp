@@ -1,0 +1,24 @@
+@import "src/globalstyles/colors";
+@import "src/globalstyles/v2/variables";
+
+.hint-text {
+    display: flex;
+    gap: $spacing-03;
+    align-items: baseline;
+    color: var(--color-secondary);
+
+    &--hide {
+        display: none;
+    }
+
+    &--error {
+        color: $red-500;
+    }
+
+    &--disabled {
+        color: var(--color-muted);
+    }
+
+    //@extend .paragraph-x-small;
+
+}

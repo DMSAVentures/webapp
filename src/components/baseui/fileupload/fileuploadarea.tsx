@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react';
-import './fileuploadarea.scss';
 import 'remixicon/fonts/remixicon.css';
 import Button from "@/components/baseui/button/button";
 
