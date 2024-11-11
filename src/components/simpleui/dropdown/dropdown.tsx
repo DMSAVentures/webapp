@@ -2,7 +2,7 @@ import React, {MouseEvent, useEffect, useRef, useState} from "react";
 import './dropdown.scss';
 import 'remixicon/fonts/remixicon.css';
 import DropdownOption, {DropdownOptionProps} from "@/components/simpleui/dropdown/option";
-import HintText from "@/components/baseui/hinttext/hinttext";
+import HintText from "@/components/simpleui/hinttext/hinttext";
 
 
 interface DropdownProps {
