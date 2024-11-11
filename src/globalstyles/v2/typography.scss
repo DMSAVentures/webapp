@@ -152,6 +152,10 @@ p {
     color: var(--color-body-text);
 }
 
+a {
+    @include responsive-font($font-size-para-mobile, $font-size-para-tablet, $font-size-para-desktop, $line-height-para);
+}
+
 small {
     @include responsive-font($font-size-small-mobile, $font-size-small-tablet, $font-size-small-desktop, $line-height-small);
     color: var(--color-caption-text);
