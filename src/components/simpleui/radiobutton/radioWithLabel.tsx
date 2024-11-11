@@ -1,10 +1,8 @@
 import React from "react";
-import Linkbutton from "@/components/baseui/linkbutton/linkbutton";
-// import './radiowithlabel.scss'
-import Radio, {RadioProps} from "@/components/baseui/radiobutton/radio";
-import {Badge} from "@/components/baseui/badge/badge";
-import ContentLabel, {ContentLabelProps} from "@/components/baseui/label/contentlabel";
-import {ToggleProps} from "@/components/baseui/Toggle/toggle";
+import './radiowithlabel.scss'
+import Radio, {RadioProps} from "@/components/simpleui/radiobutton/radio";
+import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";
+
 
 type RadioAndLabelProps = ContentLabelProps & RadioProps;
 export interface RadioWithLabelProps extends RadioAndLabelProps {

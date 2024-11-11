@@ -1,6 +1,6 @@
 import React from "react";
-// import './radiocard.scss';
-import RadioWithLabel, {RadioWithLabelProps} from "@/components/baseui/radiobutton/radioWithLabel";
+import './radiocard.scss';
+import RadioWithLabel, {RadioWithLabelProps} from "@/components/simpleui/radiobutton/radioWithLabel";
 
 type RadioCardProps = Omit<RadioWithLabelProps, | 'linkTitle' | 'linkHref'>;
 

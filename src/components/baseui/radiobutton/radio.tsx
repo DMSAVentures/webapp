@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import './radio.scss';
+// import './radio.scss';
 import 'remixicon/fonts/remixicon.css';
 export interface RadioProps extends React.HTMLAttributes<HTMLInputElement>{
     disabled?: boolean;

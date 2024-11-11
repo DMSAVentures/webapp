@@ -1,10 +1,10 @@
-@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/v2/variables.scss";
 
 .radio-labeled__container {
     display: flex;
     flex-direction: row;
-    gap: $spacing-8;
-    width: 300px;
+    gap: $spacing-03;
+    width: $spacing-13 * 2;
 
     &--reversed {
         flex-direction: row-reverse;
@@ -16,7 +16,7 @@
 
     &--disabled {
         .radio-labeled__sublabel__string, .radio-labeled__description__string {
-            color: $neutral-200;
+            color: var(--color-secondary)
         }
     }
 }
