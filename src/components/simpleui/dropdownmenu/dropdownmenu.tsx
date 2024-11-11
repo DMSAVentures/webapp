@@ -1,7 +1,8 @@
 import React from 'react';
+import './dropdownmenu.scss';
 import 'remixicon/fonts/remixicon.css';
-import Contentdivider, {ContentDividerProps} from "@/components/baseui/contentdivider/contentdivider";
-import ContentDivider from "@/components/baseui/contentdivider/contentdivider";
+import {ContentDividerProps} from "@/components/simpleui/contentdivider/contentdivider";
+import ContentDivider from "@/components/simpleui/contentdivider/contentdivider";
 
 
 interface DropdownMenuItemProps {
