@@ -65,7 +65,7 @@
         }
 
         &:hover, &--open {
-            background-color: var(--color-hover-secondary);
+            background-color: var(--color-secondary-bg);
             transition: background-color, $duration-moderate-01, $easing-productive-entrance;
         }
 
