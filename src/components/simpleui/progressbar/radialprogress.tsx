@@ -1,5 +1,5 @@
 import React from 'react';
-// import './radialprogress.scss';
+import './radialprogress.scss';
 
 interface Radialprogress {
     percentage: number;
@@ -15,7 +15,7 @@ const RadialProgress: React.FC<Radialprogress> = (props) => {
        <div className={`radial-progress radial-progress--${props.size} radial-progress--${props.variant}`}
             style={{ '--progress-percentage': `${clampedPercentage}%` } as React.CSSProperties & { [key: string]: string | number }}>
            <div className={'center-content'}>
-               {props.showPercentage ? <span>{clampedPercentage}%</span> : null}
+               {props.showPercentage ? <small className={'percentage_text'}>{clampedPercentage}%</small> : null}
            </div>
        </div>
     );

@@ -1,11 +1,12 @@
-@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/colors.scss";
+@import "src/globalstyles/v2/variables.scss";
 
 
 .radial-progress {
-    width: 64px;
-    height: 64px;
     border-radius: calc(infinity * 1px);
     display: flex;
+    width: $spacing-08;
+    height: $spacing-08;
 
     .center-content {
         background: white;
@@ -16,22 +17,15 @@
         align-items: center;
         justify-content: center;
         margin: auto;
-        color: $neutral-600;
-        @extend .paragraph-x-small;
-    }
 
-    &--x-small {
-        width: 48px;
-        height: 48px;
-
-        .center-content {
-            width: 80%;
-            height: 80%;
+        .percentage_text {
+            color: var(--color-text);
         }
     }
+
     &--small {
-        width: 56px;
-        height: 56px;
+        width: $spacing-08;
+        height: $spacing-08;
 
         .center-content {
             width: 85%;
@@ -39,8 +33,8 @@
         }
     }
     &--medium {
-        width: 64px;
-        height: 64px;
+        width: $spacing-09;
+        height: $spacing-09;
 
         .center-content {
             width: 90%;
@@ -48,17 +42,8 @@
         }
     }
     &--large {
-        width: 72px;
-        height: 72px;
-
-        .center-content {
-            width: 95%;
-            height: 95%;
-        }
-    }
-    &--x-large {
-        width: 80px;
-        height: 80px;
+        width: $spacing-10;
+        height: $spacing-10;
 
         .center-content {
             width: 95%;
