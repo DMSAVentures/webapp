@@ -1,23 +1,24 @@
-@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/colors.scss";
+@import "src/globalstyles/v2/variables.scss";
 
 .breadcrumb-item {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  align-items: baseline;
+  //justify-content: center;
   border: none;
   cursor: pointer;
-  gap: $spacing-6;
+  gap: $spacing-02;
   color: $neutral-400;
-  @extend .label-small;
+  //@extend .label-small;
 
   &:hover .breadcrumb-item__text {
     text-decoration: underline;
   }
 
   &:hover .breadcrumb-item__icon {
-    text-decoration: underline;
-    text-underline-offset: 2.5px;
-    text-decoration-thickness: 1px;
+    //text-decoration: underline;
+    //text-underline-offset: $spacing-02;
+    //text-decoration-thickness: $spaci*ng-01;
   }
 
   &:focus .breadcrumb-item__text {
@@ -25,9 +26,9 @@
   }
 
   &:focus .breadcrumb-item__icon {
-    text-decoration: underline;
-    text-underline-offset: 2.5px;
-    text-decoration-thickness: 1px;
+    //text-decoration: underline;
+    //text-underline-offset: $spacing-03;
+    //text-decoration-thickness: 1px;
   }
 
   &--disabled {

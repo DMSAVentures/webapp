@@ -1,4 +1,5 @@
 import React from 'react';
+import './breadcrumb.scss';
 import 'remixicon/fonts/remixicon.css';
 import type {BreadcrumbItemProps}  from "@/components/baseui/breadcrumb/breadcrumbitem";
 
@@ -30,6 +31,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
                         {item}
                         {index < props.items.length - 1 && <span className={'breadcrumb__separator'}>{separatorIconClass}</span>}
                     </span>
+
                 );
             })}
         </nav>
