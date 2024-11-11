@@ -1,5 +1,6 @@
 import React from "react";
-import {Badge} from "@/components/baseui/badge/badge";
+import './label.scss';
+import {Badge} from "@/components/simpleui/badge/badge";
 
 export interface LabelProps {
     text: string;

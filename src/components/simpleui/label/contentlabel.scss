@@ -1,11 +1,12 @@
 @import "src/globalstyles/variables.scss";
+@import "src/globalstyles/v2/variables";
 
 .content-label__container {
     display: flex;
     //padding: $spacing-16;
-    gap: $spacing-16;
-    border-radius: $radius-12;
-    width: 300px;
+    gap: $spacing-05;
+    //border-radius: $border-radius-large;
+    width: $spacing-13 * 2;
     align-items: center;
 
     //&:hover {
@@ -15,21 +16,21 @@
     //}
 
     .content-label__image {
-        width: 40px;
-        height: 40px;
+        width: $spacing-08;
+        height:  $spacing-08;
         border-radius: $radius-full;
     }
 
     .content-label__text {
         display: flex;
         flex-direction: column;
-        gap: $spacing-8;
+        gap: $spacing-03;
         align-items: baseline;
 
 
         .content-label__description__string {
-            @extend .paragraph-x-small;
-            color: $neutral-600;
+            //@extend .paragraph-x-small;
+            //color: $neutral-600;
             width: 100%;
             overflow-wrap: break-word; // Break words to prevent overflow
             word-wrap: break-word; // For IE compatibility
@@ -37,7 +38,7 @@
             white-space: normal; // Allow text to wrap normally
 
             &--disabled {
-                color: $neutral-200;
+                color: var(--color-muted);
             }
         }
 
