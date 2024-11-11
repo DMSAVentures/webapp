@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import './pagination.scss';
+import './pagination.scss';
 
 export interface PaginationProps {
     totalPages: number;
@@ -76,13 +76,13 @@ const Pagination: React.FC<PaginationProps> = (props) => {
                         className={`pagination__button ${currentPage === page ? 'pagination__button--active' : ''}`}
                         onClick={() => onPageChange(page)}
                     >
-                        <span className={`pagination__pagenumber`}>{page}</span>
+                        <small className={`pagination__pagenumber`}>{page}</small>
                     </button>
                 ))}
                 {/* Ellipsis for Next Page Range */}
                 {pageWindow < maxPageWindow && (
                     <button className="pagination__button" onClick={handleNextPageRange} title="Next Page Range">
-                        <span className={`pagination__pagenumber`}>...</span>
+                        <small className={`pagination__pagenumber`}>...</small>
                     </button>
                 )}
 
