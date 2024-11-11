@@ -1,5 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
-// import './linkbutton.scss';
+import './linkbutton.scss';
+import "remixicon/fonts/remixicon.css";
 
 interface LinkButtonProps extends ButtonHTMLAttributes<HTMLElement> {
     variant?: 'gray' | 'primary' | 'neutral' | 'error';
@@ -10,8 +11,7 @@ interface LinkButtonProps extends ButtonHTMLAttributes<HTMLElement> {
     rightIcon?: React.ReactNode;
     pickLeft?: boolean;
     pickRight?: boolean;
-    text?: string;
-    href?: string;
+    href: string;
 }
 
 const Linkbutton: React.FC<LinkButtonProps> = ({
@@ -23,7 +23,6 @@ const Linkbutton: React.FC<LinkButtonProps> = ({
                                            rightIcon,
                                            pickLeft = false,
                                            pickRight = false,
-                                           text,
                                            children,
                                            ...props
                                        }) => {
@@ -31,11 +30,11 @@ const Linkbutton: React.FC<LinkButtonProps> = ({
         <div
             className={`linkbutton linkbutton--${variant} linkbutton--${styleType} linkbutton--${size} ${pickLeft ? 'linkbutton--pick-left' : ''} ${pickRight ? 'linkbutton--pick-right' : ''} ${props.className || ''}`}
         >
-            {leftIcon && <span className="linkbutton__icon linkbutton__icon--left">{leftIcon}</span>}
+            {leftIcon && <i className={`linkbutton__icon linkbutton__icon--left ri-${leftIcon}`}/>}
             <a href={props.href} className={`linkbutton__text ${
                 underline ? 'linkbutton--underline' : ''
-            }`}>{text || children}</a>
-            {rightIcon && <span className="linkbutton__icon linkbutton__icon--right">{rightIcon}</span>}
+            }`}>{children}</a>
+            {rightIcon && <i className={`linkbutton__icon linkbutton__icon--left ri-${rightIcon}`}/>}
         </div>
     );
 };

@@ -1,4 +1,5 @@
-@import "../../../globalstyles/variables";
+@import "../../../globalstyles/colors";
+@import "src/globalstyles/v2/variables.scss";
 
 // Mixins for button styles
 @mixin button-lighter-style($color, $hover-color) {
@@ -26,22 +27,22 @@
 
 .linkbutton {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   //justify-content: center;
   border: none;
   cursor: pointer;
-  transition: background-color $transition-normal $transition-type-dissolve;
+  transition: background-color $duration-moderate-01 $easing-productive-entrance;
 
   &--small {
-    gap: $spacing-2;
-    padding: $spacing-8;
-    @extend .label-small;
+    gap: $spacing-02;
+    padding: $spacing-02;
+    //@extend .label-small;
   }
 
   &--medium {
-    gap: $spacing-4;
-    padding: $spacing-10;
-    @extend .label-small;
+    gap: $spacing-03;
+    padding: $spacing-03;
+    //@extend .label-small;
   }
 
   &--underline {
@@ -49,13 +50,13 @@
   }
 
   .button__icon {
-    padding: 0 $spacing-2;
+    padding: 0 $spacing-01;
     &--left {
-      margin-right: $spacing-2;
+      margin-right: $spacing-01;
     }
 
     &--right {
-      margin-left: $spacing-2;
+      margin-left: $spacing-01;
     }
   }
 }
