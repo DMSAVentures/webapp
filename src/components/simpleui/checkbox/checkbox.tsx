@@ -1,5 +1,5 @@
 import React, {useEffect, useId} from 'react';
-// import './checkbox.scss';
+import './checkbox.scss';
 import 'remixicon/fonts/remixicon.css';
 export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement>{
     disabled?: boolean;

@@ -1,6 +1,6 @@
 import React from "react";
 import Checkbox, {CheckboxProps} from "@/components/baseui/checkbox/checkbox";
-// import './checkboxwithlabel.scss'
+import './checkboxwithlabel.scss'
 import ContentLabel, {ContentLabelProps} from "@/components/baseui/label/contentlabel";
 
 type CheckboxAndLabelProps = ContentLabelProps & CheckboxProps;
