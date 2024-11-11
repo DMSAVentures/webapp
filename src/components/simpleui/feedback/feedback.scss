@@ -1,4 +1,5 @@
-@import "../../../globalstyles/variables";
+@import "../../../globalstyles/colors";
+@import "src/globalstyles/v2/variables";
 
 @mixin feedback-style($color, $text-color, $link-color, $icon-color) {
   background-color: $color;
@@ -19,79 +20,69 @@
 }
 
 .feedback {
-  width: 390px;
+  width: $spacing-13 * 2;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: $spacing-8;
-  gap: $spacing-8;
-  border-radius: $radius-8;
+  border-radius: $border-radius-large;
 
   .feedback__icon, .feedback__dismiss {
-    height: 20px;
-    width: 20px;
-    font-size: 20px;
     align-content: center;
     cursor: pointer;
   }
 
   &--small {
-    gap: $spacing-8 $spacing-10;
-
+    gap: $spacing-05;
+    padding: $spacing-02 $spacing-03;
     .feedback__title {
       flex: 1;
-      @extend .paragraph-small
+      //@extend .paragraph-small
     }
   }
 
   &--x-small {
-    padding: $spacing-8;
-    gap: $spacing-8;
-    height: 32px;
-
+    gap: $spacing-03;
+    padding: $spacing-01 $spacing-02;
     .feedback__icon, .feedback__dismiss {
-      height: 16px;
-      width: 16px;
-      font-size: 16px;
       align-content: center;
       cursor: pointer;
     }
 
     .feedback__title {
       flex: 1;
-      @extend .paragraph-x-small
+      //@extend .paragraph-small
     }
   }
 
   &--large {
-    gap: $spacing-12;
-    padding: $spacing-14 $spacing-16;
-    border-radius: $radius-12;
+    gap: $spacing-05;
+    padding: $spacing-05 $spacing-05;
+    border-radius: $border-radius-large;
     align-items: baseline;
 
     .feedback-detailed__content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: $spacing-10;
+      gap: $spacing-02;
     }
     .feedback-detailed__text {
       display: flex;
       flex-direction: column;
-      gap: $spacing-4;
+      gap: $spacing-02;
     }
 
     .feedback__title {
-      @extend .label-small
+      //@extend .label-small
     }
     .feedback__description {
-      @extend .paragraph-small
+      //@extend .paragraph-small
     }
 
     .feedback-detailed__buttons {
       display: flex;
       flex-direction: row;
-      gap: $spacing-8;
+      gap: $spacing-03;
       //Link buttons have default padding of 10px so we need to remove it
       margin-left: -10px;
       align-items: center;
@@ -100,7 +91,7 @@
 
 
   .feedback__description {
-    @extend .paragraph-small
+    //@extend .paragraph-small
   }
 
 
@@ -157,27 +148,27 @@
 
 .feedback--error.feedback--stroke {
     @include feedback-style($neutral-0, $neutral-950, $neutral-950, $red-500);
-    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+
     border: 1px $neutral-200 solid;
 
 }
 .feedback--success.feedback--stroke {
     @include feedback-style($neutral-0, $neutral-950, $neutral-950, $green-500);
-    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+
     border: 1px $neutral-200 solid;
 }
 .feedback--warning.feedback--stroke {
     @include feedback-style($neutral-0, $neutral-950, $neutral-950, $orange-500);
-    @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+
     border: 1px $neutral-200 solid;
 }
 .feedback--info.feedback--stroke {
   @include feedback-style($neutral-0, $neutral-950, $neutral-950, $blue-500);
-  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+
   border: 1px $neutral-200 solid;
 }
 .feedback--feature.feedback--stroke {
   @include feedback-style($neutral-0, $neutral-950, $neutral-950, $neutral-950);
-  @include box-shadow(0px, 16px, 32px, -12px, $shadow-color-md);
+
   border: 1px $neutral-200 solid;
 }
