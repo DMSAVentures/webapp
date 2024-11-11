@@ -1,4 +1,5 @@
 import React from 'react';
+import './buttongroup.scss';
 import 'remixicon/fonts/remixicon.css';
 
 export interface ButtonItemProps {
