@@ -1,5 +1,5 @@
 import React, {useId} from "react";
-import Label from "@/components/baseui/label/label";
+import Label from "@/components/simpleui/label/label";
 import './slider.scss';
 interface SliderProps extends React.InputHTMLAttributes<HTMLInputElement> {
     min: number;

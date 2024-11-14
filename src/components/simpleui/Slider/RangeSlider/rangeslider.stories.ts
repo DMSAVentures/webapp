@@ -1,9 +1,9 @@
-import Slider from './slider';
+import RangeSlider from './rangeslider';
 import {Meta, StoryObj} from "@storybook/react";
 
 const meta: Meta = {
-    title: 'Components/Slider',
-    component: Slider,
+    title: 'SimpleUI/RangeSlider',
+    component: RangeSlider,
     parameters: {
         layout: 'centered',
     },
@@ -11,12 +11,13 @@ const meta: Meta = {
     argTypes: {
         min: { control: 'number' },
         max: { control: 'number' },
+        minRange: { control: 'number' },
         step: { control: 'number' },
         value: { control: 'number' },
         onChange: { action: 'changed' },
         disabled: { control: 'boolean' },
     },
-} satisfies Meta<typeof Slider>;
+} satisfies Meta<typeof RangeSlider>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -25,6 +26,7 @@ export const Primary: Story = {
     args: {
         min: 0,
         max: 100,
+        minRange: 10,
         step: 1,
         value: 50,
         label: 'Primary',
