@@ -1,6 +1,7 @@
 import React from 'react';
-import Label from "@/components/baseui/label/label";
-import HintText from "@/components/baseui/hinttext/hinttext";
+import './text-area.scss';
+import Label from "@/components/simpleui/label/label";
+import HintText from "@/components/simpleui/hinttext/hinttext";
 
 interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     label: string;
@@ -21,9 +22,9 @@ export const TextArea = (props: TextAreaProps) => {
             <Label text={props.label} required={props.required} subText={!props.required ? 'Optional' : ''}/>
             <textarea {...props}  onChange={handleChange}/>
             {props.minLength || props.maxLength ? (
-                <span className={`text-area__character-count ${unfullfilledCharacters ? 'text-area__character-count--error' : ''}`}>
+                <small className={`text-area__character-count ${unfullfilledCharacters ? 'text-area__character-count--error' : ''}`}>
                     {charCount} of {props.minLength || 0}-{props.maxLength} characters
-                </span>
+                </small>
             ) : null}
             {props.hint && <HintText hintText={props.hint} state={props.error ? 'error' : 'default'}/>}
         </div>

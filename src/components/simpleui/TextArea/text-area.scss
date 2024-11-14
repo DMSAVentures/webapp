@@ -1,9 +1,10 @@
 @import "src/globalstyles/variables.scss";
+@import "src/globalstyles/v2/variables.scss";
 
 .text-area {
     display: flex;
     flex-direction: column;
-    gap: $spacing-4;
+    gap: $spacing-03;
     position: relative;
 
     &--error {
@@ -15,13 +16,14 @@
     textarea {
         resize: none;
         border: 1px solid $neutral-100;
-        border-radius: $radius-6;
-        padding: $spacing-10 $spacing-10 $spacing-10 $spacing-12;
-        @extend .paragraph-small;
-        color: $neutral-950;
+        border-radius: $border-radius-medium;
+        padding: $spacing-03 $spacing-03 $spacing-03 $spacing-05;
+        //@extend .paragraph-small;
+        //color: $neutral-950;
 
         &::placeholder {
-            color: $neutral-400;
+            color: var(--color-muted);
+            font-size: 0.85em;
         }
 
         &:disabled {
@@ -37,8 +39,9 @@
         }
 
         &:hover {
-            background-color: $bg-weak-50;
-            color: $neutral-700;
+            background-color: var(--color-secondary-bg);
+            transition: background-color $duration-moderate-01 $easing-productive-entrance;
+            //color: $neutral-700;
         }
 
         &:focus {
@@ -51,10 +54,10 @@
 
     &__character-count {
         position: absolute;
-        bottom: $spacing-28;
-        right: $spacing-8;
-        @extend .paragraph-x-small;
-        color: $neutral-500;
+        bottom: $spacing-08;
+        right: $spacing-03;
+        //@extend .paragraph-x-small;
+        color: var(--color-muted);
 
         &--error {
             color: $red-500;
