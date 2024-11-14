@@ -1,4 +1,5 @@
 import "remixicon/fonts/remixicon.css";
+import "./status-badge.scss";
 import React from "react";
 interface StatusBadgeProps {
     text: string;

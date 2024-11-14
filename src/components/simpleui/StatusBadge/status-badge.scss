@@ -1,4 +1,5 @@
-@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/colors";
+@import "src/globalstyles/v2/variables.scss";
 
 @mixin status-badge-style($color, $text-color, $icon-color) {
   background-color: $color;
@@ -9,19 +10,14 @@
 }
 
 .status-badge {
-  border-radius: $radius-6;
+  border-radius: $border-radius-medium;
   display: flex;
-  gap: $spacing-4;
-  padding: $spacing-4 $spacing-8;
-  align-items: center;
+  gap: $spacing-03;
+  padding: $spacing-02 $spacing-03;
+  align-items: baseline;
   text-align: center;
-  @extend .label-x-small;
   .status-badge__icon {
-    height: 16px;
-    width: 16px;
-    font-size: 12px;
     text-align: center;
-
   }
 }
 
