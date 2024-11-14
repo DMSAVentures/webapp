@@ -1,5 +1,5 @@
 import React from 'react';
-import './step-indicator-vertical-item.scss';
+// import './step-indicator-vertical-item.scss';
 import 'remixicon/fonts/remixicon.css';
 export interface StepIndicatorVerticalItemProps {
     state: 'default' | 'active' | 'completed' | 'disabled';

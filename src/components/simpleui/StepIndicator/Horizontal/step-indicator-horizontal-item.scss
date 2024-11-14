@@ -1,31 +1,30 @@
-@import "../../../../globalstyles/variables";
+@import "../../../../globalstyles/colors";
+@import "../../../../globalstyles/v2/variables";
 
 .step-indicator-horizontal-item {
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  max-height: $spacing-20;
-  gap: $spacing-8;
-  color: $neutral-950;
-  @extend .paragraph-small;
+  gap: $spacing-03;
 
-  &--default {
-    color: $neutral-600;
+  &--active, &--completed {
+    //color: $neutral-600;
+    color: var(--color-text);
   }
 
   .step-indicator-horizontal-item__icon {
-    @extend .label-x-small;
-    height: $spacing-20;
-    width: $spacing-20;
+    height: $spacing-05;
+    width: $spacing-05;
     align-content: center;
     vertical-align: center;
     text-align: center;
-    border-radius: $radius-full;
+    border-radius: $border-radius-large;
 
     &--completed {
       color: $neutral-0;
       background-color: $green-500;
+      line-height: $spacing-05; // aligns icon vertically in the circle
     }
     &--active {
       color: $neutral-0;

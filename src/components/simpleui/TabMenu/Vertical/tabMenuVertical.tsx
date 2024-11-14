@@ -10,16 +10,14 @@ interface TabMenuVerticalProps {
 export const TabMenuVertical : React.FC<TabMenuVerticalProps> = (props) => {
     return (
         <div className={`tab-menu-vertical-sidebar tab-menu-vertical-sidebar--${props.variant}`}>
-            <span className={'tab-menu-vertical-sidebar__title'}>{props.title}</span>
-            <div className={`tab-menu-vertical-sidebar__container`}>
+            <small className={'tab-menu-vertical-sidebar__title'}>{props.title}</small>
+            <ul className={`tab-menu-vertical-sidebar__container`}>
                 {props.items.map((item, index) => {
                     return (
-                        <span className={'tab-menu-vertical__item'} key={index}>
-                            {item}
-                        </span>
+                            item
                     );
                 })}
-            </div>
+            </ul>
             {props.showFooter ? <span className={'tab-menu-vertical-sidebar__footer'}>&copy; {new Date().getFullYear()} Shubhanshu</span> : null }
         </div>
     );

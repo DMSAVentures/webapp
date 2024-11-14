@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { TabMenuHorizontal } from "@/components/baseui/TabMenu/Horizontal/tabMenuHorizontal";
+import { TabMenuHorizontal } from "@/components/simpleui/TabMenu/Horizontal/tabMenuHorizontal";
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import {TabMenuHorizontalItem} from "@/components/baseui/TabMenu/Horizontal/tabMenuHorizontalItem";
+import {TabMenuHorizontalItem} from "@/components/simpleui/TabMenu/Horizontal/tabMenuHorizontalItem";
 
 const meta: Meta = {
-    title: 'Components/TabMenuHorizontal',
+    title: 'SimpleUI/TabMenuHorizontal',
     component: TabMenuHorizontal,
     parameters: {
         layout: 'fullscreen',

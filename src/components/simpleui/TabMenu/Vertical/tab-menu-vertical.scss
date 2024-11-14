@@ -1,28 +1,29 @@
-@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/colors.scss";
+@import "src/globalstyles/v2/variables.scss";
 
 .tab-menu-vertical-sidebar {
     display: flex;
     flex-direction: column;
     align-content: center;
-    gap: $spacing-8;
-    padding: $spacing-10;
-    width: 264px;
+    gap: $spacing-05;
+    padding: $spacing-05;
+    width: $spacing-13 * 2;
 
     &--card {
-        border-radius: $radius-16;
+        border-radius: $border-radius-large;
         border: 1px solid $neutral-200;
-        @extend .shadow-sm;
+        //@extend .shadow-sm;
     }
 
     &__title {
-        @extend .subheading-x-small;
+        //@extend .subheading-x-small;
         color: $neutral-400;
         text-transform: uppercase;
-        padding:  $spacing-4 $spacing-8;
+        padding:  $spacing-03 $spacing-05;
     }
 
     &__footer {
-        @extend .paragraph-x-small;
+        //@extend .paragraph-x-small;
         color: $neutral-400;
         text-align: center;
     }
@@ -31,9 +32,10 @@
         display: flex;
         flex:1;
         flex-direction: column;
-        gap: $spacing-8;
+        //gap: $spacing-02;
         color: $neutral-500;
         align-content: center;
+        padding-left: 0;
 
         .tab-menu-vertical__item {
             display: flex;

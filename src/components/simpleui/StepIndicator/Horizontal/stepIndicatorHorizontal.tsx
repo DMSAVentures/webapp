@@ -1,5 +1,5 @@
 import React from 'react';
-// import './step-indicator-horizontal.scss';
+import './step-indicator-horizontal.scss';
 import 'remixicon/fonts/remixicon.css';
 import type {StepIndicatorHorizontalItemProps}  from "@/components/baseui/StepIndicator/Horizontal/stepIndicatorItem";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-// import './step-indicator-horizontal-item.scss';
+import './step-indicator-horizontal-item.scss';
 import 'remixicon/fonts/remixicon.css';
 
 export interface StepIndicatorHorizontalItemProps {
@@ -14,9 +14,9 @@ const StepIndicatorHorizontalItemIcon: React.FC<StepIndicatorHorizontalItemIconP
     if (props.state === 'completed') {
         return <i className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--completed ri-check-line"/>
     } else if (props.state === 'active') {
-        return <span className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--active">{props.idx}</span>
+        return <small className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--active">{props.idx}</small>
     }
-    return <span className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--default">{props.idx}</span>
+    return <small className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--default">{props.idx}</small>
 }
 
 

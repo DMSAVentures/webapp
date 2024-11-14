@@ -1,14 +1,13 @@
-@import "../../../../globalstyles/variables";
+@import "../../../../globalstyles/v2/variables";
 
 .step-indicator-horizontal {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-4;
-  color: $neutral-500;
+  gap: $spacing-03;
+  color: var(--color-muted);
 
   .step-indicator-horizontal__separator {
-    @extend .label-small;
-    padding-left: $spacing-4;
+    padding-left: $spacing-03;
   }
 
   .step-indicator-horizontal__item {
