@@ -27,13 +27,13 @@
         }
 
         &:disabled {
-            background-color: $bg-weak-50;
-            color: $neutral-300;
+            background-color: var(--color-secondary-bg);
+            //color: $neutral-300;
             cursor: not-allowed;
 
             &:hover {
-                background-color: $bg-weak-50;
-                color: $neutral-300;
+                background-color: var(--color-secondary-bg);
+                //color: $neutral-300;
                 cursor: not-allowed;
             }
         }
