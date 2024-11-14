@@ -36,7 +36,7 @@ export const Tag: React.FC<TagProps> = (props) => {
         <div className="tag" aria-disabled={props.state === 'disabled'} aria-selected={selected} onClick={handleClick}>
             {props.icon && <i className={`${props.icon}`}></i>}
             {!props.icon && props.image && <img className={'tag__image'} src={props.image} alt="tag" />}
-            <span className="tag__text">{props.children}</span>
+            <small className="tag__text">{props.children}</small>
             {props.removeable && <i className="ri-close-fill"></i>}
         </div>
     );

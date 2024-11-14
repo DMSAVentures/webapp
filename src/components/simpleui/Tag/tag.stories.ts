@@ -1,4 +1,4 @@
-import {Tag} from "@/components/baseui/Tag/tag";
+import {Tag} from "@/components/simpleui/Tag/tag";
 import {Meta, StoryObj} from '@storybook/react';
 import { fn } from '@storybook/test';
 
@@ -9,7 +9,7 @@ const onRemove = fn(
 const onSelect = fn(() => {console.log('select')});
 
 const meta: Meta = {
-    title: 'Components/Tag',
+    title: 'SimpleUI/Tag',
     component: Tag,
     parameters: {
         layout: 'centered',
