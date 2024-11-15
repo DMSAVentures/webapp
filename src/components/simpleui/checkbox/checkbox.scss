@@ -48,5 +48,9 @@
     &:disabled {
         border-color: var(--color-muted); // Disabled border color
         cursor: not-allowed;
+
+        &::after {
+            border-color: var(--color-muted);
+        }
     }
 }
