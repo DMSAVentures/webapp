@@ -11,7 +11,7 @@ const ProgressBarLine: React.FC<ProgressBarLineProps> = (props) => {
     return (
         <div className={`progress-bar progress-bar--${props.size}`}>
             <div className={`progress-bar__line progress-bar__line--${props.variant}`} style={{ width: `${props.progress}%` }}/>
-            {props.showPercentage && <small className="progress-bar__percentage">{props.progress}%</small>}
+            {props.showPercentage && <span className="progress-bar__percentage">{props.progress}%</span>}
         </div>
     );
 }

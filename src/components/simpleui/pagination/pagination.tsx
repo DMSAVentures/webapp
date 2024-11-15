@@ -76,13 +76,13 @@ const Pagination: React.FC<PaginationProps> = (props) => {
                         className={`pagination__button ${currentPage === page ? 'pagination__button--active' : ''}`}
                         onClick={() => onPageChange(page)}
                     >
-                        <small className={`pagination__pagenumber`}>{page}</small>
+                        <span className={`pagination__pagenumber`}>{page}</span>
                     </button>
                 ))}
                 {/* Ellipsis for Next Page Range */}
                 {pageWindow < maxPageWindow && (
                     <button className="pagination__button" onClick={handleNextPageRange} title="Next Page Range">
-                        <small className={`pagination__pagenumber`}>...</small>
+                        <span className={`pagination__pagenumber`}>...</span>
                     </button>
                 )}
 

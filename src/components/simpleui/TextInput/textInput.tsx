@@ -1,8 +1,8 @@
 import React from 'react'
 import './text-input.scss'
 import 'remixicon/fonts/remixicon.css'
-import HintText from "@/components/baseui/hinttext/hinttext";
-import Label from "@/components/baseui/label/label";
+import HintText from "@/components/simpleui/hinttext/hinttext";
+import Label from "@/components/simpleui/label/label";
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;

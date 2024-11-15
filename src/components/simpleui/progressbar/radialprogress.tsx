@@ -15,7 +15,7 @@ const RadialProgress: React.FC<Radialprogress> = (props) => {
        <div className={`radial-progress radial-progress--${props.size} radial-progress--${props.variant}`}
             style={{ '--progress-percentage': `${clampedPercentage}%` } as React.CSSProperties & { [key: string]: string | number }}>
            <div className={'center-content'}>
-               {props.showPercentage ? <small className={'percentage_text'}>{clampedPercentage}%</small> : null}
+               {props.showPercentage ? <span className={'percentage_text'}>{clampedPercentage}%</span> : null}
            </div>
        </div>
     );

@@ -1,125 +1,52 @@
 @import "src/globalstyles/v2/variables.scss";
 
-.checkbox-container {
-    display: inline-block;
+// Style for custom checkbox
+.custom-checkbox-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: $spacing-01;
+    height: $spacing-01;
+    border: 1px solid var(--color-primary); // Border color
+    border-radius: $border-radius-small; // Square corners or small radius
+    outline: none;
+    cursor: pointer;
     position: relative;
-    padding: $spacing-02;
 
-    .custom-checkbox-label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: $spacing-06;
-        min-height: $spacing-06;
-        border: $spacing-01 solid var(--color-primary); // Inner border color
-        border-radius: $border-radius-medium;
-        cursor: pointer;
-        position: relative;
+    // Style for the checked state
+    &:checked {
+        background-color: var(--color-bg); // Background color when checked
 
-        .checkbox__icon {
-            position: absolute;
-            color: var(--color-bg);
-            width: $spacing-04;
-            height: $spacing-04;
-            top: -1px;
-            left: 2px;
-        }
-
-        &::before {
+        // Checkmark to indicate selection
+        &::after {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border: $spacing-01 solid var(--color-primary);
-            border-radius: $border-radius-medium;
-            z-index: -1;
-        }
-
-        // Hover and focus styles (excluding disabled state)
-        &:not(.disabled) {
-            &:hover {
-                border-color: var(--color-hover-primary);
-                transition: border-color $duration-slow-01 $easing-productive-entrance;
-
-                &::before {
-                    border-color: var(--color-hover-primary);
-                }
-            }
-
-            &:focus-within {
-                border-color: var(--color-hover-primary);
-
-                &::before {
-                    border-color: var(--color-hover-primary);
-                }
-            }
-        }
-
-        // Common styles for checked and indeterminate states
-        &.checked,
-        &.indeterminate {
-            background-color: var(--color-primary);
-            border-color: var(--color-primary);
-            //transition: border-color $duration-slow-01 $easing-productive-entrance, background-color $duration-slow-01 $easing-productive-entrance;
-
-            &::before {
-                border-color: var(--color-primary);
-            }
-
-            &:not(.disabled) {
-                &:hover {
-                    background-color: var(--color-hover-primary);
-                    border-color: var(--color-hover-primary);
-
-                    &::before {
-                        border-color: var(--color-hover-primary);
-                    }
-                }
-
-                &:focus-within {
-                    background-color: var(--color-hover-primary);
-                    border-color: var(--color-hover-primary);
-
-                    &::before {
-                        border-color: var(--color-hover-primary);
-                    }
-                }
-            }
-        }
-
-        // Disabled state styles
-        &.disabled {
-            background-color: var(--color-hover-secondary);
-            border-color: var(--color-hover-secondary);
-            cursor: not-allowed;
-            pointer-events: none;
-
-            &::before {
-                border-color: var(--color-hover-secondary);
-            }
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid black;
+            border-width: 0 2px 2px 0;
+            transform: rotate(40deg);
         }
     }
 
-    // Small size modifier
-    //&--small .custom-checkbox-label {
-    //    width: 12px;
-    //    height: 12px;
-    //    border-radius: 2px;
-    //
-    //    &::before {
-    //        border-radius: 2.6px;
-    //    }
-    //
-    //    .checkbox__icon {
-    //        font-size: 13px;
-    //    }
-    //}
-}
+    // Style for the hover state
+    &:hover {
+        //border-color: var(--color-hover-secondary); // Hover border color
+        &::after {
+            //border-color: var(--color-hover-secondary);
+        }
+    }
 
-.custom-checkbox-input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+    // Style for the focus state
+    &:focus {
+        border-color: var(--color-focus-primary); // Focus border color
+    }
+
+    // Style for the disabled state
+    &:disabled {
+        border-color: var(--color-muted); // Disabled border color
+        cursor: not-allowed;
+    }
 }

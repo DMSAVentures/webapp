@@ -5,9 +5,9 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: $spacing-03;
-    height: $spacing-03;
-    border: 2px solid var(--color-primary); // Thicker border
+    width: $spacing-01;
+    height: $spacing-01;
+    border: 1px solid var(--color-primary); // Thicker border
     border-radius: $border-radius-round;
     outline: none;
     cursor: pointer;
@@ -19,8 +19,8 @@
         // Inner circle to indicate selection
         &::before {
             content: '';
-            width: $spacing-04;
-            height: $spacing-04;
+            width: $spacing-03;
+            height: $spacing-03;
             background-color: black;
             border-radius: 50%;
             position: absolute;

@@ -28,7 +28,7 @@ const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
         <div className={`checkbox-container checkbox-container--small`}>
             <input type="checkbox" id={checkboxId} className="custom-checkbox-input" disabled={props.disabled} checked={checked} onChange={handleChange}/>
             <label htmlFor={checkboxId} className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>
-                {checked ? <i className="checkbox__icon ri-check-fill"></i> : null}
+                {/*{checked ? <i className="checkbox__icon ri-check-fill"></i> : null}*/}
                 {isIndeterminate ? <i className="checkbox__icon ri-subtract-fill"></i> : null}
             </label>
         </div>
