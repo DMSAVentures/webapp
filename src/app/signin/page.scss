@@ -1,54 +1,45 @@
-@import "src/globalstyles/mixin.scss";
-@import "src/globalstyles/variables";
+@import "src/globalstyles/v2/variables";
 
 .login-page {
-    height: 100%;
-    margin: 0;
-    padding: $spacing-24;
-    background: radial-gradient(circle at top left, lighten($blue-900, 49%) 5%, transparent 20%),
-    radial-gradient(circle at bottom right, lighten($blue-900, 50%) 5%, transparent 19%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    opacity: 0.8;
+    background-image:  radial-gradient(rgba(0, 0, 0, 0.87) 0.5px, transparent 0.5px), radial-gradient(#ffffff 0.5px, #ffffff 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0,10px 10px;
 
     .centered-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+        padding: $spacing-05 $spacing-12;
+        max-height: $spacing-13 * 2;
+        background: white;
 
-        .login-form {
-            width: 320px;
-            min-height: 400px;
-            padding: $spacing-12;
-            border: 1px solid $neutral-300;
-            border-radius: $radius-8;
-            @extend .shadow-md;
-        }
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-05;
     }
 
     /* Tablet and up (medium screens) */
-    @include respond-to('medium') {
-        padding: $spacing-16;
-        background: radial-gradient(circle at top left, lighten($blue-900, 60%) 2%, transparent 30%),
-        radial-gradient(circle at bottom right, lighten($blue-900, 60%) 5%, transparent 30%);
-
+    @media (max-width: 480px) {
         .centered-container {
-            .login-form {
-                max-width: 350px; /* Max width for tablets */
-                min-height: 350px;
-            }
+            padding: $spacing-05 $spacing-12;
+            max-width: $spacing-13 * 2;
+            max-height: $spacing-13 * 2;
+
         }
     }
 
     /* Desktop and up (large screens) */
-    @include respond-to('large') {
-        padding: $spacing-24;
-        background: radial-gradient(circle at top left, lighten($blue-900, 60%) 2%, transparent 30%),
-        radial-gradient(circle at bottom right, lighten($blue-900, 60%) 5%, transparent 30%);
+    @media (max-width: 768px) {
+        padding: $spacing-05;
 
         .centered-container {
-            .login-form {
-                min-width: 400px; /* Max width for desktops */
-                min-height: 400px;
-            }
+
+            padding: $spacing-10;
+            min-width: $spacing-13 * 2;
+            max-height: $spacing-13 * 2;
+
         }
     }
 }

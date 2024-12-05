@@ -2,7 +2,7 @@
 
 import {Price} from "@/app/types/billing";
 import {useRouter} from "next/navigation";
-import Button from "@/components/baseui/button/button";
+import {Button} from "@/components/simpleui/Button/button";
 
 export default function PlanToPay(props: Price) {
     const router = useRouter();

@@ -1,5 +1,6 @@
 import React, {FC, ButtonHTMLAttributes, useRef, useState, useEffect} from 'react';
 import './button.scss';
+import 'remixicon/fonts/remixicon.css';
 
 // Define the possible variants for the button
 type ButtonVariant = 'primary' | 'secondary';
@@ -9,6 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant;
     disabled?: boolean;
     leftIcon?: string;
+    href?: string;
 }
 
 // Button component
@@ -18,9 +20,24 @@ export const Button: FC<ButtonProps> = ({
                                             leftIcon,
                                      onClick,
                                      children,
+    href,
                                      ...props
                                  }) => {
     const className = `button ${variant === 'secondary' ? 'button--secondary' : ''}`;
+
+    if (href) {
+        return (
+            <a
+                style={{textDecoration: 'none'}}
+                className={className}
+                href={href}
+                aria-disabled={disabled}
+            >
+                {leftIcon && <i className={`ri-${leftIcon}`} aria-hidden="true"></i>}
+                {children}
+            </a>
+        );
+    }
 
     return (
             <button
