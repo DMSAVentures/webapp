@@ -1,0 +1,66 @@
+@import "src/globalstyles/variables.scss";
+@import "src/globalstyles/v2/variables.scss";
+
+.text-area {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-03;
+    position: relative;
+
+    &--error {
+        textarea {
+            border: 1px solid $red-500 !important;
+        }
+    }
+
+    textarea {
+        resize: none;
+        border: 1px solid $neutral-100;
+        border-radius: $border-radius-medium;
+        padding: $spacing-03 $spacing-03 $spacing-03 $spacing-05;
+        //@extend .paragraph-small;
+        //color: $neutral-950;
+
+        &::placeholder {
+            color: var(--color-muted);
+            font-size: 0.85em;
+        }
+
+        &:disabled {
+            background-color: var(--color-secondary-bg);
+            //color: $neutral-300;
+            cursor: not-allowed;
+
+            &:hover {
+                background-color: var(--color-secondary-bg);
+                //color: $neutral-300;
+                cursor: not-allowed;
+            }
+        }
+
+        &:hover {
+            background-color: var(--color-secondary-bg);
+            transition: background-color $duration-moderate-01 $easing-productive-entrance;
+            //color: $neutral-700;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 4px $neutral-alpha-16, 0 0 0 2px $neutral-0;
+            border: 1px solid $neutral-950;
+            outline: 1px solid $neutral-0;
+
+        }
+    }
+
+    &__character-count {
+        position: absolute;
+        bottom: $spacing-08;
+        right: $spacing-03;
+        //@extend .paragraph-x-small;
+        color: var(--color-muted);
+
+        &--error {
+            color: $red-500;
+        }
+    }
+}

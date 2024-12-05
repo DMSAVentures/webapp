@@ -1,9 +1,9 @@
 import React, {useEffect, useReducer} from "react";
 import {useSubmitLogin} from "@/hooks/useSubmitLogin";
-import Button from "@/components/baseui/button/button";
-import {TextInput} from "@/components/baseui/TextInput/textInput";
+import {TextInput} from "@/components/simpleui/TextInput/textInput";
 import "./email.scss";
-import Banner from "@/components/baseui/banner/banner";
+import Banner from "@/components/simpleui/banner/banner";
+import {Button} from "@/components/simpleui/Button/button";
 
 type EmailFormErrors = {
     email?: string;

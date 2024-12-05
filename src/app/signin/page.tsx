@@ -22,9 +22,8 @@ export default function Page(): React.JSX.Element {
     return (
         <div className={"login-page"}>
             <div className={"centered-container"}>
-                <div className={'login-form'}>
+                    <h6>Welcome</h6>
                     <Login/>
-                </div>
             </div>
         </div>
     );

@@ -1,0 +1,158 @@
+// ==============================
+// Mini Unit and Sizing Scale
+// ==============================
+
+$mini-unit: 8px; // Base unit
+$sizing-scale: (
+        1: $mini-unit,
+        2: $mini-unit * 2,
+        3: $mini-unit * 3,
+        4: $mini-unit * 4,
+        6: $mini-unit * 6,
+        8: $mini-unit * 8,
+        10: $mini-unit * 10,
+);
+
+// ==============================
+// Breakpoint Tokens
+// ==============================
+
+$breakpoint-sm: 320px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1280px;
+$breakpoint-xlg: 1536px;
+$breakpoint-max: 2560px;
+
+// ==============================
+// Column Count Tokens
+// ==============================
+
+$columns-sm: 8;
+$columns-md: 8;
+$columns-lg: 12;
+$columns-xlg: 16;
+$columns-max: 32;
+
+// ==============================
+// Column Width (Percentage) Tokens
+// ==============================
+
+$column-width-sm: 25%;
+$column-width-md: 12.5%;
+$column-width-lg: 6.25%;
+$column-width-xlg: 6.25%;
+$column-width-max: 6.25%;
+
+// ==============================
+// Padding Tokens
+// ==============================
+
+$padding: 16px;
+
+// ==============================
+// Margin Tokens
+// ==============================
+
+$margin-sm: 8px;
+$margin-md: 16px;
+$margin-lg: 16px;
+$margin-xlg: 16px;
+$margin-max: 24px;
+
+// ==============================
+// Gutter Tokens
+// ==============================
+
+/* Gutter widths vary based on the mode of the grid */
+$gutter-wide: 32px;     // Wide mode (16px on each side of a column)
+$gutter-narrow: 16px;   // Narrow mode (8px on each side of a column)
+$gutter-condensed: 8px; // Condensed mode (4px on each side of a column)
+
+// ==============================
+// Container Width Tokens
+// ==============================
+
+$container-width-sm: $breakpoint-sm;
+$container-width-md: $breakpoint-md;
+$container-width-lg: $breakpoint-lg;
+$container-width-xlg: $breakpoint-xlg;
+$container-width-max: $breakpoint-max;
+
+// ==============================
+// Grid Layout Mixins with Gutter Support
+// ==============================
+
+@mixin grid-container($columns, $column-width, $gutter, $padding, $margin, $container-width) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gutter; // Space between columns
+    margin-left: auto;
+    margin-right:  auto;
+    padding-left: $padding;
+    padding-right:  $padding;
+    //max-width: $container-width;
+}
+
+// ==============================
+// Responsive Grid Classes with Different Gutter Modes
+// ==============================
+
+.grid-wide {
+    @include grid-container($columns-sm, $column-width-sm, $gutter-wide, $padding, $margin-sm, $container-width-sm);
+
+    @media (min-width: $breakpoint-md) {
+        @include grid-container($columns-md, $column-width-md, $gutter-wide, $padding, $margin-md, $container-width-md);
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        @include grid-container($columns-lg, $column-width-lg, $gutter-wide, $padding, $margin-lg, $container-width-lg);
+    }
+
+    @media (min-width: $breakpoint-xlg) {
+        @include grid-container($columns-xlg, $column-width-xlg, $gutter-wide, $padding, $margin-xlg, $container-width-xlg);
+    }
+
+    @media (min-width: $breakpoint-max) {
+        @include grid-container($columns-max, $column-width-max, $gutter-wide, $padding, $margin-max, $container-width-max);
+    }
+}
+
+.grid-narrow {
+    @include grid-container($columns-sm, $column-width-sm, $gutter-narrow, $padding, $margin-sm, $container-width-sm);
+
+    @media (min-width: $breakpoint-md) {
+        @include grid-container($columns-md, $column-width-md, $gutter-narrow, $padding, $margin-md, $container-width-md);
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        @include grid-container($columns-lg, $column-width-lg, $gutter-narrow, $padding, $margin-lg, $container-width-lg);
+    }
+
+    @media (min-width: $breakpoint-xlg) {
+        @include grid-container($columns-xlg, $column-width-xlg, $gutter-narrow, $padding, $margin-xlg, $container-width-xlg);
+    }
+
+    @media (min-width: $breakpoint-max) {
+        @include grid-container($columns-max, $column-width-max, $gutter-narrow, $padding, $margin-max, $container-width-max);
+    }
+}
+
+.grid-condensed {
+    @include grid-container($columns-sm, $column-width-sm, $gutter-condensed, $padding, $margin-sm, $container-width-sm);
+
+    @media (min-width: $breakpoint-md) {
+        @include grid-container($columns-md, $column-width-md, $gutter-condensed, $padding, $margin-md, $container-width-md);
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        @include grid-container($columns-lg, $column-width-lg, $gutter-condensed, $padding, $margin-lg, $container-width-lg);
+    }
+
+    @media (min-width: $breakpoint-xlg) {
+        @include grid-container($columns-xlg, $column-width-xlg, $gutter-condensed, $padding, $margin-xlg, $container-width-xlg);
+    }
+
+    @media (min-width: $breakpoint-max) {
+        @include grid-container($columns-max, $column-width-max, $gutter-condensed, $padding, $margin-max, $container-width-max);
+    }
+}

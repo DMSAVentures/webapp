@@ -1,0 +1,71 @@
+@import "../../../globalstyles/v2/variables";
+
+.icon-only-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-03;      // Equal padding on all sides
+    width: $spacing-08;             // Fixed square dimensions
+    height: $spacing-08;
+    border-radius: $spacing-03;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: var(--color-text);
+    color:  var(--color-bg); // Text color for contrast on primary button
+    transition: background-color $duration-moderate-01 $easing-productive-standard,
+    color $duration-moderate-01 $easing-productive-standard;
+
+    .ri {
+        font-size: 1.5rem; // Icon size adjustment
+    }
+
+    &--secondary {
+        background-color: var(--color-secondary-bg);
+        color: $color-neutral-900;
+    }
+
+    &:hover {
+        background-color: $interactive-primary-hover-bg;
+    }
+
+    &:active {
+        background-color: $interactive-primary-active-bg;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+    }
+
+    &:disabled {
+        background-color: $interactive-primary-disabled-bg;
+        color: $interactive-primary-disabled-text;
+        cursor: not-allowed;
+    }
+}
+
+.icon-only-button--secondary {
+    background-color: var(--color-secondary-bg);
+    color: $color-neutral-900;
+
+
+    &:hover {
+        background-color: $interactive-secondary-hover-bg;
+    }
+
+    &:active {
+        background-color: $interactive-secondary-active-bg;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+    }
+
+    &:disabled {
+        background-color: $interactive-primary-disabled-bg;
+        color: $interactive-primary-disabled-text;
+        cursor: not-allowed;
+    }
+}

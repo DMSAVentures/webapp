@@ -1,0 +1,54 @@
+
+$color-neutral-900: #1f1f1f;
+$color-neutral-800: #404040;
+$color-neutral-700: #626262;
+$color-neutral-600: #8d8d8d;
+$color-neutral-500: #b0b0b0;
+$color-neutral-400: #d6d6d6;
+$color-neutral-300: #e0e0e0;
+$color-neutral-200: #f5f5f5;
+$color-neutral-100: #ffffff;
+
+
+:root {
+    // Light mode colors
+    --color-bg: #{$color-neutral-100};
+    --color-secondary-bg: #{$color-neutral-200};
+
+    --color-text: #{$color-neutral-800};
+    --color-primary: #{$color-neutral-900};
+    --color-hover-primary: #{$color-neutral-800};
+    --color-active-primary: #{$color-neutral-700};
+
+    --color-secondary: #{$color-neutral-700};
+    --color-secondary-text: #{$color-neutral-700};
+    --color-hover-secondary: #{$color-neutral-300};
+    --color-active-secondary: #{$color-neutral-400};
+
+    --color-muted: #{$color-neutral-500};
+    --color-border: #{$color-neutral-200};
+
+    // Typography-specific colors
+    --color-heading: var(--color-primary);
+    --color-body-text: var(--color-text);
+    --color-caption-text: var(--color-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        // Dark mode colors
+        --color-bg: #1f1f1f;
+        --color-text: #ffffff;
+        --color-primary: #ffffff;
+        --color-secondary-bg: #141414;
+        --color-secondary-text: #f5f5f5;
+        --color-secondary: #f5f5f5;
+        --color-muted: #8d8d8d;
+        --color-border: #3a3a3a;
+
+        // Typography-specific colors for dark mode
+        --color-heading: var(--color-primary);
+        --color-body-text: var(--color-secondary);
+        --color-caption-text: var(--color-muted);
+    }
+}

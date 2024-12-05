@@ -1,0 +1,39 @@
+@import "src/globalstyles/v2/variables.scss";
+
+.tag {
+    display: flex;
+    align-items: center;
+    //height: $spacing-24;
+    padding: $spacing-02 $spacing-03;
+    gap: $spacing-03;
+    border-radius: $border-radius-medium;
+    border: 1px solid var(--color-border);
+    //font-size: 0.85em;
+    //@extend .label-x-small;
+    color: var(--color-secondary);
+
+    &__image {
+        border-radius: $border-radius-round;
+        height: 1em; // Set height to match the line-height of the text
+        width: auto; // Maintain aspect ratio
+        max-height: 100%; // Ensure it doesn't exceed container height
+        object-fit: contain; // Ensure the entire image is visible
+    }
+
+    &:hover {
+        background-color: var(--color-secondary-bg);
+        cursor: pointer;
+    }
+
+    &[aria-disabled="true"] {
+        background-color: var(--color-secondary-bg);
+        color: var(--color-muted);
+        cursor: not-allowed;
+    }
+
+    &[aria-selected="true"] {
+        background-color: var(--color-bg);
+        color: var(--color-primary);
+        border: 1px solid var(--color-primary);
+    }
+}

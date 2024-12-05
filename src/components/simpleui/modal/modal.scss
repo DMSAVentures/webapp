@@ -1,0 +1,156 @@
+@import "src/globalstyles/colors";
+@import "src/globalstyles/v2/variables";
+
+@mixin modal-icon-style($color) {
+    color: $color;
+}
+
+.modal__container {
+    position: fixed; /* Position the dialog relative to the viewport */
+    top: 50%;        /* Position it 50% from the top */
+    left: 50%;       /* Position it 50% from the left */
+    transform: translate(-50%, -50%); /* Center it horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    border-radius: $border-radius-large;
+    border: 1px solid var(--color-border);
+    padding: $spacing-05;
+    box-shadow: none;
+    overflow: hidden;
+    &::backdrop {
+        background-color: $neutral-800;
+        opacity: 0.8;
+        backdrop-filter: blur(4px);
+    }
+
+    @media (min-width: $breakpoint-sm) {
+        width: $spacing-13 * 2;
+    }
+
+    @media (min-width: $breakpoint-md) {
+        width: $spacing-13 * 3;
+    }
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-05;
+    padding-bottom: $spacing-05;
+    border-bottom: 1px solid var(--color-border);
+
+    &--centered {
+        flex-direction: column;
+        text-align: center;
+    }
+    .modal__header__text {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: $spacing-05;
+
+        .modal__title {
+            //@extend .label-small;
+            //color: $neutral-950;
+        }
+
+        .modal__description {
+            //@extend .paragraph-small;
+            //color: $neutral-600;
+            word-break: break-word;
+        }
+    }
+
+    .icon-only-button {
+        align-content: flex-start;
+    }
+}
+
+.modal__icon {
+
+    &--info  {
+        @include modal-icon-style($blue-500);
+        &.modal__icon--medium {
+            padding: $spacing-02 $spacing-03;
+            border-radius: $border-radius-round;
+            background-color: $blue-alpha-24;
+        }
+    }
+    &--success {
+        @include modal-icon-style($green-500);
+        &.modal__icon--medium {
+            padding: $spacing-02 $spacing-03;
+            border-radius: $border-radius-round;
+            background-color: $green-alpha-24;
+        }
+    }
+
+    &--warning {
+        @include modal-icon-style($orange-500);
+        &.modal__icon--medium {
+            padding: $spacing-02 $spacing-03;
+            align-self: center;
+            border-radius: $border-radius-round;
+            background-color: $orange-alpha-24;
+        }
+    }
+
+
+    &--alert {
+        @include modal-icon-style($red-500);
+        &.modal__icon--medium {
+            padding: $spacing-02 $spacing-03;
+            border-radius: $border-radius-round;
+            background-color: $red-alpha-24;
+        }
+    }
+
+    &--feature {
+        @include modal-icon-style($neutral-500);
+        &.modal__icon--medium {
+            padding: $spacing-02 $spacing-03;
+            border-radius: $border-radius-round;
+            border: 1px solid $neutral-200;
+        }
+    }
+}
+
+.modal__footer {
+    display: flex;
+    padding-top: $spacing-03;
+    gap: $spacing-03;
+
+    .modal__footer-left {
+        display: flex;
+        align-self: center;
+        text-align: left;
+        width: 100%;
+        gap: $spacing-03;
+    }
+
+    .modal__footer-right {
+        display: flex;
+        flex-flow: row-reverse;
+        width: 100%;
+        align-self: center;
+        gap: $spacing-03;
+    }
+
+    @media (min-width: $breakpoint-sm) {
+        flex-direction: column;
+    }
+
+    @media (min-width: $breakpoint-md) {
+        flex-direction: row;
+    }
+}
+
+
+.modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-03;
+    padding: $spacing-03 0 $spacing-03 0;
+}
+

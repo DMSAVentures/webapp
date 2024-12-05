@@ -1,0 +1,61 @@
+@import "src/globalstyles/v2/variables";
+
+.sidebar {
+    height: calc(100vh - $spacing-11);
+    overflow: scroll;
+    background-color: var(--color-bg);
+    z-index: 30;
+    padding: $spacing-03 $spacing-05;
+    // permanently hides the sidebar as default
+    display: none;
+    border-right: 1px solid var(--color-border);
+    //permanent sidebar is visible on desktops
+    @media (min-width: $breakpoint-lg) {
+        display: flex;
+        flex-direction: column;
+        transform: translateX(0);
+        width: $spacing-11 *  3;
+    }
+
+    //makes sidebar collapsible on mobile and hides it
+    &--collapsible {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        width: $spacing-11;
+        transform: translateX(-200%);
+        transition: transform $duration-slow-01 $easing-productive-exit;
+    }
+
+    // opens the drawer
+    &.open {
+        transition: transform $duration-slow-01 $easing-productive-entrance;
+        transform: translateX(0);
+        width: $spacing-11 * 3;
+    }
+}
+
+.sidebar-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-secondary-bg);
+    z-index: 20;
+    &.visible {
+        display: block;
+        min-width: 100vw;
+        visibility: visible;
+        opacity: 0.5;
+        height: calc(100vh - $spacing-11);
+        transition: opacity $duration-slow-02 $easing-productive-entrance;
+    }
+    // hides when permanent sidebar is visible
+    @media (min-width: $breakpoint-lg) {
+        display: none;
+    }
+}
+
+.sidebar-container {
+    position: relative;
+}

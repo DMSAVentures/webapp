@@ -1,0 +1,30 @@
+// ==============================
+// Interactive State Tokens
+// ==============================
+
+$interactive-primary-hover-bg: var(--color-hover-primary);           // Light gray for hover backgrounds
+$interactive-primary-active-bg: var(--color-active-primary);          // Darker gray for active backgrounds
+$interactive-primary-disabled-bg: $color-neutral-200;        // Lightest gray for disabled elements
+$interactive-primary-focus-border: #0f62fe;       // Blue accent for focus ring/border
+
+$interactive-primary-hover-text: #393939;         // Dark gray for hover text
+$interactive-primary-active-text: #262626;        // Darker gray for active text
+$interactive-primary-disabled-text: $color-neutral-500;      // Muted gray for disabled text
+
+$interactive-primary-hover-border: #c6c6c6;       // Subtle gray for hover border
+$interactive-primary-active-border: #8d8d8d;      // Darker gray for active border
+$interactive-primary-disabled-border: #e0e0e0;    // Light gray for disabled border
+
+
+$interactive-secondary-hover-bg: var(--color-hover-secondary);           // Light gray for hover backgrounds
+$interactive-secondary-active-bg: var(--color-active-secondary);          // Darker gray for active backgrounds
+$interactive-secondary-disabled-bg: #fafafa;        // Lightest gray for disabled elements
+$interactive-secondary-focus-border: #0f62fe;       // Blue accent for focus ring/border
+
+$interactive-secondary-hover-text: #393939;         // Dark gray for hover text
+$interactive-secondary-active-text: #262626;        // Darker gray for active text
+$interactive-secondary-disabled-text: #8d8d8d;      // Muted gray for disabled text
+
+$interactive-secondary-hover-border: #c6c6c6;       // Subtle gray for hover border
+$interactive-secondary-active-border: #8d8d8d;      // Darker gray for active border
+$interactive-secondary-disabled-border: #e0e0e0;    // Light gray for disabled border

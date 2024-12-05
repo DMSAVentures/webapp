@@ -1,0 +1,33 @@
+//@import "src/globalstyles/variables";
+@import "src/globalstyles/v2/variables";
+
+
+.label__container {
+    display: flex;
+    gap: $spacing-03;
+    align-items: center;
+
+    &.label__container--disabled {
+        .label__string,
+        .label__sublabel__string {
+            color: var(--color-secondary);
+        }
+    }
+
+    .label__string {
+        //@extend .paragraph-small;
+        //color: $neutral-950;
+    }
+
+    .label__sublabel__string {
+        //@extend .paragraph-x-small;
+        //color: $neutral-600;
+        color: var(--color-secondary);
+
+    }
+
+
+}
+
+
+
