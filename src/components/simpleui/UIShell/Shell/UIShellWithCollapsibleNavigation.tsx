@@ -1,3 +1,4 @@
+'use client'
 import Header from "@/components/simpleui/UIShell/Header/Header";
 import {Column} from "@/components/simpleui/UIShell/Column/Column";
 import React from "react";
