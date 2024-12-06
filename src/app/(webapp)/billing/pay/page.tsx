@@ -8,6 +8,7 @@ import {EmbeddedCheckout, EmbeddedCheckoutProvider} from "@stripe/react-stripe-j
 import React from "react";
 import {useSearchParams} from "next/navigation";
 import {useCreateCheckoutSession} from "@/hooks/useCreateCheckoutSession";
+import {Column} from "@/components/simpleui/UIShell/Column/Column";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 export default function Home() {
@@ -28,9 +29,11 @@ export default function Home() {
         clientSecret: clientSecret!,
     };
 
-    return (<div className={'payment-container'}>
+    return (
+        <Column sm={{span: 7, start: 1}} md={{start: 1, span: 7}} lg={{start: 1, span: 11}}
+                xlg={{start: 1, span: 13}}>
         <EmbeddedCheckoutProvider options={options} stripe={stripePromise}>
             <EmbeddedCheckout/>
         </EmbeddedCheckoutProvider>
-        </div>);
+        </Column>);
 }
