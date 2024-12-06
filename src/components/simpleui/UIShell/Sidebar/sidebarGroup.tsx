@@ -3,11 +3,10 @@ import {SidebarItem} from './sidebarItem';
 import './sidebar-group.scss';
 
 interface SidebarGroupProps {
+    children: React.ReactElement<typeof SidebarItem>[] | React.ReactElement<typeof SidebarItem>;
     label: string;
-    children: React.ReactNode;
 }
-
-export const SidebarGroup: React.FC<SidebarGroupProps> & { Item: typeof SidebarItem } = ({ label, children }) => {
+export const SidebarGroup: React.FC<SidebarGroupProps> = ({ label, children }) => {
     return (
         <div className="sidebar__group">
             <small className="sidebar__group-label">{label}</small>
@@ -17,5 +16,3 @@ export const SidebarGroup: React.FC<SidebarGroupProps> & { Item: typeof SidebarI
         </div>
     );
 };
-
-SidebarGroup.Item = SidebarItem;

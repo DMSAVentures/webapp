@@ -8,6 +8,7 @@ import {SidebarCollapsible} from "@/components/simpleui/UIShell/Sidebar/SidebarC
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
 import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
+import {SidebarItem} from "@/components/simpleui/UIShell/Sidebar/sidebarItem";
 
 interface HeaderProps {
     logo: string;
@@ -15,9 +16,10 @@ interface HeaderProps {
     actionItems?: ActionItem[];
     toggleLeftNav?: () => void;
     isLeftNavOpen?: boolean;
+    children:  React.ReactElement<typeof SidebarContent>;
 }
 
-const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeftNav, isLeftNavOpen }) => {
+const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeftNav, isLeftNavOpen, children }) => {
     return (
         <div className={'header-container'}>
         <header className="header">
@@ -29,16 +31,7 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems, actionItems, toggleLeft
             {actionItems && <HeaderActions items={actionItems} />}
         </header>
             <SidebarCollapsible isOpen={isLeftNavOpen!} onClose={toggleLeftNav!}>
-                <SidebarContent>
-                    <SidebarGroup label="Main">
-                        <SidebarGroup.Item label="Dashboard" href="#dashboard" iconClass="dashboard-line" />
-                        <SidebarGroup.Item label="Reports" href="#reports" iconClass="file-chart-line" />
-                    </SidebarGroup>
-                    <SidebarGroup label="Settings">
-                        <SidebarGroup.Item label="Profile" href="#profile" iconClass="user-line" />
-                        <SidebarGroup.Item label="Security" href="#security" iconClass="shield-user-line" />
-                    </SidebarGroup>
-                </SidebarContent>
+                {children}
             </SidebarCollapsible>
         </div>
     );
