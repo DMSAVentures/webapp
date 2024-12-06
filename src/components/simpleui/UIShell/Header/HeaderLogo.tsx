@@ -6,11 +6,12 @@ interface HeaderLogoProps {
     imgSrc?: string;
 }
 
-const HeaderLogo: React.FC<HeaderLogoProps> = ({ logo }) => {
+const HeaderLogo: React.FC<HeaderLogoProps> = ({ logo, imgSrc }) => {
     return (
         <span className="header__logo">
-            <Link href="/public">
-                {logo}
+            <Link href="/">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {imgSrc ? <img src={imgSrc} alt={logo} /> : logo}
             </Link>
         </span>
     );
