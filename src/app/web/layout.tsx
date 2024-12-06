@@ -15,14 +15,9 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode;
                         <SidebarItem label="Dashboard" href="#dashboard" iconClass="dashboard-line"/>
                         <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line"/>
                     </SidebarGroup>
-                    <SidebarGroup label="Settings">
-                        <SidebarItem label="Profile" href="#profile" iconClass="user-line"/>
-                        <SidebarItem label="Security" href="#security" iconClass="shield-user-line"/>
-                    </SidebarGroup>
                     <SidebarFooter>
-                        <SidebarGroup label="">
-                            <SidebarItem label="Profile" href="#profile" iconClass="user-line"/>
-                            <SidebarItem label="Security" href="#security" iconClass="shield-user-line"/>
+                        <SidebarGroup label="Settings">
+                            <SidebarItem label="Account" href="#profile" iconClass="user-line"/>
                         </SidebarGroup>
                     </SidebarFooter>
                 </SidebarContent>

@@ -19,16 +19,7 @@ export const UIShellWithCollapsibleNavigation: React.FC<UIShellWithCollapsibleNa
     return (
         <div className="shell">
             <Header logo={props.logo} isLeftNavOpen={isLeftNavOpen} toggleLeftNav={toggleLeftNav}>
-                <SidebarContent>
-                    <SidebarGroup label="Main">
-                        <SidebarItem label="Dashboard" href="#dashboard" iconClass="dashboard-line" />
-                        <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line" />
-                    </SidebarGroup>
-                    <SidebarGroup label="Settings">
-                        <SidebarItem label="Profile" href="#profile" iconClass="user-line" />
-                        <SidebarItem label="Security" href="#security" iconClass="shield-user-line" />
-                    </SidebarGroup>
-                </SidebarContent>
+                {props.children[0]}
             </Header>
 
             <div className={'shell-container'}>
