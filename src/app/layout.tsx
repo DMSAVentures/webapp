@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
-import "../globalstyles/variables.scss";
+import "../globalstyles/v2/variables.scss";
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Prototype App",

@@ -1,4 +1,4 @@
-@import "src/globalstyles/mixin.scss";
+@import "src/globalstyles/v2/variables";
 
 main {
   margin: 0 auto;
@@ -6,11 +6,11 @@ main {
   width: 100%;
   padding: 0 10px;
   // Use the responsive mixin for padding
-  @include respond-to('medium'){
+  @media (min-width: $breakpoint-lg) {
     padding: 0 20px; // More padding on medium devices and up
   }
 
-  @include respond-to('small') {
+  @media (min-width: $breakpoint-sm) {
     padding: 0 30px; // Less padding on small devices
   }
 }

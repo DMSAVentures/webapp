@@ -1,4 +1,4 @@
-import "./loading.scss"
+// import "./loading.scss"
 export default function LoadingSpinner() {
     return (
         <div className={"full-page"}>
