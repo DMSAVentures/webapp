@@ -1,4 +1,4 @@
-@import "src/globalstyles/v2/variables";
+@import "../../../globalstyles/v2/variables";
 
 .login-page {
     display: flex;
@@ -11,10 +11,10 @@
     background-position: 0 0,10px 10px;
 
     .centered-container {
-        padding: $spacing-05 $spacing-12;
+        padding: $spacing-12 $spacing-12;
         max-height: $spacing-13 * 2;
         background: white;
-
+        align-items: center;
         display: flex;
         flex-direction: column;
         gap: $spacing-05;

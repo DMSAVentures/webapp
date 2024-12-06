@@ -6,17 +6,17 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function WebApp (): React.JSX.Element {
-    const router = useRouter();
-    const authContext = useContext(AuthContext);
-    useEffect(() => {
-        if (!authContext.isLoggedIn) {
-            router.push('/signin');
-        }
-    }, [authContext, router]);
-
-    if (!authContext.isLoggedIn) {
-        return <></>;
-    }
+    // const router = useRouter();
+    // const authContext = useContext(AuthContext);
+    // useEffect(() => {
+    //     if (!authContext.isLoggedIn) {
+    //         router.push('/signin');
+    //     }
+    // }, [authContext, router]);
+    //
+    // if (!authContext.isLoggedIn) {
+    //     return <></>;
+    // }
 
     return (
         // <main>
