@@ -1,4 +1,4 @@
-import Button from "@/components/baseui/button/button";
+import {Button} from "@/components/simpleui/Button/button";
 import PlanCard from "@/components/billing/plans/planCard";
 import {getCurrentSubscription} from "@/hooks/getCurrentSubscription";
 import {Suspense} from "react";
@@ -16,7 +16,7 @@ export default async function Page() {
                 <PlanCard priceId={data.price_id!}/>
                 <p>Status: {data.status}</p>
                 <p>Next billing date: {data.end_date.toLocaleDateString()}</p>
-                <Button variant={'error'}>Cancel</Button>
+                <Button variant={'secondary'}>Cancel</Button>
                 <Button>Change Plan</Button>
             </div>
         </Suspense>
