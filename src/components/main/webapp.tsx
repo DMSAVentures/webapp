@@ -19,13 +19,11 @@ export default function WebApp (): React.JSX.Element {
     }
 
     return (
-        <>
         <main>
             <div>
                 <h1>Webapp - WEBAPP GIG</h1>
                 <p>This is a message</p>
             </div>
         </main>
-        </>
     );
 }
