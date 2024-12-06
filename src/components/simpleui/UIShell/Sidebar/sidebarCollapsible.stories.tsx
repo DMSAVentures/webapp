@@ -2,6 +2,9 @@ import {SidebarCollapsible, SidebarProps} from "@/components/simpleui/UIShell/Si
 import {Meta, StoryObj} from "@storybook/react";
 import React, {useState} from "react";
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
+import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
+import {SidebarItem} from "@/components/simpleui/UIShell/Sidebar/sidebarItem";
+import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 
 const SidebarStoryWrapper: React.FC<SidebarProps> = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +17,17 @@ const SidebarStoryWrapper: React.FC<SidebarProps> = (props) => {
         <div>
             <button onClick={() => setIsOpen(true)}>Open Sidebar</button>
             <SidebarCollapsible {...props} isOpen={isOpen} onClose={handleClose}>
-                <SidebarContent/>
+                <SidebarContent>
+                    <SidebarGroup label="Main">
+                        <SidebarItem label="Dashboard" href="#dashboard" iconClass="dashboard-line"/>
+                        <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line"/>
+                    </SidebarGroup>
+                    <SidebarFooter>
+                        <SidebarGroup label="Settings">
+                            <SidebarItem label="Account" href="/account" iconClass="user-line"/>
+                        </SidebarGroup>
+                    </SidebarFooter>
+                </SidebarContent>
             </SidebarCollapsible>
         </div>
     );

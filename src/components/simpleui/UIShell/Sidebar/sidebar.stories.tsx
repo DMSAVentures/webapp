@@ -3,6 +3,9 @@ import React from "react";
 import { Sidebar } from "@/components/simpleui/UIShell/Sidebar/Sidebar";
 // import './Sidebar.stories.scss';
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
+import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
+import {SidebarItem} from "@/components/simpleui/UIShell/Sidebar/sidebarItem";
+import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 
 // Sidebar Story Wrapper to showcase Persistent Sidebar
 const SidebarStoryWrapper: React.FC = () => {
@@ -10,7 +13,17 @@ const SidebarStoryWrapper: React.FC = () => {
         <div className="sidebar-story-container" style={{ display: 'grid', gridTemplateColumns: '18rem 1fr'}}>
 
                 <Sidebar>
-                    <SidebarContent />
+                    <SidebarContent>
+                        <SidebarGroup label="Main">
+                            <SidebarItem label="Dashboard" href="#dashboard" iconClass="dashboard-line"/>
+                            <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line"/>
+                        </SidebarGroup>
+                        <SidebarFooter>
+                            <SidebarGroup label="Settings">
+                                <SidebarItem label="Account" href="/account" iconClass="user-line"/>
+                            </SidebarGroup>
+                        </SidebarFooter>
+                    </SidebarContent>
                 </Sidebar>
             <div className="sidebar-story-content">
                 Main content area for visualization
