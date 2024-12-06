@@ -11,7 +11,7 @@ export default async function Page() {
     return (
         <Suspense fallback={<LoadingSpinner/>}>
             <div>
-                <h1>Billing</h1>
+                <h4>Billing</h4>
                 <div>Subscription</div>
                 <PlanCard priceId={data.price_id!}/>
                 <p>Status: {data.status}</p>
