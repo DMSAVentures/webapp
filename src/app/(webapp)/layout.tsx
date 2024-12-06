@@ -44,7 +44,7 @@ export default function RootLayout({
           </SidebarGroup>
           <SidebarFooter>
             <SidebarGroup label="Settings">
-              <SidebarItem label="Account" href="#profile" iconClass="user-line"/>
+              <SidebarItem label="Account" href="/account" iconClass="user-line"/>
             </SidebarGroup>
           </SidebarFooter>
         </SidebarContent>
