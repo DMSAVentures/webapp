@@ -5,7 +5,7 @@
     align-items: center;
     padding: $spacing-02 $spacing-04;
     gap: $spacing-08;
-    min-height: $spacing-08;
+    min-height: $spacing-09;
     background-color: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
 
@@ -68,6 +68,12 @@
                     background-color: var(--color-hover-primary);
                 }
             }
+        }
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        #nav-burger {
+            display: none;
         }
     }
 }

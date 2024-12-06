@@ -1,4 +1,4 @@
-import "../globalstyles/globals.scss";
+// import "../globalstyles/globals.scss";
 export default function Home() {
     return (
         <div>

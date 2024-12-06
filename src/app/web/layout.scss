@@ -1,16 +1,10 @@
-@import "src/globalstyles/globals";
+@import "src/globalstyles/v2/reset";
 
-.container {
-  display: flex;
-}
-
-.sidebar {
-  width: 200px;
-  height: 100vh;
-  background-color: #3b82f6;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
-}
+//.container {
+//  display: flex;
+//}
+//
+//.content {
+//  flex: 1;
+//  padding: 20px;
+//}
