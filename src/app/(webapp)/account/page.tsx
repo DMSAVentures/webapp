@@ -8,13 +8,21 @@ import {useGetCurrentSubscription} from "@/hooks/useGetCurrentSubscription";
 import LoadingSpinner from "@/components/loading/loadingSpinner";
 import {ErrorState} from "@/components/error/error";
 import {EmptyState} from "@/components/empty/empty";
+import {useRouter} from "next/navigation";
+
 
 export default function Page() {
     const {loading, error, currentSubscription} = useGetCurrentSubscription()
+    const router = useRouter()
     if (loading) {
         return <LoadingSpinner/>
     }
     if (error) {
+        if (error.error === 'no active subscription found') {
+            router.push('/billing/plans')
+            return
+        }
+
         return (<ErrorState message={`Something went wrong: ${error.error}`}/>)
     } else if (!currentSubscription) {
         return (<EmptyState message={"No subscription found"}/>)
