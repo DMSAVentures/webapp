@@ -3,10 +3,17 @@ import PlanCard from "@/components/billing/plans/planCard";
 import {getCurrentSubscription} from "@/hooks/getCurrentSubscription";
 import {Suspense} from "react";
 import LoadingSpinner from "@/components/loading/loadingSpinner";
+import {GetCurrentSubscriptionResponse} from "@/types/billing";
 
 
 export default async function Page() {
-    const data = await getCurrentSubscription();
+    let data: GetCurrentSubscriptionResponse;
+    try {
+         data = await getCurrentSubscription();
+    } catch (error) {
+        return <p>Something went wrong...</p>
+    }
+
 
     return (
         <Suspense fallback={<LoadingSpinner/>}>
