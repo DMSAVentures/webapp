@@ -6,6 +6,8 @@ import './page.scss'
 import {Badge} from "@/components/simpleui/badge/badge";
 import {useGetCurrentSubscription} from "@/hooks/useGetCurrentSubscription";
 import LoadingSpinner from "@/components/loading/loadingSpinner";
+import {ErrorState} from "@/components/error/error";
+import {EmptyState} from "@/components/empty/empty";
 
 export default function Page() {
     const {loading, error, currentSubscription} = useGetCurrentSubscription()
@@ -13,9 +15,9 @@ export default function Page() {
         return <LoadingSpinner/>
     }
     if (error) {
-        return (<div>Something went wrong: {error.error}</div>)
+        return (<ErrorState message={`Something went wrong: ${error.error}`}/>)
     } else if (!currentSubscription) {
-        return (<div>No subscription found</div>)
+        return (<EmptyState message={"No subscription found"}/>)
     }
 
     return (
