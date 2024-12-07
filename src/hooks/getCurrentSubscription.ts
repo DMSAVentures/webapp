@@ -1,4 +1,4 @@
-import {GetCurrentSubscriptionResponse} from "@/app/types/billing";
+import {GetCurrentSubscriptionResponse} from "@/types/billing";
 import { headers } from "next/headers";
 import {fetcher} from "@/hooks/fetcher";
 

@@ -7,6 +7,7 @@ import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
 import {SidebarItem} from "@/components/simpleui/UIShell/Sidebar/sidebarItem";
 import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 import {Providers} from "@/contexts/providers";
+import UserName from "@/components/user/Username";
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Prototype App",
@@ -43,6 +44,7 @@ export default function RootLayout({
             <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line"/>
           </SidebarGroup>
           <SidebarFooter>
+            <UserName/>
             <SidebarGroup label="Settings">
               <SidebarItem label="Account" href="/account" iconClass="user-line"/>
             </SidebarGroup>

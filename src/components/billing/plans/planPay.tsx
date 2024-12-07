@@ -1,6 +1,6 @@
 'use client'
 
-import {Price} from "@/app/types/billing";
+import {Price} from "@/types/billing";
 import {useRouter} from "next/navigation";
 import {Button} from "@/components/simpleui/Button/button";
 

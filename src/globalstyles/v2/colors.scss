@@ -34,21 +34,21 @@ $color-neutral-100: #ffffff;
     --color-caption-text: var(--color-muted);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        // Dark mode colors
-        --color-bg: #1f1f1f;
-        --color-text: #ffffff;
-        --color-primary: #ffffff;
-        --color-secondary-bg: #141414;
-        --color-secondary-text: #f5f5f5;
-        --color-secondary: #f5f5f5;
-        --color-muted: #8d8d8d;
-        --color-border: #3a3a3a;
-
-        // Typography-specific colors for dark mode
-        --color-heading: var(--color-primary);
-        --color-body-text: var(--color-secondary);
-        --color-caption-text: var(--color-muted);
-    }
-}
+//@media (prefers-color-scheme: dark) {
+//    :root {
+//        // Dark mode colors
+//        --color-bg: #1f1f1f;
+//        --color-text: #ffffff;
+//        --color-primary: #ffffff;
+//        --color-secondary-bg: #141414;
+//        --color-secondary-text: #f5f5f5;
+//        --color-secondary: #f5f5f5;
+//        --color-muted: #8d8d8d;
+//        --color-border: #3a3a3a;
+//
+//        // Typography-specific colors for dark mode
+//        --color-heading: var(--color-primary);
+//        --color-body-text: var(--color-secondary);
+//        --color-caption-text: var(--color-muted);
+//    }
+//}

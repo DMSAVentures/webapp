@@ -1,4 +1,4 @@
-import {PriceResponse} from "@/app/types/billing";
+import {PriceResponse} from "@/types/billing";
 import {fetcher} from "@/hooks/fetcher";
 
 export async function getPlans(): Promise<PriceResponse> {
