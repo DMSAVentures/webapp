@@ -1,7 +1,7 @@
-import React, { useRef} from "react";
-import './toggle.scss'
+import React, { useRef } from "react";
+import styles from './toggle.module.scss';
 
-export type ToggleProps =  React.InputHTMLAttributes<HTMLInputElement>;
+export type ToggleProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 export const Toggle = (props: ToggleProps) => {
     const inputRef = useRef<HTMLInputElement>(null); // Reference to the input element
@@ -14,9 +14,9 @@ export const Toggle = (props: ToggleProps) => {
     };
 
     return (
-        <div className="toggle" onClick={handleDivClick}>
-            <input ref={inputRef}  type="checkbox" {...props}/>
-            <span className="slider"></span>
+        <div className={styles.toggle} onClick={handleDivClick}>
+            <input ref={inputRef} type="checkbox" {...props}/>
+            <span className={styles.slider}></span>
         </div>
     );
-}
+};
