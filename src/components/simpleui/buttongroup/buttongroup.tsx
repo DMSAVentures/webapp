@@ -1,5 +1,5 @@
 import React, { KeyboardEvent } from 'react';
-import './buttongroup.scss';
+import styles from './buttongroup.module.scss';
 import 'remixicon/fonts/remixicon.css';
 
 export interface ButtonItemProps {
@@ -40,18 +40,29 @@ const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
         }
     };
 
+    // Generate CSS class names using CSS Modules
+    const buttonGroupClass = `${styles['button-group']} ${styles[`button-group--${size}`]} ${noBorder ? styles['button-group--no-border'] : ''}`;
+
     return (
         <div 
-            className={`button-group button-group--${size} button-group--${noBorder ? 'no-border' : ''}`}
+            className={buttonGroupClass}
             role="toolbar"
             aria-label={ariaLabel || "Button group"}
         >
             {items.map((item, index) => {
                 const buttonLabel = item.ariaLabel || item.text || `Button ${index + 1}`;
                 
+                // Generate button class names using CSS Modules
+                const buttonClass = [
+                    styles['button-item'],
+                    styles[`button-item--${size}`],
+                    styles[`button-item--${item.iconOnly ? 'icon-only' : 'icon-text'}`],
+                    styles[`button-item__icon--${item.iconPosition}`]
+                ].join(' ');
+                
                 return (
                     <button
-                        className={`button-item button-item--${size} button-item--${item.iconOnly ? 'icon-only' : 'icon-text'} button-item__icon--${item.iconPosition}`}
+                        className={buttonClass}
                         key={index}
                         onClick={item.onClick}
                         onKeyDown={(e) => handleKeyDown(e, item.onClick)}
@@ -61,8 +72,8 @@ const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
                         type="button"
                         tabIndex={item.disabled ? -1 : 0}
                     >
-                        <i className={`button__icon ${item.icon}`} aria-hidden="true" />
-                        {!item.iconOnly && <span className="button__text">{item.text}</span>}
+                        <i className={`${styles['button__icon']} ${item.icon}`} aria-hidden="true" />
+                        {!item.iconOnly && <span className={styles['button__text']}>{item.text}</span>}
                     </button>
                 );
             })}
