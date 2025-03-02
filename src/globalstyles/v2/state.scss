@@ -2,29 +2,30 @@
 // Interactive State Tokens
 // ==============================
 
-$interactive-primary-hover-bg: var(--color-hover-primary);           // Light gray for hover backgrounds
-$interactive-primary-active-bg: var(--color-active-primary);          // Darker gray for active backgrounds
-$interactive-primary-disabled-bg: $color-neutral-200;        // Lightest gray for disabled elements
-$interactive-primary-focus-border: #0f62fe;       // Blue accent for focus ring/border
+// Primary interactive states
+$interactive-primary-hover-bg: var(--color-hover-primary);           // Hover background
+$interactive-primary-active-bg: var(--color-active-primary);         // Active background
+$interactive-primary-disabled-bg: $color-neutral-200;                // Disabled background
+$interactive-primary-focus-border: var(--color-info);                // Focus ring/border
 
-$interactive-primary-hover-text: #393939;         // Dark gray for hover text
-$interactive-primary-active-text: #262626;        // Darker gray for active text
-$interactive-primary-disabled-text: $color-neutral-500;      // Muted gray for disabled text
+$interactive-primary-hover-text: $color-neutral-800;                 // Hover text
+$interactive-primary-active-text: $color-neutral-900;                // Active text
+$interactive-primary-disabled-text: $color-neutral-500;              // Disabled text
 
-$interactive-primary-hover-border: #c6c6c6;       // Subtle gray for hover border
-$interactive-primary-active-border: #8d8d8d;      // Darker gray for active border
-$interactive-primary-disabled-border: #e0e0e0;    // Light gray for disabled border
+$interactive-primary-hover-border: $color-neutral-400;               // Hover border
+$interactive-primary-active-border: $color-neutral-600;              // Active border
+$interactive-primary-disabled-border: $color-neutral-300;            // Disabled border
 
+// Secondary interactive states
+$interactive-secondary-hover-bg: var(--color-hover-secondary);       // Hover background
+$interactive-secondary-active-bg: var(--color-active-secondary);     // Active background
+$interactive-secondary-disabled-bg: $color-neutral-100;              // Disabled background
+$interactive-secondary-focus-border: var(--color-info);              // Focus ring/border
 
-$interactive-secondary-hover-bg: var(--color-hover-secondary);           // Light gray for hover backgrounds
-$interactive-secondary-active-bg: var(--color-active-secondary);          // Darker gray for active backgrounds
-$interactive-secondary-disabled-bg: #fafafa;        // Lightest gray for disabled elements
-$interactive-secondary-focus-border: #0f62fe;       // Blue accent for focus ring/border
+$interactive-secondary-hover-text: $color-neutral-800;               // Hover text
+$interactive-secondary-active-text: $color-neutral-900;              // Active text
+$interactive-secondary-disabled-text: $color-neutral-600;            // Disabled text
 
-$interactive-secondary-hover-text: #393939;         // Dark gray for hover text
-$interactive-secondary-active-text: #262626;        // Darker gray for active text
-$interactive-secondary-disabled-text: #8d8d8d;      // Muted gray for disabled text
-
-$interactive-secondary-hover-border: #c6c6c6;       // Subtle gray for hover border
-$interactive-secondary-active-border: #8d8d8d;      // Darker gray for active border
-$interactive-secondary-disabled-border: #e0e0e0;    // Light gray for disabled border
+$interactive-secondary-hover-border: $color-neutral-400;             // Hover border
+$interactive-secondary-active-border: $color-neutral-600;            // Active border
+$interactive-secondary-disabled-border: $color-neutral-300;          // Disabled border
