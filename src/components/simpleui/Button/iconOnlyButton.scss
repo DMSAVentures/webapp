@@ -14,7 +14,9 @@
     background-color: var(--color-text);
     color:  var(--color-bg); // Text color for contrast on primary button
     transition: background-color $duration-moderate-01 $easing-productive-standard,
-    color $duration-moderate-01 $easing-productive-standard;
+    color $duration-moderate-01 $easing-productive-standard,
+    box-shadow $duration-moderate-01 $easing-productive-standard;
+    position: relative; // For focus ring positioning
 
     .ri {
         font-size: 1.5rem; // Icon size adjustment
@@ -33,9 +35,21 @@
         background-color: $interactive-primary-active-bg;
     }
 
+    // Enhanced focus styles for keyboard navigation
+    &:focus {
+        outline: none; // Remove default outline
+    }
+
     &:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+        box-shadow: 0 0 0 3px var(--color-info), 0 0 0 1px var(--color-bg);
+        // High contrast focus ring that works on both light and dark backgrounds
+    }
+
+    // Ensure focus styles work in all browsers
+    &:focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
     }
 
     &:disabled {
@@ -49,7 +63,6 @@
     background-color: var(--color-secondary-bg);
     color: $color-neutral-900;
 
-
     &:hover {
         background-color: $interactive-secondary-hover-bg;
     }
@@ -60,12 +73,12 @@
 
     &:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+        box-shadow: 0 0 0 3px var(--color-info), 0 0 0 1px var(--color-bg);
     }
 
     &:disabled {
-        background-color: $interactive-primary-disabled-bg;
-        color: $interactive-primary-disabled-text;
+        background-color: $interactive-secondary-disabled-bg;
+        color: $interactive-secondary-disabled-text;
         cursor: not-allowed;
     }
 }
