@@ -37,9 +37,11 @@
     cursor: pointer;
     transition: background-color $duration-moderate-01 $easing-productive-standard,
     color $duration-moderate-01 $easing-productive-standard,
-    border-color $duration-moderate-01 $easing-productive-standard;
+    border-color $duration-moderate-01 $easing-productive-standard,
+    box-shadow $duration-moderate-01 $easing-productive-standard;
     //@extend .label-small;
     min-width: $spacing-07;
+    position: relative; // For focus styles
 
     @media (min-width: $breakpoint-md) {
       min-width: $spacing-08;
@@ -59,6 +61,17 @@
 
     &:hover {
       background-color: $interactive-secondary-hover-bg;
+    }
+
+    // Focus styles for keyboard navigation
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--color-info);
+      z-index: 1; // Ensure focus ring is visible
     }
 
     // First Child Styles
@@ -95,6 +108,13 @@
     // Icon Alignment Modifier
     &__icon--right {
       flex-direction: row-reverse;
+    }
+
+    // Disabled state
+    &:disabled {
+      cursor: not-allowed;
+      background-color: $interactive-secondary-disabled-bg;
+      color: $interactive-secondary-disabled-text;
     }
   }
 
