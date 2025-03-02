@@ -1,5 +1,5 @@
 import React, { FC, ButtonHTMLAttributes, KeyboardEvent } from 'react';
-import './iconOnlyButton.scss';
+import styles from './iconOnlyButton.module.scss';
 import 'remixicon/fonts/remixicon.css';
 
 type IconOnlyButtonVariant = 'primary' | 'secondary';
@@ -25,7 +25,12 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
     onKeyDown,
     ...props
 }) => {
-    const baseClassName = `icon-only-button ${variant === 'secondary' ? 'icon-only-button--secondary' : ''}`;
+    // Use the appropriate class based on variant
+    const baseClassName = variant === 'secondary' 
+        ? styles['icon-only-button--secondary']
+        : styles['icon-only-button'];
+    
+    // Combine with any additional classes passed as props
     const className = propClassName ? `${baseClassName} ${propClassName}` : baseClassName;
 
     // Handle keyboard events for accessibility
