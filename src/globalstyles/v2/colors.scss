@@ -16,8 +16,9 @@ $color-neutral-500: hsl($neutral-hue, $neutral-saturation, 60%);   // #9ca3af - 
 $color-neutral-400: hsl($neutral-hue, $neutral-saturation, 75%);   // #d1d5db - Borders, dividers
 $color-neutral-300: hsl($neutral-hue, $neutral-saturation, 85%);   // #e5e7eb - Light backgrounds, hover states
 $color-neutral-200: hsl($neutral-hue, $neutral-saturation, 93%);   // #f3f4f6 - Background accents, alternate rows
-$color-neutral-100: hsl($neutral-hue, $neutral-saturation, 98%);   // #f9fafb - Main background
+$color-neutral-100: hsl($neutral-hue, $neutral-saturation, 98%);   // #f9fafb - Very light background
 $color-neutral-50: hsl($neutral-hue, $neutral-saturation, 99.5%);  // #fcfcfd - Subtle background variations
+$color-white: #ffffff;                                             // Pure white for main background
 
 // Accessibility-focused contrast ratios:
 // - Text on background: at least 4.5:1 (WCAG AA)
@@ -26,8 +27,8 @@ $color-neutral-50: hsl($neutral-hue, $neutral-saturation, 99.5%);  // #fcfcfd - 
 
 :root {
     // Light mode colors
-    --color-bg: #{$color-neutral-100};                // Main background
-    --color-secondary-bg: #{$color-neutral-200};      // Secondary background
+    --color-bg: #{$color-white};                      // Main background - pure white
+    --color-secondary-bg: #{$color-neutral-100};      // Secondary background
     --color-tertiary-bg: #{$color-neutral-50};        // Tertiary background
 
     // Text colors with proper contrast ratios
@@ -41,7 +42,7 @@ $color-neutral-50: hsl($neutral-hue, $neutral-saturation, 99.5%);  // #fcfcfd - 
     --color-active-primary: #{$color-neutral-700};    // Active/pressed state
 
     --color-secondary: #{$color-neutral-700};         // Secondary actions
-    --color-secondary-text: #{$color-neutral-700}; // Text on secondary elements (renamed for consistency)
+    --color-secondary-text: #{$color-neutral-700};    // Text on secondary elements
     --color-hover-secondary: #{$color-neutral-300};   // Hover state for secondary
     --color-active-secondary: #{$color-neutral-400};  // Active state for secondary
 
