@@ -6,8 +6,10 @@ type Range<N extends number, Result extends number[] = []> = Result['length'] ex
     ? Result[number]
     : Range<N, [...Result, Result['length']]>;
 
+// Create a type that excludes 0 to get 1 through N
+type Range1ToN<N extends number> = Exclude<Range<N>, 0>;
 // Define column constraints based on SCSS column values
-type SmColumn = Range<8>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+type SmColumn = Range1ToN<8>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 type MdColumn = Range<8>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 type LgColumn = Range<12>;  // 1 | 2 | ... | 12
 type XlgColumn = Range<16>; // 1 | 2 | ... | 16

@@ -2,6 +2,13 @@
 import {useGetCheckoutSession} from "@/hooks/useGetCheckoutSession";
 
 import {useRouter, useSearchParams} from "next/navigation";
+import React from "react";
+import {Column} from "@/components/simpleui/UIShell/Column/Column";
+import {ErrorState} from "@/components/error/error";
+import LoadingSpinner from "@/components/loading/loadingSpinner";
+
+import './page.scss'
+import Banner from "@/components/simpleui/banner/banner";
 
 export default function Page() {
     const searchParams = useSearchParams();  // Use useSearchParams to access query parameters
@@ -10,11 +17,11 @@ export default function Page() {
     const {error, loading, data} = useGetCheckoutSession({sessionID: sessionId!})
 
     if (loading) {
-        return "Loading..."
+        return <LoadingSpinner/>
     }
 
     if (error) {
-        return <div>{error.error}</div>
+        return <ErrorState message={`Something went wrong: ${error.error}`}/>
     }
 
     if (data.status === 'open') {
@@ -25,13 +32,10 @@ export default function Page() {
 
     if (data.status === 'complete') {
         return (
-            <section id="success">
-                <p>
-                    We appreciate your business! A confirmation email will be sent to your email.
-
-                    If you have any questions, please email <a href="mailto:support@protoapp.xyz">support@protoapp.xyz</a>.
-                </p>
-            </section>
+            <Column sm={{span: 8, start: 1}} md={{start: 1, span: 7}} lg={{start: 1, span: 11}}
+                    xlg={{start: 1, span: 13}}>
+                <Banner bannerType={'success'} variant={'filled'} alertTitle={'Joined!'} alertDescription={'We appreciate your business! A confirmation email will be sent to your email. '}/>
+            </Column>
         )
     }
 
