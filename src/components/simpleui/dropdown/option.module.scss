@@ -40,32 +40,39 @@
             display: flex;
             align-items: center;
             gap: $spacing-03;
-            color: var(--color-primary)
+            color: var(--color-primary);
             //@extend .label-small;
-
         }
 
         &__sublabel {
-            color: var(--color-secondary)
+            color: var(--color-secondary);
             //@extend .paragraph-x-small;
         }
 
         &__description {
-            color: var(--color-secondary)
+            color: var(--color-secondary);
             //@extend .paragraph-x-small;
         }
     }
 
     &--disabled {
-
         pointer-events: none;
 
-        .dropdown-option__text__label, .dropdown-option__text__description {
-            color: var(--color-muted)
+        .dropdown-option__text__label, 
+        .dropdown-option__text__description {
+            color: var(--color-muted);
         }
 
-        .dropdown-option__text__img, .dropdown-option__text__icon {
-            opacity: 70%;
+        .dropdown-option__text__img, 
+        .dropdown-option__text__icon {
+            opacity: 0.7;
         }
+    }
+
+    // Add keyboard focus styles
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--color-info);
+        border-radius: $border-radius-medium;
     }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import './option.scss';
+import styles from './option.module.scss';
 
 export interface DropdownOptionProps {
     value: string;
@@ -15,25 +15,53 @@ export interface DropdownOptionProps {
 }
 
 const DropdownOption: React.FC<DropdownOptionProps> = (props) => {
-    return (
-        (<div
-            key={props.value}
-            className={`dropdown-option ${props.selected ? 'dropdown-option--selected' : ''} ${props.disabled ? 'dropdown-option--disabled' : ''}`}
-            onClick={() => props.onClick(props)}
-        >
-            {props.imgSrc && <img src={props.imgSrc} alt={props.label} className={`dropdown-option__img dropdown-option__img--${props.size}`}/>}
-            {props.icon && <i className={`dropdown-option__icon ${props.icon}`}/>}
-            <div className={'dropdown-option__text'}>
-                <div className={'dropdown-option__text__label'}>
-                    <span>{props.label}</span>
-                    {props.sublabel && <span className={'dropdown-option__text__sublabel'}>{props.sublabel}</span>}
-                </div>
-                {props.description &&
-                    <span className={`dropdown-option__text__description dropdown-option__text__description--${props.size}`}>{props.description}</span>}
-            </div>
+    const optionClass = `
+        ${styles['dropdown-option']} 
+        ${props.selected ? styles['dropdown-option--selected'] : ''} 
+        ${props.disabled ? styles['dropdown-option--disabled'] : ''}
+    `.trim();
 
-      </div>)
-    )
-}
+    const handleClick = () => {
+        if (!props.disabled) {
+            props.onClick(props);
+        }
+    };
+
+    return (
+        <div
+            key={props.value}
+            className={optionClass}
+            onClick={handleClick}
+            role="option"
+            aria-selected={props.selected}
+            aria-disabled={props.disabled}
+            tabIndex={props.disabled ? -1 : 0}
+        >
+            {props.imgSrc && (
+                <img 
+                    src={props.imgSrc} 
+                    alt={props.label} 
+                    className={`${styles['dropdown-option__img']} ${styles[`dropdown-option__img--${props.size}`]}`}
+                />
+            )}
+            {props.icon && <i className={`${styles['dropdown-option__icon']} ${props.icon}`}/>}
+            <div className={styles['dropdown-option__text']}>
+                <div className={styles['dropdown-option__text__label']}>
+                    <span>{props.label}</span>
+                    {props.sublabel && (
+                        <span className={styles['dropdown-option__text__sublabel']}>
+                            {props.sublabel}
+                        </span>
+                    )}
+                </div>
+                {props.description && (
+                    <span className={`${styles['dropdown-option__text__description']} ${styles[`dropdown-option__text__description--${props.size}`]}`}>
+                        {props.description}
+                    </span>
+                )}
+            </div>
+        </div>
+    );
+};
 
 export default DropdownOption;

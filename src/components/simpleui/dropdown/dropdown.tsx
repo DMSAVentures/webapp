@@ -1,5 +1,5 @@
 import React, {MouseEvent, useEffect, useRef, useState} from "react";
-import './dropdown.scss';
+import styles from './dropdown.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import DropdownOption, {DropdownOptionProps} from "@/components/simpleui/dropdown/option";
 import HintText from "@/components/simpleui/hinttext/hinttext";
@@ -16,24 +16,29 @@ interface DropdownProps {
     badge?: string;
     leftIcon?: string;
     disabled?: boolean;
-    error?: string
+    error?: string;
+    onChange?: (option: DropdownOptionProps) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<DropdownOptionProps | null>(null);
-    const selectRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const toggleOpen = () => setIsOpen(!isOpen);
+    const toggleOpen = () => {
+        if (!props.disabled) {
+            setIsOpen(!isOpen);
+        }
+    };
 
     const handleOptionClick = (option: DropdownOptionProps) => {
-        console.log("Option clicked:", option);
         setSelectedOption(option);
         setIsOpen(false);
+        props.onChange?.(option);
     };
 
     const handleClickOutside = (event: Event) => {
-        if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
             setIsOpen(false);
         }
     };
@@ -47,30 +52,72 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         };
     }, []);
 
-    return (<div className={`dropdown dropdown--${props.size}`}>
-            <div className="dropdown__label-container">
-                {props.label && <label className="dropdown__label">{props.label}</label>}
-                {props.optional && <label className="dropdown__optional">(Optional)</label>}
-                {props.tooltip && <i className="dropdown__tooltip ri-information-line"/>}
+    // Generate CSS class names
+    const dropdownClass = `${styles.dropdown} ${styles[`dropdown--${props.size}`]}`;
+    const selectContainerClass = `${styles['dropdown__select-container']} 
+        ${isOpen ? styles['dropdown__select-container--open'] : ''} 
+        ${props.disabled ? styles['dropdown__select-container--disabled'] : ''} 
+        ${props.error ? styles['dropdown__select-container--error'] : ''}`.trim();
+    
+    const hintClass = props.error 
+        ? `${styles['dropdown__hint']} ${styles['dropdown__hint--error']}`
+        : `${styles['dropdown__hint']} ${isOpen ? styles['dropdown__hint--hide'] : ''}`;
+
+    return (
+        <div className={dropdownClass} ref={dropdownRef}>
+            <div className={styles['dropdown__label-container']}>
+                {props.label && <label className={styles['dropdown__label']}>{props.label}</label>}
+                {props.optional && <label className={styles['dropdown__optional']}>(Optional)</label>}
+                {props.tooltip && <i className={`${styles['dropdown__tooltip']} ri-information-line`}/>}
             </div>
-            <div className={`dropdown__select-container dropdown__select-container--${isOpen ? 'open' : ''} dropdown__select-container--${props.disabled ? 'disabled':''} dropdown__select-container--${props.error ? 'error' : ''}`} ref={selectRef}>
-                <div className="dropdown__select" onClick={toggleOpen}>
-                    {props.leftIcon && <i className={`dropdown__icon ${props.leftIcon}`}/>}
-                    <div className="dropdown__select__text">
+            <div className={selectContainerClass}>
+                <div 
+                    className={styles['dropdown__select']} 
+                    onClick={toggleOpen}
+                    role="combobox"
+                    aria-expanded={isOpen}
+                    aria-haspopup="listbox"
+                    aria-disabled={props.disabled}
+                    tabIndex={props.disabled ? -1 : 0}
+                >
+                    {props.leftIcon && <i className={`${styles['dropdown__icon']} ${props.leftIcon}`}/>}
+                    <div className={styles['dropdown__select__text']}>
                         {selectedOption ? selectedOption.label : props.placeholderText}
                     </div>
-                    {isOpen ? <i className="dropdown__icon ri-arrow-up-s-line"/> :
-                        <i className="dropdown__icon ri-arrow-down-s-line"/>}
-                        </div>
-                    {isOpen && (<div className="dropdown__options-container">
-                        {props.options.map((option) => {
-                            return <DropdownOption key={option.value} label={option.label} value={option.value} onClick={handleOptionClick} size={'small'} description={option.description} disabled={option.disabled} sublabel={option.sublabel} icon={option.icon} imgSrc={option.imgSrc}/>;
-                        })}
-                    </div>)}
+                    {isOpen ? 
+                        <i className={`${styles['dropdown__icon']} ri-arrow-up-s-line`}/> :
+                        <i className={`${styles['dropdown__icon']} ri-arrow-down-s-line`}/>
+                    }
+                </div>
+                {isOpen && (
+                    <div 
+                        className={styles['dropdown__options-container']}
+                        role="listbox"
+                    >
+                        {props.options.map((option) => (
+                            <DropdownOption 
+                                key={option.value} 
+                                label={option.label} 
+                                value={option.value} 
+                                onClick={handleOptionClick} 
+                                size={'small'} 
+                                description={option.description} 
+                                disabled={option.disabled} 
+                                sublabel={option.sublabel} 
+                                icon={option.icon} 
+                                imgSrc={option.imgSrc}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
-            {props.hintText &&
-                <HintText hintText={props.hintText} state={ props.error ? 'error' : 'default'} hide={isOpen}/>}
-    </div>);
+            {props.hintText && (
+                <div className={hintClass}>
+                    {props.error || props.hintText}
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default Dropdown;
