@@ -23,7 +23,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: var(--color-secondary-bg); /* Default background color */
+        background-color: var(--color-hover-secondary); /* Default background color */
         border-radius: $border-radius-large; /* Rounded slider */
         transition: background-color $duration-slow-01 $easing-productive-exit;
 
