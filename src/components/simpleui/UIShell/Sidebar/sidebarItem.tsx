@@ -12,7 +12,7 @@ interface SidebarItemProps {
 
 export const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, iconClass, isActive }) => {
     return (
-        <Link className={'sidebar__item__link'} href={href}>
+        <Link className={'sidebar__item__link'} href={href} style={{textDecoration: 'none'}}>
         <li className={`sidebar__item ${isActive ? 'active' : ''}`}>
             {iconClass && <i className={`ri-${iconClass}`}></i>}
             {label}

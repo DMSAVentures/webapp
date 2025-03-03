@@ -1,5 +1,5 @@
 @import "../../../globalstyles/colors";
-@import "src/globalstyles/v2/variables.scss";
+@import "src/globalstyles/v2/module_variables.scss";
 
 // Base button styles
 .linkbutton {
@@ -14,7 +14,7 @@
   border-radius: $border-radius-medium;
   padding: $spacing-02;
   text-decoration: none;
-  
+
   // Size variants
   &--small {
     gap: $spacing-02;
@@ -34,7 +34,7 @@
   &--underline {
     .linkbutton__text {
       text-decoration: underline;
-      
+
       &:hover, &:focus {
         text-decoration: underline !important;
       }
@@ -46,7 +46,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    
+
     &--left {
       margin-right: $spacing-02;
     }
@@ -55,7 +55,7 @@
       margin-left: $spacing-02;
     }
   }
-  
+
   // External link icon
   .linkbutton__external-icon {
     display: inline-flex;
@@ -63,19 +63,19 @@
     margin-left: $spacing-01;
     font-size: 0.875em;
   }
-  
+
   // Text styling
   .linkbutton__text {
     display: inline-flex;
     align-items: center;
     text-decoration: underline;
   }
-  
+
   // Ensure proper spacing when icons are present
   &:has(.linkbutton__icon--left) {
     padding-left: $spacing-02;
   }
-  
+
   &:has(.linkbutton__icon--right) {
     padding-right: $spacing-02;
   }
@@ -100,32 +100,32 @@
   &.linkbutton--lighter {
     background-color: transparent;
     color: $blue-700;
-    
+
     .linkbutton__text {
       color: $blue-700;
-      
+
       &:hover, &:focus {
         text-decoration: none;
         color: $blue-900;
         outline: none;
       }
     }
-    
+
     &:hover {
       background-color: rgba($blue-700, 0.05);
-      
+
       .linkbutton__text {
         text-decoration: none;
       }
     }
-    
+
     &:active {
       background-color: rgba($blue-700, 0.1);
     }
-    
+
     &:disabled, &[aria-disabled="true"] {
       color: $neutral-400;
-      
+
       .linkbutton__text {
         color: $neutral-400;
         text-decoration: underline;
@@ -139,32 +139,32 @@
   &.linkbutton--lighter {
     background-color: transparent;
     color: $neutral-700;
-    
+
     .linkbutton__text {
       color: $neutral-700;
-      
+
       &:hover, &:focus {
         text-decoration: none;
         color: $neutral-900;
         outline: none;
       }
     }
-    
+
     &:hover {
       background-color: rgba($neutral-700, 0.05);
-      
+
       .linkbutton__text {
         text-decoration: none;
       }
     }
-    
+
     &:active {
       background-color: rgba($neutral-700, 0.1);
     }
-    
+
     &:disabled, &[aria-disabled="true"] {
       color: $neutral-400;
-      
+
       .linkbutton__text {
         color: $neutral-400;
         text-decoration: underline;
@@ -178,32 +178,32 @@
   &.linkbutton--lighter {
     background-color: transparent;
     color: $neutral-800;
-    
+
     .linkbutton__text {
       color: $neutral-800;
-      
+
       &:hover, &:focus {
         text-decoration: none;
         color: $neutral-900;
         outline: none;
       }
     }
-    
+
     &:hover {
       background-color: rgba($neutral-800, 0.05);
-      
+
       .linkbutton__text {
         text-decoration: none;
       }
     }
-    
+
     &:active {
       background-color: rgba($neutral-800, 0.1);
     }
-    
+
     &:disabled, &[aria-disabled="true"] {
       color: $neutral-400;
-      
+
       .linkbutton__text {
         color: $neutral-400;
         text-decoration: underline;
@@ -217,32 +217,32 @@
   &.linkbutton--lighter {
     background-color: transparent;
     color: $red-700;
-    
+
     .linkbutton__text {
       color: $red-700;
-      
+
       &:hover, &:focus {
         text-decoration: none;
         color: $red-900;
         outline: none;
       }
     }
-    
+
     &:hover {
       background-color: rgba($red-700, 0.05);
-      
+
       .linkbutton__text {
         text-decoration: none;
       }
     }
-    
+
     &:active {
       background-color: rgba($red-700, 0.1);
     }
-    
+
     &:disabled, &[aria-disabled="true"] {
       color: $neutral-400;
-      
+
       .linkbutton__text {
         color: $neutral-400;
         text-decoration: underline;

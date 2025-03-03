@@ -1,4 +1,4 @@
-@import "src/globalstyles/v2/variables.scss";
+@import "src/globalstyles/v2/module_variables.scss";
 
 .dropdown-option {
     display: flex;
@@ -58,12 +58,12 @@
     &--disabled {
         pointer-events: none;
 
-        .dropdown-option__text__label, 
+        .dropdown-option__text__label,
         .dropdown-option__text__description {
             color: var(--color-muted);
         }
 
-        .dropdown-option__text__img, 
+        .dropdown-option__text__img,
         .dropdown-option__text__icon {
             opacity: 0.7;
         }

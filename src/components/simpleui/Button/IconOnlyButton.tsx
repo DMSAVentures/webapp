@@ -1,6 +1,7 @@
 import React, { FC, ButtonHTMLAttributes, KeyboardEvent } from 'react';
 import styles from './iconOnlyButton.module.scss';
 import 'remixicon/fonts/remixicon.css';
+import { motion } from 'motion/react'
 
 type IconOnlyButtonVariant = 'primary' | 'secondary';
 
@@ -26,10 +27,10 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
     ...props
 }) => {
     // Use the appropriate class based on variant
-    const baseClassName = variant === 'secondary' 
+    const baseClassName = variant === 'secondary'
         ? styles['icon-only-button--secondary']
         : styles['icon-only-button'];
-    
+
     // Combine with any additional classes passed as props
     const className = propClassName ? `${baseClassName} ${propClassName}` : baseClassName;
 
@@ -40,7 +41,7 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
             event.preventDefault(); // Prevent page scroll on space
             onClick?.(event as any);
         }
-        
+
         // Call the original onKeyDown handler if provided
         onKeyDown?.(event);
     };
@@ -58,7 +59,13 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
             tabIndex={disabled ? -1 : 0}  // Remove from tab order when disabled
             role="button" // Explicitly define role for clarity
         >
-            <i className={`ri-${iconClass}`} aria-hidden="true"></i>
+            <motion.div
+                key={iconClass}
+                animate={{rotate: 180 }}
+                transition={{duration: 0.3, ease: "easeInOut"}}
+            >
+                <i className={`ri-${iconClass}`} aria-hidden="true"></i>
+            </motion.div>
         </button>
-    );
+);
 };

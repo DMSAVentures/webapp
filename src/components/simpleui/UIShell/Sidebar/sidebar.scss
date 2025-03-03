@@ -1,61 +1,28 @@
 @import "src/globalstyles/v2/variables";
 
 .sidebar {
-    height: calc(100vh - $spacing-11);
-    overflow: scroll;
     background-color: var(--color-bg);
     z-index: 30;
     padding: $spacing-03 $spacing-05;
-    // permanently hides the sidebar as default
-    display: none;
+    width: $spacing-12 * 3;
     border-right: 1px solid var(--color-border);
-    //permanent sidebar is visible on desktops
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    // Default: Sidebar is hidden (but NOT removed from layout)
+    max-width: 0;
+    overflow: hidden;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-in-out, max-width 0.4s ease-in-out;
+
     @media (min-width: $breakpoint-lg) {
-        display: flex;
-        flex-direction: column;
+        max-width: $spacing-12 * 3;
         transform: translateX(0);
-        width: $spacing-11 *  3;
     }
 
-    //makes sidebar collapsible on mobile and hides it
-    &--collapsible {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        flex-direction: column;
-        width: $spacing-11;
-        transform: translateX(-200%);
-        transition: transform $duration-slow-01 $easing-productive-exit;
-    }
-
-    // opens the drawer
-    &.open {
-        transition: transform $duration-slow-01 $easing-productive-entrance;
+    // When sidebar is open, slide in
+    &--open {
+        max-width: $spacing-12 * 3;
         transform: translateX(0);
-        width: $spacing-11 * 3;
     }
-}
-
-.sidebar-overlay {
-    position: absolute;
-    inset: 0;
-    background-color: var(--color-secondary-bg);
-    z-index: 20;
-    &.visible {
-        display: block;
-        min-width: 100vw;
-        visibility: visible;
-        opacity: 0.5;
-        height: calc(100vh - $spacing-11);
-        transition: opacity $duration-slow-02 $easing-productive-entrance;
-    }
-    // hides when permanent sidebar is visible
-    @media (min-width: $breakpoint-lg) {
-        display: none;
-    }
-}
-
-.sidebar-container {
-    position: relative;
 }

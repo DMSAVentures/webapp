@@ -8,7 +8,7 @@
     padding: $spacing-03;
 
     &:hover {
-        background-color: var(--color-secondary-bg);
+        background-color: var(--color-hover-secondary);
         border-radius: $border-radius-medium;
         transition: background-color $duration-slow-01 $easing-expressive-standard;
         cursor: pointer;
@@ -20,6 +20,6 @@
     }
 }
 
-.sidebar__item__link:hover {
+.sidebar__item__link {
     text-decoration: none;
 }

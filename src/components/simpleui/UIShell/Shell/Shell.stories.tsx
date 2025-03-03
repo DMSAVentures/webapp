@@ -6,13 +6,9 @@ const meta: Meta<typeof UIShellWithCollapsibleNavigation> = {
     title: 'SimpleUI/Shell',
     component: UIShellWithCollapsibleNavigation,
     args: {
-        logo: 'DMSA',  // Default logo text for Shell header
+
     },
     argTypes: {
-        logo: {
-            control: 'text',
-            description: 'Logo text displayed in the header',
-        },
     },
     parameters: {
         docs: {

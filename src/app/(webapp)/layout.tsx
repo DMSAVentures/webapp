@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
-import "../../globalstyles/v2/variables.scss";
+import "./layout.scss";
 import {UIShellWithCollapsibleNavigation} from "@/components/simpleui/UIShell/Shell/UIShellWithCollapsibleNavigation";
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
 import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
@@ -8,6 +8,7 @@ import {SidebarItem} from "@/components/simpleui/UIShell/Sidebar/sidebarItem";
 import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 import {Providers} from "@/contexts/providers";
 import UserName from "@/components/user/Username";
+import HeaderLogo from "@/components/simpleui/UIShell/Header/HeaderLogo";
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Prototype App",
@@ -37,8 +38,9 @@ export default function RootLayout({
     </head>
     <body>
     <Providers>
-      <UIShellWithCollapsibleNavigation logo={"DMSA"}>
+      <UIShellWithCollapsibleNavigation>
         <SidebarContent>
+          <HeaderLogo logo={"DMSA"} />
           <SidebarGroup label="Main">
             <SidebarItem label="Dashboard" href="#dashboard" iconClass="dashboard-line"/>
             <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line"/>

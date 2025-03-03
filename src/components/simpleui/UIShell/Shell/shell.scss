@@ -1,13 +1,12 @@
 @import "src/globalstyles/v2/variables";
 
 .shell-container {
-    .grid-wide:first-child {
-        @media (min-width: $breakpoint-lg) {
-            margin-left: $spacing-12 * 3;
-        }
-    }
+    margin-top: $spacing-03;
+}
 
-    .grid-wide {
-        margin-top: $spacing-03;
-    }
+.shell {
+    max-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-05;
 }

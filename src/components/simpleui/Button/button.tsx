@@ -1,6 +1,7 @@
 import React, { forwardRef, memo, ButtonHTMLAttributes } from 'react';
 import styles from './button.module.scss';
 import 'remixicon/fonts/remixicon.css';
+import Link from "next/link";
 
 // Define the possible variants for the button
 type ButtonVariant = 'primary' | 'secondary';
@@ -30,25 +31,25 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
 
 /**
  * Button Component
- * 
+ *
  * A semantic button component that follows HTML standards and accessibility best practices.
  * Uses CSS Modules with BEM naming conventions for styling.
- * 
+ *
  * @example
  * // Primary button
  * <Button onClick={handleClick}>Click me</Button>
- * 
+ *
  * @example
  * // Secondary button with icon
  * <Button variant="secondary" leftIcon="arrow-right">Next</Button>
- * 
+ *
  * @example
  * // Submit button for forms
  * <Button type="submit">Submit Form</Button>
- * 
+ *
  * @example
  * // Accessible button with ARIA attributes
- * <Button 
+ * <Button
  *   aria-expanded={isExpanded}
  *   aria-controls="dropdown-menu"
  *   onClick={toggleExpanded}
@@ -93,6 +94,46 @@ export const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
         );
     }
 ));
+
+
+export const SignInButton = memo(forwardRef<HTMLAnchorElement, SignInButtonProps>(
+    function SignInButton({
+                              variant = 'primary',
+                              disabled = false,
+                              leftIcon,
+                              children,
+                              size = 'medium',
+                              className: customClassName,
+                              href,
+                              ...props
+                          }, ref) {
+        // Compose CSS classes using CSS Modules with BEM naming
+        const classNames = [
+            styles.root,
+            variant !== 'primary' && styles[`variant_${variant}`],
+            size !== 'medium' && styles[`size_${size}`],
+            customClassName
+        ].filter(Boolean).join(' ');
+
+        return (
+            <Link href={href} passHref legacyBehavior>
+                <a
+                    ref={ref}
+                    className={classNames}
+                    style={{ textDecoration: 'none' }}
+                    aria-disabled={disabled}
+                    {...props}
+                >
+                    {leftIcon && (
+                        <i className={`${styles.icon} ri-${leftIcon}`} aria-hidden="true"></i>
+                    )}
+                    <span className={styles.text}>{children}</span>
+                </a>
+            </Link>
+        );
+    }
+));
+
 
 // Display name for debugging
 Button.displayName = 'Button';

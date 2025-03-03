@@ -1,5 +1,5 @@
 import Linkbutton from "@/components/simpleui/linkbutton/linkbutton";
-import {Button} from "@/components/simpleui/Button/button";
+import {Button, SignInButton} from "@/components/simpleui/Button/button";
 
 export default function GoogleSignIn() {
     //TODO: This is process env vars are undefined on client side.
@@ -7,8 +7,8 @@ export default function GoogleSignIn() {
 
 
     return (
-        <Button variant={'secondary'} leftIcon={"google-fill"} href={googleAuthUrl}>
+        <SignInButton variant={'primary'} leftIcon={"google-fill"} href={googleAuthUrl}>
         Sign in with Google
-        </Button>
+        </SignInButton>
     );
 }

@@ -1,4 +1,4 @@
-@import "../../../globalstyles/v2/variables";
+@import "../../../globalstyles/v2/module_variables";
 
 .icon-only-button {
     display: inline-flex;
@@ -59,7 +59,7 @@
     }
 }
 
-/* 
+/*
   Secondary button variant styles
 */
 .icon-only-button--secondary {
@@ -74,10 +74,10 @@
     cursor: pointer;
     box-sizing: border-box;
     position: relative;
-    transition: background-color $duration-moderate-01 $easing-productive-standard,
-    color $duration-moderate-01 $easing-productive-standard,
-    box-shadow $duration-moderate-01 $easing-productive-standard;
-    
+    //transition: background-color $duration-moderate-01 $easing-productive-standard,
+    //color $duration-moderate-01 $easing-productive-standard,
+    //box-shadow $duration-moderate-01 $easing-productive-standard;
+
     background-color: var(--color-secondary-bg);
     color: $color-neutral-900;
 
@@ -86,11 +86,11 @@
     }
 
     &:hover {
-        background-color: $interactive-secondary-hover-bg;
+        //background-color: $interactive-secondary-hover-bg;
     }
 
     &:active {
-        background-color: $interactive-secondary-active-bg;
+        //background-color: $interactive-secondary-active-bg;
     }
 
     &:focus {
