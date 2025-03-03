@@ -95,6 +95,20 @@ export const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
     }
 ));
 
+interface SignInButtonProps extends Omit<ButtonHTMLAttributes<HTMLAnchorElement>, 'type'> {
+    /** Visual variant of the button */
+    variant?: ButtonVariant;
+    /** Whether the button is disabled */
+    disabled?: boolean;
+    /** Icon to display on the left side of the button text */
+    leftIcon?: string;
+    /** HTML button type attribute */
+    type?: ButtonType;
+    /** Size of the button */
+    size?: ButtonSize;
+    href: string;
+
+}
 
 export const SignInButton = memo(forwardRef<HTMLAnchorElement, SignInButtonProps>(
     function SignInButton({

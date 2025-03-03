@@ -11,7 +11,7 @@ const HeaderLogo: React.FC<HeaderLogoProps> = ({ logo, imgSrc }) => {
         <span className="header__logo">
             <Link href="/" style={{textDecoration: 'none'}}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                {imgSrc ? <img src={imgSrc} alt={logo} /> : logo}
+                {imgSrc ? <img src={imgSrc} alt={logo} /> : <h6>{logo}</h6>}
             </Link>
         </span>
     );

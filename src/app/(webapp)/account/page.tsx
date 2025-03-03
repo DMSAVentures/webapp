@@ -9,23 +9,32 @@ import LoadingSpinner from "@/components/loading/loadingSpinner";
 import {ErrorState} from "@/components/error/error";
 import {EmptyState} from "@/components/empty/empty";
 import {useRouter} from "next/navigation";
+import {useEffect} from "react";
 
 
 export default function Page() {
     const {loading, error, currentSubscription} = useGetCurrentSubscription()
     const router = useRouter()
+
+    useEffect(() => {
+        if (error?.error === 'no active subscription found') {
+            router.push('/billing/plans');
+        }
+    }, [error, router]); // Run effect when `error` changes
+
     if (loading) {
         return <LoadingSpinner/>
     }
-    if (error) {
-        if (error.error === 'no active subscription found') {
-            router.push('/billing/plans')
-            return
-        }
+    if (error?.error === 'no active subscription found') {
+        return null; // Prevent rendering anything since we're navigating away
+    }
 
-        return (<ErrorState message={`Something went wrong: ${error.error}`}/>)
-    } else if (!currentSubscription) {
-        return (<EmptyState message={"No subscription found"}/>)
+    if (error) {
+        return <ErrorState message={`Something went wrong: ${error.error}`} />;
+    }
+
+    if (!currentSubscription) {
+        return <EmptyState message={"No subscription found"} />;
     }
 
     return (
