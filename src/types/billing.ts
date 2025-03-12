@@ -15,3 +15,8 @@ export interface GetCurrentSubscriptionResponse {
     end_date: Date;
     next_billing_date: Date
 }
+
+
+export interface CancelSubscriptionResponse {
+    message: string;
+}
