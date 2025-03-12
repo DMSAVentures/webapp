@@ -20,3 +20,13 @@ export interface GetCurrentSubscriptionResponse {
 export interface CancelSubscriptionResponse {
     message: string;
 }
+
+
+export interface PaymentMethodUpdateIntentResponse {
+    client_secret: string;
+}
+
+
+export interface  CustomerPortalResponse {
+    url: string;
+}

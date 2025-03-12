@@ -32,6 +32,10 @@ export default function Page() {
         }
     }, [data, router]);
 
+    const handlePaymentMethodUpdate = () => {
+        router.push('/billing/payment_method');
+    }
+
     if (loading) {
         return <LoadingSpinner/>
     }
@@ -76,8 +80,9 @@ export default function Page() {
                     </>}
                     {currentSubscription.status && currentSubscription.status === 'canceled' &&
                         <Button onClick={() => { router.push('/billing/plans'); }}>Resubscribe</Button>}
-                </div>
 
+                    <Button onClick={handlePaymentMethodUpdate}>Update Payment Method</Button>
+                </div>
             </Column>
         </>);
 }
