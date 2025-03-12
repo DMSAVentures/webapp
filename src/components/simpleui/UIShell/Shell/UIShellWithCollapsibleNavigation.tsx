@@ -22,7 +22,9 @@ export const UIShellWithCollapsibleNavigation: React.FC<UIShellWithCollapsibleNa
             </SidebarCollapsible>
             <div className={'shell-container'}>
                 <Header isLeftNavOpen={isLeftNavOpen} toggleLeftNav={toggleLeftNav} />
+                <div className={'grid-wide'}>
                 {props.children.slice(1)}
+                </div>
             </div>
         </div>
     );

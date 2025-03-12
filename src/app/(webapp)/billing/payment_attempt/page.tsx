@@ -6,8 +6,6 @@ import React from "react";
 import {Column} from "@/components/simpleui/UIShell/Column/Column";
 import {ErrorState} from "@/components/error/error";
 import LoadingSpinner from "@/components/loading/loadingSpinner";
-
-import './page.scss'
 import Banner from "@/components/simpleui/banner/banner";
 
 export default function Page() {
@@ -32,12 +30,13 @@ export default function Page() {
 
     if (data.status === 'complete') {
         return (
-            <Column sm={{span: 8, start: 1}} md={{start: 1, span: 7}} lg={{start: 1, span: 11}}
-                    xlg={{start: 1, span: 13}}>
-                <Banner bannerType={'success'} variant={'filled'} alertTitle={'Joined!'} alertDescription={'We appreciate your business! A confirmation email will be sent to your email. '}/>
-            </Column>
-        )
+        <Column sm={{span: 8, start: 1}} md={{start: 1, span: 7}} lg={{start: 1, span: 11}}
+                xlg={{start: 1, span: 15}} max={{start: 1, span: 17}}>
+            <Banner bannerType={'success'} variant={'filled'} alertTitle={'Joined!'} alertDescription={'We appreciate your business! A confirmation email will be sent to your email. '}/>
+        </Column>
+    )
     }
 
     return null;
 }
+
