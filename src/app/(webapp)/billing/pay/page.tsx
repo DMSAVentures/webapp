@@ -2,7 +2,6 @@
 
 import React from "react";
 import {useSearchParams} from "next/navigation";
-import {useCreatePaymentIntent} from "@/hooks/useCreatePaymentIntent";
 import CustomCheckout from "@/components/billing/checkout/CustomCheckout";
 import {useCreateCheckoutSession} from "@/hooks/useCreateCheckoutSession";
 import LoadingSpinner from "@/components/loading/loadingSpinner";

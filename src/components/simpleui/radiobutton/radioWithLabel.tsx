@@ -1,4 +1,4 @@
-import React from "react";
+import React, {JSX} from "react";
 import './radiowithlabel.scss'
 import Radio, {RadioProps} from "@/components/simpleui/radiobutton/radio";
 import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";

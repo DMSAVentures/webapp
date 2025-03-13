@@ -1,4 +1,4 @@
-import React from "react";
+import React, {JSX} from "react";
 import Checkbox, {CheckboxProps} from "@/components/simpleui/checkbox/checkbox";
 import './checkboxwithlabel.scss'
 import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";

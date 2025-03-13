@@ -14,7 +14,7 @@ export default function OAuthSignedIn() {
             localStorage.setItem("token", token);
             router.push("/")
         }
-    }, []);
+    }, [router, token]);
 
     return (
         <div>

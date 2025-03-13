@@ -77,6 +77,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                     role="combobox"
                     aria-expanded={isOpen}
                     aria-haspopup="listbox"
+                    aria-controls="dropdown-options"
                     aria-disabled={props.disabled}
                     tabIndex={props.disabled ? -1 : 0}
                 >
@@ -93,6 +94,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                     <div 
                         className={styles['dropdown__options-container']}
                         role="listbox"
+                        id="dropdown-options"
                     >
                         {props.options.map((option) => (
                             <DropdownOption 

@@ -75,7 +75,7 @@ const ModalHeader: React.FC<ModalHeaderProps> = (props) => {
             {props.description && <p className={'modal__description'}>{props.description}</p>}
         </div>
 
-        {!props.centeredHeader && props.dismissibleByCloseIcon && <IconOnlyButton variant={'secondary'} iconClass={'close-fill'} onClick={props.onClose}>Close</IconOnlyButton>}
+        {!props.centeredHeader && props.dismissibleByCloseIcon && <IconOnlyButton ariaLabel={"modal-icon"} variant={'secondary'} iconClass={'close-fill'} onClick={props.onClose}>Close</IconOnlyButton>}
     </div>);
 }
 

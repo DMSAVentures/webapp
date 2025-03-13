@@ -10,11 +10,11 @@ const meta: Meta<typeof Header> = {
     component: Header,
     tags: ['autodocs'], // Adds automatic documentation generation
     args: {
-        logo: 'DMSA', // Default logo text
+        // logo: 'DMSA', // Default logo text
         isLeftNavOpen: false, // Default closed state for the left navigation
     },
     argTypes: {
-        logo: { control: 'text' }, // Controls logo as text input
+        // logo: { control: 'text' }, // Controls logo as text input
         isLeftNavOpen: { control: 'boolean' },
     },
 };
@@ -79,7 +79,7 @@ export const HeaderWithCustomLogo: Story = {
         return <Header {...args} isLeftNavOpen={isLeftNavOpen} toggleLeftNav={toggleLeftNav} />;
     },
     args: {
-        logo: 'My Custom Logo',
+        // logo: 'My Custom Logo',
         navItems,
         actionItems,
     },
@@ -97,7 +97,7 @@ export const HeaderWithLeftNavToggle: Story = {
         return <Header {...args} isLeftNavOpen={isLeftNavOpen} toggleLeftNav={toggleLeftNav} />;
     },
     args: {
-        logo: 'Header with Left Nav',
+        // logo: 'Header with Left Nav',
         navItems,
         actionItems,
         isLeftNavOpen: false,

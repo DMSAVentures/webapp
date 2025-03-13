@@ -10,7 +10,7 @@ import {TextInput} from "@/components/simpleui/TextInput/textInput";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-export const UpdatePaymentMethod = () => {
+const UpdatePaymentMethod = () => {
     const {handlePaymentUpdate, loading, error} = useCreatePaymentMethodUpdateIntent();
 
 

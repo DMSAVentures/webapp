@@ -90,7 +90,7 @@ const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
     );
 }
 
-const Feedback: React.FC<SimpleFeedbackProps | DetailedFeedbackProps> = (props, deprecatedLegacyContext) => {
+const Feedback: React.FC<SimpleFeedbackProps | DetailedFeedbackProps> = (props) => {
     if (isDetailedFeedbackProps(props)) {
         return <DetailedFeedback {...props} />;
     }

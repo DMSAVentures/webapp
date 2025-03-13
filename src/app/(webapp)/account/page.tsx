@@ -30,7 +30,7 @@ export default function Page() {
         if (data) {
             refetch();
         }
-    }, [data, router]);
+    }, [data, router, refetch]);
 
     const handlePaymentMethodUpdate = () => {
         router.push('/billing/payment_method');

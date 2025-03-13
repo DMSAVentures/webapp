@@ -38,7 +38,7 @@ export function AuthProvider(props: { children: React.ReactNode }){
             }
         }
         authenticatedUser();
-    }, []);
+    }, [pathname, router]);
     // Memoize the value object to avoid unnecessary rerenders
     const value = useMemo(() => ({ isLoggedIn, user }), [isLoggedIn, user]);
     return (

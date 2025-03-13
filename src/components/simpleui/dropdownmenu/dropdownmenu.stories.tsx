@@ -1,6 +1,5 @@
 import DropdownMenu  from "@/components/simpleui/dropdownmenu/dropdownmenu";
 import {Meta, type StoryObj} from '@storybook/react';
-import { fn } from '@storybook/test';
 import {Button} from "@/components/simpleui/Button/button";
 
 const meta: Meta = {
@@ -210,7 +209,7 @@ const itemsWithoutSublabels = [
     },
 ];
 
-export const itemsWithoutSublabelsStory: Story = {
+export const ItemsWithoutSublabelsStory: Story = {
     args: {
         items: itemsWithoutSublabels,
         bottomButton: <Button variant="secondary">Button</Button>,

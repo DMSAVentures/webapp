@@ -74,7 +74,7 @@ export const WithAllProps: Story = {
     },
 };
 
-export const flipToRight: Story = {
+export const FlipToRight: Story = {
     render: Template.bind({}),
     args: {
         checked: false,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import './radio.scss';
 import 'remixicon/fonts/remixicon.css';
 export type RadioProps = React.HTMLProps<HTMLInputElement>

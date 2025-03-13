@@ -32,7 +32,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({ items }) => {
                         onBlur={() => setActiveDropdown(null)}
                         tabIndex={0}
                     >
-                        <IconOnlyButton variant={'secondary'} iconClass={item.iconClass} aria-label={item.label} />
+                        <IconOnlyButton variant={'secondary'} iconClass={item.iconClass} ariaLabel={item.label} />
                         {activeDropdown === index && (
                             <div className="header__dropdown-menu">
                                 {item.subItems.map((subItem, subIndex) => (
@@ -49,7 +49,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({ items }) => {
                     </div>
                 ) : (
 
-                        <IconOnlyButton key={index} variant={'secondary'} iconClass={item.iconClass} aria-label={item.label}>
+                        <IconOnlyButton key={index} variant={'secondary'} iconClass={item.iconClass} ariaLabel={item.label}>
                             <Link href={item.href!}/>
                         </IconOnlyButton>
                 )

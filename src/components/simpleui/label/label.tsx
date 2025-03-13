@@ -1,4 +1,4 @@
-import React from "react";
+import React, {JSX} from "react";
 import './label.scss';
 import {Badge} from "@/components/simpleui/badge/badge";
 

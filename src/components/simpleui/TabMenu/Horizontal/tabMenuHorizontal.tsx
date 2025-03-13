@@ -19,7 +19,7 @@ export const TabMenuHorizontal: React.FC<TabMenuHorizontalProps> = (props) => {
             <ul>
             {itemsMemo.map((item, index) => {
                 return (
-                    <li aria-selected={activeTab === index} className={`tab-menu-horizontal__item ${activeTab === index ? 'tab-menu-horizontal__item--active' : ''}`}  onClick={() => handleTabClick(index)} key={index}>
+                    <li className={`tab-menu-horizontal__item ${activeTab === index ? 'tab-menu-horizontal__item--active' : ''}`}  onClick={() => handleTabClick(index)} key={index}>
                         {item}
                     </li>
                 );
