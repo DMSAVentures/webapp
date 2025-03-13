@@ -25,6 +25,11 @@ interface CheckoutFormProps {
 }
 
 const CustomCheckout = ({ clientSecret }: CheckoutFormProps) => {
+  // Debug logging
+  console.log("Stripe Key Available:", !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+  console.log("Stripe Key:", process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+  console.log("Environment:", process.env.NODE_ENV);
+  
   return (
     <Column
       sm={{span: 8, start: 1}}
