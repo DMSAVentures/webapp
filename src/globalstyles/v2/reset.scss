@@ -16,13 +16,17 @@ html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
 }
 
 body {
     margin: 0;
     //font-family: Arial, sans-serif; // Default system font as a placeholder
-    color: #333;                    // Neutral gray text color
-    background-color: #FCFCFD;          // White background
+    //color: #333;                    // Neutral gray text color
+    //background-color: #FCFCFD;          // White background
+    background-color: white;
+
+    overflow: hidden;
 }
 
 // ==============================
