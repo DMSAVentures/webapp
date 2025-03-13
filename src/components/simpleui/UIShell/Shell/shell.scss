@@ -15,9 +15,13 @@
     min-height: 100vh;
     display: flex;
     flex-direction: row;
-    gap: $spacing-05;
+
 
     .sidebar {
         align-self: flex-start;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        gap: $spacing-05;
     }
 }
