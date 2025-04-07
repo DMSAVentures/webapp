@@ -1,0 +1,45 @@
+@import "../../globalstyles/v2/module_variables";
+
+.message-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-05;
+
+    .button {
+        //flex-grow: 0;
+        margin-left: auto;
+        width: fit-content;
+    }
+}
+.shimmer-block {
+    display: inline-block;
+    width: 20px;
+    height: 16px;
+    background: #f0f0f0;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.shimmer {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+    animation: shimmer 1.2s infinite;
+    background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+
+.typing-indicator {
+    justify-content: center;
+    align-items: center;
+}

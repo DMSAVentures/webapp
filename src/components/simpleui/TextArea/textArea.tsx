@@ -13,6 +13,7 @@ export const TextArea = (props: TextAreaProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const charCount = event.target.value.length;
         setCharCount(charCount);
+        props.onChange?.(event);
     }
     let unfullfilledCharacters = Boolean((props.maxLength && charCount > props.maxLength) ||
         (props.minLength && charCount < props.minLength))
