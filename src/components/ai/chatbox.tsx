@@ -4,15 +4,24 @@ import remarkGfm from "remark-gfm"
 import Button from "@/components/simpleui/Button/button";
 import {TextArea} from "@/components/simpleui/TextArea/textArea";
 import styles from "./chatbox.module.scss"
+import {useEffect, useRef} from "react";
 
 export default function ChatBox() {
     const { messages,currentResponse, input, setInput, sendMessage, loading } = useSSEChat()
+    const chatRef = useRef<HTMLDivElement>(null)
 
+    useEffect(() => {
+        chatRef.current?.scrollTo({
+            top: chatRef.current.scrollHeight,
+            behavior: 'smooth',
+        })
+    }, [messages.length, currentResponse])
     return (
         <div className={styles['chat-wrapper']}>
             <h2>⚡ Gemini Chat Mock</h2>
 
             <div className={styles['chat-container']}
+                 ref={chatRef}
             >
                 {messages.map((msg, i) => {
                     const normalizedContent = msg.content.replace(/\\n/g, '\n')
