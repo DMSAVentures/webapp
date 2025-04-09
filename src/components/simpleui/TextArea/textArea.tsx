@@ -20,7 +20,7 @@ export const TextArea = (props: TextAreaProps) => {
 
     return (
         <div className={`text-area ${props.error ? 'text-area--error' : ''}`}>
-            <Label text={props.label} required={props.required} subText={!props.required ? 'Optional' : ''}/>
+            {props.label ? <Label text={props.label} required={props.required} subText={!props.required ? 'Optional' : ''}/> : null }
             <textarea {...props}  onChange={handleChange}/>
             {props.minLength || props.maxLength ? (
                 <small className={`text-area__character-count ${unfullfilledCharacters ? 'text-area__character-count--error' : ''}`}>

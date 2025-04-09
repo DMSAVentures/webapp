@@ -6,26 +6,18 @@ import {TextArea} from "@/components/simpleui/TextArea/textArea";
 import styles from "./chatbox.module.scss"
 
 export default function ChatBox() {
-    const { messages, input, setInput, sendMessage, loading } = useSSEChat()
+    const { messages,currentResponse, input, setInput, sendMessage, loading } = useSSEChat()
 
     return (
-        <div>
+        <div className={styles['chat-wrapper']}>
             <h2>⚡ Gemini Chat Mock</h2>
 
-            <div
-                style={{
-                    border: "1px solid #ccc",
-                    borderRadius: 8,
-                    padding: 16,
-                    minHeight: 200,
-                    marginBottom: 20,
-                    background: "#f9f9f9",
-                }}
+            <div className={styles['chat-container']}
             >
                 {messages.map((msg, i) => {
                     const normalizedContent = msg.content.replace(/\\n/g, '\n')
                     return (
-                        <div key={i} style={{marginBottom: 12}}>
+                        <div className={msg.role === "user" ? styles['chat-bubble-user'] : styles['chat-bubble-ai']} key={i} style={{marginBottom: 12}}>
                             <strong>{msg.role === "user" ? "You" : "AI"}:</strong>
                             <div style={{marginLeft: 10}}>
                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{normalizedContent}</ReactMarkdown>
@@ -33,6 +25,14 @@ export default function ChatBox() {
                         </div>
                     );
                 })}
+                {currentResponse ?
+                        <div className={styles['chat-bubble-ai']} key={"currentResp"} style={{marginBottom: 12}}>
+                <strong>AI:</strong>
+                <div style={{marginLeft: 10}}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentResponse.replace(/\\n/g, '\n')}</ReactMarkdown>
+                </div>
+                </div>
+                 : null}
                 {loading && <div className={styles["typing-indicator"]}><span>AI is typing...</span> <Shimmer /></div>}
             </div>
             <div className={styles["message-input-container"]}>

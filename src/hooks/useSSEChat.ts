@@ -1,4 +1,6 @@
 import { useState } from "react"
+import {fetcher} from "@/hooks/fetcher";
+import {GetCurrentSubscriptionResponse} from "@/types/billing";
 
 
 type Message = {
@@ -6,8 +8,15 @@ type Message = {
     content: string
 }
 
+interface RequestBody {
+    message: string;
+    conversation_id?: string;
+}
+
 export function useSSEChat() {
     const [messages, setMessages] = useState<Message[]>([])
+    const [currentResponse, setCurrentResponse] = useState<string|null>(null);
+    const [conversationID, setConversationID] = useState<string | null>(null);
     const [input, setInput] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -20,13 +29,21 @@ export function useSSEChat() {
         setInput("")
         setLoading(true)
 
-        const res = await fetch("http://localhost:8080/api/ai/gemini", {
+        let body: RequestBody
+        if (conversationID) {
+            body = { message: input, conversation_id: conversationID }
+        } else {
+            body =  { message: input }
+        }
+
+        const res = await fetch("http://localhost:8080/api/protected/ai/conversation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Accept: "text/event-stream",
             },
-            body: JSON.stringify({ messages: updatedMessages }),
+            credentials: 'include',
+            body: JSON.stringify(body),
         })
 
         const reader = res.body?.getReader()
@@ -45,19 +62,21 @@ export function useSSEChat() {
                 const data = line.replace("data: ", "")
 
                 if (data === "[DONE]") {
-                    // setMessages((prev) => [
-                    //     ...prev,
-                    //     { role: "assistant", content: assistantReply },
-                    // ])
                     setLoading(false)
+                    setCurrentResponse(null)
+                    setMessages((prev) => {
+                        return [...prev, { role: "assistant", content: assistantReply }]
+                    })
                     return
                 }
 
+                if (data.startsWith("[Conversation_ID]:")) {
+                    setConversationID(data.replace("[Conversation_ID]:", "").trim())
+                    continue
+                }
+
                 assistantReply += data
-                setMessages((prev) => {
-                    const others = prev.filter((msg) => msg.role !== "assistant")
-                    return [...others, { role: "assistant", content: assistantReply }]
-                })
+                setCurrentResponse((prev) => {return assistantReply})
             }
         }
     }
@@ -67,6 +86,8 @@ export function useSSEChat() {
         input,
         setInput,
         sendMessage,
+        conversationID,
+        currentResponse,
         loading,
     }
 }
