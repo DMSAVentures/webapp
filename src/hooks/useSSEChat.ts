@@ -1,7 +1,5 @@
+'use client';
 import { useState } from "react"
-import {fetcher} from "@/hooks/fetcher";
-import {GetCurrentSubscriptionResponse} from "@/types/billing";
-
 
 type Message = {
     role: "user" | "assistant"
