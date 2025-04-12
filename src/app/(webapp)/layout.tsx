@@ -42,8 +42,8 @@ export default function RootLayout({
         <SidebarContent>
           <HeaderLogo logo={"DMSA Ventures"} />
           <SidebarGroup label="Main">
-            <SidebarItem label="Dashboard" href="#dashboard" iconClass="dashboard-line"/>
-            <SidebarItem label="Reports" href="#reports" iconClass="file-chart-line"/>
+            <SidebarItem label="ImageGen" href="/imagegeneration" iconClass="image-ai-line"/>
+            <SidebarItem label="Chat" href="/conversation" iconClass="chat-ai-line"/>
           </SidebarGroup>
           <SidebarFooter>
             <UserName/>
