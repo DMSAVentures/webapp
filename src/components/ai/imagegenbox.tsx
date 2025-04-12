@@ -7,7 +7,7 @@ import {useEffect, useRef} from "react";
 import {useSSEImageGen} from "@/hooks/useSSEImageGen";
 
 export default function ImageGenBox() {
-    const { messages,currentResponse, input, setInput, sendMessage, loading } = useSSEImageGen()
+    const { messages, input, setInput, sendMessage, loading } = useSSEImageGen()
     const chatRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export default function ImageGenBox() {
             top: chatRef.current.scrollHeight,
             behavior: 'smooth',
         })
-    }, [messages.length, currentResponse])
+    }, [messages.length])
     return (
         <div className={styles['chat-wrapper']}>
             <h2>⚡ Image Generation</h2>
@@ -35,14 +35,6 @@ export default function ImageGenBox() {
                         </div>
                     );
                 })}
-                {currentResponse ?
-                    <div className={styles['chat-bubble-ai']} key={"currentResp"} style={{marginBottom: 12}}>
-                        <strong>AI:</strong>
-                        <div style={{marginLeft: 10}}>
-                            <img src={`data:image/png;base64, ${currentResponse}`} alt="AI generated" style={{maxWidth: "100%", maxHeight: "400px"}} />
-                        </div>
-                    </div>
-                    : null}
                 {loading && <div className={styles["typing-indicator"]}><span>AI is typing...</span> <Shimmer /></div>}
             </div>
             <div className={styles["message-input-container"]}>
