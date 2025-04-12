@@ -14,7 +14,7 @@
     "@stripe/react-stripe-js": "latest",
     "@stripe/stripe-js": "latest",
     "motion": "latest",
-    "next": "latest",
+    "next": "14.2.28",
     "react": "latest",
     "react-dom": "latest",
     "react-markdown": "latest",
