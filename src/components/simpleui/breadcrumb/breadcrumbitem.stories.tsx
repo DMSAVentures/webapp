@@ -15,7 +15,6 @@ const meta: Meta = {
         children: { control: 'text' },
         icon: { control: 'text' },
     },
-    args: { onClick: fn() },
 } satisfies Meta<typeof BreadcrumbItem>;
 
 export default meta;
