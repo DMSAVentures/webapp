@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-05;
-    padding-bottom: $spacing-05;
+    padding-bottom: $spacing-09;
 
     .button {
         //flex-grow: 0;
@@ -66,13 +66,11 @@
 
 .chat-container {
     flex: 1; // take up available space
-    overflow-y: auto;
     padding-bottom: $spacing-06;
 }
 
 .chat-wrapper {
     display: flex;
+    height: 100%;
     flex-direction: column;
-    height: 100vh; // full viewport height
-    padding: $spacing-02 $spacing-05;
 }

@@ -18,8 +18,6 @@ export default function ChatBox() {
     }, [messages.length, currentResponse])
     return (
         <div className={styles['chat-wrapper']}>
-            <h2>⚡ Gemini Chat Mock</h2>
-
             <div className={styles['chat-container']}
                  ref={chatRef}
             >

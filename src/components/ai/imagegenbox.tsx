@@ -18,8 +18,6 @@ export default function ImageGenBox() {
     }, [messages.length])
     return (
         <div className={styles['chat-wrapper']}>
-            <h2>⚡ Image Generation</h2>
-
             <div className={styles['chat-container']}
                  ref={chatRef}
             >

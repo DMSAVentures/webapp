@@ -58,8 +58,7 @@ export default function Page() {
             <Column sm={{span: 7, start: 1}} md={{start: 1, span: 7}} lg={{start: 1, span: 11}}
                     xlg={{start: 1, span: 13}}>
                 <div className={'billing'}>
-                    <h4>Billing</h4>
-                    <p>Subscription</p>
+                    <h5>Subscription</h5>
                     <PlanCard priceId={currentSubscription.price_id!}/>
                     <div className={'billing-status'}>
                         <p>Status:</p>

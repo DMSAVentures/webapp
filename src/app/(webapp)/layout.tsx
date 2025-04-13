@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import React from "react";
 import "./layout.scss";
-import {UIShellWithCollapsibleNavigation} from "@/components/simpleui/UIShell/Shell/UIShellWithCollapsibleNavigation";
-import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
-import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
-import {SidebarItem} from "@/components/simpleui/UIShell/Sidebar/sidebarItem";
-import {SidebarFooter} from "@/components/simpleui/UIShell/Sidebar/SidebarFooter";
 import {Providers} from "@/contexts/providers";
-import UserName from "@/components/user/Username";
-import HeaderLogo from "@/components/simpleui/UIShell/Header/HeaderLogo";
+import {Layout} from "@/components/simpleui/UIShell/Layout/Layout";
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Prototype App",
@@ -38,22 +32,9 @@ export default function RootLayout({
     </head>
     <body>
     <Providers>
-      <UIShellWithCollapsibleNavigation>
-        <SidebarContent>
-          <HeaderLogo logo={"DMSA Ventures"} />
-          <SidebarGroup label="Main">
-            <SidebarItem label="ImageGen" href="/imagegeneration" iconClass="image-ai-line"/>
-            <SidebarItem label="Chat" href="/conversation" iconClass="chat-ai-line"/>
-          </SidebarGroup>
-          <SidebarFooter>
-            <UserName/>
-            <SidebarGroup label="Settings">
-              <SidebarItem label="Account" href="/account" iconClass="user-line"/>
-            </SidebarGroup>
-          </SidebarFooter>
-        </SidebarContent>
+      <Layout title={""}>
         {children}
-      </UIShellWithCollapsibleNavigation>
+      </Layout>
     </Providers>
     </body>
     </html>

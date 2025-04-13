@@ -1,9 +1,11 @@
 import React from 'react';
 import './breadcrumbitem.scss';
 import 'remixicon/fonts/remixicon.css';
+import {useNavigate} from "@storybook/core/router";
+import {useRouter} from "next/navigation";
 interface BreadcrumbItemWithTextProps {
     state: 'default' | 'active' | 'disabled';
-    onClick?: () => void;
+    path?: string;
     children: string;
 }
 
@@ -16,7 +18,7 @@ interface BreadcrumbItemWithTextProps {
 interface BreadcrumbItemWithTextAndIconProps {
     state: 'default' | 'active' | 'disabled';
     icon?: string;
-    onClick?: () => void;
+    path?: string;
     children: string;
 }
 

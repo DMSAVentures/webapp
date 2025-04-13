@@ -2,6 +2,7 @@ import React from 'react';
 import './breadcrumb.scss';
 import 'remixicon/fonts/remixicon.css';
 import type {BreadcrumbItemProps}  from "@/components/simpleui/breadcrumb/breadcrumbitem";
+import {useRouter} from "next/navigation";
 
 interface BreadcrumbProps {
     items: React.ReactElement<BreadcrumbItemProps>[];
@@ -23,11 +24,19 @@ function getSeparatorIconClass(divider: string): string {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
     const separatorIconClass = getSeparatorIconClass(props.divider);
+    const router = useRouter();
     return (
         <nav className={`breadcrumb`}>
             {props.items.map((item, index) => {
+                const handleClick = () => {
+                    if (item.props.state === 'active' || item.props.state === 'disabled') {
+                        // Prevent navigation if the item is active
+                        return;
+                    }
+                    router.push(item.props.path || '/');
+                }
                 return (
-                    <span className={'breadcrumb__item'} key={index}>
+                    <span className={'breadcrumb__item'} key={index} onClick={() => {handleClick()}}>
                         {item}
                         {index < props.items.length - 1 && <span className={'breadcrumb__separator'}>{separatorIconClass}</span>}
                     </span>
