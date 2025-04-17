@@ -1,0 +1,22 @@
+@import "@/globalstyles/v2/variables.scss";
+
+.checkbox-card__container {
+    display: flex;
+    padding: $spacing-05;
+    gap: $spacing-05;
+    border-radius: $border-radius-large;
+    border: 1px solid var(--color-border);
+
+
+    &:hover {
+        //background-color: $neutral-50;
+        border: 1px solid var(--color-primary);
+        transition: border $duration-slow-02 $easing-productive-entrance;
+    }
+
+    //.checkbox-card__image {
+    //    width: 40px;
+    //    height: 40px;
+    //    border-radius: $radius-full;
+    //}
+}

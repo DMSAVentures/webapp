@@ -1,0 +1,86 @@
+@import "@/globalstyles/colors.scss";
+@import "@/globalstyles/v2/variables.scss";
+
+.text-input {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-03;
+
+    &__input-container {
+        display: flex;
+        align-items: center;
+        gap: $spacing-03;
+        border: 1px solid $neutral-200;
+        border-radius: $border-radius-medium;
+        padding: $spacing-01 $spacing-01 $spacing-01 $spacing-03;
+        cursor: text;
+
+        &__icon {
+            //height: 1em;
+            //width: auto; // Maintain aspect ratio
+            //max-height: 100%; // Ensure it doesn't exceed container height
+            //object-fit: contain; // Ensure the entire image is visible
+            color: var(--color-secondary);
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            &:focus {
+                outline: none;
+            }
+            flex-grow: 1;
+            //@extend .paragraph-small;
+            //color: $neutral-950;
+
+            &::placeholder {
+                color: var(--color-secondary);
+            }
+
+            &:disabled{
+                cursor: not-allowed;
+            }
+        }
+
+        &--disabled {
+            background-color: var(--color-secondary-bg);
+            color: var(--color-muted);
+            cursor: not-allowed;
+        }
+
+        &--error {
+            border: 1px solid $red-500 !important;
+        }
+
+        &:hover {
+            background-color: var(--color-secondary-bg);
+            color: var(--color-primary);
+            transition: background-color $duration-moderate-01 $easing-productive-entrance;
+            &__icon {
+                color: var(--color-secondary);
+            }
+        }
+
+        &:focus-within {
+            box-shadow: 0 0 0 4px $neutral-alpha-16, 0 0 0 2px $neutral-0;
+            border: 1px solid $neutral-950;
+            outline: 1px solid $neutral-0;
+            color: $neutral-950;
+
+            &:hover {
+                background-color: $neutral-50;
+            }
+
+            .text-input__input-container__icon {
+                color: $neutral-950;
+            }
+        }
+
+    }
+
+    &__hint {
+        //min-height: 1.3em;
+    }
+
+
+}

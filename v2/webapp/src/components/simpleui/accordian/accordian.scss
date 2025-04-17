@@ -1,0 +1,54 @@
+@import "@/globalstyles/colors";
+@import "@/globalstyles/v2/variables";
+
+
+.accordian {
+  width: $spacing-13 * 3;
+  border-radius: $border-radius-large;
+  border: 1px solid $neutral-200;
+  padding: $spacing-05;
+
+  display: flex;
+  cursor: pointer;
+  text-align: left;
+  gap: $spacing-05;
+  //transition: height $transition-extra-slow $transition-type-dissolve;
+
+  &:hover {
+    border-color: $neutral-50;
+    background-color: $neutral-50;
+    transition: background-color $duration-slow-01 $easing-productive-entrance, border $duration-slow-01 $easing-productive-entrance;
+  }
+  //@extend .label-small
+}
+
+.accordian__title {
+  flex: 1;
+}
+
+.accordian__content {
+  margin-top: $spacing-05;
+  color: $neutral-600;
+  white-space: normal;
+  //@extend .paragraph-small
+}
+
+.accordian__icon {
+    flex: 0;
+    //min-width: 20px;
+    //height: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .accordian {
+    width: $spacing-13  * 2;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .accordian {
+    width: $spacing-13;
+  }
+}

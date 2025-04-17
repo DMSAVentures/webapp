@@ -1,0 +1,62 @@
+// ==============================
+// Easing Tokens
+// ==============================
+
+$easing-productive-standard: cubic-bezier(0.2, 0, 0.38, 0.9);   // Subtle, responsive movements
+$easing-productive-entrance: cubic-bezier(0, 0, 0.38, 0.9);     // For entering elements smoothly
+$easing-productive-exit: cubic-bezier(0.2, 0, 1, 0.9);          // For exiting elements quickly
+
+$easing-expressive-standard: cubic-bezier(0.4, 0.14, 0.3, 1);   // Visible, lively animations
+$easing-expressive-entrance: cubic-bezier(0, 0, 0.3, 1);        // Bold entrance animations
+$easing-expressive-exit: cubic-bezier(0.4, 0.14, 1, 1);         // Strong exit animations
+
+// ==============================
+// Duration Tokens
+// ==============================
+
+$duration-fast-01: 70ms;        // Micro-interactions (e.g., button click)
+$duration-fast-02: 110ms;       // Subtle fades, quick state changes
+$duration-moderate-01: 150ms;   // Small expansions, short transitions
+$duration-moderate-02: 240ms;   // Expansions, alerts, toasts
+$duration-slow-01: 400ms;       // Large expansions, critical notifications
+$duration-slow-02: 700ms;       // Background dimming, full-screen transitions
+
+// ==============================
+// Motion Type Tokens
+// ==============================
+
+$motion-productive: (
+        standard: $easing-productive-standard,
+        entrance: $easing-productive-entrance,
+        exit: $easing-productive-exit
+);
+
+$motion-expressive: (
+        standard: $easing-expressive-standard,
+        entrance: $easing-expressive-entrance,
+        exit: $easing-expressive-exit
+);
+
+// ==============================
+// Usage Example (Mixins)
+// ==============================
+
+@mixin motion-productive($type) {
+    @if $type == standard {
+        transition-timing-function: $easing-productive-standard;
+    } @else if $type == entrance {
+        transition-timing-function: $easing-productive-entrance;
+    } @else if $type == exit {
+        transition-timing-function: $easing-productive-exit;
+    }
+}
+
+@mixin motion-expressive($type) {
+    @if $type == standard {
+        transition-timing-function: $easing-expressive-standard;
+    } @else if $type == entrance {
+        transition-timing-function: $easing-expressive-entrance;
+    } @else if $type == exit {
+        transition-timing-function: $easing-expressive-exit;
+    }
+}

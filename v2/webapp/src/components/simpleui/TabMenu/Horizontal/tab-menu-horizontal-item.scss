@@ -1,0 +1,51 @@
+@import "@/globalstyles/colors.scss";
+@import "@/globalstyles/v2/variables.scss";
+
+.tab-menu-horizontal-item {
+    //height: $spacing-03;
+    display: flex;
+    //align-items: center;
+    //justify-content: center;
+    gap: $spacing-03;
+    color: $neutral-600;
+    //@extend .label-small;
+    cursor: pointer;
+
+    &__text {
+        //vertical-align: center;
+    }
+
+    &__left-icon {
+        //@extend .label-small;
+        //height: $spacing-20;
+        //width: $spacing-20;
+        align-content: center;
+        text-align: center;
+        //line-height: $spacing-03;
+    }
+
+    &__right-icon {
+        //@extend .label-small;
+        //height: $spacing-20;
+        //width: $spacing-20;
+        align-content: center;
+        text-align: center;
+    }
+
+    &__badge {
+        height: $spacing-06;
+        width: $spacing-06;
+        //align-content: center;
+        //vertical-align: center;
+        text-align: center;
+        border-radius: $border-radius-round;
+        background-color: $red-500;
+        color: $neutral-0;
+    }
+
+    &--active {
+        .tab-menu-horizontal-item__left-icon {
+            color: $blue-500;
+        }
+    }
+}

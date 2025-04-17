@@ -1,0 +1,21 @@
+// ==============================
+// Monochrome Color Palette using HSL
+// ==============================
+
+// Base neutral hue - very slight blue undertone for better readability
+$neutral-hue: 210;
+$neutral-saturation: 10%;
+
+// Neutral color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-neutral-900: hsl($neutral-hue, $neutral-saturation, 15%);   // #212b36 - Darkest, for primary text
+$color-neutral-800: hsl($neutral-hue, $neutral-saturation, 25%);   // #364152 - Headings, important text
+$color-neutral-700: hsl($neutral-hue, $neutral-saturation, 35%);   // #4b5563 - Body text
+$color-neutral-600: hsl($neutral-hue, $neutral-saturation, 45%);   // #6b7280 - Secondary text, labels
+$color-neutral-500: hsl($neutral-hue, $neutral-saturation, 60%);   // #9ca3af - Muted text, placeholders
+$color-neutral-400: hsl($neutral-hue, $neutral-saturation, 75%);   // #d1d5db - Borders, dividers
+$color-neutral-300: hsl($neutral-hue, $neutral-saturation, 85%);   // #e5e7eb - Light backgrounds, hover states
+$color-neutral-200: hsl($neutral-hue, $neutral-saturation, 93%);   // #f3f4f6 - Background accents, alternate rows
+$color-neutral-100: hsl($neutral-hue, $neutral-saturation, 98%);   // #f9fafb - Very light background
+$color-neutral-50: hsl($neutral-hue, $neutral-saturation, 99.5%);  // #fcfcfd - Subtle background variations
+$color-white: #FFFFFF; // Pure white for main background

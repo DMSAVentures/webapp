@@ -1,0 +1,48 @@
+@import "@/globalstyles/v2/variables.scss";
+
+// Style for custom radio button
+.custom-radio-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: $spacing-01;
+    height: $spacing-01;
+    border: 1px solid var(--color-primary); // Thicker border
+    border-radius: $border-radius-round;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+
+    // Style for the selected state
+    &:checked {
+        background-color: var(--color-bg); // Selected color
+        // Inner circle to indicate selection
+        &::before {
+            content: '';
+            width: $spacing-03;
+            height: $spacing-03;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    // Style for the hover state
+    &:hover {
+        border-color: var(--color-hover-primary); // Hover color
+    }
+
+    // Style for the focus state
+    &:focus {
+        border-color: var(--color-focus-primary); // Focus color
+    }
+
+    // Style for the disabled state
+    &:disabled {
+        border-color: var(--color-muted); // Disabled color
+        cursor: not-allowed;
+    }
+}

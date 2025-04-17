@@ -1,0 +1,25 @@
+@import "@/globalstyles/v2/variables";
+
+.sidebar__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $spacing-03;
+    padding: $spacing-03;
+
+    &:hover {
+        background-color: var(--color-hover-secondary);
+        border-radius: $border-radius-medium;
+        transition: background-color $duration-slow-01 $easing-expressive-standard;
+        cursor: pointer;
+    }
+
+    &.active {
+        background-color: var(--color-secondary-bg);
+        border-radius: $border-radius-medium;
+    }
+}
+
+.sidebar__item__link {
+    text-decoration: none;
+}

@@ -1,0 +1,45 @@
+@import "@/globalstyles/v2/variables.scss";
+
+$breakpoints: (
+        sm: $breakpoint-sm,
+        md: $breakpoint-md,
+        lg: $breakpoint-lg,
+        xlg: $breakpoint-xlg,
+        max: $breakpoint-max,
+);
+
+$columns: (
+        sm: $columns-sm,
+        md: $columns-md,
+        lg: $columns-lg,
+        xlg: $columns-xlg,
+        max: $columns-max,
+);
+
+//@each $breakpoint, $value in $breakpoints {
+//    @media (min-width: #{$value}) {
+//        .test-media-#{$breakpoint} {
+//            color: blue;
+//        }
+//    }
+//}
+
+
+@each $breakpoint, $col-count in $columns {
+    @for $start from 1 through $col-count {
+        $max-span: $col-count - $start + 1;
+        @if $max-span > 0 {
+            @for $span from 1 through $max-span {
+                .column--#{$breakpoint}-start-#{$start}-span-#{$span} {
+                    @media (min-width: map-get($breakpoints, $breakpoint)) {
+                        grid-column: $start / span $span;
+                    }
+                }
+            }
+        }
+
+        //@for $span from 1 through ($col-count - $start + 1) {
+        //
+        //}
+    }
+}

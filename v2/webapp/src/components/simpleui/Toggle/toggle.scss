@@ -1,0 +1,100 @@
+@import "@/globalstyles/v2/variables.scss";
+
+/* Main toggle switch container */
+.toggle {
+    position: relative;
+    display: inline-block;
+    min-width: $spacing-05;
+    width: $spacing-09;
+    height: $spacing-05;
+
+    /* Hidden checkbox input */
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* Common Slider (Toggle Background) Styles */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--color-hover-secondary); /* Default background color */
+        border-radius: $border-radius-large; /* Rounded slider */
+        transition: background-color $duration-slow-01 $easing-productive-exit;
+
+        /* Common knob (Toggle Button) Styles */
+        &:before {
+            content: "";
+            position: absolute;
+            height: $spacing-04;
+            width: $spacing-04;
+            left: $spacing-02 / 2;
+            bottom: $spacing-02 / 2;
+            background-color: var(--color-primary);
+            border-radius: $border-radius-large; /* Rounded slider */
+            border: $spacing-03 solid var(--color-mute);
+            box-shadow: 0 2px 4px rgba(14, 18, 27, 0.08), 0 4px 8px rgba(27, 28, 29, 0.06); /* Subtle shadow */
+            transition: background-color $duration-slow-01 $easing-productive-exit, transform $duration-moderate-02 $easing-productive-exit;
+        }
+    }
+
+    /* Checked State */
+    input[type="checkbox"]:checked + .slider {
+        background-color: var(--color-primary); /* Background when checked */
+
+        &:before {
+            transform: translateX($spacing-07); /* Move knob to the right */
+            background-color: var(--color-bg); /* Knob color when checked */
+        }
+    }
+
+    /* Focus State (for accessibility) */
+    &:focus-within .slider {
+        box-shadow: 0 0 1px var(--color-primary);
+    }
+
+    /* Hover State */
+    &:hover .slider {
+        background-color: var(--color-hover-secondary); /* Darker background when hovered */
+    }
+
+    &:hover input[type="checkbox"]:checked + .slider {
+        background-color: var(--color-hover-primary); /* Darker blue when checked and hovered */
+
+        &:before {
+            background-color: var(--color-bg);
+        }
+    }
+
+    /* Disabled State: Override only the necessary properties */
+    input[type="checkbox"]:disabled + .slider {
+        background-color: var(--color-muted);
+        //border: 1px solid $neutral-100;
+        cursor: not-allowed;
+
+        /* Override knob (before) styles in the disabled state */
+        &:before {
+            background-color: var(--color-bg);
+            //border: $spacing-6 solid $neutral-100; /* Match knob border to background */
+            border-color: var(--color-muted);
+            //box-shadow: none; /* Remove shadow in disabled state */
+            //bottom: 2px; /* Adjust knob position */
+        }
+    }
+
+    input[type="checkbox"]:checked:disabled + .slider {
+        background-color: var(--color-muted);
+        border: none;
+        cursor: not-allowed;
+
+        &:before {
+            background-color: var(--color-bg); /* Example: change knob color */
+            cursor: not-allowed; /* Indicate that it's disabled */
+        }
+    }
+}

@@ -1,0 +1,24 @@
+@import "@/globalstyles/v2/variables.scss";
+
+.radio-labeled__container {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-03;
+    width: $spacing-13 * 2;
+
+    &--reversed {
+        flex-direction: row-reverse;
+
+        .radio-labeled__label-container {
+            flex-grow: 1;
+        }
+    }
+
+    &--disabled {
+        .radio-labeled__sublabel__string, .radio-labeled__description__string {
+            color: var(--color-secondary)
+        }
+    }
+}
+
+

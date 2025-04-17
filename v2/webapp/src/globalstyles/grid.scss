@@ -1,0 +1,54 @@
+// Grid Variables
+$grid-max-width: 1440px;
+$grid-columns: 12;
+$column-width-sidebar-expanded: 70px;
+$column-width-sidebar-collapsed: 86px;
+$column-width-sidebar-with-submenu: 64px;
+$column-width-topbar: 80px;
+$safe-area-sidebar-layout: 32px;
+$safe-area-topbar-layout: 108px;
+$gutter-width: 24px;
+$sidebar-expanded-width: 272px;
+$sidebar-collapsed-width: 80px;
+$sidebar-submenu-expanded-width: 264px;
+
+// Mixin for creating grid layout with dynamic column width and safe area
+@mixin grid-layout($column-width, $gutter-width, $safe-area) {
+  display: grid;
+  grid-template-columns: repeat($grid-columns, $column-width) 1fr;
+  grid-gap: $gutter-width;
+  margin-right: $safe-area;
+  margin-left: $safe-area;
+}
+
+// Container with expanded sidebar
+.grid-expanded-sidebar {
+  @include grid-layout($column-width-sidebar-expanded, $gutter-width, $safe-area-sidebar-layout);
+}
+
+// Container with collapsed sidebar
+.grid-collapsed-sidebar {
+  @include grid-layout($column-width-sidebar-collapsed, $gutter-width, $safe-area-sidebar-layout);
+}
+
+// Container with collapsed sidebar
+.grid-sidebar-with-submenu {
+  @include grid-layout($column-width-sidebar-with-submenu, $gutter-width, $safe-area-sidebar-layout);
+}
+
+// Container with topbar
+.grid-topbar {
+  @include grid-layout($column-width-topbar, $gutter-width, $safe-area-topbar-layout);
+}
+
+// Container with sidebar
+.container-sidebar {
+  grid-column: 1 / span 1;
+  .sidebar {
+    width: $sidebar-expanded-width;
+  }
+  // Container with expanded sidebar
+  .grid-expanded-sidebar {
+    @include grid-layout($column-width-sidebar-expanded, $gutter-width, $safe-area-sidebar-layout);
+  }
+}
