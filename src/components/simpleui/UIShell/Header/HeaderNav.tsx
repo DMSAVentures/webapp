@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import {Link} from "@tanstack/react-router";
 
 export interface NavItem {
     label: string;
@@ -46,7 +47,7 @@ const HeaderNav: React.FC<HeaderNavProps> = ({ items }) => {
                         )}
                     </div>
                 ) : (
-                    <Link key={index} href={item.href} className="header__link">
+                    <Link key={index} to={item.href} className="header__link">
                         <small>{item.label}</small>
                     </Link>
                 )

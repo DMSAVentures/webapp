@@ -44,7 +44,7 @@ interface Props {
 }
 
 function RouteComponent()  {
-    const search = useSearch({ from: '/billing/pay' })
+    const search: {plan: string} = useSearch({ from: '/billing/pay' })
     if (!search || !search.plan) {
         return <ErrorState message="Missing plan parameter in URL" />;
     }

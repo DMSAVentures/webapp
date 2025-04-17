@@ -11,6 +11,7 @@ import {useEffect} from "react";
 import {useCancelSubscription} from "@/hooks/useCancelSubscription";
 import Banner from "@/components/simpleui/banner/banner";
 import styles from './account.module.scss'
+import {motion} from "motion/react";
 
 export const Route = createFileRoute('/account')({
   component: RouteComponent,
@@ -62,7 +63,9 @@ function Page() {
         return <EmptyState message={"No subscription found"}/>;
     }
 
-    return (<>
+    return (<motion.div initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.6 }}>
         {errorCancelSub &&
             <Banner bannerType={'error'} variant={'filled'} alertTitle={'Failed to cancel subscription'}
                     alertDescription={errorCancelSub}/>}
@@ -94,5 +97,5 @@ function Page() {
                 <Button onClick={handlePaymentMethodUpdate}>Update Payment Method</Button>
             </div>
         </Column>
-    </>);
+    </motion.div>);
 }

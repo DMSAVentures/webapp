@@ -29,7 +29,7 @@ interface DetailedFeedbackProps extends HTMLAttributes<HTMLElement> {
     secondaryLinkHref?: string;
 }
 
-function getIconBasedOnFeedbackType(feedbackType: string, variant: string) {
+function getIconBasedOnFeedbackType(feedbackType: string) {
         switch (feedbackType) {
             case 'success':
                 return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
@@ -50,7 +50,7 @@ const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
     const [visible, setVisible] = useState(true);
 
     if (!visible) return null;
-    const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
+    const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType);
     return (
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
             {feedbackIcon}
@@ -65,7 +65,7 @@ const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
     const [visible, setVisible] = useState(true);
 
     if (!visible) return null;
-    const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType, props.variant);
+    const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType);
     return (
         <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
             {feedbackIcon}

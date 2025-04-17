@@ -22,7 +22,6 @@ export default function ImageGenBox() {
                  ref={chatRef}
             >
                 {messages.map((msg, i) => {
-                    const normalizedContent = msg.content.replace(/\\n/g, '\n')
                     return (
                         <div className={msg.role === "user" ? styles['chat-bubble-user'] : styles['chat-bubble-ai']} key={i} style={{marginBottom: 12}}>
                             <strong>{msg.role === "user" ? "You" : "AI"}:</strong>

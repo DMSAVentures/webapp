@@ -1,7 +1,6 @@
-import React, { FC, ButtonHTMLAttributes, KeyboardEvent } from 'react';
+import { FC, ButtonHTMLAttributes, KeyboardEvent } from 'react';
 import styles from './iconOnlyButton.module.scss';
 import 'remixicon/fonts/remixicon.css';
-import { motion } from 'motion/react'
 
 type IconOnlyButtonVariant = 'primary' | 'secondary';
 
@@ -39,7 +38,7 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
         // Trigger click on Enter or Space key press
         if (!disabled && (event.key === 'Enter' || event.key === ' ')) {
             event.preventDefault(); // Prevent page scroll on space
-            onClick?.(event as any);
+            onClick?.(event as never);
         }
 
         // Call the original onKeyDown handler if provided

@@ -13,7 +13,7 @@ interface HeaderProps {
     children?:  React.ReactElement<typeof SidebarContent>;
 }
 
-const Header: React.FC<HeaderProps> = ({  navItems, actionItems, toggleLeftNav, isLeftNavOpen, children }) => {
+const Header: React.FC<HeaderProps> = ({  navItems, actionItems, toggleLeftNav, isLeftNavOpen }) => {
     return (
         <div className={'header-container'}>
         <header className="header">

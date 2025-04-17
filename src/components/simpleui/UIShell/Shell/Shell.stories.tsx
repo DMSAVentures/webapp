@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import {UIShellWithCollapsibleNavigation} from './UIShellWithCollapsibleNavigation';
 
 const meta: Meta<typeof UIShellWithCollapsibleNavigation> = {

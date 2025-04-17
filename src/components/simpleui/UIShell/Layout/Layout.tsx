@@ -5,9 +5,6 @@ import { SidebarProvider, useSidebar } from "@/contexts/sidebar"
 import styles from './layout.module.scss';
 import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
 import {Sidebar} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
-import Breadcrumb from "@/components/simpleui/breadcrumb/breadcrumb";
-import BreadcrumbItem from "@/components/simpleui/breadcrumb/breadcrumbitem";
-import { useRouter } from '@tanstack/react-router'
 import { motion } from "motion/react"
 
 interface LayoutProps {
@@ -16,30 +13,18 @@ interface LayoutProps {
 }
 
 const Header = () => {
-    const { isOpen, toggleSidebar } = useSidebar();
-    const path = useRouter().state.location.pathname
-    const items = path.split('/').filter(Boolean);
-    const breadcrumbitem = items.map((item, index) => {
-        const href = '/' + items.slice(0, index + 1).join('/');
-        const word = item.split('-').map((word) => {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-        })
-        return (
-            <BreadcrumbItem key={item} state={'active'} path={href}>
-                {word.join(" ")}
-            </BreadcrumbItem>
-
-        );
-    });
+    const { toggleSidebar } = useSidebar();
     return (
         <header className={styles.header}>
             <IconOnlyButton iconClass={'menu-line'} ariaLabel={'menu'} onClick={toggleSidebar} variant={'secondary'}/>
-            <Breadcrumb items={breadcrumbitem} divider={'arrow'}/>
+            {/*<Breadcrumb items={breadcrumbitem} divider={'arrow'}/>*/}
         </header>
     );
 }
 
-const LayoutContent = ({ children, title = "Dashboard" }: LayoutProps) => {
+const LayoutContent = ({ children }: LayoutProps) => {
+    const { isOpen } = useSidebar();
+    const contentClass = `${styles.content} ${isOpen ? '' : styles['content--is-full-width']}`;
     return (
         <motion.div
             className={styles.container}
@@ -48,7 +33,7 @@ const LayoutContent = ({ children, title = "Dashboard" }: LayoutProps) => {
             transition={{ duration: 0.6 }}
         >
             <Sidebar />
-            <main className={styles.content}>
+            <main className={contentClass}>
                 <Header/>
                 <div className={styles.scrollArea}>
                     {children}
