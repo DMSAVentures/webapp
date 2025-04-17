@@ -17,7 +17,7 @@
     box-shadow: none;
     overflow: hidden;
     &::backdrop {
-        background-color: $neutral-800;
+        background-color: $color-neutral-800;
         opacity: 0.8;
         backdrop-filter: blur(4px);
     }
@@ -51,12 +51,12 @@
 
         .modal__title {
             //@extend .label-small;
-            //color: $neutral-950;
+            //color: $color-neutral-950;
         }
 
         .modal__description {
             //@extend .paragraph-small;
-            //color: $neutral-600;
+            //color: $color-neutral-600;
             word-break: break-word;
         }
     }
@@ -106,11 +106,11 @@
     }
 
     &--feature {
-        @include modal-icon-style($neutral-500);
+        @include modal-icon-style($color-neutral-500);
         &.modal__icon--medium {
             padding: $spacing-02 $spacing-03;
             border-radius: $border-radius-round;
-            border: 1px solid $neutral-200;
+            border: 1px solid $color-neutral-200;
         }
     }
 }

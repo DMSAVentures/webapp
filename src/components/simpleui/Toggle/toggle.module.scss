@@ -74,13 +74,13 @@
     /* Disabled State: Override only the necessary properties */
     input[type="checkbox"]:disabled + .slider {
         background-color: var(--color-muted);
-        //border: 1px solid $neutral-100;
+        //border: 1px solid $color-neutral-100;
         cursor: not-allowed;
 
         /* Override knob (before) styles in the disabled state */
         &:before {
             background-color: var(--color-bg);
-            //border: $spacing-6 solid $neutral-100; /* Match knob border to background */
+            //border: $spacing-6 solid $color-neutral-100; /* Match knob border to background */
             border-color: var(--color-muted);
             //box-shadow: none; /* Remove shadow in disabled state */
             //bottom: 2px; /* Adjust knob position */

@@ -9,8 +9,8 @@
     align-items: center;
 
     //&:hover {
-    //    background-color: $neutral-50;
-    //    border: 1px solid $neutral-50;
+    //    background-color: $color-neutral-50;
+    //    border: 1px solid $color-neutral-50;
     //    transition: background-color $transition-normal $transition-type-dissolve;
     //}
 
@@ -29,7 +29,7 @@
 
         .content-label__description__string {
             //@extend .paragraph-x-small;
-            //color: $neutral-600;
+            //color: $color-neutral-600;
             width: 100%;
             overflow-wrap: break-word; // Break words to prevent overflow
             word-wrap: break-word; // For IE compatibility

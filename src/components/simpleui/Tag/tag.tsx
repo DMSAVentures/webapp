@@ -1,7 +1,7 @@
 import React from 'react';
 import './tag.scss';
 import "remixicon/fonts/remixicon.css";
-import Image from 'next/image';
+
 interface TagProps {
     children: string;
     icon?: string;
@@ -36,7 +36,7 @@ export const Tag: React.FC<TagProps> = (props) => {
     return (
         <div className="tag" aria-disabled={props.state === 'disabled'} aria-selected={selected} onClick={handleClick}>
             {props.icon && <i className={`${props.icon}`}></i>}
-            {!props.icon && props.image && <Image className={'tag__image'} src={props.image} alt="tag" width={24} height={24} />}
+            {!props.icon && props.image && <img className={'tag__image'} src={props.image} alt="tag" width={24} height={24} />}
             <small className="tag__text">{props.children}</small>
             {props.removeable && <i className="ri-close-fill"></i>}
         </div>

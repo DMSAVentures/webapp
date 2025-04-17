@@ -6,10 +6,9 @@ import { SidebarProvider, useSidebar } from "@/contexts/sidebar"
 import styles from './layout.module.scss';
 import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
 import {Sidebar} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
-import {usePathname} from "next/navigation";
 import Breadcrumb from "@/components/simpleui/breadcrumb/breadcrumb";
-import breadcrumbitem from "@/components/simpleui/breadcrumb/breadcrumbitem";
 import BreadcrumbItem from "@/components/simpleui/breadcrumb/breadcrumbitem";
+import { useRouter } from '@tanstack/react-router'
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -18,7 +17,7 @@ interface LayoutProps {
 
 const Header = () => {
     const { isOpen, toggleSidebar } = useSidebar();
-    const path = usePathname();
+    const path = useRouter().state.location.pathname
     const items = path.split('/').filter(Boolean);
     const breadcrumbitem = items.map((item, index) => {
         const href = '/' + items.slice(0, index + 1).join('/');

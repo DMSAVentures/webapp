@@ -25,7 +25,7 @@
 
         .fileuploadarea__icon {
             //font-size: 20px;
-            //color: $neutral-600;
+            //color: $color-neutral-600;
         }
 
         .fileuploadarea__title {
@@ -33,17 +33,17 @@
             flex-direction: column;
             text-align: center;
             //@extend .label-small;
-            //color: $neutral-950;
+            //color: $color-neutral-950;
 
             .fileuploadarea_supported_meta {
                 //@extend .paragraph-small;
-                //color: $neutral-600;
+                //color: $color-neutral-600;
             }
         }
 
         .fileuploadarea__filename {
             //@extend .paragraph-small;
-            //color: $neutral-600;
+            //color: $color-neutral-600;
         }
     }
 

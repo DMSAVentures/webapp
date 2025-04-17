@@ -4,7 +4,7 @@
 .accordian {
   width: $spacing-13 * 3;
   border-radius: $border-radius-large;
-  border: 1px solid $neutral-200;
+  border: 1px solid $color-neutral-200;
   padding: $spacing-05;
 
   display: flex;
@@ -14,8 +14,8 @@
   //transition: height $transition-extra-slow $transition-type-dissolve;
 
   &:hover {
-    border-color: $neutral-50;
-    background-color: $neutral-50;
+    border-color: $color-neutral-50;
+    background-color: $color-neutral-50;
     transition: background-color $duration-slow-01 $easing-productive-entrance, border $duration-slow-01 $easing-productive-entrance;
   }
   //@extend .label-small
@@ -27,7 +27,7 @@
 
 .accordian__content {
   margin-top: $spacing-05;
-  color: $neutral-600;
+  color: $color-neutral-600;
   white-space: normal;
   //@extend .paragraph-small
 }

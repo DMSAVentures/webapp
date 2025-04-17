@@ -6,7 +6,6 @@ import {
   useStripe,
   useElements, EmbeddedCheckoutProvider, EmbeddedCheckout
 } from '@stripe/react-stripe-js';
-import { useRouter } from 'next/navigation';
 import './checkout.scss';
 
 // Import your UI components
@@ -29,7 +28,7 @@ const CustomCheckout = ({ clientSecret }: CheckoutFormProps) => {
   console.log("Stripe Key Available:", !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   console.log("Stripe Key:", process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   console.log("Environment:", process.env.NODE_ENV);
-  
+
   return (
     <Column
       sm={{span: 8, start: 1}}

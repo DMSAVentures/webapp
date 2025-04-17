@@ -13,6 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SigninImport } from './routes/signin'
 import { Route as MainImport } from './routes/main'
+import { Route as ImageGenerationImport } from './routes/image-generation'
+import { Route as ConversationImport } from './routes/conversation'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as OauthSignedinImport } from './routes/oauth/signedin'
@@ -28,6 +30,18 @@ const SigninRoute = SigninImport.update({
 const MainRoute = MainImport.update({
   id: '/main',
   path: '/main',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ImageGenerationRoute = ImageGenerationImport.update({
+  id: '/image-generation',
+  path: '/image-generation',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ConversationRoute = ConversationImport.update({
+  id: '/conversation',
+  path: '/conversation',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,6 +81,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/conversation': {
+      id: '/conversation'
+      path: '/conversation'
+      fullPath: '/conversation'
+      preLoaderRoute: typeof ConversationImport
+      parentRoute: typeof rootRoute
+    }
+    '/image-generation': {
+      id: '/image-generation'
+      path: '/image-generation'
+      fullPath: '/image-generation'
+      preLoaderRoute: typeof ImageGenerationImport
+      parentRoute: typeof rootRoute
+    }
     '/main': {
       id: '/main'
       path: '/main'
@@ -96,6 +124,8 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/conversation': typeof ConversationRoute
+  '/image-generation': typeof ImageGenerationRoute
   '/main': typeof MainRoute
   '/signin': typeof SigninRoute
   '/oauth/signedin': typeof OauthSignedinRoute
@@ -104,6 +134,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/conversation': typeof ConversationRoute
+  '/image-generation': typeof ImageGenerationRoute
   '/main': typeof MainRoute
   '/signin': typeof SigninRoute
   '/oauth/signedin': typeof OauthSignedinRoute
@@ -113,6 +145,8 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/conversation': typeof ConversationRoute
+  '/image-generation': typeof ImageGenerationRoute
   '/main': typeof MainRoute
   '/signin': typeof SigninRoute
   '/oauth/signedin': typeof OauthSignedinRoute
@@ -120,16 +154,40 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/main' | '/signin' | '/oauth/signedin'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/conversation'
+    | '/image-generation'
+    | '/main'
+    | '/signin'
+    | '/oauth/signedin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/main' | '/signin' | '/oauth/signedin'
-  id: '__root__' | '/' | '/about' | '/main' | '/signin' | '/oauth/signedin'
+  to:
+    | '/'
+    | '/about'
+    | '/conversation'
+    | '/image-generation'
+    | '/main'
+    | '/signin'
+    | '/oauth/signedin'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/conversation'
+    | '/image-generation'
+    | '/main'
+    | '/signin'
+    | '/oauth/signedin'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ConversationRoute: typeof ConversationRoute
+  ImageGenerationRoute: typeof ImageGenerationRoute
   MainRoute: typeof MainRoute
   SigninRoute: typeof SigninRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
@@ -138,6 +196,8 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ConversationRoute: ConversationRoute,
+  ImageGenerationRoute: ImageGenerationRoute,
   MainRoute: MainRoute,
   SigninRoute: SigninRoute,
   OauthSignedinRoute: OauthSignedinRoute,
@@ -155,6 +215,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/conversation",
+        "/image-generation",
         "/main",
         "/signin",
         "/oauth/signedin"
@@ -165,6 +227,12 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/conversation": {
+      "filePath": "conversation.tsx"
+    },
+    "/image-generation": {
+      "filePath": "image-generation.tsx"
     },
     "/main": {
       "filePath": "main.tsx"

@@ -6,7 +6,7 @@
     //align-items: center;
     //justify-content: center;
     gap: $spacing-03;
-    color: $neutral-600;
+    color: $color-neutral-600;
     //@extend .label-small;
     cursor: pointer;
 
@@ -39,7 +39,7 @@
         text-align: center;
         border-radius: $border-radius-round;
         background-color: $red-500;
-        color: $neutral-0;
+        color: $color-white;
     }
 
     &--active {

@@ -1,8 +1,8 @@
 'use client'
 
 import {Price} from "@/types/billing";
-import {useRouter} from "next/navigation";
 import {Button} from "@/components/simpleui/Button/button";
+import {useRouter} from "@tanstack/react-router";
 
 export default function PlanToPay(props: Price) {
     const router = useRouter();

@@ -1,14 +1,13 @@
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
-import { useAuth } from "@/contexts/auth"
+import {createRootRouteWithContext, Outlet} from '@tanstack/react-router'
+import {useAuth} from "@/contexts/auth"
+import {Providers} from "@/contexts/providers.tsx";
+import {Layout} from "@/components/simpleui/UIShell/Layout/Layout.tsx";
 
 // Determines if the current path is a public route (e.g., /signin, /oauth/*)
 function isPublicRoute(): boolean {
     if (typeof window === 'undefined') return false;
     const path = window.location.pathname;
-    return (
-        path === '/signin' ||
-        path.startsWith('/oauth')
-    );
+    return (path === '/signin' || path.startsWith('/oauth'));
 }
 
 function RootLayout() {
@@ -25,16 +24,11 @@ function RootLayout() {
         return null
     }
 
-    return (
-        <div>
-            <header>My App Header {auth.isLoggedIn && auth.user && (
-  <span>Welcome, {auth.user.first_name} {auth.user.last_name}</span>
-)}</header>
-            <main>
-                <Outlet />
-            </main>
-        </div>
-    )
+    return (<Providers>
+        <Layout>
+            <Outlet/>
+        </Layout>
+    </Providers>)
 }
 
 export const rootRoute = createRootRouteWithContext()({

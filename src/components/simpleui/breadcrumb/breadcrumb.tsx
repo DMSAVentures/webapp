@@ -2,7 +2,7 @@ import React from 'react';
 import './breadcrumb.scss';
 import 'remixicon/fonts/remixicon.css';
 import type {BreadcrumbItemProps}  from "@/components/simpleui/breadcrumb/breadcrumbitem";
-import {useRouter} from "next/navigation";
+import {useRouter} from "@tanstack/react-router";
 
 interface BreadcrumbProps {
     items: React.ReactElement<BreadcrumbItemProps>[];

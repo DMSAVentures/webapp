@@ -38,44 +38,44 @@
   }
 
   &--disabled {
-    border: 1px solid $neutral-200;
-    color: $neutral-200;
+    border: 1px solid $color-neutral-200;
+    color: $color-neutral-200;
   }
 }
 
 .badge--gray.badge--filled {
-  @include badge-style($neutral-500, $neutral-0);
+  @include badge-style($color-neutral-500, $color-white);
 }
 .badge--blue.badge--filled {
-  @include badge-style($blue-500, $neutral-0);
+  @include badge-style($blue-500, $color-white);
 }
 .badge--green.badge--filled {
-  @include badge-style($green-500, $neutral-0);
+  @include badge-style($green-500, $color-white);
 }
 .badge--red.badge--filled {
-  @include badge-style($red-500, $neutral-0);
+  @include badge-style($red-500, $color-white);
 }
 .badge--yellow.badge--filled {
-  @include badge-style($yellow-500, $neutral-0);
+  @include badge-style($yellow-500, $color-white);
 }
 .badge--purple.badge--filled {
-  @include badge-style($purple-500, $neutral-0);
+  @include badge-style($purple-500, $color-white);
 }
 .badge--orange.badge--filled {
-  @include badge-style($orange-500, $neutral-0);
+  @include badge-style($orange-500, $color-white);
 }
 .badge--pink.badge--filled {
-  @include badge-style($pink-500, $neutral-0);
+  @include badge-style($pink-500, $color-white);
 }
 .badge--sky.badge--filled {
-  @include badge-style($sky-500, $neutral-0);
+  @include badge-style($sky-500, $color-white);
 }
 .badge--teal.badge--filled {
-  @include badge-style($teal-500, $neutral-0);
+  @include badge-style($teal-500, $color-white);
 }
 
 .badge--gray.badge--light {
-  @include badge-style($neutral-200, $neutral-950);
+  @include badge-style($color-neutral-200, $color-neutral-950);
 }
 .badge--blue.badge--light {
   @include badge-style($blue-200, $blue-950);
@@ -107,7 +107,7 @@
 
 
 .badge--gray.badge--lighter {
-  @include badge-style($neutral-50, $neutral-500);
+  @include badge-style($color-neutral-50, $color-neutral-500);
 }
 .badge--blue.badge--lighter {
   @include badge-style($blue-50, $blue-500);
@@ -138,42 +138,42 @@
 }
 
 .badge--gray.badge--stroke {
-  @include badge-style($neutral-0, $neutral-500);
-  border: 1px solid $neutral-500;
+  @include badge-style($color-white, $color-neutral-500);
+  border: 1px solid $color-neutral-500;
 }
 .badge--blue.badge--stroke {
-  @include badge-style($neutral-0, $blue-500);
+  @include badge-style($color-white, $blue-500);
   border: 1px solid $blue-500;
 }
 .badge--green.badge--stroke {
-  @include badge-style($neutral-0, $green-500);
+  @include badge-style($color-white, $green-500);
   border: 1px solid $green-500;
 }
 .badge--red.badge--stroke {
-  @include badge-style($neutral-0, $red-500);
+  @include badge-style($color-white, $red-500);
   border: 1px solid $red-500;
 }
 .badge--yellow.badge--stroke {
-  @include badge-style($neutral-0, $yellow-500);
+  @include badge-style($color-white, $yellow-500);
   border: 1px solid $yellow-500;
 }
 .badge--purple.badge--stroke {
-  @include badge-style($neutral-0, $purple-500);
+  @include badge-style($color-white, $purple-500);
   border: 1px solid $purple-500;
 }
 .badge--orange.badge--stroke {
-  @include badge-style($neutral-0, $orange-500);
+  @include badge-style($color-white, $orange-500);
   border: 1px solid $orange-500;
 }
 .badge--pink.badge--stroke {
-  @include badge-style($neutral-0, $pink-500);
+  @include badge-style($color-white, $pink-500);
   border: 1px solid $pink-500;
 }
 .badge--sky.badge--stroke {
-  @include badge-style($neutral-0, $sky-500);
+  @include badge-style($color-white, $sky-500);
   border: 1px solid $sky-500;
 }
 .badge--teal.badge--stroke {
-  @include badge-style($neutral-0, $teal-500);
+  @include badge-style($color-white, $teal-500);
   border: 1px solid $teal-500;
 }
