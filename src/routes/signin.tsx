@@ -1,8 +1,8 @@
 // /signin page at root for TanStack Router
 import { createRoute } from '@tanstack/react-router'
-import { rootRoute } from './__root'
 import Login from '@/components/authentication/login'
 import './signin.scss'
+import {rootRoute} from "@/routes/__root.tsx";
 
 function SignInPage() {
   return (

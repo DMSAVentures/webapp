@@ -24,6 +24,10 @@ function RootLayout() {
         return null
     }
 
+    if (isPublicRoute()) {
+        return <Outlet/>
+    }
+
     return (<Providers>
         <Layout>
             <Outlet/>
