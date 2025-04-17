@@ -1,5 +1,5 @@
-@import "src/globalstyles/v2/variables";
-@import "src/globalstyles/colors";
+@import "@/globalstyles/v2/variables";
+@import "@/globalstyles/colors";
 
 
 @mixin banner-style($color, $text-color, $link-color, $icon-color) {

@@ -1,5 +1,5 @@
-@import "src/globalstyles/colors";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/colors";
+@import "@/globalstyles/v2/variables.scss";
 
 @mixin status-badge-style($color, $text-color, $icon-color) {
   background-color: $color;
