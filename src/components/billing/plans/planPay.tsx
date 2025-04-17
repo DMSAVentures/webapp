@@ -8,7 +8,7 @@ export default function PlanToPay(props: Price) {
     const navigate = useNavigate();
     const handlePay = (price_id: string) => {
         navigate({
-            to: 'billing/pay',
+            to: '/billing/pay',
             search: { plan: price_id },
         })
     }
