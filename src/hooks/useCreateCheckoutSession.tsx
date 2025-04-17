@@ -21,7 +21,7 @@ export const useCreateCheckoutSession =  (args: IArguments) => {
     const createCheckoutSession = useCallback(async (price_id: string): Promise<void> => {
         setLoading(true);
         try {
-            const response = await fetcher<CreateCheckoutSessionResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/create-checkout-session`, {
+            const response = await fetcher<CreateCheckoutSessionResponse>(`${import.meta.env.VITE_API_URL}/api/protected/billing/create-checkout-session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -17,6 +17,7 @@
     "remixicon": "^4.6.0"
   },
   "devDependencies": {
+    "@types/node": "^22.14.1",
     "@eslint/js": "^9.22.0",
     "@tanstack/router-plugin": "^1.116.1",
     "@types/react": "^19.0.10",

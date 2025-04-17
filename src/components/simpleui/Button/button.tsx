@@ -1,7 +1,6 @@
 import React, { forwardRef, memo, ButtonHTMLAttributes } from 'react';
 import styles from './button.module.scss';
 import 'remixicon/fonts/remixicon.css';
-import { Link } from '@tanstack/react-router'
 
 // Define the possible variants for the button
 type ButtonVariant = 'primary' | 'secondary';

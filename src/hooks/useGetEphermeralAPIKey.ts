@@ -7,7 +7,7 @@ interface EphermalAPIKeyResponse {
 }
 
 const getEphermeralAPIKey = async (): Promise<EphermalAPIKeyResponse> => {
-    const response = await fetcher<EphermalAPIKeyResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/ai/get-ephermeral-api-key`,{
+    const response = await fetcher<EphermalAPIKeyResponse>(`${import.meta.env.VITE_API_URL}/api/protected/ai/get-ephermeral-api-key`,{
         method: 'POST',
     });
 

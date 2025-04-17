@@ -3,7 +3,7 @@ import {CancelSubscriptionResponse} from "@/types/billing";
 import {useCallback, useEffect, useState} from "react";
 
 async function cancelSubscription(): Promise<CancelSubscriptionResponse> {
-    const response = await fetcher<CancelSubscriptionResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/cancel-subscription`, {
+    const response = await fetcher<CancelSubscriptionResponse>(`${import.meta.env.VITE_API_URL}/api/protected/billing/cancel-subscription`, {
         method: 'DELETE',
     });
 

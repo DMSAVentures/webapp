@@ -1,8 +1,8 @@
-@import "@/globalstyles/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .login {
     display: flex;
     flex-direction: column;
-    gap: $spacing-14;
+    gap: $spacing-05;
     align-items: center;
 }

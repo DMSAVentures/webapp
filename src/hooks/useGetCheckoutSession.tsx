@@ -19,7 +19,7 @@ export const useGetCheckoutSession =  (args: IArguments) => {
     const getCheckoutSession = useCallback(async (session_id: string): Promise<void> => {
         setLoading(true);
         try {
-            const response = await fetcher<GetCheckoutSessionResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/checkout-session?session_id=${session_id}`, {
+            const response = await fetcher<GetCheckoutSessionResponse>(`${import.meta.env.VITE_API_URL}/api/protected/billing/checkout-session?session_id=${session_id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
