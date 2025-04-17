@@ -77,62 +77,62 @@
 }
 
 .banner--error.banner--light {
-  @include banner-style($red-200, $color-neutral-950, $color-neutral-950, $red-500);
+  @include banner-style($red-200, $color-neutral-900, $color-neutral-900, $red-500);
 }
 .banner--success.banner--light {
-  @include banner-style($green-200, $color-neutral-950, $color-neutral-950, $green-500);
+  @include banner-style($green-200, $color-neutral-900, $color-neutral-900, $green-500);
 }
 .banner--warning.banner--light {
-  @include banner-style($orange-200, $color-neutral-950, $color-neutral-950, $orange-500);
+  @include banner-style($orange-200, $color-neutral-900, $color-neutral-900, $orange-500);
 }
 .banner--info.banner--light {
-  @include banner-style($blue-200, $color-neutral-950, $color-neutral-950, $blue-500);
+  @include banner-style($blue-200, $color-neutral-900, $color-neutral-900, $blue-500);
 }
 .banner--feature.banner--light {
-  @include banner-style($color-neutral-200, $color-neutral-950, $color-neutral-950, $color-neutral-500);
+  @include banner-style($color-neutral-200, $color-neutral-900, $color-neutral-900, $color-neutral-500);
 }
 
 .banner--error.banner--lighter{
-  @include banner-style($red-50, $color-neutral-950, $color-neutral-950, $red-500);
+  @include banner-style($red-50, $color-neutral-900, $color-neutral-900, $red-500);
 }
 .banner--success.banner--lighter{
-  @include banner-style($green-50, $color-neutral-950, $color-neutral-950, $green-500);
+  @include banner-style($green-50, $color-neutral-900, $color-neutral-900, $green-500);
 }
 .banner--warning.banner--lighter{
-  @include banner-style($orange-50, $color-neutral-950, $color-neutral-950, $orange-500);
+  @include banner-style($orange-50, $color-neutral-900, $color-neutral-900, $orange-500);
 }
 .banner--info.banner--lighter{
-  @include banner-style($blue-50, $color-neutral-950, $color-neutral-950, $blue-500);
+  @include banner-style($blue-50, $color-neutral-900, $color-neutral-900, $blue-500);
 }
 .banner--feature.banner--lighter{
-  @include banner-style($color-neutral-50, $color-neutral-950, $color-neutral-950, $color-neutral-500);
+  @include banner-style($color-neutral-50, $color-neutral-900, $color-neutral-900, $color-neutral-500);
 }
 
 .banner--error.banner--stroke {
-    @include banner-style($color-white, $color-neutral-950, $color-neutral-950, $red-500);
+    @include banner-style($color-white, $color-neutral-900, $color-neutral-900, $red-500);
 
   border: $color-neutral-200 solid;
   border-width: 0 0 1px 0;
 
 }
 .banner--success.banner--stroke {
-    @include banner-style($color-white, $color-neutral-950, $color-neutral-950, $green-500);
+    @include banner-style($color-white, $color-neutral-900, $color-neutral-900, $green-500);
 
   border: $color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }
 .banner--warning.banner--stroke {
-    @include banner-style($color-white, $color-neutral-950, $color-neutral-950, $orange-500);
+    @include banner-style($color-white, $color-neutral-900, $color-neutral-900, $orange-500);
   border: $color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }
 .banner--info.banner--stroke {
-  @include banner-style($color-white, $color-neutral-950, $color-neutral-950, $blue-500);
+  @include banner-style($color-white, $color-neutral-900, $color-neutral-900, $blue-500);
   border: $color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }
 .banner--feature.banner--stroke {
-  @include banner-style($color-white, $color-neutral-950, $color-neutral-950, $color-neutral-950);
+  @include banner-style($color-white, $color-neutral-900, $color-neutral-900, $color-neutral-900);
   border: $color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }

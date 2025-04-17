@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, ButtonHTMLAttributes } from 'react';
+import { forwardRef, memo, ButtonHTMLAttributes } from 'react';
 import styles from './button.module.scss';
 import 'remixicon/fonts/remixicon.css';
 

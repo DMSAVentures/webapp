@@ -30,7 +30,7 @@
             }
             flex-grow: 1;
             //@extend .paragraph-small;
-            //color: $color-neutral-950;
+            //color: $color-neutral-900;
 
             &::placeholder {
                 color: var(--color-secondary);
@@ -62,16 +62,16 @@
 
         &:focus-within {
             box-shadow: 0 0 0 4px $color-neutral-alpha-16, 0 0 0 2px $color-white;
-            border: 1px solid $color-neutral-950;
+            border: 1px solid $color-neutral-900;
             outline: 1px solid $color-white;
-            color: $color-neutral-950;
+            color: $color-neutral-900;
 
             &:hover {
                 background-color: $color-neutral-50;
             }
 
             .text-input__input-container__icon {
-                color: $color-neutral-950;
+                color: $color-neutral-900;
             }
         }
 

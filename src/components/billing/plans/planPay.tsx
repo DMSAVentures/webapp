@@ -2,12 +2,15 @@
 
 import {Price} from "@/types/billing";
 import {Button} from "@/components/simpleui/Button/button";
-import {useRouter} from "@tanstack/react-router";
+import { useNavigate } from '@tanstack/react-router'
 
 export default function PlanToPay(props: Price) {
-    const router = useRouter();
+    const navigate = useNavigate();
     const handlePay = (price_id: string) => {
-        router.push(`/billing/pay?plan=${price_id}`)
+        navigate({
+            to: 'billing/pay',
+            search: { plan: price_id },
+        })
     }
     return (
         <div>

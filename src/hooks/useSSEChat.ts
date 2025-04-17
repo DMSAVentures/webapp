@@ -74,7 +74,7 @@ export function useSSEChat() {
                 }
 
                 assistantReply += data
-                setCurrentResponse((prev) => {return assistantReply})
+                setCurrentResponse(() => {return assistantReply})
             }
         }
     }

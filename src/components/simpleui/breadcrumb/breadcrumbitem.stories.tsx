@@ -1,6 +1,5 @@
-import BreadcrumbItem, {BreadcrumbItemProps} from "@/components/simpleui/breadcrumb/breadcrumbitem";
+import BreadcrumbItem from "@/components/simpleui/breadcrumb/breadcrumbitem";
 import {Meta, type StoryObj} from '@storybook/react';
-import { fn } from '@storybook/test';
 
 const meta: Meta = {
     title: 'SimpleUI/Breadcrumb Item',

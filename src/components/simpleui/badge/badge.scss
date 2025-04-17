@@ -75,7 +75,7 @@
 }
 
 .badge--gray.badge--light {
-  @include badge-style($color-neutral-200, $color-neutral-950);
+  @include badge-style($color-neutral-200, $color-neutral-900);
 }
 .badge--blue.badge--light {
   @include badge-style($blue-200, $blue-950);

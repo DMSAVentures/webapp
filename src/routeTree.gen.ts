@@ -15,9 +15,15 @@ import { Route as SigninImport } from './routes/signin'
 import { Route as MainImport } from './routes/main'
 import { Route as ImageGenerationImport } from './routes/image-generation'
 import { Route as ConversationImport } from './routes/conversation'
+import { Route as AccountImport } from './routes/account'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as BillingIndexImport } from './routes/billing/index'
 import { Route as OauthSignedinImport } from './routes/oauth/signedin'
+import { Route as BillingPlansImport } from './routes/billing/plans'
+import { Route as BillingPaymentmethodImport } from './routes/billing/payment_method'
+import { Route as BillingPaymentattemptImport } from './routes/billing/payment_attempt'
+import { Route as BillingPayImport } from './routes/billing/pay'
 
 // Create/Update Routes
 
@@ -45,6 +51,12 @@ const ConversationRoute = ConversationImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AccountRoute = AccountImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
@@ -57,9 +69,39 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const BillingIndexRoute = BillingIndexImport.update({
+  id: '/billing/',
+  path: '/billing/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const OauthSignedinRoute = OauthSignedinImport.update({
   id: '/oauth/signedin',
   path: '/oauth/signedin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BillingPlansRoute = BillingPlansImport.update({
+  id: '/billing/plans',
+  path: '/billing/plans',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BillingPaymentmethodRoute = BillingPaymentmethodImport.update({
+  id: '/billing/payment_method',
+  path: '/billing/payment_method',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BillingPaymentattemptRoute = BillingPaymentattemptImport.update({
+  id: '/billing/payment_attempt',
+  path: '/billing/payment_attempt',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BillingPayRoute = BillingPayImport.update({
+  id: '/billing/pay',
+  path: '/billing/pay',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -79,6 +121,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountImport
       parentRoute: typeof rootRoute
     }
     '/conversation': {
@@ -109,11 +158,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninImport
       parentRoute: typeof rootRoute
     }
+    '/billing/pay': {
+      id: '/billing/pay'
+      path: '/billing/pay'
+      fullPath: '/billing/pay'
+      preLoaderRoute: typeof BillingPayImport
+      parentRoute: typeof rootRoute
+    }
+    '/billing/payment_attempt': {
+      id: '/billing/payment_attempt'
+      path: '/billing/payment_attempt'
+      fullPath: '/billing/payment_attempt'
+      preLoaderRoute: typeof BillingPaymentattemptImport
+      parentRoute: typeof rootRoute
+    }
+    '/billing/payment_method': {
+      id: '/billing/payment_method'
+      path: '/billing/payment_method'
+      fullPath: '/billing/payment_method'
+      preLoaderRoute: typeof BillingPaymentmethodImport
+      parentRoute: typeof rootRoute
+    }
+    '/billing/plans': {
+      id: '/billing/plans'
+      path: '/billing/plans'
+      fullPath: '/billing/plans'
+      preLoaderRoute: typeof BillingPlansImport
+      parentRoute: typeof rootRoute
+    }
     '/oauth/signedin': {
       id: '/oauth/signedin'
       path: '/oauth/signedin'
       fullPath: '/oauth/signedin'
       preLoaderRoute: typeof OauthSignedinImport
+      parentRoute: typeof rootRoute
+    }
+    '/billing/': {
+      id: '/billing/'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof BillingIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -124,32 +208,50 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/conversation': typeof ConversationRoute
   '/image-generation': typeof ImageGenerationRoute
   '/main': typeof MainRoute
   '/signin': typeof SigninRoute
+  '/billing/pay': typeof BillingPayRoute
+  '/billing/payment_attempt': typeof BillingPaymentattemptRoute
+  '/billing/payment_method': typeof BillingPaymentmethodRoute
+  '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/billing': typeof BillingIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/conversation': typeof ConversationRoute
   '/image-generation': typeof ImageGenerationRoute
   '/main': typeof MainRoute
   '/signin': typeof SigninRoute
+  '/billing/pay': typeof BillingPayRoute
+  '/billing/payment_attempt': typeof BillingPaymentattemptRoute
+  '/billing/payment_method': typeof BillingPaymentmethodRoute
+  '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/billing': typeof BillingIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/conversation': typeof ConversationRoute
   '/image-generation': typeof ImageGenerationRoute
   '/main': typeof MainRoute
   '/signin': typeof SigninRoute
+  '/billing/pay': typeof BillingPayRoute
+  '/billing/payment_attempt': typeof BillingPaymentattemptRoute
+  '/billing/payment_method': typeof BillingPaymentmethodRoute
+  '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/billing/': typeof BillingIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -157,50 +259,80 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/account'
     | '/conversation'
     | '/image-generation'
     | '/main'
     | '/signin'
+    | '/billing/pay'
+    | '/billing/payment_attempt'
+    | '/billing/payment_method'
+    | '/billing/plans'
     | '/oauth/signedin'
+    | '/billing'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/account'
     | '/conversation'
     | '/image-generation'
     | '/main'
     | '/signin'
+    | '/billing/pay'
+    | '/billing/payment_attempt'
+    | '/billing/payment_method'
+    | '/billing/plans'
     | '/oauth/signedin'
+    | '/billing'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/account'
     | '/conversation'
     | '/image-generation'
     | '/main'
     | '/signin'
+    | '/billing/pay'
+    | '/billing/payment_attempt'
+    | '/billing/payment_method'
+    | '/billing/plans'
     | '/oauth/signedin'
+    | '/billing/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AccountRoute: typeof AccountRoute
   ConversationRoute: typeof ConversationRoute
   ImageGenerationRoute: typeof ImageGenerationRoute
   MainRoute: typeof MainRoute
   SigninRoute: typeof SigninRoute
+  BillingPayRoute: typeof BillingPayRoute
+  BillingPaymentattemptRoute: typeof BillingPaymentattemptRoute
+  BillingPaymentmethodRoute: typeof BillingPaymentmethodRoute
+  BillingPlansRoute: typeof BillingPlansRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
+  BillingIndexRoute: typeof BillingIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AccountRoute: AccountRoute,
   ConversationRoute: ConversationRoute,
   ImageGenerationRoute: ImageGenerationRoute,
   MainRoute: MainRoute,
   SigninRoute: SigninRoute,
+  BillingPayRoute: BillingPayRoute,
+  BillingPaymentattemptRoute: BillingPaymentattemptRoute,
+  BillingPaymentmethodRoute: BillingPaymentmethodRoute,
+  BillingPlansRoute: BillingPlansRoute,
   OauthSignedinRoute: OauthSignedinRoute,
+  BillingIndexRoute: BillingIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -215,11 +347,17 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/account",
         "/conversation",
         "/image-generation",
         "/main",
         "/signin",
-        "/oauth/signedin"
+        "/billing/pay",
+        "/billing/payment_attempt",
+        "/billing/payment_method",
+        "/billing/plans",
+        "/oauth/signedin",
+        "/billing/"
       ]
     },
     "/": {
@@ -227,6 +365,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/account": {
+      "filePath": "account.tsx"
     },
     "/conversation": {
       "filePath": "conversation.tsx"
@@ -240,8 +381,23 @@ export const routeTree = rootRoute
     "/signin": {
       "filePath": "signin.tsx"
     },
+    "/billing/pay": {
+      "filePath": "billing/pay.tsx"
+    },
+    "/billing/payment_attempt": {
+      "filePath": "billing/payment_attempt.tsx"
+    },
+    "/billing/payment_method": {
+      "filePath": "billing/payment_method.tsx"
+    },
+    "/billing/plans": {
+      "filePath": "billing/plans.tsx"
+    },
     "/oauth/signedin": {
       "filePath": "oauth/signedin.tsx"
+    },
+    "/billing/": {
+      "filePath": "billing/index.tsx"
     }
   }
 }

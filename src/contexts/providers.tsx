@@ -1,12 +1,11 @@
 'use client'
-
-import {AuthProvider} from "@/contexts/auth";
 import React from "react";
+import {SidebarProvider} from "@/contexts/sidebar.tsx";
 
 export function Providers({children} : { children: React.ReactNode }) {
     return (
-        <AuthProvider>
+        <SidebarProvider>
             {children}
-        </AuthProvider>
+        </SidebarProvider>
     );
 }

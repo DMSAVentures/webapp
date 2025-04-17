@@ -12,7 +12,7 @@ export const TabMenuVertical : React.FC<TabMenuVerticalProps> = (props) => {
         <div className={`tab-menu-vertical-sidebar tab-menu-vertical-sidebar--${props.variant}`}>
             <small className={'tab-menu-vertical-sidebar__title'}>{props.title}</small>
             <ul className={`tab-menu-vertical-sidebar__container`}>
-                {props.items.map((item, index) => {
+                {props.items.map((item) => {
                     return (
                             item
                     );
