@@ -1,5 +1,4 @@
-@import "src/globalstyles/colors.scss";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .breadcrumb-item {
   display: inline-flex;
@@ -8,7 +7,7 @@
   border: none;
   cursor: pointer;
   gap: $spacing-02;
-  color: $neutral-400;
+  color: $color-neutral-400;
   //@extend .label-small;
 
   &:hover .breadcrumb-item__text {
@@ -32,13 +31,13 @@
   }
 
   &--disabled {
-    color: $neutral-300;
+    color: $color-neutral-300;
     cursor: not-allowed;
     pointer-events: none;
   }
 
   &--active {
-    color: $neutral-900;
+    color: $color-neutral-900;
     cursor: not-allowed;
     pointer-events: none;
   }

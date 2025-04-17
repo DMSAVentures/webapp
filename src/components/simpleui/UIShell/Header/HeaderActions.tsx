@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
-import Link from "next/link";
+import {Link} from "@tanstack/react-router";
 
 export interface ActionItem {
     iconClass: string;
@@ -50,7 +50,7 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({ items }) => {
                 ) : (
 
                         <IconOnlyButton key={index} variant={'secondary'} iconClass={item.iconClass} ariaLabel={item.label}>
-                            <Link href={item.href!}/>
+                            <Link to={item.href!}/>
                         </IconOnlyButton>
                 )
             ))}

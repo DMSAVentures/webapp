@@ -1,11 +1,10 @@
-@import "src/globalstyles/v2/variables.scss";
-@import "src/globalstyles/colors.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-03;
-  color: $neutral-500;
+  color: $color-neutral-500;
 
   .breadcrumb__separator {
     //@extend .label-small;

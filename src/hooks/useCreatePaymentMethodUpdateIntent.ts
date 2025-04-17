@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 
 async function createPaymentMethodUpdateIntent(): Promise<PaymentMethodUpdateIntentResponse> {
-    const response = await fetcher<PaymentMethodUpdateIntentResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/payment-method-update-intent`, {
+    const response = await fetcher<PaymentMethodUpdateIntentResponse>(`${import.meta.env.VITE_API_URL}/api/protected/billing/payment-method-update-intent`, {
         method: 'POST',
     });
     return response;

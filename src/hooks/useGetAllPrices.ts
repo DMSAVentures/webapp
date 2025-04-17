@@ -19,7 +19,7 @@ export const useGetAllPrices = () => {
         setError(null);
 
         try {
-            const response = await fetcher<PriceResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/billing/plans`, {
+            const response = await fetcher<PriceResponse>(`${import.meta.env.VITE_API_URL}/api/billing/plans`, {
                 method: "GET",
                 signal,
             });

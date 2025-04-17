@@ -1,5 +1,4 @@
-@import "src/globalstyles/variables.scss";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .text-area {
     display: flex;
@@ -15,11 +14,11 @@
 
     textarea {
         resize: none;
-        border: 1px solid $neutral-100;
+        border: 1px solid $color-neutral-100;
         border-radius: $border-radius-medium;
         padding: $spacing-03 $spacing-03 $spacing-03 $spacing-05;
         //@extend .paragraph-small;
-        //color: $neutral-950;
+        //color: $color-neutral-900;
 
         &::placeholder {
             color: var(--color-muted);
@@ -28,12 +27,12 @@
 
         &:disabled {
             background-color: var(--color-secondary-bg);
-            //color: $neutral-300;
+            //color: $color-neutral-300;
             cursor: not-allowed;
 
             &:hover {
                 background-color: var(--color-secondary-bg);
-                //color: $neutral-300;
+                //color: $color-neutral-300;
                 cursor: not-allowed;
             }
         }
@@ -41,13 +40,13 @@
         &:hover {
             background-color: var(--color-secondary-bg);
             transition: background-color $duration-moderate-01 $easing-productive-entrance;
-            //color: $neutral-700;
+            //color: $color-neutral-700;
         }
 
         &:focus {
-            box-shadow: 0 0 0 4px $neutral-alpha-16, 0 0 0 2px $neutral-0;
-            border: 1px solid $neutral-950;
-            outline: 1px solid $neutral-0;
+            box-shadow: 0 0 0 4px $color-neutral-alpha-16, 0 0 0 2px $color-white;
+            border: 1px solid $color-neutral-900;
+            outline: 1px solid $color-white;
 
         }
     }

@@ -1,5 +1,5 @@
 @import "../../../globalstyles/colors";
-@import "src/globalstyles/v2/variables";
+@import "@/globalstyles/v2/variables";
 
 @mixin feedback-style($color, $text-color, $link-color, $icon-color) {
   background-color: $color;
@@ -99,76 +99,76 @@
 
 
 .feedback--error.feedback--filled {
-  @include feedback-style($red-500, $neutral-0, $neutral-0,$neutral-0);
+  @include feedback-style($red-500, $color-white, $color-white,$color-white);
 }
 .feedback--success.feedback--filled {
-  @include feedback-style($green-500, $neutral-0, $neutral-0, $neutral-0);
+  @include feedback-style($green-500, $color-white, $color-white, $color-white);
 }
 .feedback--warning.feedback--filled {
-  @include feedback-style($orange-500, $neutral-0, $neutral-0, $neutral-0);
+  @include feedback-style($orange-500, $color-white, $color-white, $color-white);
 }
 .feedback--info.feedback--filled {
-  @include feedback-style($blue-500, $neutral-0, $neutral-0, $neutral-0);
+  @include feedback-style($blue-500, $color-white, $color-white, $color-white);
 }
 .feedback--feature.feedback--filled {
-  @include feedback-style($neutral-500, $neutral-0, $neutral-0, $neutral-0);
+  @include feedback-style($color-neutral-500, $color-white, $color-white, $color-white);
 }
 
 .feedback--error.feedback--light {
-  @include feedback-style($red-200, $neutral-950, $neutral-950, $red-500);
+  @include feedback-style($red-200, $color-neutral-900, $color-neutral-900, $red-500);
 }
 .feedback--success.feedback--light {
-  @include feedback-style($green-200, $neutral-950, $neutral-950, $green-500);
+  @include feedback-style($green-200, $color-neutral-900, $color-neutral-900, $green-500);
 }
 .feedback--warning.feedback--light {
-  @include feedback-style($orange-200, $neutral-950, $neutral-950, $orange-500);
+  @include feedback-style($orange-200, $color-neutral-900, $color-neutral-900, $orange-500);
 }
 .feedback--info.feedback--light {
-  @include feedback-style($blue-200, $neutral-950, $neutral-950, $blue-500);
+  @include feedback-style($blue-200, $color-neutral-900, $color-neutral-900, $blue-500);
 }
 .feedback--feature.feedback--light {
-  @include feedback-style($neutral-200, $neutral-950, $neutral-950, $neutral-500);
+  @include feedback-style($color-neutral-200, $color-neutral-900, $color-neutral-900, $color-neutral-500);
 }
 
 .feedback--error.feedback--lighter{
-  @include feedback-style($red-50, $neutral-950, $neutral-950, $red-500);
+  @include feedback-style($red-50, $color-neutral-900, $color-neutral-900, $red-500);
 }
 .feedback--success.feedback--lighter{
-  @include feedback-style($green-50, $neutral-950, $neutral-950, $green-500);
+  @include feedback-style($green-50, $color-neutral-900, $color-neutral-900, $green-500);
 }
 .feedback--warning.feedback--lighter{
-  @include feedback-style($orange-50, $neutral-950, $neutral-950, $orange-500);
+  @include feedback-style($orange-50, $color-neutral-900, $color-neutral-900, $orange-500);
 }
 .feedback--info.feedback--lighter{
-  @include feedback-style($blue-50, $neutral-950, $neutral-950, $blue-500);
+  @include feedback-style($blue-50, $color-neutral-900, $color-neutral-900, $blue-500);
 }
 .feedback--feature.feedback--lighter{
-  @include feedback-style($neutral-50, $neutral-950, $neutral-950, $neutral-500);
+  @include feedback-style($color-neutral-50, $color-neutral-900, $color-neutral-900, $color-neutral-500);
 }
 
 .feedback--error.feedback--stroke {
-    @include feedback-style($neutral-0, $neutral-950, $neutral-950, $red-500);
+    @include feedback-style($color-white, $color-neutral-900, $color-neutral-900, $red-500);
 
-    border: 1px $neutral-200 solid;
+    border: 1px $color-neutral-200 solid;
 
 }
 .feedback--success.feedback--stroke {
-    @include feedback-style($neutral-0, $neutral-950, $neutral-950, $green-500);
+    @include feedback-style($color-white, $color-neutral-900, $color-neutral-900, $green-500);
 
-    border: 1px $neutral-200 solid;
+    border: 1px $color-neutral-200 solid;
 }
 .feedback--warning.feedback--stroke {
-    @include feedback-style($neutral-0, $neutral-950, $neutral-950, $orange-500);
+    @include feedback-style($color-white, $color-neutral-900, $color-neutral-900, $orange-500);
 
-    border: 1px $neutral-200 solid;
+    border: 1px $color-neutral-200 solid;
 }
 .feedback--info.feedback--stroke {
-  @include feedback-style($neutral-0, $neutral-950, $neutral-950, $blue-500);
+  @include feedback-style($color-white, $color-neutral-900, $color-neutral-900, $blue-500);
 
-  border: 1px $neutral-200 solid;
+  border: 1px $color-neutral-200 solid;
 }
 .feedback--feature.feedback--stroke {
-  @include feedback-style($neutral-0, $neutral-950, $neutral-950, $neutral-950);
+  @include feedback-style($color-white, $color-neutral-900, $color-neutral-900, $color-neutral-900);
 
-  border: 1px $neutral-200 solid;
+  border: 1px $color-neutral-200 solid;
 }

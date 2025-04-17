@@ -1,6 +1,5 @@
 import Label from "@/components/simpleui/label/label";
-import {Meta, StoryObj} from "@storybook/react";
-import {fn} from "@storybook/test";
+import {Meta, StoryObj} from "@storybook/react"
 
 const meta: Meta = {
     title: 'SimpleUI/Label',

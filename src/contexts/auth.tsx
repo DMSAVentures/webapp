@@ -1,6 +1,4 @@
-'use client'
-import React, {createContext, useState, useEffect, useMemo} from 'react';
-import {usePathname, useRouter} from "next/navigation";
+import React, {createContext, useMemo, useContext} from 'react';
 import {getUser} from "@/hooks/getUser";
 import {User} from "@/types/user";
 
@@ -15,37 +13,51 @@ const defaultAuthContext: AuthContextType = {
 // Create AuthContext
 export const AuthContext = createContext(defaultAuthContext);
 
-// AuthProvider component to provide the context
-export function AuthProvider(props: { children: React.ReactNode }){
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState<User>();
-    const [isAuthLoading, setIsAuthLoading] = useState(true);
-    const router = useRouter();
-    const pathname = usePathname();
-    useEffect(() => {
-        const authenticatedUser = async () => {
-            try {
-                const user = await getUser();
-                setIsLoggedIn(true);
-                setUser(user);
-            } catch (e) {
-                setIsLoggedIn(false);
-                if (pathname !== 'oauth/signedin') {
-                    router.push('/signin');
-                }
-            } finally {
-                setIsAuthLoading(false);
-            }
-        }
-        authenticatedUser();
-    }, [pathname, router]);
-    // Memoize the value object to avoid unnecessary rerenders
-    const value = useMemo(() => ({ isLoggedIn, user }), [isLoggedIn, user]);
+export const useAuth = () => useContext(AuthContext)
+
+// Determines if the current path is a public route (e.g., /signin, /oauth/*)
+function isPublicRoute(): boolean {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname;
     return (
-        <AuthContext.Provider value={value}>
-            {isAuthLoading ? <p>Loading...</p> : props.children}
-        </AuthContext.Provider>
+        path === '/signin' ||
+        path.startsWith('/oauth')
     );
 }
 
+/**
+ * Loads the authenticated user or redirects to /signin if not authenticated.
+ * Allows unauthenticated access to public routes (e.g., /signin, /oauth/*).
+ */
+export async function loadAuth(): Promise<User | null> {
+    try {
+        const user = await getUser();
+        return user;
+    } catch {
+        if (!isPublicRoute()) {
+            window.location.replace('/signin');
+            return new Promise<never>(() => {}); // app will pause until redirect
+        }
+        return null;
+    }
+}
 
+
+export function AuthProvider({
+                                 children,
+                                 user,
+                             }: {
+    children: React.ReactNode
+    user: User | null
+}) {
+    const value = useMemo<AuthContextType>(() => ({
+        isLoggedIn: !!user,
+        user: user ?? undefined,
+    }), [user])
+
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+        </AuthContext.Provider>
+    )
+}

@@ -3,7 +3,7 @@ import {CustomerPortalResponse} from "@/types/billing";
 import {useEffect, useState} from "react";
 
 async function createCustomerPortal() : Promise<CustomerPortalResponse> {
-    const resp = await fetcher<CustomerPortalResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/create-customer-portal`, {
+    const resp = await fetcher<CustomerPortalResponse>(`${import.meta.env.VITE_API_URL}/api/protected/billing/create-customer-portal`, {
         method: 'POST',
     })
 

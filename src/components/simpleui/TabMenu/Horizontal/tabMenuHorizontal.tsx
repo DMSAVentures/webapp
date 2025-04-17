@@ -8,7 +8,7 @@ interface TabMenuHorizontalProps {
     onTabClick: (index: number) => void;
 }
 export const TabMenuHorizontal: React.FC<TabMenuHorizontalProps> = (props) => {
-    const { items, onTabClick } = props;
+    const { onTabClick } = props;
     const handleTabClick = useCallback((index: number) => {
         onTabClick(index);
     }, [onTabClick]);

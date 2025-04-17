@@ -1,5 +1,4 @@
-@import "src/globalstyles/colors";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 @mixin status-badge-style($color, $text-color, $icon-color) {
   background-color: $color;
@@ -22,7 +21,7 @@
 }
 
 .status-badge--disabled.status-badge--light {
-  @include status-badge-style($neutral-50, $neutral-500, $neutral-500);
+  @include status-badge-style($color-neutral-50, $color-neutral-500, $color-neutral-500);
 }
 
 .status-badge--completed.status-badge--light {
@@ -36,18 +35,18 @@
 }
 
 .status-badge--disabled.status-badge--stroke {
-  @include status-badge-style($neutral-0, $neutral-600, $neutral-500);
-  border: 1px solid $neutral-200;
+  @include status-badge-style($color-white, $color-neutral-600, $color-neutral-500);
+  border: 1px solid $color-neutral-200;
 }
 .status-badge--completed.status-badge--stroke {
-  @include status-badge-style($neutral-0,$neutral-600, $green-500);
-  border: 1px solid $neutral-200;
+  @include status-badge-style($color-white,$color-neutral-600, $green-500);
+  border: 1px solid $color-neutral-200;
 }
 .status-badge--failed.status-badge--stroke {
-  @include status-badge-style($neutral-0,$neutral-600, $red-500);
-  border: 1px solid $neutral-200;
+  @include status-badge-style($color-white,$color-neutral-600, $red-500);
+  border: 1px solid $color-neutral-200;
 }
 .status-badge--pending.status-badge--stroke {
-  @include status-badge-style($neutral-0,$neutral-600, $orange-500);
-  border: 1px solid $neutral-200;
+  @include status-badge-style($color-white,$color-neutral-600, $orange-500);
+  border: 1px solid $color-neutral-200;
 }

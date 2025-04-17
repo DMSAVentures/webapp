@@ -3,7 +3,7 @@ import {ApiError, fetcher} from "@/hooks/fetcher";
 import {useCallback, useEffect, useState} from "react";
 
  async function getCurrentSubscription(): Promise<GetCurrentSubscriptionResponse> {
-    const response = await fetcher<GetCurrentSubscriptionResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/billing/subscription`, {
+    const response = await fetcher<GetCurrentSubscriptionResponse>(`${import.meta.env.VITE_API_URL}/api/protected/billing/subscription`, {
         method: "GET",
     });
     // Convert date strings to native Date objects

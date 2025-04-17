@@ -1,6 +1,5 @@
 import ContentDivider    from "@/components/simpleui/contentdivider/contentdivider";
 import {Meta, StoryObj} from '@storybook/react';
-import { fn } from '@storybook/test';
 import ButtonGroup, {ButtonItemProps} from "@/components/simpleui/buttongroup/buttongroup";
 
 const meta: Meta = {

@@ -1,33 +1,13 @@
-@import "src/globalstyles/v2/variables";
+@import "@/globalstyles/v2/variables";
 
 .sidebar {
     background-color: var(--color-bg);
-    z-index: 30;
-    padding: $spacing-03 0 $spacing-03 0;
-    width: $spacing-12 * 3;
+    padding: $spacing-03 $spacing-05 $spacing-03 $spacing-05;
     border-right: 1px solid var(--color-border);
-    //flex-shrink: 0;
-    //flex-grow: 0;
-    //position: relative;
+    flex: 1 0 $spacing-12 * 3;
     transition: transform 0.4s ease-in-out, transform 0.4s ease-in-out;
-
-    @media (min-width: $breakpoint-lg) {
-        max-width: $spacing-12 * 3;
-        transform: translateX(0);
-        padding: $spacing-03 $spacing-05;
-    }
-
-    // When sidebar is open, slide in
-    &--open {
-        padding: $spacing-03 $spacing-05 $spacing-03 $spacing-05;
-        max-width: $spacing-12 * 3;
-        transform: translateX(0);
-    }
-
     /* When sidebar is collapsed */
     &--collapsed {
         transform: translateX(-100%);
-        position: absolute;
-
     }
 }

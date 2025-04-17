@@ -34,7 +34,7 @@ export function useSSEChat() {
             body =  { message: input }
         }
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/ai/conversation`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/protected/ai/conversation`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export function useSSEChat() {
                 }
 
                 assistantReply += data
-                setCurrentResponse((prev) => {return assistantReply})
+                setCurrentResponse(() => {return assistantReply})
             }
         }
     }

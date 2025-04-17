@@ -34,7 +34,7 @@ export const useSubmitLogin = (): SubmitLoginOperation => {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login/email`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login/email`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

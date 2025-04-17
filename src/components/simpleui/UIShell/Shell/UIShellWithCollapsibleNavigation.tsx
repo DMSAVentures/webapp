@@ -3,7 +3,6 @@ import './shell.scss';
 import Header from "@/components/simpleui/UIShell/Header/Header";
 import React, {ReactElement, ReactNode} from "react";
 import {SidebarContent} from "@/components/simpleui/UIShell/Sidebar/sidebarContent";
-import {Column} from "@/components/simpleui/UIShell/Column/Column";
 import {SidebarCollapsible} from "@/components/simpleui/UIShell/Sidebar/SidebarCollapsible";
 
 interface UIShellWithCollapsibleNavigationProps {

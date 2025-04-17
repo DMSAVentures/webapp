@@ -1,8 +1,7 @@
-import React, {MouseEvent, useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState} from "react";
 import styles from './dropdown.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import DropdownOption, {DropdownOptionProps} from "@/components/simpleui/dropdown/option";
-import HintText from "@/components/simpleui/hinttext/hinttext";
 
 
 interface DropdownProps {
@@ -58,8 +57,8 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         ${isOpen ? styles['dropdown__select-container--open'] : ''} 
         ${props.disabled ? styles['dropdown__select-container--disabled'] : ''} 
         ${props.error ? styles['dropdown__select-container--error'] : ''}`.trim();
-    
-    const hintClass = props.error 
+
+    const hintClass = props.error
         ? `${styles['dropdown__hint']} ${styles['dropdown__hint--error']}`
         : `${styles['dropdown__hint']} ${isOpen ? styles['dropdown__hint--hide'] : ''}`;
 
@@ -71,8 +70,8 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                 {props.tooltip && <i className={`${styles['dropdown__tooltip']} ri-information-line`}/>}
             </div>
             <div className={selectContainerClass}>
-                <div 
-                    className={styles['dropdown__select']} 
+                <div
+                    className={styles['dropdown__select']}
                     onClick={toggleOpen}
                     role="combobox"
                     aria-expanded={isOpen}
@@ -85,28 +84,28 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                     <div className={styles['dropdown__select__text']}>
                         {selectedOption ? selectedOption.label : props.placeholderText}
                     </div>
-                    {isOpen ? 
+                    {isOpen ?
                         <i className={`${styles['dropdown__icon']} ri-arrow-up-s-line`}/> :
                         <i className={`${styles['dropdown__icon']} ri-arrow-down-s-line`}/>
                     }
                 </div>
                 {isOpen && (
-                    <div 
+                    <div
                         className={styles['dropdown__options-container']}
                         role="listbox"
                         id="dropdown-options"
                     >
                         {props.options.map((option) => (
-                            <DropdownOption 
-                                key={option.value} 
-                                label={option.label} 
-                                value={option.value} 
-                                onClick={handleOptionClick} 
-                                size={'small'} 
-                                description={option.description} 
-                                disabled={option.disabled} 
-                                sublabel={option.sublabel} 
-                                icon={option.icon} 
+                            <DropdownOption
+                                key={option.value}
+                                label={option.label}
+                                value={option.value}
+                                onClick={handleOptionClick}
+                                size={'small'}
+                                description={option.description}
+                                disabled={option.disabled}
+                                sublabel={option.sublabel}
+                                icon={option.icon}
                                 imgSrc={option.imgSrc}
                             />
                         ))}

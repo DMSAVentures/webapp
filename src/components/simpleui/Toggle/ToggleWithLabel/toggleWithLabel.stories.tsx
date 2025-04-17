@@ -1,6 +1,6 @@
 import {ToggleWithLabel} from "@/components/simpleui/Toggle/ToggleWithLabel/toggleWithLabel";
 import {Meta, StoryObj} from "@storybook/react";
-import React, {useState} from "react";
+import {useState} from "react";
 
 const meta: Meta = {
     title: 'SimpleUI/Toggle/ToggleWithLabel',

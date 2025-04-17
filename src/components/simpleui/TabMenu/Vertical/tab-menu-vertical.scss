@@ -1,5 +1,4 @@
-@import "src/globalstyles/colors.scss";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .tab-menu-vertical-sidebar {
     display: flex;
@@ -11,20 +10,20 @@
 
     &--card {
         border-radius: $border-radius-large;
-        border: 1px solid $neutral-200;
+        border: 1px solid $color-neutral-200;
         //@extend .shadow-sm;
     }
 
     &__title {
         //@extend .subheading-x-small;
-        color: $neutral-400;
+        color: $color-neutral-400;
         text-transform: uppercase;
         padding:  $spacing-03 $spacing-05;
     }
 
     &__footer {
         //@extend .paragraph-x-small;
-        color: $neutral-400;
+        color: $color-neutral-400;
         text-align: center;
     }
 
@@ -33,7 +32,7 @@
         flex:1;
         flex-direction: column;
         //gap: $spacing-02;
-        color: $neutral-500;
+        color: $color-neutral-500;
         align-content: center;
         padding-left: 0;
 

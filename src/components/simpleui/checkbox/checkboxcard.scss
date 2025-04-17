@@ -1,4 +1,4 @@
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .checkbox-card__container {
     display: flex;
@@ -9,7 +9,7 @@
 
 
     &:hover {
-        //background-color: $neutral-50;
+        //background-color: $color-neutral-50;
         border: 1px solid var(--color-primary);
         transition: border $duration-slow-02 $easing-productive-entrance;
     }

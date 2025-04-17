@@ -1,6 +1,6 @@
 import FileUploadArea from "@/components/simpleui/fileupload/fileuploadarea";
 import { Meta, StoryObj } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+// import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof FileUploadArea> = {
     title: 'SimpleUI/FileUploadArea',
@@ -23,6 +23,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
-        onFileUpload: action('fileUploaded'), // Use `action` to create a mock function for `onFileUpload`
+        onFileUpload: ('fileUploaded'), // Use `action` to create a mock function for `onFileUpload`
     },
 };

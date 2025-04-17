@@ -1,6 +1,5 @@
 import React from "react";
 import styles from './option.module.scss';
-import Image from 'next/image';
 
 export interface DropdownOptionProps {
     value: string;
@@ -39,9 +38,9 @@ const DropdownOption: React.FC<DropdownOptionProps> = (props) => {
             tabIndex={props.disabled ? -1 : 0}
         >
             {props.imgSrc && (
-                <Image 
-                    src={props.imgSrc} 
-                    alt={props.label} 
+                <img
+                    src={props.imgSrc}
+                    alt={props.label}
                     width={24}
                     height={24}
                     className={`${styles['dropdown-option__img']} ${styles[`dropdown-option__img--${props.size}`]}`}

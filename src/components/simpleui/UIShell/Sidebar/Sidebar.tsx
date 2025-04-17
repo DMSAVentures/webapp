@@ -13,8 +13,8 @@ export interface SidebarProps {
     children?: React.ReactNode;
 }
 
-export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps) => {
-    const { isOpen, isMobile, toggleSidebar } = useSidebar();
+export const Sidebar: React.FC<SidebarProps> = () => {
+    const { isOpen, isMobile } = useSidebar();
 
     const sidebarClassName = `sidebar ${!isOpen ? "sidebar--collapsed" : ''} ${isMobile && isOpen ? "sidebar--open" : ''}`;
 

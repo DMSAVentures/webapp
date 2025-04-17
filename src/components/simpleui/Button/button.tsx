@@ -1,7 +1,6 @@
-import React, { forwardRef, memo, ButtonHTMLAttributes } from 'react';
+import { forwardRef, memo, ButtonHTMLAttributes } from 'react';
 import styles from './button.module.scss';
 import 'remixicon/fonts/remixicon.css';
-import Link from "next/link";
 
 // Define the possible variants for the button
 type ButtonVariant = 'primary' | 'secondary';
@@ -130,8 +129,9 @@ export const SignInButton = memo(forwardRef<HTMLAnchorElement, SignInButtonProps
         ].filter(Boolean).join(' ');
 
         return (
-            <Link href={href} passHref legacyBehavior>
+
                 <a
+                    href={href}
                     ref={ref}
                     className={classNames}
                     style={{ textDecoration: 'none' }}
@@ -143,7 +143,6 @@ export const SignInButton = memo(forwardRef<HTMLAnchorElement, SignInButtonProps
                     )}
                     <span className={styles.text}>{children}</span>
                 </a>
-            </Link>
         );
     }
 ));

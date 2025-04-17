@@ -1,5 +1,4 @@
-@import "src/globalstyles/colors.scss";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 
 
@@ -95,7 +94,7 @@
         border: 1px solid var(--color-border);
         background: var(--color-bg);
         //@extend .label-small;
-        //color: $neutral-600;
+        //color: $color-neutral-600;
 
         &:hover, &--active {
             background: var(--color-hover-secondary);
@@ -103,7 +102,7 @@
         }
 
         &:disabled {
-            //background: $neutral-0;
+            //background: $color-white;
             color: var(--color-muted);
             cursor: not-allowed;
         }

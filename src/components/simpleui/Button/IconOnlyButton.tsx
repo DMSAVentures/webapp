@@ -1,7 +1,6 @@
-import React, { FC, ButtonHTMLAttributes, KeyboardEvent } from 'react';
+import { FC, ButtonHTMLAttributes, KeyboardEvent } from 'react';
 import styles from './iconOnlyButton.module.scss';
 import 'remixicon/fonts/remixicon.css';
-import { motion } from 'motion/react'
 
 type IconOnlyButtonVariant = 'primary' | 'secondary';
 
@@ -39,7 +38,7 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
         // Trigger click on Enter or Space key press
         if (!disabled && (event.key === 'Enter' || event.key === ' ')) {
             event.preventDefault(); // Prevent page scroll on space
-            onClick?.(event as any);
+            onClick?.(event as never);
         }
 
         // Call the original onKeyDown handler if provided
@@ -59,13 +58,7 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
             tabIndex={disabled ? -1 : 0}  // Remove from tab order when disabled
             role="button" // Explicitly define role for clarity
         >
-            <motion.div
-                key={iconClass}
-                animate={{rotate: 180 }}
-                transition={{duration: 0.3, ease: "easeInOut"}}
-            >
                 <i className={`ri-${iconClass}`} aria-hidden="true"></i>
-            </motion.div>
         </button>
 );
 };

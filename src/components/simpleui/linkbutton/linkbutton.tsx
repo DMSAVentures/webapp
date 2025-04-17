@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, KeyboardEvent, forwardRef } from 'react';
+import { ButtonHTMLAttributes, KeyboardEvent, forwardRef } from 'react';
 import styles from './linkbutton.module.scss';
 import "remixicon/fonts/remixicon.css";
 
@@ -54,7 +54,7 @@ const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(({
     // Handle keyboard events for accessibility
     const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
         if (disabled) return;
-        
+
         // Trigger click on Enter or Space key press
         if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();

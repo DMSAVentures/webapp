@@ -1,55 +1,47 @@
-# Use an official Node.js image as a base image
-FROM node:22-alpine AS builder
+# Build Stage
+FROM node:23-slim AS builder
 
+# Build-time env vars for Vite
+ARG VITE_PUBLIC_GOOGLE_CLIENT_ID
+ARG VITE_PUBLIC_GOOGLE_REDIRECT_URL
+ARG VITE_PUBLIC_API_URL
+ARG VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
-# Accept build arguments for environment variables
-ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID
-ARG NEXT_PUBLIC_GOOGLE_REDIRECT_URL
-ARG NEXT_PUBLIC_API_URL
-ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
 COPY package.json package-lock.json ./
 
+RUN apt-get update && apt-get install -y python3 g++ make
+
+RUN npm install npm
+RUN npm i @rollup/rollup-linux-x64-gnu --save-optional
 # Install dependencies
 RUN npm ci
 
-# Copy the rest of your Next.js app into the container
+# Copy full app source
 COPY . .
 
-# Set environment variables at build time
-ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID=${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-ENV NEXT_PUBLIC_GOOGLE_REDIRECT_URL=${NEXT_PUBLIC_GOOGLE_REDIRECT_URL}
-ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+# Build the Vite app
+ENV VITE_PUBLIC_GOOGLE_CLIENT_ID=${VITE_PUBLIC_GOOGLE_CLIENT_ID}
+ENV VITE_PUBLIC_GOOGLE_REDIRECT_URL=${VITE_PUBLIC_GOOGLE_REDIRECT_URL}
+ENV VITE_PUBLIC_API_URL=${VITE_PUBLIC_API_URL}
+ENV VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY=${VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+ENV ROLLUP_FORCE_JS=true
 
-
-# Build the Next.js app
 RUN npm run build
 
-# Use a lightweight image for the final container
-FROM node:22-alpine AS runner
+# Serve Stage (use "serve" package to serve static files)
+FROM node:23-slim AS runner
 
-# Install curl
-RUN apk --no-cache add curl
+# Install a static file server
+RUN npm install -g serve
 
-# Set the working directory in the container
 WORKDIR /app
 
 # Copy the built app from the builder stage
-COPY --from=builder /app/.next ./.next
-COPY package.json package-lock.json ./
+COPY --from=builder /app/dist ./dist
 
-# Install production-only dependencies
-RUN npm ci --only=production
-
-# Set environment variables for Next.js
-ENV NODE_ENV production
-
-# Expose the port your Next.js app runs on
 EXPOSE 3000
 
-# Command to start the Next.js app
-CMD ["npm", "run", "start"]
+# Start the static server
+CMD ["serve", "-s", "dist", "-l", "3000"]

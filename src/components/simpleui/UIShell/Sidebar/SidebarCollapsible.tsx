@@ -7,7 +7,7 @@ export interface SidebarProps {
     onClose?: () => void;
 }
 
-export const SidebarCollapsible: React.FC<SidebarProps> = ({ isOpen, children, onClose }) => {
+export const SidebarCollapsible: React.FC<SidebarProps> = ({ isOpen, children }) => {
     return (
         <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
             {children}

@@ -1,5 +1,4 @@
-//@import "src/globalstyles/variables.scss";
-@import "src/globalstyles/v2/variables.scss";
+@import "@/globalstyles/v2/variables.scss";
 
 .dropdown-menu {
     display: flex;
@@ -26,7 +25,7 @@
             //font-size: 14px;
             //width: 20px;
             //height: 20px;
-            //color: $neutral-600;
+            //color: $color-neutral-600;
             flex-shrink: 0;
         }
 

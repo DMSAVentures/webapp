@@ -29,7 +29,7 @@ export function useSSEImageGen() {
             ? { message: input, conversation_id: conversationID }
             : { message: input };
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/protected/ai/image/generate`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/protected/ai/image/generate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
