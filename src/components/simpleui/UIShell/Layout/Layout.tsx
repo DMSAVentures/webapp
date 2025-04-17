@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import 'remixicon/fonts/remixicon.css';
 
@@ -9,6 +8,7 @@ import {Sidebar} from "@/components/simpleui/UIShell/Sidebar/Sidebar";
 import Breadcrumb from "@/components/simpleui/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/components/simpleui/breadcrumb/breadcrumbitem";
 import { useRouter } from '@tanstack/react-router'
+import { motion } from "motion/react"
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -39,20 +39,22 @@ const Header = () => {
     );
 }
 
-// Inner component to access the sidebar context
 const LayoutContent = ({ children, title = "Dashboard" }: LayoutProps) => {
     return (
-        <div className={styles.container}>
+        <motion.div
+            className={styles.container}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+        >
             <Sidebar />
             <main className={styles.content}>
                 <Header/>
-
-
                 <div className={styles.scrollArea}>
                     {children}
                 </div>
             </main>
-        </div>
+        </motion.div>
     );
 };
 

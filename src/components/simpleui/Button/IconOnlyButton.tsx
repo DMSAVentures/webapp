@@ -59,13 +59,7 @@ export const IconOnlyButton: FC<IconOnlyButtonProps> = ({
             tabIndex={disabled ? -1 : 0}  // Remove from tab order when disabled
             role="button" // Explicitly define role for clarity
         >
-            <motion.div
-                key={iconClass}
-                animate={{rotate: 180 }}
-                transition={{duration: 0.3, ease: "easeInOut"}}
-            >
                 <i className={`ri-${iconClass}`} aria-hidden="true"></i>
-            </motion.div>
         </button>
 );
 };
