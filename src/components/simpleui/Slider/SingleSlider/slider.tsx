@@ -1,6 +1,6 @@
 import React, {useId} from "react";
 import Label from "@/components/simpleui/label/label";
-import './slider.scss';
+import styles from './slider.module.scss';
 interface SliderProps extends React.InputHTMLAttributes<HTMLInputElement> {
     min: number;
     max: number;
@@ -20,14 +20,14 @@ const Slider = (props: SliderProps) => {
     }
 
     return (
-        <div className={`slider`}>
-            <div className={'slider__label'}>
+        <div className={styles[`slider`]}>
+            <div className={styles['slider__label']}>
                 <Label text={props.label} required={!props.optional}/>
                 <Label text={value.toString()}/>
             </div>
             <input
                 id={Id}
-                className={`slider__input`}
+                className={styles['slider__input']}
                 type="range"
                 {...props}
                 min={props.min}

@@ -1,6 +1,6 @@
 import React, {useId} from "react";
 import Label from "@/components/simpleui/label/label";
-import './rangeslider.scss';
+import  styles  from './rangeslider.module.scss';
 interface RangeSliderProps extends React.InputHTMLAttributes<HTMLInputElement> {
     min: number;
     max: number;
@@ -39,16 +39,16 @@ const RangeSlider = (props: RangeSliderProps) => {
 
     return (
         <>
-        <div className={`rangeslider`}>
-            <div className={'rangeslider__label'}>
+        <div className={styles['rangeslider']}>
+            <div className={styles['rangeslider__label']}>
                 <Label text={props.label} required={!props.optional}/>
                 <Label text={`${minValue.toString()} - ${maxValue.toString()}`}/>
             </div>
-            <div className={'rangeslider__container'}>
-                <div className={'rangeslider__range'} style={{left: `${minValue}%`, right: `${100 - (maxValue/props.max) * 100}%`}}></div>
+            <div className={styles['rangeslider__container']}>
+                <div className={styles['rangeslider__range']} style={{left: `${minValue}%`, right: `${100 - (maxValue/props.max) * 100}%`}}></div>
                 <input
                     id={minId}
-                    className={`rangeslider__input rangeslider__input--min`}
+                    className={`${styles['rangeslider__input']} ${styles['rangeslider__input--min']}`}
                     type="range"
                     {...props}
                     min={props.min}
@@ -59,7 +59,7 @@ const RangeSlider = (props: RangeSliderProps) => {
                 />
                 <input
                     id={maxId}
-                    className={`rangeslider__input rangeslider__input--max`}
+                    className={`${styles['rangeslider__input']} ${styles['rangeslider__input--max']}`}
                     type="range"
                     {...props}
                     min={props.min}
