@@ -33,6 +33,7 @@ RUN npm run build
 # Serve Stage (use "serve" package to serve static files)
 FROM node:23-slim AS runner
 
+RUN apt-get update && apt-get install -y curl
 # Install a static file server
 RUN npm install -g serve
 
