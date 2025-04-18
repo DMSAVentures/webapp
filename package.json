@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@storybook/react": "^8.6.12",
-    "@storybook/test": "^8.6.12",
     "@stripe/react-stripe-js": "^3.6.0",
     "@stripe/stripe-js": "^7.1.0",
     "@tanstack/react-router": "^1.116.0",
@@ -21,10 +19,12 @@
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "remixicon": "^4.6.0",
-    "storybook": "^8.6.12"
+    "remixicon": "^4.6.0"
   },
   "devDependencies": {
+    "storybook": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/test": "^8.6.12",
     "@eslint/js": "^9.22.0",
     "@tanstack/router-plugin": "^1.116.1",
     "@types/node": "^22.14.1",
