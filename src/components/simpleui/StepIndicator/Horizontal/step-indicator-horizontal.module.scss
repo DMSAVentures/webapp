@@ -4,7 +4,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-03;
-  color: var(--color-muted);
+  color: var(--color-text-primary-default);
 
   .step-indicator-horizontal__separator {
     padding-left: $spacing-03;

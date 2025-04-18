@@ -1,5 +1,5 @@
 import React from 'react';
-import './step-indicator-horizontal-item.scss';
+import styles from './step-indicator-horizontal-item.module.scss';
 import 'remixicon/fonts/remixicon.css';
 
 export interface StepIndicatorHorizontalItemProps {
@@ -12,20 +12,20 @@ type StepIndicatorHorizontalItemIconProps = Omit<StepIndicatorHorizontalItemProp
 
 const StepIndicatorHorizontalItemIcon: React.FC<StepIndicatorHorizontalItemIconProps> = (props) => {
     if (props.state === 'completed') {
-        return <i className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--completed ri-check-line"/>
+        return <i className={`ri-check-line ${styles["step-indicator-horizontal-item__icon"]} ${styles['step-indicator-horizontal-item__icon--completed']}`}/>;
     } else if (props.state === 'active') {
-        return <small className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--active">{props.idx}</small>
+        return <small className={`${styles["step-indicator-horizontal-item__icon"]} ${styles['step-indicator-horizontal-item__icon--active']}`}>{props.idx}</small>;
     }
-    return <small className="step-indicator-horizontal-item__icon step-indicator-horizontal-item__icon--default">{props.idx}</small>
+    return <small className={`${styles["step-indicator-horizontal-item__icon"]} ${styles['step-indicator-horizontal-item__icon--default']}`}>{props.idx}</small>;
 }
 
 
 const StepIndicatorHorizontalItem: React.FC<StepIndicatorHorizontalItemProps> = (props) => {
     const { state } = props;
     return (
-        <div className={`step-indicator-horizontal-item step-indicator-horizontal-item--${state}`}>
+        <div className={`${styles["step-indicator-horizontal-item"]} ${styles[`step-indicator-horizontal-item--${state}`]}`}>
             <StepIndicatorHorizontalItemIcon {...props} />
-            { 'text' in props && <span className={'step-indicator-horizontal-item__text'}>{props.text}</span> }
+            { 'text' in props && <span className={styles['step-indicator-horizontal-item__text']}>{props.text}</span> }
         </div>
     );
 }

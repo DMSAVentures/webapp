@@ -6,10 +6,10 @@
   justify-content: center;
   border: none;
   gap: $spacing-03;
+  color: var(--color-text-disabled-default);
 
   &--active, &--completed {
-    //color: $color-neutral-600;
-    color: var(--color-text);
+    color: var(--color-text-primary-default);
   }
 
   .step-indicator-horizontal-item__icon {
@@ -19,19 +19,19 @@
     vertical-align: center;
     text-align: center;
     border-radius: $border-radius-large;
-
+    line-height: $spacing-03;
     &--completed {
-      color: $color-white;
+      color: var(--color-text-inverse-default);
       background-color: $green-500;
       line-height: $spacing-05; // aligns icon vertically in the circle
     }
     &--active {
-      color: $color-white;
+        color: var(--color-text-inverse-default);
         background-color: $blue-500;
     }
 
     &--default {
-      border: 1px solid $color-neutral-300;
+      border: 1px solid var(--color-border-primary-default);
     }
   }
 }

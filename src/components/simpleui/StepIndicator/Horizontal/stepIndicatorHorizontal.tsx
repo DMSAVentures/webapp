@@ -1,5 +1,5 @@
 import React from 'react';
-import './step-indicator-horizontal.scss';
+import styles from './step-indicator-horizontal.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import type {StepIndicatorHorizontalItemProps}  from "@/components/simpleui/StepIndicator/Horizontal/stepIndicatorItem";
 
@@ -9,12 +9,12 @@ interface StepIndicatorHorizontalProps {
 
 const StepIndicatorHorizontal: React.FC<StepIndicatorHorizontalProps> = (props) => {
     return (
-        <div className={`step-indicator-horizontal`}>
+        <div className={styles["step-indicator-horizontal"]}>
             {props.items.map((item, index) => {
                 return (
-                    <span className={'step-indicator-horizontal__item'} key={index}>
+                    <span className={styles["step-indicator-horizontal__item"]} key={index}>
                         {item}
-                        {index < props.items.length - 1 && <i className={'step-indicator-horizontal__separator ri-arrow-right-s-line'}/>}
+                        {index < props.items.length - 1 && <i className={`ri-arrow-right-s-line ${styles["step-indicator-horizontal__separator"]}`}/>}
                     </span>
                 );
             })}
