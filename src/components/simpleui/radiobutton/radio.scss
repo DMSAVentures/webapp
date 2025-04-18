@@ -5,9 +5,9 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: $spacing-01;
-    height: $spacing-01;
-    border: 1px solid var(--color-primary); // Thicker border
+    width: $spacing-06;
+    height: $spacing-06;
+    border: 2px solid black;
     border-radius: $border-radius-round;
     outline: none;
     cursor: pointer;
@@ -15,13 +15,16 @@
 
     // Style for the selected state
     &:checked {
-        background-color: var(--color-bg); // Selected color
+        background-color: var(--color-bg-tertiary-default); // Selected background color
         // Inner circle to indicate selection
         &::before {
             content: '';
-            width: $spacing-03;
-            height: $spacing-03;
-            background-color: black;
+            width: $spacing-04;
+            height: $spacing-04;
+            //border: 1px solid blue;
+            //background-color: blue;
+            background-color: var(--color-bg-primary-default); // Inner circle color
+            //border: 1px solid var(--color-border-primary-default); // Inner circle border color
             border-radius: 50%;
             position: absolute;
             top: 50%;
@@ -32,17 +35,21 @@
 
     // Style for the hover state
     &:hover {
-        border-color: var(--color-hover-primary); // Hover color
+        border-color: var(--color-border-primary-default); // Hover color
     }
 
     // Style for the focus state
     &:focus {
-        border-color: var(--color-focus-primary); // Focus color
+        border-color: var(--color-border-focus-default); // Focus color
     }
 
     // Style for the disabled state
     &:disabled {
-        border-color: var(--color-muted); // Disabled color
+        //border: 1px solid brown;
+        background-color: var(--color-bg-primary-disabled); // Disabled background color
         cursor: not-allowed;
+        &:hover {
+            border-color: var(--color-border-primary-default); // Hover color
+        }
     }
 }

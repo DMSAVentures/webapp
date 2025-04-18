@@ -10,19 +10,20 @@
     &.label__container--disabled {
         .label__string,
         .label__sublabel__string {
-            color: var(--color-secondary);
+            color: var(--color-text-disabled-default);
         }
     }
 
     .label__string {
         //@extend .paragraph-small;
         //color: $color-neutral-900;
+        color: var(--color-text-primary-default);
     }
 
     .label__sublabel__string {
         //@extend .paragraph-x-small;
         //color: $color-neutral-600;
-        color: var(--color-secondary);
+        color: var(--color-text-secondary-default);
 
     }
 

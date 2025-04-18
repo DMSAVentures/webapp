@@ -17,7 +17,7 @@
     .content-label__image {
         width: $spacing-08;
         height:  $spacing-08;
-        border-radius: $radius-full;
+        border-radius: $border-radius-round;
     }
 
     .content-label__text {
@@ -37,7 +37,7 @@
             white-space: normal; // Allow text to wrap normally
 
             &--disabled {
-                color: var(--color-muted);
+                color: var(--color-text-disabled-default);
             }
         }
 
@@ -46,7 +46,5 @@
         }
 
     }
-
-
 
 }

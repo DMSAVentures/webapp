@@ -16,7 +16,7 @@
 
     &--disabled {
         .radio-labeled__sublabel__string, .radio-labeled__description__string {
-            color: var(--color-secondary)
+            color: var(--color-text-disabled-default);
         }
     }
 }
