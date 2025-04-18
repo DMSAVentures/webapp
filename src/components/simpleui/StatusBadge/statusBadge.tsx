@@ -1,5 +1,5 @@
 import "remixicon/fonts/remixicon.css";
-import "./status-badge.scss";
+import styles from './status-badge.module.scss';
 import React from "react";
 interface StatusBadgeProps {
     text: string;
@@ -8,14 +8,11 @@ interface StatusBadgeProps {
     icon?: string;
 }
 const StatusBadge: React.FC<StatusBadgeProps> = (props) => {
+            const containerClass = [styles['status-badge'], styles[`status-badge--${props.variant}`], styles[`status-badge--${props.styleType}`]].join(" ")
+            const iconClass = props.icon ? [styles['status-badge__icon'], props.icon].join(" ") : [styles['status-badge__icon'], 'ri-circle-fill'].join(" ");
             return (
-                <div className={`status-badge status-badge--${props.variant} status-badge--${props.styleType}`}>
-                    {props.icon
-                        ?
-                        <i className={`status-badge__icon ${props.icon}`}/>
-                        :
-                        <i className={`status-badge__icon ri-circle-fill`}/>
-                    }
+                <div className={containerClass}>
+                    <i className={iconClass}/>
                     <div>{props.text}</div>
                 </div>
             );
