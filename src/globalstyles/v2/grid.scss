@@ -1,29 +1,4 @@
 // ==============================
-// Mini Unit and Sizing Scale
-// ==============================
-
-$mini-unit: 8px; // Base unit
-$sizing-scale: (
-        1: $mini-unit,
-        2: $mini-unit * 2,
-        3: $mini-unit * 3,
-        4: $mini-unit * 4,
-        6: $mini-unit * 6,
-        8: $mini-unit * 8,
-        10: $mini-unit * 10,
-);
-
-// ==============================
-// Breakpoint Tokens
-// ==============================
-
-$breakpoint-sm: 320px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1280px;
-$breakpoint-xlg: 1536px;
-$breakpoint-max: 2560px;
-
-// ==============================
 // Column Count Tokens
 // ==============================
 
@@ -49,24 +24,6 @@ $column-width-max: 6.25%;
 
 $padding: 16px;
 
-// ==============================
-// Margin Tokens
-// ==============================
-
-$margin-sm: 8px;
-$margin-md: 16px;
-$margin-lg: 16px;
-$margin-xlg: 16px;
-$margin-max: 24px;
-
-// ==============================
-// Gutter Tokens
-// ==============================
-
-/* Gutter widths vary based on the mode of the grid */
-$gutter-wide: 32px;     // Wide mode (16px on each side of a column)
-$gutter-narrow: 16px;   // Narrow mode (8px on each side of a column)
-$gutter-condensed: 8px; // Condensed mode (4px on each side of a column)
 
 // ==============================
 // Container Width Tokens
