@@ -18,24 +18,24 @@ $color-neutral-300: hsl($color-neutral-hue, $color-neutral-saturation, 85%);   /
 $color-neutral-200: hsl($color-neutral-hue, $color-neutral-saturation, 93%);   // #f3f4f6 - Background accents, alternate rows
 $color-neutral-100: hsl($color-neutral-hue, $color-neutral-saturation, 98%);   // #f9fafb - Very light background
 $color-neutral-50: hsl($color-neutral-hue, $color-neutral-saturation, 99.5%);  // #fcfcfd - Subtle background variations
-$color-white: #FFFFFF; // Pure white for main background
+$color-white: hsl($color-neutral-hue, $color-neutral-saturation, 100%);
 
+$color-blue-hue: 230;
+$color-blue-saturation: 10%;
 
-$color-neutral: #0E121B;
-$color-grey: #F5F7FA;
+// Blue color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-blue-900: hsl($color-blue-hue, $color-blue-saturation, 15%);   // #122368 - Darkest blue
+$color-blue-800: hsl($color-blue-hue, $color-blue-saturation, 25%);   // #182F8B - Headings, important text
+$color-blue-700: hsl($color-blue-hue, $color-blue-saturation, 35%);   // #1F3BAD - Body text
+$color-blue-600: hsl($color-blue-hue, $color-blue-saturation, 45%);   // #2547D0 - Secondary text, labels
+$color-blue-500: hsl($color-blue-hue, $color-blue-saturation, 60%);   // #3559E9 - Muted text, placeholders
+$color-blue-400: hsl($color-blue-hue, $color-blue-saturation, 75%);   // #6895FF - Borders, dividers
+$color-blue-300: hsl($color-blue-hue, $color-blue-saturation, 85%);   // #97BAFF - Light backgrounds, hover states
+$color-blue-200: hsl($color-blue-hue, $color-blue-saturation, 93%);   // #C0D5FF - Background accents, alternate rows
+$color-blue-100: hsl($color-blue-hue, $color-blue-saturation, 98%);   // #D5E2FF - Very light background
+$color-blue-50: hsl($color-blue-hue, $color-blue-saturation, 99.5%);  // #EBF1FF - Subtle background variations
 
-$neutral-950: #0E121B;
-$neutral-900: #181B25;
-$neutral-800: #222530;
-$neutral-700: #2B303B;
-$neutral-600: #525866;
-$neutral-500: #717784;
-$neutral-400: #99A0AE;
-$neutral-300: #CACFD8;
-$neutral-200: #E1E4EA;
-$neutral-100: #F2F5F8;
-$neutral-50: #F5F7FA;
-$neutral-0: #FFFFFF;
 
 $blue-950: #122368;
 $blue-900: #182F8B;
@@ -50,6 +50,23 @@ $blue-100: #D5E2FF;
 $blue-50: #EBF1FF;
 
 
+$color-orange-hue: 30;
+$color-orange-saturation: 10%;
+
+// Orange color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-orange-900: hsl($color-orange-hue, $color-orange-saturation, 15%);   // #683412 - Darkest orange
+$color-orange-800: hsl($color-orange-hue, $color-orange-saturation, 25%);   // #8B4618 - Headings, important text
+$color-orange-700: hsl($color-orange-hue, $color-orange-saturation, 35%);   // #AD581F - Body text
+$color-orange-600: hsl($color-orange-hue, $color-orange-saturation, 45%);   // #D06925 - Secondary text, labels
+$color-orange-500: hsl($color-orange-hue, $color-orange-saturation, 60%);   // #E97D35 - Muted text, placeholders
+$color-orange-400: hsl($color-orange-hue, $color-orange-saturation, 75%);   // #FF9147 - Borders, dividers
+$color-orange-300: hsl($color-orange-hue, $color-orange-saturation, 85%);   // #FFA468 - Light backgrounds, hover states
+$color-orange-200: hsl($color-orange-hue, $color-orange-saturation, 93%);   // #FFC197 - Background accents, alternate rows
+$color-orange-100: hsl($color-orange-hue, $color-orange-saturation, 98%);   // #FFD9C0 - Very light background
+$color-orange-50: hsl($color-orange-hue, $color-orange-saturation, 99.5%);  // #FFE6D5 - Subtle background variations
+
+
 $orange-950: #683412;
 $orange-900: #8B4618;
 $orange-800: #AD581F;
@@ -61,6 +78,23 @@ $orange-300: #FFC197;
 $orange-200: #FFD9C0;
 $orange-100: #FFE6D5;
 $orange-50: #FFF3EB;
+
+$color-red-hue: 0;
+$color-red-saturation: 10%;
+
+// Red color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-red-900: hsl($color-red-hue, $color-red-saturation, 15%);   // #681219 - Darkest red
+$color-red-800: hsl($color-red-hue, $color-red-saturation, 25%);   // #8B1822 - Headings, important text
+$color-red-700: hsl($color-red-hue, $color-red-saturation, 35%);   // #AD1F2B - Body text
+$color-red-600: hsl($color-red-hue, $color-red-saturation, 45%);   // #D02533 - Secondary text, labels
+$color-red-500: hsl($color-red-hue, $color-red-saturation, 60%);   // #E93544 - Muted text, placeholders
+$color-red-400: hsl($color-red-hue, $color-red-saturation, 75%);   // #FB3748 - Borders, dividers
+$color-red-300: hsl($color-red-hue, $color-red-saturation, 85%);   // #FF6875 - Light backgrounds, hover states
+$color-red-200: hsl($color-red-hue, $color-red-saturation, 93%);   // #FF97A0 - Background accents, alternate rows
+$color-red-100: hsl($color-red-hue, $color-red-saturation, 98%);   // #FFD5D8 - Very light background
+$color-red-50: hsl($color-red-hue, $color-red-saturation, 99.5%);  // #FFEBEC - Subtle background variations
+
 
 
 $red-950: #681219;
@@ -76,6 +110,24 @@ $red-100: #FFD5D8;
 $red-50: #FFEBEC;
 
 
+// Green
+$color-green-hue: 120;
+$color-green-saturation: 10%;
+
+// Green color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-green-900: hsl($color-green-hue, $color-green-saturation, 15%);   // #0B4627 - Darkest green
+$color-green-800: hsl($color-green-hue, $color-green-saturation, 25%);   // #16643B - Headings, important text
+$color-green-700: hsl($color-green-hue, $color-green-saturation, 35%);   // #1A7544 - Body text
+$color-green-600: hsl($color-green-hue, $color-green-saturation, 45%);   // #178C4E - Secondary text, labels
+$color-green-500: hsl($color-green-hue, $color-green-saturation, 60%);   // #1DAF61 - Muted text, placeholders
+$color-green-400: hsl($color-green-hue, $color-green-saturation, 75%);   // #3EE089 - Borders, dividers
+$color-green-300: hsl($color-green-hue, $color-green-saturation, 85%);   // #84EBB4 - Light backgrounds, hover states
+$color-green-200: hsl($color-green-hue, $color-green-saturation, 93%);   // #C2F5DA - Background accents, alternate rows
+$color-green-100: hsl($color-green-hue, $color-green-saturation, 98%);   // #D0FBE9 - Very light background
+$color-green-50: hsl($color-green-hue, $color-green-saturation, 99.5%);  // #E0FAEC - Subtle background variations
+
+
 $green-950: #0B4627;
 $green-900: #16643B;
 $green-800: #1A7544;
@@ -87,6 +139,22 @@ $green-300: #84EBB4;
 $green-200: #C2F5DA;
 $green-100: #D0FBE9;
 $green-50: #E0FAEC;
+
+$color-yellow-hue: 45;
+$color-yellow-saturation: 10%;
+
+// Yellow color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-yellow-900: hsl($color-yellow-hue, $color-yellow-saturation, 15%);   // #826C16 - Darkest yellow
+$color-yellow-800: hsl($color-yellow-hue, $color-yellow-saturation, 25%);   // #886B16 - Headings, important text
+$color-yellow-700: hsl($color-yellow-hue, $color-yellow-saturation, 35%);   // #B78D25 - Body text
+$color-yellow-600: hsl($color-yellow-hue, $color-yellow-saturation, 45%);   // #C99A2C - Secondary text, labels
+$color-yellow-500: hsl($color-yellow-hue, $color-yellow-saturation, 60%);   // #E4AB19 - Muted text, placeholders
+$color-yellow-400: hsl($color-yellow-hue, $color-yellow-saturation, 75%);   // #FFB816 - Borders, dividers
+$color-yellow-300: hsl($color-yellow-hue, $color-yellow-saturation, 85%);   // #FFC04E - Light backgrounds, hover states
+$color-yellow-200: hsl($color-yellow-hue, $color-yellow-saturation, 93%);   // #FFE097 - Background accents, alternate rows
+$color-yellow-100: hsl($color-yellow-hue, $color-yellow-saturation, 98%);   // #FFEDC0 - Very light background
+$color-yellow-50: hsl($color-yellow-hue, $color-yellow-saturation, 99.5%);  // #FFEFCC - Subtle background variations
 
 // Yellow
 $yellow-950: #826C16;
@@ -101,6 +169,23 @@ $yellow-200: #FFEDC0;
 $yellow-100: #FFEFCC;
 $yellow-50: #FFF4D5;
 
+$color-purple-hue: 270;
+$color-purple-saturation: 10%;
+
+// Purple color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-purple-900: hsl($color-purple-hue, $color-purple-saturation, 15%);   // #351A75 - Darkest purple
+$color-purple-800: hsl($color-purple-hue, $color-purple-saturation, 25%);   // #3D1D86 - Headings, important text
+$color-purple-700: hsl($color-purple-hue, $color-purple-saturation, 35%);   // #4A25A7 - Body text
+$color-purple-600: hsl($color-purple-hue, $color-purple-saturation, 45%);   // #582BC9 - Secondary text, labels
+$color-purple-500: hsl($color-purple-hue, $color-purple-saturation, 60%);   // #6E30E0 - Muted text, placeholders
+$color-purple-400: hsl($color-purple-hue, $color-purple-saturation, 75%);   // #7D35F4 - Borders, dividers
+$color-purple-300: hsl($color-purple-hue, $color-purple-saturation, 85%);   // #8C71F6 - Light backgrounds, hover states
+$color-purple-200: hsl($color-purple-hue, $color-purple-saturation, 93%);   // #AA97FF - Background accents, alternate rows
+$color-purple-100: hsl($color-purple-hue, $color-purple-saturation, 98%);   // #CAC0FF - Very light background
+$color-purple-50: hsl($color-purple-hue, $color-purple-saturation, 99.5%);  // #DCD5FF - Subtle background variations
+
+
 // Purple
 $purple-950: #351A75;
 $purple-900: #3D1D86;
@@ -113,6 +198,23 @@ $purple-300: #AA97FF;
 $purple-200: #CAC0FF;
 $purple-100: #DCD5FF;
 $purple-50: #EFEAFF;
+
+
+$color-sky-hue: 200;
+$color-sky-saturation: 10%;
+
+// Sky color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-sky-900: hsl($color-sky-hue, $color-sky-saturation, 15%);   // #124B66 - Darkest sky
+$color-sky-800: hsl($color-sky-hue, $color-sky-saturation, 25%);   // #165B85 - Headings, important text
+$color-sky-700: hsl($color-sky-hue, $color-sky-saturation, 35%);   // #1F72AD - Body text
+$color-sky-600: hsl($color-sky-hue, $color-sky-saturation, 45%);   // #2597D0 - Secondary text, labels
+$color-sky-500: hsl($color-sky-hue, $color-sky-saturation, 60%);   // #35A6E9 - Muted text, placeholders
+$color-sky-400: hsl($color-sky-hue, $color-sky-saturation, 75%);   // #4FC2FF - Borders, dividers
+$color-sky-300: hsl($color-sky-hue, $color-sky-saturation, 85%);   // #6EE6FF - Light backgrounds, hover states
+$color-sky-200: hsl($color-sky-hue, $color-sky-saturation, 93%);   // #90E7FF - Background accents, alternate rows
+$color-sky-100: hsl($color-sky-hue, $color-sky-saturation, 98%);   // #C0EAFF - Very light background
+$color-sky-50: hsl($color-sky-hue, $color-sky-saturation, 99.5%);  // #D5F1FF - Subtle background variations
 
 // Sky
 $sky-950: #124B66;
@@ -128,6 +230,23 @@ $sky-100: #D5F1FF;
 $sky-50: #E8F8FF;
 
 
+$color-pink-hue: 330;
+$color-pink-saturation: 10%;
+
+// Pink color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-pink-900: hsl($color-pink-hue, $color-pink-saturation, 15%);   // #68123D - Darkest pink
+$color-pink-800: hsl($color-pink-hue, $color-pink-saturation, 25%);   // #8B1852 - Headings, important text
+$color-pink-700: hsl($color-pink-hue, $color-pink-saturation, 35%);   // #AD1F66 - Body text
+$color-pink-600: hsl($color-pink-hue, $color-pink-saturation, 45%);   // #D0257A - Secondary text, labels
+$color-pink-500: hsl($color-pink-hue, $color-pink-saturation, 60%);   // #E9358F - Muted text, placeholders
+$color-pink-400: hsl($color-pink-hue, $color-pink-saturation, 75%);   // #FB4BA3 - Borders, dividers
+$color-pink-300: hsl($color-pink-hue, $color-pink-saturation, 85%);   // #FF68B3 - Light backgrounds, hover states
+$color-pink-200: hsl($color-pink-hue, $color-pink-saturation, 93%);   // #FF97CB - Background accents, alternate rows
+$color-pink-100: hsl($color-pink-hue, $color-pink-saturation, 98%);   // #FFD5EA - Very light background
+$color-pink-50: hsl($color-pink-hue, $color-pink-saturation, 99.5%);  // #FFEBF4 - Subtle background variations
+
+
 // Pink
 $pink-950: #68123D;
 $pink-900: #8B1852;
@@ -140,6 +259,22 @@ $pink-300: #FF97CB;
 $pink-200: #FFC0DF;
 $pink-100: #FFD5EA;
 $pink-50: #FFEBF4;
+
+$color-teal-hue: 180;
+$color-teal-saturation: 10%;
+
+// Teal color scale with consistent lightness steps
+// Using HSL for better control over lightness while maintaining the same hue
+$color-teal-900: hsl($color-teal-hue, $color-teal-saturation, 15%);   // #0B463E - Darkest teal
+$color-teal-800: hsl($color-teal-hue, $color-teal-saturation, 25%);   // #16645A - Headings, important text
+$color-teal-700: hsl($color-teal-hue, $color-teal-saturation, 35%);   // #1A7569 - Body text
+$color-teal-600: hsl($color-teal-hue, $color-teal-saturation, 45%);   // #178C7D - Secondary text, labels
+$color-teal-500: hsl($color-teal-hue, $color-teal-saturation, 60%);   // #1DAF9C - Muted text, placeholders
+$color-teal-400: hsl($color-teal-hue, $color-teal-saturation, 75%);   // #3FDEC9 - Borders, dividers
+$color-teal-300: hsl($color-teal-hue, $color-teal-saturation, 85%);   // #84EBDD - Light backgrounds, hover states
+$color-teal-200: hsl($color-teal-hue, $color-teal-saturation, 93%);   // #C2F5EE - Background accents, alternate rows
+$color-teal-100: hsl($color-teal-hue, $color-teal-saturation, 98%);   // #D0FBF5 - Very light background
+$color-teal-50: hsl($color-teal-hue, $color-teal-saturation, 99.5%);  // #E4FBF8 - Subtle background variations
 
 // Teal
 $teal-950: #0B463E;
@@ -156,61 +291,61 @@ $teal-50: #E4FBF8;
 
 
 // Neutral Alpha
-$color-neutral-alpha-24: rgba(153, 160, 174, 0.24);
-$color-neutral-alpha-16: rgba(153, 160, 174, 0.16);
-$color-neutral-alpha-10: rgba(153, 160, 174, 0.10);
+$color-neutral-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.24);
+$color-neutral-alpha-16: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.16);
+$color-neutral-alpha-10: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.10);
 
 // Blue Alpha
-$blue-alpha-24: rgba(71, 108, 255, 0.24);
-$blue-alpha-16: rgba(71, 108, 255, 0.16);
-$blue-alpha-10: rgba(71, 108, 255, 0.10);
+$blue-alpha-24: hsla($color-blue-hue, $color-blue-saturation, 64%, 0.24);
+$blue-alpha-16: hsla($color-blue-hue, $color-blue-saturation, 64%, 0.16);
+$blue-alpha-10: hsla($color-blue-hue, $color-blue-saturation, 64%, 0.10);
 
 // Orange Alpha
-$orange-alpha-24: rgba(255, 145, 71, 0.24);
-$orange-alpha-16: rgba(255, 145, 71, 0.16);
-$orange-alpha-10: rgba(255, 145, 71, 0.10);
+$orange-alpha-24: hsla($color-orange-hue, $color-orange-saturation, 63%, 0.24);
+$orange-alpha-16: hsla($color-orange-hue, $color-orange-saturation, 63%, 0.16);
+$orange-alpha-10: hsla($color-orange-hue, $color-orange-saturation, 63%, 0.10);
 
 // Red Alpha
-$red-alpha-24: rgba(251, 55, 72, 0.24);
-$red-alpha-16: rgba(251, 55, 72, 0.16);
-$red-alpha-10: rgba(251, 55, 72, 0.10);
+$red-alpha-24: hsla($color-red-hue, $color-red-saturation, 60%, 0.24);
+$red-alpha-16: hsla($color-red-hue, $color-red-saturation, 60%, 0.16);
+$red-alpha-10: hsla($color-red-hue, $color-red-saturation, 60%, 0.10);
 
 // Green Alpha
-$green-alpha-24: rgba(31, 193, 107, 0.24);
-$green-alpha-16: rgba(31, 193, 107, 0.16);
-$green-alpha-10: rgba(31, 193, 107, 0.10);
+$green-alpha-24: hsla($color-green-hue, $color-green-saturation, 44%, 0.24);
+$green-alpha-16: hsla($color-green-hue, $color-green-saturation, 44%, 0.16);
+$green-alpha-10: hsla($color-green-hue, $color-green-saturation, 44%, 0.10);
 
 // Yellow Alpha
-$yellow-alpha-24: rgba(251, 198, 75, 0.24);
-$yellow-alpha-16: rgba(251, 198, 75, 0.16);
-$yellow-alpha-10: rgba(251, 198, 75, 0.10);
+$yellow-alpha-24: hsla($color-yellow-hue, $color-yellow-saturation, 64%, 0.24);
+$yellow-alpha-16: hsla($color-yellow-hue, $color-yellow-saturation, 64%, 0.16);
+$yellow-alpha-10: hsla($color-yellow-hue, $color-yellow-saturation, 64%, 0.10);
 
 // Sky Alpha
-$sky-alpha-24: rgba(71, 194, 255, 0.24);
-$sky-alpha-16: rgba(71, 194, 255, 0.16);
-$sky-alpha-10: rgba(71, 194, 255, 0.10);
+$sky-alpha-24: hsla($color-sky-hue, $color-sky-saturation, 64%, 0.24);
+$sky-alpha-16: hsla($color-sky-hue, $color-sky-saturation, 64%, 0.16);
+$sky-alpha-10: hsla($color-sky-hue, $color-sky-saturation, 64%, 0.10);
 
 // Purple Alpha
-$purple-alpha-24: rgba(123, 77, 239, 0.24);
-$purple-alpha-16: rgba(123, 77, 239, 0.16);
-$purple-alpha-10: rgba(123, 77, 239, 0.10);
+$purple-alpha-24: hsla($color-purple-hue, $color-purple-saturation, 62%, 0.24);
+$purple-alpha-16: hsla($color-purple-hue, $color-purple-saturation, 62%, 0.16);
+$purple-alpha-10: hsla($color-purple-hue, $color-purple-saturation, 62%, 0.10);
 
 // Pink Alpha
-$pink-alpha-24: rgba(251, 75, 163, 0.24);
-$pink-alpha-16: rgba(251, 75, 163, 0.16);
-$pink-alpha-10: rgba(251, 75, 163, 0.10);
+$pink-alpha-24: hsla($color-pink-hue, $color-pink-saturation, 63%, 0.24);
+$pink-alpha-16: hsla($color-pink-hue, $color-pink-saturation, 63%, 0.16);
+$pink-alpha-10: hsla($color-pink-hue, $color-pink-saturation, 63%, 0.10);
 
 // Teal Alpha
-$teal-alpha-24: rgba(34, 211, 187, 0.24);
-$teal-alpha-16: rgba(34, 211, 187, 0.16);
-$teal-alpha-10: rgba(34, 211, 187, 0.10);
+$teal-alpha-24: hsla($color-teal-hue, $color-teal-saturation, 48%, 0.24);
+$teal-alpha-16: hsla($color-teal-hue, $color-teal-saturation, 48%, 0.16);
+$teal-alpha-10: hsla($color-teal-hue, $color-teal-saturation, 48%, 0.10);
 
 // White Alpha
-$white-alpha-24: rgba(255, 255, 255, 0.24);
-$white-alpha-16: rgba(255, 255, 255, 0.16);
-$white-alpha-10: rgba(255, 255, 255, 0.10);
+$white-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 100%, 0.24);
+$white-alpha-16: hsla($color-neutral-hue, $color-neutral-saturation, 100%, 0.16);
+$white-alpha-10: hsla($color-neutral-hue, $color-neutral-saturation, 100%, 0.10);
 
 // Black Alpha
-$black-alpha-24: rgba(14, 18, 27, 0.24);
-$black-alpha-16: rgba(14, 18, 27, 0.16);
-$black-alpha-10: rgba(14, 18, 27, 0.10);
+$black-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 8%, 0.24);
+$black-alpha-16: hsla($color-neutral-hue, $color-neutral-saturation, 8%, 0.16);
+$black-alpha-10: hsla($color-neutral-hue, $color-neutral-saturation, 8%, 0.10);
