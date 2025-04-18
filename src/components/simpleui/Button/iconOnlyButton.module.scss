@@ -11,8 +11,8 @@
     border: none;
     cursor: pointer;
     box-sizing: border-box;
-    background-color: var(--color-text);
-    color:  var(--color-bg); // Text color for contrast on primary button
+    background-color: var(--color-bg-primary-default);
+    color:  var(--color-text-inverse-default); // Text color for contrast on primary button
     transition: background-color $duration-moderate-01 $easing-productive-standard,
     color $duration-moderate-01 $easing-productive-standard,
     box-shadow $duration-moderate-01 $easing-productive-standard;
@@ -23,27 +23,24 @@
     }
 
     &--secondary {
-        background-color: var(--color-secondary-bg);
-        color: $color-neutral-900;
+        background-color: var(--color-bg-secondary-default);
+        color: var(--color-text-secondary-default); // Text color for contrast on secondary button
     }
 
     &:hover {
-        background-color: $interactive-primary-hover-bg;
+        background-color: var(--color-bg-primary-hover);
     }
 
     &:active {
-        background-color: $interactive-primary-active-bg;
+        background-color: var(--color-bg-primary-active);
     }
-
-    // Enhanced focus styles for keyboard navigation
     &:focus {
-        outline: none; // Remove default outline
-    }
-
-    &:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 3px var(--color-info), 0 0 0 1px var(--color-bg);
-        // High contrast focus ring that works on both light and dark backgrounds
+    }
+    // Enhanced focus styles for keyboard navigation
+     &:focus-visible {
+        outline: var(--color-border-focus-default) solid 4px;
+        box-shadow: 0 0 0 4px rgba(var(--color-border-primary-default), 0.5);
     }
 
     // Ensure focus styles work in all browsers
@@ -53,8 +50,8 @@
     }
 
     &:disabled {
-        background-color: $interactive-primary-disabled-bg;
-        color: $interactive-primary-disabled-text;
+        background-color: var(--color-bg-primary-disabled);
+        color: var(--color-text-disabled-default);
         cursor: not-allowed;
     }
 }
@@ -78,28 +75,29 @@
     //color $duration-moderate-01 $easing-productive-standard,
     //box-shadow $duration-moderate-01 $easing-productive-standard;
 
-    background-color: var(--color-secondary-bg);
-    color: $color-neutral-900;
+    background-color: var(--color-bg-secondary-default);
+    color: var(--color-text-secondary-default); // Text color for contrast on secondary button
+
 
     .ri {
         font-size: 1.5rem;
     }
 
     &:hover {
-        //background-color: $interactive-secondary-hover-bg;
+        background-color: var(--color-bg-secondary-hover);
     }
 
     &:active {
-        //background-color: $interactive-secondary-active-bg;
+        background-color: var(--color-bg-secondary-active);
     }
 
     &:focus {
         outline: none;
     }
 
-    &:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 3px var(--color-info), 0 0 0 1px var(--color-bg);
+     &:focus-visible {
+        outline: var(--color-border-secondary-default) solid 4px;
+        box-shadow: 0 0 0 2px rgba(var(--color-border-secondary-default), 0.5);
     }
 
     &:focus:not(:focus-visible) {
@@ -108,8 +106,8 @@
     }
 
     &:disabled {
-        background-color: $interactive-secondary-disabled-bg;
-        color: $interactive-secondary-disabled-text;
+        background-color: var(--color-bg-secondary-disabled);
+        color: var(--color-text-disabled-default);
         cursor: not-allowed;
     }
 }

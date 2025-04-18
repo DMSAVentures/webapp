@@ -8,13 +8,16 @@
   // =========================
   // BACKGROUNDS
   // =========================
-  --color-bg-primary-default: #{$color-white};
-  --color-bg-primary-hover: #{$color-neutral-50};
-  --color-bg-primary-active: #{$color-neutral-100};
-  --color-bg-secondary-default: #{$color-neutral-100};
-  --color-bg-secondary-hover: #{$color-neutral-200};
-  --color-bg-secondary-active: #{$color-neutral-300};
+  --color-bg-primary-default: #{$color-neutral-900};
+  --color-bg-primary-hover: #{$color-neutral-800};
+  --color-bg-primary-active: #{$color-neutral-700};
+  --color-bg-primary-disabled: #{$color-neutral-300};
+  --color-bg-secondary-default: #{$color-neutral-200};
+  --color-bg-secondary-hover: #{$color-neutral-300};
+  --color-bg-secondary-active: #{$color-neutral-400};
+  --color-bg-secondary-disabled: #{$color-neutral-300};
   --color-bg-tertiary-default: #{$color-neutral-50};
+  --color-bg-tertiary-disabled: #{$color-neutral-300};
 
   // =========================
   // SURFACES (cards, sheets, modals, popovers)
@@ -33,7 +36,7 @@
   // =========================
   // TEXT
   // =========================
-  --color-text-disabled-default: #{$color-neutral-400};
+  --color-text-disabled-default: #{$color-neutral-500};
   --color-text-inverse-default: #{$color-white};
   --color-text-primary-default: #{$color-neutral-900};
   --color-text-secondary-default: #{$color-neutral-700};

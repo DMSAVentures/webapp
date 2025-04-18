@@ -39,29 +39,32 @@
     }
 
     // Default color for primary button
-    background-color: var(--color-text);
-    color: var(--color-bg); // Text color for contrast on primary button
+    background-color: var(--color-bg-primary-default);
+    color: var(--color-text-inverse-default); // Text color for contrast on primary button
 
     // Hover State
     &:hover {
-        background-color: $interactive-primary-hover-bg;
+        background-color: var(--color-bg-primary-hover);
+        cursor: pointer;
     }
 
     // Active State
     &:active {
-        background-color: $interactive-primary-active-bg;
+        background-color: var(--color-bg-primary-active);
     }
-
-    // Focus State
-    &:focus-visible {
+    &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+    }
+        // Focus State
+    &:focus-visible {
+        outline: var(--color-border-focus-default) solid 4px;
+        box-shadow: 0 0 0 4px rgba(var(--color-border-primary-default), 0.5);
     }
 
     // Disabled State
     &:disabled {
-        background-color: $interactive-primary-disabled-bg;
-        color: $interactive-primary-disabled-text;
+        background-color: var(--color-bg-primary-disabled);
+        color: var(--color-text-disabled-default);
         cursor: not-allowed;
     }
 }
@@ -71,25 +74,27 @@
 // ==============================
 
 .variant_secondary {
-    background-color: var(--color-secondary-bg);
-    color: $color-neutral-900;
+    background-color: var(--color-bg-secondary-default);
+    color: var(--color-text-secondary-default); // Text color for contrast on secondary button
 
     &:hover {
-        background-color: $interactive-secondary-hover-bg;
+        background-color: var(--color-bg-secondary-hover);
     }
 
     &:active {
-        background-color: $interactive-secondary-active-bg;
+        background-color: var(--color-bg-secondary-active);
     }
-
-    &:focus-visible {
+    &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba($interactive-primary-focus-border, 0.5);
+    }
+     &:focus-visible {
+        outline: var(--color-border-secondary-default) solid 4px;
+        box-shadow: 0 0 0 4px rgba(var(--color-border-secondary-default), 0.5);
     }
 
     &:disabled {
-        background-color: $interactive-primary-disabled-bg;
-        color: $interactive-primary-disabled-text;
+        background-color: var(--color-bg-secondary-disabled);
+        color: var(--color-text-disabled-default);
         cursor: not-allowed;
     }
 }
