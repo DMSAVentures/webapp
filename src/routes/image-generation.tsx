@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import ImageGenBox from "@/components/ai/imagegenbox.tsx";
+import ImageGenBox from "@/components/ai/imagegenbox";
 import {motion} from "motion/react";
 
 

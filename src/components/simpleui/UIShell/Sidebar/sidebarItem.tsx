@@ -2,7 +2,7 @@ import React from 'react';
 import 'remixicon/fonts/remixicon.css';
 import "./sidebar-item.scss";
 import {Link} from "@tanstack/react-router";
-import {useSidebar} from "@/contexts/sidebar.tsx";
+import {useSidebar} from "@/contexts/sidebar";
 
 interface SidebarItemProps {
     label: string;

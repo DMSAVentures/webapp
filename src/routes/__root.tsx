@@ -1,7 +1,7 @@
 import {createRootRouteWithContext, Outlet} from '@tanstack/react-router'
 import {useAuth} from "@/contexts/auth"
-import {Providers} from "@/contexts/providers.tsx";
-import {Layout} from "@/components/simpleui/UIShell/Layout/Layout.tsx";
+import {Providers} from "@/contexts/providers";
+import {Layout} from "@/components/simpleui/UIShell/Layout/Layout";
 
 // Determines if the current path is a public route (e.g., /signin, /oauth/*)
 function isPublicRoute(): boolean {

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import {useCreateCustomerPortal} from "@/hooks/useCreateCustomerPortal.ts";
-import LoadingSpinner from "@/components/loading/loadingSpinner.tsx";
+import {useCreateCustomerPortal} from "@/hooks/useCreateCustomerPortal";
+import LoadingSpinner from "@/components/loading/loadingSpinner";
 
 export const Route = createFileRoute('/billing/')({
   component: RouteComponent,

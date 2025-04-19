@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import ChatBox from "@/components/ai/chatbox.tsx";
+import ChatBox from "@/components/ai/chatbox";
 
 import { motion } from "motion/react";
 export const Route = createFileRoute('/conversation')({

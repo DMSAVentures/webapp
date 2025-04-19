@@ -2,7 +2,7 @@
 import { createRoute } from '@tanstack/react-router'
 import Login from '@/components/authentication/login'
 import './signin.scss'
-import {rootRoute} from "@/routes/__root.tsx";
+import {rootRoute} from "@/routes/__root";
 
 function SignInPage() {
   return (
