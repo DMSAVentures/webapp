@@ -8,14 +8,14 @@
     padding: $spacing-03;
 
     &:hover {
-        background-color: var(--color-hover-secondary);
+        background-color: var(--color-bg-secondary-hover);
         border-radius: $border-radius-medium;
         transition: background-color $duration-slow-01 $easing-expressive-standard;
         cursor: pointer;
     }
 
     &.active {
-        background-color: var(--color-secondary-bg);
+        background-color: var(--color-bg-secondary-hover);
         border-radius: $border-radius-medium;
     }
 }

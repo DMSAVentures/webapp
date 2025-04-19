@@ -1,9 +1,9 @@
 @import "@/globalstyles/v2/variables";
 
 .sidebar {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-tertiary-default);
     padding: $spacing-03 $spacing-05 $spacing-03 $spacing-05;
-    border-right: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border-primary-default);
     flex: 1 0 $spacing-12 * 3;
     transition: transform 0.4s ease-in-out, transform 0.4s ease-in-out;
     /* When sidebar is collapsed */
