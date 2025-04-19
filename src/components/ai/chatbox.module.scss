@@ -2,12 +2,14 @@
 
 .message-input-container {
     position: sticky;
-    bottom: -$spacing-05;
+    //align-items: center;
+    align-content: center;
+    //margin-bottom: $spacing-05;
+    bottom: $spacing-05;
     z-index: 10;
     display: flex;
     flex-direction: column;
     gap: $spacing-05;
-    padding-bottom: $spacing-09;
 
     .button {
         //flex-grow: 0;
@@ -71,6 +73,6 @@
 
 .chat-wrapper {
     display: flex;
-    height: 100%;
+    height: 90dvh;
     flex-direction: column;
 }

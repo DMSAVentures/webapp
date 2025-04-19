@@ -3,19 +3,13 @@ import remarkGfm from "remark-gfm"
 import Button from "@/components/simpleui/Button/button";
 import {TextArea} from "@/components/simpleui/TextArea/textArea";
 import styles from "./chatbox.module.scss"
-import {useEffect, useRef} from "react";
+import { useRef} from "react";
 import {useSSEImageGen} from "@/hooks/useSSEImageGen";
 
 export default function ImageGenBox() {
     const { messages, input, setInput, sendMessage, loading } = useSSEImageGen()
     const chatRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        chatRef.current?.scrollTo({
-            top: chatRef.current.scrollHeight,
-            behavior: 'smooth',
-        })
-    }, [messages.length])
     return (
         <div className={styles['chat-wrapper']}>
             <div className={styles['chat-container']}
@@ -35,6 +29,7 @@ export default function ImageGenBox() {
                 {loading && <div className={styles["typing-indicator"]}><span>AI is typing...</span> <Shimmer /></div>}
             </div>
             <div className={styles["message-input-container"]}>
+                {loading && <div className={styles["typing-indicator"]}><span>AI is typing...</span> <Shimmer /></div>}
                 <TextArea
                     label={""}
                     required={true}
