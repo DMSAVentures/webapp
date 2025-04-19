@@ -9,9 +9,9 @@
         display: flex;
         align-items: center;
         gap: $spacing-03;
-        border: 1px solid $color-neutral-200;
+        border: 1px solid var(--color-border-primary-default);
         border-radius: $border-radius-medium;
-        padding: $spacing-01 $spacing-01 $spacing-01 $spacing-03;
+        padding: $spacing-03 $spacing-03 $spacing-03 $spacing-03;
         cursor: text;
 
         &__icon {
@@ -19,7 +19,7 @@
             //width: auto; // Maintain aspect ratio
             //max-height: 100%; // Ensure it doesn't exceed container height
             //object-fit: contain; // Ensure the entire image is visible
-            color: var(--color-secondary);
+            color: var(--color-icon-secondary-default);
         }
 
         input {
@@ -29,11 +29,10 @@
                 outline: none;
             }
             flex-grow: 1;
-            //@extend .paragraph-small;
-            //color: $color-neutral-900;
+            color: var(--color-text-primary-default);
 
             &::placeholder {
-                color: var(--color-secondary);
+                color: var(--color-text-secondary-default);
             }
 
             &:disabled{
@@ -42,8 +41,8 @@
         }
 
         &--disabled {
-            background-color: var(--color-secondary-bg);
-            color: var(--color-muted);
+            background-color: var(--color-bg-secondary-disabled);
+            color: var(--color-text-disabled-default);
             cursor: not-allowed;
         }
 
@@ -52,26 +51,27 @@
         }
 
         &:hover {
-            background-color: var(--color-secondary-bg);
-            color: var(--color-primary);
+            //background-color: var(--color-bg-secondary-hover);
+            border: 1px solid var(--color-border-focus-default);
+            color: var(--color-text-primary-default);
             transition: background-color $duration-moderate-01 $easing-productive-entrance;
             &__icon {
-                color: var(--color-secondary);
+                color: var(--color-icon-primary-default);
             }
         }
 
         &:focus-within {
             box-shadow: 0 0 0 4px $color-neutral-alpha-16, 0 0 0 2px $color-white;
-            border: 1px solid $color-neutral-900;
-            outline: 1px solid $color-white;
-            color: $color-neutral-900;
+            //border: 1px solid $color-neutral-900;
+            outline: 2px solid var(--color-focus-ring-default);
+            color: var(--color-text-primary-default);
 
-            &:hover {
-                background-color: $color-neutral-50;
-            }
+            //&:hover {
+            //    background-color: var(--color-bg-secondary-hover);
+            //}
 
             .text-input__input-container__icon {
-                color: $color-neutral-900;
+                color: var(--color-icon-primary-default);
             }
         }
 

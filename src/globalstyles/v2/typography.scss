@@ -2,23 +2,23 @@
 @import "layout.scss";
 @import "breakpoints.scss";
 // @import "theme.scss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
 
 // ==============================
 // Font Family Tokens
 // ==============================
-$font-family-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+$font-family-sans: "Maprope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 $font-family-serif: 'IBM Plex Serif', 'Georgia', Times, serif;
 $font-family-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 
 // ==============================
 // Font Weight Tokens - Using standard naming
 // ==============================
-$font-weight-light: 300;
-$font-weight-regular: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
+$font-weight-light: 400;
+$font-weight-regular: 500;
+$font-weight-medium: 600;
+$font-weight-semibold: 700;
+$font-weight-bold: 800;
 
 // ==============================
 // Type Scale - Simplified and more intuitive
@@ -88,13 +88,14 @@ $letter-spacing-wider: 0.05em;
 // Root element
 html {
     font-family: $font-family-sans;
+    font-weight: $font-weight-regular;
     font-size: 87.5%; // 14px base (changed from 100%/16px)
     line-height: $line-height-normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-color: var(--color-bg);
-    color: var(--color-body-text);
+    background-color: white;
+    color: var(--color-text-primary-default);
 }
 
 // Headings
