@@ -29,7 +29,7 @@ export const Default: Story = {
         text: 'Label',
         subText: 'Sublabel',
         description: 'Description',
-        imageSrc: 'https://via.placeholder.com/150',
+        imageSrc: 'https://placehold.co/150',
         centeredImage: false,
     },
 };
@@ -40,7 +40,7 @@ export const Disabled: Story = {
         text: 'Label',
         subText: 'Sublabel',
         description: 'Description',
-        imageSrc: 'https://via.placeholder.com/150',
+        imageSrc: 'https://placehold.co/150',
         centeredImage: false,
         disabled: true,
     },

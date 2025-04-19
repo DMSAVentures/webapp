@@ -38,8 +38,8 @@
   }
 
   &--disabled {
-    border: 1px solid $color-neutral-200;
-    color: $color-neutral-200;
+    border: $border-width-small solid var(--color-border-disabled-default);
+    color: var(--color-text-disabled-default);
   }
 }
 

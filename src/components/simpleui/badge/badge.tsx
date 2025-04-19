@@ -1,5 +1,5 @@
 import "remixicon/fonts/remixicon.css";
-// import "./badge.scss";
+import "./badge.scss";
 import React from "react";
 interface BadgeProps {
     text: string | number;

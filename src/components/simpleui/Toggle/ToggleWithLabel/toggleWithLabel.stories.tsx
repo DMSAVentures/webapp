@@ -68,7 +68,7 @@ export const WithAllProps: Story = {
         description: 'Description',
         subText: 'Subtext',
         badgeString: 'Badge',
-        imageSrc: 'https://via.placeholder.com/150',
+        imageSrc: 'https://placehold.co/150',
         linkTitle: 'Link',
         linkHref: 'https://www.google.com',
     },

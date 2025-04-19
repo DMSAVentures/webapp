@@ -93,7 +93,7 @@ export const WithImage: Story = {
     args: {
         checked: false,
         text: 'Label',
-        imageSrc: 'https://via.placeholder.com/150',
+        imageSrc: 'https://placehold.co/150',
     },
 };
 
@@ -102,7 +102,7 @@ export const WithCenteredImage: Story = {
     args: {
         checked: false,
         text: 'Label',
-        imageSrc: 'https://via.placeholder.com/150',
+        imageSrc: 'https://placehold.co/150',
         centeredImage: true,
     },
 };
@@ -115,7 +115,7 @@ export const WithAllProps: Story = {
         badgeString: 'Badge',
         subText: 'Subtext',
         description: 'Description',
-        imageSrc: 'https://via.placeholder.com/150',
+        imageSrc: 'https://placehold.co/150',
         flipCheckboxToRight: true,
     },
 };

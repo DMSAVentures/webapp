@@ -33,8 +33,8 @@
   outline: none;
   border: none;
   padding: $spacing-03 $spacing-05;
-  background-color: var(--color-secondary-bg);
-  color: $color-neutral-900;
+  background-color: var(--color-bg-secondary-default);
+  color: var(--color-text-secondary-default);
   cursor: pointer;
   transition: background-color $duration-moderate-01 $easing-productive-standard,
   color $duration-moderate-01 $easing-productive-standard,
@@ -61,7 +61,7 @@
   }
 
   &:hover {
-    background-color: $interactive-secondary-hover-bg;
+    background-color: var(--color-bg-secondary-hover);
   }
 
   // Focus styles for keyboard navigation
@@ -71,37 +71,37 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-info);
+    box-shadow: 0 0 0 2px var(--color-focus-ring-default);
     z-index: 1; // Ensure focus ring is visible
   }
 
   // First Child Styles
   &:first-child {
     border-width: 1px;
-    border-color: var(--color-hover-secondary);
+    border-color: var(--color-border-primary-default);
     border-radius: $spacing-03 0 0 $spacing-03;
     border-style: solid;
   }
 
   // Middle Children Styles
   &:not(:first-child):not(:last-child) {
-    border-width: 1px 1px 1px 0;
-    border-color: var(--color-hover-secondary);
+    border-width: $border-width-small $border-width-small $border-width-small 0;
+    border-color: var(--color-border-primary-default);
     border-radius: 0;
     border-style: solid;
   }
 
   // Last Child Styles
   &:last-child {
-    border-width: 1px 1px 1px 0;
-    border-color: var(--color-hover-secondary);
+    border-width: $border-width-small $border-width-small $border-width-small 0;
+    border-color: var(--color-border-primary-default);
     border-radius: 0 $spacing-03 $spacing-03 0;
     border-style: solid;
   }
 
   &:only-child {
-    border-width: 1px;
-    border-color: var(--color-hover-secondary);
+    border-width: $border-width-small;
+    border-color: var(--color-border-primary-default);
     border-radius: $spacing-03;
     border-style: solid;
   }
@@ -114,9 +114,9 @@
   // Disabled state
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.7;
-    background-color: $interactive-secondary-disabled-bg;
-    color: $interactive-secondary-disabled-text;
+    //opacity: 0.7;
+    background-color: var(--color-bg-primary-disabled);
+    color: var(--color-text-disabled-default);
   }
 }
 

@@ -5,9 +5,9 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: $spacing-01;
-    height: $spacing-01;
-    border: 1px solid var(--color-primary); // Border color
+    width: $spacing-06;
+    height: $spacing-06;
+    border: 1px solid var(--color-border-primary-default); // Border color
     border-radius: $border-radius-small; // Square corners or small radius
     outline: none;
     cursor: pointer;
@@ -15,19 +15,21 @@
 
     // Style for the checked state
     &:checked {
-        background-color: var(--color-bg); // Background color when checked
+        background-color: var(--color-bg-tertiary-default); // Background color when checked
 
         // Checkmark to indicate selection
         &::after {
             content: '';
             position: absolute;
-            top: 2px;
-            left: 6px;
-            width: 5px;
-            height: 10px;
-            border: solid black;
+            top: $spacing-01;
+            left: $spacing-03;
+            width: $spacing-03;
+            height: $spacing-05;
+            border: solid var(--color-bg-primary-default); // Checkmark color
             border-width: 0 2px 2px 0;
             transform: rotate(40deg);
+            transition: transform $duration-slow-01 $easing-productive-standard;
+
         }
     }
 
@@ -41,16 +43,17 @@
 
     // Style for the focus state
     &:focus {
-        border-color: var(--color-focus-primary); // Focus border color
+        border-color: var(--color-focus-ring-default); // Focus border color
     }
 
     // Style for the disabled state
     &:disabled {
-        border-color: var(--color-muted); // Disabled border color
+        background-color: var(--color-bg-disabled-default); // Disabled background color
+        border-color: var(--color-border-primary-default); // Disabled border color
         cursor: not-allowed;
 
         &::after {
-            border-color: var(--color-muted);
+            border-color: var(--color-border-primary-default);
         }
     }
 }

@@ -11,12 +11,12 @@
     transition: background-color $duration-moderate-01 $easing-productive-entrance, border-radius $duration-moderate-01 $easing-productive-entrance;
 
     &:hover {
-        background-color: $interactive-secondary-hover-bg;
+        background-color: var(--color-bg-secondary-hover);
         border-radius: $border-radius-medium;
     }
 
     &--selected {
-        background-color: var(--color-secondary);
+        background-color: var(--color-bg-secondary-active);
     }
 
     &__img {

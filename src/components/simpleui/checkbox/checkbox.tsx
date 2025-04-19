@@ -1,36 +1,35 @@
-import React, {JSX, useEffect, useId} from 'react';
+import React, {JSX, useId} from 'react';
 import './checkbox.scss';
 import 'remixicon/fonts/remixicon.css';
 export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement>{
     disabled?: boolean;
-    checked?: 'checked' | 'unchecked' | 'indeterminate';
+    checked?: 'checked' | 'unchecked';
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
     const checkboxId = useId();
-    const [checked, setChecked] = React.useState(props.checked === 'checked');
-    const [isIndeterminate, setIsIndeterminate] = React.useState(props.checked === 'indeterminate');
+    const [checked, setChecked] = React.useState<boolean>(props.checked === 'checked');
 
-    useEffect(() => {
-        setChecked(props.checked === 'checked');
-        setIsIndeterminate(props.checked === 'indeterminate');
-    }, [props.checked]);
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (isIndeterminate) {
+        if (props.disabled) {
+            event.preventDefault();
             return;
         }
-        setChecked(event.target.checked);
+
+        setChecked(() => !checked);
+
         if (props.onChange) {
             props.onChange(event);
         }
     }
     return (
-        <div className={`checkbox-container checkbox-container--small`}>
+        <div>
             <input type="checkbox" id={checkboxId} className="custom-checkbox-input" disabled={props.disabled} checked={checked} onChange={handleChange}/>
-            <label htmlFor={checkboxId} className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>
-                {/*{checked ? <i className="checkbox__icon ri-check-fill"></i> : null}*/}
-                {isIndeterminate ? <i className="checkbox__icon ri-subtract-fill"></i> : null}
-            </label>
+            {/*<label htmlFor={checkboxId} className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>*/}
+            {/*    /!*{checked ? <i className="checkbox__icon ri-check-fill"></i> : null}*!/*/}
+            {/*    {isIndeterminate ? <i className="checkbox__icon ri-subtract-fill"></i> : null}*/}
+            {/*</label>*/}
         </div>
 
     );

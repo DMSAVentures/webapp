@@ -11,7 +11,7 @@
               color $duration-moderate-01 $easing-productive-entrance,
               text-decoration $duration-moderate-01 $easing-productive-entrance;
   border-radius: $border-radius-medium;
-  padding: $spacing-02;
+  padding: 0 $spacing-03;
   text-decoration: none;
 
   // Size variants
@@ -72,11 +72,11 @@
 
   // Ensure proper spacing when icons are present
   &:has(.linkbutton__icon--left) {
-    padding-left: $spacing-02;
+    padding-left: $spacing-05;
   }
 
   &:has(.linkbutton__icon--right) {
-    padding-right: $spacing-02;
+    padding-right: $spacing-05;
   }
 
   // Disabled state

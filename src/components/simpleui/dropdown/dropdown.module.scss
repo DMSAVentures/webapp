@@ -32,7 +32,7 @@
         position: relative;
         display: flex;
         border-radius: $border-radius-large;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--color-border-primary-default);
         align-items: center;
 
         .dropdown__select {
@@ -54,7 +54,7 @@
                 flex-shrink: 0;
 
                 &:hover {
-                    color: var(--color-primary);
+                    color: var(--color-bg-secondary-hover);
                     cursor: pointer;
                 }
             }
@@ -65,16 +65,16 @@
         }
 
         &:hover, &--open {
-            background-color: var(--color-secondary-bg);
+            background-color: var(--color-bg-secondary-hover);
             transition: background-color, $duration-moderate-01, $easing-productive-entrance;
         }
 
         &--disabled {
-            background-color: var(--color-secondary-bg);
+            background-color: var(--color-bg-primary-disabled);
             cursor: not-allowed;
             pointer-events: none;
             .dropdown__select__text {
-                color: var(--color-muted);
+                color: var(--color-text-disabled-default);
             }
         }
 
@@ -95,9 +95,9 @@
         display: flex;
         flex-direction: column;
         border-radius: $border-radius-large;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--color-border-primary-default);
         padding: $spacing-02;
-        background-color: var(--color-bg);
+        background-color: var(--color-bg-tertiary-default);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: all $duration-moderate-01 $easing-productive-entrance;
     }
@@ -105,7 +105,7 @@
     .dropdown__hint {
         display: flex;
         gap: $spacing-03;
-        color: var(--color-secondary);
+        color: var(--color-text-tertiary-default);
         margin-top: $spacing-02;
         font-size: 0.75rem;
 
@@ -124,5 +124,6 @@
 // Add focus styles for keyboard accessibility
 .dropdown__select:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-info);
+    box-shadow: 0 0 0 2px var(--color-focus-ring-default);
+    border-radius: $border-radius-large;
 }

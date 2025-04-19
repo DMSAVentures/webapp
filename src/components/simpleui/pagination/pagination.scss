@@ -91,26 +91,27 @@
     }
 
     .pagination__button {
-        border: 1px solid var(--color-border);
-        background: var(--color-bg);
+        cursor: pointer;
+        border: 1px solid var(--color-border-primary-default);
+        background: var(--color-bg-tertiary-default);
         //@extend .label-small;
         //color: $color-neutral-600;
 
         &:hover, &--active {
-            background: var(--color-hover-secondary);
+            background: var(--color-bg-secondary-hover);
             transition: background-color $duration-moderate-02 $easing-productive-entrance;
         }
 
         &:disabled {
             //background: $color-white;
-            color: var(--color-muted);
+            color: var(--color-bg-primary-disabled);
             cursor: not-allowed;
         }
 
         .pagination__pagenumber {
             display: inline-block;
             text-align: center;
-            color: var(--color-text);
+            color: var(--color-text-primary-default);
             min-width: $spacing-06;
             min-height: $spacing-05;
         }

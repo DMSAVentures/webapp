@@ -69,9 +69,9 @@ const ModalHeader: React.FC<ModalHeaderProps> = (props) => {
         {props.icon &&
             <i className={`modal__icon ${props.description ? "modal__icon--medium" : ""} modal__icon--${props.icon} ${iconComponent}`}></i>}
         <div className={'modal__header__text'}>
-            <div className={"modal__title"}>
+            <span className={"modal__title"}>
                 {props.title}
-            </div>
+            </span>
             {props.description && <p className={'modal__description'}>{props.description}</p>}
         </div>
 

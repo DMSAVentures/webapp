@@ -7,13 +7,13 @@
     align-items: center;
     justify-content: center;
     border-radius: $border-radius-large;
-    border: 2px dashed var(--color-border);
+    border: 2px dashed var(--color-border-primary-default);
     &--light {
-        background-color: var(--color-bg);
+        background-color: var(--color-bg-tertiary-default);
     }
 
     &--gray {
-        background-color: var(--color-secondary-bg);
+        background-color: var(--color-surface-secondary-default);
     }
 
     .file-upload-area__container {

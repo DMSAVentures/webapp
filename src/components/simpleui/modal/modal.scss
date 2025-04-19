@@ -12,12 +12,12 @@
     display: flex;
     flex-direction: column;
     border-radius: $border-radius-large;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-primary-default);
     padding: $spacing-05;
     box-shadow: none;
     overflow: hidden;
     &::backdrop {
-        background-color: $color-neutral-800;
+        background-color: var(--color-bg-primary-default);
         opacity: 0.8;
         backdrop-filter: blur(4px);
     }
@@ -34,10 +34,11 @@
 .modal__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     gap: $spacing-05;
     padding-bottom: $spacing-05;
-    border-bottom: 1px solid var(--color-border);
+    margin-bottom: $spacing-03;
+    border-bottom: 1px solid var(--color-border-primary-default);
 
     &--centered {
         flex-direction: column;
@@ -52,22 +53,20 @@
         .modal__title {
             //@extend .label-small;
             //color: $color-neutral-900;
+            font-weight: 600;
         }
 
         .modal__description {
             //@extend .paragraph-small;
             //color: $color-neutral-600;
+            color: var(--color-text-secondary-default);
             word-break: break-word;
         }
-    }
-
-    .icon-only-button {
-        align-content: flex-start;
     }
 }
 
 .modal__icon {
-
+    align-self: start;
     &--info  {
         @include modal-icon-style($blue-500);
         &.modal__icon--medium {
@@ -119,6 +118,7 @@
     display: flex;
     padding-top: $spacing-03;
     gap: $spacing-03;
+    color: var(--color-text-tertiary-default);
 
     .modal__footer-left {
         display: flex;

@@ -7,7 +7,7 @@
   border: none;
   cursor: pointer;
   gap: $spacing-02;
-  color: $color-neutral-400;
+  color: var(--color-text-secondary-default);
   //@extend .label-small;
 
   &:hover .breadcrumb-item__text {
@@ -31,13 +31,13 @@
   }
 
   &--disabled {
-    color: $color-neutral-300;
+    color: var(--color-text-disabled-default);
     cursor: not-allowed;
     pointer-events: none;
   }
 
   &--active {
-    color: $color-neutral-900;
+    color: var(--color-text-primary-default);
     cursor: not-allowed;
     pointer-events: none;
   }

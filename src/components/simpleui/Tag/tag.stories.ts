@@ -72,7 +72,7 @@ export const RemoveableDisabled: Story = {
 export const Image: Story = {
     args: {
         children: 'Image Tag',
-        image: 'https://via.placeholder.com/150',
+        image: 'https://placehold.co/150',
     },
 };
 

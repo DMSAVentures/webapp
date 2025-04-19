@@ -27,16 +27,16 @@ export const Checked: Story = {
 };
 
 
-export const Indeterminate: Story = {
+export const CheckedDisabled: Story = {
     args: {
-        disabled: false,
-        checked: 'indeterminate',
+        disabled: true,
+        checked: 'checked',
     },
 };
 
-export const IndeterminateDisabled: Story = {
+export const UncheckedDisabled: Story = {
     args: {
         disabled: true,
-        checked: 'indeterminate',
+        checked: 'unchecked',
     },
 };
