@@ -2,12 +2,12 @@
 @import "layout.scss";
 @import "breakpoints.scss";
 // @import "theme.scss";
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..800&display=swap');
 
 // ==============================
 // Font Family Tokens
 // ==============================
-$font-family-sans: "Maprope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+$font-family-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 $font-family-serif: 'IBM Plex Serif', 'Georgia', Times, serif;
 $font-family-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 
@@ -96,6 +96,7 @@ html {
     text-rendering: optimizeLegibility;
     background-color: white;
     color: var(--color-text-primary-default);
+    letter-spacing: $letter-spacing-normal;
 }
 
 // Headings
@@ -286,6 +287,16 @@ blockquote {
     p:last-child {
         margin-bottom: 0;
     }
+}
+
+input, textarea {
+    @include responsive-typography(
+                    $font-size-xl,
+                    $font-size-md,
+                    $font-size-lg,
+                    $line-height-normal,
+                    $font-weight-regular
+    );
 }
 
 // Only essential utility classes
