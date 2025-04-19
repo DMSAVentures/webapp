@@ -1,5 +1,6 @@
 @import 'colors.scss';
 @import "layout.scss";
+@import "breakpoints.scss";
 // @import "theme.scss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -62,11 +63,11 @@ $letter-spacing-wider: 0.05em;
 @mixin responsive-typography($mobile-size, $tablet-size, $desktop-size, $line-height, $weight: null, $letter-spacing: null) {
     font-size: $mobile-size;
     line-height: $line-height;
-    
+
     @if $weight {
         font-weight: $weight;
     }
-    
+
     @if $letter-spacing {
         letter-spacing: $letter-spacing;
     }
@@ -99,11 +100,11 @@ html {
 // Headings
 h1 {
     @include responsive-typography(
-        $font-size-h1, 
-        $font-size-h1, 
-        $font-size-h1 * 1.2, 
-        $line-height-tight, 
-        $font-weight-bold, 
+        $font-size-h1,
+        $font-size-h1,
+        $font-size-h1 * 1.2,
+        $line-height-tight,
+        $font-weight-bold,
         $letter-spacing-tight
     );
     margin-top: 0;
@@ -113,11 +114,11 @@ h1 {
 
 h2 {
     @include responsive-typography(
-        $font-size-h2, 
-        $font-size-h2, 
-        $font-size-h2 * 1.1, 
-        $line-height-tight, 
-        $font-weight-bold, 
+        $font-size-h2,
+        $font-size-h2,
+        $font-size-h2 * 1.1,
+        $line-height-tight,
+        $font-weight-bold,
         $letter-spacing-tight
     );
     margin-top: $spacing-06;
@@ -127,10 +128,10 @@ h2 {
 
 h3 {
     @include responsive-typography(
-        $font-size-h3, 
-        $font-size-h3, 
-        $font-size-h3 * 1.1, 
-        $line-height-snug, 
+        $font-size-h3,
+        $font-size-h3,
+        $font-size-h3 * 1.1,
+        $line-height-snug,
         $font-weight-semibold
     );
     margin-top: $spacing-06;
@@ -140,10 +141,10 @@ h3 {
 
 h4 {
     @include responsive-typography(
-        $font-size-h4, 
-        $font-size-h4, 
-        $font-size-h4 * 1.05, 
-        $line-height-snug, 
+        $font-size-h4,
+        $font-size-h4,
+        $font-size-h4 * 1.05,
+        $line-height-snug,
         $font-weight-semibold
     );
     margin-top: $spacing-06;
@@ -153,10 +154,10 @@ h4 {
 
 h5 {
     @include responsive-typography(
-        $font-size-h5, 
-        $font-size-h5, 
-        $font-size-h5 * 1.05, 
-        $line-height-normal, 
+        $font-size-h5,
+        $font-size-h5,
+        $font-size-h5 * 1.05,
+        $line-height-normal,
         $font-weight-medium
     );
     margin-top: $spacing-06;
@@ -166,10 +167,10 @@ h5 {
 
 h6 {
     @include responsive-typography(
-        $font-size-h6, 
-        $font-size-h6, 
-        $font-size-h6, 
-        $line-height-normal, 
+        $font-size-h6,
+        $font-size-h6,
+        $font-size-h6,
+        $line-height-normal,
         $font-weight-medium
     );
     margin-top: $spacing-06;
@@ -180,10 +181,10 @@ h6 {
 // Body text
 body {
     @include responsive-typography(
-        $font-size-md, 
-        $font-size-md, 
-        $font-size-lg, 
-        $line-height-normal, 
+        $font-size-md,
+        $font-size-md,
+        $font-size-lg,
+        $line-height-normal,
         $font-weight-regular
     );
     color: var(--color-body-text);
@@ -192,9 +193,9 @@ body {
 // Paragraphs
 p {
     @include responsive-typography(
-        $font-size-md, 
-        $font-size-md, 
-        $font-size-lg, 
+        $font-size-md,
+        $font-size-md,
+        $font-size-lg,
         $line-height-relaxed
     );
     margin-top: 0;
@@ -209,12 +210,12 @@ a {
     text-decoration-thickness: 1px;
     text-underline-offset: 0.15em;
     transition: color 0.2s ease, text-decoration-color 0.2s ease;
-    
+
     &:hover, &:focus {
         color: var(--color-hover-primary);
         text-decoration-thickness: 2px;
     }
-    
+
     &:active {
         color: var(--color-active-primary);
     }
@@ -223,9 +224,9 @@ a {
 // Small text
 small {
     @include responsive-typography(
-        $font-size-xs, 
-        $font-size-sm, 
-        $font-size-sm, 
+        $font-size-xs,
+        $font-size-sm,
+        $font-size-sm,
         $line-height-normal
     );
     color: var(--color-caption-text);
@@ -235,9 +236,9 @@ small {
 code, pre {
     font-family: $font-family-mono;
     @include responsive-typography(
-        $font-size-sm, 
-        $font-size-sm, 
-        $font-size-md, 
+        $font-size-sm,
+        $font-size-sm,
+        $font-size-md,
         $line-height-normal
     );
     color: var(--color-text);
@@ -262,11 +263,11 @@ ul, ol {
     margin-top: 0;
     margin-bottom: $spacing-04;
     padding-left: $spacing-06;
-    
+
     li {
         margin-bottom: $spacing-03;
     }
-    
+
     ul, ol {
         margin-top: $spacing-03;
         margin-bottom: $spacing-03;
@@ -280,7 +281,7 @@ blockquote {
     border-left: 4px solid var(--color-muted);
     color: var(--color-secondary-text);
     font-style: italic;
-    
+
     p:last-child {
         margin-bottom: 0;
     }

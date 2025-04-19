@@ -26,8 +26,8 @@
     align-content: center;
     padding: $spacing-07  $spacing-05;
     gap: $spacing-05;
-    background-color: white;
-    border-bottom: 0.5px solid $interactive-secondary-disabled-border;
+    background-color: var(--color-bg-tertiary-default);
+    border-bottom: 0.5px solid var(--color-border-primary-default);
 
     height: $spacing-09;
 }

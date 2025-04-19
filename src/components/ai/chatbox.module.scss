@@ -50,7 +50,7 @@
 
 
 .chat-bubble-user {
-    border-color: $interactive-primary-active-border;
+    border-color: var(--color-border-primary-default);
     border-width: $border-radius-small;
     border-radius: $border-radius-large;
     padding: $spacing-05;

@@ -14,11 +14,13 @@ const Accordian: React.FC<AccordianProps> = ({
                                                  flipIcon = false, leftIcon, title, description, children,
                                              }) => {
     const [showContent, setShowContent] = React.useState(false);
-    return (<motion.div
-        // initial={{opacity: 0, height: 'auto'}}
-        animate={{opacity: 1, height: 'auto'}}
-        transition={{duration: 0.2, ease: 'easeInOut'}}
-        exit={{opacity: 1, height: 'auto'}}
+    return (
+        <motion.div
+        onClick={() => setShowContent((prevShowContent) => !prevShowContent)}
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: 'auto' }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
         className={showContent ? 'accordian  accordian--show' : 'accordian'} >
             {flipIcon ? <i className={`accordian__icon ${showContent ? 'ri-subtract-line' : 'ri-add-line'}`}
                            onClick={() => setShowContent((prevShowContent) => !prevShowContent)}/> : leftIcon &&
@@ -33,7 +35,7 @@ const Accordian: React.FC<AccordianProps> = ({
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      transition={{ duration: 0.3, ease: 'easeIn' }}
                       style={{ overflow: 'hidden' }}
                       className="accordian__content"
                     >
