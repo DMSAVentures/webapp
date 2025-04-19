@@ -1,4 +1,4 @@
-@import "@/globalstyles/v2/variables";
+@import "@/globalstyles/v2/variables.scss";
 
 @mixin feedback-style($color, $text-color, $link-color, $icon-color) {
   background-color: $color;
