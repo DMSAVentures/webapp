@@ -8,10 +8,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [
-      // Please make sure that '@tanstack/router-plugin' is passed before '@vitejs/plugin-react'
       TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
       react(),
-      // ...,
     ],
     resolve: {
       alias: {
