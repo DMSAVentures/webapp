@@ -18,6 +18,9 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, 'src'),
       },
     },
+    optimizeDeps: {
+      exclude: ['.storybook'],
+    },
     define: {
       __APP_ENV__: JSON.stringify(env.APP_ENV),
     },
