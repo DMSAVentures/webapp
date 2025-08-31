@@ -1,6 +1,6 @@
 import React from 'react';
 import 'remixicon/fonts/remixicon.css';
-import "./sidebar-item.scss";
+import styles from "./sidebar-item.module.scss";
 import {Link} from "@tanstack/react-router";
 import {useSidebar} from "@/contexts/sidebar";
 
@@ -19,8 +19,8 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, iconClass
         }
     }
     return (
-        <Link to={href} className={'sidebar__item__link'} href={href} style={{textDecoration: 'none'}} onClick={handleClick}>
-        <li className={`sidebar__item ${isActive ? 'active' : ''}`}>
+        <Link to={href} className={styles['sidebar__item__link']} href={href} style={{textDecoration: 'none'}} onClick={handleClick}>
+        <li className={`${styles['sidebar__item']} ${isActive ? styles.active : ''}`}>
             {iconClass && <i className={`ri-${iconClass}`}></i>}
             {label}
         </li>

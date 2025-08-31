@@ -1,6 +1,6 @@
 import React from "react";
 import {TabMenuVerticalItemProps} from "@/components/simpleui/TabMenu/Vertical/tabMenuVerticalItem";
-import './tab-menu-vertical.scss';
+import styles from './tab-menu-vertical.module.scss';
 interface TabMenuVerticalProps {
     items: React.ReactElement<TabMenuVerticalItemProps>[];
     title: string;
@@ -9,16 +9,16 @@ interface TabMenuVerticalProps {
 }
 export const TabMenuVertical : React.FC<TabMenuVerticalProps> = (props) => {
     return (
-        <div className={`tab-menu-vertical-sidebar tab-menu-vertical-sidebar--${props.variant}`}>
-            <small className={'tab-menu-vertical-sidebar__title'}>{props.title}</small>
-            <ul className={`tab-menu-vertical-sidebar__container`}>
+        <div className={`${styles['tab-menu-vertical-sidebar']} ${styles[`tab-menu-vertical-sidebar--${props.variant}`]}`}>
+            <small className={styles['tab-menu-vertical-sidebar__title']}>{props.title}</small>
+            <ul className={styles['tab-menu-vertical-sidebar__container']}>
                 {props.items.map((item) => {
                     return (
                             item
                     );
                 })}
             </ul>
-            {props.showFooter ? <span className={'tab-menu-vertical-sidebar__footer'}>&copy; {new Date().getFullYear()} Shubhanshu</span> : null }
+            {props.showFooter ? <span className={styles['tab-menu-vertical-sidebar__footer']}>&copy; {new Date().getFullYear()} Shubhanshu</span> : null }
         </div>
     );
 }

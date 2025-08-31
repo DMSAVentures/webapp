@@ -1,6 +1,6 @@
 import ContentLabel, {ContentLabelProps} from "@/components/simpleui/label/contentlabel";
 import React from "react";
-import './contentcard.scss';
+import styles from './contentcard.module.scss';
 import 'remixicon/fonts/remixicon.css';
 interface ContentCardProps extends ContentLabelProps {
     dismissible? : boolean;
@@ -18,7 +18,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
     }
 
     return (
-        <div className={`content-card__container`}>
+        <div className={styles['content-card__container']}>
             <ContentLabel
                 description={props.description}
                 text={props.text}
@@ -32,7 +32,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
                 linkTitle={props.linkTitle}
                 linkHref={props.linkHref}
             />
-            {props.dismissible && <i className={'content-card__dismiss ri-close-fill'} onClick={onDismiss} />}
+            {props.dismissible && <i className={`${styles['content-card__dismiss']} ri-close-fill`} onClick={onDismiss} />}
         </div>
     );
 }

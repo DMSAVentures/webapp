@@ -1,6 +1,6 @@
 import React, {Children, ReactElement} from "react";
 import {Badge} from "@/components/simpleui/badge/badge";
-import './badge-group.scss';
+import styles from './badge-group.module.scss';
 
 interface BadgeGroupProps {
     children: ReactElement<typeof Badge>[];
@@ -11,7 +11,7 @@ export const BadgeGroup: React.FC<BadgeGroupProps> = (props: BadgeGroupProps) =>
     const hiddenBadgesCount = childrenArray.length - 2;
 
     return (
-        <div className={`badge-group`}>
+        <div className={styles['badge-group']}>
             {visibleBadges.map((badge, index) => (
                 <React.Fragment key={index}>
                     {badge}

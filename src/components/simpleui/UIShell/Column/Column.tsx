@@ -1,5 +1,5 @@
 import React from 'react';
-import './columns.scss';
+import styles from './columns.module.scss';
 
 // Utility type to create a range of numbers from 1 to N
 type Range<N extends number, Result extends number[] = []> = Result['length'] extends N
@@ -28,11 +28,11 @@ export const Column: React.FC<ColumnProps> = ({ children, sm, md, lg, xlg, max }
     // Generate class names based on props
     const classNames = [
         // 'column',
-        sm ? `column--sm-start-${sm.start}-span-${sm.span}` : '',
-        md ? `column--md-start-${md.start}-span-${md.span}` : '',
-        lg ? `column--lg-start-${lg.start}-span-${lg.span}` : '',
-        xlg ? `column--xlg-start-${xlg.start}-span-${xlg.span}` : '',
-        max ? `column--max-start-${max.start}-span-${max.span}` : '',
+        sm ? styles[`column--sm-start-${sm.start}-span-${sm.span}`] : '',
+        md ? styles[`column--md-start-${md.start}-span-${md.span}`] : '',
+        lg ? styles[`column--lg-start-${lg.start}-span-${lg.span}`] : '',
+        xlg ? styles[`column--xlg-start-${xlg.start}-span-${xlg.span}`] : '',
+        max ? styles[`column--max-start-${max.start}-span-${max.span}`] : '',
     ]
         .filter(Boolean)
         .join(' ');

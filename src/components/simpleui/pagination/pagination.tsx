@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './pagination.scss';
+import styles from './pagination.module.scss';
 
 export interface PaginationProps {
     totalPages: number;
@@ -50,22 +50,22 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     }
 
     return (
-        <div className={`pagination pagination--${style}`}>
+        <div className={`${styles.pagination} ${styles[`pagination--${style}`]}`}>
             {/* First Page Button */}
 
-                <button className="pagination__button" disabled={pageWindow === 1} onClick={handleToFirst} title="First Page">
-                    <i className="pagination__pagenumber ri-arrow-left-double-fill" />
+                <button className={styles['pagination__button']} disabled={pageWindow === 1} onClick={handleToFirst} title="First Page">
+                    <i className={`${styles['pagination__pagenumber']} ri-arrow-left-double-fill`} />
                 </button>
 
 
             {/* Previous Page Range Button */}
             <button
-                className="pagination__button"
+                className={styles['pagination__button']}
                 onClick={handlePreviousPageRange}
                 disabled={pageWindow === 1}
                 title="Previous Page Range"
             >
-                <i className="pagination__pagenumber ri-arrow-left-s-line" />
+                <i className={`${styles['pagination__pagenumber']} ri-arrow-left-s-line`} />
             </button>
 
             {/* Page Numbers */}
@@ -73,33 +73,33 @@ const Pagination: React.FC<PaginationProps> = (props) => {
                 {getPageNumbers().map((page) => (
                     <button
                         key={page}
-                        className={`pagination__button ${currentPage === page ? 'pagination__button--active' : ''}`}
+                        className={`${styles['pagination__button']} ${currentPage === page ? styles['pagination__button--active'] : ''}`}
                         onClick={() => onPageChange(page)}
                     >
-                        <span className={`pagination__pagenumber`}>{page}</span>
+                        <span className={styles['pagination__pagenumber']}>{page}</span>
                     </button>
                 ))}
                 {/* Ellipsis for Next Page Range */}
                 {pageWindow < maxPageWindow && (
-                    <button className="pagination__button" onClick={handleNextPageRange} title="Next Page Range">
-                        <span className={`pagination__pagenumber`}>...</span>
+                    <button className={styles['pagination__button']} onClick={handleNextPageRange} title="Next Page Range">
+                        <span className={styles['pagination__pagenumber']}>...</span>
                     </button>
                 )}
 
             {/* Next Page Range Button */}
             <button
-                className="pagination__button"
+                className={styles['pagination__button']}
                 onClick={handleNextPageRange}
                 disabled={pageWindow === maxPageWindow}
                 title="Next Page Range"
             >
-                <i className="pagination__pagenumber ri-arrow-right-s-line" />
+                <i className={`${styles['pagination__pagenumber']} ri-arrow-right-s-line`} />
             </button>
 
             {/* Last Page Button */}
 
-                <button className="pagination__button" disabled={pageWindow === maxPageWindow} onClick={handleToLast} title="Last Page">
-                    <i className="pagination__pagenumber ri-arrow-right-double-fill" />
+                <button className={styles['pagination__button']} disabled={pageWindow === maxPageWindow} onClick={handleToLast} title="Last Page">
+                    <i className={`${styles['pagination__pagenumber']} ri-arrow-right-double-fill`} />
                 </button>
         </div>
     );

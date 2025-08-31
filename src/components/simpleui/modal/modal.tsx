@@ -1,5 +1,5 @@
 import React from 'react';
-import './modal.scss';
+import styles from './modal.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import {Button} from "@/components/simpleui/Button/button";
 import {IconOnlyButton} from "@/components/simpleui/Button/IconOnlyButton";
@@ -50,11 +50,11 @@ function getIconBasedOnIconType(icon: string) {
 const ModalFooter: React.FC<ModalFooterProps> = (props) => {
     const buttonStyle = props.footerFullWithButtons ? { width: "100%" } : {};
 
-    return <div className={'modal__footer'}>
-        {props.footerLeftChildren && <div className={'modal__footer-left'}>
+    return <div className={styles['modal__footer']}>
+        {props.footerLeftChildren && <div className={styles['modal__footer-left']}>
             {props.footerLeftChildren}
         </div>}
-        <div className={'modal__footer-right'}>
+        <div className={styles['modal__footer-right']}>
             <Button style={buttonStyle} variant={'primary'}
                     onClick={props.onProceed}>{props.proceedText!}</Button>
             {props.cancelText && <Button style={buttonStyle} variant={'secondary'}
@@ -65,14 +65,14 @@ const ModalFooter: React.FC<ModalFooterProps> = (props) => {
 
 const ModalHeader: React.FC<ModalHeaderProps> = (props) => {
     const iconComponent = getIconBasedOnIconType(props.icon ?? '');
-    return (<div className={`modal__header ${props.centeredHeader ? 'modal__header--centered' : ''}`}>
+    return (<div className={`${styles['modal__header']} ${props.centeredHeader ? styles['modal__header--centered'] : ''}`}>
         {props.icon &&
-            <i className={`modal__icon ${props.description ? "modal__icon--medium" : ""} modal__icon--${props.icon} ${iconComponent}`}></i>}
-        <div className={'modal__header__text'}>
-            <span className={"modal__title"}>
+            <i className={`${styles['modal__icon']} ${props.description ? styles['modal__icon--medium'] : ""} ${styles[`modal__icon--${props.icon}`]} ${iconComponent}`}></i>}
+        <div className={styles['modal__header__text']}>
+            <span className={styles['modal__title']}>
                 {props.title}
             </span>
-            {props.description && <p className={'modal__description'}>{props.description}</p>}
+            {props.description && <p className={styles['modal__description']}>{props.description}</p>}
         </div>
 
         {!props.centeredHeader && props.dismissibleByCloseIcon && <IconOnlyButton ariaLabel={"modal-icon"} variant={'secondary'} iconClass={'close-fill'} onClick={props.onClose}>Close</IconOnlyButton>}
@@ -109,11 +109,11 @@ const Modal: React.FC<ModalProps> = (props: ModalProps) => {
         return null;
     }
     return (
-        <dialog className={'modal__container'} ref={dialogRef} onClose={props.onClose}>
-            <div className={'modal__content'}>
+        <dialog className={styles['modal__container']} ref={dialogRef} onClose={props.onClose}>
+            <div className={styles['modal__content']}>
                 <ModalHeader icon={props.icon} description={props.description} title={props.title}
                              onClose={closeModal} dismissibleByCloseIcon={props.dismissibleByCloseIcon ?? true} centeredHeader={props.centeredHeader}/>
-                {props.children && <div className={'modal__body'}>
+                {props.children && <div className={styles['modal__body']}>
                     {props.children}
                 </div>}
                 <ModalFooter footerFullWithButtons={props.footerFullWithButtons}

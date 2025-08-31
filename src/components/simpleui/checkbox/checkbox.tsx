@@ -1,5 +1,5 @@
 import React, {JSX, useId} from 'react';
-import './checkbox.scss';
+import styles from './checkbox.module.scss';
 import 'remixicon/fonts/remixicon.css';
 export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement>{
     disabled?: boolean;
@@ -25,7 +25,7 @@ const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
     }
     return (
         <div>
-            <input type="checkbox" id={checkboxId} className="custom-checkbox-input" disabled={props.disabled} checked={checked} onChange={handleChange}/>
+            <input type="checkbox" id={checkboxId} className={styles['custom-checkbox-input']} disabled={props.disabled} checked={checked} onChange={handleChange}/>
             {/*<label htmlFor={checkboxId} className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>*/}
             {/*    /!*{checked ? <i className="checkbox__icon ri-check-fill"></i> : null}*!/*/}
             {/*    {isIndeterminate ? <i className="checkbox__icon ri-subtract-fill"></i> : null}*/}

@@ -1,4 +1,4 @@
-import "./tab-menu-horizontal-item.scss"
+import styles from "./tab-menu-horizontal-item.module.scss"
 import React from "react";
 import 'remixicon/fonts/remixicon.css';
 
@@ -23,14 +23,14 @@ export interface TabMenuHorizontalItemProps {
 export const TabMenuHorizontalItem: React.FC<TabMenuHorizontalItemProps> = (props: TabMenuHorizontalItemProps) => {
     return (
 
-        <div className={`tab-menu-horizontal-item ${props.active ? 'tab-menu-horizontal-item--active' : ''}`}>
+        <div className={`${styles['tab-menu-horizontal-item']} ${props.active ? styles['tab-menu-horizontal-item--active'] : ''}`}>
             {props.leftIcon &&
-                <i className={`tab-menu-horizontal-item__left-icon ${props.leftIcon}`}/>}
-            <span className="tab-menu-horizontal-item__text">{props.text}</span>
+                <i className={`${styles['tab-menu-horizontal-item__left-icon']} ${props.leftIcon}`}/>}
+            <span className={styles['tab-menu-horizontal-item__text']}>{props.text}</span>
 
-            {Boolean(props.number) && !props.rightIcon && <span className="tab-menu-horizontal-item__badge">{props.number}</span>}
+            {Boolean(props.number) && !props.rightIcon && <span className={styles['tab-menu-horizontal-item__badge']}>{props.number}</span>}
             {!props.number && props.rightIcon &&
-                <i className={`tab-menu-horizontal-item__right-icon ${props.rightIcon}`}/>}
+                <i className={`${styles['tab-menu-horizontal-item__right-icon']} ${props.rightIcon}`}/>}
         </div>
 
     )

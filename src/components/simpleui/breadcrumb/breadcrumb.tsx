@@ -1,5 +1,5 @@
 import React from 'react';
-import './breadcrumb.scss';
+import styles from './breadcrumb.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import type {BreadcrumbItemProps}  from "@/components/simpleui/breadcrumb/breadcrumbitem";
 import {useNavigate} from "@tanstack/react-router";
@@ -26,7 +26,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
     const separatorIconClass = getSeparatorIconClass(props.divider);
     const navigate = useNavigate();
     return (
-        <nav className={`breadcrumb`}>
+        <nav className={styles.breadcrumb}>
             {props.items.map((item, index) => {
                 const handleClick = () => {
                     if (item.props.state === 'active' || item.props.state === 'disabled') {
@@ -36,9 +36,9 @@ const Breadcrumb: React.FC<BreadcrumbProps> = (props) => {
                     navigate({to: item.props.path || '/'});
                 }
                 return (
-                    <span className={'breadcrumb__item'} key={index} onClick={() => {handleClick()}}>
+                    <span className={styles['breadcrumb__item']} key={index} onClick={() => {handleClick()}}>
                         {item}
-                        {index < props.items.length - 1 && <span className={'breadcrumb__separator'}>{separatorIconClass}</span>}
+                        {index < props.items.length - 1 && <span className={styles['breadcrumb__separator']}>{separatorIconClass}</span>}
                     </span>
 
                 );

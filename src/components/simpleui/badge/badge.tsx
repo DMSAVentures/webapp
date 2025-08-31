@@ -1,5 +1,5 @@
 import "remixicon/fonts/remixicon.css";
-import "./badge.scss";
+import styles from "./badge.module.scss";
 import React from "react";
 interface BadgeProps {
     text: string | number;
@@ -15,7 +15,7 @@ export const Badge: React.FC<BadgeProps> = (props) => {
     if (num) {
         if (props.disabled) {
             return (
-                <div className={`badge badge--${props.size} badge--disabled`}>
+                <div className={`${styles.badge} ${styles[`badge--${props.size}`]} ${styles['badge--disabled']}`}>
                     {
                         num < 10 ? num  : '9+'
                     }
@@ -23,7 +23,7 @@ export const Badge: React.FC<BadgeProps> = (props) => {
             );
         }
         return (
-            <div className={`badge badge--${props.size} badge--${props.variant} badge--${props.styleType}`}>
+            <div className={`${styles.badge} ${styles[`badge--${props.size}`]} ${styles[`badge--${props.variant}`]} ${styles[`badge--${props.styleType}`]}`}>
                 {
                     num < 10 ? num  : '9+'
                 }
@@ -32,18 +32,18 @@ export const Badge: React.FC<BadgeProps> = (props) => {
     } else {
         if (props.disabled) {
             return (
-                <div className={`badge badge--${props.size} badge--disabled`}>
-                    {props.iconClass && props.iconPosition === 'left' && <i className={`badge__icon ri-${props.iconClass}`}/>}
+                <div className={`${styles.badge} ${styles[`badge--${props.size}`]} ${styles['badge--disabled']}`}>
+                    {props.iconClass && props.iconPosition === 'left' && <i className={`${styles['badge__icon']} ri-${props.iconClass}`}/>}
                     {props.text}
-                    {props.iconClass && props.iconPosition === 'right' && <i className={`badge__icon ri-${props.iconClass}`}/>}
+                    {props.iconClass && props.iconPosition === 'right' && <i className={`${styles['badge__icon']} ri-${props.iconClass}`}/>}
                 </div>
             );
         } else {
             return (
-                <div className={`badge badge--${props.size} badge--${props.variant} badge--${props.styleType}`}>
-                    {props.iconClass && props.iconPosition === 'left' && <i className={`badge__icon ri-${props.iconClass}`}/>}
+                <div className={`${styles.badge} ${styles[`badge--${props.size}`]} ${styles[`badge--${props.variant}`]} ${styles[`badge--${props.styleType}`]}`}>
+                    {props.iconClass && props.iconPosition === 'left' && <i className={`${styles['badge__icon']} ri-${props.iconClass}`}/>}
                     <span>{props.text}</span>
-                    {props.iconClass && props.iconPosition === 'right' && <i className={`badge__icon ri-${props.iconClass}`}/>}
+                    {props.iconClass && props.iconPosition === 'right' && <i className={`${styles['badge__icon']} ri-${props.iconClass}`}/>}
                 </div>
             );
         }

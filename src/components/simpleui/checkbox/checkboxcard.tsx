@@ -1,12 +1,12 @@
 import React from "react";
 import CheckboxWithLabel, {CheckboxWithLabelProps} from "@/components/simpleui/checkbox/checkboxWithLabel";
-import './checkboxcard.scss';
+import styles from './checkboxcard.module.scss';
 
 type CheckboxCardProps = Omit<CheckboxWithLabelProps, | 'linkTitle' | 'linkHref'>;
 
 const CheckboxCard: React.FC<CheckboxCardProps> = (props) => {
 return (
-    <div className={`checkbox-card__container`}>
+    <div className={styles['checkbox-card__container']}>
         <CheckboxWithLabel
             disabled={props.disabled}
             text={props.text}

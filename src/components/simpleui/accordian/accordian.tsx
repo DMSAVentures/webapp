@@ -1,5 +1,5 @@
 import React, {HTMLAttributes} from 'react';
-import './accordian.scss';
+import styles from './accordian.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import {motion, AnimatePresence} from 'motion/react';
 
@@ -21,12 +21,12 @@ const Accordian: React.FC<AccordianProps> = ({
         animate={{ opacity: 1, height: 'auto' }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={showContent ? 'accordian  accordian--show' : 'accordian'} >
-            {flipIcon ? <i className={`accordian__icon ${showContent ? 'ri-subtract-line' : 'ri-add-line'}`}
+        className={showContent ? `${styles.accordian} ${styles['accordian--show']}` : styles.accordian} >
+            {flipIcon ? <i className={`${styles['accordian__icon']} ${showContent ? 'ri-subtract-line' : 'ri-add-line'}`}
                            onClick={() => setShowContent((prevShowContent) => !prevShowContent)}/> : leftIcon &&
-                <i className={`accordian__icon ri-${leftIcon}`}/>}
+                <i className={`${styles['accordian__icon']} ri-${leftIcon}`}/>}
 
-            <div className="accordian__title">
+            <div className={styles['accordian__title']}>
                 {title}
                 <AnimatePresence initial={false}>
                   {showContent && (
@@ -37,7 +37,7 @@ const Accordian: React.FC<AccordianProps> = ({
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3, ease: 'easeIn' }}
                       style={{ overflow: 'hidden' }}
-                      className="accordian__content"
+                      className={styles['accordian__content']}
                     >
                       {children}
                       <p>{description}</p>
@@ -45,7 +45,7 @@ const Accordian: React.FC<AccordianProps> = ({
                   )}
                 </AnimatePresence>
             </div>
-            {!flipIcon && <i className={`accordian__icon ${showContent ? 'ri-subtract-line' : 'ri-add-line'}`}
+            {!flipIcon && <i className={`${styles['accordian__icon']} ${showContent ? 'ri-subtract-line' : 'ri-add-line'}`}
                              onClick={() => setShowContent((prevShowContent) => !prevShowContent)}/>}
         </motion.div>);
 };

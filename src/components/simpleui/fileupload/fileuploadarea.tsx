@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import './fileuploadarea.scss';
+import styles from './fileuploadarea.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import {Button} from "@/components/simpleui/Button/button";
 
@@ -52,7 +52,7 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = (props: FileUploadAreaProp
     };
 
     return (
-            <form id="form-file-upload" className={`file-upload-area file-upload-area--${props.variant}`} onDragEnter={handleDrag}
+            <form id="form-file-upload" className={`${styles['file-upload-area']} ${styles[`file-upload-area--${props.variant}`]}`} onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
                   onDragOver={handleDrag}
                   onDrop={handleDrop}>
@@ -60,21 +60,21 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = (props: FileUploadAreaProp
                     ref={inputRef}
                     type="file"
                     id="input-file-upload"
-                    className="file-upload-input"
+                    className={styles['file-upload-input']}
                     multiple={true}
                     onChange={handleChange}
                 />
                 <label
                     id="label-file-upload"
                     htmlFor="input-file-upload"
-                    className={`file-upload-area__container ${dragActive ? 'drag-active' : ''}`}
+                    className={`${styles['file-upload-area__container']} ${dragActive ? styles['drag-active'] : ''}`}
                 >
-                    <i className="fileuploadarea__icon ri-upload-cloud-line"></i>
-                    <div className={'fileuploadarea__title'}>Choose a file or drag & drop it here.
-                        <p className={'fileuploadarea_supported_meta'}>JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
+                    <i className={`${styles['fileuploadarea__icon']} ri-upload-cloud-line`}></i>
+                    <div className={styles['fileuploadarea__title']}>Choose a file or drag & drop it here.
+                        <p className={styles['fileuploadarea_supported_meta']}>JPEG, PNG, PDF, and MP4 formats, up to 50 MB.</p>
                     </div>
                     <Button type={'button'} variant={'secondary'} onClick={onButtonClick}>Browse</Button>
-                    {fileName && <p className="fileuploadarea__filename">{fileName}</p>}
+                    {fileName && <p className={styles['fileuploadarea__filename']}>{fileName}</p>}
                 </label>
 
             </form>);

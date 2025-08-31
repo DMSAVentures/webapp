@@ -1,5 +1,5 @@
 import React from "react";
-import "./tab-menu-vertical-item.scss"
+import styles from "./tab-menu-vertical-item.module.scss"
 
 export interface TabMenuVerticalItemProps {
     active: boolean;
@@ -12,14 +12,14 @@ export interface TabMenuVerticalItemProps {
 export const TabMenuVerticalItem: React.FC<TabMenuVerticalItemProps> = (props) => {
     return (
 
-        <li className={`tab-menu-vertical-item ${props.active ? 'tab-menu-vertical-item--active' : ''}`}>
+        <li className={`${styles['tab-menu-vertical-item']} ${props.active ? styles['tab-menu-vertical-item--active'] : ''}`}>
             {props.leftIcon &&
-                <i className={`tab-menu-vertical-item__left-icon ${props.leftIcon}`}/>}
-            <span className="tab-menu-vertical-item__text">{props.text}</span>
+                <i className={`${styles['tab-menu-vertical-item__left-icon']} ${props.leftIcon}`}/>}
+            <span className={styles['tab-menu-vertical-item__text']}>{props.text}</span>
 
-            {Boolean(props.number) && !props.rightIcon && <span className="tab-menu-vertical-item__badge">{props.number}</span>}
+            {Boolean(props.number) && !props.rightIcon && <span className={styles['tab-menu-vertical-item__badge']}>{props.number}</span>}
             {!props.number && props.rightIcon &&
-                <i className={`tab-menu-vertical-item__right-icon ${props.rightIcon}`}/>}
+                <i className={`${styles['tab-menu-vertical-item__right-icon']} ${props.rightIcon}`}/>}
         </li>
 
     )

@@ -1,5 +1,5 @@
 import React from 'react';
-import './breadcrumbitem.scss';
+import styles from './breadcrumbitem.module.scss';
 import 'remixicon/fonts/remixicon.css';
 interface BreadcrumbItemWithTextProps {
     state: 'default' | 'active' | 'disabled';
@@ -24,9 +24,9 @@ export type BreadcrumbItemProps = BreadcrumbItemWithTextProps | BreadcrumbItemWi
 const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
     const { state } = props;
     return (
-        <div className={`breadcrumb-item breadcrumb-item--${state}`}>
-            { 'icon' in props && <i className={`breadcrumb-item__icon ${props.icon}`}/> }
-            { 'children' in props && <span className={'breadcrumb-item__text'}>{props.children}</span> }
+        <div className={`${styles['breadcrumb-item']} ${styles[`breadcrumb-item--${state}`]}`}>
+            { 'icon' in props && <i className={`${styles['breadcrumb-item__icon']} ${props.icon}`}/> }
+            { 'children' in props && <span className={styles['breadcrumb-item__text']}>{props.children}</span> }
         </div>
     );
 }

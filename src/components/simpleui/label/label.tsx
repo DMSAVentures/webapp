@@ -1,5 +1,5 @@
 import React, {JSX} from "react";
-import './label.scss';
+import styles from './label.module.scss';
 import {Badge} from "@/components/simpleui/badge/badge";
 
 export interface LabelProps {
@@ -12,13 +12,13 @@ export interface LabelProps {
 }
 const Label: React.FC<LabelProps> = (props): JSX.Element => {
     return (
-        <div className={`label__container label__container--${props.disabled ? 'disabled' :''}`}>
-            <span className={'label__string'}>
+        <div className={`${styles['label__container']} ${styles[`label__container--${props.disabled ? 'disabled' : ''}`]}`}>
+            <span className={styles['label__string']}>
                 {props.text}
                 {props.required && <sup>*</sup>}
             </span>
 
-            {props.subText && <small className={'label__sublabel__string'}>({props.subText})</small>}
+            {props.subText && <small className={styles['label__sublabel__string']}>({props.subText})</small>}
             {props.badgeString && <Badge text={props.badgeString} variant={props.badgeColour!} styleType={'lighter'} size={'small'}
                                    disabled={props.disabled}/>}
         </div>

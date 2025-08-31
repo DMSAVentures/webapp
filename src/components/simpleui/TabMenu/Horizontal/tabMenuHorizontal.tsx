@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import './tab-menu-horizontal.scss';
+import styles from './tab-menu-horizontal.module.scss';
 import {TabMenuHorizontalItemProps} from "@/components/simpleui/TabMenu/Horizontal/tabMenuHorizontalItem";
 
 interface TabMenuHorizontalProps {
@@ -15,11 +15,11 @@ export const TabMenuHorizontal: React.FC<TabMenuHorizontalProps> = (props) => {
     const itemsMemo = React.useMemo(() => props.items || [], [props.items]);
     let activeTab = props.activeTab || 0;
     return (
-        <nav className={`tab-menu-horizontal`}>
+        <nav className={styles['tab-menu-horizontal']}>
             <ul>
             {itemsMemo.map((item, index) => {
                 return (
-                    <li className={`tab-menu-horizontal__item ${activeTab === index ? 'tab-menu-horizontal__item--active' : ''}`}  onClick={() => handleTabClick(index)} key={index}>
+                    <li className={`${styles['tab-menu-horizontal__item']} ${activeTab === index ? styles['tab-menu-horizontal__item--active'] : ''}`} onClick={() => handleTabClick(index)} key={index}>
                         {item}
                     </li>
                 );

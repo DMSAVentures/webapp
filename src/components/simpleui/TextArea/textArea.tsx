@@ -1,5 +1,5 @@
 import React from 'react';
-import './text-area.scss';
+import styles from './text-area.module.scss';
 import Label from "@/components/simpleui/label/label";
 import HintText from "@/components/simpleui/hinttext/hinttext";
 
@@ -19,11 +19,11 @@ export const TextArea = (props: TextAreaProps) => {
         (props.minLength && charCount < props.minLength))
 
     return (
-        <div className={`text-area ${props.error ? 'text-area--error' : ''}`}>
+        <div className={`${styles['text-area']} ${props.error ? styles['text-area--error'] : ''}`}>
             {props.label ? <Label text={props.label} required={props.required} subText={!props.required ? 'Optional' : ''}/> : null }
             <textarea {...props}  onChange={handleChange}/>
             {props.minLength || props.maxLength ? (
-                <small className={`text-area__character-count ${unfullfilledCharacters ? 'text-area__character-count--error' : ''}`}>
+                <small className={`${styles['text-area__character-count']} ${unfullfilledCharacters ? styles['text-area__character-count--error'] : ''}`}>
                     {charCount} of {props.minLength || 0}-{props.maxLength} characters
                 </small>
             ) : null}

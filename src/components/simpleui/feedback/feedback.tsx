@@ -1,5 +1,5 @@
 import React, {HTMLAttributes, useState} from 'react';
-import './feedback.scss';
+import styles from './feedback.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import Linkbutton from "@/components/simpleui/linkbutton/linkbutton";
 
@@ -32,17 +32,17 @@ interface DetailedFeedbackProps extends HTMLAttributes<HTMLElement> {
 function getIconBasedOnFeedbackType(feedbackType: string) {
         switch (feedbackType) {
             case 'success':
-                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
+                return <i className={`${styles['feedback__icon']} ri-checkbox-circle-fill`}></i>;
             case 'error':
-                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
+                return <i className={`${styles['feedback__icon']} ri-checkbox-circle-fill`}></i>;
             case 'warning':
-                return <i className="feedback__icon ri-alert-fill"></i>;
+                return <i className={`${styles['feedback__icon']} ri-alert-fill`}></i>;
             case 'info':
-                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
+                return <i className={`${styles['feedback__icon']} ri-checkbox-circle-fill`}></i>;
             case 'feature':
-                return <i className="feedback__icon ri-magic-fill"></i>;
+                return <i className={`${styles['feedback__icon']} ri-magic-fill`}></i>;
             default:
-                return <i className="feedback__icon ri-checkbox-circle-fill"></i>;
+                return <i className={`${styles['feedback__icon']} ri-checkbox-circle-fill`}></i>;
         }
 }
 
@@ -52,11 +52,11 @@ const SimpleFeedback: React.FC<SimpleFeedbackProps> = (props) => {
     if (!visible) return null;
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType);
     return (
-        <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
+        <div className={`${styles.feedback} ${styles[`feedback--${props.size}`]} ${styles[`feedback--${props.variant}`]} ${styles[`feedback--${props.feedbackType}`]}`}>
             {feedbackIcon}
-            <div className="feedback__title">{props.alertTitle}</div>
+            <div className={styles['feedback__title']}>{props.alertTitle}</div>
             {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={props.size == 'small' ? 'medium' : 'small'} styleType={'lighter'} href={props.linkHref!} underline={true}>{props.linkTitle}</Linkbutton>}
-            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} onClick={() => setVisible(false)} />}
+            {props.dismissable && <i className={`${styles['feedback__dismiss']} ri-close-fill`} onClick={() => setVisible(false)} />}
         </div>
     );
 }
@@ -67,25 +67,25 @@ const DetailedFeedback: React.FC<DetailedFeedbackProps> = (props) => {
     if (!visible) return null;
     const feedbackIcon = getIconBasedOnFeedbackType(props.feedbackType);
     return (
-        <div className={`feedback feedback--${props.size} feedback--${props.variant} feedback--${props.feedbackType}`}>
+        <div className={`${styles.feedback} ${styles[`feedback--${props.size}`]} ${styles[`feedback--${props.variant}`]} ${styles[`feedback--${props.feedbackType}`]}`}>
             {feedbackIcon}
-            <div className='feedback-detailed__content'>
-                <div className='feedback-detailed__text'>
-                    <div className="feedback__title">{props.alertTitle}</div>
-                    <div className="feedback__description">{props.alertDescription}</div>
+            <div className={styles['feedback-detailed__content']}>
+                <div className={styles['feedback-detailed__text']}>
+                    <div className={styles['feedback__title']}>{props.alertTitle}</div>
+                    <div className={styles['feedback__description']}>{props.alertDescription}</div>
                 </div>
-                <div className={'feedback-detailed__buttons'}>
+                <div className={styles['feedback-detailed__buttons']}>
                     <div>
                         {props.linkTitle && <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'}  href={props.linkHref!} underline={true}>{props.linkTitle}</Linkbutton>}
                     </div>
-                    <div className={'feedback-detailed__buttons__separator'}>&#8226;</div>
+                    <div className={styles['feedback-detailed__buttons__separator']}>&#8226;</div>
                     <div>
                         {props.secondaryLinkTitle &&
                             <Linkbutton variant={props.variant == 'filled' ? 'gray' : 'neutral' } size={'medium'} styleType={'lighter'} href={props.linkHref!} underline={true}>{props.secondaryLinkTitle}</Linkbutton>}
                     </div>
                 </div>
             </div>
-            {props.dismissable && <i className={'feedback__dismiss ri-close-fill'} onClick={() => setVisible(false)} />}
+            {props.dismissable && <i className={`${styles['feedback__dismiss']} ri-close-fill`} onClick={() => setVisible(false)} />}
         </div>
     );
 }

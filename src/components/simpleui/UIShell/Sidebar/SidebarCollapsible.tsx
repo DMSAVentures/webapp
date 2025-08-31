@@ -1,5 +1,5 @@
 import React from "react";
-import "./sidebar.scss";
+import styles from "./sidebar.module.scss";
 
 export interface SidebarProps {
     isOpen: boolean;
@@ -9,7 +9,7 @@ export interface SidebarProps {
 
 export const SidebarCollapsible: React.FC<SidebarProps> = ({ isOpen, children }) => {
     return (
-        <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
+        <aside className={`${styles.sidebar} ${isOpen ? styles['sidebar--open'] : ""}`}>
             {children}
         </aside>
     );

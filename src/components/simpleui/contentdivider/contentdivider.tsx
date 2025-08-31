@@ -1,5 +1,5 @@
 import React from 'react';
-import './contentdivider.scss';
+import styles from './contentdivider.module.scss';
 interface LineContentDividerProps {
     size: 'thin' | 'thick'
     text?: string;
@@ -26,13 +26,13 @@ function isBannerContentDividerProps(props: ContentDividerProps): props is Banne
 
 const LineContentDivider: React.FC<LineContentDividerProps> = (props) => {
     return (
-       <hr className={`content-divider-line ${props.text ? 'content-divider-line--text': ''}`} data-content={props.text}/>
+       <hr className={`${styles['content-divider-line']} ${props.text ? styles['content-divider-line--text'] : ''}`} data-content={props.text}/>
     );
 }
 
 const BannerContentDivider: React.FC<BannerContentDividerProps> = (props) => {
     return (
-        <div className={`content-divider-banner content-divider-banner--${props.styleType}`}>
+        <div className={`${styles['content-divider-banner']} ${styles[`content-divider-banner--${props.styleType}`]}`}>
             {props.text}
         </div>
     );
@@ -40,7 +40,7 @@ const BannerContentDivider: React.FC<BannerContentDividerProps> = (props) => {
 
 const ButtonGroupContentDivider: React.FC<ButtonGroupContentDividerProps> = (props) => {
     return (
-        <div className="content-divider-buttongroup">
+        <div className={styles['content-divider-buttongroup']}>
             {props.buttonGroup}
         </div>
     );

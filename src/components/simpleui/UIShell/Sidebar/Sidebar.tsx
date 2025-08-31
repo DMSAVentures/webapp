@@ -1,5 +1,5 @@
 import React from 'react'
-import "./sidebar.scss"
+import styles from "./sidebar.module.scss"
 import {useSidebar} from "@/contexts/sidebar";
 import HeaderLogo from "@/components/simpleui/UIShell/Header/HeaderLogo";
 import {SidebarGroup} from "@/components/simpleui/UIShell/Sidebar/sidebarGroup";
@@ -16,7 +16,7 @@ export interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = () => {
     const { isOpen, isMobile } = useSidebar();
 
-    const sidebarClassName = `sidebar ${!isOpen ? "sidebar--collapsed" : ''} ${isMobile && isOpen ? "sidebar--open" : ''}`;
+    const sidebarClassName = `${styles.sidebar} ${!isOpen ? styles['sidebar--collapsed'] : ''} ${isMobile && isOpen ? styles['sidebar--open'] : ''}`;
 
     return (
             <aside className={sidebarClassName}>

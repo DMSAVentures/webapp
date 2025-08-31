@@ -1,5 +1,5 @@
 import React from 'react';
-import './progressbar.scss';
+import styles from './progressbar.module.scss';
 interface ProgressBarLineProps {
     progress: number;
     size: 'small' | 'medium' | 'large';
@@ -9,9 +9,9 @@ interface ProgressBarLineProps {
 
 const ProgressBarLine: React.FC<ProgressBarLineProps> = (props) => {
     return (
-        <div className={`progress-bar progress-bar--${props.size}`}>
-            <div className={`progress-bar__line progress-bar__line--${props.variant}`} style={{ width: `${props.progress}%` }}/>
-            {props.showPercentage && <span className="progress-bar__percentage">{props.progress}%</span>}
+        <div className={`${styles['progress-bar']} ${styles[`progress-bar--${props.size}`]}`}>
+            <div className={`${styles['progress-bar__line']} ${styles[`progress-bar__line--${props.variant}`]}`} style={{ width: `${props.progress}%` }}/>
+            {props.showPercentage && <span className={styles['progress-bar__percentage']}>{props.progress}%</span>}
         </div>
     );
 }

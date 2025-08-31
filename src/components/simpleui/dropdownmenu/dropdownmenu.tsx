@@ -1,5 +1,5 @@
 import React from 'react';
-import './dropdownmenu.scss';
+import styles from './dropdownmenu.module.scss';
 import 'remixicon/fonts/remixicon.css';
 import {ContentDividerProps} from "@/components/simpleui/contentdivider/contentdivider";
 import ContentDivider from "@/components/simpleui/contentdivider/contentdivider";
@@ -33,23 +33,23 @@ function isMenuItemsContentDivider(props: MenuItems): props is ContentDividerPro
 }
 const DropdownMenu: React.FC<DropdownMenuProps> = (props) => {
     return (
-        <div className="dropdown-menu">
+        <div className={styles['dropdown-menu']}>
             {props.items.map((item, index) => {
                 if (isMenuItemsContentDivider(item)) {
                     return <ContentDivider key={index} {...item} />;
                 } else {
                     return (
-                        <div key={index} className={`dropdown-menu__item dropdown-menu__item--${item.size} dropdown-menu__item--${item.state} ${item.checkbox ? 'dropdown-menu__item--checkbox' : ''} ${item.badge ? 'dropdown-menu__item--badge' : ''} ${item.shortcut ? 'dropdown-menu__item--shortcut' : ''} ${item.toggle ? 'dropdown-menu__item--toggle' : ''} ${item.button ? 'dropdown-menu__item--button' : ''}`}>
-                            {item.icon && item.iconPosition === 'left' && <i className={`dropdown-menu__icon dropdown-menu__icon--left ${item.icon}`}/>}
-                            <div className="dropdown-menu__label">{item.label}</div>
-                            {item.sublabel && <div className="dropdown-menu__sublabel">{item.sublabel}</div>}
-                            {item.icon && item.iconPosition === 'right' && <i className={`dropdown-menu__icon dropdown-menu__icon--right ${item.icon}`}/>}
+                        <div key={index} className={`${styles['dropdown-menu__item']} ${styles[`dropdown-menu__item--${item.size}`]} ${styles[`dropdown-menu__item--${item.state}`]} ${item.checkbox ? styles['dropdown-menu__item--checkbox'] : ''} ${item.badge ? styles['dropdown-menu__item--badge'] : ''} ${item.shortcut ? styles['dropdown-menu__item--shortcut'] : ''} ${item.toggle ? styles['dropdown-menu__item--toggle'] : ''} ${item.button ? styles['dropdown-menu__item--button'] : ''}`}>
+                            {item.icon && item.iconPosition === 'left' && <i className={`${styles['dropdown-menu__icon']} ${styles['dropdown-menu__icon--left']} ${item.icon}`}/>}
+                            <div className={styles['dropdown-menu__label']}>{item.label}</div>
+                            {item.sublabel && <div className={styles['dropdown-menu__sublabel']}>{item.sublabel}</div>}
+                            {item.icon && item.iconPosition === 'right' && <i className={`${styles['dropdown-menu__icon']} ${styles['dropdown-menu__icon--right']} ${item.icon}`}/>}
                         </div>
                     );
                 }
             })}
             {props.bottomButton ? props.bottomButton : null}
-            {props.caption && <div className="dropdown-menu__caption">{props.caption}</div>}
+            {props.caption && <div className={styles['dropdown-menu__caption']}>{props.caption}</div>}
         </div>
     );
 }
