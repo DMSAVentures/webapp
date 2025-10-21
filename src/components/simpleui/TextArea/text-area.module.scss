@@ -1,9 +1,9 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .text-area {
     display: flex;
     flex-direction: column;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
     position: relative;
 
     &--error {
@@ -16,7 +16,7 @@
         resize: none;
         border: 1px solid var(--color-border-secondary-default);
         border-radius: $border-radius-medium;
-        padding: $spacing-03 $spacing-03 $spacing-03 $spacing-05;
+        padding: layout.$spacing-03 layout.$spacing-03 layout.$spacing-03 layout.$spacing-05;
         //@extend .paragraph-small;
         //color: $color-neutral-900;
         color: var(--color-text-primary-default);
@@ -54,8 +54,8 @@
 
     &__character-count {
         position: absolute;
-        bottom: $spacing-08;
-        right: $spacing-03;
+        bottom: layout.$spacing-08;
+        right: layout.$spacing-03;
         //@extend .paragraph-x-small;
         color: var(--color-text-secondary-default);
 

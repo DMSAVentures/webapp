@@ -1,16 +1,16 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/variables.scss" as *;
 
 .tab-menu-vertical-item {
     display: flex;
     align-items: baseline;
     border: none;
-    //max-height: $spacing-07;
+    //max-height: layout.$spacing-07;
     //width: 100%;
-    padding: $spacing-03;
-    gap: $spacing-03;
-    //background-color: $color-white;
-    //color: $color-neutral-600;
-    border-radius: $border-radius-medium;
+    padding: layout.$spacing-03;
+    gap: layout.$spacing-03;
+    //background-color: colors.$color-white;
+    //color: colors.$color-neutral-600;
+    border-radius: border.$border-radius-medium;
     //@extend .paragraph-small;
 
     &__text {
@@ -19,30 +19,30 @@
 
     &__left-icon {
         //@extend .label-small;
-        //height: $spacing-20;
-        //width: $spacing-20;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
         //align-content: center;
         text-align: center;
     }
 
     &__right-icon {
         //@extend .label-small;
-        //height: $spacing-20;
-        //width: $spacing-20;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
         //align-content: center;
         text-align: center;
     }
 
     &__badge {
         //@extend .label-x-small;
-        //height: $spacing-20;
-        //width: $spacing-20;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
         align-content: center;
         vertical-align: center;
         text-align: center;
-        border-radius: $border-radius-round;
-        background-color: $red-500;
-        color: $color-white;
+        border-radius: border.$border-radius-round;
+        background-color: colors.$red-500;
+        color: colors.$color-white;
     }
 
     &--active {

@@ -1,13 +1,13 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .icon-only-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-03;      // Equal padding on all sides
-    width: $spacing-08;             // Fixed square dimensions
-    height: $spacing-08;
-    border-radius: $spacing-03;
+    padding: layout.$spacing-03;      // Equal padding on all sides
+    width: layout.$spacing-08;             // Fixed square dimensions
+    height: layout.$spacing-08;
+    border-radius: layout.$spacing-03;
     border: none;
     cursor: pointer;
     box-sizing: border-box;
@@ -63,10 +63,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-03;
-    width: $spacing-08;
-    height: $spacing-08;
-    border-radius: $spacing-03;
+    padding: layout.$spacing-03;
+    width: layout.$spacing-08;
+    height: layout.$spacing-08;
+    border-radius: layout.$spacing-03;
     border: none;
     cursor: pointer;
     box-sizing: border-box;

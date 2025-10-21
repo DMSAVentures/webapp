@@ -1,4 +1,4 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 
 // ==============================
@@ -8,15 +8,15 @@
 .root {
     display: flex;
     flex-direction: row;
-    gap: $spacing-03; // Spacing between icon and text
+    gap: layout.$spacing-03; // Spacing between icon and text
     align-items: baseline;
     justify-content: center;
 
     font-family: inherit;
     //font-size: 1rem;                    // Base font size
     //font-weight: $font-weight-semibold; // Slightly bold weight from tokens
-    padding: $spacing-03 $spacing-05;   // Padding using spacing tokens
-    border-radius: $spacing-03; // Rounded corners
+    padding: layout.$spacing-03 layout.$spacing-05;   // Padding using spacing tokens
+    border-radius: layout.$spacing-03; // Rounded corners
     //border: $border-width-interactive solid transparent; // Only visible in interactive states
     border: none;
     cursor: pointer;
@@ -24,18 +24,18 @@
                 color $duration-moderate-01 $easing-productive-standard,
                 border-color $duration-moderate-01 $easing-productive-standard;
 
-    min-width: $spacing-07;
+    min-width: layout.$spacing-07;
 
     @media (min-width: $breakpoint-md) {
-        min-width: $spacing-08;
+        min-width: layout.$spacing-08;
     }
 
     @media (min-width: $breakpoint-lg) {
-        min-width: $spacing-09;
+        min-width: layout.$spacing-09;
     }
 
     @media (min-width: $breakpoint-xlg) {
-        min-width: $spacing-10;
+        min-width: layout.$spacing-10;
     }
 
     // Default color for primary button
@@ -104,7 +104,7 @@
 // ==============================
 
 .size_small {
-    padding: $spacing-02 $spacing-04;
+    padding: layout.$spacing-02 layout.$spacing-04;
     font-size: 0.875rem;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .size_large {
-    padding: $spacing-04 $spacing-06;
+    padding: layout.$spacing-04 layout.$spacing-06;
     font-size: 1.125rem;
 }
 

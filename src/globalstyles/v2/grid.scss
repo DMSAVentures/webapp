@@ -24,10 +24,12 @@ $column-width-max: 6.25%;
 
 $padding: 16px;
 
-
 // ==============================
 // Container Width Tokens
 // ==============================
+
+@use "breakpoints.scss" as *;
+@use "layout.scss" as *;
 
 $container-width-sm: $breakpoint-sm;
 $container-width-md: $breakpoint-md;

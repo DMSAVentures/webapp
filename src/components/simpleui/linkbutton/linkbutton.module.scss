@@ -1,4 +1,4 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 // Base button styles
 .linkbutton {
@@ -11,20 +11,20 @@
               color $duration-moderate-01 $easing-productive-entrance,
               text-decoration $duration-moderate-01 $easing-productive-entrance;
   border-radius: $border-radius-medium;
-  padding: 0 $spacing-03;
+  padding: 0 layout.$spacing-03;
   text-decoration: none;
 
   // Size variants
   &--small {
-    gap: $spacing-02;
-    padding: $spacing-02 $spacing-03;
+    gap: layout.$spacing-02;
+    padding: layout.$spacing-02 layout.$spacing-03;
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
 
   &--medium {
-    gap: $spacing-03;
-    padding: $spacing-03 $spacing-04;
+    gap: layout.$spacing-03;
+    padding: layout.$spacing-03 layout.$spacing-04;
     font-size: 1rem;
     line-height: 1.5rem;
   }
@@ -47,11 +47,11 @@
     justify-content: center;
 
     &--left {
-      margin-right: $spacing-02;
+      margin-right: layout.$spacing-02;
     }
 
     &--right {
-      margin-left: $spacing-02;
+      margin-left: layout.$spacing-02;
     }
   }
 
@@ -59,7 +59,7 @@
   .linkbutton__external-icon {
     display: inline-flex;
     align-items: center;
-    margin-left: $spacing-01;
+    margin-left: layout.$spacing-01;
     font-size: 0.875em;
   }
 
@@ -72,11 +72,11 @@
 
   // Ensure proper spacing when icons are present
   &:has(.linkbutton__icon--left) {
-    padding-left: $spacing-05;
+    padding-left: layout.$spacing-05;
   }
 
   &:has(.linkbutton__icon--right) {
-    padding-right: $spacing-05;
+    padding-right: layout.$spacing-05;
   }
 
   // Disabled state

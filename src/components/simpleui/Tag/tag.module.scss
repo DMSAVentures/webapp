@@ -1,19 +1,20 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 .tag {
     display: flex;
     align-items: center;
-    //height: $spacing-24;
-    padding: $spacing-02 $spacing-03;
-    gap: $spacing-03;
-    border-radius: $border-radius-medium;
-    border: 1px solid var(--color-border);
+    //height: layout.$spacing-24;
+    padding: layout.$spacing-02 layout.$spacing-03;
+    gap: layout.$spacing-03;
+    border-radius: border.$border-radius-medium;
+    border: 1px solid var(--colors.$color-border);
     //font-size: 0.85em;
     //@extend .label-x-small;
-    color: var(--color-secondary);
+    color: var(--colors.$color-secondary);
 
     &__image {
-        border-radius: $border-radius-round;
+        border-radius: border.$border-radius-round;
         height: 1em; // Set height to match the line-height of the text
         width: auto; // Maintain aspect ratio
         max-height: 100%; // Ensure it doesn't exceed container height

@@ -1,11 +1,11 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/variables.scss" as *;
 
 .step-indicator-horizontal-item {
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  gap: $spacing-03;
+  gap: layout.$spacing-03;
   color: var(--color-text-disabled-default);
 
   &--active, &--completed {
@@ -13,25 +13,25 @@
   }
 
   .step-indicator-horizontal-item__icon {
-    height: $spacing-05;
-    width: $spacing-05;
+    height: layout.$spacing-05;
+    width: layout.$spacing-05;
     align-content: center;
     vertical-align: center;
     text-align: center;
-    border-radius: $border-radius-large;
-    line-height: $spacing-03;
+    border-radius: border.$border-radius-large;
+    line-height: layout.$spacing-03;
     &--completed {
       color: var(--color-text-inverse-default);
       background-color: $green-500;
-      line-height: $spacing-05; // aligns icon vertically in the circle
+      line-height: layout.$spacing-05; // aligns icon vertically in the circle
     }
     &--active {
-        color: var(--color-text-inverse-default);
-        background-color: $blue-500;
+        color: colors.$color-text-inverse-default;
+        background-color: colors.$blue-500;
     }
 
     &--default {
-      border: 1px solid var(--color-border-primary-default);
+      border: 1px solid colors.$color-border-primary-default;
     }
   }
 }

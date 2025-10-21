@@ -1,7 +1,7 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/variables.scss" as *;
 
 .shell-container {
-    margin-top: $spacing-03;
+    margin-top: layout.$spacing-03;
     //flex-shrink: 0;
     flex-grow: 1;
     overflow-y: auto;
@@ -21,7 +21,7 @@
         align-self: flex-start;
     }
 
-    @media (min-width: $breakpoint-lg) {
-        gap: $spacing-05;
+    @media (min-width: variables.$breakpoint-lg) {
+        gap: layout.$spacing-05;
     }
 }

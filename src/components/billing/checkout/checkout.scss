@@ -1,24 +1,24 @@
-@import '../../../globalstyles/v2/colors.scss';
-@import '../../../globalstyles/v2/typography.scss';
-@import '../../../globalstyles/v2/layout.scss';
-@import '../../../globalstyles/v2/border.scss';
-@import '../../../globalstyles/v2/shadow.scss';
+@use '../../../globalstyles/v2/colors.scss' as *;
+@use '../../../globalstyles/v2/typography.scss' as *;
+@use '../../../globalstyles/v2/layout.scss' as *;
+@use '../../../globalstyles/v2/border.scss' as *;
+@use '../../../globalstyles/v2/shadow.scss' as *;
 
 .checkout-container {
   //max-width: 800px;
   margin: 0 auto;
-  padding: $spacing-07;
-  //background-color: $color-white;
-  border-radius: $border-radius-medium;
-  //box-shadow: $shadow-modal;
-  background: $color-white;
+  padding: layout.$spacing-07;
+  //background-color: colors.$color-white;
+  border-radius: border.$border-radius-medium;
+  //box-shadow: shadow.$shadow-modal;
+  background: colors.$color-white;
 
   h2 {
-    font-size: $font-size-h3;
-    font-weight: $font-weight-semibold;
-    margin-bottom: $spacing-06;
+    font-size: typography.$font-size-h3;
+    font-weight: typography.$font-weight-semibold;
+    margin-bottom: layout.$spacing-06;
     text-align: center;
-    color: $color-neutral-900;
+    color: colors.$color-neutral-900;
   }
 }
 

@@ -1,4 +1,5 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 @mixin modal-icon-style($color) {
     color: $color;
@@ -11,9 +12,9 @@
     transform: translate(-50%, -50%); /* Center it horizontally and vertically */
     display: flex;
     flex-direction: column;
-    border-radius: $border-radius-large;
+    border-radius: border.$border-radius-large;
     border: 1px solid var(--color-border-primary-default);
-    padding: $spacing-05;
+    padding: layout.$spacing-05;
     box-shadow: none;
     overflow: hidden;
     &::backdrop {
@@ -23,11 +24,11 @@
     }
 
     @media (min-width: $breakpoint-sm) {
-        width: $spacing-13 * 2;
+        width: layout.$spacing-13 * 2;
     }
 
     @media (min-width: $breakpoint-md) {
-        width: $spacing-13 * 3;
+        width: layout.$spacing-13 * 3;
     }
 }
 
@@ -35,9 +36,9 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    gap: $spacing-05;
-    padding-bottom: $spacing-05;
-    margin-bottom: $spacing-03;
+    gap: layout.$spacing-05;
+    padding-bottom: layout.$spacing-05;
+    margin-bottom: layout.$spacing-03;
     border-bottom: 1px solid var(--color-border-primary-default);
 
     &--centered {
@@ -48,7 +49,7 @@
         display: flex;
         width: 100%;
         flex-direction: column;
-        gap: $spacing-05;
+        gap: layout.$spacing-05;
 
         .modal__title {
             //@extend .label-small;
@@ -70,16 +71,16 @@
     &--info  {
         @include modal-icon-style($blue-500);
         &.modal__icon--medium {
-            padding: $spacing-02 $spacing-03;
-            border-radius: $border-radius-round;
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
             background-color: $blue-alpha-24;
         }
     }
     &--success {
         @include modal-icon-style($green-500);
         &.modal__icon--medium {
-            padding: $spacing-02 $spacing-03;
-            border-radius: $border-radius-round;
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
             background-color: $green-alpha-24;
         }
     }
@@ -87,9 +88,9 @@
     &--warning {
         @include modal-icon-style($orange-500);
         &.modal__icon--medium {
-            padding: $spacing-02 $spacing-03;
+            padding: layout.$spacing-02 layout.$spacing-03;
             align-self: center;
-            border-radius: $border-radius-round;
+            border-radius: border.$border-radius-round;
             background-color: $orange-alpha-24;
         }
     }
@@ -98,8 +99,8 @@
     &--alert {
         @include modal-icon-style($red-500);
         &.modal__icon--medium {
-            padding: $spacing-02 $spacing-03;
-            border-radius: $border-radius-round;
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
             background-color: $red-alpha-24;
         }
     }
@@ -107,8 +108,8 @@
     &--feature {
         @include modal-icon-style($color-neutral-500);
         &.modal__icon--medium {
-            padding: $spacing-02 $spacing-03;
-            border-radius: $border-radius-round;
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
             border: 1px solid $color-neutral-200;
         }
     }
@@ -116,8 +117,8 @@
 
 .modal__footer {
     display: flex;
-    padding-top: $spacing-03;
-    gap: $spacing-03;
+    padding-top: layout.$spacing-03;
+    gap: layout.$spacing-03;
     color: var(--color-text-tertiary-default);
 
     .modal__footer-left {
@@ -125,7 +126,7 @@
         align-self: center;
         text-align: left;
         width: 100%;
-        gap: $spacing-03;
+        gap: layout.$spacing-03;
     }
 
     .modal__footer-right {
@@ -133,7 +134,7 @@
         flex-flow: row-reverse;
         width: 100%;
         align-self: center;
-        gap: $spacing-03;
+        gap: layout.$spacing-03;
     }
 
     @media (min-width: $breakpoint-sm) {
@@ -149,7 +150,7 @@
 .modal__body {
     display: flex;
     flex-direction: column;
-    gap: $spacing-03;
-    padding: $spacing-03 0 $spacing-03 0;
+    gap: layout.$spacing-03;
+    padding: layout.$spacing-03 0 layout.$spacing-03 0;
 }
 

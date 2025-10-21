@@ -1,19 +1,19 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/variables.scss" as variables;
 
 $breakpoints: (
-        sm: $breakpoint-sm,
-        md: $breakpoint-md,
-        lg: $breakpoint-lg,
-        xlg: $breakpoint-xlg,
-        max: $breakpoint-max,
+        sm: variables.variables.$breakpoint-sm,
+        md: variables.variables.$breakpoint-md,
+        lg: variables.variables.$breakpoint-lg,
+        xlg: variables.variables.$breakpoint-xlg,
+        max: variables.variables.$breakpoint-max,
 );
 
 $columns: (
-        sm: $columns-sm,
-        md: $columns-md,
-        lg: $columns-lg,
-        xlg: $columns-xlg,
-        max: $columns-max,
+        sm: variables.variables.$columns-sm,
+        md: variables.variables.$columns-md,
+        lg: variables.variables.$columns-lg,
+        xlg: variables.variables.$columns-xlg,
+        max: variables.variables.$columns-max,
 );
 
 //@each $breakpoint, $value in $breakpoints {

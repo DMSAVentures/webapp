@@ -1,29 +1,29 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/variables.scss" as *;
 
 .tab-menu-vertical-sidebar {
     display: flex;
     flex-direction: column;
     align-content: center;
-    gap: $spacing-05;
-    padding: $spacing-05;
-    width: $spacing-13 * 2;
+    gap: layout.$spacing-05;
+    padding: layout.$spacing-05;
+    width: layout.$spacing-13 * 2;
 
     &--card {
-        border-radius: $border-radius-large;
-        border: 1px solid $color-neutral-200;
+        border-radius: border.$border-radius-large;
+        border: 1px solid colors.$color-neutral-200;
         //@extend .shadow-sm;
     }
 
     &__title {
         //@extend .subheading-x-small;
-        color: $color-neutral-400;
+        color: colors.$color-neutral-400;
         text-transform: uppercase;
-        padding:  $spacing-03 $spacing-05;
+        padding:  layout.$spacing-03 layout.$spacing-05;
     }
 
     &__footer {
         //@extend .paragraph-x-small;
-        color: $color-neutral-400;
+        color: colors.$color-neutral-400;
         text-align: center;
     }
 
@@ -31,8 +31,8 @@
         display: flex;
         flex:1;
         flex-direction: column;
-        //gap: $spacing-02;
-        color: $color-neutral-500;
+        //gap: layout.$spacing-02;
+        color: colors.$color-neutral-500;
         align-content: center;
         padding-left: 0;
 

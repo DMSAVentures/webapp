@@ -1,15 +1,15 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .message-input-container {
     position: sticky;
     //align-items: center;
     align-content: center;
-    //margin-bottom: $spacing-05;
-    bottom: $spacing-05;
+    //margin-bottom: layout.$spacing-05;
+    bottom: layout.$spacing-05;
     z-index: 10;
     display: flex;
     flex-direction: column;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
 
     .button {
         //flex-grow: 0;
@@ -55,20 +55,20 @@
     border-color: var(--color-border-primary-default);
     border-width: $border-radius-small;
     border-radius: $border-radius-large;
-    padding: $spacing-05;
-    min-height: $spacing-12;
-    margin-bottom: $spacing-05;
+    padding: layout.$spacing-05;
+    min-height: layout.$spacing-12;
+    margin-bottom: layout.$spacing-05;
     background: var(--color-surface-secondary-default);
 }
 
 
 .chat-bubble-ai {
-    padding: $spacing-06;
+    padding: layout.$spacing-06;
 }
 
 .chat-container {
     flex: 1; // take up available space
-    padding-bottom: $spacing-06;
+    padding-bottom: layout.$spacing-06;
 }
 
 .chat-wrapper {

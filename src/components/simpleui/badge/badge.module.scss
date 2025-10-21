@@ -1,4 +1,5 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 @mixin badge-style($color, $text-color) {
   background-color: $color;
@@ -9,17 +10,17 @@
 }
 
 .badge {
-  border-radius: $border-radius-large;
+  border-radius: border.$border-radius-large;
   display: flex;
-  gap: $spacing-01;
+  gap: layout.$spacing-01;
   text-transform: uppercase;
   align-items: center;
 
 
   &--small {
-    font-size: $spacing-03;
+    font-size: layout.$spacing-03;
     font-weight: bolder;
-    padding: $spacing-01 $spacing-03;
+    padding: layout.$spacing-01 layout.$spacing-03;
 
 
     .badge__icon {
@@ -28,9 +29,9 @@
   }
 
   &--medium {
-    font-size: $spacing-04;
+    font-size: layout.$spacing-04;
     font-weight: bold;
-    padding: $spacing-02 $spacing-03;
+    padding: layout.$spacing-02 layout.$spacing-03;
 
     .badge__icon {
         min-height: 100%;

@@ -1,5 +1,5 @@
 //@import "@/globalstyles/variables";
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/variables.scss" as *;
 
 .file-upload-area {
     display: flex;

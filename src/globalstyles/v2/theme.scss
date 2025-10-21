@@ -1,4 +1,4 @@
-@import "colors";
+@use "colors" as *;
 // Accessibility-focused contrast ratios:
 // - Text on background: at least 4.5:1 (WCAG AA)
 // - Large text on background: at least 3:1 (WCAG AA)
