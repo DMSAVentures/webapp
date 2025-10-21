@@ -1,7 +1,7 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/colors.scss" as *;
-@use "@/globalstyles/v2/border.scss" as *;
-@use "@/globalstyles/v2/motion.scss" as *;
+@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 // Base button styles
 .linkbutton {
@@ -9,11 +9,11 @@
   align-items: center;
   border: none;
   cursor: pointer;
-  transition: background-color $duration-moderate-01 $easing-productive-entrance,
-              outline $duration-moderate-01 $easing-productive-entrance,
-              color $duration-moderate-01 $easing-productive-entrance,
-              text-decoration $duration-moderate-01 $easing-productive-entrance;
-  border-radius: $border-radius-medium;
+  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance,
+              outline motion.$duration-moderate-01 motion.$easing-productive-entrance,
+              color motion.$duration-moderate-01 motion.$easing-productive-entrance,
+              text-decoration motion.$duration-moderate-01 motion.$easing-productive-entrance;
+  border-radius: border.$border-radius-medium;
   padding: 0 layout.$spacing-03;
   text-decoration: none;
 
@@ -101,20 +101,20 @@
 .linkbutton--primary {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: $blue-700;
+    color: colors.$blue-700;
 
     .linkbutton__text {
-      color: $blue-700;
+      color: colors.$blue-700;
 
       &:hover, &:focus {
         text-decoration: none;
-        color: $blue-900;
+        color: colors.$blue-900;
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba($blue-700, 0.05);
+      background-color: rgba(colors.$blue-700, 0.05);
 
       .linkbutton__text {
         text-decoration: none;
@@ -122,14 +122,14 @@
     }
 
     &:active {
-      background-color: rgba($blue-700, 0.1);
+      background-color: rgba(colors.$blue-700, 0.1);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: $color-neutral-400;
+      color: colors.$color-neutral-400;
 
       .linkbutton__text {
-        color: $color-neutral-400;
+        color: colors.$color-neutral-400;
         text-decoration: underline;
       }
     }
@@ -140,20 +140,20 @@
 .linkbutton--gray {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: $color-neutral-700;
+    color: colors.$color-neutral-700;
 
     .linkbutton__text {
-      color: $color-neutral-700;
+      color: colors.$color-neutral-700;
 
       &:hover, &:focus {
         text-decoration: none;
-        color: $color-neutral-900;
+        color: colors.$color-neutral-900;
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba($color-neutral-700, 0.05);
+      background-color: rgba(colors.$color-neutral-700, 0.05);
 
       .linkbutton__text {
         text-decoration: none;
@@ -161,14 +161,14 @@
     }
 
     &:active {
-      background-color: rgba($color-neutral-700, 0.1);
+      background-color: rgba(colors.$color-neutral-700, 0.1);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: $color-neutral-400;
+      color: colors.$color-neutral-400;
 
       .linkbutton__text {
-        color: $color-neutral-400;
+        color: colors.$color-neutral-400;
         text-decoration: underline;
       }
     }
@@ -179,20 +179,20 @@
 .linkbutton--neutral {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: $color-neutral-800;
+    color: colors.$color-neutral-800;
 
     .linkbutton__text {
-      color: $color-neutral-800;
+      color: colors.$color-neutral-800;
 
       &:hover, &:focus {
         text-decoration: none;
-        color: $color-neutral-900;
+        color: colors.$color-neutral-900;
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba($color-neutral-800, 0.05);
+      background-color: rgba(colors.$color-neutral-800, 0.05);
 
       .linkbutton__text {
         text-decoration: none;
@@ -200,14 +200,14 @@
     }
 
     &:active {
-      background-color: rgba($color-neutral-800, 0.1);
+      background-color: rgba(colors.$color-neutral-800, 0.1);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: $color-neutral-400;
+      color: colors.$color-neutral-400;
 
       .linkbutton__text {
-        color: $color-neutral-400;
+        color: colors.$color-neutral-400;
         text-decoration: underline;
       }
     }
@@ -218,20 +218,20 @@
 .linkbutton--error {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: $red-700;
+    color: colors.$red-700;
 
     .linkbutton__text {
-      color: $red-700;
+      color: colors.$red-700;
 
       &:hover, &:focus {
         text-decoration: none;
-        color: $red-900;
+        color: colors.$red-900;
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba($red-700, 0.05);
+      background-color: rgba(colors.$red-700, 0.05);
 
       .linkbutton__text {
         text-decoration: none;
@@ -239,14 +239,14 @@
     }
 
     &:active {
-      background-color: rgba($red-700, 0.1);
+      background-color: rgba(colors.$red-700, 0.1);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: $color-neutral-400;
+      color: colors.$color-neutral-400;
 
       .linkbutton__text {
-        color: $color-neutral-400;
+        color: colors.$color-neutral-400;
         text-decoration: underline;
       }
     }

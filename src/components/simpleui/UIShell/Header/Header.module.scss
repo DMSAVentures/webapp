@@ -36,7 +36,7 @@
     }
 
     &__link, &__action-link {
-        @extend body;
+        // Body styles are inherited globally from typography.scss
         &:focus-visible {
             outline: 2px solid #0f62fe;
             outline-offset: 2px;

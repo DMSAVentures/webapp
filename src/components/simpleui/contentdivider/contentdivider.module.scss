@@ -1,10 +1,10 @@
-@use "@/globalstyles/v2/variables.scss" as v2;
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .content-divider-line {
-        color: v2.$color-text-secondary-default;
-        width: v2.layout.$spacing-13 * 2;
+        color: var(--color-text-secondary-default);
+        width: layout.$spacing-13 * 2;
         border: none;
-        border-top: 1px solid v2.colors.$color-border-primary-default;
+        border-top: 1px solid var(--color-border-primary-default);
         overflow: visible;
         text-align: center;
         height: layout.$spacing-05;
@@ -15,7 +15,7 @@
             content: attr(data-content);
             padding: 0 layout.$spacing-03;
             position: relative;
-            top: -layout.$spacing-04;
+            top: calc(-1 * layout.$spacing-04);
             text-transform: uppercase;
         }
 }

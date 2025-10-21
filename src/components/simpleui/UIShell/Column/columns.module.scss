@@ -1,5 +1,5 @@
 @use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
-@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/grid.scss" as grid;
 
 $breakpoints: (
         sm: breakpoints.$breakpoint-sm,
@@ -10,11 +10,11 @@ $breakpoints: (
 );
 
 $columns: (
-        sm: layout.$columns-sm,
-        md: layout.$columns-md,
-        lg: layout.$columns-lg,
-        xlg: layout.$columns-xlg,
-        max: layout.$columns-max,
+        sm: grid.$columns-sm,
+        md: grid.$columns-md,
+        lg: grid.$columns-lg,
+        xlg: grid.$columns-xlg,
+        max: grid.$columns-max,
 );
 
 //@each $breakpoint, $value in $breakpoints {

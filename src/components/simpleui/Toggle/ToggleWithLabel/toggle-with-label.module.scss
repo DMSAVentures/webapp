@@ -17,7 +17,7 @@
 
     &--disabled {
         .toggle-labeled__sublabel__string, .toggle-labeled__description__string {
-            color: colors.$color-muted;
+            color: var(--color-text-disabled-default);
         }
     }
 }

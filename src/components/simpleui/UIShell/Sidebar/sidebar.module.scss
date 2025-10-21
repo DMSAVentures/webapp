@@ -3,9 +3,9 @@
 @use "@/globalstyles/v2/colors.scss" as colors;
 
 .sidebar {
-    background-color: colors.$color-bg-tertiary-default;
+    background-color: var(--color-bg-tertiary-default);
     padding: layout.$spacing-03 layout.$spacing-05 layout.$spacing-03 layout.$spacing-05;
-    border-right: 1px solid colors.$color-border-primary-default;
+    border-right: 1px solid var(--color-border-primary-default);
     flex: 1 0 layout.$spacing-12 * 3;
     transition: transform 0.4s ease-in-out, transform 0.4s ease-in-out;
     /* When sidebar is collapsed */

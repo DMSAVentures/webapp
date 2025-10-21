@@ -1,5 +1,5 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/border.scss" as *;
+@use "@/globalstyles/v2/border.scss" as border;
 
 .message-input-container {
     position: sticky;
@@ -54,8 +54,8 @@
 
 .chat-bubble-user {
     border-color: var(--color-border-primary-default);
-    border-width: $border-radius-small;
-    border-radius: $border-radius-large;
+    border-width: border.$border-width-small;
+    border-radius: border.$border-radius-large;
     padding: layout.$spacing-05;
     min-height: layout.$spacing-12;
     margin-bottom: layout.$spacing-05;
