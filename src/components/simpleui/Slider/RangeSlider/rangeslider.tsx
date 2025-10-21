@@ -16,6 +16,7 @@ interface RangeSliderProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const RangeSlider = (props: RangeSliderProps) => {
     const [minValue, setMinValue] = React.useState(props.minValue ?? props.min);
     const [maxValue, setMaxValue] = React.useState(props.maxValue ?? props.max);
+    const [activeSlider, setActiveSlider] = React.useState<'min' | 'max' | null>(null);
     const maxId = useId()
     const minId = useId()
 
@@ -37,6 +38,14 @@ const RangeSlider = (props: RangeSliderProps) => {
         props.onMaxChange(event);
     }
 
+    const handleMinMouseDown = () => {
+        setActiveSlider('min');
+    }
+
+    const handleMaxMouseDown = () => {
+        setActiveSlider('max');
+    }
+
     return (
         <>
         <div className={styles['rangeslider']}>
@@ -48,24 +57,28 @@ const RangeSlider = (props: RangeSliderProps) => {
                 <div className={styles['rangeslider__range']} style={{left: `${minValue}%`, right: `${100 - (maxValue/props.max) * 100}%`}}></div>
                 <input
                     id={minId}
-                    className={`${styles['rangeslider__input']} ${styles['rangeslider__input--min']}`}
+                    className={`${styles['rangeslider__input']} ${styles['rangeslider__input--min']} ${activeSlider === 'min' ? styles['rangeslider__input--active'] : ''}`}
                     type="range"
                     {...props}
                     min={props.min}
                     max={props.max}
                     value={minValue}
                     onChange={handleMinChange}
+                    onMouseDown={handleMinMouseDown}
+                    onTouchStart={handleMinMouseDown}
                     step={props.step}
                 />
                 <input
                     id={maxId}
-                    className={`${styles['rangeslider__input']} ${styles['rangeslider__input--max']}`}
+                    className={`${styles['rangeslider__input']} ${styles['rangeslider__input--max']} ${activeSlider === 'max' ? styles['rangeslider__input--active'] : ''}`}
                     type="range"
                     {...props}
                     min={props.min}
                     max={props.max}
                     value={maxValue}
                     onChange={handleMaxChange}
+                    onMouseDown={handleMaxMouseDown}
+                    onTouchStart={handleMaxMouseDown}
                     step={props.step}
                 />
             </div>

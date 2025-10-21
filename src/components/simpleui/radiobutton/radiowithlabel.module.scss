@@ -1,10 +1,10 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .radio-labeled__container {
     display: flex;
     flex-direction: row;
-    gap: $spacing-03;
-    width: $spacing-13 * 2;
+    gap: layout.$spacing-03;
+    width: layout.$spacing-13 * 2;
 
     &--reversed {
         flex-direction: row-reverse;

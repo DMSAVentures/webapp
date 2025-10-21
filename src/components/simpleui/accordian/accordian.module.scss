@@ -1,22 +1,24 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 
 .accordian {
-  width: $spacing-13 * 3;
-  border-radius: $border-radius-large;
-  border: $border-width-small solid var(--color-border-primary-default);
-  padding: $spacing-05;
+  width: layout.$spacing-13 * 3;
+  border-radius: border.$border-radius-large;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  padding: layout.$spacing-05;
 
   display: flex;
   cursor: pointer;
   text-align: left;
-  gap: $spacing-05;
+  gap: layout.$spacing-05;
   //transition: height $transition-extra-slow $transition-type-dissolve;
 
   &:hover {
     border-color: var(--color-bg-secondary-hover);
     background-color: var(--color-bg-secondary-default);
-    transition: background-color $duration-slow-01 $easing-productive-entrance, border $duration-slow-01 $easing-productive-entrance;
+    transition: background-color motion.$duration-slow-01 motion.$easing-productive-entrance, border motion.$duration-slow-01 motion.$easing-productive-entrance;
   }
   //@extend .label-small
 }
@@ -26,7 +28,7 @@
 }
 
 .accordian__content {
-  margin-top: $spacing-05;
+  margin-top: layout.$spacing-05;
   color: var(--color-text-secondary-default);
   white-space: normal;
   //@extend .paragraph-small
@@ -41,13 +43,13 @@
 
 @media (max-width: 768px) {
   .accordian {
-    width: $spacing-13  * 2;
+    width: layout.$spacing-13  * 2;
   }
 }
 
 
 @media (max-width: 480px) {
   .accordian {
-    width: $spacing-13;
+    width: layout.$spacing-13;
   }
 }

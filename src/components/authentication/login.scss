@@ -1,8 +1,8 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .login {
     display: flex;
     flex-direction: column;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
     align-items: center;
 }

@@ -1,11 +1,11 @@
-@import "reset.scss";
-@import "breakpoints.scss";
-@import "colors.scss";
-@import "layout.scss";
-@import "typography.scss";
-@import "border.scss";
-@import "shadow.scss";
+@use "reset.scss" as *;
+@use "breakpoints.scss" as *;
+@use "colors.scss" as *;
+@use "layout.scss" as *;
+@use "typography.scss" as *;
+@use "border.scss" as *;
+@use "shadow.scss" as *;
 
-@import "motion.scss";
-@import "grid.scss";
-@import "theme.scss";
+@use "motion.scss" as *;
+@use "grid.scss" as *;
+@use "theme.scss" as *;

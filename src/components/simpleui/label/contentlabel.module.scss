@@ -1,11 +1,12 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 .content-label__container {
     display: flex;
     //padding: $spacing-16;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
     //border-radius: $border-radius-large;
-    width: $spacing-13 * 2;
+    width: layout.$spacing-13 * 2;
     align-items: center;
 
     //&:hover {
@@ -15,15 +16,15 @@
     //}
 
     .content-label__image {
-        width: $spacing-08;
-        height:  $spacing-08;
-        border-radius: $border-radius-round;
+        width: layout.$spacing-08;
+        height:  layout.$spacing-08;
+        border-radius: border.$border-radius-round;
     }
 
     .content-label__text {
         display: flex;
         flex-direction: column;
-        gap: $spacing-03;
+        gap: layout.$spacing-03;
         align-items: baseline;
 
 

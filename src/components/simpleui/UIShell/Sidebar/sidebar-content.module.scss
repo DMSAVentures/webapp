@@ -1,13 +1,13 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .sidebar__content {
     display: flex;
     flex-direction: column;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
     height: 100dvh;
 }
 
 .sidebar__footer {
     margin-top: auto;
-    margin-bottom: $spacing-07;
+    margin-bottom: layout.$spacing-07;
 }

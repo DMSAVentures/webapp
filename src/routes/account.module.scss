@@ -1,17 +1,18 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
 
 .billing {
     display: flex;
     flex-direction: column;
-    gap: $spacing-02;
+    gap: layout.$spacing-02;
 
 }
 .billing-buttons {
     display: flex;
     flex-direction: column;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
 
-    @media (min-width: $breakpoint-sm) {
+    @media (min-width: breakpoints.$breakpoint-sm) {
         flex-direction: row;
     }
 }
@@ -19,6 +20,6 @@
 .billing-status {
     display: flex;
     flex-direction: row;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
     align-items: baseline;
 }

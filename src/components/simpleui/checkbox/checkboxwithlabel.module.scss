@@ -1,10 +1,10 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .checkbox-labeled__container {
     display: flex;
     flex-direction: row;
-    gap: $spacing-05;
-    min-width: $spacing-13;
+    gap: layout.$spacing-05;
+    min-width: layout.$spacing-13;
 
     &--reversed {
         flex-direction: row-reverse;

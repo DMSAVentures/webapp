@@ -1,8 +1,9 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/colors.scss" as colors;
 
 .hint-text {
     display: flex;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
     align-items: center;
     color: var(--color-text-secondary-default);
 
@@ -11,7 +12,7 @@
     }
 
     &--error {
-        color: $color-red-500;
+        color: colors.$red-500;
     }
 
     &--disabled {

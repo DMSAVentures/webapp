@@ -1,11 +1,11 @@
-@import "@/globalstyles/v2/variables.scss";
-
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/colors.scss" as colors;
 
 .radial-progress {
     border-radius: calc(infinity * 1px);
     display: flex;
-    width: $spacing-08;
-    height: $spacing-08;
+    width: layout.$spacing-08;
+    height: layout.$spacing-08;
 
     .center-content {
         background: white;
@@ -23,8 +23,8 @@
     }
 
     &--small {
-        width: $spacing-08;
-        height: $spacing-08;
+        width: layout.$spacing-08;
+        height: layout.$spacing-08;
 
         .center-content {
             width: 85%;
@@ -32,8 +32,8 @@
         }
     }
     &--medium {
-        width: $spacing-09;
-        height: $spacing-09;
+        width: layout.$spacing-09;
+        height: layout.$spacing-09;
 
         .center-content {
             width: 90%;
@@ -41,8 +41,8 @@
         }
     }
     &--large {
-        width: $spacing-10;
-        height: $spacing-10;
+        width: layout.$spacing-10;
+        height: layout.$spacing-10;
 
         .center-content {
             width: 95%;
@@ -51,15 +51,15 @@
     }
 
     &--info {
-        background: conic-gradient($blue-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$blue-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--success {
-        background: conic-gradient($green-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$green-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--warning {
-        background: conic-gradient($orange-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$orange-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--error {
-        background: conic-gradient($red-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$red-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
 }

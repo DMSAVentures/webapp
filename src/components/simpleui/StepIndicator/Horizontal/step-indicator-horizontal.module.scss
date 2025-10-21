@@ -1,13 +1,12 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .step-indicator-horizontal {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-03;
-  color: var(--color-text-primary-default);
+  gap: layout.$spacing-03;
 
   .step-indicator-horizontal__separator {
-    padding-left: $spacing-03;
+    padding-left: layout.$spacing-03;
   }
 
   .step-indicator-horizontal__item {

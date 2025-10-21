@@ -1,4 +1,5 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 .breadcrumb-item {
   display: inline-flex;
@@ -6,7 +7,7 @@
   //justify-content: center;
   border: none;
   cursor: pointer;
-  gap: $spacing-02;
+  gap: layout.$spacing-02;
   color: var(--color-text-secondary-default);
   //@extend .label-small;
 
@@ -16,7 +17,7 @@
 
   &:hover .breadcrumb-item__icon {
     //text-decoration: underline;
-    //text-underline-offset: $spacing-02;
+    //text-underline-offset: layout.$spacing-02;
     //text-decoration-thickness: $spaci*ng-01;
   }
 
@@ -26,7 +27,7 @@
 
   &:focus .breadcrumb-item__icon {
     //text-decoration: underline;
-    //text-underline-offset: $spacing-03;
+    //text-underline-offset: layout.$spacing-03;
     //text-decoration-thickness: 1px;
   }
 

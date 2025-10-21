@@ -1,7 +1,7 @@
-@import 'colors.scss';
-@import "layout.scss";
-@import "breakpoints.scss";
-// @import "theme.scss";
+@use 'colors.scss' as *;
+@use "layout.scss" as *;
+@use "breakpoints.scss" as *;
+// Removed @use of variables.scss to prevent module loop. Import only what is needed below.
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300..800&display=swap');
 
 // ==============================
@@ -111,7 +111,6 @@ h1 {
     );
     margin-top: 0;
     margin-bottom: $spacing-03;
-
 }
 
 h2 {
@@ -123,9 +122,10 @@ h2 {
         $font-weight-bold,
         $letter-spacing-tight
     );
-    margin-top: $spacing-06;
-    margin-bottom: $spacing-03;
-
+    & {
+        margin-top: $spacing-06;
+        margin-bottom: $spacing-03;
+    }
 }
 
 h3 {
@@ -136,9 +136,10 @@ h3 {
         $line-height-snug,
         $font-weight-semibold
     );
-    margin-top: $spacing-06;
-    margin-bottom: $spacing-03;
-
+    & {
+        margin-top: $spacing-06;
+        margin-bottom: $spacing-03;
+    }
 }
 
 h4 {
@@ -149,9 +150,10 @@ h4 {
         $line-height-snug,
         $font-weight-semibold
     );
-    margin-top: $spacing-06;
-    margin-bottom: $spacing-03;
-
+    & {
+        margin-top: $spacing-06;
+        margin-bottom: $spacing-03;
+    }
 }
 
 h5 {
@@ -162,9 +164,10 @@ h5 {
         $line-height-normal,
         $font-weight-medium
     );
-    margin-top: $spacing-06;
-    margin-bottom: $spacing-03;
-
+    & {
+        margin-top: $spacing-06;
+        margin-bottom: $spacing-03;
+    }
 }
 
 h6 {
@@ -199,8 +202,10 @@ p {
         $font-size-lg,
         $line-height-relaxed
     );
-    margin-top: 0;
-    margin-bottom: $spacing-04;
+    & {
+        margin-top: 0;
+        margin-bottom: $spacing-04;
+    }
 }
 
 // Links
@@ -275,12 +280,13 @@ ul, ol {
 
 // Blockquotes
 blockquote {
-    margin: $spacing-06 0;
-    padding: $spacing-03 $spacing-05;
-    border-left: 4px solid var(--color-border-secondary-default);
-    color: var(--color-text-secondary-default);
-    font-style: italic;
-
+    & {
+        margin: $spacing-06 0;
+        padding: $spacing-03 $spacing-05;
+        border-left: 4px solid var(--color-border-secondary-default);
+        color: var(--color-text-secondary-default);
+        font-style: italic;
+    }
     p:last-child {
         margin-bottom: 0;
     }

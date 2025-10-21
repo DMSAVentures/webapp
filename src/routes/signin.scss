@@ -1,4 +1,4 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .login-page {
   display: flex;
@@ -11,34 +11,34 @@
   background-position: 0 0,10px 10px;
 
   .centered-container {
-    padding: $spacing-12 $spacing-12;
-    max-height: $spacing-13 * 2;
+    padding: layout.$spacing-12 layout.$spacing-12;
+    max-height: layout.$spacing-13 * 2;
     background: white;
     align-items: center;
     display: flex;
     flex-direction: column;
-    gap: $spacing-05;
+    gap: layout.$spacing-05;
   }
 
   /* Tablet and up (medium screens) */
   @media (max-width: 480px) {
     .centered-container {
-      padding: $spacing-05 $spacing-12;
-      max-width: $spacing-13 * 2;
-      max-height: $spacing-13 * 2;
+      padding: layout.$spacing-05 layout.$spacing-12;
+      max-width: layout.$spacing-13 * 2;
+      max-height: layout.$spacing-13 * 2;
 
     }
   }
 
   /* Desktop and up (large screens) */
   @media (max-width: 768px) {
-    padding: $spacing-05;
+    padding: layout.$spacing-05;
 
     .centered-container {
 
-      padding: $spacing-10;
-      min-width: $spacing-13 * 2;
-      max-height: $spacing-13 * 2;
+      padding: layout.$spacing-10;
+      min-width: layout.$spacing-13 * 2;
+      max-height: layout.$spacing-13 * 2;
 
     }
   }

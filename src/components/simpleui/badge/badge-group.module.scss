@@ -1,6 +1,7 @@
-@import "@/globalstyles/v2/variables.scss";
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 .badge-group {
     display: inline-flex;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
 }
