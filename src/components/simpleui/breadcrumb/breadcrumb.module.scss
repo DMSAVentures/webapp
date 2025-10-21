@@ -1,18 +1,18 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-03;
+  gap: layout.$spacing-03;
   color: var(--color-text-secondary-default);
 
   .breadcrumb__separator {
     //@extend .label-small;
-    //padding-left: $spacing-02;
+    //padding-left: layout.$spacing-02;
   }
 
   .breadcrumb__item {
     display: flex;
-    gap: $spacing-04;
+    gap: layout.$spacing-04;
   }
 }

@@ -1,17 +1,19 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 .content-card__container {
     display: flex;
-    padding: $spacing-05;
-    gap: $spacing-05;
-    border-radius: $border-radius-large;
-    border: $border-width-small solid var(--color-border-primary-default);
-    width: $spacing-13 * 2;
+    padding: layout.$spacing-05;
+    gap: layout.$spacing-05;
+    border-radius: border.$border-radius-large;
+    border: border.$border-width-small solid var(--color-border-primary-default);
+    width: layout.$spacing-13 * 2;
     align-items: center;
 
     &:hover {
         //background-color: var(--color-hover-secondary);
         border: 1px solid var(--color-bg-primary-hover);
-        transition: background-color $duration-moderate-01 $easing-productive-standard;
+        transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
     }
 }

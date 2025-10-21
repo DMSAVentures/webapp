@@ -1,4 +1,6 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/colors.scss" as colors;
 
 .tab-menu-horizontal-item {
     //height: layout.$spacing-03;
@@ -38,13 +40,13 @@
         //vertical-align: center;
         text-align: center;
         border-radius: border.$border-radius-round;
-        background-color: $red-500;
+        background-color: colors.$red-500;
         color: colors.$color-white;
     }
 
     &--active {
         .tab-menu-horizontal-item__left-icon {
-            color: $blue-500;
+            color: colors.$blue-500;
         }
     }
 }

@@ -1,12 +1,12 @@
-//@import "@/globalstyles/variables";
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 .file-upload-area {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: $border-radius-large;
+    border-radius: border.$border-radius-large;
     border: 2px dashed var(--color-border-primary-default);
     &--light {
         background-color: var(--color-bg-tertiary-default);
@@ -20,8 +20,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: $spacing-07;
-        gap: $spacing-05;
+        padding: layout.$spacing-07;
+        gap: layout.$spacing-05;
 
         .fileuploadarea__icon {
             //font-size: 20px;

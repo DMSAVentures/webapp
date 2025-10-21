@@ -1,5 +1,6 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
-
+@use "@/globalstyles/v2/motion.scss" as motion;
+@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
 
 // ==============================
 // Button Component Styles
@@ -20,21 +21,21 @@
     //border: $border-width-interactive solid transparent; // Only visible in interactive states
     border: none;
     cursor: pointer;
-    transition: background-color $duration-moderate-01 $easing-productive-standard,
-                color $duration-moderate-01 $easing-productive-standard,
-                border-color $duration-moderate-01 $easing-productive-standard;
+    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+                color motion.$duration-moderate-01 motion.$easing-productive-standard,
+                border-color motion.$duration-moderate-01 motion.$easing-productive-standard;
 
     min-width: layout.$spacing-07;
 
-    @media (min-width: $breakpoint-md) {
+    @media (min-width: breakpoints.$breakpoint-md) {
         min-width: layout.$spacing-08;
     }
 
-    @media (min-width: $breakpoint-lg) {
+    @media (min-width: breakpoints.$breakpoint-lg) {
         min-width: layout.$spacing-09;
     }
 
-    @media (min-width: $breakpoint-xlg) {
+    @media (min-width: breakpoints.$breakpoint-xlg) {
         min-width: layout.$spacing-10;
     }
 

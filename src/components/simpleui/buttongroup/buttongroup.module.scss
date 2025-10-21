@@ -1,4 +1,7 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
+@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
 
 .button-group {
   display: flex;
@@ -6,23 +9,23 @@
   // Size Modifiers
   &--small {
     .button-item {
-      padding: $spacing-03 $spacing-05 !important;
-      gap: $spacing-04;
+      padding: layout.$spacing-03 layout.$spacing-05 !important;
+      gap: layout.$spacing-04;
     }
   }
 
   &--x-small {
     .button-item {
-      padding: $spacing-03 $spacing-04 !important;
-      gap: $spacing-03;
+      padding: layout.$spacing-03 layout.$spacing-04 !important;
+      gap: layout.$spacing-03;
     }
   }
 
   &--2x-small {
     //@extend .label-x-small;
     .button-item {
-      padding: $spacing-02 $spacing-04 !important;
-      gap: $spacing-02;
+      padding: layout.$spacing-02 layout.$spacing-04 !important;
+      gap: layout.$spacing-02;
     }
   }
 }
@@ -32,32 +35,32 @@
   align-items: baseline;
   outline: none;
   border: none;
-  padding: $spacing-03 $spacing-05;
+  padding: layout.$spacing-03 layout.$spacing-05;
   background-color: var(--color-bg-secondary-default);
   color: var(--color-text-secondary-default);
   cursor: pointer;
-  transition: background-color $duration-moderate-01 $easing-productive-standard,
-  color $duration-moderate-01 $easing-productive-standard,
-  border-color $duration-moderate-01 $easing-productive-standard,
-  box-shadow $duration-moderate-01 $easing-productive-standard;
+  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+  color motion.$duration-moderate-01 motion.$easing-productive-standard,
+  border-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+  box-shadow motion.$duration-moderate-01 motion.$easing-productive-standard;
   //@extend .label-small;
-  min-width: $spacing-07;
+  min-width: layout.$spacing-07;
   position: relative; // For focus styles
 
-  @media (min-width: $breakpoint-md) {
-    min-width: $spacing-08;
+  @media (min-width: breakpoints.$breakpoint-md) {
+    min-width: layout.$spacing-08;
   }
 
-  @media (min-width: $breakpoint-lg) {
-    min-width: $spacing-09;
+  @media (min-width: breakpoints.$breakpoint-lg) {
+    min-width: layout.$spacing-09;
   }
 
-  @media (min-width: $breakpoint-xlg) {
-    min-width: $spacing-10;
+  @media (min-width: breakpoints.$breakpoint-xlg) {
+    min-width: layout.$spacing-10;
   }
 
   &--icon-only {
-    min-width: $spacing-03;
+    min-width: layout.$spacing-03;
   }
 
   &:hover {
@@ -79,13 +82,13 @@
   &:first-child {
     border-width: 1px;
     border-color: var(--color-border-primary-default);
-    border-radius: $spacing-03 0 0 $spacing-03;
+    border-radius: layout.$spacing-03 0 0 layout.$spacing-03;
     border-style: solid;
   }
 
   // Middle Children Styles
   &:not(:first-child):not(:last-child) {
-    border-width: $border-width-small $border-width-small $border-width-small 0;
+    border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
     border-color: var(--color-border-primary-default);
     border-radius: 0;
     border-style: solid;
@@ -93,16 +96,16 @@
 
   // Last Child Styles
   &:last-child {
-    border-width: $border-width-small $border-width-small $border-width-small 0;
+    border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
     border-color: var(--color-border-primary-default);
-    border-radius: 0 $spacing-03 $spacing-03 0;
+    border-radius: 0 layout.$spacing-03 layout.$spacing-03 0;
     border-style: solid;
   }
 
   &:only-child {
-    border-width: $border-width-small;
+    border-width: border.$border-width-small;
     border-color: var(--color-border-primary-default);
-    border-radius: $spacing-03;
+    border-radius: layout.$spacing-03;
     border-style: solid;
   }
 

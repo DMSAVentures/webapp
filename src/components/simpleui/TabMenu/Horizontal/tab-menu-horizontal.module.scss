@@ -1,4 +1,5 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/colors.scss" as colors;
 
 .tab-menu-horizontal ul {
     margin: 0;

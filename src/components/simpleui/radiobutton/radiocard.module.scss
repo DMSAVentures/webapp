@@ -1,4 +1,6 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 .radio-card__container {
     display: flex;

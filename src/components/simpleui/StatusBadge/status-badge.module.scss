@@ -1,5 +1,7 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/colors.scss" as *;
 
 @mixin status-badge-style($color, $text-color, $icon-color) {
   background-color: $color;

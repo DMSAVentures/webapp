@@ -1,4 +1,7 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 .text-area {
     display: flex;
@@ -8,14 +11,14 @@
 
     &--error {
         textarea {
-            border: 1px solid $red-500 !important;
+            border: 1px solid colors.$red-500 !important;
         }
     }
 
     textarea {
         resize: none;
         border: 1px solid var(--color-border-secondary-default);
-        border-radius: $border-radius-medium;
+        border-radius: border.$border-radius-medium;
         padding: layout.$spacing-03 layout.$spacing-03 layout.$spacing-03 layout.$spacing-05;
         //@extend .paragraph-small;
         //color: $color-neutral-900;
@@ -40,13 +43,13 @@
 
         &:hover {
             border: 1px solid var(--color-border-focus-default);
-            transition: background-color $duration-moderate-01 $easing-productive-entrance;
-            //color: $color-neutral-700;
+            transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
+            //color: colors.$color-neutral-700;
         }
 
         &:focus {
-            //box-shadow: 0 0 0 4px $color-neutral-alpha-16, 0 0 0 2px $color-white;
-            //border: 1px solid $color-neutral-900;
+            //box-shadow: 0 0 0 4px colors.$color-neutral-alpha-16, 0 0 0 2px colors.$color-white;
+            //border: 1px solid colors.$color-neutral-900;
             outline: 2px solid var(--color-focus-ring-default);
 
         }
@@ -60,7 +63,7 @@
         color: var(--color-text-secondary-default);
 
         &--error {
-            color: $red-500;
+            color: colors.$red-500;
         }
     }
 }

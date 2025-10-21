@@ -1,5 +1,7 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
 
 @mixin modal-icon-style($color) {
     color: $color;
@@ -23,11 +25,11 @@
         backdrop-filter: blur(4px);
     }
 
-    @media (min-width: $breakpoint-sm) {
+    @media (min-width: breakpoints.$breakpoint-sm) {
         width: layout.$spacing-13 * 2;
     }
 
-    @media (min-width: $breakpoint-md) {
+    @media (min-width: breakpoints.$breakpoint-md) {
         width: layout.$spacing-13 * 3;
     }
 }
@@ -69,48 +71,48 @@
 .modal__icon {
     align-self: start;
     &--info  {
-        @include modal-icon-style($blue-500);
+        @include modal-icon-style(colors.$blue-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            background-color: $blue-alpha-24;
+            background-color: colors.$blue-alpha-24;
         }
     }
     &--success {
-        @include modal-icon-style($green-500);
+        @include modal-icon-style(colors.$green-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            background-color: $green-alpha-24;
+            background-color: colors.$green-alpha-24;
         }
     }
 
     &--warning {
-        @include modal-icon-style($orange-500);
+        @include modal-icon-style(colors.$orange-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             align-self: center;
             border-radius: border.$border-radius-round;
-            background-color: $orange-alpha-24;
+            background-color: colors.$orange-alpha-24;
         }
     }
 
 
     &--alert {
-        @include modal-icon-style($red-500);
+        @include modal-icon-style(colors.$red-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            background-color: $red-alpha-24;
+            background-color: colors.$red-alpha-24;
         }
     }
 
     &--feature {
-        @include modal-icon-style($color-neutral-500);
+        @include modal-icon-style(colors.$color-neutral-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            border: 1px solid $color-neutral-200;
+            border: 1px solid colors.$color-neutral-200;
         }
     }
 }
@@ -137,11 +139,11 @@
         gap: layout.$spacing-03;
     }
 
-    @media (min-width: $breakpoint-sm) {
+    @media (min-width: breakpoints.$breakpoint-sm) {
         flex-direction: column;
     }
 
-    @media (min-width: $breakpoint-md) {
+    @media (min-width: breakpoints.$breakpoint-md) {
         flex-direction: row;
     }
 }

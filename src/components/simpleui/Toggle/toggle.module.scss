@@ -1,7 +1,7 @@
-@use "@/globalstyles/v2/variables.scss" as *;
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
 @use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 /* Main toggle switch container */
 .toggle {
@@ -26,9 +26,9 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: var(--colors.$color-border-secondary); /* Default background color */
+        background-color: var(--color-border-secondary); /* Default background color */
         border-radius: border.$border-radius-large; /* Rounded slider */
-        transition: background-color $duration-slow-01 $easing-productive-exit;
+        transition: background-color motion.$duration-slow-01 motion.$easing-productive-exit;
 
         /* Common knob (Toggle Button) Styles */
         &:before {
@@ -38,39 +38,39 @@
             width: layout.$spacing-04;
             left: layout.$spacing-02 / 2;
             bottom: layout.$spacing-02 / 2;
-            background-color: var(--colors.$color-primary);
+            background-color: var(--color-primary);
             border-radius: border.$border-radius-large; /* Rounded slider */
-            border: layout.$spacing-03 solid var(--colors.$color-border-mute);
+            border: layout.$spacing-03 solid var(--color-border-mute);
             box-shadow: 0 2px 4px rgba(14, 18, 27, 0.08), 0 4px 8px rgba(27, 28, 29, 0.06); /* Subtle shadow */
-            transition: background-color $duration-slow-01 $easing-productive-exit, transform $duration-moderate-02 $easing-productive-exit;
+            transition: background-color motion.$duration-slow-01 motion.$easing-productive-exit, transform motion.$duration-moderate-02 motion.$easing-productive-exit;
         }
     }
 
     /* Checked State */
     input[type="checkbox"]:checked + .slider {
-        background-color: var(--colors.$color-primary); /* Background when checked */
+        background-color: var(--color-primary); /* Background when checked */
 
         &:before {
             transform: translateX(layout.$spacing-07); /* Move knob to the right */
-            background-color: var(--colors.$color-bg); /* Knob color when checked */
+            background-color: var(--color-bg); /* Knob color when checked */
         }
     }
 
     /* Focus State (for accessibility) */
     &:focus-within .slider {
-        box-shadow: 0 0 1px var(--colors.$color-primary);
+        box-shadow: 0 0 1px var(--color-primary);
     }
 
     /* Hover State */
     &:hover .slider {
-        background-color: var(--colors.$color-border-secondary); /* Darker background when hovered */
+        background-color: var(--color-border-secondary); /* Darker background when hovered */
     }
 
     &:hover input[type="checkbox"]:checked + .slider {
-        background-color: var(--colors.$color-border-primary); /* Darker blue when checked and hovered */
+        background-color: var(--color-border-primary); /* Darker blue when checked and hovered */
 
         &:before {
-            background-color: var(--colors.$color-bg);
+            background-color: var(--color-bg);
         }
     }
 

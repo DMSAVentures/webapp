@@ -1,4 +1,7 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 .tab-menu-vertical-item {
     display: flex;
@@ -60,7 +63,7 @@
         background-color: var(--color-secondary-bg);
         color: var(--color-primary);
         cursor: pointer;
-        transition: background-color $duration-moderate-01 $easing-productive-entrance;
+        transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
         //@extend .shadow-xs;
     }
 }

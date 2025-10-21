@@ -1,19 +1,20 @@
-@use "@/globalstyles/v2/variables.scss" as variables;
+@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 $breakpoints: (
-        sm: variables.variables.$breakpoint-sm,
-        md: variables.variables.$breakpoint-md,
-        lg: variables.variables.$breakpoint-lg,
-        xlg: variables.variables.$breakpoint-xlg,
-        max: variables.variables.$breakpoint-max,
+        sm: breakpoints.$breakpoint-sm,
+        md: breakpoints.$breakpoint-md,
+        lg: breakpoints.$breakpoint-lg,
+        xlg: breakpoints.$breakpoint-xlg,
+        max: breakpoints.$breakpoint-max,
 );
 
 $columns: (
-        sm: variables.variables.$columns-sm,
-        md: variables.variables.$columns-md,
-        lg: variables.variables.$columns-lg,
-        xlg: variables.variables.$columns-xlg,
-        max: variables.variables.$columns-max,
+        sm: layout.$columns-sm,
+        md: layout.$columns-md,
+        lg: layout.$columns-lg,
+        xlg: layout.$columns-xlg,
+        max: layout.$columns-max,
 );
 
 //@each $breakpoint, $value in $breakpoints {

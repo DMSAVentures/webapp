@@ -1,14 +1,15 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
 
 // Style for custom radio button
 .custom-radio-input {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: $spacing-06;
-    height: $spacing-06;
+    width: layout.$spacing-06;
+    height: layout.$spacing-06;
     border: 2px solid black;
-    border-radius: $border-radius-round;
+    border-radius: border.$border-radius-round;
     outline: none;
     cursor: pointer;
     position: relative;
@@ -19,8 +20,8 @@
         // Inner circle to indicate selection
         &::before {
             content: '';
-            width: $spacing-04;
-            height: $spacing-04;
+            width: layout.$spacing-04;
+            height: layout.$spacing-04;
             //border: 1px solid blue;
             //background-color: blue;
             background-color: var(--color-bg-primary-default); // Inner circle color

@@ -1,4 +1,5 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
 
 .shell-container {
     margin-top: layout.$spacing-03;
@@ -21,7 +22,7 @@
         align-self: flex-start;
     }
 
-    @media (min-width: variables.$breakpoint-lg) {
+    @media (min-width: breakpoints.$breakpoint-lg) {
         gap: layout.$spacing-05;
     }
 }

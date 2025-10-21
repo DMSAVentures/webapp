@@ -1,17 +1,20 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 .text-input {
     display: flex;
     flex-direction: column;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
 
     &__input-container {
         display: flex;
         align-items: center;
-        gap: $spacing-03;
+        gap: layout.$spacing-03;
         border: 1px solid var(--color-border-primary-default);
-        border-radius: $border-radius-medium;
-        padding: $spacing-03 $spacing-03 $spacing-03 $spacing-03;
+        border-radius: border.$border-radius-medium;
+        padding: layout.$spacing-03 layout.$spacing-03 layout.$spacing-03 layout.$spacing-03;
         cursor: text;
 
         &__icon {
@@ -47,22 +50,22 @@
         }
 
         &--error {
-            border: 1px solid $red-500 !important;
+            border: 1px solid colors.$red-500 !important;
         }
 
         &:hover {
             //background-color: var(--color-bg-secondary-hover);
             border: 1px solid var(--color-border-focus-default);
             color: var(--color-text-primary-default);
-            transition: background-color $duration-moderate-01 $easing-productive-entrance;
+            transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
             &__icon {
                 color: var(--color-icon-primary-default);
             }
         }
 
         &:focus-within {
-            box-shadow: 0 0 0 4px $color-neutral-alpha-16, 0 0 0 2px $color-white;
-            //border: 1px solid $color-neutral-900;
+            box-shadow: 0 0 0 4px colors.$color-neutral-alpha-16, 0 0 0 2px colors.$color-white;
+            //border: 1px solid colors.$color-neutral-900;
             outline: 2px solid var(--color-focus-ring-default);
             color: var(--color-text-primary-default);
 

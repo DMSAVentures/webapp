@@ -1,13 +1,9 @@
-@use "@/globalstyles/v2/variables.scss" as *;
 @use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/border.scss" as border;
-@use "@/globalstyles/v2/colors.scss" as colors;
 
 .step-indicator-horizontal {
   display: flex;
   flex-wrap: wrap;
   gap: layout.$spacing-03;
-  color: colors.$color-border-xt-primary-default;
 
   .step-indicator-horizontal__separator {
     padding-left: layout.$spacing-03;

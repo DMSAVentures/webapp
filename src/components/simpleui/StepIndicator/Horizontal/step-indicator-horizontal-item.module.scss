@@ -1,4 +1,6 @@
-@use "@/globalstyles/v2/variables.scss" as *;
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/colors.scss" as colors;
 
 .step-indicator-horizontal-item {
   display: flex;
@@ -22,16 +24,16 @@
     line-height: layout.$spacing-03;
     &--completed {
       color: var(--color-text-inverse-default);
-      background-color: $green-500;
+      background-color: colors.$green-500;
       line-height: layout.$spacing-05; // aligns icon vertically in the circle
     }
     &--active {
-        color: colors.$color-text-inverse-default;
+        color: var(--color-text-inverse-default);
         background-color: colors.$blue-500;
     }
 
     &--default {
-      border: 1px solid colors.$color-border-primary-default;
+      border: 1px solid var(--color-border-primary-default);
     }
   }
 }

@@ -1,20 +1,20 @@
-@use "@/globalstyles/v2/variables.scss" as *;
-
-
+@use "@/globalstyles/v2/layout.scss" as layout;
+@use "@/globalstyles/v2/border.scss" as border;
+@use "@/globalstyles/v2/motion.scss" as motion;
 
 .pagination {
     display: flex;
     flex-direction: row;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
     &--row {
         gap: 0;
         .pagination__button {
-            padding: $spacing-02 $spacing-03;
+            padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: unset;
 
             &:first-child {
-                border-top-left-radius: $border-radius-medium;
-                border-bottom-left-radius: $border-radius-medium;
+                border-top-left-radius: border.$border-radius-medium;
+                border-bottom-left-radius: border.$border-radius-medium;
             }
 
             // Middle Children Styles
@@ -25,8 +25,8 @@
 
             &:last-child {
                 border-width: 1px 1px 1px 0;
-                border-top-right-radius: $border-radius-medium;
-                border-bottom-right-radius: $border-radius-medium;
+                border-top-right-radius: border.$border-radius-medium;
+                border-bottom-right-radius: border.$border-radius-medium;
             }
         }
 
@@ -34,8 +34,8 @@
 
     &--rounded {
         .pagination__button {
-            padding: $spacing-02;
-            border-radius: $border-radius-round;
+            padding: layout.$spacing-02;
+            border-radius: border.$border-radius-round;
 
             &:first-child, &:nth-child(2) {
                 //border-radius: unset;
@@ -63,8 +63,8 @@
 
     &--squared {
         .pagination__button {
-            padding: $spacing-02;
-            border-radius: $border-radius-medium;
+            padding: layout.$spacing-02;
+            border-radius: border.$border-radius-medium;
 
             &:first-child, &:nth-child(2) {
                 //border-radius: unset;
@@ -99,7 +99,7 @@
 
         &:hover, &--active {
             background: var(--color-bg-secondary-hover);
-            transition: background-color $duration-moderate-02 $easing-productive-entrance;
+            transition: background-color motion.$duration-moderate-02 motion.$easing-productive-entrance;
         }
 
         &:disabled {
@@ -112,8 +112,8 @@
             display: inline-block;
             text-align: center;
             color: var(--color-text-primary-default);
-            min-width: $spacing-06;
-            min-height: $spacing-05;
+            min-width: layout.$spacing-06;
+            min-height: layout.$spacing-05;
         }
     }
 }

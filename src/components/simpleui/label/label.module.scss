@@ -1,10 +1,8 @@
-//@import "@/globalstyles/variables";
-@use "@/globalstyles/v2/variables.scss" as *;
-
+@use "@/globalstyles/v2/layout.scss" as layout;
 
 .label__container {
     display: flex;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
     align-items: center;
 
     &.label__container--disabled {
