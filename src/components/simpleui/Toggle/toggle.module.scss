@@ -1,6 +1,5 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
-@use "@/globalstyles/v2/colors.scss" as colors;
 @use "@/globalstyles/v2/motion.scss" as motion;
 
 /* Main toggle switch container */
@@ -41,7 +40,7 @@
             background-color: var(--color-surface-primary-default);
             border-radius: border.$border-radius-round;
             border: 2px solid var(--color-border-primary-default);
-            box-shadow: 0 2px 4px colors.$black-alpha-16;
+            box-shadow: 0 2px 4px var(--color-alpha-shadow);
             transition: background-color motion.$duration-slow-01 motion.$easing-productive-exit,
                         transform motion.$duration-moderate-02 motion.$easing-productive-exit,
                         border-color motion.$duration-slow-01 motion.$easing-productive-exit;
@@ -50,12 +49,12 @@
 
     /* Checked State */
     input[type="checkbox"]:checked + .slider {
-        background-color: colors.$color-blue-600;
+        background-color: var(--color-info-hover);
 
         &:before {
             transform: translateX(layout.$spacing-07);
             background-color: var(--color-surface-primary-default);
-            border-color: colors.$color-blue-600;
+            border-color: var(--color-info-hover);
         }
     }
 
@@ -71,11 +70,11 @@
     }
 
     &:hover input[type="checkbox"]:checked + .slider {
-        background-color: colors.$color-blue-700;
+        background-color: var(--color-info-active);
 
         &:before {
             background-color: var(--color-surface-primary-default);
-            border-color: colors.$color-blue-700;
+            border-color: var(--color-info-active);
         }
     }
 
@@ -93,13 +92,13 @@
     }
 
     input[type="checkbox"]:checked:disabled + .slider {
-        background-color: colors.$color-blue-600;
+        background-color: var(--color-info-hover);
         cursor: not-allowed;
         opacity: 0.5;
 
         &:before {
             background-color: var(--color-surface-primary-default);
-            border-color: colors.$color-blue-600;
+            border-color: var(--color-info-hover);
         }
     }
 }

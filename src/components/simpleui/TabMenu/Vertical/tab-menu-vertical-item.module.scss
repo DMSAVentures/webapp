@@ -1,6 +1,5 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
-@use "@/globalstyles/v2/colors.scss" as colors;
 @use "@/globalstyles/v2/motion.scss" as motion;
 
 .tab-menu-vertical-item {
@@ -44,8 +43,8 @@
         vertical-align: center;
         text-align: center;
         border-radius: border.$border-radius-round;
-        background-color: colors.$color-red-500;
-        color: colors.$color-white;
+        background-color: var(--color-error-default);
+        color: var(--color-white);
     }
 
     &--active {

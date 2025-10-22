@@ -1,6 +1,5 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
-@use "@/globalstyles/v2/colors.scss" as colors;
 
 .tab-menu-horizontal-item {
     //height: layout.$spacing-03;
@@ -8,7 +7,7 @@
     //align-items: center;
     //justify-content: center;
     gap: layout.$spacing-03;
-    color: colors.$color-neutral-600;
+    color: var(--color-text-secondary-default);
     //@extend .label-small;
     cursor: pointer;
 
@@ -40,13 +39,13 @@
         //vertical-align: center;
         text-align: center;
         border-radius: border.$border-radius-round;
-        background-color: colors.$color-red-500;
-        color: colors.$color-white;
+        background-color: var(--color-error-default);
+        color: var(--color-white);
     }
 
     &--active {
         .tab-menu-horizontal-item__left-icon {
-            color: colors.$color-blue-500;
+            color: var(--color-info-default);
         }
     }
 }

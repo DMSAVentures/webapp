@@ -1,5 +1,4 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/colors.scss" as colors;
 @use "@/globalstyles/v2/border.scss" as border;
 @use "@/globalstyles/v2/motion.scss" as motion;
 
@@ -11,7 +10,7 @@
 
     &--error {
         textarea {
-            border: 1px solid colors.$color-red-500 !important;
+            border: 1px solid var(--color-error-default) !important;
         }
     }
 
@@ -63,7 +62,7 @@
         color: var(--color-text-secondary-default);
 
         &--error {
-            color: colors.$color-red-500;
+            color: var(--color-error-default);
         }
     }
 }

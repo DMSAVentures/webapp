@@ -1,5 +1,4 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/colors.scss" as colors;
 
 .radial-progress {
     border-radius: calc(infinity * 1px);
@@ -51,15 +50,15 @@
     }
 
     &--info {
-        background: conic-gradient(colors.$color-blue-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(var(--color-info-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--success {
-        background: conic-gradient(colors.$color-green-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(var(--color-success-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--warning {
-        background: conic-gradient(colors.$color-orange-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(var(--color-warning-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--error {
-        background: conic-gradient(colors.$color-red-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(var(--color-error-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
 }

@@ -60,6 +60,36 @@
   // =========================
   --color-shadow-default: rgba(30, 41, 59, 0.08);
   --color-shadow-elevated: rgba(30, 41, 59, 0.16);
+
+  // =========================
+  // SEMANTIC COLORS - Error
+  // =========================
+  --color-error-default: #{$color-red-500};
+  --color-error-text: #{$color-red-700};
+
+  // =========================
+  // SEMANTIC COLORS - Success
+  // =========================
+  --color-success-default: #{$color-green-500};
+
+  // =========================
+  // SEMANTIC COLORS - Warning
+  // =========================
+  --color-warning-default: #{$color-orange-500};
+
+  // =========================
+  // SEMANTIC COLORS - Info
+  // =========================
+  --color-info-default: #{$color-blue-500};
+  --color-info-hover: #{$color-blue-600};
+  --color-info-active: #{$color-blue-700};
+
+  // =========================
+  // UTILITIES
+  // =========================
+  --color-white: #{$color-white};
+  --color-alpha-focus: #{$color-neutral-alpha-16};
+  --color-alpha-shadow: #{$black-alpha-16};
 }
 
 

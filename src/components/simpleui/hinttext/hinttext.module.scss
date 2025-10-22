@@ -1,5 +1,4 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/colors.scss" as colors;
 
 .hint-text {
     display: flex;
@@ -12,7 +11,7 @@
     }
 
     &--error {
-        color: colors.$color-red-500;
+        color: var(--color-error-default);
     }
 
     &--disabled {

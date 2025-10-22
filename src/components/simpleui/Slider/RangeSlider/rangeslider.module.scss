@@ -1,6 +1,5 @@
 @use "@/globalstyles/v2/layout.scss" as layout;
 @use "@/globalstyles/v2/border.scss" as border;
-@use "@/globalstyles/v2/colors.scss" as colors;
 
 .rangeslider {
     display: flex;
@@ -68,7 +67,7 @@
             // Firefox thumb
             &::-moz-range-thumb {
                 -moz-appearance: none;
-                box-shadow: 0 2px 4px 0 colors.$black-alpha-16;
+                box-shadow: 0 2px 4px 0 var(--color-alpha-shadow);
                 border: 2px solid var(--color-border-primary-default);
                 height: layout.$spacing-04;
                 width: layout.$spacing-04;
@@ -82,7 +81,7 @@
             // Chrome/WebKit thumb
             &::-webkit-slider-thumb {
                 -webkit-appearance: none;
-                box-shadow: 0 2px 4px 0 colors.$black-alpha-16;
+                box-shadow: 0 2px 4px 0 var(--color-alpha-shadow);
                 border: 2px solid var(--color-border-primary-default);
                 height: layout.$spacing-05;
                 width: layout.$spacing-05;
