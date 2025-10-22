@@ -51,15 +51,15 @@
     }
 
     &--info {
-        background: conic-gradient(colors.$blue-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$color-blue-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--success {
-        background: conic-gradient(colors.$green-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$color-green-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--warning {
-        background: conic-gradient(colors.$orange-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$color-orange-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
     &--error {
-        background: conic-gradient(colors.$red-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
+        background: conic-gradient(colors.$color-red-500 var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
 }

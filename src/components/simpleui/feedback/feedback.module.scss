@@ -100,71 +100,71 @@
 
 
 .feedback--error.feedback--filled {
-  @include feedback-style(colors.$red-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(colors.$color-red-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .feedback--success.feedback--filled {
-  @include feedback-style(colors.$green-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(colors.$color-green-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .feedback--warning.feedback--filled {
-  @include feedback-style(colors.$orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(colors.$color-orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .feedback--info.feedback--filled {
-  @include feedback-style(colors.$blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(colors.$color-blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .feedback--feature.feedback--filled {
   @include feedback-style(colors.$color-neutral-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 
 .feedback--error.feedback--light {
-  @include feedback-style(colors.$red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$red-500);
+  @include feedback-style(colors.$color-red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 }
 .feedback--success.feedback--light {
-  @include feedback-style(colors.$green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$green-500);
+  @include feedback-style(colors.$color-green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 }
 .feedback--warning.feedback--light {
-  @include feedback-style(colors.$orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$orange-500);
+  @include feedback-style(colors.$color-orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
 }
 .feedback--info.feedback--light {
-  @include feedback-style(colors.$blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$blue-500);
+  @include feedback-style(colors.$color-blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
 }
 .feedback--feature.feedback--light {
   @include feedback-style(colors.$color-neutral-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
 }
 
 .feedback--error.feedback--lighter{
-  @include feedback-style(colors.$red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$red-500);
+  @include feedback-style(colors.$color-red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 }
 .feedback--success.feedback--lighter{
-  @include feedback-style(colors.$green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$green-500);
+  @include feedback-style(colors.$color-green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 }
 .feedback--warning.feedback--lighter{
-  @include feedback-style(colors.$orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$orange-500);
+  @include feedback-style(colors.$color-orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
 }
 .feedback--info.feedback--lighter{
-  @include feedback-style(colors.$blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$blue-500);
+  @include feedback-style(colors.$color-blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
 }
 .feedback--feature.feedback--lighter{
   @include feedback-style(colors.$color-neutral-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
 }
 
 .feedback--error.feedback--stroke {
-    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$red-500);
+    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 
     border: 1px colors.$color-neutral-200 solid;
 
 }
 .feedback--success.feedback--stroke {
-    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$green-500);
+    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 
     border: 1px colors.$color-neutral-200 solid;
 }
 .feedback--warning.feedback--stroke {
-    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$orange-500);
+    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
 
     border: 1px colors.$color-neutral-200 solid;
 }
 .feedback--info.feedback--stroke {
-  @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$blue-500);
+  @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
 
   border: 1px colors.$color-neutral-200 solid;
 }

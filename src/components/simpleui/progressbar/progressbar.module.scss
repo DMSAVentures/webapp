@@ -15,19 +15,19 @@
         border-radius: border.$border-radius-small;
 
         &--success {
-            background-color: colors.$green-500;
+            background-color: colors.$color-green-500;
         }
 
         &--warning {
-            background-color: colors.$orange-500;
+            background-color: colors.$color-orange-500;
         }
 
         &--error {
-            background-color: colors.$red-500;
+            background-color: colors.$color-red-500;
         }
 
         &--info {
-            background-color: colors.$blue-500;
+            background-color: colors.$color-blue-500;
         }
     }
 

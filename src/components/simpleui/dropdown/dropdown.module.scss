@@ -73,7 +73,7 @@
         }
 
         &--error {
-           border-color: colors.$red-500;
+           border-color: colors.$color-red-500;
         }
     }
 
@@ -108,7 +108,7 @@
         }
 
         &--error {
-            color: colors.$red-500;
+            color: colors.$color-red-500;
         }
 
         //@extend .paragraph-x-small

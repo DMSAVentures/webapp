@@ -40,13 +40,13 @@
         //vertical-align: center;
         text-align: center;
         border-radius: border.$border-radius-round;
-        background-color: colors.$red-500;
+        background-color: colors.$color-red-500;
         color: colors.$color-white;
     }
 
     &--active {
         .tab-menu-horizontal-item__left-icon {
-            color: colors.$blue-500;
+            color: colors.$color-blue-500;
         }
     }
 }

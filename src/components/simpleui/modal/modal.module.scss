@@ -71,39 +71,39 @@
 .modal__icon {
     align-self: start;
     &--info  {
-        @include modal-icon-style(colors.$blue-500);
+        @include modal-icon-style(colors.$color-blue-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            background-color: colors.$blue-alpha-24;
+            background-color: colors.$color-blue-alpha-24;
         }
     }
     &--success {
-        @include modal-icon-style(colors.$green-500);
+        @include modal-icon-style(colors.$color-green-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            background-color: colors.$green-alpha-24;
+            background-color: colors.$color-green-alpha-24;
         }
     }
 
     &--warning {
-        @include modal-icon-style(colors.$orange-500);
+        @include modal-icon-style(colors.$color-orange-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             align-self: center;
             border-radius: border.$border-radius-round;
-            background-color: colors.$orange-alpha-24;
+            background-color: colors.$color-orange-alpha-24;
         }
     }
 
 
     &--alert {
-        @include modal-icon-style(colors.$red-500);
+        @include modal-icon-style(colors.$color-red-500);
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
-            background-color: colors.$red-alpha-24;
+            background-color: colors.$color-red-alpha-24;
         }
     }
 

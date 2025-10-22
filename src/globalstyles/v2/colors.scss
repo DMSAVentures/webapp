@@ -36,20 +36,6 @@ $color-blue-200: hsl($color-blue-hue, $color-blue-saturation, 93%);   // #C0D5FF
 $color-blue-100: hsl($color-blue-hue, $color-blue-saturation, 98%);   // #D5E2FF - Very light background
 $color-blue-50: hsl($color-blue-hue, $color-blue-saturation, 99.5%);  // #EBF1FF - Subtle background variations
 
-
-$blue-950: #122368;
-$blue-900: #182F8B;
-$blue-800: #1F3BAD;
-$blue-700: #2547D0;
-$blue-600: #3559E9;
-$blue-500: #335CFF;
-$blue-400: #6895FF;
-$blue-300: #97BAFF;
-$blue-200: #C0D5FF;
-$blue-100: #D5E2FF;
-$blue-50: #EBF1FF;
-
-
 $color-orange-hue: 30;
 $color-orange-saturation: 10%;
 
@@ -66,19 +52,6 @@ $color-orange-200: hsl($color-orange-hue, $color-orange-saturation, 93%);   // #
 $color-orange-100: hsl($color-orange-hue, $color-orange-saturation, 98%);   // #FFD9C0 - Very light background
 $color-orange-50: hsl($color-orange-hue, $color-orange-saturation, 99.5%);  // #FFE6D5 - Subtle background variations
 
-
-$orange-950: #683412;
-$orange-900: #8B4618;
-$orange-800: #AD581F;
-$orange-700: #D06925;
-$orange-600: #E97D35;
-$orange-500: #FF9147;
-$orange-400: #FFA468;
-$orange-300: #FFC197;
-$orange-200: #FFD9C0;
-$orange-100: #FFE6D5;
-$orange-50: #FFF3EB;
-
 $color-red-hue: 0;
 $color-red-saturation: 10%;
 
@@ -94,20 +67,6 @@ $color-red-300: hsl($color-red-hue, $color-red-saturation, 85%);   // #FF6875 - 
 $color-red-200: hsl($color-red-hue, $color-red-saturation, 93%);   // #FF97A0 - Background accents, alternate rows
 $color-red-100: hsl($color-red-hue, $color-red-saturation, 98%);   // #FFD5D8 - Very light background
 $color-red-50: hsl($color-red-hue, $color-red-saturation, 99.5%);  // #FFEBEC - Subtle background variations
-
-
-
-$red-950: #681219;
-$red-900: #8B1822;
-$red-800: #AD1F2B;
-$red-700: #D02533;
-$red-600: #E93544;
-$red-500: #FB3748;
-$red-400: #FF6875;
-$red-300: #FF97A0;
-$red-200: #FFC0C5;
-$red-100: #FFD5D8;
-$red-50: #FFEBEC;
 
 
 // Green
@@ -127,19 +86,6 @@ $color-green-200: hsl($color-green-hue, $color-green-saturation, 93%);   // #C2F
 $color-green-100: hsl($color-green-hue, $color-green-saturation, 98%);   // #D0FBE9 - Very light background
 $color-green-50: hsl($color-green-hue, $color-green-saturation, 99.5%);  // #E0FAEC - Subtle background variations
 
-
-$green-950: #0B4627;
-$green-900: #16643B;
-$green-800: #1A7544;
-$green-700: #178C4E;
-$green-600: #1DAF61;
-$green-500: #1FC16B;
-$green-400: #3EE089;
-$green-300: #84EBB4;
-$green-200: #C2F5DA;
-$green-100: #D0FBE9;
-$green-50: #E0FAEC;
-
 $color-yellow-hue: 45;
 $color-yellow-saturation: 10%;
 
@@ -155,19 +101,6 @@ $color-yellow-300: hsl($color-yellow-hue, $color-yellow-saturation, 85%);   // #
 $color-yellow-200: hsl($color-yellow-hue, $color-yellow-saturation, 93%);   // #FFE097 - Background accents, alternate rows
 $color-yellow-100: hsl($color-yellow-hue, $color-yellow-saturation, 98%);   // #FFEDC0 - Very light background
 $color-yellow-50: hsl($color-yellow-hue, $color-yellow-saturation, 99.5%);  // #FFEFCC - Subtle background variations
-
-// Yellow
-$yellow-950: #826C16;
-$yellow-900: #886B16;
-$yellow-800: #B78D25;
-$yellow-700: #C99A2C;
-$yellow-600: #E4AB19;
-$yellow-500: #FFB816;
-$yellow-400: #FFC04E;
-$yellow-300: #FFE097;
-$yellow-200: #FFEDC0;
-$yellow-100: #FFEFCC;
-$yellow-50: #FFF4D5;
 
 $color-purple-hue: 270;
 $color-purple-saturation: 10%;
@@ -186,20 +119,6 @@ $color-purple-100: hsl($color-purple-hue, $color-purple-saturation, 98%);   // #
 $color-purple-50: hsl($color-purple-hue, $color-purple-saturation, 99.5%);  // #DCD5FF - Subtle background variations
 
 
-// Purple
-$purple-950: #351A75;
-$purple-900: #3D1D86;
-$purple-800: #4A25A7;
-$purple-700: #582BC9;
-$purple-600: #6E30E0;
-$purple-500: #7D35F4;
-$purple-400: #8C71F6;
-$purple-300: #AA97FF;
-$purple-200: #CAC0FF;
-$purple-100: #DCD5FF;
-$purple-50: #EFEAFF;
-
-
 $color-sky-hue: 200;
 $color-sky-saturation: 10%;
 
@@ -215,20 +134,6 @@ $color-sky-300: hsl($color-sky-hue, $color-sky-saturation, 85%);   // #6EE6FF - 
 $color-sky-200: hsl($color-sky-hue, $color-sky-saturation, 93%);   // #90E7FF - Background accents, alternate rows
 $color-sky-100: hsl($color-sky-hue, $color-sky-saturation, 98%);   // #C0EAFF - Very light background
 $color-sky-50: hsl($color-sky-hue, $color-sky-saturation, 99.5%);  // #D5F1FF - Subtle background variations
-
-// Sky
-$sky-950: #124B66;
-$sky-900: #165B85;
-$sky-800: #1F72AD;
-$sky-700: #2597D0;
-$sky-600: #35A6E9;
-$sky-500: #4FC2FF;
-$sky-400: #6EE6FF;
-$sky-300: #90E7FF;
-$sky-200: #C0EAFF;
-$sky-100: #D5F1FF;
-$sky-50: #E8F8FF;
-
 
 $color-pink-hue: 330;
 $color-pink-saturation: 10%;
@@ -247,19 +152,6 @@ $color-pink-100: hsl($color-pink-hue, $color-pink-saturation, 98%);   // #FFD5EA
 $color-pink-50: hsl($color-pink-hue, $color-pink-saturation, 99.5%);  // #FFEBF4 - Subtle background variations
 
 
-// Pink
-$pink-950: #68123D;
-$pink-900: #8B1852;
-$pink-800: #AD1F66;
-$pink-700: #D0257A;
-$pink-600: #E9358F;
-$pink-500: #FB4BA3;
-$pink-400: #FF68B3;
-$pink-300: #FF97CB;
-$pink-200: #FFC0DF;
-$pink-100: #FFD5EA;
-$pink-50: #FFEBF4;
-
 $color-teal-hue: 180;
 $color-teal-saturation: 10%;
 
@@ -275,20 +167,6 @@ $color-teal-300: hsl($color-teal-hue, $color-teal-saturation, 85%);   // #84EBDD
 $color-teal-200: hsl($color-teal-hue, $color-teal-saturation, 93%);   // #C2F5EE - Background accents, alternate rows
 $color-teal-100: hsl($color-teal-hue, $color-teal-saturation, 98%);   // #D0FBF5 - Very light background
 $color-teal-50: hsl($color-teal-hue, $color-teal-saturation, 99.5%);  // #E4FBF8 - Subtle background variations
-
-// Teal
-$teal-950: #0B463E;
-$teal-900: #16645A;
-$teal-800: #1A7569;
-$teal-700: #178C7D;
-$teal-600: #1DAF9C;
-$teal-500: #22D3BB;
-$teal-400: #3FDEC9;
-$teal-300: #84EBDD;
-$teal-200: #C2F5EE;
-$teal-100: #D0FBF5;
-$teal-50: #E4FBF8;
-
 
 // Neutral Alpha
 $color-neutral-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.24);

@@ -24,12 +24,12 @@
     line-height: layout.$spacing-03;
     &--completed {
       color: var(--color-text-inverse-default);
-      background-color: colors.$green-500;
+      background-color: colors.$color-green-500;
       line-height: layout.$spacing-05; // aligns icon vertically in the circle
     }
     &--active {
         color: var(--color-text-inverse-default);
-        background-color: colors.$blue-500;
+        background-color: colors.$color-blue-500;
     }
 
     &--default {

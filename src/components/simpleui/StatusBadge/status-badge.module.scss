@@ -27,13 +27,13 @@
 }
 
 .status-badge--completed.status-badge--light {
-  @include status-badge-style(colors.$green-50, colors.$green-500, colors.$green-500);
+  @include status-badge-style(colors.$color-green-50, colors.$color-green-500, colors.$color-green-500);
 }
 .status-badge--failed.status-badge--light {
-  @include status-badge-style(colors.$red-50, colors.$red-500, colors.$red-500);
+  @include status-badge-style(colors.$color-red-50, colors.$color-red-500, colors.$color-red-500);
 }
 .status-badge--pending.status-badge--light {
-  @include status-badge-style(colors.$orange-50, colors.$orange-500, colors.$orange-500);
+  @include status-badge-style(colors.$color-orange-50, colors.$color-orange-500, colors.$color-orange-500);
 }
 
 .status-badge--disabled.status-badge--stroke {
@@ -41,14 +41,14 @@
   border: 1px solid colors.$color-neutral-200;
 }
 .status-badge--completed.status-badge--stroke {
-  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$green-500);
+  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-green-500);
   border: 1px solid colors.$color-neutral-200;
 }
 .status-badge--failed.status-badge--stroke {
-  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$red-500);
+  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-red-500);
   border: 1px solid colors.$color-neutral-200;
 }
 .status-badge--pending.status-badge--stroke {
-  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$orange-500);
+  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-orange-500);
   border: 1px solid colors.$color-neutral-200;
 }

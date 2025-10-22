@@ -62,73 +62,73 @@
 
 
 .banner--error.banner--filled {
-  @include banner-style(colors.$red-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(colors.$color-red-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .banner--success.banner--filled {
-  @include banner-style(colors.$green-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(colors.$color-green-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .banner--warning.banner--filled {
-  @include banner-style(colors.$orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(colors.$color-orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .banner--info.banner--filled {
-  @include banner-style(colors.$blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(colors.$color-blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 .banner--feature.banner--filled {
   @include banner-style(colors.$color-neutral-500, colors.$color-white, colors.$color-white, colors.$color-white);
 }
 
 .banner--error.banner--light {
-  @include banner-style(colors.$red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$red-500);
+  @include banner-style(colors.$color-red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 }
 .banner--success.banner--light {
-  @include banner-style(colors.$green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$green-500);
+  @include banner-style(colors.$color-green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 }
 .banner--warning.banner--light {
-  @include banner-style(colors.$orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$orange-500);
+  @include banner-style(colors.$color-orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
 }
 .banner--info.banner--light {
-  @include banner-style(colors.$blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$blue-500);
+  @include banner-style(colors.$color-blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
 }
 .banner--feature.banner--light {
   @include banner-style(colors.$color-neutral-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
 }
 
 .banner--error.banner--lighter{
-  @include banner-style(colors.$red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$red-500);
+  @include banner-style(colors.$color-red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 }
 .banner--success.banner--lighter{
-  @include banner-style(colors.$green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$green-500);
+  @include banner-style(colors.$color-green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 }
 .banner--warning.banner--lighter{
-  @include banner-style(colors.$orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$orange-500);
+  @include banner-style(colors.$color-orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
 }
 .banner--info.banner--lighter{
-  @include banner-style(colors.$blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$blue-500);
+  @include banner-style(colors.$color-blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
 }
 .banner--feature.banner--lighter{
   @include banner-style(colors.$color-neutral-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
 }
 
 .banner--error.banner--stroke {
-    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$red-500);
+    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 
   border: colors.$color-neutral-200 solid;
   border-width: 0 0 1px 0;
 
 }
 .banner--success.banner--stroke {
-    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$green-500);
+    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 
   border: colors.$color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }
 .banner--warning.banner--stroke {
-    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$orange-500);
+    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
   border: colors.$color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }
 .banner--info.banner--stroke {
-  @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$blue-500);
+  @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
   border: colors.$color-neutral-200 solid;
   border-width: 0 0 1px 0;
 }

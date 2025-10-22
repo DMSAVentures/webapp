@@ -101,20 +101,20 @@
 .linkbutton--primary {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: colors.$blue-700;
+    color: colors.$color-blue-700;
 
     .linkbutton__text {
-      color: colors.$blue-700;
+      color: colors.$color-blue-700;
 
       &:hover, &:focus {
         text-decoration: none;
-        color: colors.$blue-900;
+        color: colors.$color-blue-900;
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba(colors.$blue-700, 0.05);
+      background-color: rgba(colors.$color-blue-700, 0.05);
 
       .linkbutton__text {
         text-decoration: none;
@@ -122,7 +122,7 @@
     }
 
     &:active {
-      background-color: rgba(colors.$blue-700, 0.1);
+      background-color: rgba(colors.$color-blue-700, 0.1);
     }
 
     &:disabled, &[aria-disabled="true"] {
@@ -218,20 +218,20 @@
 .linkbutton--error {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: colors.$red-700;
+    color: colors.$color-red-700;
 
     .linkbutton__text {
-      color: colors.$red-700;
+      color: colors.$color-red-700;
 
       &:hover, &:focus {
         text-decoration: none;
-        color: colors.$red-900;
+        color: colors.$color-red-900;
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba(colors.$red-700, 0.05);
+      background-color: rgba(colors.$color-red-700, 0.05);
 
       .linkbutton__text {
         text-decoration: none;
@@ -239,7 +239,7 @@
     }
 
     &:active {
-      background-color: rgba(colors.$red-700, 0.1);
+      background-color: rgba(colors.$color-red-700, 0.1);
     }
 
     &:disabled, &[aria-disabled="true"] {
