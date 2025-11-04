@@ -59,7 +59,9 @@ const button1: ButtonItemProps = {
 	iconPosition: "left",
 	icon: "ri-home-line",
 	iconOnly: false,
-	onClick: () => {},
+	onClick: () => {
+		/* Storybook demo button */
+	},
 	disabled: false,
 };
 const button2: ButtonItemProps = {
@@ -67,7 +69,9 @@ const button2: ButtonItemProps = {
 	iconPosition: "right",
 	icon: "ri-book-line",
 	iconOnly: false,
-	onClick: () => {},
+	onClick: () => {
+		/* Storybook demo button */
+	},
 	disabled: false,
 };
 

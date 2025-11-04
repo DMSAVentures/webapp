@@ -38,7 +38,9 @@ const items = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -52,7 +54,9 @@ const items = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -66,7 +70,9 @@ const items = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		size: "thin",
@@ -84,7 +90,9 @@ const items = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -98,7 +106,9 @@ const items = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -112,7 +122,9 @@ const items = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 ];
 
@@ -136,7 +148,9 @@ const itemsWithoutSublabels = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -149,7 +163,9 @@ const itemsWithoutSublabels = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -162,7 +178,9 @@ const itemsWithoutSublabels = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		size: "thin",
@@ -179,7 +197,9 @@ const itemsWithoutSublabels = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -192,7 +212,9 @@ const itemsWithoutSublabels = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 	{
 		state: "default",
@@ -205,7 +227,9 @@ const itemsWithoutSublabels = [
 		button: false,
 		icon: "ri-home-2-line",
 		iconPosition: "left",
-		onClick: () => {},
+		onClick: () => {
+			/* Storybook demo handler */
+		},
 	},
 ];
 
