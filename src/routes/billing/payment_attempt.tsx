@@ -54,9 +54,14 @@ function Page(props: Props) {
 
 export const Route = createFileRoute("/billing/payment_attempt")({
 	component: RouteComponent,
+	validateSearch: (search: Record<string, unknown>) => {
+		return {
+			session_id: (search.session_id as string) || "",
+		};
+	},
 });
 
-function RouteComponent({ search }: { search: Record<string, string> }) {
-	const sessionId = search.session_id;
-	return <Page sessionId={sessionId} />;
+function RouteComponent() {
+	const { session_id } = Route.useSearch();
+	return <Page sessionId={session_id} />;
 }

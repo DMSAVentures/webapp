@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useEffect, useState } from "react";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { fetcher } from "@/hooks/fetcher";
 import { PaymentMethodUpdateIntentResponse } from "@/types/billing";
 
@@ -20,7 +20,7 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 	const stripe = useStripe();
 	const elements = useElements();
 
-	const handlePaymentUpdate = async () => {
+	const handlePaymentUpdate = useCallback(async () => {
 		if (!stripe || !elements) {
 			console.error("Stripe.js has not loaded yet.");
 			// Stripe.js hasn't yet loaded.
@@ -43,9 +43,9 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 			// card to a Customer
 			console.log(result.setupIntent.payment_method);
 		}
-	}, []);
+	}, [stripe, elements, data]);
 
-	const createPaymentMethodUpdateIntentCallback = async (): Promise<void> => {
+	const createPaymentMethodUpdateIntentCallback = useCallback(async (): Promise<void> => {
 		setLoading(true);
 		try {
 			const response = await createPaymentMethodUpdateIntent();
@@ -66,5 +66,5 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 		loading,
 		error,
 		data,
-	}, []);
+	};
 };

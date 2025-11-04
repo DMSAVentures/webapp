@@ -15,7 +15,7 @@ const getEphermeralAPIKey = async (): Promise<EphermalAPIKeyResponse> => {
 	);
 
 	return response;
-}, []);
+};
 
 export const useGetEphermeralAPIKey = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -37,5 +37,5 @@ export const useGetEphermeralAPIKey = () => {
 		getEphermeralAPIKeyCallback();
 	}, [getEphermeralAPIKeyCallback]);
 
-	return { loading, error, data }, []);
-}, []);
+	return { loading, error, data };
+};
