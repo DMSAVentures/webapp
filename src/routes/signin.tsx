@@ -1,22 +1,22 @@
 // /signin page at root for TanStack Router
-import { createRoute } from '@tanstack/react-router'
-import Login from '@/components/authentication/login'
-import './signin.scss'
-import {rootRoute} from "@/routes/__root";
+import { createRoute } from "@tanstack/react-router";
+import Login from "@/components/authentication/login";
+import "./signin.scss";
+import { rootRoute } from "@/routes/__root";
 
 function SignInPage() {
-  return (
-    <div className="login-page">
-      <div className="centered-container">
-        <h6>Welcome</h6>
-        <Login />
-      </div>
-    </div>
-  )
+	return (
+		<div className="login-page">
+			<div className="centered-container">
+				<h6>Welcome</h6>
+				<Login />
+			</div>
+		</div>
+	);
 }
 
 export const Route = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/signin',
-  component: SignInPage,
-})
+	getParentRoute: () => rootRoute,
+	path: "/signin",
+	component: SignInPage,
+});

@@ -1,57 +1,62 @@
-import RadialProgress from "@/components/simpleui/progressbar/radialprogress";
 import { Meta, StoryObj } from "@storybook/react";
+import RadialProgress from "@/components/simpleui/progressbar/radialprogress";
 
 const meta: Meta = {
-    title: 'SimpleUI/RadialProgress',
-    component: RadialProgress,
-    parameters: {
-        layout: 'centered',
-    },
-    tags: ['autodocs'],
-    argTypes: {
-        percentage: { control: 'number' },
-        showPercentage: { control: 'boolean' },
-        size: { control: 'select', options: [ 'x-small', 'small', 'medium', 'large'] },
-        variant: { control: 'select', options: ['success', 'info', 'warning', 'error'] },
-    },
-
+	title: "SimpleUI/RadialProgress",
+	component: RadialProgress,
+	parameters: {
+		layout: "centered",
+	},
+	tags: ["autodocs"],
+	argTypes: {
+		percentage: { control: "number" },
+		showPercentage: { control: "boolean" },
+		size: {
+			control: "select",
+			options: ["x-small", "small", "medium", "large"],
+		},
+		variant: {
+			control: "select",
+			options: ["success", "info", "warning", "error"],
+		},
+	},
 } satisfies Meta<typeof RadialProgress>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const SuccessMedium: Story = {
-    args: {
-        percentage: 50,
-        showPercentage: true,
-        size: 'medium',
-        variant: 'success',
-    },
+	args: {
+		percentage: 50,
+		showPercentage: true,
+		size: "medium",
+		variant: "success",
+	},
 };
 
 export const InfoLarge: Story = {
-    args: {
-        percentage: 75,
-        showPercentage: true,
-        size: 'large',
-        variant: 'info',
-    },
+	args: {
+		percentage: 75,
+		showPercentage: true,
+		size: "large",
+		variant: "info",
+	},
 };
 
 export const WarningSmall: Story = {
-    args: {
-        percentage: 25,
-        showPercentage: true,
-        size: 'small',
-        variant: 'warning',
-    },
+	args: {
+		percentage: 25,
+		showPercentage: true,
+		size: "small",
+		variant: "warning",
+	},
 };
 
 export const ErrorXSmall: Story = {
-    args: {
-        percentage: 10,
-        showPercentage: true,
-        size: 'x-small',
-        variant: 'error',
-    },
+	args: {
+		percentage: 10,
+		showPercentage: true,
+		size: "x-small",
+		variant: "error",
+	},
 };
