@@ -23,8 +23,8 @@ export const useCancelSubscription = () => {
 		try {
 			const response = await cancelSubscription();
 			setData(response);
-		} catch (error: any) {
-			setError(error.message);
+		} catch (error: unknown) {
+			setError(error instanceof Error ? error.message : "Unknown error");
 		} finally {
 			setLoading(false);
 		}

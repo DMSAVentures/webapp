@@ -1,4 +1,4 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useCallback, useEffect, useState } from "react";
 import { useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
 import { PaymentMethodUpdateIntentResponse } from "@/types/billing";
@@ -43,19 +43,19 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 			// card to a Customer
 			console.log(result.setupIntent.payment_method);
 		}
-	};
+	}, []);
 
 	const createPaymentMethodUpdateIntentCallback = async (): Promise<void> => {
 		setLoading(true);
 		try {
 			const response = await createPaymentMethodUpdateIntent();
 			setData(response);
-		} catch (error: any) {
-			setError(error.message);
+		} catch (error: unknown) {
+			setError(error instanceof Error ? error.message : "Unknown error");
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		createPaymentMethodUpdateIntentCallback();
@@ -66,5 +66,5 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 		loading,
 		error,
 		data,
-	};
+	}, []);
 };

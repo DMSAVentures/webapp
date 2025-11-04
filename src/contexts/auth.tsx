@@ -33,7 +33,9 @@ export async function loadAuth(): Promise<User | null> {
 	} catch {
 		if (!isPublicRoute()) {
 			window.location.replace("/signin");
-			return new Promise<never>(() => {}); // app will pause until redirect
+			return new Promise<never>(() => {
+				/* Never resolves - app will pause until redirect */
+			});
 		}
 		return null;
 	}

@@ -34,9 +34,9 @@ export const useGetCheckoutSession = (args: IArguments) => {
 
 				// On successful response, set the client secret
 				setData(response);
-			} catch (error: any) {
+			} catch (error: unknown) {
 				// Set error if the fetcher throws an error
-				setError({ error: error.message });
+				setError({ error: error instanceof Error ? error.message : "Unknown error" });
 			} finally {
 				setLoading(false);
 			}

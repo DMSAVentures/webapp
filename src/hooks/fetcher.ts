@@ -39,9 +39,9 @@ export const fetcher = async <T>(
 
 		// Return the parsed data if response is OK
 		return data as T;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		// Handle abort signal
-		if (error.name === "AbortError") {
+		if (error instanceof Error && error.name === "AbortError") {
 			console.debug("Fetch request was aborted");
 			return Promise.reject(error); // Reject with the abort error or handle it accordingly
 		}

@@ -1,16 +1,16 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(npm run build:*)",
-      "Bash(tree:*)",
-      "Bash(mv:*)",
-      "Bash(chmod:*)",
-      "Bash(./convert-to-css-modules.sh:*)",
-      "Bash(find:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
-    ],
-    "deny": [],
-    "ask": []
-  }
+	"permissions": {
+		"allow": [
+			"Bash(npm run build:*)",
+			"Bash(tree:*)",
+			"Bash(mv:*)",
+			"Bash(chmod:*)",
+			"Bash(./convert-to-css-modules.sh:*)",
+			"Bash(find:*)",
+			"Bash(git add:*)",
+			"Bash(git commit:*)"
+		],
+		"deny": [],
+		"ask": []
+	}
 }

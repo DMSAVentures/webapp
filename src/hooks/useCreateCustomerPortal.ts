@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
 import { CustomerPortalResponse } from "@/types/billing";
 
@@ -18,17 +18,18 @@ export const useCreateCustomerPortal = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [data, setData] = useState<CustomerPortalResponse>();
 
-	const createCustomerPortalCallback = async () => {
+	const createCustomerPortalCallback = useCallback(async () => {
 		setLoading(true);
 		try {
 			const response = await createCustomerPortal();
 			setData(response);
-		} catch (error: any) {
-			setError(error.message);
+		} catch (error: unknown) {
+			const message = error instanceof Error ? error.message : "Unknown error";
+			setError(message);
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		createCustomerPortalCallback();

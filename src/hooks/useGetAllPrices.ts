@@ -27,12 +27,12 @@ export const useGetAllPrices = () => {
 				},
 			);
 			setPrices(response);
-		} catch (error: any) {
-			if (error.name === "AbortError") {
+		} catch (error: unknown) {
+			if (error instanceof Error && error.name === "AbortError") {
 				// Handle abort error separately if needed
 				console.debug("Request was aborted.");
 			} else {
-				setError(error.message); // Only set error for actual failures
+				setError(error instanceof Error ? error.message : "Unknown error"); // Only set error for actual failures
 			}
 		} finally {
 			setLoading(false);

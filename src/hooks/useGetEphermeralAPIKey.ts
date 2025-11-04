@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
 
 interface EphermalAPIKeyResponse {
@@ -15,27 +15,27 @@ const getEphermeralAPIKey = async (): Promise<EphermalAPIKeyResponse> => {
 	);
 
 	return response;
-};
+}, []);
 
 export const useGetEphermeralAPIKey = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 	const [data, setData] = useState<EphermalAPIKeyResponse | null>(null);
-	const getEphermeralAPIKeyCallback = async () => {
+	const getEphermeralAPIKeyCallback = useCallback(async () => {
 		setLoading(true);
 		try {
 			const response = await getEphermeralAPIKey();
 			setData(response);
-		} catch (error: any) {
-			setError(error.message);
+		} catch (error: unknown) {
+			setError(error instanceof Error ? error.message : "Unknown error");
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		getEphermeralAPIKeyCallback();
 	}, [getEphermeralAPIKeyCallback]);
 
-	return { loading, error, data };
-};
+	return { loading, error, data }, []);
+}, []);
