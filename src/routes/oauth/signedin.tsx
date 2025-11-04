@@ -1,6 +1,5 @@
 // /oauth/signedin page at root for TanStack Router
-import { createRoute, createFileRoute } from "@tanstack/react-router";
-import { rootRoute } from "../__root";
+import { createFileRoute } from "@tanstack/react-router";
 
 function OAuthSignedInPage() {
 	console.log("OAuthSignedInPage");
@@ -9,11 +8,9 @@ function OAuthSignedInPage() {
 			<h2>OAuth Signed In</h2>
 			<p>You have successfully signed in with OAuth.</p>
 		</div>
-	)
+	);
 }
 
-export const Route = createRoute("/oauth/signedin")({
-	getParentRoute: () => rootRoute,
-	path: "/oauth/signedin",
+export const Route = createFileRoute("/oauth/signedin")({
 	component: OAuthSignedInPage,
 });
