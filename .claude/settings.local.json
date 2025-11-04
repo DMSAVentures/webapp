@@ -7,7 +7,8 @@
       "Bash(chmod:*)",
       "Bash(./convert-to-css-modules.sh:*)",
       "Bash(find:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

@@ -27,7 +27,7 @@ export const Default: HintTextStory = {
 	},
 };
 
-export const Error: HintTextStory = {
+export const ErrorState: HintTextStory = {
 	args: {
 		hintText: "Hint Text",
 		state: "error",

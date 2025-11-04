@@ -62,7 +62,7 @@ export const Disabled: Story = {
 	},
 };
 
-export const Error: Story = {
+export const WithError: Story = {
 	args: {
 		placeholder: "Placeholder",
 		rows: 4,

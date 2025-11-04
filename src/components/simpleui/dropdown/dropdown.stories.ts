@@ -66,7 +66,7 @@ export const Disabled: Story = {
 	},
 };
 
-export const Error: Story = {
+export const WithError: Story = {
 	args: {
 		dropdownType: "text",
 		size: "medium",
