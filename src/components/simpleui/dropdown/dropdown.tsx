@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./dropdown.module.scss";
 import "remixicon/fonts/remixicon.css";
 import DropdownOption, {
@@ -38,14 +38,14 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 		props.onChange?.(option);
 	};
 
-	const handleClickOutside = (event: Event) => {
+	const handleClickOutside = useCallback((event: Event) => {
 		if (
 			dropdownRef.current &&
 			!dropdownRef.current.contains(event.target as Node)
 		) {
 			setIsOpen(false);
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		document.addEventListener("mousedown", handleClickOutside);
