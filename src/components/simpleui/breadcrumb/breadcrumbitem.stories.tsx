@@ -19,7 +19,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const Template = (args: any) => <BreadcrumbItem {...args} />;
+const Template = (args: React.ComponentProps<typeof BreadcrumbItem>) => (
+	<BreadcrumbItem {...args} />
+);
 
 export const Primary: Story = {
 	render: Template,

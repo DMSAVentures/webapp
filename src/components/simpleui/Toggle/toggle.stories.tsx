@@ -14,7 +14,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const Template = (args: any) => {
+const Template = (args: React.InputHTMLAttributes<HTMLInputElement>) => {
 	const [checked, setChecked] = useState(args.checked);
 
 	const handleChange = () => {

@@ -64,7 +64,7 @@ const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
 			// Trigger click on Enter or Space key press
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
-				onClick?.(event as any);
+				onClick?.(event as unknown as MouseEvent<HTMLAnchorElement>);
 			}
 		};
 

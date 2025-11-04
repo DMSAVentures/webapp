@@ -13,7 +13,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const Template = (args: any) => {
+const Template = (
+	args: React.ComponentProps<typeof ToggleCard> & { checked: boolean },
+) => {
 	const [checked, setChecked] = useState(args.checked);
 
 	const handleChange = () => {

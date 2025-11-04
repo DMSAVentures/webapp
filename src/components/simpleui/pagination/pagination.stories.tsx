@@ -47,7 +47,7 @@ const createPaginationStory = (
 	};
 
 	return {
-		render: (args: any) => <StoryComponent {...args} />,
+		render: (args: PaginationProps) => <StoryComponent {...args} />,
 		args: initialArgs,
 	};
 };

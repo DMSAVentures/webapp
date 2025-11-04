@@ -3,7 +3,9 @@ import styles from "./feedback.module.scss";
 import "remixicon/fonts/remixicon.css";
 import Linkbutton from "@/components/simpleui/linkbutton/linkbutton";
 
-function isDetailedFeedbackProps(props: any): props is DetailedFeedbackProps {
+function isDetailedFeedbackProps(
+	props: SimpleFeedbackProps | DetailedFeedbackProps,
+): props is DetailedFeedbackProps {
 	return "alertDescription" in props && props.alertDescription != "";
 }
 
