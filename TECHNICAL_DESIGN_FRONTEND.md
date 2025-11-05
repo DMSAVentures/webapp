@@ -1,71 +1,57 @@
 # Technical Design Document - Frontend Architecture
 ## Viral Waitlist & Referral Marketing Platform
 
-**Version:** 2.0 - Vanilla React 19
+**Version:** 3.0 - Specification for Implementation
 **Last Updated:** November 5, 2025
-**Target Implementation:** Phase 1-3 (Months 1-9)
+**Target:** AI Agent Implementation
 **Stack:** Vite + React 19 + TypeScript + SCSS Modules + TanStack Router
+
+> **Purpose:** This document specifies data types, component requirements, and architectural decisions. Implementation follows patterns from CLAUDE.md.
 
 ---
 
 ## Table of Contents
 
-1. Architecture Overview
-2. Application Structure
-3. State Management Architecture (Vanilla React 19)
-4. Component Architecture
-5. Routing & Navigation
-6. API Integration Layer (Custom with Suspense)
-7. Real-Time Features (Native WebSocket)
-8. Form Management System (React 19 Actions)
-9. Analytics & Visualization
-10. Security Implementation
-11. Performance Strategy
-12. Testing Strategy
-13. Development Phases
+1. [Architecture Overview](#1-architecture-overview)
+2. [Dependencies](#2-dependencies)
+3. [Type Definitions](#3-type-definitions)
+4. [Application Structure](#4-application-structure)
+5. [State Management Strategy](#5-state-management-strategy)
+6. [Data Fetching Strategy](#6-data-fetching-strategy)
+7. [Form Handling Strategy](#7-form-handling-strategy)
+8. [Real-Time Updates Strategy](#8-real-time-updates-strategy)
+9. [Component Specifications](#9-component-specifications)
+10. [Routing Structure](#10-routing-structure)
+11. [Development Phases](#11-development-phases)
 
 ---
 
 ## 1. Architecture Overview
 
 ### Core Principles
+- **Feature-based structure** - Organize by domain (campaigns, users, referrals, etc.)
+- **Vanilla React 19** - Use built-in features, minimal external dependencies
+- **Follow CLAUDE.md** - Use existing component patterns, styling conventions
+- **Type-safe** - Full TypeScript coverage with strict mode
 
-**Architectural Style:** Feature-Based Modular Architecture
-- Features organized by domain (campaigns, users, analytics, rewards, etc.)
-- Shared design system components remain in `proto-design-system/`
-- Cross-cutting concerns in dedicated directories (hooks, contexts, utils)
-- **Vanilla-first approach**: Write custom code, minimal dependencies
+### Key Decisions
 
-**State Management Philosophy (React 19 Native):**
-- Server state via custom cache + Suspense + `use()` hook
-- Local UI state via React hooks (useState, useReducer)
-- Global app state via React Context + useReducer
-- Real-time state via native WebSocket + Context
-- Form state via React 19 Actions + useActionState
+| Area | Decision | Rationale |
+|------|----------|-----------|
+| State Management | useState + useReducer + Context | React built-ins only |
+| Data Fetching | Suspense + in-memory cache | React 19 native |
+| Form Handling | useActionState + manual validation | No Zod, no RHF |
+| Real-Time | Polling (Phase 1) | Simple, no WebSocket initially |
+| Styling | SCSS Modules + BEM | Existing pattern |
+| Components | Follow CLAUDE.md patterns | Consistency |
+| Routing | TanStack Router | Type-safe routes |
+| Charts | Recharts | Only for complex charts |
 
-**Data Flow Pattern:**
-- Unidirectional data flow (React standard)
-- API → Custom Cache → Suspense Boundary → Components
-- WebSocket → Event Handlers → Context Updates → Components
-- Forms → Actions → Optimistic Updates → API → Final State
+---
 
-### Technology Decisions
+## 2. Dependencies
 
-**Core Stack:**
-- **React 19.0.0** - Leverage new features:
-  - `use()` hook for promises and context
-  - `useOptimistic()` for optimistic UI updates
-  - `useActionState()` for form handling
-  - `useTransition()` for non-blocking updates
-  - Enhanced Suspense and Error Boundaries
-  - Form Actions
-  - `ref` as prop and cleanup functions
-- **TypeScript Strict Mode** - Full type safety
-- **TanStack Router** - File-based routing with type safety (minimal library, worth it)
-- **SCSS Modules + BEM** - Styling (existing pattern)
-- **Vite 6.3.0** - Build tool with fast HMR
-
-**Dependencies (Minimal):**
+**Final Dependencies (Only 3!):**
 ```json
 {
   "dependencies": {
@@ -74,1411 +60,120 @@
     "@tanstack/react-router": "^1.90.0",
     "recharts": "^2.12.0",
     "date-fns": "^4.1.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.0",
-    "vite": "6.3.0",
-    "typescript": "^5.6.0",
-    "vitest": "^2.0.0",
-    "@testing-library/react": "^16.0.0",
-    "sass": "^1.80.0"
   }
 }
 ```
 
-**What We're Building Ourselves:**
-- ✅ Data fetching layer with caching (no React Query)
-- ✅ Form validation (no React Hook Form or Zod)
-- ✅ State management (no Zustand)
-- ✅ Animations (CSS + Web Animations API, no Framer Motion)
-- ✅ Toast notifications (custom)
-- ✅ WebSocket client (native)
-- ✅ Drag-and-drop (native HTML5)
-- ✅ Clipboard (native Clipboard API)
-- ✅ QR codes (canvas rendering)
-- ✅ Confetti (custom canvas animation)
-
-**Why This Approach:**
-- 🎯 Full control over implementation
-- 📦 Minimal bundle size (~150KB total vs 500KB+ with libraries)
-- 🚀 Better performance (no library overhead)
-- 🧠 Deep understanding of React 19 features
-- 🔧 Easier debugging and maintenance
-- 💪 Team learning and ownership
-
-**Key Decisions Summary:**
-| Feature | Decision | Rationale |
-|---------|----------|-----------|
-| State Management | Context + useReducer + custom cache | React 19 native, no external deps |
-| Data Fetching | Custom cache + Suspense + `use()` | Leverage React 19, full control |
-| Forms | Custom validation + useActionState | React 19 Actions, no Zod/RHF needed |
-| Real-Time | Polling (Phase 1) → WebSocket (Phase 2-3) | Start simple, optimize later |
-| Animations | CSS + Web Animations API + Canvas | Native browser APIs |
-| Routing | TanStack Router | Only external lib (worth it for type safety) |
-| Charts | Recharts | Complex to build, use library |
-| Dates | date-fns | Standard utility, small size |
+**NOT Using:**
+- ❌ React Query/TanStack Query
+- ❌ Zustand/Redux
+- ❌ React Hook Form
+- ❌ Zod/Yup
+- ❌ Framer Motion
+- ❌ Socket.io
+- ❌ Any other state/form/animation libraries
 
 ---
 
-## 2. Application Structure
+## 3. Type Definitions
 
-### Directory Organization
-
-```
-src/
-├── features/                      # Feature-based modules
-│   ├── campaigns/                 # Campaign management
-│   │   ├── components/            # Feature-specific components
-│   │   │   ├── CampaignCard/
-│   │   │   ├── CampaignForm/
-│   │   │   ├── CampaignList/
-│   │   │   └── CampaignStats/
-│   │   ├── hooks/                 # Feature-specific hooks
-│   │   │   ├── useCampaigns.ts
-│   │   │   ├── useCreateCampaign.ts
-│   │   │   ├── useUpdateCampaign.ts
-│   │   │   └── useCampaignAnalytics.ts
-│   │   ├── types/                 # Feature-specific types
-│   │   │   └── campaign.types.ts
-│   │   └── utils/                 # Feature-specific utilities
-│   │       └── campaign.utils.ts
-│   │
-│   ├── form-builder/              # Visual form builder
-│   │   ├── components/
-│   │   │   ├── FormCanvas/
-│   │   │   ├── FormFieldPalette/
-│   │   │   ├── FormPreview/
-│   │   │   ├── FormStyleEditor/
-│   │   │   └── FieldConfigPanel/
-│   │   ├── hooks/
-│   │   │   ├── useFormBuilder.ts
-│   │   │   └── useFormPreview.ts
-│   │   └── types/
-│   │       └── form-builder.types.ts
-│   │
-│   ├── users/                     # User/waitlist management
-│   │   ├── components/
-│   │   │   ├── UserList/
-│   │   │   ├── UserProfile/
-│   │   │   ├── UserFilters/
-│   │   │   ├── UserSegments/
-│   │   │   └── BulkActions/
-│   │   ├── hooks/
-│   │   │   ├── useUsers.ts
-│   │   │   ├── useUserSearch.ts
-│   │   │   ├── useUserSegments.ts
-│   │   │   └── useBulkOperations.ts
-│   │   └── types/
-│   │       └── user.types.ts
-│   │
-│   ├── referrals/                 # Viral referral system
-│   │   ├── components/
-│   │   │   ├── ReferralDashboard/
-│   │   │   ├── ReferralLink/
-│   │   │   ├── ShareButtons/
-│   │   │   ├── LeaderboardWidget/
-│   │   │   ├── ReferralTree/
-│   │   │   └── PositionTracker/
-│   │   ├── hooks/
-│   │   │   ├── useReferrals.ts
-│   │   │   ├── useLeaderboard.ts
-│   │   │   └── useReferralTracking.ts
-│   │   └── types/
-│   │       └── referral.types.ts
-│   │
-│   ├── analytics/                 # Analytics & reporting
-│   │   ├── components/
-│   │   │   ├── AnalyticsDashboard/
-│   │   │   ├── ConversionFunnel/
-│   │   │   ├── TrafficSources/
-│   │   │   ├── ViralMetrics/
-│   │   │   ├── ChartWidgets/
-│   │   │   └── ReportBuilder/
-│   │   ├── hooks/
-│   │   │   ├── useAnalytics.ts
-│   │   │   ├── useFunnelData.ts
-│   │   │   └── useRealtimeData.ts
-│   │   └── types/
-│   │       └── analytics.types.ts
-│   │
-│   ├── emails/                    # Email automation
-│   │   ├── components/
-│   │   │   ├── EmailEditor/
-│   │   │   ├── EmailTemplates/
-│   │   │   ├── EmailCampaigns/
-│   │   │   ├── EmailAnalytics/
-│   │   │   └── AutomationBuilder/
-│   │   ├── hooks/
-│   │   │   ├── useEmailTemplates.ts
-│   │   │   ├── useEmailCampaigns.ts
-│   │   │   └── useEmailAutomation.ts
-│   │   └── types/
-│   │       └── email.types.ts
-│   │
-│   ├── rewards/                   # Reward system
-│   │   ├── components/
-│   │   │   ├── RewardBuilder/
-│   │   │   ├── RewardTiers/
-│   │   │   ├── RewardProgress/
-│   │   │   └── RewardDelivery/
-│   │   ├── hooks/
-│   │   │   ├── useRewards.ts
-│   │   │   └── useRewardTriggers.ts
-│   │   └── types/
-│   │       └── reward.types.ts
-│   │
-│   ├── team/                      # Team collaboration
-│   │   ├── components/
-│   │   │   ├── TeamMembers/
-│   │   │   ├── RoleManagement/
-│   │   │   ├── ActivityFeed/
-│   │   │   └── TeamInvite/
-│   │   ├── hooks/
-│   │   │   ├── useTeam.ts
-│   │   │   └── usePermissions.ts
-│   │   └── types/
-│   │       └── team.types.ts
-│   │
-│   ├── integrations/              # Third-party integrations
-│   │   ├── components/
-│   │   │   ├── IntegrationList/
-│   │   │   ├── IntegrationSetup/
-│   │   │   └── WebhookManager/
-│   │   ├── hooks/
-│   │   │   ├── useIntegrations.ts
-│   │   │   └── useWebhooks.ts
-│   │   └── types/
-│   │       └── integration.types.ts
-│   │
-│   └── auth/                      # Authentication
-│       ├── components/
-│       │   ├── LoginForm/
-│       │   ├── SignupForm/
-│       │   ├── TwoFactorSetup/
-│       │   └── PasswordReset/
-│       ├── hooks/
-│       │   ├── useAuth.ts
-│       │   └── use2FA.ts
-│       └── types/
-│           └── auth.types.ts
-│
-├── proto-design-system/           # Existing design system (keep as is)
-│   ├── Button/
-│   ├── Input/
-│   ├── Card/
-│   └── ... (28+ components)
-│
-├── contexts/                      # Global React contexts
-│   ├── AuthContext.tsx           # User authentication state
-│   ├── WorkspaceContext.tsx      # Current workspace/campaign
-│   ├── ThemeContext.tsx          # Theme switching
-│   └── WebSocketContext.tsx      # WebSocket connection
-│
-├── hooks/                         # Shared custom hooks
-│   ├── fetcher.ts                # Existing HTTP client (keep)
-│   ├── useLocalStorage.ts        # Existing (keep)
-│   ├── useQueryParams.ts         # NEW - URL param management
-│   ├── useDebounce.ts            # NEW - Debouncing
-│   ├── useInfiniteScroll.ts      # NEW - Pagination
-│   ├── useClipboard.ts           # NEW - Copy to clipboard
-│   ├── useWebSocket.ts           # NEW - WebSocket hook
-│   └── usePermissions.ts         # NEW - Permission checks
-│
-├── lib/                           # Third-party library configs
-│   ├── react-query.ts            # React Query setup
-│   ├── websocket.ts              # Socket.io client setup
-│   └── analytics.ts              # Analytics tracking
-│
-├── services/                      # API service layer
-│   ├── api.ts                    # Base API client (uses fetcher)
-│   ├── campaigns.service.ts      # Campaign API calls
-│   ├── users.service.ts          # User API calls
-│   ├── referrals.service.ts      # Referral API calls
-│   ├── analytics.service.ts      # Analytics API calls
-│   ├── emails.service.ts         # Email API calls
-│   └── webhooks.service.ts       # Webhook API calls
-│
-├── types/                         # Shared TypeScript types
-│   ├── api.types.ts              # API response/request types
-│   ├── common.types.ts           # Common types
-│   ├── enums.ts                  # Shared enums
-│   └── index.ts                  # Type exports
-│
-├── utils/                         # Shared utilities
-│   ├── date.utils.ts             # Date formatting/parsing
-│   ├── number.utils.ts           # Number formatting
-│   ├── validation.utils.ts       # Form validation helpers
-│   ├── url.utils.ts              # URL manipulation
-│   ├── export.utils.ts           # CSV/JSON export
-│   └── analytics.utils.ts        # Analytics helpers
-│
-├── constants/                     # Application constants
-│   ├── routes.ts                 # Route paths
-│   ├── api-endpoints.ts          # API endpoints
-│   ├── permissions.ts            # Permission constants
-│   └── defaults.ts               # Default values
-│
-├── design-tokens/                 # Existing (keep as is)
-│   ├── variables.scss
-│   └── theme.scss
-│
-└── routes/                        # TanStack Router routes
-    ├── __root.tsx                # Root layout
-    ├── index.tsx                 # Dashboard home
-    ├── campaigns/
-    │   ├── index.tsx             # Campaign list
-    │   ├── $campaignId/
-    │   │   ├── index.tsx         # Campaign overview
-    │   │   ├── form-builder.tsx  # Form builder
-    │   │   ├── users.tsx         # User list
-    │   │   ├── analytics.tsx     # Analytics
-    │   │   ├── emails.tsx        # Email campaigns
-    │   │   └── settings.tsx      # Settings
-    │   └── new.tsx               # Create campaign
-    ├── analytics/
-    │   └── index.tsx             # Global analytics
-    ├── team/
-    │   └── index.tsx             # Team management
-    ├── integrations/
-    │   └── index.tsx             # Integrations
-    ├── settings/
-    │   ├── index.tsx             # General settings
-    │   ├── billing.tsx           # Billing
-    │   └── security.tsx          # Security settings
-    └── auth/
-        ├── login.tsx             # Login
-        ├── signup.tsx            # Signup
-        └── verify.tsx            # Email verification
-```
-
----
-
-## 3. State Management Architecture (Vanilla React 19)
-
-### Custom Data Cache with Suspense
-
-**Cache Implementation (lib/cache.ts):**
-```typescript
-type CacheEntry<T> = {
-  data: T;
-  timestamp: number;
-  promise?: Promise<T>;
-};
-
-class DataCache {
-  private cache = new Map<string, CacheEntry<any>>();
-  private staleTime = 5 * 60 * 1000; // 5 minutes
-  private subscribers = new Map<string, Set<() => void>>();
-
-  get<T>(key: string): T | undefined {
-    const entry = this.cache.get(key);
-    if (!entry) return undefined;
-
-    // Check if stale
-    if (Date.now() - entry.timestamp > this.staleTime) {
-      return undefined;
-    }
-
-    return entry.data;
-  }
-
-  set<T>(key: string, data: T): void {
-    this.cache.set(key, {
-      data,
-      timestamp: Date.now(),
-    });
-    this.notify(key);
-  }
-
-  getPending<T>(key: string): Promise<T> | undefined {
-    return this.cache.get(key)?.promise;
-  }
-
-  setPending<T>(key: string, promise: Promise<T>): void {
-    const entry = this.cache.get(key) || { data: undefined, timestamp: Date.now() };
-    entry.promise = promise;
-    this.cache.set(key, entry);
-  }
-
-  invalidate(pattern: string | RegExp): void {
-    const keysToDelete: string[] = [];
-
-    for (const key of this.cache.keys()) {
-      if (typeof pattern === 'string' ? key.startsWith(pattern) : pattern.test(key)) {
-        keysToDelete.push(key);
-      }
-    }
-
-    keysToDelete.forEach(key => {
-      this.cache.delete(key);
-      this.notify(key);
-    });
-  }
-
-  subscribe(key: string, callback: () => void): () => void {
-    if (!this.subscribers.has(key)) {
-      this.subscribers.set(key, new Set());
-    }
-    this.subscribers.get(key)!.add(callback);
-
-    return () => {
-      const subs = this.subscribers.get(key);
-      if (subs) {
-        subs.delete(callback);
-        if (subs.size === 0) {
-          this.subscribers.delete(key);
-        }
-      }
-    };
-  }
-
-  private notify(key: string): void {
-    const subs = this.subscribers.get(key);
-    if (subs) {
-      subs.forEach(callback => callback());
-    }
-  }
-
-  clear(): void {
-    this.cache.clear();
-    this.subscribers.clear();
-  }
-}
-
-export const dataCache = new DataCache();
-```
-
-### Custom Data Fetching Hook with Suspense
-
-**Fetch Hook (hooks/useFetch.ts):**
-```typescript
-import { use, useSyncExternalStore } from 'react';
-import { dataCache } from '@/lib/cache';
-import { fetcher } from '@/hooks/fetcher';
-
-interface FetchOptions<T> {
-  /** Function to fetch data */
-  fetcher: () => Promise<T>;
-  /** Cache key */
-  key: string;
-  /** Enable/disable fetching */
-  enabled?: boolean;
-}
-
-export function useFetch<T>({ fetcher: fetchFn, key, enabled = true }: FetchOptions<T>): T {
-  // Subscribe to cache updates
-  const cachedData = useSyncExternalStore(
-    (callback) => dataCache.subscribe(key, callback),
-    () => dataCache.get<T>(key),
-    () => dataCache.get<T>(key)
-  );
-
-  if (!enabled) {
-    throw new Error('Fetch disabled - should not render this component');
-  }
-
-  // Return cached data if available
-  if (cachedData !== undefined) {
-    return cachedData;
-  }
-
-  // Check if there's a pending promise
-  const pendingPromise = dataCache.getPending<T>(key);
-  if (pendingPromise) {
-    throw pendingPromise; // Suspend until promise resolves
-  }
-
-  // Create new fetch promise
-  const promise = fetchFn()
-    .then(data => {
-      dataCache.set(key, data);
-      return data;
-    })
-    .catch(error => {
-      dataCache.invalidate(key);
-      throw error;
-    });
-
-  dataCache.setPending(key, promise);
-  throw promise; // Suspend until promise resolves
-}
-```
-
-### Global App State with Context + useReducer
-
-**App State (contexts/AppContext.tsx):**
-```typescript
-import { createContext, useReducer, useContext, type ReactNode } from 'react';
-
-// State type
-interface AppState {
-  currentCampaignId: string | null;
-  isWebSocketConnected: boolean;
-  sidebarCollapsed: boolean;
-  toasts: Toast[];
-}
-
-// Action types
-type AppAction =
-  | { type: 'SET_CAMPAIGN'; payload: string | null }
-  | { type: 'SET_WS_CONNECTED'; payload: boolean }
-  | { type: 'TOGGLE_SIDEBAR' }
-  | { type: 'ADD_TOAST'; payload: Omit<Toast, 'id'> }
-  | { type: 'REMOVE_TOAST'; payload: string };
-
-// Reducer
-function appReducer(state: AppState, action: AppAction): AppState {
-  switch (action.type) {
-    case 'SET_CAMPAIGN':
-      return { ...state, currentCampaignId: action.payload };
-
-    case 'SET_WS_CONNECTED':
-      return { ...state, isWebSocketConnected: action.payload };
-
-    case 'TOGGLE_SIDEBAR':
-      return { ...state, sidebarCollapsed: !state.sidebarCollapsed };
-
-    case 'ADD_TOAST':
-      return {
-        ...state,
-        toasts: [...state.toasts, { ...action.payload, id: crypto.randomUUID() }],
-      };
-
-    case 'REMOVE_TOAST':
-      return {
-        ...state,
-        toasts: state.toasts.filter(t => t.id !== action.payload),
-      };
-
-    default:
-      return state;
-  }
-}
-
-// Context
-const AppStateContext = createContext<AppState | undefined>(undefined);
-const AppDispatchContext = createContext<React.Dispatch<AppAction> | undefined>(undefined);
-
-// Provider
-export function AppProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(appReducer, {
-    currentCampaignId: null,
-    isWebSocketConnected: false,
-    sidebarCollapsed: false,
-    toasts: [],
-  });
-
-  return (
-    <AppStateContext.Provider value={state}>
-      <AppDispatchContext.Provider value={dispatch}>
-        {children}
-      </AppDispatchContext.Provider>
-    </AppStateContext.Provider>
-  );
-}
-
-// Hooks
-export function useAppState() {
-  const context = useContext(AppStateContext);
-  if (!context) throw new Error('useAppState must be used within AppProvider');
-  return context;
-}
-
-export function useAppDispatch() {
-  const context = useContext(AppDispatchContext);
-  if (!context) throw new Error('useAppDispatch must be used within AppProvider');
-  return context;
-}
-
-// Convenience hooks
-export function useToast() {
-  const dispatch = useAppDispatch();
-
-  return {
-    showToast: (toast: Omit<Toast, 'id'>) => {
-      dispatch({ type: 'ADD_TOAST', payload: toast });
-
-      // Auto-dismiss after 5 seconds
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_TOAST', payload: toast.id });
-      }, 5000);
-    },
-    hideToast: (id: string) => {
-      dispatch({ type: 'REMOVE_TOAST', payload: id });
-    },
-  };
-}
-```
-
-### State Management Patterns
-
-**Pattern 1: Server State (Custom Cache + Suspense)**
-Use for ALL API data:
-- Campaign data, user lists, analytics, email templates, team members
-- Automatic caching with staleTime
-- Suspense boundaries for loading states
-- Error boundaries for error handling
-
-**Pattern 2: Local UI State (useState/useReducer)**
-Use for component-specific state:
-- Form inputs, modal open/close, accordion expanded/collapsed
-- Selected items, filter states (before applying)
-- Loading states for UI interactions (use `useTransition` for non-blocking)
-
-**Pattern 3: Global App State (Context + useReducer)**
-Use sparingly for cross-cutting concerns:
-- Current workspace/campaign selection
-- Toast notifications
-- Real-time connection status
-- User preferences (theme, language)
-
-**Pattern 4: Optimistic Updates (useOptimistic)**
-Use for immediate UI feedback:
-- Form submissions
-- Toggling favorites/likes
-- Reordering lists
-- Updating status
-
----
-
-## 4. Component Architecture
-
-### Component Hierarchy Patterns
-
-**Level 1: Route Components** (in `routes/`)
-- Data fetching with React Query
-- Layout composition
-- Route-level error boundaries
-- No business logic (delegate to hooks)
-
-**Level 2: Feature Components** (in `features/[feature]/components/`)
-- Feature-specific business logic
-- Use feature hooks for data/operations
-- Compose design system components
-- Handle feature-specific errors
-
-**Level 3: Design System Components** (in `proto-design-system/`)
-- Pure presentational (existing pattern)
-- No business logic or API calls
-- Highly reusable
-
-### Component Communication Patterns
-
-**Parent → Child:** Props (existing pattern)
-**Child → Parent:** Callbacks via props
-**Sibling → Sibling:** Lift state up or React Query cache
-**Cross-feature:** React Query cache or Zustand store
-
-### New Component Categories
-
-**Category 1: Data Display Components**
-Purpose: Display fetched data with loading/error states
-
-Example Pattern:
-```typescript
-// features/campaigns/components/CampaignCard/component.tsx
-export interface CampaignCardProps {
-  campaignId: string;
-  onClick?: () => void;
-  showAnalytics?: boolean;
-}
-
-export const CampaignCard = memo<CampaignCardProps>(({
-  campaignId,
-  onClick,
-  showAnalytics = false
-}) => {
-  // Use React Query for data
-  const { data: campaign, isLoading, error } = useCampaign(campaignId);
-
-  if (isLoading) return <Skeleton />;
-  if (error) return <ErrorMessage error={error.message} />;
-  if (!campaign) return null;
-
-  return (
-    <Card onClick={onClick}>
-      {/* Use design system components */}
-      <div className={styles.header}>
-        <Heading level={3}>{campaign.name}</Heading>
-        <Badge variant={campaign.status}>{campaign.status}</Badge>
-      </div>
-      {showAnalytics && (
-        <CampaignStats campaignId={campaignId} />
-      )}
-    </Card>
-  );
-});
-```
-
-**Category 2: Form Components**
-Purpose: User input with validation
-
-Example Pattern:
-```typescript
-// features/campaigns/components/CampaignForm/component.tsx
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
-const campaignSchema = z.object({
-  name: z.string().min(3).max(100),
-  description: z.string().max(500).optional(),
-  redirectUrl: z.string().url().optional(),
-  emailVerificationRequired: z.boolean(),
-});
-
-type CampaignFormData = z.infer<typeof campaignSchema>;
-
-export interface CampaignFormProps {
-  initialData?: Partial<CampaignFormData>;
-  onSubmit: (data: CampaignFormData) => Promise<void>;
-  onCancel?: () => void;
-}
-
-export const CampaignForm = memo<CampaignFormProps>(({
-  initialData,
-  onSubmit,
-  onCancel
-}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<CampaignFormData>({
-    resolver: zodResolver(campaignSchema),
-    defaultValues: initialData,
-  });
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <TextInput
-        label="Campaign Name"
-        required
-        error={errors.name?.message}
-        {...register('name')}
-      />
-
-      <Textarea
-        label="Description"
-        error={errors.description?.message}
-        {...register('description')}
-      />
-
-      <TextInput
-        label="Redirect URL"
-        type="url"
-        error={errors.redirectUrl?.message}
-        {...register('redirectUrl')}
-      />
-
-      <Checkbox
-        label="Require email verification"
-        {...register('emailVerificationRequired')}
-      />
-
-      <div className={styles.actions}>
-        <Button type="submit" loading={isSubmitting}>
-          Save Campaign
-        </Button>
-        {onCancel && (
-          <Button variant="secondary" onClick={onCancel}>
-            Cancel
-          </Button>
-        )}
-      </div>
-    </form>
-  );
-});
-```
-
-**Category 3: Interactive Widgets**
-Purpose: Real-time interaction and updates
-
-Examples:
-- `ShareButtons` - Social sharing with tracking
-- `PositionTracker` - Live position updates via WebSocket
-- `ReferralLink` - Copy link with confetti animation
-- `LeaderboardWidget` - Real-time leaderboard updates
-
-**Category 4: Analytics Components**
-Purpose: Data visualization
-
-Examples:
-- `ConversionFunnel` - Multi-step funnel chart
-- `TrafficSources` - Pie/bar charts for sources
-- `GrowthChart` - Time-series line chart
-- `ViralMetrics` - K-factor, cycle time display
-
-**Category 5: Builder/Editor Components**
-Purpose: Complex visual editing
-
-Examples:
-- `FormBuilder` - Drag-and-drop form editor
-- `EmailEditor` - WYSIWYG email template editor
-- `RewardBuilder` - Tiered reward configuration
-- `AutomationBuilder` - Visual workflow editor
-
----
-
-## 5. Routing & Navigation
-
-### Route Structure
-
-**Public Routes (No Auth):**
-- `/auth/login` - Login page
-- `/auth/signup` - Signup page
-- `/auth/verify/:token` - Email verification
-- `/auth/reset-password` - Password reset
-- `/w/:referralCode` - Public waitlist signup (embedded/hosted)
-
-**Protected Routes (Auth Required):**
-- `/` - Dashboard overview
-- `/campaigns` - Campaign list
-- `/campaigns/new` - Create campaign wizard
-- `/campaigns/:id` - Campaign overview
-- `/campaigns/:id/form-builder` - Form builder
-- `/campaigns/:id/users` - User/waitlist management
-- `/campaigns/:id/analytics` - Campaign analytics
-- `/campaigns/:id/emails` - Email campaigns
-- `/campaigns/:id/referrals` - Referral management
-- `/campaigns/:id/rewards` - Reward configuration
-- `/campaigns/:id/integrations` - Campaign integrations
-- `/campaigns/:id/settings` - Campaign settings
-- `/analytics` - Global analytics dashboard
-- `/team` - Team management
-- `/integrations` - Integration marketplace
-- `/settings` - Account settings
-- `/settings/billing` - Billing management
-- `/settings/security` - Security settings (2FA, SSO)
-
-### Navigation Patterns
-
-**Primary Navigation (Sidebar):**
-- Dashboard
-- Campaigns (with campaign switcher dropdown)
-- Analytics
-- Team
-- Integrations
-- Settings
-
-**Secondary Navigation (Campaign Context):**
-When a campaign is selected, show sub-navigation:
-- Overview
-- Form Builder
-- Users
-- Analytics
-- Emails
-- Referrals
-- Rewards
-- Integrations
-- Settings
-
-**Breadcrumb Navigation:**
-Show hierarchy: Dashboard > Campaigns > "Product Launch" > Users
-
-### Route Protection Pattern
+### Core Types
 
 ```typescript
-// routes/__root.tsx
-import { Outlet, Navigate } from '@tanstack/react-router';
-import { useAuth } from '@/features/auth/hooks/useAuth';
-
-export const Route = () => {
-  const { user, isLoading } = useAuth();
-  const isPublicRoute = ['/auth/login', '/auth/signup', '/w/'].some(path =>
-    location.pathname.startsWith(path)
-  );
-
-  if (isLoading) return <LoadingScreen />;
-  if (!user && !isPublicRoute) return <Navigate to="/auth/login" />;
-  if (user && isPublicRoute) return <Navigate to="/" />;
-
-  return (
-    <AppLayout>
-      <Outlet />
-    </AppLayout>
-  );
-};
-```
-
----
-
-## 6. API Integration Layer (Custom with Suspense)
-
-### Service Layer (Keep Existing Pattern)
-
-**Campaign Service (services/campaigns.service.ts):**
-```typescript
-import { fetcher } from '@/hooks/fetcher';
-import type { Campaign, CreateCampaignRequest, UpdateCampaignRequest } from '@/types';
-
-const API_BASE = import.meta.env.VITE_API_URL;
-
-export const campaignsService = {
-  list: (params?: { status?: string; search?: string }) => {
-    const url = new URL(`${API_BASE}/api/campaigns`);
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        if (value) url.searchParams.set(key, value);
-      });
-    }
-    return fetcher<Campaign[]>(url.toString());
-  },
-
-  get: (id: string) => fetcher<Campaign>(`${API_BASE}/api/campaigns/${id}`),
-
-  create: (data: CreateCampaignRequest) =>
-    fetcher<Campaign>(`${API_BASE}/api/campaigns`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    }),
-
-  update: (id: string, data: UpdateCampaignRequest) =>
-    fetcher<Campaign>(`${API_BASE}/api/campaigns/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    }),
-
-  delete: (id: string) =>
-    fetcher<void>(`${API_BASE}/api/campaigns/${id}`, { method: 'DELETE' }),
-};
-```
-
-### Custom Hooks with Suspense
-
-**Data Fetching Hook (features/campaigns/hooks/useCampaigns.ts):**
-```typescript
-import { useFetch } from '@/hooks/useFetch';
-import { campaignsService } from '@/services/campaigns.service';
-
-// GET - List campaigns (with Suspense)
-export function useCampaigns(filters?: { status?: string; search?: string }) {
-  const key = `campaigns:list:${JSON.stringify(filters || {})}`;
-
-  const campaigns = useFetch({
-    key,
-    fetcher: () => campaignsService.list(filters),
-  });
-
-  return campaigns;
-}
-
-// GET - Single campaign (with Suspense)
-export function useCampaign(id: string | null) {
-  const key = id ? `campaigns:${id}` : '';
-
-  const campaign = useFetch({
-    key,
-    fetcher: () => campaignsService.get(id!),
-    enabled: !!id,
-  });
-
-  return campaign;
-}
-```
-
-**Mutation Hook Pattern:**
-```typescript
-import { useState, useTransition, useOptimistic } from 'react';
-import { dataCache } from '@/lib/cache';
-import { campaignsService } from '@/services/campaigns.service';
-import { useToast } from '@/contexts/AppContext';
-
-// POST - Create campaign
-export function useCreateCampaign() {
-  const [isPending, startTransition] = useTransition();
-  const { showToast } = useToast();
-
-  const createCampaign = async (data: CreateCampaignRequest) => {
-    try {
-      const newCampaign = await campaignsService.create(data);
-
-      // Invalidate cache to trigger refetch
-      dataCache.invalidate('campaigns:list');
-      // Add to cache
-      dataCache.set(`campaigns:${newCampaign.id}`, newCampaign);
-
-      showToast({ type: 'success', message: 'Campaign created!' });
-      return newCampaign;
-    } catch (error: any) {
-      showToast({ type: 'error', message: error.message });
-      throw error;
-    }
-  };
-
-  const mutate = (data: CreateCampaignRequest) => {
-    startTransition(() => {
-      createCampaign(data);
-    });
-  };
-
-  return { mutate, isPending };
-}
-
-// PATCH - Update campaign (with optimistic updates)
-export function useUpdateCampaign(id: string) {
-  const { showToast } = useToast();
-  const [optimisticCampaign, setOptimisticCampaign] = useOptimistic(
-    dataCache.get<Campaign>(`campaigns:${id}`)
-  );
-
-  const updateCampaign = async (updates: Partial<Campaign>) => {
-    // Optimistic update
-    setOptimisticCampaign((current) => ({ ...current, ...updates }));
-
-    try {
-      const updated = await campaignsService.update(id, updates);
-      dataCache.set(`campaigns:${id}`, updated);
-      dataCache.invalidate('campaigns:list');
-      showToast({ type: 'success', message: 'Campaign updated!' });
-      return updated;
-    } catch (error: any) {
-      // Revert on error
-      dataCache.invalidate(`campaigns:${id}`);
-      showToast({ type: 'error', message: error.message });
-      throw error;
-    }
-  };
-
-  return { updateCampaign, optimisticCampaign };
-}
-```
-
-### Component Usage Pattern
-
-**With Suspense Boundary:**
-```typescript
-// features/campaigns/components/CampaignList/component.tsx
-import { Suspense } from 'react';
-import { useCampaigns } from '../../hooks/useCampaigns';
-
-function CampaignListContent() {
-  const campaigns = useCampaigns(); // Suspends while loading
-
-  return (
-    <div>
-      {campaigns.map(campaign => (
-        <CampaignCard key={campaign.id} campaign={campaign} />
-      ))}
-    </div>
-  );
-}
-
-export function CampaignList() {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <CampaignListContent />
-    </Suspense>
-  );
-}
-```
-
-### Pagination Pattern (Custom Infinite Scroll)
-
-**Infinite Scroll Hook:**
-```typescript
-import { useState, useEffect, useRef } from 'react';
-
-export function useInfiniteScroll<T>(
-  fetchPage: (page: number) => Promise<T[]>,
-  pageSize = 50
-) {
-  const [items, setItems] = useState<T[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const observerRef = useRef<IntersectionObserver>();
-  const lastElementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isLoading || !hasMore) return;
-
-    const loadMore = async () => {
-      setIsLoading(true);
-      try {
-        const newItems = await fetchPage(page);
-        setItems(prev => [...prev, ...newItems]);
-        setHasMore(newItems.length === pageSize);
-        setPage(prev => prev + 1);
-      } catch (error) {
-        console.error('Failed to load more:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    observerRef.current = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          loadMore();
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    if (lastElementRef.current) {
-      observerRef.current.observe(lastElementRef.current);
-    }
-
-    return () => observerRef.current?.disconnect();
-  }, [page, hasMore, isLoading]);
-
-  return { items, isLoading, hasMore, lastElementRef };
-}
-
----
-
-## 7. Real-Time Features
-
-### Real-Time Requirements from PRD
-
-The PRD requires real-time updates for:
-1. **Position Tracking** - Users see position changes instantly when referrals sign up
-2. **Leaderboard** - Live leaderboard updates create competition
-3. **Activity Feed** - "John just signed up!" creates social proof
-4. **Viral Loop** - Instant feedback = more sharing (critical for K-factor >1.2)
-
-### Implementation Options
-
-**Option A: Polling (Simpler, Phase 1)**
-- Poll API every 5-10 seconds
-- Pros: Simple, no WebSocket infrastructure
-- Cons: Higher server load, 5-10s delay, more bandwidth
-- Good for MVP/early stages
-
-**Option B: WebSocket (Better UX, Phase 2-3)**
-- Real-time push updates <1s
-- Pros: Instant updates, lower bandwidth, better UX
-- Cons: More complex, requires WebSocket server
-- Recommended for scale
-
-**Decision:** Use polling for Phase 1 (simpler, faster to implement). WebSocket can be added in Phase 2-3 for optimization.
-
----
-
-### Polling Implementation (Phase 1)
-
-**Polling Hook (hooks/usePolling.ts):**
-```typescript
-import { useEffect, useRef } from 'react';
-import { dataCache } from '@/lib/cache';
-
-export function usePolling(
-  cacheKey: string,
-  fetchFn: () => Promise<any>,
-  interval = 10000 // 10 seconds
-) {
-  const intervalRef = useRef<number>();
-
-  useEffect(() => {
-    // Poll immediately
-    fetchFn().then(data => dataCache.set(cacheKey, data));
-
-    // Set up interval
-    intervalRef.current = window.setInterval(() => {
-      fetchFn().then(data => dataCache.set(cacheKey, data));
-    }, interval);
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [cacheKey, interval]);
-}
-```
-
-**Usage in Components:**
-```typescript
-// Poll leaderboard every 10 seconds
-export function Leaderboard({ campaignId }: { campaignId: string }) {
-  usePolling(
-    `leaderboard:${campaignId}`,
-    () => leaderboardService.get(campaignId),
-    10000
-  );
-
-  const leaderboard = useFetch({
-    key: `leaderboard:${campaignId}`,
-    fetcher: () => leaderboardService.get(campaignId),
-  });
-
-  return <LeaderboardDisplay data={leaderboard} />;
-}
-```
-
-**Note:** WebSocket implementation details available in the appendix for Phase 2-3 optimization.
-
----
-
-## 8. Form Management System (React 19 Actions)
-
-### Custom Form Validation
-
-**Validation Utils (utils/validation.utils.ts):**
-```typescript
-export type ValidationRule<T = any> = {
-  validate: (value: T) => boolean;
-  message: string;
-};
-
-export type FieldValidation<T = any> = {
-  required?: boolean | string;
-  minLength?: { value: number; message: string };
-  maxLength?: { value: number; message: string };
-  pattern?: { value: RegExp; message: string };
-  custom?: ValidationRule<T>[];
-};
-
-export function validateField<T>(
-  value: T,
-  rules: FieldValidation<T>
-): string | null {
-  // Required check
-  if (rules.required) {
-    const isEmpty = value === null || value === undefined || value === '';
-    if (isEmpty) {
-      return typeof rules.required === 'string'
-        ? rules.required
-        : 'This field is required';
-    }
-  }
-
-  // Min length
-  if (rules.minLength && typeof value === 'string') {
-    if (value.length < rules.minLength.value) {
-      return rules.minLength.message;
-    }
-  }
-
-  // Max length
-  if (rules.maxLength && typeof value === 'string') {
-    if (value.length > rules.maxLength.value) {
-      return rules.maxLength.message;
-    }
-  }
-
-  // Pattern
-  if (rules.pattern && typeof value === 'string') {
-    if (!rules.pattern.value.test(value)) {
-      return rules.pattern.message;
-    }
-  }
-
-  // Custom validators
-  if (rules.custom) {
-    for (const rule of rules.custom) {
-      if (!rule.validate(value)) {
-        return rule.message;
-      }
-    }
-  }
-
-  return null;
-}
-
-export function validateForm<T extends Record<string, any>>(
-  data: T,
-  schema: Record<keyof T, FieldValidation>
-): Record<keyof T, string | null> {
-  const errors = {} as Record<keyof T, string | null>;
-
-  for (const key in schema) {
-    errors[key] = validateField(data[key], schema[key]);
-  }
-
-  return errors;
-}
-```
-
-### Form Hook with React 19 useActionState
-
-**Custom Form Hook (hooks/useForm.ts):**
-```typescript
-import { useActionState, useOptimistic, useState } from 'react';
-
-interface UseFormOptions<T> {
-  initialValues: T;
-  validate?: (values: T) => Partial<Record<keyof T, string>>;
-  onSubmit: (values: T) => Promise<{ success: boolean; error?: string }>;
-}
-
-export function useForm<T extends Record<string, any>>({
-  initialValues,
-  validate,
-  onSubmit,
-}: UseFormOptions<T>) {
-  const [values, setValues] = useState<T>(initialValues);
-  const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
-  const [touched, setTouched] = useState<Partial<Record<keyof T, boolean>>>({});
-
-  // React 19 useActionState for form submission
-  const [state, submitAction, isPending] = useActionState(
-    async (prevState: any, formData: FormData) => {
-      // Convert FormData to values object
-      const formValues = Object.fromEntries(formData) as T;
-
-      // Validate
-      if (validate) {
-        const validationErrors = validate(formValues);
-        if (Object.keys(validationErrors).length > 0) {
-          setErrors(validationErrors);
-          return { success: false, errors: validationErrors };
-        }
-      }
-
-      // Submit
-      try {
-        const result = await onSubmit(formValues);
-        if (result.success) {
-          // Reset form on success
-          setValues(initialValues);
-          setErrors({});
-          setTouched({});
-        }
-        return result;
-      } catch (error: any) {
-        return { success: false, error: error.message };
-      }
-    },
-    { success: false }
-  );
-
-  const handleChange = (name: keyof T, value: any) => {
-    setValues((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error when user types
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const handleBlur = (name: keyof T) => {
-    setTouched((prev) => ({ ...prev, [name]: true }));
-
-    // Validate on blur
-    if (validate && touched[name]) {
-      const validationErrors = validate(values);
-      if (validationErrors[name]) {
-        setErrors((prev) => ({ ...prev, [name]: validationErrors[name] }));
-      }
-    }
-  };
-
-  return {
-    values,
-    errors,
-    touched,
-    isPending,
-    submitAction,
-    handleChange,
-    handleBlur,
-    setFieldError: (name: keyof T, error: string) =>
-      setErrors((prev) => ({ ...prev, [name]: error })),
-  };
-}
-```
-
-### Form Component Pattern
-
-**Example: Campaign Form:**
-```typescript
-import { memo } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { TextInput } from '@/proto-design-system/TextInput';
-import { Button } from '@/proto-design-system/Button';
-import styles from './component.module.scss';
-
-interface CampaignFormData {
+// types/common.types.ts
+
+export interface User {
+  id: string;
+  email: string;
   name: string;
-  description: string;
-  redirectUrl: string;
+  role: 'owner' | 'admin' | 'editor' | 'viewer';
+  permissions?: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export const CampaignForm = memo<{
-  initialData?: Partial<CampaignFormData>;
-  onSubmit: (data: CampaignFormData) => Promise<{ success: boolean; error?: string }>;
-}>(({ initialData, onSubmit }) => {
-  const { values, errors, touched, isPending, submitAction, handleChange, handleBlur } =
-    useForm({
-      initialValues: {
-        name: initialData?.name || '',
-        description: initialData?.description || '',
-        redirectUrl: initialData?.redirectUrl || '',
-      },
-      validate: (values) => {
-        const errors: any = {};
+export interface Campaign {
+  id: string;
+  name: string;
+  description?: string;
+  status: 'draft' | 'active' | 'paused' | 'completed';
+  formConfig: FormConfig;
+  settings: CampaignSettings;
+  stats: CampaignStats;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+}
 
-        if (!values.name || values.name.length < 3) {
-          errors.name = 'Name must be at least 3 characters';
-        }
+export interface CampaignSettings {
+  redirectUrl?: string;
+  emailVerificationRequired: boolean;
+  duplicateHandling: 'block' | 'update' | 'allow';
+  enableReferrals: boolean;
+  enableRewards: boolean;
+}
 
-        if (values.name && values.name.length > 100) {
-          errors.name = 'Name must be less than 100 characters';
-        }
+export interface CampaignStats {
+  totalSignups: number;
+  verifiedSignups: number;
+  totalReferrals: number;
+  conversionRate: number;
+  viralCoefficient: number;
+}
 
-        if (values.description && values.description.length > 500) {
-          errors.description = 'Description must be less than 500 characters';
-        }
+export interface WaitlistUser {
+  id: string;
+  campaignId: string;
+  email: string;
+  name?: string;
+  customFields: Record<string, any>;
+  status: 'pending' | 'verified' | 'invited' | 'active' | 'rejected';
+  position: number;
+  referralCode: string;
+  referredBy?: string;
+  referralCount: number;
+  points: number;
+  source: string;
+  utmParams?: {
+    source?: string;
+    medium?: string;
+    campaign?: string;
+    content?: string;
+    term?: string;
+  };
+  metadata: {
+    ipAddress?: string;
+    userAgent?: string;
+    country?: string;
+    device?: 'mobile' | 'tablet' | 'desktop';
+  };
+  createdAt: Date;
+  verifiedAt?: Date;
+  invitedAt?: Date;
+}
 
-        if (values.redirectUrl && !/^https?:\/\/.+/.test(values.redirectUrl)) {
-          errors.redirectUrl = 'Please enter a valid URL';
-        }
+export interface Referral {
+  id: string;
+  referrerId: string;
+  referredUserId: string;
+  campaignId: string;
+  status: 'clicked' | 'signed_up' | 'verified' | 'converted';
+  source: 'link' | 'email' | 'twitter' | 'facebook' | 'linkedin' | 'whatsapp' | 'other';
+  createdAt: Date;
+  verifiedAt?: Date;
+}
 
-        return errors;
-      },
-      onSubmit,
-    });
+export interface FormConfig {
+  id: string;
+  campaignId: string;
+  fields: FormField[];
+  design: FormDesign;
+  behavior: FormBehavior;
+}
 
-  return (
-    <form action={submitAction} className={styles.form}>
-      <TextInput
-        name="name"
-        label="Campaign Name"
-        value={values.name}
-        onChange={(e) => handleChange('name', e.target.value)}
-        onBlur={() => handleBlur('name')}
-        error={touched.name ? errors.name : undefined}
-        required
-      />
-
-      <textarea
-        name="description"
-        placeholder="Describe your campaign..."
-        value={values.description}
-        onChange={(e) => handleChange('description', e.target.value)}
-        onBlur={() => handleBlur('description')}
-        className={styles.textarea}
-      />
-      {touched.description && errors.description && (
-        <span className={styles.error}>{errors.description}</span>
-      )}
-
-      <TextInput
-        name="redirectUrl"
-        label="Redirect URL (optional)"
-        type="url"
-        value={values.redirectUrl}
-        onChange={(e) => handleChange('redirectUrl', e.target.value)}
-        onBlur={() => handleBlur('redirectUrl')}
-        error={touched.redirectUrl ? errors.redirectUrl : undefined}
-      />
-
-      <Button type="submit" loading={isPending}>
-        {initialData ? 'Update Campaign' : 'Create Campaign'}
-      </Button>
-    </form>
-  );
-});
-```
-
-### Form Builder Architecture
-
-**Form Configuration Type (types/form-builder.types.ts):**
-```typescript
 export interface FormField {
   id: string;
-  type: 'email' | 'text' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'phone' | 'url' | 'date';
+  type: 'email' | 'text' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'phone' | 'url' | 'date' | 'number';
   label: string;
   placeholder?: string;
   required: boolean;
@@ -1488,6 +183,8 @@ export interface FormField {
     minLength?: number;
     maxLength?: number;
     pattern?: string;
+    min?: number; // For number
+    max?: number; // For number
     customError?: string;
   };
   conditionalLogic?: {
@@ -1499,1057 +196,1343 @@ export interface FormField {
   };
 }
 
-export interface FormConfig {
+export interface FormDesign {
+  layout: 'single-column' | 'two-column' | 'multi-step';
+  colors: {
+    primary: string;
+    background: string;
+    text: string;
+    border: string;
+    error: string;
+    success: string;
+  };
+  typography: {
+    fontFamily: string;
+    fontSize: number;
+    fontWeight: number;
+  };
+  spacing: {
+    padding: number;
+    gap: number;
+  };
+  borderRadius: number;
+  customCss?: string;
+}
+
+export interface FormBehavior {
+  submitAction: 'inline-message' | 'redirect' | 'referral-page';
+  redirectUrl?: string;
+  successMessage?: string;
+  doubleOptIn: boolean;
+  duplicateHandling: 'block' | 'update' | 'allow';
+}
+
+export interface Reward {
   id: string;
   campaignId: string;
-  fields: FormField[];
-  design: {
-    layout: 'single-column' | 'two-column' | 'multi-step';
-    colors: {
-      primary: string;
-      background: string;
-      text: string;
-      border: string;
-      error: string;
-    };
-    typography: {
-      fontFamily: string;
-      fontSize: number;
-      fontWeight: number;
-    };
-    spacing: {
-      padding: number;
-      gap: number;
-    };
-    customCss?: string;
-  };
-  behavior: {
-    submitAction: 'inline-message' | 'redirect' | 'referral-page';
-    redirectUrl?: string;
-    successMessage?: string;
-    doubleOptIn: boolean;
-    duplicateHandling: 'block' | 'update' | 'allow';
-  };
-  integrations: {
-    googleAnalytics?: string;
-    facebookPixel?: string;
-    customScripts?: string[];
-  };
-}
-```
-
-### Form Builder Component
-
-**Visual Editor (features/form-builder/components/FormCanvas):**
-- Drag-and-drop field reordering
-- Live preview (mobile/tablet/desktop)
-- Field configuration panel
-- Style editor panel
-- Behavior settings
-- Integration setup
-
-**Implementation Notes:**
-- Use `@dnd-kit/core` for drag-and-drop
-- Use `zustand` for builder state (undo/redo)
-- Auto-save every 10 seconds
-- Version history (last 10 versions)
-
-### Form Rendering (Public Widget)
-
-**Embeddable Form Widget:**
-```typescript
-// This is a separate build target: vite.config.widget.ts
-// Produces: /dist/widget.js (< 50KB gzipped)
-
-import { createRoot } from 'react-dom/client';
-import { PublicWaitlistForm } from './PublicWaitlistForm';
-
-class WaitlistWidget {
-  private config: { campaignId: string; containerId?: string };
-
-  constructor(config: { campaignId: string; containerId?: string }) {
-    this.config = config;
-  }
-
-  mount() {
-    const container = this.config.containerId
-      ? document.getElementById(this.config.containerId)
-      : this.createContainer();
-
-    if (!container) {
-      console.error('Container not found');
-      return;
-    }
-
-    // Fetch form config
-    fetch(`${API_URL}/api/public/forms/${this.config.campaignId}`)
-      .then(res => res.json())
-      .then(formConfig => {
-        const root = createRoot(container);
-        root.render(<PublicWaitlistForm config={formConfig} />);
-      });
-  }
-
-  private createContainer() {
-    const container = document.createElement('div');
-    container.id = 'waitlist-widget';
-    document.currentScript?.parentNode?.insertBefore(
-      container,
-      document.currentScript
-    );
-    return container;
-  }
+  name: string;
+  description: string;
+  type: 'early_access' | 'discount' | 'premium_feature' | 'merchandise' | 'custom';
+  value?: string; // e.g., "20% off", "Free for 6 months"
+  tier: number;
+  triggerType: 'referral_count' | 'position' | 'manual';
+  triggerValue?: number; // e.g., 5 referrals, top 100 position
+  status: 'active' | 'inactive';
+  inventory?: number;
+  expiryDate?: Date;
+  deliveryMethod: 'email' | 'dashboard' | 'api_webhook';
+  createdAt: Date;
 }
 
-// Global API
-(window as any).WaitlistWidget = WaitlistWidget;
-
-// Auto-init if data-campaign-id present
-const script = document.currentScript as HTMLScriptElement;
-const campaignId = script?.dataset.campaignId;
-if (campaignId) {
-  new WaitlistWidget({ campaignId }).mount();
+export interface RewardEarned {
+  id: string;
+  userId: string;
+  rewardId: string;
+  status: 'pending' | 'earned' | 'delivered' | 'redeemed' | 'revoked' | 'expired';
+  earnedAt: Date;
+  deliveredAt?: Date;
+  redeemedAt?: Date;
+  expiresAt?: Date;
+  deliveryDetails?: {
+    code?: string;
+    instructions?: string;
+  };
 }
-```
 
-**Usage:**
-```html
-<!-- Option 1: Auto-init -->
-<script src="https://cdn.yourapp.com/widget.js" data-campaign-id="abc123"></script>
+export interface EmailTemplate {
+  id: string;
+  campaignId: string;
+  name: string;
+  subject: string;
+  preheader?: string;
+  htmlContent: string;
+  textContent?: string;
+  type: 'welcome' | 'verification' | 'position_update' | 'milestone' | 'invitation' | 'launch' | 'custom';
+  variables: string[]; // e.g., ['first_name', 'position', 'referral_link']
+  status: 'draft' | 'active';
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-<!-- Option 2: Manual init -->
-<div id="my-form"></div>
-<script src="https://cdn.yourapp.com/widget.js"></script>
-<script>
-  new WaitlistWidget({
-    campaignId: 'abc123',
-    containerId: 'my-form'
-  }).mount();
-</script>
+export interface EmailCampaign {
+  id: string;
+  campaignId: string;
+  name: string;
+  templateId: string;
+  segmentId?: string;
+  trigger: 'manual' | 'signup' | 'verified' | 'milestone' | 'scheduled' | 'inactive';
+  triggerConfig?: {
+    days?: number;
+    hours?: number;
+    milestoneType?: string;
+    milestoneValue?: number;
+  };
+  status: 'draft' | 'scheduled' | 'sending' | 'sent' | 'paused';
+  scheduledFor?: Date;
+  stats: {
+    sent: number;
+    delivered: number;
+    opened: number;
+    clicked: number;
+    bounced: number;
+    unsubscribed: number;
+  };
+  createdAt: Date;
+  sentAt?: Date;
+}
+
+export interface Analytics {
+  campaignId: string;
+  dateRange: {
+    start: Date;
+    end: Date;
+  };
+  overview: {
+    totalSignups: number;
+    todaySignups: number;
+    verificationRate: number;
+    referralRate: number;
+    viralCoefficient: number;
+    avgReferralsPerUser: number;
+  };
+  funnel: {
+    impressions: number;
+    started: number;
+    submitted: number;
+    verified: number;
+    referred: number;
+  };
+  trafficSources: {
+    source: string;
+    count: number;
+    percentage: number;
+  }[];
+  referralSources: {
+    platform: string;
+    clicks: number;
+    conversions: number;
+    conversionRate: number;
+  }[];
+  geographic: {
+    country: string;
+    count: number;
+    percentage: number;
+  }[];
+  devices: {
+    type: 'mobile' | 'tablet' | 'desktop';
+    count: number;
+    percentage: number;
+  }[];
+  timeline: {
+    date: string;
+    signups: number;
+    referrals: number;
+    verifications: number;
+  }[];
+}
+
+export interface Leaderboard {
+  campaignId: string;
+  period: 'all_time' | 'daily' | 'weekly' | 'monthly';
+  entries: LeaderboardEntry[];
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  name: string;
+  referralCount: number;
+  points: number;
+  badges: string[];
+}
+
+export interface TeamMember {
+  id: string;
+  userId: string;
+  email: string;
+  name: string;
+  role: 'owner' | 'admin' | 'editor' | 'viewer';
+  invitedAt: Date;
+  joinedAt?: Date;
+  lastActiveAt?: Date;
+}
+
+export interface Integration {
+  id: string;
+  name: string;
+  type: 'zapier' | 'webhook' | 'mailchimp' | 'hubspot' | 'salesforce' | 'google_analytics' | 'facebook_pixel' | 'custom';
+  status: 'connected' | 'disconnected' | 'error';
+  config: Record<string, any>;
+  lastSyncedAt?: Date;
+  createdAt: Date;
+}
+
+export interface Webhook {
+  id: string;
+  campaignId: string;
+  name: string;
+  url: string;
+  events: ('user.created' | 'user.verified' | 'referral.created' | 'reward.earned' | 'campaign.milestone')[];
+  status: 'active' | 'inactive';
+  secret?: string;
+  headers?: Record<string, string>;
+  retryConfig: {
+    maxAttempts: number;
+    backoffMultiplier: number;
+  };
+  stats: {
+    totalAttempts: number;
+    successfulDeliveries: number;
+    failedDeliveries: number;
+    lastDeliveryAt?: Date;
+    lastSuccess?: Date;
+    lastFailure?: Date;
+  };
+  createdAt: Date;
+}
+
+export interface Toast {
+  id: string;
+  type: 'success' | 'error' | 'info' | 'warning';
+  message: string;
+  duration?: number;
+}
+
+// API Response types
+export interface ApiResponse<T> {
+  data: T;
+  meta?: {
+    page?: number;
+    limit?: number;
+    total?: number;
+    hasMore?: boolean;
+  };
+}
+
+export interface ApiError {
+  error: string;
+  details?: any;
+}
+
+// Pagination
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+  offset?: number;
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasMore: boolean;
+  };
+}
 ```
 
 ---
 
-## 9. Analytics & Visualization
-
-### Chart Component Architecture
-
-**Chart Library:** Use Recharts (already lightweight, React-friendly)
-
-**Base Chart Component Pattern:**
-```typescript
-// features/analytics/components/ChartWidgets/BaseChart/component.tsx
-export interface BaseChartProps {
-  data: any[];
-  loading?: boolean;
-  error?: string;
-  height?: number;
-  showLegend?: boolean;
-  showGrid?: boolean;
-}
-
-export const BaseChart = memo<BaseChartProps>(({
-  data,
-  loading,
-  error,
-  height = 300,
-  children,
-  showLegend = true,
-  showGrid = true,
-}) => {
-  if (loading) return <ChartSkeleton height={height} />;
-  if (error) return <ErrorMessage error={error} />;
-  if (!data.length) return <EmptyState message="No data available" />;
-
-  return (
-    <ResponsiveContainer width="100%" height={height}>
-      {children}
-    </ResponsiveContainer>
-  );
-});
-```
-
-**Specific Chart Components:**
-
-**1. Line Chart (Growth Over Time):**
-```typescript
-export const GrowthChart = memo<{ campaignId: string; dateRange: string }>(
-  ({ campaignId, dateRange }) => {
-    const { data, isLoading, error } = useAnalytics(campaignId, dateRange);
-
-    return (
-      <BaseChart data={data?.daily || []} loading={isLoading} error={error?.message}>
-        <LineChart data={data?.daily}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="signups"
-            stroke="var(--color-primary)"
-            strokeWidth={2}
-          />
-          <Line
-            type="monotone"
-            dataKey="referrals"
-            stroke="var(--color-success)"
-            strokeWidth={2}
-          />
-        </LineChart>
-      </BaseChart>
-    );
-  }
-);
-```
-
-**2. Funnel Chart (Conversion Funnel):**
-```typescript
-export const ConversionFunnel = memo<{ campaignId: string }>(
-  ({ campaignId }) => {
-    const { data, isLoading } = useFunnelData(campaignId);
-
-    const funnelData = [
-      { name: 'Impressions', value: data?.impressions || 0 },
-      { name: 'Form Started', value: data?.started || 0 },
-      { name: 'Submitted', value: data?.submitted || 0 },
-      { name: 'Verified', value: data?.verified || 0 },
-      { name: 'Referred', value: data?.referred || 0 },
-    ];
-
-    return (
-      <BaseChart data={funnelData} loading={isLoading}>
-        <BarChart data={funnelData} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
-          <YAxis dataKey="name" type="category" />
-          <Tooltip />
-          <Bar dataKey="value" fill="var(--color-primary)">
-            <LabelList dataKey="value" position="right" />
-          </Bar>
-        </BarChart>
-      </BaseChart>
-    );
-  }
-);
-```
-
-**3. Pie Chart (Traffic Sources):**
-```typescript
-export const TrafficSources = memo<{ campaignId: string }>(
-  ({ campaignId }) => {
-    const { data, isLoading } = useTrafficSources(campaignId);
-
-    const COLORS = [
-      'var(--color-blue-500)',
-      'var(--color-green-500)',
-      'var(--color-purple-500)',
-      'var(--color-orange-500)',
-      'var(--color-pink-500)',
-    ];
-
-    return (
-      <BaseChart data={data || []} loading={isLoading}>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={100}
-            label
-          >
-            {data?.map((entry, index) => (
-              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </BaseChart>
-    );
-  }
-);
-```
-
-### Real-Time Dashboard Widgets
-
-**Live Activity Feed:**
-```typescript
-export const LiveActivityFeed = memo<{ campaignId: string }>(
-  ({ campaignId }) => {
-    const [activities, setActivities] = useState<Activity[]>([]);
-    const MAX_ACTIVITIES = 20;
-
-    useEffect(() => {
-      const handleActivity = (activity: Activity) => {
-        setActivities(prev => [activity, ...prev].slice(0, MAX_ACTIVITIES));
-      };
-
-      wsManager.subscribe(`campaign:${campaignId}:activity`, handleActivity);
-
-      return () => {
-        wsManager.unsubscribe(`campaign:${campaignId}:activity`, handleActivity);
-      };
-    }, [campaignId]);
-
-    return (
-      <Card className={styles.feed}>
-        <Heading level={3}>Live Activity</Heading>
-        <AnimatePresence>
-          {activities.map(activity => (
-            <motion.div
-              key={activity.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className={styles.activity}
-            >
-              <ActivityIcon type={activity.type} />
-              <span>{activity.message}</span>
-              <span className={styles.time}>
-                {formatDistanceToNow(activity.timestamp)}
-              </span>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </Card>
-    );
-  }
-);
-```
-
----
-
-## 10. Security Implementation
-
-### Authentication Flow
-
-**Auth Context (contexts/AuthContext.tsx):**
-```typescript
-interface AuthContextValue {
-  user: User | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (data: SignupData) => Promise<void>;
-  logout: () => Promise<void>;
-  verify2FA: (code: string) => Promise<void>;
-  refreshUser: () => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Check auth status on mount
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const user = await fetcher<User>('/api/auth/me');
-      setUser(user);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const login = async (email: string, password: string) => {
-    const response = await fetcher<{ user: User; requires2FA?: boolean }>(
-      '/api/auth/login',
-      {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-      }
-    );
-
-    if (response.requires2FA) {
-      // Redirect to 2FA page
-      throw new Error('2FA_REQUIRED');
-    }
-
-    setUser(response.user);
-  };
-
-  const logout = async () => {
-    await fetcher('/api/auth/logout', { method: 'POST' });
-    setUser(null);
-  };
-
-  // ... other methods
-
-  return (
-    <AuthContext.Provider value={{
-      user,
-      isLoading,
-      isAuthenticated: !!user,
-      login,
-      logout,
-      // ...
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-```
-
-### Permission Checking
-
-**Permission Hook (hooks/usePermissions.ts):**
-```typescript
-import { useAuth } from '@/features/auth/hooks/useAuth';
-
-export const PERMISSIONS = {
-  CAMPAIGNS_VIEW: 'campaigns:view',
-  CAMPAIGNS_CREATE: 'campaigns:create',
-  CAMPAIGNS_EDIT: 'campaigns:edit',
-  CAMPAIGNS_DELETE: 'campaigns:delete',
-  USERS_VIEW: 'users:view',
-  USERS_EDIT: 'users:edit',
-  USERS_DELETE: 'users:delete',
-  USERS_EXPORT: 'users:export',
-  EMAILS_SEND: 'emails:send',
-  TEAM_MANAGE: 'team:manage',
-  BILLING_MANAGE: 'billing:manage',
-  SETTINGS_EDIT: 'settings:edit',
-} as const;
-
-export const usePermissions = () => {
-  const { user } = useAuth();
-
-  const hasPermission = (permission: string): boolean => {
-    if (!user) return false;
-    if (user.role === 'owner') return true; // Owner has all permissions
-    return user.permissions?.includes(permission) ?? false;
-  };
-
-  const hasAnyPermission = (permissions: string[]): boolean => {
-    return permissions.some(hasPermission);
-  };
-
-  const hasAllPermissions = (permissions: string[]): boolean => {
-    return permissions.every(hasPermission);
-  };
-
-  return {
-    hasPermission,
-    hasAnyPermission,
-    hasAllPermissions,
-    can: hasPermission, // Alias
-  };
-};
-```
-
-**Permission Guard Component:**
-```typescript
-export const PermissionGuard = memo<{
-  permission: string;
-  fallback?: ReactNode;
-  children: ReactNode;
-}>(({ permission, fallback = null, children }) => {
-  const { hasPermission } = usePermissions();
-
-  if (!hasPermission(permission)) {
-    return <>{fallback}</>;
-  }
-
-  return <>{children}</>;
-});
-```
-
-### XSS Prevention
-
-**Content Sanitization:**
-- Use DOMPurify for user-generated HTML (email templates, custom CSS)
-- Never use `dangerouslySetInnerHTML` without sanitization
-- Escape user input in all display contexts
-
-**Example:**
-```typescript
-import DOMPurify from 'dompurify';
-
-export const SanitizedHTML = memo<{ html: string }>(({ html }) => {
-  const sanitized = DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
-    ALLOWED_ATTR: ['href', 'target', 'rel'],
-  });
-
-  return <div dangerouslySetInnerHTML={{ __html: sanitized }} />;
-});
-```
-
-### CSRF Protection
-
-- All mutating requests (POST/PUT/PATCH/DELETE) send CSRF token
-- Token stored in httpOnly cookie (handled by backend)
-- Frontend reads from meta tag or API response
-
-### Rate Limiting (Client-Side)
-
-**Debounce Hook for Search/Filter:**
-```typescript
-export const useDebouncedValue = <T,>(value: T, delay: number = 500): T => {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
-```
-
----
-
-## 11. Performance Strategy
-
-### Code Splitting
-
-**Route-Level Splitting (Automatic with TanStack Router):**
-- Each route file is automatically code-split
-- Lazy-loaded on navigation
-
-**Component-Level Splitting:**
-```typescript
-import { lazy, Suspense } from 'react';
-
-// Lazy load heavy components
-const EmailEditor = lazy(() => import('@/features/emails/components/EmailEditor'));
-const FormBuilder = lazy(() => import('@/features/form-builder/components/FormBuilder'));
-const ChartWidgets = lazy(() => import('@/features/analytics/components/ChartWidgets'));
-
-// Usage with Suspense
-<Suspense fallback={<LoadingSpinner />}>
-  <EmailEditor />
-</Suspense>
-```
-
-### Image Optimization
-
-**Lazy Loading Images:**
-```typescript
-export const OptimizedImage = memo<{
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-}>(({ src, alt, width, height }) => {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      loading="lazy"
-      decoding="async"
-      className={styles.image}
-    />
-  );
-});
-```
-
-### Virtualization (Custom Implementation)
-
-**Virtual Scroll Hook (hooks/useVirtualScroll.ts):**
-```typescript
-import { useState, useEffect, useRef, useMemo } from 'react';
-
-export function useVirtualScroll<T>(
-  items: T[],
-  itemHeight: number,
-  containerHeight: number
-) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Calculate visible range
-  const { startIndex, endIndex, offsetY } = useMemo(() => {
-    const startIndex = Math.floor(scrollTop / itemHeight);
-    const endIndex = Math.min(
-      items.length - 1,
-      Math.ceil((scrollTop + containerHeight) / itemHeight)
-    );
-    const offsetY = startIndex * itemHeight;
-
-    return { startIndex, endIndex, offsetY };
-  }, [scrollTop, items.length, itemHeight, containerHeight]);
-
-  const visibleItems = useMemo(
-    () => items.slice(startIndex, endIndex + 1),
-    [items, startIndex, endIndex]
-  );
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      setScrollTop(container.scrollTop);
-    };
-
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const totalHeight = items.length * itemHeight;
-
-  return {
-    containerRef,
-    visibleItems,
-    startIndex,
-    offsetY,
-    totalHeight,
-  };
-}
-```
-
-**Usage:**
-```typescript
-export const VirtualizedUserList = memo<{ users: User[] }>(({ users }) => {
-  const { containerRef, visibleItems, startIndex, offsetY, totalHeight } =
-    useVirtualScroll(users, 80, 600);
-
-  return (
-    <div
-      ref={containerRef}
-      style={{ height: 600, overflow: 'auto' }}
-    >
-      <div style={{ height: totalHeight, position: 'relative' }}>
-        <div style={{ transform: `translateY(${offsetY}px)` }}>
-          {visibleItems.map((user, i) => (
-            <UserListItem
-              key={user.id}
-              user={user}
-              index={startIndex + i}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-});
-```
-
-### Memoization Strategy
-
-**When to use React.memo:**
-- Components that receive same props frequently
-- Components that render expensive calculations
-- List items that re-render on parent updates
-
-**When to use useMemo:**
-- Expensive calculations (filtering, sorting large arrays)
-- Object/array creation passed to child props
-- Dependencies for other hooks
-
-**When to use useCallback:**
-- Functions passed as props to memoized components
-- Dependencies for useEffect/useMemo
-- Event handlers in optimized lists
-
-### Bundle Size Optimization
-
-**Tree Shaking:**
-- Import only what you need: `import { Button } from '@/proto-design-system/Button'`
-- Avoid default exports for tree-shaking
-
-**Analyze Bundle:**
-```bash
-npm run build -- --mode analyze
-```
-
-**Target Bundle Sizes:**
-- Initial bundle: <200KB gzipped
-- Route chunks: <50KB gzipped each
-- Widget embed: <50KB gzipped
-
----
-
-## 12. Testing Strategy
-
-### Test Structure
+## 4. Application Structure
 
 ```
 src/
-├── features/
-│   └── campaigns/
-│       ├── components/
-│       │   └── CampaignCard/
-│       │       ├── component.tsx
-│       │       ├── component.test.tsx
-│       │       └── component.module.scss
-│       └── hooks/
-│           ├── useCampaigns.ts
-│           └── useCampaigns.test.ts
+├── features/                      # Feature modules
+│   ├── campaigns/
+│   │   ├── components/
+│   │   │   ├── CampaignCard/
+│   │   │   ├── CampaignForm/
+│   │   │   ├── CampaignList/
+│   │   │   └── CampaignStats/
+│   │   ├── hooks/
+│   │   │   ├── useCampaigns.ts
+│   │   │   ├── useCreateCampaign.ts
+│   │   │   └── useUpdateCampaign.ts
+│   │   └── types/
+│   │       └── campaign.types.ts
+│   │
+│   ├── form-builder/              # Drag-drop form builder
+│   ├── users/                     # Waitlist user management
+│   ├── referrals/                 # Viral referral system
+│   ├── analytics/                 # Analytics dashboard
+│   ├── emails/                    # Email automation
+│   ├── rewards/                   # Reward system
+│   ├── team/                      # Team collaboration
+│   ├── integrations/              # Third-party integrations
+│   └── auth/                      # Authentication
+│
+├── proto-design-system/           # Existing (keep as-is)
+│
+├── contexts/                      # Global contexts
+│   ├── AppContext.tsx             # App state
+│   └── AuthContext.tsx            # Auth state
+│
+├── hooks/                         # Shared hooks
+│   ├── fetcher.ts                 # Existing HTTP client
+│   ├── useFetch.ts                # Data fetching with Suspense
+│   ├── usePolling.ts              # Polling for real-time
+│   └── useDebounce.ts             # Input debouncing
+│
+├── lib/                           # Core utilities
+│   ├── cache.ts                   # In-memory data cache
+│   └── validation.ts              # Form validation utilities
+│
+├── services/                      # API services
+│   ├── campaigns.service.ts
+│   ├── users.service.ts
+│   ├── referrals.service.ts
+│   ├── analytics.service.ts
+│   └── emails.service.ts
+│
+├── types/                         # TypeScript types
+│   ├── common.types.ts            # Core types (above)
+│   └── api.types.ts               # API types
+│
+├── utils/                         # Utilities
+│   ├── date.utils.ts
+│   ├── number.utils.ts
+│   └── url.utils.ts
+│
+├── routes/                        # TanStack Router routes
+│   ├── __root.tsx
+│   ├── index.tsx
+│   ├── campaigns/
+│   ├── analytics/
+│   ├── team/
+│   ├── integrations/
+│   ├── settings/
+│   └── auth/
+│
+└── design-tokens/                 # Existing (keep as-is)
 ```
-
-### Testing Patterns
-
-**Component Tests (Vitest + React Testing Library):**
-```typescript
-// component.test.tsx
-import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { CampaignCard } from './component';
-
-const createTestQueryClient = () => new QueryClient({
-  defaultOptions: {
-    queries: { retry: false },
-    mutations: { retry: false },
-  },
-});
-
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={createTestQueryClient()}>
-    {children}
-  </QueryClientProvider>
-);
-
-describe('CampaignCard', () => {
-  it('renders campaign name', () => {
-    render(<CampaignCard campaignId="123" />, { wrapper });
-    expect(screen.getByText('Test Campaign')).toBeInTheDocument();
-  });
-
-  it('shows loading state', () => {
-    render(<CampaignCard campaignId="123" />, { wrapper });
-    expect(screen.getByTestId('skeleton')).toBeInTheDocument();
-  });
-});
-```
-
-**Hook Tests:**
-```typescript
-// useCampaigns.test.ts
-import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useCampaigns } from './useCampaigns';
-
-describe('useCampaigns', () => {
-  it('fetches campaigns successfully', async () => {
-    const { result } = renderHook(() => useCampaigns(), { wrapper });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
-
-    expect(result.current.data).toHaveLength(2);
-  });
-});
-```
-
-### Test Coverage Goals
-
-- Components: 80%+
-- Hooks: 90%+
-- Utils: 95%+
-- Critical paths: 100%
 
 ---
 
-## 13. Development Phases
+## 5. State Management Strategy
+
+### Use React Built-ins Only
+
+**Component State:**
+- `useState` for simple state
+- `useReducer` for complex state
+- Follow patterns from CLAUDE.md
+
+**Global State:**
+```typescript
+// contexts/AppContext.tsx
+interface AppState {
+  currentCampaignId: string | null;
+  sidebarCollapsed: boolean;
+  toasts: Toast[];
+}
+
+// Split by concern, don't create one giant context
+```
+
+**Server Data:**
+- Fetch with existing `fetcher` from CLAUDE.md
+- Cache in `lib/cache.ts` (simple Map)
+- Use `<Suspense>` for loading states
+- Use React 19's `use()` hook for promises
+
+**Optimistic Updates:**
+- Use `useOptimistic()` for instant feedback
+- Revert on error
+
+---
+
+## 6. Data Fetching Strategy
+
+### Pattern
+
+1. **Service Layer** - API calls using existing `fetcher`
+2. **Cache Layer** - Simple Map in `lib/cache.ts`
+3. **Hook Layer** - Custom hooks that check cache, then fetch
+4. **Component Layer** - Wrap in `<Suspense>` for loading
+
+### Service Example
+```typescript
+// services/campaigns.service.ts
+import { fetcher } from '@/hooks/fetcher';
+
+const API_BASE = import.meta.env.VITE_API_URL;
+
+export const campaignsService = {
+  list: (params?: { status?: string }) =>
+    fetcher<Campaign[]>(`${API_BASE}/api/campaigns`, params),
+
+  get: (id: string) =>
+    fetcher<Campaign>(`${API_BASE}/api/campaigns/${id}`),
+
+  create: (data: CreateCampaignRequest) =>
+    fetcher<Campaign>(`${API_BASE}/api/campaigns`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  update: (id: string, data: Partial<Campaign>) =>
+    fetcher<Campaign>(`${API_BASE}/api/campaigns/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  delete: (id: string) =>
+    fetcher<void>(`${API_BASE}/api/campaigns/${id}`, {
+      method: 'DELETE',
+    }),
+};
+```
+
+### Cache Keys
+```
+"campaigns:list"
+"campaigns:list:{"status":"active"}"
+"campaigns:{id}"
+"users:list:{campaignId}"
+"users:{id}"
+"analytics:{campaignId}:{dateRange}"
+"leaderboard:{campaignId}"
+```
+
+---
+
+## 7. Form Handling Strategy
+
+### Use React 19 Actions
+
+**No Zod. No React Hook Form.** Manual validation with `useActionState`.
+
+### Validation Pattern
+```typescript
+// utils/validation.ts
+export function validateEmail(email: string): string | null {
+  if (!email) return 'Email is required';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Invalid email';
+  return null;
+}
+
+export function validateRequired(value: any, fieldName: string): string | null {
+  if (!value) return `${fieldName} is required`;
+  return null;
+}
+
+export function validateLength(
+  value: string,
+  min?: number,
+  max?: number
+): string | null {
+  if (min && value.length < min) return `Must be at least ${min} characters`;
+  if (max && value.length > max) return `Must be less than ${max} characters`;
+  return null;
+}
+```
+
+### Form Hook Pattern
+```typescript
+// hooks/useForm.ts
+export function useForm<T>(options: {
+  initialValues: T;
+  validate?: (values: T) => Record<keyof T, string | null>;
+  onSubmit: (values: T) => Promise<void>;
+}) {
+  // Use useActionState for form submission
+  // Return: values, errors, touched, isPending, submitAction
+}
+```
+
+---
+
+## 8. Real-Time Updates Strategy
+
+### Phase 1: Polling (Simple)
+
+**Decision:** Start with polling. WebSocket later if needed.
+
+**Polling Hook:**
+```typescript
+// hooks/usePolling.ts
+export function usePolling(
+  cacheKey: string,
+  fetchFn: () => Promise<any>,
+  interval = 10000 // 10 seconds
+) {
+  // Poll API every interval
+  // Update cache on response
+  // Components using useFetch will auto-update
+}
+```
+
+**Where to Poll:**
+- Leaderboard (10s)
+- Position tracker (10s)
+- Live activity feed (15s)
+- Dashboard stats (30s)
+
+---
+
+## 9. Component Specifications
+
+### 9.1 Campaign Components
+
+#### CampaignCard
+**Purpose:** Display campaign summary in list/grid view
+
+**Props:**
+```typescript
+interface CampaignCardProps {
+  campaign: Campaign;
+  onClick?: () => void;
+  showStats?: boolean;
+  actions?: {
+    onEdit?: () => void;
+    onDuplicate?: () => void;
+    onDelete?: () => void;
+  };
+}
+```
+
+**What it does:**
+- Displays campaign name, status badge, creation date
+- Shows quick stats if `showStats=true`: signups, viral coefficient
+- Click anywhere navigates to campaign detail
+- Hover shows action menu (edit, duplicate, delete)
+- Uses Card component from proto-design-system
+- Status badge colors: draft (gray), active (green), paused (yellow), completed (blue)
+
+#### CampaignForm
+**Purpose:** Create/edit campaign
+
+**Props:**
+```typescript
+interface CampaignFormProps {
+  initialData?: Partial<Campaign>;
+  onSubmit: (data: CreateCampaignRequest) => Promise<void>;
+  onCancel?: () => void;
+}
+
+interface CreateCampaignRequest {
+  name: string;
+  description?: string;
+  settings: {
+    emailVerificationRequired: boolean;
+    duplicateHandling: 'block' | 'update' | 'allow';
+    enableReferrals: boolean;
+    enableRewards: boolean;
+  };
+}
+```
+
+**What it does:**
+- Text input for name (required, 3-100 chars)
+- Textarea for description (optional, max 500 chars)
+- Checkboxes for settings
+- Uses useActionState for submission
+- Validates on blur
+- Shows loading state on submit button
+- Shows error messages inline under fields
+
+#### CampaignList
+**Purpose:** List/grid of campaigns with filters
+
+**Props:**
+```typescript
+interface CampaignListProps {
+  view?: 'list' | 'grid';
+  showFilters?: boolean;
+}
+```
+
+**What it does:**
+- Fetches campaigns with useCampaigns() hook
+- Wraps in Suspense (shows skeleton while loading)
+- Filter by status: all, draft, active, paused, completed
+- Search by name (debounced 300ms)
+- Toggle list/grid view
+- Empty state with "Create Campaign" CTA
+- Each card links to campaign detail page
+
+#### CampaignStats
+**Purpose:** Display campaign statistics
+
+**Props:**
+```typescript
+interface CampaignStatsProps {
+  campaignId: string;
+  showChart?: boolean;
+}
+```
+
+**What it does:**
+- Displays 4 KPI cards: Total Signups, Verified, Referrals, K-Factor
+- Optional growth chart (7-day trend)
+- Uses Recharts LineChart for visualization
+- Polls data every 30 seconds with usePolling
+
+---
+
+### 9.2 Form Builder Components
+
+#### FormBuilder
+**Purpose:** Visual form editor with drag-drop
+
+**Props:**
+```typescript
+interface FormBuilderProps {
+  campaignId: string;
+  initialConfig?: FormConfig;
+  onSave: (config: FormConfig) => Promise<void>;
+}
+```
+
+**What it does:**
+- Left panel: Field palette (email, text, textarea, select, etc.)
+- Center: Canvas (drop zone for fields)
+- Right panel: Field settings + style editor
+- Uses HTML5 drag-drop API
+- Save button (triggers onSave)
+- Real-time preview toggle (mobile/desktop)
+- Auto-save every 10 seconds to localStorage
+
+#### FieldPalette
+**Purpose:** Draggable field types
+
+**Props:**
+```typescript
+interface FieldPaletteProps {
+  onFieldSelect: (fieldType: FormField['type']) => void;
+}
+```
+
+**What it does:**
+- Lists all available field types
+- Each field is draggable
+- Icon + label for each type
+- Click to add field to canvas
+
+#### FormCanvas
+**Purpose:** Drop zone for form fields
+
+**Props:**
+```typescript
+interface FormCanvasProps {
+  fields: FormField[];
+  onFieldsChange: (fields: FormField[]) => void;
+  onFieldSelect: (fieldId: string) => void;
+  selectedFieldId?: string;
+}
+```
+
+**What it does:**
+- Drop zone for fields from palette
+- Displays fields in order
+- Reorder fields via drag-drop
+- Click field to select (shows in right panel)
+- Delete field button on hover
+- Selected field has blue border
+
+#### FormPreview
+**Purpose:** Live preview of form
+
+**Props:**
+```typescript
+interface FormPreviewProps {
+  config: FormConfig;
+  device?: 'mobile' | 'tablet' | 'desktop';
+}
+```
+
+**What it does:**
+- Renders form exactly as end-users see it
+- Apply all design settings (colors, fonts, spacing)
+- Not interactive (just visual preview)
+- Responsive frame based on device prop
+
+#### FormStyleEditor
+**Purpose:** Edit form design
+
+**Props:**
+```typescript
+interface FormStyleEditorProps {
+  design: FormDesign;
+  onChange: (design: FormDesign) => void;
+}
+```
+
+**What it does:**
+- Color pickers for primary, background, text, border
+- Font selector (Google Fonts dropdown)
+- Number inputs for fontSize, spacing, borderRadius
+- Textarea for custom CSS (optional)
+- Changes update FormPreview in real-time
+
+---
+
+### 9.3 User/Waitlist Components
+
+#### UserList
+**Purpose:** Display waitlist users with filters
+
+**Props:**
+```typescript
+interface UserListProps {
+  campaignId: string;
+}
+```
+
+**What it does:**
+- Fetches users with infinite scroll
+- Virtual scrolling for 10,000+ users
+- Columns: Email, Name, Status, Position, Referrals, Source, Date
+- Sortable columns
+- Multi-select for bulk actions
+- Filters: Status, date range, source, has referrals
+- Search email/name (debounced)
+- Export CSV button
+
+#### UserProfile
+**Purpose:** User detail modal
+
+**Props:**
+```typescript
+interface UserProfileProps {
+  userId: string;
+  onClose: () => void;
+}
+```
+
+**What it does:**
+- Display all user details
+- Show referral tree (who they referred)
+- Show rewards earned
+- Email activity timeline
+- Actions: Send email, update status, delete
+- Close button (X)
+
+#### BulkActions
+**Purpose:** Bulk operations toolbar
+
+**Props:**
+```typescript
+interface BulkActionsProps {
+  selectedUserIds: string[];
+  onAction: (action: string) => Promise<void>;
+  onClearSelection: () => void;
+}
+```
+
+**What it does:**
+- Shows count: "12 users selected"
+- Action buttons: Send Email, Update Status, Export, Delete
+- Clear selection button
+- Confirmation modal for destructive actions
+
+#### UserFilters
+**Purpose:** Filter panel
+
+**Props:**
+```typescript
+interface UserFiltersProps {
+  filters: UserFilters;
+  onChange: (filters: UserFilters) => void;
+  onReset: () => void;
+}
+
+interface UserFilters {
+  status?: WaitlistUser['status'][];
+  dateRange?: { start: Date; end: Date };
+  source?: string[];
+  hasReferrals?: boolean;
+  minPosition?: number;
+  maxPosition?: number;
+}
+```
+
+**What it does:**
+- Multi-select for status
+- Date range picker
+- Multi-select for sources
+- Checkbox: "Has referrals"
+- Number inputs for position range
+- Apply/Reset buttons
+
+---
+
+### 9.4 Referral Components
+
+#### ReferralDashboard
+**Purpose:** User-facing referral progress
+
+**Props:**
+```typescript
+interface ReferralDashboardProps {
+  userId: string;
+  campaignId: string;
+}
+```
+
+**What it does:**
+- Shows user's position (#123)
+- Shows referral count (You referred 5 people)
+- Referral link with copy button
+- Social share buttons (10+ platforms)
+- Progress bar to next reward tier
+- Leaderboard position badge
+- Confetti animation when position improves
+
+#### ReferralLink
+**Purpose:** Copyable referral link
+
+**Props:**
+```typescript
+interface ReferralLinkProps {
+  referralCode: string;
+  onCopy?: () => void;
+}
+```
+
+**What it does:**
+- Display full referral URL
+- Copy button (uses Clipboard API)
+- Shows "Copied!" toast on click
+- QR code button (opens modal with QR code)
+
+#### ShareButtons
+**Purpose:** Social sharing buttons
+
+**Props:**
+```typescript
+interface ShareButtonsProps {
+  referralUrl: string;
+  message?: string;
+  onShare?: (platform: string) => void;
+}
+```
+
+**What it does:**
+- Buttons for: Twitter, Facebook, LinkedIn, WhatsApp, Telegram, Email, Copy Link
+- Each button opens share dialog/URL
+- Track clicks (calls onShare callback)
+- Optimized message per platform
+- Icon + label layout
+
+#### LeaderboardWidget
+**Purpose:** Display top referrers
+
+**Props:**
+```typescript
+interface LeaderboardWidgetProps {
+  campaignId: string;
+  limit?: number;
+  period?: 'all_time' | 'daily' | 'weekly' | 'monthly';
+  highlightUserId?: string;
+}
+```
+
+**What it does:**
+- Fetch leaderboard data
+- Show top N users (default 10)
+- Columns: Rank, Name, Referrals, Points, Badges
+- Highlight current user row (if in top N)
+- Badge icons for achievements
+- Poll every 10 seconds for updates
+- Animate rank changes
+
+#### PositionTracker
+**Purpose:** Live position display
+
+**Props:**
+```typescript
+interface PositionTrackerProps {
+  userId: string;
+}
+```
+
+**What it does:**
+- Display current position: #123
+- Show total waitlist size: "of 5,432"
+- Percentile: "Top 2%"
+- Poll every 10 seconds
+- Animate when position improves
+- Show confetti on big improvement (>10 spots)
+
+---
+
+### 9.5 Analytics Components
+
+#### AnalyticsDashboard
+**Purpose:** Campaign analytics overview
+
+**Props:**
+```typescript
+interface AnalyticsDashboardProps {
+  campaignId: string;
+  dateRange?: { start: Date; end: Date };
+}
+```
+
+**What it does:**
+- Date range selector
+- KPI cards: Signups, Conversions, K-Factor, Avg Referrals
+- Growth chart (time series)
+- Conversion funnel
+- Traffic sources pie chart
+- Geographic map (optional, Phase 2)
+- Real-time activity feed
+- Export button
+
+#### GrowthChart
+**Purpose:** Time-series line chart
+
+**Props:**
+```typescript
+interface GrowthChartProps {
+  data: { date: string; signups: number; referrals: number }[];
+  height?: number;
+}
+```
+
+**What it does:**
+- Uses Recharts LineChart
+- Two lines: Signups (blue), Referrals (green)
+- X-axis: Dates
+- Y-axis: Count
+- Tooltip on hover
+- Legend
+- Responsive
+
+#### ConversionFunnel
+**Purpose:** Funnel visualization
+
+**Props:**
+```typescript
+interface ConversionFunnelProps {
+  data: {
+    impressions: number;
+    started: number;
+    submitted: number;
+    verified: number;
+    referred: number;
+  };
+}
+```
+
+**What it does:**
+- Uses Recharts BarChart (horizontal)
+- 5 stages with conversion rates
+- Color-coded bars
+- Percentage labels
+- Identifies biggest drop-off
+
+#### TrafficSources
+**Purpose:** Pie/bar chart of sources
+
+**Props:**
+```typescript
+interface TrafficSourcesProps {
+  data: { source: string; count: number; percentage: number }[];
+  chartType?: 'pie' | 'bar';
+}
+```
+
+**What it does:**
+- Uses Recharts PieChart or BarChart
+- Color-coded sources
+- Legend with percentages
+- Tooltip with exact counts
+
+---
+
+### 9.6 Email Components
+
+#### EmailTemplateList
+**Purpose:** List email templates
+
+**Props:**
+```typescript
+interface EmailTemplateListProps {
+  campaignId: string;
+  onSelect?: (templateId: string) => void;
+}
+```
+
+**What it does:**
+- Fetches templates
+- Cards with template name, type, status
+- Preview button (opens modal)
+- Edit button
+- Duplicate button
+- Delete button
+- Create new template button
+
+#### EmailEditor
+**Purpose:** WYSIWYG email editor
+
+**Props:**
+```typescript
+interface EmailEditorProps {
+  initialContent?: string;
+  variables: string[];
+  onChange: (html: string) => void;
+}
+```
+
+**What it does:**
+- Rich text editor (contenteditable)
+- Toolbar: Bold, Italic, Link, Image, Variables dropdown
+- Insert variable button (dropdown with {{first_name}}, etc.)
+- Live preview toggle
+- Mobile/desktop preview
+- Save button
+
+#### EmailCampaignForm
+**Purpose:** Create email campaign
+
+**Props:**
+```typescript
+interface EmailCampaignFormProps {
+  campaignId: string;
+  onSubmit: (data: CreateEmailCampaignRequest) => Promise<void>;
+}
+
+interface CreateEmailCampaignRequest {
+  name: string;
+  templateId: string;
+  segmentId?: string;
+  trigger: EmailCampaign['trigger'];
+  triggerConfig?: EmailCampaign['triggerConfig'];
+  scheduledFor?: Date;
+}
+```
+
+**What it does:**
+- Campaign name input
+- Template selector (dropdown)
+- Segment selector (dropdown, optional)
+- Trigger type selector
+- Conditional trigger config based on type
+- Schedule date/time picker (if trigger=scheduled)
+- Preview button
+- Send test email button
+- Submit button
+
+---
+
+### 9.7 Reward Components
+
+#### RewardBuilder
+**Purpose:** Create/edit rewards
+
+**Props:**
+```typescript
+interface RewardBuilderProps {
+  campaignId: string;
+  initialData?: Partial<Reward>;
+  onSubmit: (data: CreateRewardRequest) => Promise<void>;
+}
+
+interface CreateRewardRequest {
+  name: string;
+  description: string;
+  type: Reward['type'];
+  value?: string;
+  tier: number;
+  triggerType: Reward['triggerType'];
+  triggerValue?: number;
+  inventory?: number;
+  expiryDate?: Date;
+  deliveryMethod: Reward['deliveryMethod'];
+}
+```
+
+**What it does:**
+- Form with all reward fields
+- Type selector (dropdown)
+- Trigger type selector
+- Conditional trigger value input
+- Tier number input (1-10)
+- Inventory input (optional)
+- Expiry date picker (optional)
+- Delivery method selector
+- Preview card
+- Save button
+
+#### RewardTiers
+**Purpose:** Display reward tiers
+
+**Props:**
+```typescript
+interface RewardTiersProps {
+  campaignId: string;
+  currentUserProgress?: {
+    referralCount: number;
+    nextTierTarget: number;
+  };
+}
+```
+
+**What it does:**
+- Fetches rewards sorted by tier
+- Display as vertical timeline
+- Each tier shows: icon, name, requirement
+- Progress bar if currentUserProgress provided
+- Unlocked tiers have checkmark
+- Current tier highlighted
+- Next tier shows "X more to go"
+
+---
+
+### 9.8 Team Components
+
+#### TeamMembers
+**Purpose:** Team member list
+
+**Props:**
+```typescript
+interface TeamMembersProps {
+  onInvite?: () => void;
+}
+```
+
+**What it does:**
+- Fetches team members
+- Table: Avatar, Name, Email, Role, Last Active, Actions
+- Invite button (opens modal)
+- Change role dropdown (per member)
+- Remove member button
+- Owner cannot be removed
+- Show pending invitations separately
+
+#### TeamInviteModal
+**Purpose:** Invite new member
+
+**Props:**
+```typescript
+interface TeamInviteModalProps {
+  onInvite: (data: { email: string; role: string }) => Promise<void>;
+  onClose: () => void;
+}
+```
+
+**What it does:**
+- Email input
+- Role selector (dropdown)
+- Send invite button
+- Close button
+- Validates email
+- Shows success message
+
+---
+
+### 9.9 Integration Components
+
+#### IntegrationList
+**Purpose:** Available integrations
+
+**Props:**
+```typescript
+interface IntegrationListProps {
+  onConnect?: (integrationId: string) => void;
+}
+```
+
+**What it does:**
+- Grid of integration cards
+- Each card: Logo, Name, Description, Status
+- Connect button (if disconnected)
+- Configure button (if connected)
+- Disconnect button (if connected)
+- Filter by category: Email, CRM, Analytics, Webhook
+
+#### WebhookManager
+**Purpose:** Manage webhooks
+
+**Props:**
+```typescript
+interface WebhookManagerProps {
+  campaignId: string;
+}
+```
+
+**What it does:**
+- List webhooks
+- Create webhook button
+- Each webhook row: Name, URL, Events, Status, Actions
+- Test button (sends test payload)
+- View logs button (opens modal with delivery logs)
+- Edit/Delete buttons
+
+---
+
+## 10. Routing Structure
+
+### Route Tree
+
+```
+/ (Dashboard)
+/campaigns (Campaign list)
+/campaigns/new (Create campaign wizard)
+/campaigns/:id (Campaign overview)
+/campaigns/:id/form-builder (Form builder)
+/campaigns/:id/users (User list)
+/campaigns/:id/analytics (Analytics)
+/campaigns/:id/emails (Email campaigns)
+/campaigns/:id/referrals (Referral settings)
+/campaigns/:id/rewards (Rewards)
+/campaigns/:id/integrations (Integrations)
+/campaigns/:id/settings (Settings)
+
+/analytics (Global analytics)
+
+/team (Team management)
+
+/integrations (Integration marketplace)
+
+/settings (Account settings)
+/settings/billing (Billing)
+/settings/security (Security, 2FA)
+
+/auth/login
+/auth/signup
+/auth/verify/:token
+
+/w/:referralCode (Public waitlist signup)
+```
+
+### Protected Routes
+
+All routes except `/auth/*` and `/w/*` require authentication.
+
+---
+
+## 11. Development Phases
 
 ### Phase 1: Foundation (Month 1)
 
-**Week 1-2: Project Setup & Authentication**
-- [ ] Set up Vite + React + TypeScript + TanStack Router
-- [ ] Install and configure dependencies (React Query, etc.)
-- [ ] Create project structure (features/, services/, etc.)
-- [ ] Implement design tokens (use existing)
-- [ ] Build authentication system:
-  - [ ] Login/Signup forms (use existing form components)
-  - [ ] Auth context and hooks
-  - [ ] Protected route wrapper
-  - [ ] 2FA setup component (future)
-- [ ] Create base layout components:
-  - [ ] AppLayout (sidebar + header + main)
-  - [ ] DashboardLayout
-  - [ ] AuthLayout
+**Week 1-2: Setup & Auth**
+- [ ] Project setup (Vite + React + TypeScript + TanStack Router)
+- [ ] Install dependencies
+- [ ] Create directory structure
+- [ ] Implement cache (`lib/cache.ts`)
+- [ ] Create contexts (AppContext, AuthContext)
+- [ ] Auth components (LoginForm, SignupForm)
+- [ ] Protected route wrapper
+- [ ] Base layouts (AppLayout, AuthLayout)
 
-**Week 3-4: Campaign Management Core**
-- [ ] Set up React Query with query keys factory
-- [ ] Create API service layer (campaigns, users, etc.)
-- [ ] Build campaign features:
-  - [ ] Campaign list page with cards
-  - [ ] Create campaign wizard (multi-step form)
-  - [ ] Campaign detail page (overview)
-  - [ ] Basic campaign settings
-- [ ] User management:
-  - [ ] User list with pagination
-  - [ ] User profile view
-  - [ ] Basic filters (status, date)
-  - [ ] CSV import
+**Week 3-4: Campaign Management**
+- [ ] Campaign types
+- [ ] Campaign service
+- [ ] Campaign hooks (useCampaigns, useCreateCampaign, useUpdateCampaign)
+- [ ] CampaignCard component
+- [ ] CampaignForm component
+- [ ] CampaignList component
+- [ ] CampaignStats component
+- [ ] Campaign routes
+- [ ] Campaign detail page
 
 ### Phase 2: Viral Mechanics (Month 2)
 
 **Week 1-2: Referral System**
-- [ ] Referral link generation component
-- [ ] Share buttons (10+ platforms)
-- [ ] Position tracker (real-time)
-- [ ] Leaderboard widget
-- [ ] Referral tree visualization
-- [ ] Social sharing preview cards
+- [ ] Referral types
+- [ ] Referral service
+- [ ] Referral hooks
+- [ ] ReferralDashboard component
+- [ ] ReferralLink component
+- [ ] ShareButtons component
+- [ ] LeaderboardWidget component
+- [ ] PositionTracker component
+- [ ] Polling hook (usePolling)
+- [ ] Confetti component (canvas)
 
-**Week 3-4: Form Builder MVP**
-- [ ] Form canvas with drag-and-drop
-- [ ] Field palette (5 basic types: email, text, textarea, select, checkbox)
-- [ ] Live preview (desktop only for MVP)
-- [ ] Basic style editor (colors, typography)
-- [ ] Embed code generator
-- [ ] Public form widget (embeddable)
-- [ ] Thank you page with referral prompt
+**Week 3-4: Form Builder**
+- [ ] Form types (FormConfig, FormField, etc.)
+- [ ] FormBuilder component
+- [ ] FieldPalette component
+- [ ] FormCanvas component (HTML5 drag-drop)
+- [ ] FormPreview component
+- [ ] FormStyleEditor component
+- [ ] Public waitlist form widget (separate build)
+- [ ] Form service
+- [ ] Form hooks
 
 ### Phase 3: Email & Analytics (Month 3)
 
 **Week 1-2: Email System**
-- [ ] Email template list
-- [ ] Basic email editor (text + variables)
-- [ ] Automated campaigns (welcome, verification)
-- [ ] Email analytics (sent, opened, clicked)
-- [ ] Test email functionality
+- [ ] Email types
+- [ ] Email service
+- [ ] Email hooks
+- [ ] EmailTemplateList component
+- [ ] EmailEditor component (rich text)
+- [ ] EmailCampaignForm component
+- [ ] Email automation triggers
 
-**Week 3-4: Analytics Dashboard**
-- [ ] Overview dashboard (KPIs)
-- [ ] Growth chart (line chart)
-- [ ] Conversion funnel
-- [ ] Traffic sources (pie chart)
-- [ ] Real-time activity feed
+**Week 3-4: Analytics**
+- [ ] Analytics types
+- [ ] Analytics service
+- [ ] Analytics hooks
+- [ ] AnalyticsDashboard component
+- [ ] GrowthChart component (Recharts)
+- [ ] ConversionFunnel component (Recharts)
+- [ ] TrafficSources component (Recharts)
 - [ ] Date range selector
-- [ ] Export reports (CSV)
+- [ ] Export functionality
 
-### Phase 4: Polish & Launch Prep (Month 3, Cont.)
-
-**Final 2 Weeks:**
-- [ ] WebSocket integration for real-time updates
-- [ ] Notification system (toast messages)
-- [ ] Error boundaries and error handling
-- [ ] Loading states and skeletons
-- [ ] Empty states
-- [ ] Onboarding flow (first-time user)
-- [ ] Help documentation (in-app)
-- [ ] API documentation (Swagger UI)
-- [ ] Beta testing feedback implementation
-- [ ] Performance optimization
-- [ ] Security audit
-- [ ] Accessibility audit (WCAG 2.1 AA)
-- [ ] Browser testing (Chrome, Firefox, Safari, Edge)
-- [ ] Mobile responsive testing
-
-### Phase 5: Growth Features (Month 4-6)
+### Phase 4: Additional Features (Month 4-6)
 
 **Month 4:**
-- [ ] Reward system (tiers, triggers, delivery)
-- [ ] Advanced form builder (conditional logic, multi-step)
-- [ ] Form A/B testing
-- [ ] Advanced email editor (drag-and-drop)
-- [ ] Email A/B testing
+- [ ] Reward system (RewardBuilder, RewardTiers)
+- [ ] User management (UserList, UserProfile, BulkActions, UserFilters)
+- [ ] Advanced form features (conditional logic, multi-step)
 
 **Month 5:**
-- [ ] Team collaboration (members, roles, permissions)
-- [ ] Activity feed
-- [ ] Internal notes
-- [ ] Advanced segmentation
-- [ ] Bulk operations on users
-- [ ] Custom domain for emails
+- [ ] Team collaboration (TeamMembers, TeamInviteModal)
+- [ ] Integration marketplace (IntegrationList, WebhookManager)
+- [ ] Email A/B testing
 
 **Month 6:**
 - [ ] White-label branding
-- [ ] Custom domain for forms
-- [ ] Integration marketplace
-- [ ] Webhook manager
-- [ ] API rate limiting display
+- [ ] Custom domains
 - [ ] Advanced analytics (predictive, benchmarks)
-
-### Phase 6: Scale & Innovation (Month 7-9)
-
-**Month 7-8:**
-- [ ] Database query optimization
-- [ ] API performance improvements
-- [ ] Real-time scaling (multi-region WebSocket)
-- [ ] ML-based fraud detection
-- [ ] Advanced automation builder (visual workflow)
-
-**Month 9:**
-- [ ] Mobile app (React Native or native)
-- [ ] Push notifications
-- [ ] QR code campaigns
-- [ ] AI-powered insights
-- [ ] Template marketplace
+- [ ] Mobile responsive optimization
 
 ---
 
-## Implementation Guidelines
+## Implementation Notes
 
-### Development Workflow
-
-1. **Create Feature Branch:** `git checkout -b feature/campaign-list`
-2. **Implement in Order:**
-   - Types first (`types/campaign.types.ts`)
-   - Service layer (`services/campaigns.service.ts`)
-   - React Query hooks (`hooks/useCampaigns.ts`)
-   - Components (simple → complex)
-   - Routes
-   - Styles (use design tokens)
-3. **Test:** Write tests alongside implementation
-4. **Review:** Self-review checklist:
-   - [ ] Uses design tokens (no hardcoded values)
-   - [ ] TypeScript strict mode passing
-   - [ ] Proper error handling
-   - [ ] Loading states
-   - [ ] Accessibility (ARIA, keyboard nav)
-   - [ ] Mobile responsive
-   - [ ] Performance (memo, useCallback where needed)
-5. **Commit:** Follow conventional commits (`feat:`, `fix:`, `refactor:`)
-
-### Code Review Checklist
-
-- [ ] Follows existing patterns from CLAUDE.md
-- [ ] Uses React Query for server state
-- [ ] Proper error handling
-- [ ] Loading and empty states
-- [ ] TypeScript types defined
-- [ ] Accessible (WCAG 2.1 AA)
-- [ ] Mobile responsive
-- [ ] Design tokens used
-- [ ] No console.log statements
-- [ ] Tests included
-- [ ] Storybook story (for design system components)
-
-### Performance Checklist
-
-- [ ] Component memoized (if needed)
-- [ ] Callbacks memoized (if passed to children)
-- [ ] Expensive calculations memoized
-- [ ] Lists virtualized (if >100 items)
-- [ ] Images lazy loaded
-- [ ] Routes code-split
-- [ ] Bundle size checked
-
-### Security Checklist
-
-- [ ] User input sanitized
-- [ ] XSS prevention
-- [ ] CSRF protection
-- [ ] Permissions checked
-- [ ] Sensitive data not logged
-- [ ] API errors don't leak sensitive info
-- [ ] Rate limiting on client side
+1. **Follow CLAUDE.md** - Use existing component patterns, styling conventions
+2. **Type Everything** - Strict TypeScript, no `any`
+3. **Suspense Boundaries** - Wrap data-fetching components
+4. **Error Boundaries** - Catch errors, show user-friendly messages
+5. **Loading States** - Skeletons matching component layout
+6. **Empty States** - Helpful messages with CTAs
+7. **Accessibility** - WCAG 2.1 AA compliance
+8. **Responsive** - Mobile-first, test 320px to 4K
+9. **Performance** - Virtual scroll for large lists, lazy load heavy components
+10. **Testing** - Write tests alongside implementation
 
 ---
 
-## Appendix A: File Naming Conventions
+**END OF SPECIFICATION DOCUMENT**
 
-**Components:**
-- Directory: PascalCase (`CampaignCard/`)
-- Component file: `component.tsx`
-- Styles: `component.module.scss`
-- Tests: `component.test.tsx`
-- Stories: `component.stories.ts`
-- Types (if local): `component.types.ts`
-
-**Hooks:**
-- File: camelCase with `use` prefix (`useCampaigns.ts`)
-- Tests: `useCampaigns.test.ts`
-
-**Utils:**
-- File: kebab-case with `.utils.ts` suffix (`date.utils.ts`)
-- Tests: `date.utils.test.ts`
-
-**Types:**
-- File: kebab-case with `.types.ts` suffix (`campaign.types.ts`)
-
-**Services:**
-- File: kebab-case with `.service.ts` suffix (`campaigns.service.ts`)
-
-**Constants:**
-- File: kebab-case (`.ts`) (`api-endpoints.ts`)
-
----
-
-## Appendix B: Key Dependencies Version Lock
-
-```json
-{
-  "dependencies": {
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "@tanstack/react-router": "^1.90.0",
-    "@tanstack/react-query": "^5.59.0",
-    "react-hook-form": "^7.53.0",
-    "zod": "^3.23.0",
-    "recharts": "^2.12.0",
-    "socket.io-client": "^4.8.0",
-    "zustand": "^5.0.0",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^11.11.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.0",
-    "vite": "6.3.0",
-    "typescript": "^5.6.0",
-    "vitest": "^2.0.0",
-    "@testing-library/react": "^16.0.0",
-    "@testing-library/user-event": "^14.5.0",
-    "sass": "^1.80.0"
-  }
-}
-```
-
----
-
-## Appendix C: Environment Variables
-
-```env
-# API Configuration
-VITE_API_URL=http://localhost:3000
-VITE_WS_URL=ws://localhost:3000
-
-# Feature Flags
-VITE_ENABLE_2FA=true
-VITE_ENABLE_SSO=false
-VITE_ENABLE_WHITE_LABEL=true
-
-# Analytics
-VITE_GA_TRACKING_ID=
-VITE_SENTRY_DSN=
-
-# Stripe (for billing)
-VITE_STRIPE_PUBLIC_KEY=
-
-# Widget CDN
-VITE_WIDGET_CDN_URL=https://cdn.yourapp.com
-```
-
----
-
-## Document Control
-
-**Version:** 1.0
-**Status:** Ready for Implementation
-**Last Updated:** November 5, 2025
-**Next Review:** After Phase 1 Completion
-
-**Approval Required From:**
-- [ ] Lead Frontend Developer
-- [ ] CTO/Tech Lead
-- [ ] Product Manager
-
----
-
-**END OF TECHNICAL DESIGN DOCUMENT**
-
-*This document is a living specification. Update as implementation reveals new patterns or requirements change.*
+This document specifies types, components, and architecture. Implementation follows patterns from CLAUDE.md.
