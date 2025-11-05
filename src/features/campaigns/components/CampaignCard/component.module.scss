@@ -104,59 +104,7 @@
   top: 100%;
   right: 0;
   margin-top: layout.$spacing-02;
-  min-width: 10rem;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
-  padding: layout.$spacing-02;
   z-index: 10;
-  opacity: 0;
-  visibility: hidden;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  .actions:hover &,
-  .actionButton:focus-visible + & {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-.actionMenuItem {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-03;
-  width: 100%;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: transparent;
-  border: none;
-  border-radius: layout.$spacing-01;
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-sm;
-  cursor: pointer;
-  text-align: left;
-  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-secondary-hover);
-  }
-
-  &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: calc(-1 * layout.$spacing-01);
-  }
-
-  i {
-    font-size: typography.$font-size-md;
-  }
-
-  &.actionMenuItemDanger {
-    color: var(--color-error-text);
-
-    &:hover {
-      background-color: var(--color-bg-danger-hover);
-    }
-  }
 }
 
 // Description

@@ -11,52 +11,6 @@
   width: 100%;
 }
 
-// Field styles (for select dropdown only)
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-02;
-}
-
-.label {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
-}
-
-.select {
-  width: 100%;
-  padding: layout.$spacing-03;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-md;
-  font-family: inherit;
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right layout.$spacing-03 center;
-  padding-right: layout.$spacing-10;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 layout.$spacing-02 var(--color-alpha-focus);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: var(--color-surface-secondary-default);
-  }
-}
-
 // Section styles
 .section {
   display: flex;

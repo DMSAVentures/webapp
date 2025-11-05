@@ -3,8 +3,9 @@
  * Displays campaign summary in list/grid view
  */
 
-import { memo, type HTMLAttributes } from 'react';
+import { memo, useState, useRef, useEffect, useCallback, type HTMLAttributes } from 'react';
 import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
+import DropdownMenu from '@/proto-design-system/dropdownmenu/dropdownmenu';
 import type { Campaign } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -42,6 +43,13 @@ const getStatusVariant = (status: Campaign['status']): "completed" | "pending" |
 };
 
 /**
+ * Converts status text to title case
+ */
+const toTitleCase = (text: string): string => {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+/**
  * CampaignCard displays a summary of a campaign
  */
 export const CampaignCard = memo<CampaignCardProps>(
@@ -54,11 +62,92 @@ export const CampaignCard = memo<CampaignCardProps>(
     ...props
   }) {
     const hasActions = actions && (actions.onEdit || actions.onDuplicate || actions.onDelete);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const classNames = [
       styles.root,
       customClassName
     ].filter(Boolean).join(' ');
+
+    // Close menu on click outside
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }, []);
+
+    useEffect(() => {
+      if (isMenuOpen) {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }
+    }, [isMenuOpen, handleClickOutside]);
+
+    // Build menu items
+    const menuItems = [];
+    if (actions?.onEdit) {
+      menuItems.push({
+        state: 'default' as const,
+        size: 'medium' as const,
+        checkbox: false,
+        label: 'Edit',
+        badge: false,
+        shortcut: false,
+        toggle: false,
+        button: false,
+        icon: 'ri-edit-line',
+        iconPosition: 'left' as const,
+        onClick: () => {
+          setIsMenuOpen(false);
+          actions.onEdit?.();
+        },
+      });
+    }
+    if (actions?.onDuplicate) {
+      menuItems.push({
+        state: 'default' as const,
+        size: 'medium' as const,
+        checkbox: false,
+        label: 'Duplicate',
+        badge: false,
+        shortcut: false,
+        toggle: false,
+        button: false,
+        icon: 'ri-file-copy-line',
+        iconPosition: 'left' as const,
+        onClick: () => {
+          setIsMenuOpen(false);
+          actions.onDuplicate?.();
+        },
+      });
+    }
+    if (actions?.onDelete) {
+      if (menuItems.length > 0) {
+        menuItems.push({
+          size: 'thin' as const,
+          text: '',
+        });
+      }
+      menuItems.push({
+        state: 'default' as const,
+        size: 'medium' as const,
+        checkbox: false,
+        label: 'Delete',
+        badge: false,
+        shortcut: false,
+        toggle: false,
+        button: false,
+        icon: 'ri-delete-bin-line',
+        iconPosition: 'left' as const,
+        onClick: () => {
+          setIsMenuOpen(false);
+          actions.onDelete?.();
+        },
+      });
+    }
 
     return (
       <div
@@ -73,59 +162,30 @@ export const CampaignCard = memo<CampaignCardProps>(
           <div className={styles.headerContent}>
             <h3 className={styles.title}>{campaign.name}</h3>
             <StatusBadge
-              text={campaign.status}
+              text={toTitleCase(campaign.status)}
               variant={getStatusVariant(campaign.status)}
+              styleType="stroke"
             />
           </div>
 
           {/* Action Menu */}
           {hasActions && (
-            <div className={styles.actions}>
+            <div className={styles.actions} ref={menuRef}>
               <button
                 className={styles.actionButton}
                 aria-label="More actions"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMenuOpen(!isMenuOpen);
+                }}
               >
                 <i className="ri-more-2-fill" aria-hidden="true" />
               </button>
-              <div className={styles.actionMenu}>
-                {actions.onEdit && (
-                  <button
-                    className={styles.actionMenuItem}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      actions.onEdit?.();
-                    }}
-                  >
-                    <i className="ri-edit-line" aria-hidden="true" />
-                    <span>Edit</span>
-                  </button>
-                )}
-                {actions.onDuplicate && (
-                  <button
-                    className={styles.actionMenuItem}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      actions.onDuplicate?.();
-                    }}
-                  >
-                    <i className="ri-file-copy-line" aria-hidden="true" />
-                    <span>Duplicate</span>
-                  </button>
-                )}
-                {actions.onDelete && (
-                  <button
-                    className={`${styles.actionMenuItem} ${styles.actionMenuItemDanger}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      actions.onDelete?.();
-                    }}
-                  >
-                    <i className="ri-delete-bin-line" aria-hidden="true" />
-                    <span>Delete</span>
-                  </button>
-                )}
-              </div>
+              {isMenuOpen && (
+                <div className={styles.actionMenu}>
+                  <DropdownMenu items={menuItems} />
+                </div>
+              )}
             </div>
           )}
         </div>

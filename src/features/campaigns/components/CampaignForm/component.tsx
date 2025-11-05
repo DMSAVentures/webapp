@@ -11,6 +11,7 @@ import { TextInput } from '@/proto-design-system/TextInput/textInput';
 import { TextArea } from '@/proto-design-system/TextArea/textArea';
 import CheckboxWithLabel from '@/proto-design-system/checkbox/checkboxWithLabel';
 import ContentDivider from '@/proto-design-system/contentdivider/contentdivider';
+import Dropdown from '@/proto-design-system/dropdown/dropdown';
 import styles from './component.module.scss';
 
 export interface CampaignFormData {
@@ -198,22 +199,30 @@ export const CampaignForm = memo<CampaignFormProps>(
           />
 
           {/* Duplicate Handling */}
-          <div className={styles.field}>
-            <label htmlFor="duplicate-handling" className={styles.label}>
-              Duplicate Email Handling
-            </label>
-            <select
-              id="duplicate-handling"
-              value={formData.settings.duplicateHandling}
-              onChange={(e) => handleSettingChange('duplicateHandling', e.target.value)}
-              disabled={loading}
-              className={styles.select}
-            >
-              <option value="block">Block - Reject duplicate signups</option>
-              <option value="update">Update - Replace existing entry</option>
-              <option value="allow">Allow - Create new entry</option>
-            </select>
-          </div>
+          <Dropdown
+            label="Duplicate Email Handling"
+            placeholderText="Select handling method"
+            size="medium"
+            options={[
+              {
+                label: 'Block - Reject duplicate signups',
+                value: 'block',
+                description: 'Prevent users from signing up multiple times'
+              },
+              {
+                label: 'Update - Replace existing entry',
+                value: 'update',
+                description: 'Update the existing user information'
+              },
+              {
+                label: 'Allow - Create new entry',
+                value: 'allow',
+                description: 'Allow duplicate signups with separate entries'
+              }
+            ]}
+            disabled={loading}
+            onChange={(option) => handleSettingChange('duplicateHandling', option.value)}
+          />
         </div>
 
         {/* Divider */}

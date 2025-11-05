@@ -20,8 +20,6 @@
         border: 1px solid var(--color-border-secondary-default);
         border-radius: border.$border-radius-medium;
         padding: layout.$spacing-03 layout.$spacing-03 layout.$spacing-03 layout.$spacing-05;
-        //@extend .paragraph-small;
-        //color: $color-neutral-900;
         color: var(--color-text-primary-default);
 
         &::placeholder {

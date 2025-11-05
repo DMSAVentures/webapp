@@ -9,10 +9,11 @@ interface StatusBadgeProps {
 	icon?: string;
 }
 const StatusBadge: React.FC<StatusBadgeProps> = (props) => {
+	const styleType = props.styleType || "light";
 	const containerClass = [
 		styles["status-badge"],
 		styles[`status-badge--${props.variant}`],
-		styles[`status-badge--${props.styleType}`],
+		styles[`status-badge--${styleType}`],
 	].join(" ");
 	const iconClass = props.icon
 		? [styles["status-badge__icon"], props.icon].join(" ")
