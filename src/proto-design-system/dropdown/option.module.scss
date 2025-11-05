@@ -5,16 +5,16 @@
 .dropdown-option {
     display: flex;
     width: 100%;
-    gap: layout.$spacing-05;
+    gap: layout.$spacing-03;
     align-items: center;
-    padding: layout.$spacing-03;
+    padding: layout.$spacing-02 layout.$spacing-03;
     color: var(--color-primary);
     cursor: pointer;
-    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance, border-radius motion.$duration-moderate-01 motion.$easing-productive-entrance;
+    border-radius: border.$border-radius-small;
+    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
 
     &:hover {
         background-color: var(--color-bg-secondary-hover);
-        border-radius: border.$border-radius-medium;
     }
 
     &--selected {
@@ -24,7 +24,7 @@
     &__img {
         height: layout.$spacing-08;
         width: layout.$spacing-08;
-        border-radius: border.$border-radius-large;
+        border-radius: border.$border-radius-small;
     }
 
     &__icon {
@@ -74,7 +74,6 @@
     // Add keyboard focus styles
     &:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 2px var(--color-info);
-        border-radius: border.$border-radius-medium;
+        box-shadow: 0 0 0 2px var(--color-focus-ring-default);
     }
 }
