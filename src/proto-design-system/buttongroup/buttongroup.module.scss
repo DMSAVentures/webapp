@@ -22,7 +22,6 @@
   }
 
   &--2x-small {
-    //@extend .label-x-small;
     .button-item {
       padding: layout.$spacing-02 layout.$spacing-04 !important;
       gap: layout.$spacing-02;
@@ -43,7 +42,6 @@
   color motion.$duration-moderate-01 motion.$easing-productive-standard,
   border-color motion.$duration-moderate-01 motion.$easing-productive-standard,
   box-shadow motion.$duration-moderate-01 motion.$easing-productive-standard;
-  //@extend .label-small;
   min-width: layout.$spacing-07;
   position: relative; // For focus styles
 

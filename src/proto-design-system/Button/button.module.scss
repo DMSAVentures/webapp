@@ -1,6 +1,7 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/design-tokens/typography" as typography;
 
 // ==============================
 // Button Component Styles
@@ -110,16 +111,14 @@
 
 .size_small {
     padding: layout.$spacing-02 layout.$spacing-04;
-    font-size: 0.875rem;
 }
 
 .size_medium {
-    // Default size, already defined in .root
+    // Default padding already defined in .root
 }
 
 .size_large {
     padding: layout.$spacing-04 layout.$spacing-06;
-    font-size: 1.125rem;
 }
 
 // ==============================

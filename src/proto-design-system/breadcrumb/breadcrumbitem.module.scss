@@ -9,7 +9,6 @@
   cursor: pointer;
   gap: layout.$spacing-02;
   color: var(--color-text-secondary-default);
-  //@extend .label-small;
 
   &:hover .breadcrumb-item__text {
     text-decoration: underline;

@@ -20,7 +20,6 @@
         align-items: center;
         gap: layout.$spacing-03;
         color: var(--color-text-secondary-default);
-        //@extend .label-small;
         cursor: pointer;
 
         &[aria-selected="true"] {

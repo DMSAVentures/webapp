@@ -20,7 +20,6 @@
     background-color: var(--color-bg-secondary-default);
     transition: background-color motion.$duration-slow-01 motion.$easing-productive-entrance, border motion.$duration-slow-01 motion.$easing-productive-entrance;
   }
-  //@extend .label-small
 }
 
 .accordian__title {
@@ -31,7 +30,6 @@
   margin-top: layout.$spacing-05;
   color: var(--color-text-secondary-default);
   white-space: normal;
-  //@extend .paragraph-small
 }
 
 .accordian__icon {

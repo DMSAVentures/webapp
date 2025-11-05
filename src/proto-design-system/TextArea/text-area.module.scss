@@ -1,6 +1,7 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
 @use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/typography" as typography;
 
 .text-area {
     display: flex;
@@ -61,7 +62,7 @@
     }
 
     &__character-count {
-        font-size: 0.75rem;
+        font-size: typography.$font-size-xs;
         color: var(--color-text-secondary-default);
         white-space: nowrap;
         flex-shrink: 0;

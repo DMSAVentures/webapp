@@ -49,13 +49,11 @@
         gap: layout.$spacing-05;
 
         .modal__title {
-            //@extend .label-small;
             //color: $color-neutral-900;
             font-weight: 600;
         }
 
         .modal__description {
-            //@extend .paragraph-small;
             //color: $color-neutral-600;
             color: var(--color-text-secondary-default);
             word-break: break-word;

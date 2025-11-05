@@ -280,11 +280,23 @@ blockquote {
     }
 }
 
-input, textarea {
+// Global typography for form elements
+input, textarea, select {
     @include responsive-typography(
-                    $font-size-xl,
-                    $font-size-md,
-                    $font-size-lg,
+                    $font-size-xl,    // 18px on mobile (better for touch)
+                    $font-size-md,    // 14px on tablet
+                    $font-size-lg,    // 16px on desktop
+                    $line-height-normal,
+                    $font-weight-regular
+    );
+}
+
+// Global typography for buttons and interactive elements
+button {
+    @include responsive-typography(
+                    $font-size-md,    // 14px on mobile
+                    $font-size-md,    // 14px on tablet
+                    $font-size-lg,    // 16px on desktop
                     $line-height-normal,
                     $font-weight-regular
     );

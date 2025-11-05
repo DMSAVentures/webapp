@@ -13,13 +13,11 @@
     }
 
     .label__string {
-        //@extend .paragraph-small;
         //color: $color-neutral-900;
         color: var(--color-text-primary-default);
     }
 
     .label__sublabel__string {
-        //@extend .paragraph-x-small;
         //color: $color-neutral-600;
         color: var(--color-text-secondary-default);
 

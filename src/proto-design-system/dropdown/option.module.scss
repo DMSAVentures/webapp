@@ -43,17 +43,14 @@
             align-items: center;
             gap: layout.$spacing-03;
             color: var(--color-primary);
-            //@extend .label-small;
         }
 
         &__sublabel {
             color: var(--color-secondary);
-            //@extend .paragraph-x-small;
         }
 
         &__description {
             color: var(--color-secondary);
-            //@extend .paragraph-x-small;
         }
     }
 

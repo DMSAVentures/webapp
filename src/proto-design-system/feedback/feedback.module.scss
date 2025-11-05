@@ -37,7 +37,6 @@
     padding: layout.$spacing-02 layout.$spacing-03;
     .feedback__title {
       flex: 1;
-      //@extend .paragraph-small
     }
   }
 
@@ -51,7 +50,6 @@
 
     .feedback__title {
       flex: 1;
-      //@extend .paragraph-small
     }
   }
 
@@ -74,10 +72,8 @@
     }
 
     .feedback__title {
-      //@extend .label-small
     }
     .feedback__description {
-      //@extend .paragraph-small
     }
 
     .feedback-detailed__buttons {
@@ -92,7 +88,6 @@
 
 
   .feedback__description {
-    //@extend .paragraph-small
   }
 
 

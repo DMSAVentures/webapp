@@ -32,17 +32,14 @@
             display: flex;
             flex-direction: column;
             text-align: center;
-            //@extend .label-small;
             //color: $color-neutral-900;
 
             .fileuploadarea_supported_meta {
-                //@extend .paragraph-small;
                 //color: $color-neutral-600;
             }
         }
 
         .fileuploadarea__filename {
-            //@extend .paragraph-small;
             //color: $color-neutral-600;
         }
     }

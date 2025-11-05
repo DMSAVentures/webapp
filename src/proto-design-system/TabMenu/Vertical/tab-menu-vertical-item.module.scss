@@ -13,14 +13,12 @@
     //background-color: colors.$color-white;
     //color: colors.$color-neutral-600;
     border-radius: border.$border-radius-medium;
-    //@extend .paragraph-small;
 
     &__text {
         vertical-align: center;
     }
 
     &__left-icon {
-        //@extend .label-small;
         //height: layout.$spacing-20;
         //width: layout.$spacing-20;
         //align-content: center;
@@ -28,7 +26,6 @@
     }
 
     &__right-icon {
-        //@extend .label-small;
         //height: layout.$spacing-20;
         //width: layout.$spacing-20;
         //align-content: center;
@@ -36,7 +33,6 @@
     }
 
     &__badge {
-        //@extend .label-x-small;
         //height: layout.$spacing-20;
         //width: layout.$spacing-20;
         align-content: center;
@@ -50,7 +46,6 @@
     &--active {
         background-color: var(--color-secondary-bg);
         color: var(--color-primary);
-        //@extend .shadow-xs;
 
         .tab-menu-vertical-item__left-icon {
             color: var(--color-primary);
@@ -63,6 +58,5 @@
         color: var(--color-primary);
         cursor: pointer;
         transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
-        //@extend .shadow-xs;
     }
 }

@@ -1,6 +1,7 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
 @use "@/design-tokens/colors" as colors;
+@use "@/design-tokens/typography" as typography;
 
 @mixin badge-style($color, $text-color) {
   background-color: $color;
@@ -19,8 +20,8 @@
 
 
   &--small {
-    font-size: layout.$spacing-03;
-    font-weight: bolder;
+    font-size: typography.$font-size-xs;
+    font-weight: typography.$font-weight-bold;
     padding: layout.$spacing-01 layout.$spacing-03;
 
 
@@ -30,8 +31,8 @@
   }
 
   &--medium {
-    font-size: layout.$spacing-04;
-    font-weight: bold;
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-semibold;
     padding: layout.$spacing-02 layout.$spacing-03;
 
     .badge__icon {

@@ -8,7 +8,6 @@
     //justify-content: center;
     gap: layout.$spacing-03;
     color: var(--color-text-secondary-default);
-    //@extend .label-small;
     cursor: pointer;
 
     &__text {
@@ -16,7 +15,6 @@
     }
 
     &__left-icon {
-        //@extend .label-small;
         //height: layout.$spacing-20;
         //width: layout.$spacing-20;
         align-content: center;
@@ -25,7 +23,6 @@
     }
 
     &__right-icon {
-        //@extend .label-small;
         //height: layout.$spacing-20;
         //width: layout.$spacing-20;
         align-content: center;

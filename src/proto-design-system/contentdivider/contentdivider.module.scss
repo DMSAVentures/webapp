@@ -8,7 +8,6 @@
         overflow: visible;
         text-align: center;
         height: layout.$spacing-05;
-        //@extend .subheading-xx-small;
 
         &--text::after {
             background: var(--color-surface-primary-default);
@@ -27,7 +26,6 @@
     text-transform: uppercase;
     padding: layout.$spacing-02 layout.$spacing-05;
     gap: layout.$spacing-05;
-    //@extend .subheading-x-small;
 
     &--light {
         background-color: var(--color-bg-secondary-default);

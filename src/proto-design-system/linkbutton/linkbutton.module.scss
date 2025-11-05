@@ -2,6 +2,7 @@
 @use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/border" as border;
 @use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/typography" as typography;
 
 // Base button styles
 .linkbutton {
@@ -21,15 +22,13 @@
   &--small {
     gap: layout.$spacing-02;
     padding: layout.$spacing-02 layout.$spacing-03;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: typography.$font-size-sm;
   }
 
   &--medium {
     gap: layout.$spacing-03;
     padding: layout.$spacing-03 layout.$spacing-04;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: typography.$font-size-md;
   }
 
   // Underline variant - this is now for explicit underline that stays on hover
