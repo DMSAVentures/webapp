@@ -1,5 +1,6 @@
 @use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
 @use "@/globalstyles/v2/grid.scss" as grid;
+@use "sass:map";
 
 $breakpoints: (
         sm: breakpoints.$breakpoint-sm,
@@ -32,7 +33,7 @@ $columns: (
         @if $max-span > 0 {
             @for $span from 1 through $max-span {
                 .column--#{$breakpoint}-start-#{$start}-span-#{$span} {
-                    @media (min-width: map-get($breakpoints, $breakpoint)) {
+                    @media (min-width: map.get($breakpoints, $breakpoint)) {
                         grid-column: $start / span $span;
                     }
                 }

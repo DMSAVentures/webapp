@@ -27,6 +27,10 @@
 
     min-width: layout.$spacing-07;
 
+    // Default color for primary button
+    background-color: var(--color-bg-primary-default);
+    color: var(--color-text-inverse-default); // Text color for contrast on primary button
+
     @media (min-width: breakpoints.$breakpoint-md) {
         min-width: layout.$spacing-08;
     }
@@ -38,10 +42,6 @@
     @media (min-width: breakpoints.$breakpoint-xlg) {
         min-width: layout.$spacing-10;
     }
-
-    // Default color for primary button
-    background-color: var(--color-bg-primary-default);
-    color: var(--color-text-inverse-default); // Text color for contrast on primary button
 
     // Hover State
     &:hover {
