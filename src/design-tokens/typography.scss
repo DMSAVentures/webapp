@@ -24,15 +24,15 @@ $font-weight-bold: 800;
 // Type Scale - Simplified and more intuitive
 // ==============================
 
-// Base size - 14px
-$font-size-base: 0.875rem;  // 14px
+// Base size - 13px
+$font-size-base: 0.8125rem;  // 13px
 
 // Text sizes based on purpose rather than arbitrary scaling
-$font-size-xs: 0.75rem;     // 12px - Tiny text, footnotes
-$font-size-sm: 0.8125rem;   // 13px - Small text, captions
-$font-size-md: $font-size-base; // 14px - Body text, default
-$font-size-lg: 1rem;        // 16px - Large body text
-$font-size-xl: 1.125rem;    // 18px - Subheadings
+$font-size-xs: 0.6875rem;   // 11px - Tiny text, footnotes
+$font-size-sm: 0.75rem;     // 12px - Small text, captions
+$font-size-md: $font-size-base; // 13px - Body text, default
+$font-size-lg: 0.875rem;    // 14px - Large body text
+$font-size-xl: 1rem;        // 16px - Subheadings
 
 // Heading sizes with clear progression
 $font-size-h6: 1.25rem;     // 20px
@@ -283,9 +283,9 @@ blockquote {
 // Global typography for form elements
 input, textarea, select {
     @include responsive-typography(
-                    $font-size-xl,    // 18px on mobile (better for touch)
-                    $font-size-md,    // 14px on tablet
-                    $font-size-lg,    // 16px on desktop
+                    $font-size-lg,    // 14px on mobile (better for touch)
+                    $font-size-sm,    // 12px on tablet
+                    $font-size-md,    // 13px on desktop
                     $line-height-normal,
                     $font-weight-regular
     );
@@ -294,9 +294,9 @@ input, textarea, select {
 // Global typography for buttons and interactive elements
 button {
     @include responsive-typography(
-                    $font-size-md,    // 14px on mobile
-                    $font-size-md,    // 14px on tablet
-                    $font-size-lg,    // 16px on desktop
+                    $font-size-sm,    // 12px on mobile
+                    $font-size-sm,    // 12px on tablet
+                    $font-size-md,    // 13px on desktop
                     $line-height-normal,
                     $font-weight-regular
     );
