@@ -26,17 +26,17 @@ This is a **Vite-based React application** with TypeScript, featuring a comprehe
 ### Directory Organization
 ```
 src/
+├── proto-design-system/  # Design system components (28+ components)
 ├── components/
-│   ├── simpleui/        # Design system components (28+ components)
-│   ├── authentication/  # Auth-related components
-│   ├── ai/             # AI features
-│   ├── billing/        # Payment/subscription components
-│   └── [feature]/      # Feature-specific components
-├── globalstyles/v2/     # Design tokens and global styles
-├── hooks/              # Custom React hooks (15+ hooks)
-├── contexts/           # React contexts for state management
-├── routes/             # TanStack Router route definitions
-└── types/              # TypeScript type definitions
+│   ├── authentication/   # Auth-related components
+│   ├── ai/              # AI features
+│   ├── billing/         # Payment/subscription components
+│   └── [feature]/       # Feature-specific components
+├── design-tokens/       # Design tokens and global styles
+├── hooks/               # Custom React hooks (15+ hooks)
+├── contexts/            # React contexts for state management
+├── routes/              # TanStack Router route definitions
+└── types/               # TypeScript type definitions
 ```
 
 ### Component File Structure
@@ -412,7 +412,7 @@ const { operation: cancelSubscription } = useCancelSubscription();
 
 ### Adding New Components
 1. Create component directory in appropriate location:
-   - Design system components → `src/components/simpleui/`
+   - Design system components → `src/proto-design-system/`
    - Feature components → `src/components/[feature]/`
 
 2. Follow the standard file structure:
@@ -438,7 +438,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Component } from './component';
 
 const meta = {
-    title: 'SimpleUI/Component',
+    title: 'ProtoDesignSystem/Component',
     component: Component,
     tags: ['autodocs'],  // Enable auto-documentation
     parameters: {
