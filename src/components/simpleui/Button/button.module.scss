@@ -46,12 +46,14 @@
     // Hover State
     &:hover {
         background-color: var(--color-bg-primary-hover);
+        color: var(--color-text-inverse-default); // Maintain text color on hover (important for anchor elements)
         cursor: pointer;
     }
 
     // Active State
     &:active {
         background-color: var(--color-bg-primary-active);
+        color: var(--color-text-inverse-default); // Maintain text color on active (important for anchor elements)
     }
     &:focus {
         outline: none;
@@ -80,10 +82,12 @@
 
     &:hover {
         background-color: var(--color-bg-secondary-hover);
+        color: var(--color-text-secondary-default); // Maintain text color on hover (important for anchor elements)
     }
 
     &:active {
         background-color: var(--color-bg-secondary-active);
+        color: var(--color-text-secondary-default); // Maintain text color on active (important for anchor elements)
     }
     &:focus {
         outline: none;
