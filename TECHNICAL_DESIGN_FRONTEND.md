@@ -1,7 +1,7 @@
 # Technical Design Document - Frontend Architecture
 ## Viral Waitlist & Referral Marketing Platform
 
-**Version:** 1.0
+**Version:** 2.0 - Vanilla React 19
 **Last Updated:** November 5, 2025
 **Target Implementation:** Phase 1-3 (Months 1-9)
 **Stack:** Vite + React 19 + TypeScript + SCSS Modules + TanStack Router
@@ -12,12 +12,12 @@
 
 1. Architecture Overview
 2. Application Structure
-3. State Management Architecture
+3. State Management Architecture (Vanilla React 19)
 4. Component Architecture
 5. Routing & Navigation
-6. API Integration Layer
-7. Real-Time Features
-8. Form Management System
+6. API Integration Layer (Custom with Suspense)
+7. Real-Time Features (Native WebSocket)
+8. Form Management System (React 19 Actions)
 9. Analytics & Visualization
 10. Security Implementation
 11. Performance Strategy
@@ -34,50 +34,77 @@
 - Features organized by domain (campaigns, users, analytics, rewards, etc.)
 - Shared design system components remain in `proto-design-system/`
 - Cross-cutting concerns in dedicated directories (hooks, contexts, utils)
+- **Vanilla-first approach**: Write custom code, minimal dependencies
 
-**State Management Philosophy:**
-- Server state via React Query (TanStack Query) - NOT Redux
+**State Management Philosophy (React 19 Native):**
+- Server state via custom cache + Suspense + `use()` hook
 - Local UI state via React hooks (useState, useReducer)
-- Global app state via React Context (minimal usage)
-- Real-time state via WebSocket + React Query integration
-- Form state via controlled components + validation library
+- Global app state via React Context + useReducer
+- Real-time state via native WebSocket + Context
+- Form state via React 19 Actions + useActionState
 
 **Data Flow Pattern:**
 - Unidirectional data flow (React standard)
-- API → React Query Cache → Components
-- WebSocket → Event Handlers → React Query Cache Invalidation → Components
-- Forms → Validation → API → Success/Error States
+- API → Custom Cache → Suspense Boundary → Components
+- WebSocket → Event Handlers → Context Updates → Components
+- Forms → Actions → Optimistic Updates → API → Final State
 
 ### Technology Decisions
 
 **Core Stack:**
-- **React 19.0.0** - Latest features (use transitions, concurrent rendering)
+- **React 19.0.0** - Leverage new features:
+  - `use()` hook for promises and context
+  - `useOptimistic()` for optimistic UI updates
+  - `useActionState()` for form handling
+  - `useTransition()` for non-blocking updates
+  - Enhanced Suspense and Error Boundaries
+  - Form Actions
+  - `ref` as prop and cleanup functions
 - **TypeScript Strict Mode** - Full type safety
-- **TanStack Router** - File-based routing with type safety
-- **TanStack Query (React Query)** - Server state management
+- **TanStack Router** - File-based routing with type safety (minimal library, worth it)
 - **SCSS Modules + BEM** - Styling (existing pattern)
 - **Vite 6.3.0** - Build tool with fast HMR
 
-**New Dependencies Required:**
+**Dependencies (Minimal):**
 ```json
 {
-  "@tanstack/react-query": "^5.0.0",
-  "@tanstack/react-query-devtools": "^5.0.0",
-  "react-hook-form": "^7.50.0",
-  "zod": "^3.22.0",
-  "@hookform/resolvers": "^3.3.0",
-  "recharts": "^2.10.0",
-  "date-fns": "^3.0.0",
-  "react-hot-toast": "^2.4.0",
-  "zustand": "^4.5.0",
-  "immer": "^10.0.0",
-  "socket.io-client": "^4.6.0",
-  "qrcode.react": "^3.1.0",
-  "copy-to-clipboard": "^3.3.0",
-  "react-confetti": "^6.1.0",
-  "framer-motion": "^11.0.0"
+  "dependencies": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@tanstack/react-router": "^1.90.0",
+    "recharts": "^2.12.0",
+    "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "6.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0",
+    "@testing-library/react": "^16.0.0",
+    "sass": "^1.80.0"
+  }
 }
 ```
+
+**What We're Building Ourselves:**
+- ✅ Data fetching layer with caching (no React Query)
+- ✅ Form validation (no React Hook Form or Zod)
+- ✅ State management (no Zustand)
+- ✅ Animations (CSS + Web Animations API, no Framer Motion)
+- ✅ Toast notifications (custom)
+- ✅ WebSocket client (native)
+- ✅ Drag-and-drop (native HTML5)
+- ✅ Clipboard (native Clipboard API)
+- ✅ QR codes (canvas rendering)
+- ✅ Confetti (custom canvas animation)
+
+**Why This Approach:**
+- 🎯 Full control over implementation
+- 📦 Minimal bundle size
+- 🚀 Better performance (no library overhead)
+- 🧠 Deep understanding of React 19 features
+- 🔧 Easier debugging and maintenance
+- 💪 Team learning and ownership
 
 ---
 
@@ -314,153 +341,291 @@ src/
 
 ---
 
-## 3. State Management Architecture
+## 3. State Management Architecture (Vanilla React 19)
 
-### React Query Configuration
+### Custom Data Cache with Suspense
 
-**Setup (lib/react-query.ts):**
+**Cache Implementation (lib/cache.ts):**
 ```typescript
-import { QueryClient } from '@tanstack/react-query';
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,          // 5 minutes
-      cacheTime: 10 * 60 * 1000,         // 10 minutes
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      retry: 3,
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    },
-    mutations: {
-      retry: 1,
-    },
-  },
-});
-
-// Query keys factory for consistency
-export const queryKeys = {
-  campaigns: {
-    all: ['campaigns'] as const,
-    lists: () => [...queryKeys.campaigns.all, 'list'] as const,
-    list: (filters: string) => [...queryKeys.campaigns.lists(), { filters }] as const,
-    details: () => [...queryKeys.campaigns.all, 'detail'] as const,
-    detail: (id: string) => [...queryKeys.campaigns.details(), id] as const,
-    analytics: (id: string) => [...queryKeys.campaigns.detail(id), 'analytics'] as const,
-  },
-  users: {
-    all: ['users'] as const,
-    lists: () => [...queryKeys.users.all, 'list'] as const,
-    list: (campaignId: string, filters?: string) =>
-      [...queryKeys.users.lists(), campaignId, { filters }] as const,
-    detail: (id: string) => [...queryKeys.users.all, 'detail', id] as const,
-  },
-  referrals: {
-    all: ['referrals'] as const,
-    leaderboard: (campaignId: string) =>
-      [...queryKeys.referrals.all, 'leaderboard', campaignId] as const,
-    userReferrals: (userId: string) =>
-      [...queryKeys.referrals.all, 'user', userId] as const,
-  },
-  analytics: {
-    all: ['analytics'] as const,
-    campaign: (campaignId: string, dateRange: string) =>
-      [...queryKeys.analytics.all, campaignId, dateRange] as const,
-    funnel: (campaignId: string) =>
-      [...queryKeys.analytics.all, 'funnel', campaignId] as const,
-  },
-  emails: {
-    all: ['emails'] as const,
-    templates: () => [...queryKeys.emails.all, 'templates'] as const,
-    campaigns: (campaignId: string) =>
-      [...queryKeys.emails.all, 'campaigns', campaignId] as const,
-  },
-  rewards: {
-    all: ['rewards'] as const,
-    list: (campaignId: string) => [...queryKeys.rewards.all, campaignId] as const,
-  },
-  team: {
-    all: ['team'] as const,
-    members: () => [...queryKeys.team.all, 'members'] as const,
-    activity: () => [...queryKeys.team.all, 'activity'] as const,
-  },
+type CacheEntry<T> = {
+  data: T;
+  timestamp: number;
+  promise?: Promise<T>;
 };
+
+class DataCache {
+  private cache = new Map<string, CacheEntry<any>>();
+  private staleTime = 5 * 60 * 1000; // 5 minutes
+  private subscribers = new Map<string, Set<() => void>>();
+
+  get<T>(key: string): T | undefined {
+    const entry = this.cache.get(key);
+    if (!entry) return undefined;
+
+    // Check if stale
+    if (Date.now() - entry.timestamp > this.staleTime) {
+      return undefined;
+    }
+
+    return entry.data;
+  }
+
+  set<T>(key: string, data: T): void {
+    this.cache.set(key, {
+      data,
+      timestamp: Date.now(),
+    });
+    this.notify(key);
+  }
+
+  getPending<T>(key: string): Promise<T> | undefined {
+    return this.cache.get(key)?.promise;
+  }
+
+  setPending<T>(key: string, promise: Promise<T>): void {
+    const entry = this.cache.get(key) || { data: undefined, timestamp: Date.now() };
+    entry.promise = promise;
+    this.cache.set(key, entry);
+  }
+
+  invalidate(pattern: string | RegExp): void {
+    const keysToDelete: string[] = [];
+
+    for (const key of this.cache.keys()) {
+      if (typeof pattern === 'string' ? key.startsWith(pattern) : pattern.test(key)) {
+        keysToDelete.push(key);
+      }
+    }
+
+    keysToDelete.forEach(key => {
+      this.cache.delete(key);
+      this.notify(key);
+    });
+  }
+
+  subscribe(key: string, callback: () => void): () => void {
+    if (!this.subscribers.has(key)) {
+      this.subscribers.set(key, new Set());
+    }
+    this.subscribers.get(key)!.add(callback);
+
+    return () => {
+      const subs = this.subscribers.get(key);
+      if (subs) {
+        subs.delete(callback);
+        if (subs.size === 0) {
+          this.subscribers.delete(key);
+        }
+      }
+    };
+  }
+
+  private notify(key: string): void {
+    const subs = this.subscribers.get(key);
+    if (subs) {
+      subs.forEach(callback => callback());
+    }
+  }
+
+  clear(): void {
+    this.cache.clear();
+    this.subscribers.clear();
+  }
+}
+
+export const dataCache = new DataCache();
+```
+
+### Custom Data Fetching Hook with Suspense
+
+**Fetch Hook (hooks/useFetch.ts):**
+```typescript
+import { use, useSyncExternalStore } from 'react';
+import { dataCache } from '@/lib/cache';
+import { fetcher } from '@/hooks/fetcher';
+
+interface FetchOptions<T> {
+  /** Function to fetch data */
+  fetcher: () => Promise<T>;
+  /** Cache key */
+  key: string;
+  /** Enable/disable fetching */
+  enabled?: boolean;
+}
+
+export function useFetch<T>({ fetcher: fetchFn, key, enabled = true }: FetchOptions<T>): T {
+  // Subscribe to cache updates
+  const cachedData = useSyncExternalStore(
+    (callback) => dataCache.subscribe(key, callback),
+    () => dataCache.get<T>(key),
+    () => dataCache.get<T>(key)
+  );
+
+  if (!enabled) {
+    throw new Error('Fetch disabled - should not render this component');
+  }
+
+  // Return cached data if available
+  if (cachedData !== undefined) {
+    return cachedData;
+  }
+
+  // Check if there's a pending promise
+  const pendingPromise = dataCache.getPending<T>(key);
+  if (pendingPromise) {
+    throw pendingPromise; // Suspend until promise resolves
+  }
+
+  // Create new fetch promise
+  const promise = fetchFn()
+    .then(data => {
+      dataCache.set(key, data);
+      return data;
+    })
+    .catch(error => {
+      dataCache.invalidate(key);
+      throw error;
+    });
+
+  dataCache.setPending(key, promise);
+  throw promise; // Suspend until promise resolves
+}
+```
+
+### Global App State with Context + useReducer
+
+**App State (contexts/AppContext.tsx):**
+```typescript
+import { createContext, useReducer, useContext, type ReactNode } from 'react';
+
+// State type
+interface AppState {
+  currentCampaignId: string | null;
+  isWebSocketConnected: boolean;
+  sidebarCollapsed: boolean;
+  toasts: Toast[];
+}
+
+// Action types
+type AppAction =
+  | { type: 'SET_CAMPAIGN'; payload: string | null }
+  | { type: 'SET_WS_CONNECTED'; payload: boolean }
+  | { type: 'TOGGLE_SIDEBAR' }
+  | { type: 'ADD_TOAST'; payload: Omit<Toast, 'id'> }
+  | { type: 'REMOVE_TOAST'; payload: string };
+
+// Reducer
+function appReducer(state: AppState, action: AppAction): AppState {
+  switch (action.type) {
+    case 'SET_CAMPAIGN':
+      return { ...state, currentCampaignId: action.payload };
+
+    case 'SET_WS_CONNECTED':
+      return { ...state, isWebSocketConnected: action.payload };
+
+    case 'TOGGLE_SIDEBAR':
+      return { ...state, sidebarCollapsed: !state.sidebarCollapsed };
+
+    case 'ADD_TOAST':
+      return {
+        ...state,
+        toasts: [...state.toasts, { ...action.payload, id: crypto.randomUUID() }],
+      };
+
+    case 'REMOVE_TOAST':
+      return {
+        ...state,
+        toasts: state.toasts.filter(t => t.id !== action.payload),
+      };
+
+    default:
+      return state;
+  }
+}
+
+// Context
+const AppStateContext = createContext<AppState | undefined>(undefined);
+const AppDispatchContext = createContext<React.Dispatch<AppAction> | undefined>(undefined);
+
+// Provider
+export function AppProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(appReducer, {
+    currentCampaignId: null,
+    isWebSocketConnected: false,
+    sidebarCollapsed: false,
+    toasts: [],
+  });
+
+  return (
+    <AppStateContext.Provider value={state}>
+      <AppDispatchContext.Provider value={dispatch}>
+        {children}
+      </AppDispatchContext.Provider>
+    </AppStateContext.Provider>
+  );
+}
+
+// Hooks
+export function useAppState() {
+  const context = useContext(AppStateContext);
+  if (!context) throw new Error('useAppState must be used within AppProvider');
+  return context;
+}
+
+export function useAppDispatch() {
+  const context = useContext(AppDispatchContext);
+  if (!context) throw new Error('useAppDispatch must be used within AppProvider');
+  return context;
+}
+
+// Convenience hooks
+export function useToast() {
+  const dispatch = useAppDispatch();
+
+  return {
+    showToast: (toast: Omit<Toast, 'id'>) => {
+      dispatch({ type: 'ADD_TOAST', payload: toast });
+
+      // Auto-dismiss after 5 seconds
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_TOAST', payload: toast.id });
+      }, 5000);
+    },
+    hideToast: (id: string) => {
+      dispatch({ type: 'REMOVE_TOAST', payload: id });
+    },
+  };
+}
 ```
 
 ### State Management Patterns
 
-**Pattern 1: Server State (React Query)**
+**Pattern 1: Server State (Custom Cache + Suspense)**
 Use for ALL API data:
 - Campaign data, user lists, analytics, email templates, team members
-- Auto-caching, background refetching, optimistic updates
-- Error handling and retry logic built-in
+- Automatic caching with staleTime
+- Suspense boundaries for loading states
+- Error boundaries for error handling
 
 **Pattern 2: Local UI State (useState/useReducer)**
 Use for component-specific state:
 - Form inputs, modal open/close, accordion expanded/collapsed
 - Selected items, filter states (before applying)
-- Loading states for UI interactions
+- Loading states for UI interactions (use `useTransition` for non-blocking)
 
-**Pattern 3: Global App State (Zustand)**
+**Pattern 3: Global App State (Context + useReducer)**
 Use sparingly for cross-cutting concerns:
 - Current workspace/campaign selection
 - Toast notifications
 - Real-time connection status
 - User preferences (theme, language)
 
-**Zustand Store Example (lib/store.ts):**
-```typescript
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-
-interface AppState {
-  // Current workspace
-  currentCampaignId: string | null;
-  setCurrentCampaign: (id: string | null) => void;
-
-  // Real-time connection
-  isWebSocketConnected: boolean;
-  setWebSocketConnected: (connected: boolean) => void;
-
-  // UI state
-  sidebarCollapsed: boolean;
-  toggleSidebar: () => void;
-
-  // Notifications
-  toasts: Toast[];
-  addToast: (toast: Omit<Toast, 'id'>) => void;
-  removeToast: (id: string) => void;
-}
-
-export const useAppStore = create<AppState>()(
-  immer((set) => ({
-    currentCampaignId: null,
-    setCurrentCampaign: (id) => set({ currentCampaignId: id }),
-
-    isWebSocketConnected: false,
-    setWebSocketConnected: (connected) => set({ isWebSocketConnected: connected }),
-
-    sidebarCollapsed: false,
-    toggleSidebar: () => set((state) => {
-      state.sidebarCollapsed = !state.sidebarCollapsed;
-    }),
-
-    toasts: [],
-    addToast: (toast) => set((state) => {
-      state.toasts.push({ ...toast, id: crypto.randomUUID() });
-    }),
-    removeToast: (id) => set((state) => {
-      state.toasts = state.toasts.filter(t => t.id !== id);
-    }),
-  }))
-);
-```
-
-**Pattern 4: Form State (React Hook Form + Zod)**
-Use for ALL forms:
-- Type-safe validation
-- Performance (minimal re-renders)
-- Built-in error handling
+**Pattern 4: Optimistic Updates (useOptimistic)**
+Use for immediate UI feedback:
+- Form submissions
+- Toggling favorites/likes
+- Reordering lists
+- Updating status
 
 ---
 
@@ -726,532 +891,792 @@ export const Route = () => {
 
 ---
 
-## 6. API Integration Layer
+## 6. API Integration Layer (Custom with Suspense)
 
-### Service Layer Architecture
+### Service Layer (Keep Existing Pattern)
 
-**Base API Client (services/api.ts):**
+**Campaign Service (services/campaigns.service.ts):**
 ```typescript
 import { fetcher } from '@/hooks/fetcher';
+import type { Campaign, CreateCampaignRequest, UpdateCampaignRequest } from '@/types';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
-export class ApiClient {
-  private baseUrl: string;
-
-  constructor(baseUrl: string = API_BASE) {
-    this.baseUrl = baseUrl;
-  }
-
-  async get<T>(endpoint: string, params?: Record<string, any>): Promise<T> {
-    const url = new URL(`${this.baseUrl}${endpoint}`);
+export const campaignsService = {
+  list: (params?: { status?: string; search?: string }) => {
+    const url = new URL(`${API_BASE}/api/campaigns`);
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          url.searchParams.append(key, String(value));
-        }
+        if (value) url.searchParams.set(key, value);
       });
     }
-    return fetcher<T>(url.toString());
-  }
+    return fetcher<Campaign[]>(url.toString());
+  },
 
-  async post<T>(endpoint: string, data?: any): Promise<T> {
-    return fetcher<T>(`${this.baseUrl}${endpoint}`, {
+  get: (id: string) => fetcher<Campaign>(`${API_BASE}/api/campaigns/${id}`),
+
+  create: (data: CreateCampaignRequest) =>
+    fetcher<Campaign>(`${API_BASE}/api/campaigns`, {
       method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
+      body: JSON.stringify(data),
+    }),
 
-  async put<T>(endpoint: string, data?: any): Promise<T> {
-    return fetcher<T>(`${this.baseUrl}${endpoint}`, {
-      method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
-
-  async patch<T>(endpoint: string, data?: any): Promise<T> {
-    return fetcher<T>(`${this.baseUrl}${endpoint}`, {
+  update: (id: string, data: UpdateCampaignRequest) =>
+    fetcher<Campaign>(`${API_BASE}/api/campaigns/${id}`, {
       method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
+      body: JSON.stringify(data),
+    }),
 
-  async delete<T>(endpoint: string): Promise<T> {
-    return fetcher<T>(`${this.baseUrl}${endpoint}`, {
-      method: 'DELETE',
-    });
-  }
+  delete: (id: string) =>
+    fetcher<void>(`${API_BASE}/api/campaigns/${id}`, { method: 'DELETE' }),
+};
+```
+
+### Custom Hooks with Suspense
+
+**Data Fetching Hook (features/campaigns/hooks/useCampaigns.ts):**
+```typescript
+import { useFetch } from '@/hooks/useFetch';
+import { campaignsService } from '@/services/campaigns.service';
+
+// GET - List campaigns (with Suspense)
+export function useCampaigns(filters?: { status?: string; search?: string }) {
+  const key = `campaigns:list:${JSON.stringify(filters || {})}`;
+
+  const campaigns = useFetch({
+    key,
+    fetcher: () => campaignsService.list(filters),
+  });
+
+  return campaigns;
 }
 
-export const apiClient = new ApiClient();
-```
+// GET - Single campaign (with Suspense)
+export function useCampaign(id: string | null) {
+  const key = id ? `campaigns:${id}` : '';
 
-### Feature Service Pattern
-
-**Example: Campaign Service (services/campaigns.service.ts):**
-```typescript
-import { apiClient } from './api';
-import type {
-  Campaign,
-  CreateCampaignRequest,
-  UpdateCampaignRequest,
-  CampaignAnalytics,
-  CampaignStats,
-} from '@/types';
-
-export const campaignsService = {
-  // List campaigns
-  list: (params?: { status?: string; search?: string }) =>
-    apiClient.get<Campaign[]>('/api/campaigns', params),
-
-  // Get single campaign
-  get: (id: string) =>
-    apiClient.get<Campaign>(`/api/campaigns/${id}`),
-
-  // Create campaign
-  create: (data: CreateCampaignRequest) =>
-    apiClient.post<Campaign>('/api/campaigns', data),
-
-  // Update campaign
-  update: (id: string, data: UpdateCampaignRequest) =>
-    apiClient.patch<Campaign>(`/api/campaigns/${id}`, data),
-
-  // Delete campaign
-  delete: (id: string) =>
-    apiClient.delete<void>(`/api/campaigns/${id}`),
-
-  // Get analytics
-  getAnalytics: (id: string, dateRange?: string) =>
-    apiClient.get<CampaignAnalytics>(`/api/campaigns/${id}/analytics`, { dateRange }),
-
-  // Get real-time stats
-  getStats: (id: string) =>
-    apiClient.get<CampaignStats>(`/api/campaigns/${id}/stats`),
-
-  // Export users
-  exportUsers: (id: string, format: 'csv' | 'xlsx') =>
-    apiClient.get<Blob>(`/api/campaigns/${id}/export`, { format }),
-};
-```
-
-### React Query Hook Pattern
-
-**Example: Campaign Hooks (features/campaigns/hooks/useCampaigns.ts):**
-```typescript
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { campaignsService } from '@/services/campaigns.service';
-import { queryKeys } from '@/lib/react-query';
-import { useToast } from '@/hooks/useToast';
-
-// GET - List campaigns
-export const useCampaigns = (filters?: { status?: string; search?: string }) => {
-  return useQuery({
-    queryKey: queryKeys.campaigns.list(JSON.stringify(filters)),
-    queryFn: () => campaignsService.list(filters),
-  });
-};
-
-// GET - Single campaign
-export const useCampaign = (id: string) => {
-  return useQuery({
-    queryKey: queryKeys.campaigns.detail(id),
-    queryFn: () => campaignsService.get(id),
+  const campaign = useFetch({
+    key,
+    fetcher: () => campaignsService.get(id!),
     enabled: !!id,
   });
-};
+
+  return campaign;
+}
+```
+
+**Mutation Hook Pattern:**
+```typescript
+import { useState, useTransition, useOptimistic } from 'react';
+import { dataCache } from '@/lib/cache';
+import { campaignsService } from '@/services/campaigns.service';
+import { useToast } from '@/contexts/AppContext';
 
 // POST - Create campaign
-export const useCreateCampaign = () => {
-  const queryClient = useQueryClient();
+export function useCreateCampaign() {
+  const [isPending, startTransition] = useTransition();
   const { showToast } = useToast();
 
-  return useMutation({
-    mutationFn: campaignsService.create,
-    onSuccess: (newCampaign) => {
-      // Invalidate campaign list to refetch
-      queryClient.invalidateQueries({ queryKey: queryKeys.campaigns.lists() });
+  const createCampaign = async (data: CreateCampaignRequest) => {
+    try {
+      const newCampaign = await campaignsService.create(data);
 
-      // Optimistically add to cache
-      queryClient.setQueryData(
-        queryKeys.campaigns.detail(newCampaign.id),
-        newCampaign
-      );
+      // Invalidate cache to trigger refetch
+      dataCache.invalidate('campaigns:list');
+      // Add to cache
+      dataCache.set(`campaigns:${newCampaign.id}`, newCampaign);
 
-      showToast({
-        type: 'success',
-        message: 'Campaign created successfully!',
-      });
-    },
-    onError: (error: any) => {
-      showToast({
-        type: 'error',
-        message: error.message || 'Failed to create campaign',
-      });
-    },
-  });
-};
+      showToast({ type: 'success', message: 'Campaign created!' });
+      return newCampaign;
+    } catch (error: any) {
+      showToast({ type: 'error', message: error.message });
+      throw error;
+    }
+  };
 
-// PATCH - Update campaign
-export const useUpdateCampaign = (id: string) => {
-  const queryClient = useQueryClient();
+  const mutate = (data: CreateCampaignRequest) => {
+    startTransition(() => {
+      createCampaign(data);
+    });
+  };
+
+  return { mutate, isPending };
+}
+
+// PATCH - Update campaign (with optimistic updates)
+export function useUpdateCampaign(id: string) {
   const { showToast } = useToast();
+  const [optimisticCampaign, setOptimisticCampaign] = useOptimistic(
+    dataCache.get<Campaign>(`campaigns:${id}`)
+  );
 
-  return useMutation({
-    mutationFn: (data: UpdateCampaignRequest) =>
-      campaignsService.update(id, data),
-    onMutate: async (updates) => {
-      // Cancel outgoing refetches
-      await queryClient.cancelQueries({
-        queryKey: queryKeys.campaigns.detail(id)
-      });
+  const updateCampaign = async (updates: Partial<Campaign>) => {
+    // Optimistic update
+    setOptimisticCampaign((current) => ({ ...current, ...updates }));
 
-      // Snapshot previous value
-      const previous = queryClient.getQueryData(
-        queryKeys.campaigns.detail(id)
-      );
+    try {
+      const updated = await campaignsService.update(id, updates);
+      dataCache.set(`campaigns:${id}`, updated);
+      dataCache.invalidate('campaigns:list');
+      showToast({ type: 'success', message: 'Campaign updated!' });
+      return updated;
+    } catch (error: any) {
+      // Revert on error
+      dataCache.invalidate(`campaigns:${id}`);
+      showToast({ type: 'error', message: error.message });
+      throw error;
+    }
+  };
 
-      // Optimistically update
-      queryClient.setQueryData(
-        queryKeys.campaigns.detail(id),
-        (old: Campaign) => ({ ...old, ...updates })
-      );
+  return { updateCampaign, optimisticCampaign };
+}
+```
 
-      return { previous };
-    },
-    onError: (error, variables, context) => {
-      // Rollback on error
-      if (context?.previous) {
-        queryClient.setQueryData(
-          queryKeys.campaigns.detail(id),
-          context.previous
-        );
+### Component Usage Pattern
+
+**With Suspense Boundary:**
+```typescript
+// features/campaigns/components/CampaignList/component.tsx
+import { Suspense } from 'react';
+import { useCampaigns } from '../../hooks/useCampaigns';
+
+function CampaignListContent() {
+  const campaigns = useCampaigns(); // Suspends while loading
+
+  return (
+    <div>
+      {campaigns.map(campaign => (
+        <CampaignCard key={campaign.id} campaign={campaign} />
+      ))}
+    </div>
+  );
+}
+
+export function CampaignList() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <CampaignListContent />
+    </Suspense>
+  );
+}
+```
+
+### Pagination Pattern (Custom Infinite Scroll)
+
+**Infinite Scroll Hook:**
+```typescript
+import { useState, useEffect, useRef } from 'react';
+
+export function useInfiniteScroll<T>(
+  fetchPage: (page: number) => Promise<T[]>,
+  pageSize = 50
+) {
+  const [items, setItems] = useState<T[]>([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const observerRef = useRef<IntersectionObserver>();
+  const lastElementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isLoading || !hasMore) return;
+
+    const loadMore = async () => {
+      setIsLoading(true);
+      try {
+        const newItems = await fetchPage(page);
+        setItems(prev => [...prev, ...newItems]);
+        setHasMore(newItems.length === pageSize);
+        setPage(prev => prev + 1);
+      } catch (error) {
+        console.error('Failed to load more:', error);
+      } finally {
+        setIsLoading(false);
       }
-      showToast({
-        type: 'error',
-        message: error.message || 'Failed to update campaign',
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.campaigns.detail(id)
-      });
-      showToast({
-        type: 'success',
-        message: 'Campaign updated successfully!',
-      });
-    },
-  });
-};
+    };
 
-// DELETE - Delete campaign
-export const useDeleteCampaign = () => {
-  const queryClient = useQueryClient();
-  const { showToast } = useToast();
-
-  return useMutation({
-    mutationFn: campaignsService.delete,
-    onSuccess: (_, deletedId) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.campaigns.lists() });
-      queryClient.removeQueries({ queryKey: queryKeys.campaigns.detail(deletedId) });
-
-      showToast({
-        type: 'success',
-        message: 'Campaign deleted successfully',
-      });
-    },
-    onError: (error: any) => {
-      showToast({
-        type: 'error',
-        message: error.message || 'Failed to delete campaign',
-      });
-    },
-  });
-};
-
-// GET - Campaign analytics
-export const useCampaignAnalytics = (
-  id: string,
-  dateRange?: string
-) => {
-  return useQuery({
-    queryKey: queryKeys.campaigns.analytics(id),
-    queryFn: () => campaignsService.getAnalytics(id, dateRange),
-    enabled: !!id,
-    refetchInterval: 60000, // Refetch every minute
-  });
-};
-```
-
-### Pagination Pattern
-
-**Infinite Scroll (for user lists):**
-```typescript
-import { useInfiniteQuery } from '@tanstack/react-query';
-
-export const useInfiniteUsers = (campaignId: string) => {
-  return useInfiniteQuery({
-    queryKey: queryKeys.users.list(campaignId),
-    queryFn: ({ pageParam = 0 }) =>
-      usersService.list(campaignId, { offset: pageParam, limit: 50 }),
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length < 50) return undefined;
-      return allPages.length * 50;
-    },
-  });
-};
-```
-
-### File Upload Pattern
-
-**Example: CSV Import (features/users/hooks/useImportUsers.ts):**
-```typescript
-export const useImportUsers = (campaignId: string) => {
-  const queryClient = useQueryClient();
-  const { showToast } = useToast();
-
-  return useMutation({
-    mutationFn: async (file: File) => {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      return fetcher<{ imported: number; failed: number }>(
-        `${import.meta.env.VITE_API_URL}/api/campaigns/${campaignId}/import`,
-        {
-          method: 'POST',
-          body: formData,
-          // Don't set Content-Type - browser will set with boundary
-          headers: {},
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          loadMore();
         }
-      );
-    },
-    onSuccess: (result) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.users.list(campaignId)
-      });
-      showToast({
-        type: 'success',
-        message: `Imported ${result.imported} users. ${result.failed} failed.`,
-      });
-    },
-  });
-};
-```
+      },
+      { threshold: 1.0 }
+    );
+
+    if (lastElementRef.current) {
+      observerRef.current.observe(lastElementRef.current);
+    }
+
+    return () => observerRef.current?.disconnect();
+  }, [page, hasMore, isLoading]);
+
+  return { items, isLoading, hasMore, lastElementRef };
+}
 
 ---
 
-## 7. Real-Time Features
+## 7. Real-Time Features (Native WebSocket)
 
-### WebSocket Architecture
+### Native WebSocket Manager
 
 **Connection Management (lib/websocket.ts):**
 ```typescript
-import { io, Socket } from 'socket.io-client';
+type EventCallback = (data: any) => void;
 
 class WebSocketManager {
-  private socket: Socket | null = null;
+  private ws: WebSocket | null = null;
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
+  private reconnectDelay = 1000;
+  private eventHandlers = new Map<string, Set<EventCallback>>();
+  private messageQueue: any[] = [];
 
   connect(userId: string) {
-    if (this.socket?.connected) return this.socket;
+    if (this.ws?.readyState === WebSocket.OPEN) return;
 
-    this.socket = io(import.meta.env.VITE_WS_URL, {
-      auth: { userId },
-      transports: ['websocket', 'polling'],
-      reconnection: true,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
-      reconnectionAttempts: this.maxReconnectAttempts,
-    });
+    const wsUrl = `${import.meta.env.VITE_WS_URL}?userId=${userId}`;
+    this.ws = new WebSocket(wsUrl);
 
-    this.socket.on('connect', () => {
+    this.ws.onopen = () => {
       console.log('WebSocket connected');
       this.reconnectAttempts = 0;
-    });
 
-    this.socket.on('disconnect', (reason) => {
-      console.log('WebSocket disconnected:', reason);
-    });
-
-    this.socket.on('connect_error', (error) => {
-      console.error('WebSocket error:', error);
-      this.reconnectAttempts++;
-
-      if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-        console.error('Max reconnection attempts reached');
-        this.disconnect();
+      // Flush message queue
+      while (this.messageQueue.length > 0) {
+        const msg = this.messageQueue.shift();
+        this.send(msg.event, msg.data);
       }
-    });
+    };
 
-    return this.socket;
+    this.ws.onmessage = (event) => {
+      try {
+        const message = JSON.parse(event.data);
+        this.handleMessage(message.event, message.data);
+      } catch (error) {
+        console.error('Failed to parse WebSocket message:', error);
+      }
+    };
+
+    this.ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    this.ws.onclose = () => {
+      console.log('WebSocket disconnected');
+      this.attemptReconnect(userId);
+    };
+  }
+
+  private attemptReconnect(userId: string) {
+    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+      console.error('Max reconnection attempts reached');
+      return;
+    }
+
+    this.reconnectAttempts++;
+    const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
+
+    setTimeout(() => {
+      console.log(`Attempting reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
+      this.connect(userId);
+    }, delay);
   }
 
   disconnect() {
-    if (this.socket) {
-      this.socket.disconnect();
-      this.socket = null;
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
     }
   }
 
-  subscribe(event: string, callback: (data: any) => void) {
-    if (!this.socket) throw new Error('Socket not connected');
-    this.socket.on(event, callback);
+  on(event: string, callback: EventCallback) {
+    if (!this.eventHandlers.has(event)) {
+      this.eventHandlers.set(event, new Set());
+    }
+    this.eventHandlers.get(event)!.add(callback);
+
+    // Return unsubscribe function
+    return () => {
+      this.off(event, callback);
+    };
   }
 
-  unsubscribe(event: string, callback?: (data: any) => void) {
-    if (!this.socket) return;
-    if (callback) {
-      this.socket.off(event, callback);
+  off(event: string, callback: EventCallback) {
+    const handlers = this.eventHandlers.get(event);
+    if (handlers) {
+      handlers.delete(callback);
+      if (handlers.size === 0) {
+        this.eventHandlers.delete(event);
+      }
+    }
+  }
+
+  send(event: string, data?: any) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({ event, data }));
     } else {
-      this.socket.off(event);
+      // Queue message for later
+      this.messageQueue.push({ event, data });
     }
   }
 
-  emit(event: string, data?: any) {
-    if (!this.socket) throw new Error('Socket not connected');
-    this.socket.emit(event, data);
+  private handleMessage(event: string, data: any) {
+    const handlers = this.eventHandlers.get(event);
+    if (handlers) {
+      handlers.forEach(callback => callback(data));
+    }
+  }
+
+  isConnected(): boolean {
+    return this.ws?.readyState === WebSocket.OPEN;
   }
 }
 
 export const wsManager = new WebSocketManager();
 ```
 
-### React Hook for WebSocket
+### WebSocket Context
 
-**Custom Hook (hooks/useWebSocket.ts):**
+**Context Provider (contexts/WebSocketContext.tsx):**
 ```typescript
-import { useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { wsManager } from '@/lib/websocket';
 import { useAuth } from '@/features/auth/hooks/useAuth';
-import { useAppStore } from '@/lib/store';
-import { queryKeys } from '@/lib/react-query';
+import { dataCache } from '@/lib/cache';
 
-export const useWebSocket = () => {
+interface WebSocketContextValue {
+  isConnected: boolean;
+  send: (event: string, data?: any) => void;
+}
+
+const WebSocketContext = createContext<WebSocketContextValue | undefined>(undefined);
+
+export function WebSocketProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const queryClient = useQueryClient();
-  const { setWebSocketConnected } = useAppStore();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     if (!user) return;
 
-    const socket = wsManager.connect(user.id);
+    wsManager.connect(user.id);
 
-    socket.on('connect', () => {
-      setWebSocketConnected(true);
-    });
+    // Track connection status
+    const checkConnection = setInterval(() => {
+      setIsConnected(wsManager.isConnected());
+    }, 1000);
 
-    socket.on('disconnect', () => {
-      setWebSocketConnected(false);
-    });
+    // Subscribe to real-time events and invalidate cache
+    const unsubscribers = [
+      wsManager.on('user:created', (data) => {
+        dataCache.invalidate(`users:list:${data.campaignId}`);
+        dataCache.invalidate(`campaigns:${data.campaignId}`);
+      }),
 
-    // Real-time event handlers
-    socket.on('user:created', (data: { campaignId: string; user: User }) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.users.list(data.campaignId)
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.campaigns.detail(data.campaignId)
-      });
-    });
+      wsManager.on('referral:created', (data) => {
+        dataCache.invalidate(`referrals:user:${data.userId}`);
+      }),
 
-    socket.on('referral:created', (data: { userId: string; referral: Referral }) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.referrals.userReferrals(data.userId)
-      });
-    });
+      wsManager.on('position:updated', (data) => {
+        dataCache.invalidate(`users:${data.userId}`);
+      }),
 
-    socket.on('position:updated', (data: { userId: string; newPosition: number }) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.users.detail(data.userId)
-      });
-    });
+      wsManager.on('leaderboard:updated', (data) => {
+        dataCache.invalidate(`leaderboard:${data.campaignId}`);
+      }),
 
-    socket.on('leaderboard:updated', (data: { campaignId: string }) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.referrals.leaderboard(data.campaignId)
-      });
-    });
-
-    socket.on('campaign:milestone', (data: { campaignId: string; milestone: string }) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.campaigns.detail(data.campaignId)
-      });
-      // Show celebration animation
-    });
+      wsManager.on('campaign:milestone', (data) => {
+        dataCache.invalidate(`campaigns:${data.campaignId}`);
+      }),
+    ];
 
     return () => {
+      clearInterval(checkConnection);
+      unsubscribers.forEach(unsub => unsub());
       wsManager.disconnect();
-      setWebSocketConnected(false);
     };
   }, [user?.id]);
-};
-```
-
-### Real-Time Component Pattern
-
-**Example: Live Position Tracker (features/referrals/components/PositionTracker):**
-```typescript
-export const PositionTracker = memo<{ userId: string }>(({ userId }) => {
-  const [position, setPosition] = useState<number | null>(null);
-  const [previousPosition, setPreviousPosition] = useState<number | null>(null);
-  const { data: user } = useUser(userId);
-
-  useEffect(() => {
-    if (user?.position) {
-      setPreviousPosition(position);
-      setPosition(user.position);
-    }
-  }, [user?.position]);
-
-  useEffect(() => {
-    const handlePositionUpdate = (data: { userId: string; newPosition: number }) => {
-      if (data.userId === userId) {
-        setPreviousPosition(position);
-        setPosition(data.newPosition);
-      }
-    };
-
-    wsManager.subscribe('position:updated', handlePositionUpdate);
-
-    return () => {
-      wsManager.unsubscribe('position:updated', handlePositionUpdate);
-    };
-  }, [userId, position]);
-
-  const improved = previousPosition && position && position < previousPosition;
 
   return (
-    <div className={styles.tracker}>
-      <div className={styles.position}>
-        <span className={styles.label}>Your Position</span>
-        <motion.span
-          className={styles.value}
-          animate={improved ? { scale: [1, 1.2, 1] } : {}}
-        >
-          #{position || '...'}
-        </motion.span>
-      </div>
+    <WebSocketContext.Provider value={{ isConnected, send: wsManager.send.bind(wsManager) }}>
+      {children}
+    </WebSocketContext.Provider>
+  );
+}
 
-      {improved && (
-        <motion.div
-          className={styles.badge}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          ↑ Moved up {previousPosition - position} spots!
-        </motion.div>
-      )}
+export function useWebSocket() {
+  const context = useContext(WebSocketContext);
+  if (!context) throw new Error('useWebSocket must be used within WebSocketProvider');
+  return context;
+}
+```
 
-      {improved && <Confetti recycle={false} numberOfPieces={50} />}
-    </div>
+### Custom Confetti Animation
+
+**Confetti Component (components/Confetti/component.tsx):**
+```typescript
+import { useEffect, useRef, memo } from 'react';
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  rotation: number;
+  rotationSpeed: number;
+  color: string;
+  size: number;
+}
+
+export const Confetti = memo<{ recycle?: boolean; numberOfPieces?: number }>(({
+  recycle = false,
+  numberOfPieces = 50,
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particles = useRef<Particle[]>([]);
+  const animationFrame = useRef<number>();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+
+    // Initialize particles
+    particles.current = Array.from({ length: numberOfPieces }, () => ({
+      x: Math.random() * canvas.width,
+      y: -10,
+      vx: (Math.random() - 0.5) * 4,
+      vy: Math.random() * 3 + 2,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 10,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: Math.random() * 8 + 4,
+    }));
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
+
+      particles.current.forEach((p, i) => {
+        // Update position
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rotation += p.rotationSpeed;
+        p.vy += 0.1; // Gravity
+
+        // Draw particle
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+
+        // Reset if off-screen
+        if (p.y > canvas!.height) {
+          if (recycle) {
+            p.y = -10;
+            p.x = Math.random() * canvas!.width;
+          } else {
+            particles.current.splice(i, 1);
+          }
+        }
+      });
+
+      if (particles.current.length > 0 || recycle) {
+        animationFrame.current = requestAnimationFrame(animate);
+      }
+    }
+
+    animate();
+
+    return () => {
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+    };
+  }, [recycle, numberOfPieces]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        zIndex: 9999,
+      }}
+    />
   );
 });
-```
 
 ---
 
-## 8. Form Management System
+## 8. Form Management System (React 19 Actions)
+
+### Custom Form Validation
+
+**Validation Utils (utils/validation.utils.ts):**
+```typescript
+export type ValidationRule<T = any> = {
+  validate: (value: T) => boolean;
+  message: string;
+};
+
+export type FieldValidation<T = any> = {
+  required?: boolean | string;
+  minLength?: { value: number; message: string };
+  maxLength?: { value: number; message: string };
+  pattern?: { value: RegExp; message: string };
+  custom?: ValidationRule<T>[];
+};
+
+export function validateField<T>(
+  value: T,
+  rules: FieldValidation<T>
+): string | null {
+  // Required check
+  if (rules.required) {
+    const isEmpty = value === null || value === undefined || value === '';
+    if (isEmpty) {
+      return typeof rules.required === 'string'
+        ? rules.required
+        : 'This field is required';
+    }
+  }
+
+  // Min length
+  if (rules.minLength && typeof value === 'string') {
+    if (value.length < rules.minLength.value) {
+      return rules.minLength.message;
+    }
+  }
+
+  // Max length
+  if (rules.maxLength && typeof value === 'string') {
+    if (value.length > rules.maxLength.value) {
+      return rules.maxLength.message;
+    }
+  }
+
+  // Pattern
+  if (rules.pattern && typeof value === 'string') {
+    if (!rules.pattern.value.test(value)) {
+      return rules.pattern.message;
+    }
+  }
+
+  // Custom validators
+  if (rules.custom) {
+    for (const rule of rules.custom) {
+      if (!rule.validate(value)) {
+        return rule.message;
+      }
+    }
+  }
+
+  return null;
+}
+
+export function validateForm<T extends Record<string, any>>(
+  data: T,
+  schema: Record<keyof T, FieldValidation>
+): Record<keyof T, string | null> {
+  const errors = {} as Record<keyof T, string | null>;
+
+  for (const key in schema) {
+    errors[key] = validateField(data[key], schema[key]);
+  }
+
+  return errors;
+}
+```
+
+### Form Hook with React 19 useActionState
+
+**Custom Form Hook (hooks/useForm.ts):**
+```typescript
+import { useActionState, useOptimistic, useState } from 'react';
+
+interface UseFormOptions<T> {
+  initialValues: T;
+  validate?: (values: T) => Partial<Record<keyof T, string>>;
+  onSubmit: (values: T) => Promise<{ success: boolean; error?: string }>;
+}
+
+export function useForm<T extends Record<string, any>>({
+  initialValues,
+  validate,
+  onSubmit,
+}: UseFormOptions<T>) {
+  const [values, setValues] = useState<T>(initialValues);
+  const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof T, boolean>>>({});
+
+  // React 19 useActionState for form submission
+  const [state, submitAction, isPending] = useActionState(
+    async (prevState: any, formData: FormData) => {
+      // Convert FormData to values object
+      const formValues = Object.fromEntries(formData) as T;
+
+      // Validate
+      if (validate) {
+        const validationErrors = validate(formValues);
+        if (Object.keys(validationErrors).length > 0) {
+          setErrors(validationErrors);
+          return { success: false, errors: validationErrors };
+        }
+      }
+
+      // Submit
+      try {
+        const result = await onSubmit(formValues);
+        if (result.success) {
+          // Reset form on success
+          setValues(initialValues);
+          setErrors({});
+          setTouched({});
+        }
+        return result;
+      } catch (error: any) {
+        return { success: false, error: error.message };
+      }
+    },
+    { success: false }
+  );
+
+  const handleChange = (name: keyof T, value: any) => {
+    setValues((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleBlur = (name: keyof T) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+
+    // Validate on blur
+    if (validate && touched[name]) {
+      const validationErrors = validate(values);
+      if (validationErrors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: validationErrors[name] }));
+      }
+    }
+  };
+
+  return {
+    values,
+    errors,
+    touched,
+    isPending,
+    submitAction,
+    handleChange,
+    handleBlur,
+    setFieldError: (name: keyof T, error: string) =>
+      setErrors((prev) => ({ ...prev, [name]: error })),
+  };
+}
+```
+
+### Form Component Pattern
+
+**Example: Campaign Form:**
+```typescript
+import { memo } from 'react';
+import { useForm } from '@/hooks/useForm';
+import { TextInput } from '@/proto-design-system/TextInput';
+import { Button } from '@/proto-design-system/Button';
+import styles from './component.module.scss';
+
+interface CampaignFormData {
+  name: string;
+  description: string;
+  redirectUrl: string;
+}
+
+export const CampaignForm = memo<{
+  initialData?: Partial<CampaignFormData>;
+  onSubmit: (data: CampaignFormData) => Promise<{ success: boolean; error?: string }>;
+}>(({ initialData, onSubmit }) => {
+  const { values, errors, touched, isPending, submitAction, handleChange, handleBlur } =
+    useForm({
+      initialValues: {
+        name: initialData?.name || '',
+        description: initialData?.description || '',
+        redirectUrl: initialData?.redirectUrl || '',
+      },
+      validate: (values) => {
+        const errors: any = {};
+
+        if (!values.name || values.name.length < 3) {
+          errors.name = 'Name must be at least 3 characters';
+        }
+
+        if (values.name && values.name.length > 100) {
+          errors.name = 'Name must be less than 100 characters';
+        }
+
+        if (values.description && values.description.length > 500) {
+          errors.description = 'Description must be less than 500 characters';
+        }
+
+        if (values.redirectUrl && !/^https?:\/\/.+/.test(values.redirectUrl)) {
+          errors.redirectUrl = 'Please enter a valid URL';
+        }
+
+        return errors;
+      },
+      onSubmit,
+    });
+
+  return (
+    <form action={submitAction} className={styles.form}>
+      <TextInput
+        name="name"
+        label="Campaign Name"
+        value={values.name}
+        onChange={(e) => handleChange('name', e.target.value)}
+        onBlur={() => handleBlur('name')}
+        error={touched.name ? errors.name : undefined}
+        required
+      />
+
+      <textarea
+        name="description"
+        placeholder="Describe your campaign..."
+        value={values.description}
+        onChange={(e) => handleChange('description', e.target.value)}
+        onBlur={() => handleBlur('description')}
+        className={styles.textarea}
+      />
+      {touched.description && errors.description && (
+        <span className={styles.error}>{errors.description}</span>
+      )}
+
+      <TextInput
+        name="redirectUrl"
+        label="Redirect URL (optional)"
+        type="url"
+        value={values.redirectUrl}
+        onChange={(e) => handleChange('redirectUrl', e.target.value)}
+        onBlur={() => handleBlur('redirectUrl')}
+        error={touched.redirectUrl ? errors.redirectUrl : undefined}
+      />
+
+      <Button type="submit" loading={isPending}>
+        {initialData ? 'Update Campaign' : 'Create Campaign'}
+      </Button>
+    </form>
+  );
+});
+```
 
 ### Form Builder Architecture
 
