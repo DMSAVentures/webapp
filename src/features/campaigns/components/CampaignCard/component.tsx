@@ -4,7 +4,6 @@
  */
 
 import { memo, type HTMLAttributes } from 'react';
-import { format } from 'date-fns';
 import { StatusBadge } from '@/proto-design-system/StatusBadge/component';
 import type { Campaign } from '@/types/common.types';
 import styles from './component.module.scss';
@@ -175,7 +174,11 @@ export const CampaignCard = memo<CampaignCardProps>(
         <div className={styles.footer}>
           <span className={styles.date}>
             <i className="ri-calendar-line" aria-hidden="true" />
-            Created {format(campaign.createdAt, 'MMM d, yyyy')}
+            Created {new Date(campaign.createdAt).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            })}
           </span>
         </div>
       </div>
