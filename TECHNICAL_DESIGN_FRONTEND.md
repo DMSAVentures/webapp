@@ -100,11 +100,23 @@
 
 **Why This Approach:**
 - 🎯 Full control over implementation
-- 📦 Minimal bundle size
+- 📦 Minimal bundle size (~150KB total vs 500KB+ with libraries)
 - 🚀 Better performance (no library overhead)
 - 🧠 Deep understanding of React 19 features
 - 🔧 Easier debugging and maintenance
 - 💪 Team learning and ownership
+
+**Key Decisions Summary:**
+| Feature | Decision | Rationale |
+|---------|----------|-----------|
+| State Management | Context + useReducer + custom cache | React 19 native, no external deps |
+| Data Fetching | Custom cache + Suspense + `use()` | Leverage React 19, full control |
+| Forms | Custom validation + useActionState | React 19 Actions, no Zod/RHF needed |
+| Real-Time | Polling (Phase 1) → WebSocket (Phase 2-3) | Start simple, optimize later |
+| Animations | CSS + Web Animations API + Canvas | Native browser APIs |
+| Routing | TanStack Router | Only external lib (worth it for type safety) |
+| Charts | Recharts | Complex to build, use library |
+| Dates | date-fns | Standard utility, small size |
 
 ---
 
@@ -1116,304 +1128,86 @@ export function useInfiniteScroll<T>(
 
 ---
 
-## 7. Real-Time Features (Native WebSocket)
+## 7. Real-Time Features
 
-### Native WebSocket Manager
+### Real-Time Requirements from PRD
 
-**Connection Management (lib/websocket.ts):**
+The PRD requires real-time updates for:
+1. **Position Tracking** - Users see position changes instantly when referrals sign up
+2. **Leaderboard** - Live leaderboard updates create competition
+3. **Activity Feed** - "John just signed up!" creates social proof
+4. **Viral Loop** - Instant feedback = more sharing (critical for K-factor >1.2)
+
+### Implementation Options
+
+**Option A: Polling (Simpler, Phase 1)**
+- Poll API every 5-10 seconds
+- Pros: Simple, no WebSocket infrastructure
+- Cons: Higher server load, 5-10s delay, more bandwidth
+- Good for MVP/early stages
+
+**Option B: WebSocket (Better UX, Phase 2-3)**
+- Real-time push updates <1s
+- Pros: Instant updates, lower bandwidth, better UX
+- Cons: More complex, requires WebSocket server
+- Recommended for scale
+
+**Decision:** Use polling for Phase 1 (simpler, faster to implement). WebSocket can be added in Phase 2-3 for optimization.
+
+---
+
+### Polling Implementation (Phase 1)
+
+**Polling Hook (hooks/usePolling.ts):**
 ```typescript
-type EventCallback = (data: any) => void;
-
-class WebSocketManager {
-  private ws: WebSocket | null = null;
-  private reconnectAttempts = 0;
-  private maxReconnectAttempts = 5;
-  private reconnectDelay = 1000;
-  private eventHandlers = new Map<string, Set<EventCallback>>();
-  private messageQueue: any[] = [];
-
-  connect(userId: string) {
-    if (this.ws?.readyState === WebSocket.OPEN) return;
-
-    const wsUrl = `${import.meta.env.VITE_WS_URL}?userId=${userId}`;
-    this.ws = new WebSocket(wsUrl);
-
-    this.ws.onopen = () => {
-      console.log('WebSocket connected');
-      this.reconnectAttempts = 0;
-
-      // Flush message queue
-      while (this.messageQueue.length > 0) {
-        const msg = this.messageQueue.shift();
-        this.send(msg.event, msg.data);
-      }
-    };
-
-    this.ws.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        this.handleMessage(message.event, message.data);
-      } catch (error) {
-        console.error('Failed to parse WebSocket message:', error);
-      }
-    };
-
-    this.ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    this.ws.onclose = () => {
-      console.log('WebSocket disconnected');
-      this.attemptReconnect(userId);
-    };
-  }
-
-  private attemptReconnect(userId: string) {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error('Max reconnection attempts reached');
-      return;
-    }
-
-    this.reconnectAttempts++;
-    const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
-
-    setTimeout(() => {
-      console.log(`Attempting reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
-      this.connect(userId);
-    }, delay);
-  }
-
-  disconnect() {
-    if (this.ws) {
-      this.ws.close();
-      this.ws = null;
-    }
-  }
-
-  on(event: string, callback: EventCallback) {
-    if (!this.eventHandlers.has(event)) {
-      this.eventHandlers.set(event, new Set());
-    }
-    this.eventHandlers.get(event)!.add(callback);
-
-    // Return unsubscribe function
-    return () => {
-      this.off(event, callback);
-    };
-  }
-
-  off(event: string, callback: EventCallback) {
-    const handlers = this.eventHandlers.get(event);
-    if (handlers) {
-      handlers.delete(callback);
-      if (handlers.size === 0) {
-        this.eventHandlers.delete(event);
-      }
-    }
-  }
-
-  send(event: string, data?: any) {
-    if (this.ws?.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({ event, data }));
-    } else {
-      // Queue message for later
-      this.messageQueue.push({ event, data });
-    }
-  }
-
-  private handleMessage(event: string, data: any) {
-    const handlers = this.eventHandlers.get(event);
-    if (handlers) {
-      handlers.forEach(callback => callback(data));
-    }
-  }
-
-  isConnected(): boolean {
-    return this.ws?.readyState === WebSocket.OPEN;
-  }
-}
-
-export const wsManager = new WebSocketManager();
-```
-
-### WebSocket Context
-
-**Context Provider (contexts/WebSocketContext.tsx):**
-```typescript
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { wsManager } from '@/lib/websocket';
-import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useEffect, useRef } from 'react';
 import { dataCache } from '@/lib/cache';
 
-interface WebSocketContextValue {
-  isConnected: boolean;
-  send: (event: string, data?: any) => void;
-}
-
-const WebSocketContext = createContext<WebSocketContextValue | undefined>(undefined);
-
-export function WebSocketProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
-  const [isConnected, setIsConnected] = useState(false);
+export function usePolling(
+  cacheKey: string,
+  fetchFn: () => Promise<any>,
+  interval = 10000 // 10 seconds
+) {
+  const intervalRef = useRef<number>();
 
   useEffect(() => {
-    if (!user) return;
+    // Poll immediately
+    fetchFn().then(data => dataCache.set(cacheKey, data));
 
-    wsManager.connect(user.id);
-
-    // Track connection status
-    const checkConnection = setInterval(() => {
-      setIsConnected(wsManager.isConnected());
-    }, 1000);
-
-    // Subscribe to real-time events and invalidate cache
-    const unsubscribers = [
-      wsManager.on('user:created', (data) => {
-        dataCache.invalidate(`users:list:${data.campaignId}`);
-        dataCache.invalidate(`campaigns:${data.campaignId}`);
-      }),
-
-      wsManager.on('referral:created', (data) => {
-        dataCache.invalidate(`referrals:user:${data.userId}`);
-      }),
-
-      wsManager.on('position:updated', (data) => {
-        dataCache.invalidate(`users:${data.userId}`);
-      }),
-
-      wsManager.on('leaderboard:updated', (data) => {
-        dataCache.invalidate(`leaderboard:${data.campaignId}`);
-      }),
-
-      wsManager.on('campaign:milestone', (data) => {
-        dataCache.invalidate(`campaigns:${data.campaignId}`);
-      }),
-    ];
+    // Set up interval
+    intervalRef.current = window.setInterval(() => {
+      fetchFn().then(data => dataCache.set(cacheKey, data));
+    }, interval);
 
     return () => {
-      clearInterval(checkConnection);
-      unsubscribers.forEach(unsub => unsub());
-      wsManager.disconnect();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
-  }, [user?.id]);
-
-  return (
-    <WebSocketContext.Provider value={{ isConnected, send: wsManager.send.bind(wsManager) }}>
-      {children}
-    </WebSocketContext.Provider>
-  );
-}
-
-export function useWebSocket() {
-  const context = useContext(WebSocketContext);
-  if (!context) throw new Error('useWebSocket must be used within WebSocketProvider');
-  return context;
+  }, [cacheKey, interval]);
 }
 ```
 
-### Custom Confetti Animation
-
-**Confetti Component (components/Confetti/component.tsx):**
+**Usage in Components:**
 ```typescript
-import { useEffect, useRef, memo } from 'react';
-
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  rotation: number;
-  rotationSpeed: number;
-  color: string;
-  size: number;
-}
-
-export const Confetti = memo<{ recycle?: boolean; numberOfPieces?: number }>(({
-  recycle = false,
-  numberOfPieces = 50,
-}) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particles = useRef<Particle[]>([]);
-  const animationFrame = useRef<number>();
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d')!;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-
-    // Initialize particles
-    particles.current = Array.from({ length: numberOfPieces }, () => ({
-      x: Math.random() * canvas.width,
-      y: -10,
-      vx: (Math.random() - 0.5) * 4,
-      vy: Math.random() * 3 + 2,
-      rotation: Math.random() * 360,
-      rotationSpeed: (Math.random() - 0.5) * 10,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      size: Math.random() * 8 + 4,
-    }));
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
-
-      particles.current.forEach((p, i) => {
-        // Update position
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.rotationSpeed;
-        p.vy += 0.1; // Gravity
-
-        // Draw particle
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-        ctx.restore();
-
-        // Reset if off-screen
-        if (p.y > canvas!.height) {
-          if (recycle) {
-            p.y = -10;
-            p.x = Math.random() * canvas!.width;
-          } else {
-            particles.current.splice(i, 1);
-          }
-        }
-      });
-
-      if (particles.current.length > 0 || recycle) {
-        animationFrame.current = requestAnimationFrame(animate);
-      }
-    }
-
-    animate();
-
-    return () => {
-      if (animationFrame.current) {
-        cancelAnimationFrame(animationFrame.current);
-      }
-    };
-  }, [recycle, numberOfPieces]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        pointerEvents: 'none',
-        zIndex: 9999,
-      }}
-    />
+// Poll leaderboard every 10 seconds
+export function Leaderboard({ campaignId }: { campaignId: string }) {
+  usePolling(
+    `leaderboard:${campaignId}`,
+    () => leaderboardService.get(campaignId),
+    10000
   );
-});
+
+  const leaderboard = useFetch({
+    key: `leaderboard:${campaignId}`,
+    fetcher: () => leaderboardService.get(campaignId),
+  });
+
+  return <LeaderboardDisplay data={leaderboard} />;
+}
+```
+
+**Note:** WebSocket implementation details available in the appendix for Phase 2-3 optimization.
 
 ---
 
@@ -2268,33 +2062,84 @@ export const OptimizedImage = memo<{
 });
 ```
 
-### Virtualization (Large Lists)
+### Virtualization (Custom Implementation)
 
-**Use react-window for user lists:**
+**Virtual Scroll Hook (hooks/useVirtualScroll.ts):**
 ```typescript
-import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
-export const VirtualizedUserList = memo<{ users: User[] }>(({ users }) => {
-  const Row = ({ index, style }: { index: number; style: CSSProperties }) => (
-    <div style={style}>
-      <UserListItem user={users[index]} />
-    </div>
+export function useVirtualScroll<T>(
+  items: T[],
+  itemHeight: number,
+  containerHeight: number
+) {
+  const [scrollTop, setScrollTop] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Calculate visible range
+  const { startIndex, endIndex, offsetY } = useMemo(() => {
+    const startIndex = Math.floor(scrollTop / itemHeight);
+    const endIndex = Math.min(
+      items.length - 1,
+      Math.ceil((scrollTop + containerHeight) / itemHeight)
+    );
+    const offsetY = startIndex * itemHeight;
+
+    return { startIndex, endIndex, offsetY };
+  }, [scrollTop, items.length, itemHeight, containerHeight]);
+
+  const visibleItems = useMemo(
+    () => items.slice(startIndex, endIndex + 1),
+    [items, startIndex, endIndex]
   );
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      setScrollTop(container.scrollTop);
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const totalHeight = items.length * itemHeight;
+
+  return {
+    containerRef,
+    visibleItems,
+    startIndex,
+    offsetY,
+    totalHeight,
+  };
+}
+```
+
+**Usage:**
+```typescript
+export const VirtualizedUserList = memo<{ users: User[] }>(({ users }) => {
+  const { containerRef, visibleItems, startIndex, offsetY, totalHeight } =
+    useVirtualScroll(users, 80, 600);
+
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <FixedSizeList
-          height={height}
-          itemCount={users.length}
-          itemSize={80}
-          width={width}
-        >
-          {Row}
-        </FixedSizeList>
-      )}
-    </AutoSizer>
+    <div
+      ref={containerRef}
+      style={{ height: 600, overflow: 'auto' }}
+    >
+      <div style={{ height: totalHeight, position: 'relative' }}>
+        <div style={{ transform: `translateY(${offsetY}px)` }}>
+          {visibleItems.map((user, i) => (
+            <UserListItem
+              key={user.id}
+              user={user}
+              index={startIndex + i}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 });
 ```
