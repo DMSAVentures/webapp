@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/colors" as colors;
 
 .root {
   display: grid;
@@ -30,7 +31,7 @@
 
   &:hover {
     border-color: var(--color-border-primary-hover);
-    box-shadow: 0 layout.$spacing-01 layout.$spacing-03 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 layout.$spacing-01 layout.$spacing-03 var(--color-shadow-default);
   }
 }
 
@@ -53,13 +54,13 @@
   }
 
   &.statIconPurple {
-    background-color: hsl(270, 70%, 95%);
-    color: hsl(270, 70%, 40%);
+    background-color: colors.$color-purple-50;
+    color: colors.$color-purple-600;
   }
 
   &.statIconOrange {
-    background-color: hsl(30, 90%, 95%);
-    color: hsl(30, 90%, 45%);
+    background-color: colors.$color-orange-50;
+    color: colors.$color-orange-600;
   }
 }
 

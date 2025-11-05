@@ -33,18 +33,22 @@ export const TextArea = (props: TextAreaProps) => {
 				/>
 			) : null}
 			<textarea {...props} onChange={handleChange} />
-			{props.minLength || props.maxLength ? (
-				<small
-					className={`${styles["text-area__character-count"]} ${unfullfilledCharacters ? styles["text-area__character-count--error"] : ""}`}
-				>
-					{charCount} of {props.minLength || 0}-{props.maxLength} characters
-				</small>
-			) : null}
-			{props.hint && (
-				<HintText
-					hintText={props.hint}
-					state={props.error ? "error" : "default"}
-				/>
+			{(props.minLength || props.maxLength || props.hint) && (
+				<div className={styles["text-area__footer"]}>
+					{props.hint && (
+						<HintText
+							hintText={props.hint}
+							state={props.error ? "error" : "default"}
+						/>
+					)}
+					{props.minLength || props.maxLength ? (
+						<small
+							className={`${styles["text-area__character-count"]} ${unfullfilledCharacters ? styles["text-area__character-count--error"] : ""}`}
+						>
+							{charCount} of {props.minLength || 0}-{props.maxLength} characters
+						</small>
+					) : null}
+				</div>
 			)}
 		</div>
 	);

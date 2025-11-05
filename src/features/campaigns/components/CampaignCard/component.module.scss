@@ -17,7 +17,7 @@
 
   &:hover {
     border-color: var(--color-border-primary-hover);
-    box-shadow: 0 layout.$spacing-02 (layout.$spacing-04 * 1.5) rgba(0, 0, 0, 0.08);
+    box-shadow: 0 layout.$spacing-02 (layout.$spacing-04 * 1.5) var(--color-shadow-default);
     transform: translateY(calc(-1 * layout.$spacing-01));
 
     .actions {
@@ -108,7 +108,7 @@
   background-color: var(--color-surface-primary-default);
   border: border.$border-width-small solid var(--color-border-primary-default);
   border-radius: layout.$spacing-02;
-  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
   padding: layout.$spacing-02;
   z-index: 10;
   opacity: 0;
@@ -151,7 +151,7 @@
   }
 
   &.actionMenuItemDanger {
-    color: var(--color-text-danger-default);
+    color: var(--color-error-text);
 
     &:hover {
       background-color: var(--color-bg-danger-hover);

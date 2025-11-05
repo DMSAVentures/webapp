@@ -59,7 +59,7 @@
   &:focus {
     outline: none;
     border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 layout.$spacing-01 rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
   }
 
   &::placeholder {
@@ -164,7 +164,7 @@
   &.viewButtonActive {
     background-color: var(--color-bg-primary-default);
     color: var(--color-text-primary-default);
-    box-shadow: 0 layout.$spacing-01 layout.$spacing-02 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 layout.$spacing-01 layout.$spacing-02 var(--color-shadow-default);
   }
 
   i {

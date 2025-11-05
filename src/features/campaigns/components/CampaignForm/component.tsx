@@ -10,6 +10,7 @@ import { Button } from '@/proto-design-system/Button/button';
 import { TextInput } from '@/proto-design-system/TextInput/textInput';
 import { TextArea } from '@/proto-design-system/TextArea/textArea';
 import CheckboxWithLabel from '@/proto-design-system/checkbox/checkboxWithLabel';
+import ContentDivider from '@/proto-design-system/contentdivider/contentdivider';
 import styles from './component.module.scss';
 
 export interface CampaignFormData {
@@ -156,7 +157,7 @@ export const CampaignForm = memo<CampaignFormProps>(
           onChange={(e) => handleChange('description', e.target.value)}
           onBlur={() => handleBlur('description')}
           placeholder="Describe your campaign..."
-          rows={3}
+          rows={5}
           disabled={loading}
           maxLength={500}
           error={touched.description ? errors.description : undefined}
@@ -214,6 +215,9 @@ export const CampaignForm = memo<CampaignFormProps>(
             </select>
           </div>
         </div>
+
+        {/* Divider */}
+        <ContentDivider size="thin" />
 
         {/* Form Actions */}
         <div className={styles.actions}>
