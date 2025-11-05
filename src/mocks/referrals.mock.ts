@@ -544,6 +544,7 @@ export const mockReferralsBySource = {
   linkedin: mockReferrals.filter((r) => r.source === 'linkedin'),
   whatsapp: mockReferrals.filter((r) => r.source === 'whatsapp'),
   instagram: mockReferrals.filter((r) => r.source === 'instagram'),
+  telegram: mockReferrals.filter((r) => r.source === 'telegram'),
   other: mockReferrals.filter((r) => r.source === 'other'),
 };
 

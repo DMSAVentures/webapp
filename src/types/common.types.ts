@@ -97,7 +97,7 @@ export interface Referral {
   referredUserId: string;
   campaignId: string;
   status: 'clicked' | 'signed_up' | 'verified' | 'converted';
-  source: 'link' | 'email' | 'twitter' | 'facebook' | 'linkedin' | 'whatsapp' | 'other';
+  source: 'link' | 'email' | 'twitter' | 'facebook' | 'linkedin' | 'whatsapp' | 'instagram' | 'telegram' | 'other';
   createdAt: Date;
   verifiedAt?: Date;
 }
@@ -359,7 +359,7 @@ export interface Webhook {
   campaignId: string;
   name: string;
   url: string;
-  events: ('user.created' | 'user.verified' | 'referral.created' | 'reward.earned' | 'campaign.milestone')[];
+  events: ('user.created' | 'user.verified' | 'user.invited' | 'referral.created' | 'reward.earned' | 'campaign.milestone')[];
   status: 'active' | 'inactive';
   secret?: string;
   headers?: Record<string, string>;
