@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-// Field styles
+// Field styles (for select dropdown only)
 .field {
   display: flex;
   flex-direction: column;
@@ -24,17 +24,6 @@
   color: var(--color-text-primary-default);
 }
 
-.required {
-  color: var(--color-text-danger-default);
-}
-
-.optional {
-  font-weight: $font-weight-normal;
-  color: var(--color-text-tertiary-default);
-}
-
-.input,
-.textarea,
 .select {
   width: 100%;
   padding: $spacing-03;
@@ -44,6 +33,12 @@
   color: var(--color-text-primary-default);
   font-size: $font-size-md;
   font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-03 center;
+  padding-right: $spacing-10;
   transition: all $duration-fast-01 $easing-productive-standard;
 
   &:focus {
@@ -56,51 +51,6 @@
     opacity: 0.6;
     cursor: not-allowed;
     background-color: var(--color-bg-secondary-default);
-  }
-
-  &::placeholder {
-    color: var(--color-text-tertiary-default);
-  }
-
-  &.inputError {
-    border-color: var(--color-border-danger-default);
-
-    &:focus {
-      border-color: var(--color-border-danger-hover);
-      box-shadow: 0 0 0 $spacing-02 rgba(239, 68, 68, 0.1);
-    }
-  }
-}
-
-.textarea {
-  resize: vertical;
-  min-height: $spacing-11;
-  line-height: $line-height-body;
-}
-
-.select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right $spacing-03 center;
-  padding-right: $spacing-10;
-}
-
-.fieldHelp {
-  font-size: $font-size-xs;
-  color: var(--color-text-tertiary-default);
-}
-
-.errorMessage {
-  display: flex;
-  align-items: center;
-  gap: $spacing-02;
-  font-size: $font-size-xs;
-  color: var(--color-text-danger-default);
-
-  i {
-    font-size: $font-size-sm;
   }
 }
 
@@ -122,58 +72,6 @@
   color: var(--color-text-primary-default);
 }
 
-// Checkbox field
-.checkboxField {
-  display: flex;
-}
-
-.checkboxLabel {
-  display: flex;
-  gap: $spacing-03;
-  cursor: pointer;
-  user-select: none;
-
-  &:hover .checkbox {
-    border-color: var(--color-border-primary-hover);
-  }
-}
-
-.checkbox {
-  width: $spacing-05;
-  height: $spacing-05;
-  min-width: $spacing-05;
-  margin-top: $spacing-01;
-  cursor: pointer;
-  accent-color: var(--color-bg-info-default);
-
-  &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.checkboxText {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-01;
-
-  strong {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semibold;
-    color: var(--color-text-primary-default);
-  }
-}
-
-.checkboxDescription {
-  font-size: $font-size-xs;
-  color: var(--color-text-secondary-default);
-  line-height: $line-height-body;
-}
 
 // Form actions
 .actions {
@@ -183,79 +81,6 @@
   gap: $spacing-03;
   padding-top: $spacing-04;
   border-top: $border-width-small solid var(--color-border-secondary-default);
-}
-
-.cancelButton,
-.submitButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-02;
-  padding: $spacing-03 $spacing-05;
-  border: none;
-  border-radius: $spacing-02;
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
-
-  &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  i {
-    font-size: $font-size-lg;
-  }
-}
-
-.cancelButton {
-  background-color: transparent;
-  border: $border-width-small solid var(--color-border-primary-default);
-  color: var(--color-text-secondary-default);
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-bg-secondary-hover);
-    border-color: var(--color-border-primary-hover);
-    color: var(--color-text-primary-default);
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
-  }
-}
-
-.submitButton {
-  background-color: var(--color-bg-info-default);
-  color: var(--color-text-on-color);
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-bg-info-hover);
-    transform: translateY(-$spacing-01);
-    box-shadow: 0 $spacing-02 $spacing-04 rgba(59, 130, 246, 0.3);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  i.ri-spin {
-    animation: spin 1s linear infinite;
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 // Responsive adjustments

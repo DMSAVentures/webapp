@@ -231,27 +231,6 @@
   }
 }
 
-.clearFiltersButton {
-  padding: $spacing-02 $spacing-04;
-  background-color: var(--color-bg-primary-default);
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-02;
-  color: var(--color-text-primary-default);
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-secondary-hover);
-    border-color: var(--color-border-primary-hover);
-  }
-
-  &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
-  }
-}
 
 // Empty state
 .emptyState {
@@ -294,39 +273,6 @@
   line-height: $line-height-body;
 }
 
-.emptyStateButton {
-  display: flex;
-  align-items: center;
-  gap: $spacing-02;
-  padding: $spacing-03 $spacing-05;
-  background-color: var(--color-bg-info-default);
-  border: none;
-  border-radius: $spacing-02;
-  color: var(--color-text-on-color);
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-info-hover);
-    transform: translateY(-$spacing-01);
-    box-shadow: 0 $spacing-02 $spacing-04 rgba(59, 130, 246, 0.3);
-  }
-
-  &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: $font-size-lg;
-  }
-}
 
 // Responsive adjustments
 @media (max-width: 1024px) {

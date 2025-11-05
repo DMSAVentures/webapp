@@ -4,7 +4,7 @@
  */
 
 import { fetcher } from '@/hooks/fetcher';
-import type { Campaign, CampaignSettings, PaginatedResponse } from '@/types/common.types';
+import type { Campaign, CampaignSettings } from '@/types/common.types';
 
 const API_BASE = import.meta.env.VITE_API_URL;
 

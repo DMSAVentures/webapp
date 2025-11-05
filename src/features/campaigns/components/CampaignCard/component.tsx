@@ -4,7 +4,7 @@
  */
 
 import { memo, type HTMLAttributes } from 'react';
-import { StatusBadge } from '@/proto-design-system/StatusBadge/component';
+import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
 import type { Campaign } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -26,18 +26,18 @@ export interface CampaignCardProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Maps campaign status to StatusBadge variant
  */
-const getStatusVariant = (status: Campaign['status']) => {
+const getStatusVariant = (status: Campaign['status']): "completed" | "pending" | "failed" | "disabled" => {
   switch (status) {
     case 'active':
-      return 'success';
+      return 'completed';
     case 'draft':
-      return 'default';
+      return 'pending';
     case 'paused':
-      return 'warning';
+      return 'disabled';
     case 'completed':
-      return 'info';
+      return 'completed';
     default:
-      return 'default';
+      return 'pending';
   }
 };
 
@@ -73,11 +73,9 @@ export const CampaignCard = memo<CampaignCardProps>(
           <div className={styles.headerContent}>
             <h3 className={styles.title}>{campaign.name}</h3>
             <StatusBadge
+              text={campaign.status}
               variant={getStatusVariant(campaign.status)}
-              size="small"
-            >
-              {campaign.status}
-            </StatusBadge>
+            />
           </div>
 
           {/* Action Menu */}

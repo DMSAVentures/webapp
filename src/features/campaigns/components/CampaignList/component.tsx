@@ -5,6 +5,7 @@
 
 import { memo, useState, useMemo, type HTMLAttributes } from 'react';
 import { CampaignCard } from '../CampaignCard/component';
+import { Button } from '@/proto-design-system/Button/button';
 import type { Campaign } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -94,13 +95,13 @@ export const CampaignList = memo<CampaignListProps>(
             Create your first campaign to start building your waitlist
           </p>
           {onCreateCampaign && (
-            <button
-              className={styles.emptyStateButton}
+            <Button
               onClick={onCreateCampaign}
+              variant="primary"
+              leftIcon="ri-add-line"
             >
-              <i className="ri-add-line" aria-hidden="true" />
               Create Campaign
-            </button>
+            </Button>
           )}
         </div>
       );
@@ -211,15 +212,15 @@ export const CampaignList = memo<CampaignListProps>(
             <i className="ri-search-line" aria-hidden="true" />
             <p>No campaigns found</p>
             {searchQuery && (
-              <button
-                className={styles.clearFiltersButton}
+              <Button
                 onClick={() => {
                   setSearchQuery('');
                   setStatusFilter('all');
                 }}
+                variant="secondary"
               >
                 Clear filters
-              </button>
+              </Button>
             )}
           </div>
         ) : (

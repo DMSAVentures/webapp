@@ -5,7 +5,11 @@
 
 import { memo, useState, type FormEvent, type HTMLAttributes } from 'react';
 import { validateRequired, validateLength } from '@/utils/validation';
-import type { Campaign, CampaignSettings } from '@/types/common.types';
+import type { CampaignSettings } from '@/types/common.types';
+import { Button } from '@/proto-design-system/Button/button';
+import { TextInput } from '@/proto-design-system/TextInput/textInput';
+import { TextArea } from '@/proto-design-system/TextArea/textArea';
+import CheckboxWithLabel from '@/proto-design-system/checkbox/checkboxWithLabel';
 import styles from './component.module.scss';
 
 export interface CampaignFormData {
@@ -131,120 +135,66 @@ export const CampaignForm = memo<CampaignFormProps>(
     return (
       <form className={classNames} onSubmit={handleSubmit} {...props}>
         {/* Campaign Name */}
-        <div className={styles.field}>
-          <label htmlFor="campaign-name" className={styles.label}>
-            Campaign Name
-            <span className={styles.required}>*</span>
-          </label>
-          <input
-            id="campaign-name"
-            type="text"
-            value={formData.name}
-            onChange={(e) => handleChange('name', e.target.value)}
-            onBlur={() => handleBlur('name')}
-            className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
-            placeholder="e.g., Product Launch 2025"
-            disabled={loading}
-            aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? 'name-error' : undefined}
-          />
-          {errors.name && touched.name && (
-            <span id="name-error" className={styles.errorMessage}>
-              <i className="ri-error-warning-line" aria-hidden="true" />
-              {errors.name}
-            </span>
-          )}
-        </div>
+        <TextInput
+          id="campaign-name"
+          label="Campaign Name"
+          type="text"
+          value={formData.name}
+          onChange={(e) => handleChange('name', e.target.value)}
+          onBlur={() => handleBlur('name')}
+          placeholder="e.g., Product Launch 2025"
+          disabled={loading}
+          required
+          error={touched.name ? errors.name : undefined}
+        />
 
         {/* Description */}
-        <div className={styles.field}>
-          <label htmlFor="campaign-description" className={styles.label}>
-            Description
-            <span className={styles.optional}>(Optional)</span>
-          </label>
-          <textarea
-            id="campaign-description"
-            value={formData.description}
-            onChange={(e) => handleChange('description', e.target.value)}
-            onBlur={() => handleBlur('description')}
-            className={`${styles.textarea} ${errors.description ? styles.inputError : ''}`}
-            placeholder="Describe your campaign..."
-            rows={3}
-            disabled={loading}
-            aria-invalid={!!errors.description}
-            aria-describedby={errors.description ? 'description-error' : undefined}
-          />
-          <div className={styles.fieldHelp}>
-            {formData.description?.length || 0} / 500 characters
-          </div>
-          {errors.description && touched.description && (
-            <span id="description-error" className={styles.errorMessage}>
-              <i className="ri-error-warning-line" aria-hidden="true" />
-              {errors.description}
-            </span>
-          )}
-        </div>
+        <TextArea
+          id="campaign-description"
+          label="Description"
+          value={formData.description}
+          onChange={(e) => handleChange('description', e.target.value)}
+          onBlur={() => handleBlur('description')}
+          placeholder="Describe your campaign..."
+          rows={3}
+          disabled={loading}
+          maxLength={500}
+          error={touched.description ? errors.description : undefined}
+        />
 
         {/* Settings Section */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Campaign Settings</h3>
 
           {/* Email Verification */}
-          <div className={styles.checkboxField}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={formData.settings.emailVerificationRequired}
-                onChange={(e) => handleSettingChange('emailVerificationRequired', e.target.checked)}
-                disabled={loading}
-                className={styles.checkbox}
-              />
-              <span className={styles.checkboxText}>
-                <strong>Require email verification</strong>
-                <span className={styles.checkboxDescription}>
-                  Users must verify their email before being added to waitlist
-                </span>
-              </span>
-            </label>
-          </div>
+          <CheckboxWithLabel
+            checked={formData.settings.emailVerificationRequired ? "checked" : "unchecked"}
+            onChange={(e) => handleSettingChange('emailVerificationRequired', e.target.checked)}
+            disabled={loading}
+            flipCheckboxToRight={false}
+            text="Require email verification"
+            description="Users must verify their email before being added to waitlist"
+          />
 
           {/* Enable Referrals */}
-          <div className={styles.checkboxField}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={formData.settings.enableReferrals}
-                onChange={(e) => handleSettingChange('enableReferrals', e.target.checked)}
-                disabled={loading}
-                className={styles.checkbox}
-              />
-              <span className={styles.checkboxText}>
-                <strong>Enable referral system</strong>
-                <span className={styles.checkboxDescription}>
-                  Allow users to refer others and track viral growth
-                </span>
-              </span>
-            </label>
-          </div>
+          <CheckboxWithLabel
+            checked={formData.settings.enableReferrals ? "checked" : "unchecked"}
+            onChange={(e) => handleSettingChange('enableReferrals', e.target.checked)}
+            disabled={loading}
+            flipCheckboxToRight={false}
+            text="Enable referral system"
+            description="Allow users to refer others and track viral growth"
+          />
 
           {/* Enable Rewards */}
-          <div className={styles.checkboxField}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={formData.settings.enableRewards}
-                onChange={(e) => handleSettingChange('enableRewards', e.target.checked)}
-                disabled={loading}
-                className={styles.checkbox}
-              />
-              <span className={styles.checkboxText}>
-                <strong>Enable reward system</strong>
-                <span className={styles.checkboxDescription}>
-                  Reward users for reaching referral milestones
-                </span>
-              </span>
-            </label>
-          </div>
+          <CheckboxWithLabel
+            checked={formData.settings.enableRewards ? "checked" : "unchecked"}
+            onChange={(e) => handleSettingChange('enableRewards', e.target.checked)}
+            disabled={loading}
+            flipCheckboxToRight={false}
+            text="Enable reward system"
+            description="Reward users for reaching referral milestones"
+          />
 
           {/* Duplicate Handling */}
           <div className={styles.field}>
@@ -268,32 +218,23 @@ export const CampaignForm = memo<CampaignFormProps>(
         {/* Form Actions */}
         <div className={styles.actions}>
           {onCancel && (
-            <button
+            <Button
               type="button"
               onClick={onCancel}
               disabled={loading}
-              className={styles.cancelButton}
+              variant="secondary"
             >
               Cancel
-            </button>
+            </Button>
           )}
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className={styles.submitButton}
+            variant="primary"
+            leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
           >
-            {loading ? (
-              <>
-                <i className="ri-loader-4-line ri-spin" aria-hidden="true" />
-                Saving...
-              </>
-            ) : (
-              <>
-                <i className="ri-check-line" aria-hidden="true" />
-                {submitText}
-              </>
-            )}
-          </button>
+            {loading ? 'Saving...' : submitText}
+          </Button>
         </div>
       </form>
     );
