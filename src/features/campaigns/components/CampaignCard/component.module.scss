@@ -11,27 +11,12 @@
   background-color: var(--color-surface-primary-default);
   border: border.$border-width-small solid var(--color-border-primary-default);
   border-radius: layout.$spacing-03;
-  transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
   cursor: pointer;
   position: relative;
-
-  &:hover {
-    border-color: var(--color-border-primary-hover);
-    box-shadow: 0 layout.$spacing-02 (layout.$spacing-04 * 1.5) var(--color-shadow-default);
-    transform: translateY(calc(-1 * layout.$spacing-01));
-
-    .actions {
-      opacity: 1;
-    }
-  }
 
   &:focus-visible {
     outline: border.$border-width-medium solid var(--color-focus-ring-default);
     outline-offset: layout.$spacing-01;
-  }
-
-  &:active {
-    transform: translateY(0);
   }
 }
 
@@ -65,38 +50,6 @@
 // Actions menu
 .actions {
   position: relative;
-  opacity: 0;
-  transition: opacity motion.$duration-moderate-01 motion.$easing-productive-standard;
-}
-
-.actionButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: layout.$spacing-07;
-  height: layout.$spacing-07;
-  padding: 0;
-  background-color: transparent;
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-secondary-default);
-  cursor: pointer;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-secondary-hover);
-    border-color: var(--color-border-primary-hover);
-    color: var(--color-text-primary-default);
-  }
-
-  &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: layout.$spacing-01;
-  }
-
-  i {
-    font-size: typography.$font-size-lg;
-  }
 }
 
 .actionMenu {
@@ -124,15 +77,14 @@
 .stats {
   display: flex;
   gap: layout.$spacing-05;
-  padding: layout.$spacing-04 0;
-  border-top: border.$border-width-small solid var(--color-border-secondary-default);
 }
 
 .statItem {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: layout.$spacing-03;
   flex: 1;
+  padding: layout.$spacing-03;
 
   i {
     font-size: typography.$font-size-xl;
@@ -143,7 +95,7 @@
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: layout.$spacing-02;
 }
 
 .statValue {
@@ -164,8 +116,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: layout.$spacing-03;
-  border-top: border.$border-width-small solid var(--color-border-secondary-default);
 }
 
 .date {
@@ -189,9 +139,5 @@
   .stats {
     flex-direction: column;
     gap: layout.$spacing-03;
-  }
-
-  .actions {
-    opacity: 1;
   }
 }

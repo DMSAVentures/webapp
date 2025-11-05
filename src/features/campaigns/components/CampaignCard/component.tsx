@@ -6,6 +6,8 @@
 import { memo, useState, useRef, useEffect, useCallback, type HTMLAttributes } from 'react';
 import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
 import DropdownMenu from '@/proto-design-system/dropdownmenu/dropdownmenu';
+import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
+import ContentDivider from '@/proto-design-system/contentdivider/contentdivider';
 import type { Campaign } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -171,16 +173,15 @@ export const CampaignCard = memo<CampaignCardProps>(
           {/* Action Menu */}
           {hasActions && (
             <div className={styles.actions} ref={menuRef}>
-              <button
-                className={styles.actionButton}
-                aria-label="More actions"
+              <IconOnlyButton
+                iconClass="more-2-fill"
+                variant="secondary"
+                ariaLabel="More actions"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsMenuOpen(!isMenuOpen);
                 }}
-              >
-                <i className="ri-more-2-fill" aria-hidden="true" />
-              </button>
+              />
               {isMenuOpen && (
                 <div className={styles.actionMenu}>
                   <DropdownMenu items={menuItems} />
@@ -197,7 +198,9 @@ export const CampaignCard = memo<CampaignCardProps>(
 
         {/* Stats */}
         {showStats && campaign.stats && (
-          <div className={styles.stats}>
+          <>
+            <ContentDivider size="thin" />
+            <div className={styles.stats}>
             <div className={styles.statItem}>
               <i className="ri-user-add-line" aria-hidden="true" />
               <div className={styles.statContent}>
@@ -226,9 +229,11 @@ export const CampaignCard = memo<CampaignCardProps>(
               </div>
             </div>
           </div>
+          </>
         )}
 
         {/* Footer */}
+        <ContentDivider size="thin" />
         <div className={styles.footer}>
           <span className={styles.date}>
             <i className="ri-calendar-line" aria-hidden="true" />
