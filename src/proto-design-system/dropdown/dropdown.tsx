@@ -5,8 +5,20 @@ import DropdownOption, {
 	DropdownOptionProps,
 } from "@/proto-design-system/dropdown/option.tsx";
 
+// Simplified option type for external use (without internal props)
+export interface DropdownOptionInput {
+	value: string;
+	label: string;
+	sublabel?: string;
+	imgSrc?: string;
+	icon?: string;
+	description?: string;
+	selected?: boolean;
+	disabled?: boolean;
+}
+
 interface DropdownProps {
-	options: DropdownOptionProps[];
+	options: DropdownOptionInput[];
 	placeholderText: string;
 	size: "medium" | "small" | "x-small";
 	optional?: boolean;
@@ -17,13 +29,13 @@ interface DropdownProps {
 	leftIcon?: string;
 	disabled?: boolean;
 	error?: string;
-	onChange?: (option: DropdownOptionProps) => void;
+	onChange?: (option: DropdownOptionInput) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedOption, setSelectedOption] =
-		useState<DropdownOptionProps | null>(null);
+		useState<DropdownOptionInput | null>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const toggleOpen = () => {
@@ -33,9 +45,20 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 	};
 
 	const handleOptionClick = (option: DropdownOptionProps) => {
-		setSelectedOption(option);
+		// Convert back to DropdownOptionInput for external callback
+		const inputOption: DropdownOptionInput = {
+			value: option.value,
+			label: option.label,
+			sublabel: option.sublabel,
+			imgSrc: option.imgSrc,
+			icon: option.icon,
+			description: option.description,
+			selected: option.selected,
+			disabled: option.disabled,
+		};
+		setSelectedOption(inputOption);
 		setIsOpen(false);
-		props.onChange?.(option);
+		props.onChange?.(inputOption);
 	};
 
 	const handleClickOutside = useCallback((event: Event) => {
