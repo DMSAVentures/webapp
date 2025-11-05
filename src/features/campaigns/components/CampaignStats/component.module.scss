@@ -1,0 +1,182 @@
+@import "@/design-tokens/variables.scss";
+
+.root {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-05;
+  width: 100%;
+}
+
+// Loading state
+.loading {
+  .statCard {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+// Stat card
+.statCard {
+  display: flex;
+  gap: $spacing-04;
+  padding: $spacing-05;
+  background-color: var(--color-bg-primary-default);
+  border: 1px solid var(--color-border-primary-default);
+  border-radius: $spacing-03;
+  transition: all $duration-moderate-01 $easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+// Icon container
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background-color: var(--color-bg-info-default);
+  border-radius: $spacing-02;
+  color: var(--color-text-info-default);
+  font-size: $font-size-2xl;
+
+  &.statIconSuccess {
+    background-color: var(--color-bg-success-default);
+    color: var(--color-text-success-default);
+  }
+
+  &.statIconPurple {
+    background-color: hsl(270, 70%, 95%);
+    color: hsl(270, 70%, 40%);
+  }
+
+  &.statIconOrange {
+    background-color: hsl(30, 90%, 95%);
+    color: hsl(30, 90%, 45%);
+  }
+}
+
+// Content
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-01;
+  flex: 1;
+  min-width: 0;
+}
+
+.statLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: var(--color-text-tertiary-default);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-02;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: var(--color-text-primary-default);
+  line-height: 1.2;
+}
+
+.statPercentage {
+  font-size: $font-size-md;
+  font-weight: $font-weight-normal;
+  color: var(--color-text-secondary-default);
+}
+
+.statBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px $spacing-02;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  border-radius: $spacing-01;
+  line-height: 1;
+}
+
+.statBadgeSuccess {
+  background-color: var(--color-bg-success-default);
+  color: var(--color-text-success-default);
+
+  i {
+    font-size: $font-size-sm;
+  }
+}
+
+.statBadgeWarning {
+  background-color: var(--color-bg-warning-default);
+  color: var(--color-text-warning-default);
+
+  i {
+    font-size: $font-size-sm;
+  }
+}
+
+.statSubtext {
+  font-size: $font-size-xs;
+  color: var(--color-text-tertiary-default);
+  line-height: 1.4;
+}
+
+// Skeleton loader
+.skeleton {
+  height: 32px;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary-default) 0%,
+    var(--color-bg-secondary-hover) 50%,
+    var(--color-bg-secondary-default) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: $spacing-01;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .root {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: $spacing-04;
+  }
+
+  .statCard {
+    padding: $spacing-04;
+  }
+
+  .statIcon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: $font-size-xl;
+  }
+
+  .statValue {
+    font-size: $font-size-xl;
+  }
+}
+
+@media (max-width: 768px) {
+  .root {
+    grid-template-columns: 1fr;
+    gap: $spacing-03;
+  }
+}
