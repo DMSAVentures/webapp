@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer } from "react";
-import { TextInput } from "@/components/simpleui/TextInput/textInput";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import { useSubmitLogin } from "@/hooks/useSubmitLogin";
 import "./email.scss";
-import { Button } from "@/components/simpleui/Button/button";
-import Banner from "@/components/simpleui/banner/banner";
+import { Button } from "@/proto-design-system/Button/button";
+import Banner from "@/proto-design-system/banner/banner";
 
 type EmailFormErrors = {
 	email?: string;

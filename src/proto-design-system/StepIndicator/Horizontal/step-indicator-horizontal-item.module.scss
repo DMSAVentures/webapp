@@ -1,0 +1,38 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+
+.step-indicator-horizontal-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  gap: layout.$spacing-03;
+  color: var(--color-text-disabled-default);
+
+  &--active, &--completed {
+    color: var(--color-text-primary-default);
+  }
+
+  .step-indicator-horizontal-item__icon {
+    height: layout.$spacing-05;
+    width: layout.$spacing-05;
+    align-content: center;
+    vertical-align: center;
+    text-align: center;
+    border-radius: border.$border-radius-large;
+    line-height: layout.$spacing-03;
+    &--completed {
+      color: var(--color-text-inverse-default);
+      background-color: var(--color-success-default);
+      line-height: layout.$spacing-05; // aligns icon vertically in the circle
+    }
+    &--active {
+        color: var(--color-text-inverse-default);
+        background-color: var(--color-info-default);
+    }
+
+    &--default {
+      border: 1px solid var(--color-border-primary-default);
+    }
+  }
+}

@@ -1,5 +1,5 @@
-@use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/colors.scss" as colors;
+@use "@/design-tokens/layout.scss" as layout;
+@use "@/design-tokens/colors.scss" as colors;
 
 .full-page {
   height: 100%;

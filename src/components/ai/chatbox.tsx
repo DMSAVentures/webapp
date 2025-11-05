@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Button from "@/components/simpleui/Button/button";
-import { TextArea } from "@/components/simpleui/TextArea/textArea";
+import Button from "@/proto-design-system/Button/button";
+import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { useSSEChat } from "@/hooks/useSSEChat";
 import styles from "./chatbox.module.scss";
 

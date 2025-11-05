@@ -1,0 +1,51 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+
+.tab-menu-horizontal-item {
+    //height: layout.$spacing-03;
+    display: flex;
+    //align-items: center;
+    //justify-content: center;
+    gap: layout.$spacing-03;
+    color: var(--color-text-secondary-default);
+    //@extend .label-small;
+    cursor: pointer;
+
+    &__text {
+        //vertical-align: center;
+    }
+
+    &__left-icon {
+        //@extend .label-small;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
+        align-content: center;
+        text-align: center;
+        //line-height: layout.$spacing-03;
+    }
+
+    &__right-icon {
+        //@extend .label-small;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
+        align-content: center;
+        text-align: center;
+    }
+
+    &__badge {
+        height: layout.$spacing-06;
+        width: layout.$spacing-06;
+        //align-content: center;
+        //vertical-align: center;
+        text-align: center;
+        border-radius: border.$border-radius-round;
+        background-color: var(--color-error-default);
+        color: var(--color-white);
+    }
+
+    &--active {
+        .tab-menu-horizontal-item__left-icon {
+            color: var(--color-info-default);
+        }
+    }
+}

@@ -1,0 +1,51 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+
+.content-label__container {
+    display: flex;
+    //padding: $spacing-16;
+    gap: layout.$spacing-05;
+    //border-radius: $border-radius-large;
+    width: layout.$spacing-13 * 2;
+    align-items: center;
+
+    //&:hover {
+    //    background-color: $color-neutral-50;
+    //    border: 1px solid $color-neutral-50;
+    //    transition: background-color $transition-normal $transition-type-dissolve;
+    //}
+
+    .content-label__image {
+        width: layout.$spacing-08;
+        height:  layout.$spacing-08;
+        border-radius: border.$border-radius-round;
+    }
+
+    .content-label__text {
+        display: flex;
+        flex-direction: column;
+        gap: layout.$spacing-03;
+        align-items: baseline;
+
+
+        .content-label__description__string {
+            //@extend .paragraph-x-small;
+            //color: $color-neutral-600;
+            width: 100%;
+            overflow-wrap: break-word; // Break words to prevent overflow
+            word-wrap: break-word; // For IE compatibility
+            word-break: break-word; // Additional word break support
+            white-space: normal; // Allow text to wrap normally
+
+            &--disabled {
+                color: var(--color-text-disabled-default);
+            }
+        }
+
+        .content-label__link {
+            padding: 0;
+        }
+
+    }
+
+}

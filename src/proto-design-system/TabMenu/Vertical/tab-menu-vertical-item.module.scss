@@ -1,0 +1,68 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.tab-menu-vertical-item {
+    display: flex;
+    align-items: baseline;
+    border: none;
+    //max-height: layout.$spacing-07;
+    //width: 100%;
+    padding: layout.$spacing-03;
+    gap: layout.$spacing-03;
+    //background-color: colors.$color-white;
+    //color: colors.$color-neutral-600;
+    border-radius: border.$border-radius-medium;
+    //@extend .paragraph-small;
+
+    &__text {
+        vertical-align: center;
+    }
+
+    &__left-icon {
+        //@extend .label-small;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
+        //align-content: center;
+        text-align: center;
+    }
+
+    &__right-icon {
+        //@extend .label-small;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
+        //align-content: center;
+        text-align: center;
+    }
+
+    &__badge {
+        //@extend .label-x-small;
+        //height: layout.$spacing-20;
+        //width: layout.$spacing-20;
+        align-content: center;
+        vertical-align: center;
+        text-align: center;
+        border-radius: border.$border-radius-round;
+        background-color: var(--color-error-default);
+        color: var(--color-white);
+    }
+
+    &--active {
+        background-color: var(--color-secondary-bg);
+        color: var(--color-primary);
+        //@extend .shadow-xs;
+
+        .tab-menu-vertical-item__left-icon {
+            color: var(--color-primary);
+        }
+
+    }
+
+    &:hover {
+        background-color: var(--color-secondary-bg);
+        color: var(--color-primary);
+        cursor: pointer;
+        transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
+        //@extend .shadow-xs;
+    }
+}

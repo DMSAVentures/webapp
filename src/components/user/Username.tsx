@@ -1,6 +1,6 @@
 "use client";
 import { useContext } from "react";
-import { SidebarUsername } from "@/components/simpleui/UIShell/Sidebar/sidebarUsername";
+import { SidebarUsername } from "@/proto-design-system/UIShell/Sidebar/sidebarUsername";
 import { AuthContext } from "@/contexts/auth";
 
 export default function UserName() {

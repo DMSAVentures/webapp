@@ -1,0 +1,13 @@
+@use "@/design-tokens/layout" as layout;
+
+.sidebar__content {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-05;
+    height: 100dvh;
+}
+
+.sidebar__footer {
+    margin-top: auto;
+    margin-bottom: layout.$spacing-07;
+}

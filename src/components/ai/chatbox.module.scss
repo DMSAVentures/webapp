@@ -1,5 +1,5 @@
-@use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/border.scss" as border;
+@use "@/design-tokens/layout.scss" as layout;
+@use "@/design-tokens/border.scss" as border;
 
 .message-input-container {
     position: sticky;

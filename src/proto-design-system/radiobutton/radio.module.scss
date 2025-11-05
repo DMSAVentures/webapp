@@ -1,0 +1,56 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+
+// Style for custom radio button
+.custom-radio-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: layout.$spacing-06;
+    height: layout.$spacing-06;
+    border: 2px solid black;
+    border-radius: border.$border-radius-round;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+
+    // Style for the selected state
+    &:checked {
+        background-color: var(--color-bg-tertiary-default); // Selected background color
+        // Inner circle to indicate selection
+        &::before {
+            content: '';
+            width: layout.$spacing-04;
+            height: layout.$spacing-04;
+            //border: 1px solid blue;
+            //background-color: blue;
+            background-color: var(--color-bg-primary-default); // Inner circle color
+            //border: 1px solid var(--color-border-primary-default); // Inner circle border color
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    // Style for the hover state
+    &:hover {
+        border-color: var(--color-border-primary-default); // Hover color
+    }
+
+    // Style for the focus state
+    &:focus {
+        border-color: var(--color-border-focus-default); // Focus color
+    }
+
+    // Style for the disabled state
+    &:disabled {
+        //border: 1px solid brown;
+        background-color: var(--color-bg-primary-disabled); // Disabled background color
+        cursor: not-allowed;
+        &:hover {
+            border-color: var(--color-border-primary-default); // Hover color
+        }
+    }
+}

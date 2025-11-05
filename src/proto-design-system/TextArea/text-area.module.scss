@@ -1,0 +1,68 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.text-area {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-03;
+    position: relative;
+
+    &--error {
+        textarea {
+            border: 1px solid var(--color-error-default) !important;
+        }
+    }
+
+    textarea {
+        resize: none;
+        border: 1px solid var(--color-border-secondary-default);
+        border-radius: border.$border-radius-medium;
+        padding: layout.$spacing-03 layout.$spacing-03 layout.$spacing-03 layout.$spacing-05;
+        //@extend .paragraph-small;
+        //color: $color-neutral-900;
+        color: var(--color-text-primary-default);
+
+        &::placeholder {
+            color: var(--color-text-secondary-default);
+            //font-size: 0.85em;
+        }
+
+        &:disabled {
+            background-color: var(--color-bg-secondary-disabled);
+            //color: $color-neutral-300;
+            cursor: not-allowed;
+            color: var(--color-text-disabled-default);
+            //&:hover {
+            //    //background-color: var(--color-bg-secondary-hover);
+            //    //color: $color-neutral-300;
+            //    cursor: not-allowed;
+            //}
+        }
+
+        &:hover {
+            border: 1px solid var(--color-border-focus-default);
+            transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
+            //color: colors.$color-neutral-700;
+        }
+
+        &:focus {
+            //box-shadow: 0 0 0 4px colors.$color-neutral-alpha-16, 0 0 0 2px colors.$color-white;
+            //border: 1px solid colors.$color-neutral-900;
+            outline: 2px solid var(--color-focus-ring-default);
+
+        }
+    }
+
+    &__character-count {
+        position: absolute;
+        bottom: layout.$spacing-08;
+        right: layout.$spacing-03;
+        //@extend .paragraph-x-small;
+        color: var(--color-text-secondary-default);
+
+        &--error {
+            color: var(--color-error-default);
+        }
+    }
+}

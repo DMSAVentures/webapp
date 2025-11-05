@@ -4,7 +4,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import "./checkout.scss";
-import { Column } from "@/components/simpleui/UIShell/Column/Column";
+import { Column } from "@/proto-design-system/UIShell/Column/Column";
 
 // Load stripe outside of component to avoid recreating Stripe object on every render
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!);

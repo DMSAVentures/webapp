@@ -1,0 +1,242 @@
+import { Meta, type StoryObj } from "@storybook/react";
+import { Button } from "@/proto-design-system/Button/button";
+import DropdownMenu from "@/proto-design-system/dropdownmenu/dropdownmenu";
+
+const meta: Meta = {
+	title: "SimpleUI/DropdownMenu",
+	component: DropdownMenu,
+	parameters: {
+		layout: "centered",
+	},
+	tags: ["autodocs"],
+	argTypes: {
+		items: {
+			control: "object",
+		},
+		bottomButton: {
+			control: "object",
+		},
+		caption: {
+			control: "text",
+		},
+	},
+} satisfies Meta<typeof DropdownMenu>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+const items = [
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 1",
+		sublabel: "Sublabel",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 2",
+		sublabel: "Sublabel",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 3",
+		sublabel: "Sublabel",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		size: "thin",
+		text: "",
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 4",
+		sublabel: "Sublabel",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 5",
+		sublabel: "Sublabel",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 6",
+		sublabel: "Sublabel",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+];
+
+export const Primary: Story = {
+	args: {
+		items: items,
+		bottomButton: <Button variant="secondary">Button</Button>,
+		caption: "v1.2.0",
+	},
+};
+
+const itemsWithoutSublabels = [
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 1",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 2",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 3",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		size: "thin",
+		text: "",
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 4",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 5",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+	{
+		state: "default",
+		size: "medium",
+		checkbox: false,
+		label: "Item 6",
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon: "ri-home-2-line",
+		iconPosition: "left",
+		onClick: () => {
+			/* Storybook demo handler */
+		},
+	},
+];
+
+export const ItemsWithoutSublabelsStory: Story = {
+	args: {
+		items: itemsWithoutSublabels,
+		bottomButton: <Button variant="secondary">Button</Button>,
+		caption: "v1.2.0",
+	},
+};

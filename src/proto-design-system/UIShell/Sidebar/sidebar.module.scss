@@ -1,0 +1,14 @@
+@use "@/design-tokens/variables" as variables;
+@use "@/design-tokens/layout" as layout;
+
+.sidebar {
+    background-color: var(--color-bg-tertiary-default);
+    padding: layout.$spacing-03 layout.$spacing-05 layout.$spacing-03 layout.$spacing-05;
+    border-right: 1px solid var(--color-border-primary-default);
+    flex: 1 0 layout.$spacing-12 * 3;
+    transition: transform 0.4s ease-in-out, transform 0.4s ease-in-out;
+    /* When sidebar is collapsed */
+    &--collapsed {
+        transform: translateX(-100%);
+    }
+}

@@ -1,0 +1,27 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.sidebar__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: layout.$spacing-03;
+    padding: layout.$spacing-03;
+
+    &:hover {
+        background-color: var(--color-bg-secondary-hover);
+        border-radius: border.$border-radius-medium;
+        transition: background-color motion.$duration-slow-01 motion.$easing-expressive-standard;
+        cursor: pointer;
+    }
+
+    &.active {
+        background-color: var(--color-bg-secondary-hover);
+        border-radius: border.$border-radius-medium;
+    }
+}
+
+.sidebar__item__link {
+    text-decoration: none;
+}

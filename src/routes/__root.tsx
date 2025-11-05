@@ -1,5 +1,5 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { Layout } from "@/components/simpleui/UIShell/Layout/Layout";
+import { Layout } from "@/proto-design-system/UIShell/Layout/Layout";
 import { useAuth } from "@/contexts/auth";
 import { Providers } from "@/contexts/providers";
 

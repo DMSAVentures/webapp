@@ -1,0 +1,119 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    gap: layout.$spacing-03;
+    &--row {
+        gap: 0;
+        .pagination__button {
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: unset;
+
+            &:first-child {
+                border-top-left-radius: border.$border-radius-medium;
+                border-bottom-left-radius: border.$border-radius-medium;
+            }
+
+            // Middle Children Styles
+            &:not(:first-child):not(:last-child) {
+                border-width: 1px 1px 1px 0;
+                border-radius: 0;
+            }
+
+            &:last-child {
+                border-width: 1px 1px 1px 0;
+                border-top-right-radius: border.$border-radius-medium;
+                border-bottom-right-radius: border.$border-radius-medium;
+            }
+        }
+
+    }
+
+    &--rounded {
+        .pagination__button {
+            padding: layout.$spacing-02;
+            border-radius: border.$border-radius-round;
+
+            &:first-child, &:nth-child(2) {
+                //border-radius: unset;
+                border: none;
+                //border-top-left-radius: $radius-8;
+                //border-bottom-left-radius: $radius-8;
+            }
+
+            // Middle Children Styles
+            &:not(:first-child):not(:last-child) {
+                //border-width: 1px 1px 1px 0;
+                //border-radius: 0;
+            }
+
+            &:last-child, &:nth-last-child(2) {
+                //border-radius: unset;
+                border: none;
+                //border-width: 1px 1px 1px 0;
+                //border-top-right-radius: $radius-8;
+                //border-bottom-right-radius: $radius-8;
+            }
+        }
+
+    }
+
+    &--squared {
+        .pagination__button {
+            padding: layout.$spacing-02;
+            border-radius: border.$border-radius-medium;
+
+            &:first-child, &:nth-child(2) {
+                //border-radius: unset;
+                border: none;
+                //border-top-left-radius: $radius-8;
+                //border-bottom-left-radius: $radius-8;
+            }
+
+            // Middle Children Styles
+            &:not(:first-child):not(:last-child) {
+                //border-width: 1px 1px 1px 0;
+                //border-radius: 0;
+            }
+
+            &:last-child, &:nth-last-child(2) {
+                //border-radius: unset;
+                border: none;
+                //border-width: 1px 1px 1px 0;
+                //border-top-right-radius: $radius-8;
+                //border-bottom-right-radius: $radius-8;
+            }
+        }
+
+    }
+
+    .pagination__button {
+        cursor: pointer;
+        border: 1px solid var(--color-border-primary-default);
+        background: var(--color-bg-tertiary-default);
+        //@extend .label-small;
+        //color: $color-neutral-600;
+
+        &:hover, &--active {
+            background: var(--color-bg-secondary-hover);
+            transition: background-color motion.$duration-moderate-02 motion.$easing-productive-entrance;
+        }
+
+        &:disabled {
+            //background: $color-white;
+            color: var(--color-bg-primary-disabled);
+            cursor: not-allowed;
+        }
+
+        .pagination__pagenumber {
+            display: inline-block;
+            text-align: center;
+            color: var(--color-text-primary-default);
+            min-width: layout.$spacing-06;
+            min-height: layout.$spacing-05;
+        }
+    }
+}

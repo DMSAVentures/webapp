@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ErrorState } from "@/components/error/error";
 import LoadingSpinner from "@/components/loading/loadingSpinner";
-import Banner from "@/components/simpleui/banner/banner";
-import { Column } from "@/components/simpleui/UIShell/Column/Column";
+import Banner from "@/proto-design-system/banner/banner";
+import { Column } from "@/proto-design-system/UIShell/Column/Column";
 import { useGetCheckoutSession } from "@/hooks/useGetCheckoutSession";
 
 interface Props {

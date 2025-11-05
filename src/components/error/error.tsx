@@ -1,5 +1,5 @@
 import React from "react";
-import { Column } from "@/components/simpleui/UIShell/Column/Column";
+import { Column } from "@/proto-design-system/UIShell/Column/Column";
 
 interface ErrorStateProps {
 	message: string;

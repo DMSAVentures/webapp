@@ -1,0 +1,54 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/colors" as colors;
+
+@mixin status-badge-style($color, $text-color, $icon-color) {
+  background-color: $color;
+  color: $text-color;
+  .status-badge__icon {
+    color: $icon-color;
+  }
+}
+
+.status-badge {
+  border-radius: border.$border-radius-medium;
+  display: flex;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  align-items: baseline;
+  text-align: center;
+  .status-badge__icon {
+    text-align: center;
+  }
+}
+
+.status-badge--disabled.status-badge--light {
+  @include status-badge-style(colors.$color-neutral-50, colors.$color-neutral-500, colors.$color-neutral-500);
+}
+
+.status-badge--completed.status-badge--light {
+  @include status-badge-style(colors.$color-green-50, colors.$color-green-500, colors.$color-green-500);
+}
+.status-badge--failed.status-badge--light {
+  @include status-badge-style(colors.$color-red-50, colors.$color-red-500, colors.$color-red-500);
+}
+.status-badge--pending.status-badge--light {
+  @include status-badge-style(colors.$color-orange-50, colors.$color-orange-500, colors.$color-orange-500);
+}
+
+.status-badge--disabled.status-badge--stroke {
+  @include status-badge-style(colors.$color-white, colors.$color-neutral-600, colors.$color-neutral-500);
+  border: 1px solid colors.$color-neutral-200;
+}
+.status-badge--completed.status-badge--stroke {
+  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-green-500);
+  border: 1px solid colors.$color-neutral-200;
+}
+.status-badge--failed.status-badge--stroke {
+  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-red-500);
+  border: 1px solid colors.$color-neutral-200;
+}
+.status-badge--pending.status-badge--stroke {
+  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-orange-500);
+  border: 1px solid colors.$color-neutral-200;
+}

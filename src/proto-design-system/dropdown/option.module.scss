@@ -1,0 +1,80 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.dropdown-option {
+    display: flex;
+    width: 100%;
+    gap: layout.$spacing-05;
+    align-items: center;
+    padding: layout.$spacing-03;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance, border-radius motion.$duration-moderate-01 motion.$easing-productive-entrance;
+
+    &:hover {
+        background-color: var(--color-bg-secondary-hover);
+        border-radius: border.$border-radius-medium;
+    }
+
+    &--selected {
+        background-color: var(--color-bg-secondary-active);
+    }
+
+    &__img {
+        height: layout.$spacing-08;
+        width: layout.$spacing-08;
+        border-radius: border.$border-radius-large;
+    }
+
+    &__icon {
+        height: layout.$spacing-08;
+        width: layout.$spacing-08;
+        align-content: center;
+        text-align: center;
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        gap: layout.$spacing-02;
+        &__label {
+            display: flex;
+            align-items: center;
+            gap: layout.$spacing-03;
+            color: var(--color-primary);
+            //@extend .label-small;
+        }
+
+        &__sublabel {
+            color: var(--color-secondary);
+            //@extend .paragraph-x-small;
+        }
+
+        &__description {
+            color: var(--color-secondary);
+            //@extend .paragraph-x-small;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+
+        .dropdown-option__text__label,
+        .dropdown-option__text__description {
+            color: var(--color-muted);
+        }
+
+        .dropdown-option__text__img,
+        .dropdown-option__text__icon {
+            opacity: 0.7;
+        }
+    }
+
+    // Add keyboard focus styles
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--color-info);
+        border-radius: border.$border-radius-medium;
+    }
+}

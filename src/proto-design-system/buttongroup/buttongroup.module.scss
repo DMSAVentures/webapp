@@ -1,0 +1,140 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.button-group {
+  display: flex;
+
+  // Size Modifiers
+  &--small {
+    .button-item {
+      padding: layout.$spacing-03 layout.$spacing-05 !important;
+      gap: layout.$spacing-04;
+    }
+  }
+
+  &--x-small {
+    .button-item {
+      padding: layout.$spacing-03 layout.$spacing-04 !important;
+      gap: layout.$spacing-03;
+    }
+  }
+
+  &--2x-small {
+    //@extend .label-x-small;
+    .button-item {
+      padding: layout.$spacing-02 layout.$spacing-04 !important;
+      gap: layout.$spacing-02;
+    }
+  }
+}
+
+.button-item {
+  display: flex;
+  align-items: baseline;
+  outline: none;
+  border: none;
+  padding: layout.$spacing-03 layout.$spacing-05;
+  background-color: var(--color-bg-secondary-default);
+  color: var(--color-text-secondary-default);
+  cursor: pointer;
+  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+  color motion.$duration-moderate-01 motion.$easing-productive-standard,
+  border-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+  box-shadow motion.$duration-moderate-01 motion.$easing-productive-standard;
+  //@extend .label-small;
+  min-width: layout.$spacing-07;
+  position: relative; // For focus styles
+
+  @media (min-width: breakpoints.$breakpoint-md) {
+    min-width: layout.$spacing-08;
+  }
+
+  @media (min-width: breakpoints.$breakpoint-lg) {
+    min-width: layout.$spacing-09;
+  }
+
+  @media (min-width: breakpoints.$breakpoint-xlg) {
+    min-width: layout.$spacing-10;
+  }
+
+  &--icon-only {
+    min-width: layout.$spacing-03;
+  }
+
+  &:hover {
+    background-color: var(--color-bg-secondary-hover);
+  }
+
+  // Focus styles for keyboard navigation
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-focus-ring-default);
+    z-index: 1; // Ensure focus ring is visible
+  }
+
+  // First Child Styles
+  &:first-child {
+    border-width: 1px;
+    border-color: var(--color-border-primary-default);
+    border-radius: layout.$spacing-03 0 0 layout.$spacing-03;
+    border-style: solid;
+  }
+
+  // Middle Children Styles
+  &:not(:first-child):not(:last-child) {
+    border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
+    border-color: var(--color-border-primary-default);
+    border-radius: 0;
+    border-style: solid;
+  }
+
+  // Last Child Styles
+  &:last-child {
+    border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
+    border-color: var(--color-border-primary-default);
+    border-radius: 0 layout.$spacing-03 layout.$spacing-03 0;
+    border-style: solid;
+  }
+
+  &:only-child {
+    border-width: border.$border-width-small;
+    border-color: var(--color-border-primary-default);
+    border-radius: layout.$spacing-03;
+    border-style: solid;
+  }
+
+  // Icon Alignment Modifier
+  &__icon--right {
+    flex-direction: row-reverse;
+  }
+
+  // Disabled state
+  &:disabled {
+    cursor: not-allowed;
+    //opacity: 0.7;
+    background-color: var(--color-bg-primary-disabled);
+    color: var(--color-text-disabled-default);
+  }
+}
+
+.button__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.button__text {
+  display: inline-block;
+}
+
+.button-group--no-border {
+  .button-item {
+    border: none !important;
+    border-radius: 0 !important;
+  }
+}

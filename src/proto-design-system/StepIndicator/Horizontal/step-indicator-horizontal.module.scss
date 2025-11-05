@@ -1,0 +1,15 @@
+@use "@/design-tokens/layout" as layout;
+
+.step-indicator-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: layout.$spacing-03;
+
+  .step-indicator-horizontal__separator {
+    padding-left: layout.$spacing-03;
+  }
+
+  .step-indicator-horizontal__item {
+    display: flex;
+  }
+}

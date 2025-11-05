@@ -1,8 +1,8 @@
-@use '../../../globalstyles/v2/colors.scss' as colors;
-@use '../../../globalstyles/v2/typography.scss' as typography;
-@use '../../../globalstyles/v2/layout.scss' as layout;
-@use '../../../globalstyles/v2/border.scss' as border;
-@use '../../../globalstyles/v2/shadow.scss' as shadow;
+@use '../../../design-tokens/colors.scss' as colors;
+@use '../../../design-tokens/typography.scss' as typography;
+@use '../../../design-tokens/layout.scss' as layout;
+@use '../../../design-tokens/border.scss' as border;
+@use '../../../design-tokens/shadow.scss' as shadow;
 
 .checkout-container {
   //max-width: 800px;

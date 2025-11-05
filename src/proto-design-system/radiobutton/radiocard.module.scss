@@ -1,0 +1,17 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.radio-card__container {
+    display: flex;
+    padding: layout.$spacing-05;
+    gap: layout.$spacing-05;
+    border-radius: border.$border-radius-large;
+    border: 1px solid var(--color-border-primary-default);
+
+
+    &:hover {
+        border: 1px solid var(--color-border-primary-default);
+        transition: border motion.$duration-slow-02 motion.$easing-productive-entrance;
+    }
+}

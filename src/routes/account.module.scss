@@ -1,5 +1,5 @@
-@use "@/globalstyles/v2/layout.scss" as layout;
-@use "@/globalstyles/v2/breakpoints.scss" as breakpoints;
+@use "@/design-tokens/layout.scss" as layout;
+@use "@/design-tokens/breakpoints.scss" as breakpoints;
 
 .billing {
     display: flex;

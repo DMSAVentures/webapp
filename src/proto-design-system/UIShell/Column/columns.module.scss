@@ -1,0 +1,47 @@
+@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/design-tokens/grid" as grid;
+@use "sass:map";
+
+$breakpoints: (
+        sm: breakpoints.$breakpoint-sm,
+        md: breakpoints.$breakpoint-md,
+        lg: breakpoints.$breakpoint-lg,
+        xlg: breakpoints.$breakpoint-xlg,
+        max: breakpoints.$breakpoint-max,
+);
+
+$columns: (
+        sm: grid.$columns-sm,
+        md: grid.$columns-md,
+        lg: grid.$columns-lg,
+        xlg: grid.$columns-xlg,
+        max: grid.$columns-max,
+);
+
+//@each $breakpoint, $value in $breakpoints {
+//    @media (min-width: #{$value}) {
+//        .test-media-#{$breakpoint} {
+//            color: blue;
+//        }
+//    }
+//}
+
+
+@each $breakpoint, $col-count in $columns {
+    @for $start from 1 through $col-count {
+        $max-span: $col-count - $start + 1;
+        @if $max-span > 0 {
+            @for $span from 1 through $max-span {
+                .column--#{$breakpoint}-start-#{$start}-span-#{$span} {
+                    @media (min-width: map.get($breakpoints, $breakpoint)) {
+                        grid-column: $start / span $span;
+                    }
+                }
+            }
+        }
+
+        //@for $span from 1 through ($col-count - $start + 1) {
+        //
+        //}
+    }
+}

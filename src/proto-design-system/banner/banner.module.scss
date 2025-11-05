@@ -1,0 +1,139 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/colors" as colors;
+
+
+
+@mixin banner-style($color, $text-color, $link-color, $icon-color) {
+  background-color: $color;
+  color: $text-color;
+  .banner__link {
+    color: $link-color;
+  }
+
+  .banner__icon {
+    color: $icon-color;
+  }
+  .banner__dismiss {
+    opacity: if($text-color == #ffffff, 0.72, 0.40);
+  }
+}
+
+.banner {
+  min-height: layout.$spacing-09;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  padding: layout.$spacing-05;
+  gap: layout.$spacing-05;
+
+  .banner__content {
+    flex: 1;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: layout.$spacing-05;
+  }
+
+  .banner__icon {
+    align-content: center;
+  }
+
+  .banner__dismiss {
+    align-content: center;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .banner__separator {
+    font-size: layout.$spacing-03;
+  }
+
+
+    .banner__title {
+      //@extend .label-small
+    }
+    .banner__description {
+      //@extend .paragraph-small
+    }
+}
+
+
+
+
+.banner--error.banner--filled {
+  @include banner-style(colors.$color-red-500, colors.$color-white, colors.$color-white, colors.$color-white);
+}
+.banner--success.banner--filled {
+  @include banner-style(colors.$color-green-500, colors.$color-white, colors.$color-white, colors.$color-white);
+}
+.banner--warning.banner--filled {
+  @include banner-style(colors.$color-orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
+}
+.banner--info.banner--filled {
+  @include banner-style(colors.$color-blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
+}
+.banner--feature.banner--filled {
+  @include banner-style(colors.$color-neutral-500, colors.$color-white, colors.$color-white, colors.$color-white);
+}
+
+.banner--error.banner--light {
+  @include banner-style(colors.$color-red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+}
+.banner--success.banner--light {
+  @include banner-style(colors.$color-green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+}
+.banner--warning.banner--light {
+  @include banner-style(colors.$color-orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+}
+.banner--info.banner--light {
+  @include banner-style(colors.$color-blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+}
+.banner--feature.banner--light {
+  @include banner-style(colors.$color-neutral-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
+}
+
+.banner--error.banner--lighter{
+  @include banner-style(colors.$color-red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+}
+.banner--success.banner--lighter{
+  @include banner-style(colors.$color-green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+}
+.banner--warning.banner--lighter{
+  @include banner-style(colors.$color-orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+}
+.banner--info.banner--lighter{
+  @include banner-style(colors.$color-blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+}
+.banner--feature.banner--lighter{
+  @include banner-style(colors.$color-neutral-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
+}
+
+.banner--error.banner--stroke {
+    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+
+  border: colors.$color-neutral-200 solid;
+  border-width: 0 0 1px 0;
+
+}
+.banner--success.banner--stroke {
+    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+
+  border: colors.$color-neutral-200 solid;
+  border-width: 0 0 1px 0;
+}
+.banner--warning.banner--stroke {
+    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+  border: colors.$color-neutral-200 solid;
+  border-width: 0 0 1px 0;
+}
+.banner--info.banner--stroke {
+  @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+  border: colors.$color-neutral-200 solid;
+  border-width: 0 0 1px 0;
+}
+.banner--feature.banner--stroke {
+  @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-900);
+  border: colors.$color-neutral-200 solid;
+  border-width: 0 0 1px 0;
+}

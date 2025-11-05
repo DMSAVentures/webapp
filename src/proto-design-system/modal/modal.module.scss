@@ -1,0 +1,158 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/colors" as colors;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+@mixin modal-icon-style($color) {
+    color: $color;
+}
+
+.modal__container {
+    position: fixed; /* Position the dialog relative to the viewport */
+    top: 50%;        /* Position it 50% from the top */
+    left: 50%;       /* Position it 50% from the left */
+    transform: translate(-50%, -50%); /* Center it horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    border-radius: border.$border-radius-large;
+    border: 1px solid var(--color-border-primary-default);
+    padding: layout.$spacing-05;
+    box-shadow: none;
+    overflow: hidden;
+    &::backdrop {
+        background-color: var(--color-bg-primary-default);
+        opacity: 0.8;
+        backdrop-filter: blur(4px);
+    }
+
+    @media (min-width: breakpoints.$breakpoint-sm) {
+        width: layout.$spacing-13 * 2;
+    }
+
+    @media (min-width: breakpoints.$breakpoint-md) {
+        width: layout.$spacing-13 * 3;
+    }
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: layout.$spacing-05;
+    padding-bottom: layout.$spacing-05;
+    margin-bottom: layout.$spacing-03;
+    border-bottom: 1px solid var(--color-border-primary-default);
+
+    &--centered {
+        flex-direction: column;
+        text-align: center;
+    }
+    .modal__header__text {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: layout.$spacing-05;
+
+        .modal__title {
+            //@extend .label-small;
+            //color: $color-neutral-900;
+            font-weight: 600;
+        }
+
+        .modal__description {
+            //@extend .paragraph-small;
+            //color: $color-neutral-600;
+            color: var(--color-text-secondary-default);
+            word-break: break-word;
+        }
+    }
+}
+
+.modal__icon {
+    align-self: start;
+    &--info  {
+        @include modal-icon-style(colors.$color-blue-500);
+        &.modal__icon--medium {
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
+            background-color: colors.$color-blue-alpha-24;
+        }
+    }
+    &--success {
+        @include modal-icon-style(colors.$color-green-500);
+        &.modal__icon--medium {
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
+            background-color: colors.$color-green-alpha-24;
+        }
+    }
+
+    &--warning {
+        @include modal-icon-style(colors.$color-orange-500);
+        &.modal__icon--medium {
+            padding: layout.$spacing-02 layout.$spacing-03;
+            align-self: center;
+            border-radius: border.$border-radius-round;
+            background-color: colors.$color-orange-alpha-24;
+        }
+    }
+
+
+    &--alert {
+        @include modal-icon-style(colors.$color-red-500);
+        &.modal__icon--medium {
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
+            background-color: colors.$color-red-alpha-24;
+        }
+    }
+
+    &--feature {
+        @include modal-icon-style(colors.$color-neutral-500);
+        &.modal__icon--medium {
+            padding: layout.$spacing-02 layout.$spacing-03;
+            border-radius: border.$border-radius-round;
+            border: 1px solid colors.$color-neutral-200;
+        }
+    }
+}
+
+.modal__footer {
+    display: flex;
+    padding-top: layout.$spacing-03;
+    gap: layout.$spacing-03;
+    color: var(--color-text-tertiary-default);
+
+    .modal__footer-left {
+        display: flex;
+        align-self: center;
+        text-align: left;
+        width: 100%;
+        gap: layout.$spacing-03;
+    }
+
+    .modal__footer-right {
+        display: flex;
+        flex-flow: row-reverse;
+        width: 100%;
+        align-self: center;
+        gap: layout.$spacing-03;
+    }
+
+    @media (min-width: breakpoints.$breakpoint-sm) {
+        flex-direction: column;
+    }
+
+    @media (min-width: breakpoints.$breakpoint-md) {
+        flex-direction: row;
+    }
+}
+
+
+.modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-03;
+    padding: layout.$spacing-03 0 layout.$spacing-03 0;
+}
+

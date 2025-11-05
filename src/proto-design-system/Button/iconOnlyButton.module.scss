@@ -1,0 +1,114 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/motion" as motion;
+
+.icon-only-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: layout.$spacing-03;      // Equal padding on all sides
+    width: layout.$spacing-08;             // Fixed square dimensions
+    height: layout.$spacing-08;
+    border-radius: layout.$spacing-03;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: var(--color-bg-primary-default);
+    color:  var(--color-text-inverse-default); // Text color for contrast on primary button
+    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+    color motion.$duration-moderate-01 motion.$easing-productive-standard,
+    box-shadow motion.$duration-moderate-01 motion.$easing-productive-standard;
+    position: relative; // For focus ring positioning
+
+    .ri {
+        font-size: 1.5rem; // Icon size adjustment
+    }
+
+    &--secondary {
+        background-color: var(--color-bg-secondary-default);
+        color: var(--color-text-secondary-default); // Text color for contrast on secondary button
+    }
+
+    &:hover {
+        background-color: var(--color-bg-primary-hover);
+    }
+
+    &:active {
+        background-color: var(--color-bg-primary-active);
+    }
+    &:focus {
+        outline: none;
+    }
+    // Enhanced focus styles for keyboard navigation
+     &:focus-visible {
+        outline: var(--color-border-focus-default) solid 4px;
+        box-shadow: 0 0 0 4px rgba(var(--color-border-primary-default), 0.5);
+    }
+
+    // Ensure focus styles work in all browsers
+    &:focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &:disabled {
+        background-color: var(--color-bg-primary-disabled);
+        color: var(--color-text-disabled-default);
+        cursor: not-allowed;
+    }
+}
+
+/*
+  Secondary button variant styles
+*/
+.icon-only-button--secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: layout.$spacing-03;
+    width: layout.$spacing-08;
+    height: layout.$spacing-08;
+    border-radius: layout.$spacing-03;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    position: relative;
+    //transition: background-color $duration-moderate-01 $easing-productive-standard,
+    //color $duration-moderate-01 $easing-productive-standard,
+    //box-shadow $duration-moderate-01 $easing-productive-standard;
+
+    background-color: var(--color-bg-secondary-default);
+    color: var(--color-text-secondary-default); // Text color for contrast on secondary button
+
+
+    .ri {
+        font-size: 1.5rem;
+    }
+
+    &:hover {
+        background-color: var(--color-bg-secondary-hover);
+    }
+
+    &:active {
+        background-color: var(--color-bg-secondary-active);
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+     &:focus-visible {
+        outline: var(--color-border-secondary-default) solid 4px;
+        box-shadow: 0 0 0 2px rgba(var(--color-border-secondary-default), 0.5);
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &:disabled {
+        background-color: var(--color-bg-secondary-disabled);
+        color: var(--color-text-disabled-default);
+        cursor: not-allowed;
+    }
+}

@@ -1,0 +1,65 @@
+@use "@/design-tokens/layout" as layout;
+
+.content-divider-line {
+        color: var(--color-text-secondary-default);
+        width: layout.$spacing-13 * 2;
+        border: none;
+        border-top: 1px solid var(--color-border-primary-default);
+        overflow: visible;
+        text-align: center;
+        height: layout.$spacing-05;
+        //@extend .subheading-xx-small;
+
+        &--text::after {
+            background: #fff;
+            content: attr(data-content);
+            padding: 0 layout.$spacing-03;
+            position: relative;
+            top: calc(-1 * layout.$spacing-04);
+            text-transform: uppercase;
+        }
+}
+
+.content-divider-banner {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    text-transform: uppercase;
+    padding: layout.$spacing-02 layout.$spacing-05;
+    gap: layout.$spacing-05;
+    //@extend .subheading-x-small;
+
+    &--light {
+        background-color: var(--color-bg-secondary-default);
+        color: var(--color-text-secondary-default);
+    }
+
+    &--gray {
+        background-color: var(--color-bg-primary-default);
+        color: var(--color-text-inverse-default);
+    }
+}
+
+.content-divider-buttongroup {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    padding: layout.$spacing-05 0;
+
+    &::after, &::before {
+        content: '';
+        flex-grow: 1;
+        height: 1px;
+        background: var(--color-border-primary-default);
+    }
+
+    &::before {
+        margin-right: 10px; // Adjust spacing as needed
+    }
+
+    &::after {
+        margin-left: 10px; // Adjust spacing as needed
+    }
+}
+

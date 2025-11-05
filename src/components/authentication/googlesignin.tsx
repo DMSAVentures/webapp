@@ -1,4 +1,4 @@
-import { SignInButton } from "@/components/simpleui/Button/button";
+import { SignInButton } from "@/proto-design-system/Button/button";
 
 export default function GoogleSignIn() {
 	//TODO: This is process env vars are undefined on client side.

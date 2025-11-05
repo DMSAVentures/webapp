@@ -52,11 +52,11 @@ ComponentName/
 ## Design System Usage
 
 ### Design Tokens
-**Always use design tokens from `@/globalstyles/v2/` instead of hardcoded values**
+**Always use design tokens from `@/design-tokens/` instead of hardcoded values**
 
 #### Import Pattern
 ```scss
-@import "@/globalstyles/v2/variables.scss";
+@import "@/design-tokens/variables.scss";
 ```
 
 #### Available Token Categories
@@ -171,7 +171,7 @@ Component.displayName = 'Component';
 
 #### CSS Module Structure
 ```scss
-@import "@/globalstyles/v2/variables.scss";
+@import "@/design-tokens/variables.scss";
 
 .root {
     // Base styles using design tokens
@@ -496,7 +496,7 @@ import { fetcher } from '@/hooks/fetcher';
 import type { ComponentProps } from '@/types';
 
 // 5. Components
-import { Button } from '@/components/simpleui/Button';
+import { Button } from '@/proto-design-system/Button';
 
 // 6. Styles
 import styles from './component.module.scss';
