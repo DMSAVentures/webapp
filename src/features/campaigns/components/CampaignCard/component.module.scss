@@ -1,21 +1,24 @@
-@import "@/design-tokens/variables.scss";
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: $spacing-04;
-  padding: $spacing-05;
-  background-color: var(--color-bg-primary-default);
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-03;
-  transition: all $duration-moderate-01 $easing-productive-standard;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
   cursor: pointer;
   position: relative;
 
   &:hover {
     border-color: var(--color-border-primary-hover);
-    box-shadow: 0 $spacing-02 ($spacing-04 * 1.5) rgba(0, 0, 0, 0.08);
-    transform: translateY(-$spacing-01);
+    box-shadow: 0 layout.$spacing-02 (layout.$spacing-04 * 1.5) rgba(0, 0, 0, 0.08);
+    transform: translateY(calc(-1 * layout.$spacing-01));
 
     .actions {
       opacity: 1;
@@ -23,8 +26,8 @@
   }
 
   &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
   }
 
   &:active {
@@ -37,20 +40,20 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: $spacing-03;
+  gap: layout.$spacing-03;
 }
 
 .headerContent {
   display: flex;
   align-items: center;
-  gap: $spacing-03;
+  gap: layout.$spacing-03;
   flex: 1;
   min-width: 0;
 }
 
 .title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
   margin: 0;
   overflow: hidden;
@@ -63,22 +66,22 @@
 .actions {
   position: relative;
   opacity: 0;
-  transition: opacity $duration-moderate-01 $easing-productive-standard;
+  transition: opacity motion.$duration-moderate-01 motion.$easing-productive-standard;
 }
 
 .actionButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $spacing-07;
-  height: $spacing-07;
+  width: layout.$spacing-07;
+  height: layout.$spacing-07;
   padding: 0;
   background-color: transparent;
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-02;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-02;
   color: var(--color-text-secondary-default);
   cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover {
     background-color: var(--color-bg-secondary-hover);
@@ -87,12 +90,12 @@
   }
 
   &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
   }
 
   i {
-    font-size: $font-size-lg;
+    font-size: typography.$font-size-lg;
   }
 }
 
@@ -100,17 +103,17 @@
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: $spacing-02;
+  margin-top: layout.$spacing-02;
   min-width: 10rem;
-  background-color: var(--color-bg-primary-default);
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-02;
-  box-shadow: 0 $spacing-02 $spacing-04 rgba(0, 0, 0, 0.12);
-  padding: $spacing-02;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-02;
+  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 rgba(0, 0, 0, 0.12);
+  padding: layout.$spacing-02;
   z-index: 10;
   opacity: 0;
   visibility: hidden;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   .actions:hover &,
   .actionButton:focus-visible + & {
@@ -122,29 +125,29 @@
 .actionMenuItem {
   display: flex;
   align-items: center;
-  gap: $spacing-03;
+  gap: layout.$spacing-03;
   width: 100%;
-  padding: $spacing-02 $spacing-03;
+  padding: layout.$spacing-02 layout.$spacing-03;
   background-color: transparent;
   border: none;
-  border-radius: $spacing-01;
+  border-radius: layout.$spacing-01;
   color: var(--color-text-primary-default);
-  font-size: $font-size-sm;
+  font-size: typography.$font-size-sm;
   cursor: pointer;
   text-align: left;
-  transition: background-color $duration-fast-01 $easing-productive-standard;
+  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover {
     background-color: var(--color-bg-secondary-hover);
   }
 
   &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: -$spacing-01;
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: calc(-1 * layout.$spacing-01);
   }
 
   i {
-    font-size: $font-size-md;
+    font-size: typography.$font-size-md;
   }
 
   &.actionMenuItemDanger {
@@ -159,8 +162,8 @@
 // Description
 .description {
   color: var(--color-text-secondary-default);
-  font-size: $font-size-sm;
-  line-height: $line-height-body;
+  font-size: typography.$font-size-sm;
+  line-height: typography.$line-height-normal;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -172,19 +175,19 @@
 // Stats section
 .stats {
   display: flex;
-  gap: $spacing-05;
-  padding: $spacing-04 0;
-  border-top: $border-width-small solid var(--color-border-secondary-default);
+  gap: layout.$spacing-05;
+  padding: layout.$spacing-04 0;
+  border-top: border.$border-width-small solid var(--color-border-secondary-default);
 }
 
 .statItem {
   display: flex;
   align-items: center;
-  gap: $spacing-02;
+  gap: layout.$spacing-02;
   flex: 1;
 
   i {
-    font-size: $font-size-xl;
+    font-size: typography.$font-size-xl;
     color: var(--color-text-tertiary-default);
   }
 }
@@ -192,18 +195,18 @@
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: $spacing-01;
+  gap: layout.$spacing-01;
 }
 
 .statValue {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
   line-height: 1;
 }
 
 .statLabel {
-  font-size: $font-size-xs;
+  font-size: typography.$font-size-xs;
   color: var(--color-text-tertiary-default);
   line-height: 1;
 }
@@ -213,31 +216,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: $spacing-03;
-  border-top: $border-width-small solid var(--color-border-secondary-default);
+  padding-top: layout.$spacing-03;
+  border-top: border.$border-width-small solid var(--color-border-secondary-default);
 }
 
 .date {
   display: flex;
   align-items: center;
-  gap: $spacing-02;
+  gap: layout.$spacing-02;
   color: var(--color-text-tertiary-default);
-  font-size: $font-size-xs;
+  font-size: typography.$font-size-xs;
 
   i {
-    font-size: $font-size-sm;
+    font-size: typography.$font-size-sm;
   }
 }
 
 // Responsive adjustments
 @media (max-width: 768px) {
   .root {
-    padding: $spacing-04;
+    padding: layout.$spacing-04;
   }
 
   .stats {
     flex-direction: column;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
   }
 
   .actions {

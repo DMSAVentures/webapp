@@ -1,9 +1,12 @@
-@import "@/design-tokens/variables.scss";
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
 
 .root {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: $spacing-05;
+  gap: layout.$spacing-05;
   width: 100%;
 }
 
@@ -18,16 +21,16 @@
 // Stat card
 .statCard {
   display: flex;
-  gap: $spacing-04;
-  padding: $spacing-05;
-  background-color: var(--color-bg-primary-default);
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-03;
-  transition: all $duration-moderate-01 $easing-productive-standard;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
 
   &:hover {
     border-color: var(--color-border-primary-hover);
-    box-shadow: 0 $spacing-01 $spacing-03 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 layout.$spacing-01 layout.$spacing-03 rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -36,13 +39,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $spacing-09;
-  height: $spacing-09;
-  min-width: $spacing-09;
+  width: layout.$spacing-09;
+  height: layout.$spacing-09;
+  min-width: layout.$spacing-09;
   background-color: var(--color-bg-info-default);
-  border-radius: $spacing-02;
+  border-radius: layout.$spacing-02;
   color: var(--color-text-info-default);
-  font-size: $font-size-2xl;
+  font-size: typography.$font-size-h4;
 
   &.statIconSuccess {
     background-color: var(--color-bg-success-default);
@@ -64,14 +67,14 @@
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: $spacing-01;
+  gap: layout.$spacing-01;
   flex: 1;
   min-width: 0;
 }
 
 .statLabel {
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
   color: var(--color-text-tertiary-default);
   text-transform: uppercase;
   letter-spacing: 0.03rem;
@@ -80,27 +83,27 @@
 .statValue {
   display: flex;
   align-items: baseline;
-  gap: $spacing-02;
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-h4;
+  font-weight: typography.$font-weight-bold;
   color: var(--color-text-primary-default);
   line-height: 1.2;
 }
 
 .statPercentage {
-  font-size: $font-size-md;
-  font-weight: $font-weight-normal;
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-regular;
   color: var(--color-text-secondary-default);
 }
 
 .statBadge {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-02;
-  padding: $spacing-01 $spacing-02;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-  border-radius: $spacing-01;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-01 layout.$spacing-02;
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-medium;
+  border-radius: layout.$spacing-01;
   line-height: 1;
 }
 
@@ -109,7 +112,7 @@
   color: var(--color-text-success-default);
 
   i {
-    font-size: $font-size-sm;
+    font-size: typography.$font-size-sm;
   }
 }
 
@@ -118,19 +121,19 @@
   color: var(--color-text-warning-default);
 
   i {
-    font-size: $font-size-sm;
+    font-size: typography.$font-size-sm;
   }
 }
 
 .statSubtext {
-  font-size: $font-size-xs;
+  font-size: typography.$font-size-xs;
   color: var(--color-text-tertiary-default);
   line-height: 1.4;
 }
 
 // Skeleton loader
 .skeleton {
-  height: $spacing-07;
+  height: layout.$spacing-07;
   background: linear-gradient(
     90deg,
     var(--color-bg-secondary-default) 0%,
@@ -138,7 +141,7 @@
     var(--color-bg-secondary-default) 100%
   );
   background-size: 200% 100%;
-  border-radius: $spacing-01;
+  border-radius: layout.$spacing-01;
   animation: shimmer 1.5s infinite;
 }
 
@@ -155,28 +158,28 @@
 @media (max-width: 1024px) {
   .root {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: $spacing-04;
+    gap: layout.$spacing-04;
   }
 
   .statCard {
-    padding: $spacing-04;
+    padding: layout.$spacing-04;
   }
 
   .statIcon {
-    width: $spacing-08;
-    height: $spacing-08;
-    min-width: $spacing-08;
-    font-size: $font-size-xl;
+    width: layout.$spacing-08;
+    height: layout.$spacing-08;
+    min-width: layout.$spacing-08;
+    font-size: typography.$font-size-xl;
   }
 
   .statValue {
-    font-size: $font-size-xl;
+    font-size: typography.$font-size-xl;
   }
 }
 
 @media (max-width: 768px) {
   .root {
     grid-template-columns: 1fr;
-    gap: $spacing-03;
+    gap: layout.$spacing-03;
   }
 }

@@ -6,7 +6,7 @@
 
 :root {
   // =========================
-  // BACKGROUNDS
+  // BACKGROUNDS (for buttons and dark UI elements)
   // =========================
   --color-bg-primary-default: #{$color-neutral-900};
   --color-bg-primary-hover: #{$color-neutral-800};
@@ -31,6 +31,7 @@
   --color-border-disabled-default: #{$color-neutral-100};
   --color-border-focus-default: #{$color-neutral-400};
   --color-border-primary-default: #{$color-neutral-300};
+  --color-border-primary-hover: #{$color-neutral-400};
   --color-border-secondary-default: #{$color-neutral-200};
 
   // =========================
@@ -62,20 +63,32 @@
   --color-shadow-elevated: rgba(30, 41, 59, 0.16);
 
   // =========================
-  // SEMANTIC COLORS - Error
+  // SEMANTIC COLORS - Error/Danger
   // =========================
   --color-error-default: #{$color-red-500};
   --color-error-text: #{$color-red-700};
+  --color-bg-danger-default: #{$color-red-50};
+  --color-bg-danger-hover: #{$color-red-100};
+  --color-text-danger-default: #{$color-red-700};
+  --color-border-danger-default: #{$color-red-300};
 
   // =========================
   // SEMANTIC COLORS - Success
   // =========================
   --color-success-default: #{$color-green-500};
+  --color-bg-success-default: #{$color-green-50};
+  --color-bg-success-hover: #{$color-green-100};
+  --color-text-success-default: #{$color-green-700};
+  --color-border-success-default: #{$color-green-300};
 
   // =========================
   // SEMANTIC COLORS - Warning
   // =========================
   --color-warning-default: #{$color-orange-500};
+  --color-bg-warning-default: #{$color-orange-50};
+  --color-bg-warning-hover: #{$color-orange-100};
+  --color-text-warning-default: #{$color-orange-700};
+  --color-border-warning-default: #{$color-orange-300};
 
   // =========================
   // SEMANTIC COLORS - Info
@@ -83,6 +96,10 @@
   --color-info-default: #{$color-blue-500};
   --color-info-hover: #{$color-blue-600};
   --color-info-active: #{$color-blue-700};
+  --color-bg-info-default: #{$color-blue-50};
+  --color-bg-info-hover: #{$color-blue-100};
+  --color-text-info-default: #{$color-blue-700};
+  --color-border-info-default: #{$color-blue-300};
 
   // =========================
   // UTILITIES

@@ -1,9 +1,12 @@
-@import "@/design-tokens/variables.scss";
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: $spacing-06;
+  gap: layout.$spacing-06;
   max-width: 600px;
   width: 100%;
 }
@@ -12,45 +15,45 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: $spacing-02;
+  gap: layout.$spacing-02;
 }
 
 .label {
   display: flex;
   align-items: center;
-  gap: $spacing-02;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
 }
 
 .select {
   width: 100%;
-  padding: $spacing-03;
-  background-color: var(--color-bg-primary-default);
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-02;
+  padding: layout.$spacing-03;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-02;
   color: var(--color-text-primary-default);
-  font-size: $font-size-md;
+  font-size: typography.$font-size-md;
   font-family: inherit;
   cursor: pointer;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right $spacing-03 center;
-  padding-right: $spacing-10;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  background-position: right layout.$spacing-03 center;
+  padding-right: layout.$spacing-10;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:focus {
     outline: none;
     border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 $spacing-02 rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 layout.$spacing-02 rgba(59, 130, 246, 0.1);
   }
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    background-color: var(--color-bg-secondary-default);
+    background-color: var(--color-surface-secondary-default);
   }
 }
 
@@ -58,17 +61,17 @@
 .section {
   display: flex;
   flex-direction: column;
-  gap: $spacing-04;
-  padding: $spacing-05;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
   background-color: var(--color-bg-secondary-default);
-  border: $border-width-small solid var(--color-border-secondary-default);
-  border-radius: $spacing-03;
+  border: border.$border-width-small solid var(--color-border-secondary-default);
+  border-radius: layout.$spacing-03;
 }
 
 .sectionTitle {
   margin: 0;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
 }
 
@@ -78,9 +81,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: $spacing-03;
-  padding-top: $spacing-04;
-  border-top: $border-width-small solid var(--color-border-secondary-default);
+  gap: layout.$spacing-03;
+  padding-top: layout.$spacing-04;
+  border-top: border.$border-width-small solid var(--color-border-secondary-default);
 }
 
 // Responsive adjustments

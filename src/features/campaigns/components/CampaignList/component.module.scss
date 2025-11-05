@@ -1,9 +1,12 @@
-@import "@/design-tokens/variables.scss";
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: $spacing-05;
+  gap: layout.$spacing-05;
   width: 100%;
 }
 
@@ -12,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-04;
+  gap: layout.$spacing-04;
   flex-wrap: wrap;
 }
 
@@ -20,7 +23,7 @@
 .filters {
   display: flex;
   align-items: center;
-  gap: $spacing-03;
+  gap: layout.$spacing-03;
   flex: 1;
   flex-wrap: wrap;
 }
@@ -36,27 +39,27 @@
 
   i {
     position: absolute;
-    left: $spacing-03;
+    left: layout.$spacing-03;
     color: var(--color-text-tertiary-default);
-    font-size: $font-size-lg;
+    font-size: typography.$font-size-lg;
     pointer-events: none;
   }
 }
 
 .searchInput {
   width: 100%;
-  padding: $spacing-02 $spacing-10 $spacing-02 $spacing-10;
-  background-color: var(--color-bg-primary-default);
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-02;
+  padding: layout.$spacing-02 layout.$spacing-10 layout.$spacing-02 layout.$spacing-10;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-02;
   color: var(--color-text-primary-default);
-  font-size: $font-size-sm;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  font-size: typography.$font-size-sm;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:focus {
     outline: none;
     border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 $spacing-01 rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 layout.$spacing-01 rgba(59, 130, 246, 0.1);
   }
 
   &::placeholder {
@@ -66,19 +69,19 @@
 
 .searchClear {
   position: absolute;
-  right: $spacing-02;
+  right: layout.$spacing-02;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $spacing-06;
-  height: $spacing-06;
+  width: layout.$spacing-06;
+  height: layout.$spacing-06;
   padding: 0;
   background-color: transparent;
   border: none;
-  border-radius: $spacing-01;
+  border-radius: layout.$spacing-01;
   color: var(--color-text-tertiary-default);
   cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover {
     background-color: var(--color-bg-secondary-hover);
@@ -87,26 +90,26 @@
 
   i {
     position: static;
-    font-size: $font-size-md;
+    font-size: typography.$font-size-md;
   }
 }
 
 // Status filter
 .statusFilter {
   display: flex;
-  gap: $spacing-02;
+  gap: layout.$spacing-02;
 }
 
 .filterButton {
-  padding: $spacing-02 $spacing-03;
+  padding: layout.$spacing-02 layout.$spacing-03;
   background-color: transparent;
-  border: $border-width-small solid var(--color-border-primary-default);
-  border-radius: $spacing-02;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-02;
   color: var(--color-text-secondary-default);
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
   cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover {
     background-color: var(--color-bg-secondary-hover);
@@ -115,8 +118,8 @@
   }
 
   &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
   }
 
   &.filterButtonActive {
@@ -129,49 +132,49 @@
 // View toggle
 .viewToggle {
   display: flex;
-  gap: $spacing-01;
-  padding: $spacing-01;
+  gap: layout.$spacing-01;
+  padding: layout.$spacing-01;
   background-color: var(--color-bg-secondary-default);
-  border-radius: $spacing-02;
+  border-radius: layout.$spacing-02;
 }
 
 .viewButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $spacing-07;
-  height: $spacing-07;
+  width: layout.$spacing-07;
+  height: layout.$spacing-07;
   padding: 0;
   background-color: transparent;
   border: none;
-  border-radius: $spacing-01;
+  border-radius: layout.$spacing-01;
   color: var(--color-text-tertiary-default);
   cursor: pointer;
-  transition: all $duration-fast-01 $easing-productive-standard;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover {
     color: var(--color-text-secondary-default);
   }
 
   &:focus-visible {
-    outline: $border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: $spacing-01;
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
   }
 
   &.viewButtonActive {
     background-color: var(--color-bg-primary-default);
     color: var(--color-text-primary-default);
-    box-shadow: 0 $spacing-01 $spacing-02 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 layout.$spacing-01 layout.$spacing-02 rgba(0, 0, 0, 0.1);
   }
 
   i {
-    font-size: $font-size-lg;
+    font-size: typography.$font-size-lg;
   }
 }
 
 // Results info
 .resultsInfo {
-  font-size: $font-size-sm;
+  font-size: typography.$font-size-sm;
   color: var(--color-text-tertiary-default);
 }
 
@@ -179,7 +182,7 @@
 .campaignGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: $spacing-05;
+  gap: layout.$spacing-05;
 
   &.campaignList {
     grid-template-columns: 1fr;
@@ -196,7 +199,7 @@
     var(--color-bg-secondary-default) 100%
   );
   background-size: 200% 100%;
-  border-radius: $spacing-03;
+  border-radius: layout.$spacing-03;
   animation: shimmer 1.5s infinite;
 }
 
@@ -215,8 +218,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: $spacing-03;
-  padding: $spacing-13 $spacing-05;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-13 layout.$spacing-05;
   text-align: center;
 
   i {
@@ -227,7 +230,7 @@
   p {
     margin: 0;
     color: var(--color-text-secondary-default);
-    font-size: $font-size-md;
+    font-size: typography.$font-size-md;
   }
 }
 
@@ -238,8 +241,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: $spacing-04;
-  padding: $spacing-13 $spacing-05;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-13 layout.$spacing-05;
   text-align: center;
 }
 
@@ -247,21 +250,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $spacing-11;
-  height: $spacing-11;
+  width: layout.$spacing-11;
+  height: layout.$spacing-11;
   background-color: var(--color-bg-info-default);
   border-radius: 50%;
   color: var(--color-text-info-default);
 
   i {
-    font-size: $spacing-08;
+    font-size: layout.$spacing-08;
   }
 }
 
 .emptyStateTitle {
   margin: 0;
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-semibold;
+  font-size: typography.$font-size-h4;
+  font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
 }
 
@@ -269,8 +272,8 @@
   margin: 0;
   max-width: 400px;
   color: var(--color-text-secondary-default);
-  font-size: $font-size-md;
-  line-height: $line-height-body;
+  font-size: typography.$font-size-md;
+  line-height: typography.$line-height-normal;
 }
 
 
