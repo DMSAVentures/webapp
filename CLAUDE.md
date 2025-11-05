@@ -69,15 +69,108 @@ ComponentName/
 - **Breakpoints**: Responsive design breakpoints
 
 #### Color Token Usage
+
+**IMPORTANT: Most components MUST use CSS custom properties from `theme.scss`**
+
+Components with many color variants (Badge, Banner, Feedback, StatusBadge, LinkButton, Tag) are exceptions and can use `colors.$color-*` directly.
+
 ```scss
-// ✅ DO: Use semantic color variables
+// ✅ DO: Use CSS custom properties (theme variables) for most components
 background-color: var(--color-bg-primary-default);
 color: var(--color-text-primary-default);
 border: 1px solid var(--color-border-primary-default);
+box-shadow: 0 4px 8px var(--color-shadow-default);
+
+// ✅ DO: Use SCSS color variables ONLY for multi-color components (Badge, Banner, etc.)
+@use "@/design-tokens/colors" as colors;
+background-color: colors.$color-blue-500;
+color: colors.$color-white;
 
 // ❌ DON'T: Use hardcoded values
 background-color: #1a1a1a;
 color: rgb(255, 255, 255);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+```
+
+**Color Variable Semantic Meanings:**
+- `--color-bg-*` = Backgrounds for **interactive elements** (buttons, inputs, hover states)
+- `--color-surface-*` = Backgrounds for **containers** (cards, modals, sheets, dropdowns, sidebars)
+- `--color-border-*` = All border colors
+- `--color-text-*` = All text colors
+- `--color-icon-*` = Icon colors
+
+**Available Theme Variables:**
+```scss
+// Backgrounds (interactive elements)
+--color-bg-primary-default, --color-bg-primary-hover, --color-bg-primary-active
+--color-bg-secondary-default, --color-bg-secondary-hover, --color-bg-secondary-active
+--color-bg-tertiary-default
+--color-bg-primary-disabled, --color-bg-secondary-disabled
+
+// Surfaces (containers)
+--color-surface-primary-default
+--color-surface-secondary-default
+
+// Borders
+--color-border-primary-default, --color-border-primary-hover
+--color-border-secondary-default
+--color-border-focus-default
+--color-border-disabled-default
+
+// Text
+--color-text-primary-default
+--color-text-secondary-default
+--color-text-tertiary-default
+--color-text-inverse-default
+--color-text-disabled-default
+
+// Icons
+--color-icon-primary-default
+--color-icon-secondary-default
+--color-icon-disabled-default
+
+// Semantic states
+--color-error-default, --color-error-text
+--color-success-default, --color-text-success-default
+--color-warning-default, --color-text-warning-default
+--color-info-default, --color-text-info-default
+
+// Semantic backgrounds
+--color-bg-danger-default, --color-bg-danger-hover
+--color-bg-success-default, --color-bg-success-hover
+--color-bg-warning-default, --color-bg-warning-hover
+--color-bg-info-default, --color-bg-info-hover
+
+// Alpha backgrounds (for icon backgrounds, overlays)
+--color-bg-info-alpha
+--color-bg-success-alpha
+--color-bg-warning-alpha
+--color-bg-danger-alpha
+
+// Semantic borders
+--color-border-danger-default
+--color-border-success-default
+--color-border-warning-default
+--color-border-info-default
+
+// Utilities
+--color-white
+--color-focus-ring-default
+--color-shadow-default
+--color-shadow-elevated
+--color-alpha-focus
+--color-alpha-shadow
+
+// Generic aliases (for backward compatibility)
+--color-primary (text)
+--color-secondary (text)
+--color-muted (text)
+--color-text (primary text)
+--color-bg (surface)
+--color-secondary-bg (background)
+--color-border (primary border)
+--color-hover-primary (background hover)
+--color-info (info state)
 ```
 
 #### Spacing Token Usage

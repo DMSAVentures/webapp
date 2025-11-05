@@ -102,6 +102,28 @@
   --color-border-info-default: #{$color-blue-300};
 
   // =========================
+  // ALPHA BACKGROUNDS (for icon backgrounds, overlays)
+  // =========================
+  --color-bg-info-alpha: #{$blue-alpha-24};
+  --color-bg-success-alpha: #{$green-alpha-24};
+  --color-bg-warning-alpha: #{$orange-alpha-24};
+  --color-bg-danger-alpha: #{$red-alpha-24};
+
+  // =========================
+  // SEMANTIC ALIASES (for components using generic names)
+  // =========================
+  --color-primary: var(--color-text-primary-default);
+  --color-secondary: var(--color-text-secondary-default);
+  --color-muted: var(--color-text-tertiary-default);
+  --color-text: var(--color-text-primary-default);
+  --color-bg: var(--color-surface-primary-default);
+  --color-secondary-bg: var(--color-bg-secondary-default);
+  --color-border: var(--color-border-primary-default);
+  --color-hover-primary: var(--color-bg-secondary-hover);
+  --color-info: var(--color-info-default);
+  --color-bg-disabled-default: var(--color-bg-secondary-disabled);
+
+  // =========================
   // UTILITIES
   // =========================
   --color-white: #{$color-white};

@@ -8,7 +8,7 @@
     -moz-appearance: none;
     width: layout.$spacing-06;
     height: layout.$spacing-06;
-    border: 2px solid black;
+    border: 2px solid var(--color-border-primary-default);
     border-radius: border.$border-radius-round;
     outline: none;
     cursor: pointer;
