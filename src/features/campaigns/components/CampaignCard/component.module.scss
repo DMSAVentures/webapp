@@ -6,7 +6,7 @@
   gap: $spacing-04;
   padding: $spacing-05;
   background-color: var(--color-bg-primary-default);
-  border: 1px solid var(--color-border-primary-default);
+  border: $border-width-small solid var(--color-border-primary-default);
   border-radius: $spacing-03;
   transition: all $duration-moderate-01 $easing-productive-standard;
   cursor: pointer;
@@ -14,8 +14,8 @@
 
   &:hover {
     border-color: var(--color-border-primary-hover);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
+    box-shadow: 0 $spacing-02 ($spacing-04 * 1.5) rgba(0, 0, 0, 0.08);
+    transform: translateY(-$spacing-01);
 
     .actions {
       opacity: 1;
@@ -23,8 +23,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-focus-ring-default);
-    outline-offset: 2px;
+    outline: $border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: $spacing-01;
   }
 
   &:active {
@@ -70,11 +70,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: $spacing-07;
+  height: $spacing-07;
   padding: 0;
   background-color: transparent;
-  border: 1px solid var(--color-border-primary-default);
+  border: $border-width-small solid var(--color-border-primary-default);
   border-radius: $spacing-02;
   color: var(--color-text-secondary-default);
   cursor: pointer;
@@ -87,8 +87,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-focus-ring-default);
-    outline-offset: 2px;
+    outline: $border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: $spacing-01;
   }
 
   i {
@@ -101,11 +101,11 @@
   top: 100%;
   right: 0;
   margin-top: $spacing-02;
-  min-width: 160px;
+  min-width: 10rem;
   background-color: var(--color-bg-primary-default);
-  border: 1px solid var(--color-border-primary-default);
+  border: $border-width-small solid var(--color-border-primary-default);
   border-radius: $spacing-02;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 $spacing-02 $spacing-04 rgba(0, 0, 0, 0.12);
   padding: $spacing-02;
   z-index: 10;
   opacity: 0;
@@ -139,8 +139,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-focus-ring-default);
-    outline-offset: -2px;
+    outline: $border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: -$spacing-01;
   }
 
   i {
@@ -174,7 +174,7 @@
   display: flex;
   gap: $spacing-05;
   padding: $spacing-04 0;
-  border-top: 1px solid var(--color-border-secondary-default);
+  border-top: $border-width-small solid var(--color-border-secondary-default);
 }
 
 .statItem {
@@ -192,7 +192,7 @@
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: $spacing-01;
 }
 
 .statValue {
@@ -214,7 +214,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: $spacing-03;
-  border-top: 1px solid var(--color-border-secondary-default);
+  border-top: $border-width-small solid var(--color-border-secondary-default);
 }
 
 .date {

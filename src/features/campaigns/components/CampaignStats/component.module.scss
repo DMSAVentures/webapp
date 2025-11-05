@@ -21,13 +21,13 @@
   gap: $spacing-04;
   padding: $spacing-05;
   background-color: var(--color-bg-primary-default);
-  border: 1px solid var(--color-border-primary-default);
+  border: $border-width-small solid var(--color-border-primary-default);
   border-radius: $spacing-03;
   transition: all $duration-moderate-01 $easing-productive-standard;
 
   &:hover {
     border-color: var(--color-border-primary-hover);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 $spacing-01 $spacing-03 rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -36,9 +36,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: $spacing-09;
+  height: $spacing-09;
+  min-width: $spacing-09;
   background-color: var(--color-bg-info-default);
   border-radius: $spacing-02;
   color: var(--color-text-info-default);
@@ -74,7 +74,7 @@
   font-weight: $font-weight-medium;
   color: var(--color-text-tertiary-default);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03rem;
 }
 
 .statValue {
@@ -96,8 +96,8 @@
 .statBadge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px $spacing-02;
+  gap: $spacing-02;
+  padding: $spacing-01 $spacing-02;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   border-radius: $spacing-01;
@@ -130,7 +130,7 @@
 
 // Skeleton loader
 .skeleton {
-  height: 32px;
+  height: $spacing-07;
   background: linear-gradient(
     90deg,
     var(--color-bg-secondary-default) 0%,
@@ -163,9 +163,9 @@
   }
 
   .statIcon {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    width: $spacing-08;
+    height: $spacing-08;
+    min-width: $spacing-08;
     font-size: $font-size-xl;
   }
 
