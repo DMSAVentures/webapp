@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -41,7 +42,7 @@
   text-align: center;
 
   i {
-    font-size: 48px;
+    font-size: typography.$font-size-h1;
     color: var(--color-icon-secondary-default);
   }
 
@@ -127,10 +128,10 @@
 // Timeline connector line
 .connector {
   position: absolute;
-  left: 20px;
-  top: 44px;
+  left: layout.$spacing-05;
+  top: layout.$spacing-09;
   bottom: 0;
-  width: 2px;
+  width: border.$border-width-medium;
   background-color: var(--color-border-secondary-default);
   transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
 }
@@ -142,13 +143,13 @@
 // Icon wrapper
 .iconWrapper {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: layout.$spacing-10;
+  height: layout.$spacing-10;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--color-surface-primary-default);
-  border: 2px solid var(--color-border-primary-default);
+  border: border.$border-width-medium solid var(--color-border-primary-default);
   border-radius: 50%;
   transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
   z-index: 1;
@@ -287,7 +288,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .progressSection {
     padding: layout.$spacing-04;
   }
@@ -302,8 +303,8 @@
   }
 
   .iconWrapper {
-    width: 32px;
-    height: 32px;
+    width: layout.$spacing-08;
+    height: layout.$spacing-08;
 
     i {
       font-size: typography.$font-size-lg;
@@ -311,8 +312,8 @@
   }
 
   .connector {
-    left: 15px;
-    top: 36px;
+    left: layout.$spacing-04;
+    top: layout.$spacing-08;
   }
 
   .name {

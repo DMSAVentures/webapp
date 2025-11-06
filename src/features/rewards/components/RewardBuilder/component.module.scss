@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -143,7 +144,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .root {
     gap: layout.$spacing-04;
   }
