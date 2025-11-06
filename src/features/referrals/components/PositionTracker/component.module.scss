@@ -85,13 +85,13 @@
 }
 
 .positionHash {
-    font-size: typography.$font-size-3xl;
+    font-size: typography.$font-size-h3;  // 28px
     font-weight: typography.$font-weight-bold;
     color: var(--color-text-secondary-default);
 }
 
 .positionNumber {
-    font-size: typography.$font-size-5xl;
+    font-size: typography.$font-size-h1;  // 40px
     font-weight: typography.$font-weight-bold;
     color: var(--color-text-primary-default);
     transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;

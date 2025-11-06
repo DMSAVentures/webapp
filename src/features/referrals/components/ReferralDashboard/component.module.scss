@@ -40,20 +40,20 @@
     justify-content: center;
     gap: layout.$spacing-03;
     margin: 0;
-    font-size: typography.$font-size-3xl;
+    font-size: typography.$font-size-h3;  // 28px
     font-weight: typography.$font-weight-bold;
     color: var(--color-text-primary-default);
 
     i {
-        font-size: typography.$font-size-3xl;
+        font-size: typography.$font-size-h3;
         color: var(--color-icon-primary-default);
     }
 
     @media (max-width: breakpoints.$breakpoint-md) {
-        font-size: typography.$font-size-2xl;
+        font-size: typography.$font-size-h4;  // 24px
 
         i {
-            font-size: typography.$font-size-2xl;
+            font-size: typography.$font-size-h4;
         }
     }
 }
@@ -125,13 +125,13 @@
 }
 
 .statValue {
-    font-size: typography.$font-size-5xl;
+    font-size: typography.$font-size-h1;  // 40px
     font-weight: typography.$font-weight-bold;
     color: var(--color-text-primary-default);
-    line-height: 1;
+    line-height: typography.$line-height-none;
 
-    @media (max-width: 767px) {
-        font-size: typography.$font-size-4xl;
+    @media (max-width: breakpoints.$breakpoint-md) {
+        font-size: typography.$font-size-h2;  // 32px
     }
 }
 
