@@ -240,7 +240,7 @@ export const WebhookManager = memo<WebhookManagerProps>(function WebhookManager(
 										{onDelete && (
 											<IconOnlyButton
 												iconClass="delete-bin-line"
-												variant="tertiary"
+												variant="secondary"
 												ariaLabel="Delete webhook"
 												onClick={() => onDelete(webhook.id)}
 											/>

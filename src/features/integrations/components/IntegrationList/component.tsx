@@ -304,7 +304,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 											)}
 											{onDisconnect && (
 												<Button
-													variant="tertiary"
+													variant="secondary"
 													onClick={() => onDisconnect(integration.id)}
 													leftIcon="ri-uninstall-line"
 												>
@@ -327,7 +327,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 											)}
 											{onDisconnect && (
 												<Button
-													variant="tertiary"
+													variant="secondary"
 													size="small"
 													onClick={() => onDisconnect(integration.id)}
 												>
