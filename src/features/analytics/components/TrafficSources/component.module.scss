@@ -1,6 +1,7 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   width: 100%;
@@ -112,7 +113,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .root {
     padding: layout.$spacing-04;
   }

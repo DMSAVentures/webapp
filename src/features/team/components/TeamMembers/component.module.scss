@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -192,12 +193,14 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 // Error state
+
 .error {
   display: flex;
   align-items: center;
@@ -246,14 +249,14 @@
 }
 
 // Responsive
-@media (max-width: 1024px) {
+@media (max-width: breakpoints.$breakpoint-lg) {
   .tableHeader,
   .tableRow {
     grid-template-columns: 2fr 1fr 1fr 80px;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .header {
     flex-direction: column;
     align-items: stretch;

@@ -1,1 +1,1 @@
-export { BulkActions, type BulkActionsProps } from './component';
+export { BulkActions, type BulkActionsProps } from "./component";

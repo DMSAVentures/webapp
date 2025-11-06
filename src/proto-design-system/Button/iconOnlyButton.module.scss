@@ -24,11 +24,6 @@
         font-size: typography.$font-size-h4; // Icon size adjustment (24px)
     }
 
-    &--secondary {
-        background-color: var(--color-bg-secondary-default);
-        color: var(--color-text-secondary-default); // Text color for contrast on secondary button
-    }
-
     &:hover {
         background-color: var(--color-bg-primary-hover);
     }

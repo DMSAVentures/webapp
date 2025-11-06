@@ -1,2 +1,2 @@
-export { RewardBuilder } from './component';
-export type { RewardBuilderProps, CreateRewardRequest } from './component';
+export type { CreateRewardRequest, RewardBuilderProps } from "./component";
+export { RewardBuilder } from "./component";

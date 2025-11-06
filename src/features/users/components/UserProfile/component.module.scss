@@ -138,7 +138,7 @@
 .detailValue {
   font-size: typography.$font-size-md;
   color: var(--color-text-primary-default);
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 // Referral List

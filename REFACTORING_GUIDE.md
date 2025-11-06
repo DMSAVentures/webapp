@@ -447,7 +447,210 @@ Use TextInput/Dropdown default sizing
 - Medium: 600px
 - Large: 800px
 
-### 7. Final Checklist
+### 7. Additional SCSS Linting & Best Practices
+
+#### A. Fix SCSS Linting Errors
+
+Run SCSS linter to catch additional issues:
+```bash
+npm run lint:scss
+```
+
+**Common SCSS linting errors and fixes:**
+
+**1. Duplicate Keyframe Selectors:**
+```scss
+// ❌ WRONG - Duplicate 100% selector
+@keyframes animation {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// ✅ CORRECT - Separate selectors
+@keyframes animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+```
+
+**2. Duplicate Selectors:**
+```scss
+// ❌ WRONG - Defining same selector twice
+.button {
+  &--secondary {
+    background: blue;
+  }
+}
+
+.button--secondary {  // Duplicate!
+  background: red;
+  // ... more styles
+}
+
+// ✅ CORRECT - Use only one definition
+.button--secondary {
+  background: red;
+  // ... all styles here
+}
+```
+
+**3. Operator Spacing:**
+```scss
+// ❌ WRONG - No space before *
+width: layout.$spacing-13  * 2;
+
+// ✅ CORRECT - Space before operator
+width: layout.$spacing-13 * 2;
+```
+
+**4. Empty Line Before Rule:**
+```scss
+// ❌ WRONG - Missing empty line before nested rule
+.parent {
+  color: red;
+  &::backdrop {
+    background: blue;
+  }
+}
+
+// ✅ CORRECT - Add empty line
+.parent {
+  color: red;
+
+  &::backdrop {
+    background: blue;
+  }
+}
+
+// ❌ WRONG - Missing empty line in @keyframes
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ✅ CORRECT
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+```
+
+**5. Deprecated CSS Properties:**
+```scss
+// ❌ WRONG - Deprecated word-break value
+.text {
+  word-break: break-word;
+}
+
+// ✅ CORRECT - Use overflow-wrap instead
+.text {
+  overflow-wrap: break-word;
+}
+```
+
+**6. Empty Comments:**
+```scss
+// ❌ WRONG - Empty comment
+//
+//
+
+// ✅ CORRECT - Add meaningful content or remove
+// TODO: Implement span logic
+```
+
+**7. @use Rule Placement:**
+```scss
+// ❌ WRONG - @use after other rules
+.root {
+  padding: layout.$spacing-05;
+}
+
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+@media (max-width: breakpoints.$breakpoint-md) {
+  .root {
+    padding: layout.$spacing-04;
+  }
+}
+
+// ✅ CORRECT - All @use at the top of file
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+  padding: layout.$spacing-05;
+}
+
+@media (max-width: breakpoints.$breakpoint-md) {
+  .root {
+    padding: layout.$spacing-04;
+  }
+}
+```
+
+**CRITICAL: SASS @use Rule Requirements**
+- ALL `@use` statements MUST be at the top of the file
+- `@use` rules must come before ANY other CSS rules, selectors, or declarations
+- Violating this causes SASS compilation errors
+
+**8. Typography Token Usage:**
+```scss
+// ❌ WRONG - Hardcoded letter-spacing and line-height
+.label {
+  letter-spacing: 0.03rem;
+  line-height: 1.2;
+}
+
+// ✅ CORRECT - Use typography tokens
+@use "@/design-tokens/typography" as typography;
+
+.label {
+  letter-spacing: typography.$letter-spacing-wider;
+  line-height: typography.$line-height-tight;
+}
+```
+
+**Available Typography Tokens:**
+- Letter spacing: `$letter-spacing-tighter`, `$letter-spacing-tight`, `$letter-spacing-normal`, `$letter-spacing-wide`, `$letter-spacing-wider`
+- Line height: `$line-height-none` (1), `$line-height-tight` (1.25), `$line-height-snug` (1.375), `$line-height-normal` (1.5), `$line-height-relaxed` (1.625), `$line-height-loose` (2)
+
+#### B. Run Complete Linting Suite
+
+```bash
+# Run all linters
+npm run lint          # TypeScript/JavaScript linting
+npm run lint:scss     # SCSS linting
+
+# Auto-fix where possible
+npx @biomejs/biome check --write .
+```
+
+### 8. Final Checklist
 
 Before committing, verify:
 
@@ -458,15 +661,25 @@ Before committing, verify:
 - [ ] No hardcoded pixel values in SCSS
 - [ ] All spacing uses `layout.$spacing-*`
 - [ ] All typography uses `typography.$font-size-*`
+- [ ] All letter-spacing uses `typography.$letter-spacing-*`
+- [ ] All line-height uses `typography.$line-height-*`
 - [ ] All colors use `var(--color-*)`
 - [ ] All borders use `border.$border-*`
 - [ ] All animations use `motion.$duration-*` and `motion.$easing-*`
 - [ ] All breakpoints use `breakpoints.$breakpoint-*`
+- [ ] All `@use` rules are at the top of SCSS files
+- [ ] No duplicate selectors or keyframes
+- [ ] No empty comments
+- [ ] No deprecated CSS properties (word-break, etc.)
+- [ ] Proper spacing before operators (*, /, etc.)
+- [ ] Empty lines before nested rules and keyframe blocks
 - [ ] `npm run build` succeeds with no errors
+- [ ] `npm run lint` passes with no errors
+- [ ] `npm run lint:scss` passes with no errors (only deprecation warnings OK)
 - [ ] Components look correct in Storybook
 - [ ] Responsive behavior works on mobile
 
-### 8. Commit Message Template
+### 9. Commit Message Template
 
 ```
 refactor: replace custom [component type] with proto design system
@@ -498,19 +711,23 @@ refactor: replace custom [component type] with proto design system
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-### 9. Reference Examples
+### 10. Reference Examples
 
 **Well-Refactored Components:**
 - `src/features/rewards/components/RewardBuilder/component.tsx`
 - `src/features/rewards/components/RewardTiers/component.tsx`
 - `src/features/users/components/UserFilters/component.tsx`
 - `src/features/users/components/UserProfile/component.tsx`
+- `src/features/analytics/components/GrowthChart/component.tsx`
+- `src/features/analytics/components/AnalyticsDashboard/component.tsx`
 
 These components demonstrate:
 - Proper use of proto design system
 - 100% design token compliance
 - Clean, maintainable code
 - No custom implementations
+- Proper SCSS linting compliance
+- Correct @use rule placement
 
 ---
 

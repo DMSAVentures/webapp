@@ -57,44 +57,42 @@ export interface ButtonProps
  *   Menu
  * </Button>
  */
-export const Button = memo(
-	function Button({
-		variant = "primary",
-		disabled = false,
-		leftIcon,
-		onClick,
-		children,
-		type = "button",
-		size = "medium",
-		className: customClassName,
-		...props
-	}: ButtonProps) {
-		// Compose CSS classes using CSS Modules with BEM naming
-		const classNames = [
-			styles.root,
-			variant !== "primary" && styles[`variant_${variant}`],
-			size !== "medium" && styles[`size_${size}`],
-			customClassName,
-		]
-			.filter(Boolean)
-			.join(" ");
+export const Button = memo(function Button({
+	variant = "primary",
+	disabled = false,
+	leftIcon,
+	onClick,
+	children,
+	type = "button",
+	size = "medium",
+	className: customClassName,
+	...props
+}: ButtonProps) {
+	// Compose CSS classes using CSS Modules with BEM naming
+	const classNames = [
+		styles.root,
+		variant !== "primary" && styles[`variant_${variant}`],
+		size !== "medium" && styles[`size_${size}`],
+		customClassName,
+	]
+		.filter(Boolean)
+		.join(" ");
 
-		return (
-			<button
-				className={classNames}
-				disabled={disabled}
-				onClick={onClick}
-				type={type}
-				{...props}
-			>
-				{leftIcon && (
-					<i className={`${styles.icon} ri-${leftIcon}`} aria-hidden="true"></i>
-				)}
-				<span className={styles.text}>{children}</span>
-			</button>
-		);
-	}
-);
+	return (
+		<button
+			className={classNames}
+			disabled={disabled}
+			onClick={onClick}
+			type={type}
+			{...props}
+		>
+			{leftIcon && (
+				<i className={`${styles.icon} ri-${leftIcon}`} aria-hidden="true"></i>
+			)}
+			<span className={styles.text}>{children}</span>
+		</button>
+	);
+});
 
 interface SignInButtonProps
 	extends Omit<ButtonHTMLAttributes<HTMLAnchorElement>, "type"> {
@@ -111,43 +109,41 @@ interface SignInButtonProps
 	href: string;
 }
 
-export const SignInButton = memo(
-	function SignInButton({
-		variant = "primary",
-		disabled = false,
-		leftIcon,
-		children,
-		size = "medium",
-		className: customClassName,
-		href,
-		...props
-	}: SignInButtonProps) {
-		// Compose CSS classes using CSS Modules with BEM naming
-		const classNames = [
-			styles.root,
-			variant !== "primary" && styles[`variant_${variant}`],
-			size !== "medium" && styles[`size_${size}`],
-			customClassName,
-		]
-			.filter(Boolean)
-			.join(" ");
+export const SignInButton = memo(function SignInButton({
+	variant = "primary",
+	disabled = false,
+	leftIcon,
+	children,
+	size = "medium",
+	className: customClassName,
+	href,
+	...props
+}: SignInButtonProps) {
+	// Compose CSS classes using CSS Modules with BEM naming
+	const classNames = [
+		styles.root,
+		variant !== "primary" && styles[`variant_${variant}`],
+		size !== "medium" && styles[`size_${size}`],
+		customClassName,
+	]
+		.filter(Boolean)
+		.join(" ");
 
-		return (
-			<a
-				href={href}
-				className={classNames}
-				style={{ textDecoration: "none" }}
-				aria-disabled={disabled}
-				{...props}
-			>
-				{leftIcon && (
-					<i className={`${styles.icon} ri-${leftIcon}`} aria-hidden="true"></i>
-				)}
-				<span className={styles.text}>{children}</span>
-			</a>
-		);
-	}
-);
+	return (
+		<a
+			href={href}
+			className={classNames}
+			style={{ textDecoration: "none" }}
+			aria-disabled={disabled}
+			{...props}
+		>
+			{leftIcon && (
+				<i className={`${styles.icon} ri-${leftIcon}`} aria-hidden="true"></i>
+			)}
+			<span className={styles.text}>{children}</span>
+		</a>
+	);
+});
 
 // Display name for debugging
 Button.displayName = "Button";
