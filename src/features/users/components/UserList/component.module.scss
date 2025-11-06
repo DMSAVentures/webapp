@@ -43,44 +43,14 @@
 // Search box
 .searchBox {
   position: relative;
-  display: flex;
-  align-items: center;
   min-width: 300px;
   flex: 1;
   max-width: 500px;
-
-  i {
-    position: absolute;
-    left: layout.$spacing-03;
-    color: var(--color-text-tertiary-default);
-    font-size: typography.$font-size-lg;
-    pointer-events: none;
-  }
-}
-
-.searchInput {
-  width: 100%;
-  padding: layout.$spacing-02 layout.$spacing-10 layout.$spacing-02 layout.$spacing-10;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-sm;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
-  }
-
-  &::placeholder {
-    color: var(--color-text-tertiary-default);
-  }
 }
 
 .searchClear {
   position: absolute;
+  top: layout.$spacing-08;
   right: layout.$spacing-02;
   display: flex;
   align-items: center;
@@ -100,8 +70,12 @@
     color: var(--color-text-secondary-default);
   }
 
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+
   i {
-    position: static;
     font-size: typography.$font-size-md;
   }
 }

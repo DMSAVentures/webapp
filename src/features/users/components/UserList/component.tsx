@@ -8,6 +8,7 @@ import { Button } from '@/proto-design-system/Button/button';
 import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
 import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
 import Checkbox from '@/proto-design-system/checkbox/checkbox';
+import { TextInput } from '@/proto-design-system/TextInput/textInput';
 import { UserFilters, type UserFilters as UserFiltersType } from '../UserFilters/component';
 import { BulkActions } from '../BulkActions/component';
 import type { WaitlistUser } from '@/types/common.types';
@@ -267,13 +268,13 @@ export const UserList = memo<UserListProps>(
             <div className={styles.header}>
               {/* Search */}
               <div className={styles.searchBox}>
-                <i className="ri-search-line" aria-hidden="true" />
-                <input
-                  type="text"
+                <TextInput
+                  label="Search"
                   placeholder="Search by email or name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={styles.searchInput}
+                  leftIcon="ri-search-line"
+                  showLeftIcon={true}
                 />
                 {searchQuery && (
                   <button
