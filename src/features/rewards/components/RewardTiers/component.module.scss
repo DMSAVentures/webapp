@@ -128,8 +128,8 @@
 // Timeline connector line
 .connector {
   position: absolute;
-  left: layout.$spacing-05;
-  top: layout.$spacing-09;
+  left: layout.$spacing-04;
+  top: layout.$spacing-07;
   bottom: 0;
   width: border.$border-width-medium;
   background-color: var(--color-border-secondary-default);
@@ -143,8 +143,8 @@
 // Icon wrapper
 .iconWrapper {
   flex-shrink: 0;
-  width: layout.$spacing-10;
-  height: layout.$spacing-10;
+  width: layout.$spacing-08;
+  height: layout.$spacing-08;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,7 +155,7 @@
   z-index: 1;
 
   i {
-    font-size: typography.$font-size-xl;
+    font-size: typography.$font-size-md;
     color: var(--color-icon-secondary-default);
   }
 }
@@ -171,7 +171,7 @@
 
 .timelineItem.current .iconWrapper {
   border-color: var(--color-border-focus-default);
-  box-shadow: 0 0 0 4px var(--color-alpha-focus);
+  box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
 }
 
 .timelineItem.next .iconWrapper {
@@ -303,17 +303,17 @@
   }
 
   .iconWrapper {
-    width: layout.$spacing-08;
-    height: layout.$spacing-08;
+    width: layout.$spacing-06;
+    height: layout.$spacing-06;
 
     i {
-      font-size: typography.$font-size-lg;
+      font-size: typography.$font-size-sm;
     }
   }
 
   .connector {
-    left: layout.$spacing-04;
-    top: layout.$spacing-08;
+    left: layout.$spacing-03;
+    top: layout.$spacing-06;
   }
 
   .name {
