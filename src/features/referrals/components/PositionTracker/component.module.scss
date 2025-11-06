@@ -121,7 +121,7 @@
     padding: layout.$spacing-01 layout.$spacing-03;
     background-color: var(--color-bg-success-alpha);
     color: var(--color-success-default);
-    border-radius: border.$border-radius-full;
+    border-radius: border.$border-radius-round;
     font-size: typography.$font-size-xs;
     font-weight: typography.$font-weight-semibold;
     animation: slideInRight motion.$duration-fast-01 motion.$easing-productive-standard;
@@ -161,7 +161,7 @@
     padding: layout.$spacing-03 layout.$spacing-05;
     background: linear-gradient(135deg, var(--color-bg-warning-alpha) 0%, var(--color-bg-info-alpha) 100%);
     border: 1px solid var(--color-border-warning-default);
-    border-radius: border.$border-radius-full;
+    border-radius: border.$border-radius-round;
     transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
     &:hover {
