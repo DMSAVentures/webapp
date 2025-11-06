@@ -62,7 +62,7 @@
     display: inline-flex;
     align-items: center;
     margin-left: layout.$spacing-01;
-    font-size: 0.875em;
+    font-size: typography.$font-size-lg; // 14px
   }
 
   // Text styling

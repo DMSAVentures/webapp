@@ -48,15 +48,15 @@
   background-color: var(--color-border-secondary-default);
 
   &:first-child {
-    background-color: #ff5f57;
+    background-color: var(--color-error-default); // Close button (red)
   }
 
   &:nth-child(2) {
-    background-color: #ffbd2e;
+    background-color: var(--color-warning-default); // Minimize button (yellow)
   }
 
   &:nth-child(3) {
-    background-color: #28ca42;
+    background-color: var(--color-success-default); // Maximize button (green)
   }
 }
 
@@ -87,7 +87,7 @@
   min-height: 400px;
 
   i {
-    font-size: 48px;
+    font-size: calc(typography.$font-size-h1 * 1.2); // 48px (40px * 1.2)
     color: var(--color-icon-secondary-default);
   }
 

@@ -72,7 +72,7 @@
   font-weight: typography.$font-weight-semibold;
   border-radius: border.$border-radius-small;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: typography.$letter-spacing-wide;
 }
 
 .previewType {

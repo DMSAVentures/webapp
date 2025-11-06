@@ -11,7 +11,9 @@
       "Bash(git commit:*)",
       "Bash(pkill:*)",
       "Bash(npm run storybook:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npm run lint:scss:*)",
+      "Bash(npx stylelint:*)"
     ],
     "deny": [],
     "ask": []

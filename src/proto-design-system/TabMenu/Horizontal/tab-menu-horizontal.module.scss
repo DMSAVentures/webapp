@@ -1,4 +1,5 @@
 @use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
 
 .tab-menu-horizontal ul {
     margin: 0;
@@ -9,7 +10,7 @@
     flex-direction: row;
     border-style: solid;
     border-color: var(--color-border-primary-default);
-    border-width: 1px 0;
+    border-width: border.$border-width-small 0;
     gap: layout.$spacing-05;
     align-items: start;
 
@@ -27,7 +28,7 @@
             color: var(--color-text-primary-default);
             border-style: solid;
             border-color: var(--color-text-primary-default);
-            border-width: 0 0 2px;
+            border-width: 0 0 border.$border-width-medium;
         }
     }
 

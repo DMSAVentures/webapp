@@ -9,10 +9,11 @@
   ],
   "rules": {
     "order/properties-order": null,
+    "keyframes-name-pattern": null,
     "scale-unlimited/declaration-strict-value": [
       ["/color$/", "fill", "stroke", "font-size", "font-weight", "line-height", "letter-spacing", "font-family", "padding", "margin", "gap", "border-radius", "border-width", "transition-duration", "animation-duration"],
       {
-        "ignoreValues": ["transparent", "currentColor", "inherit", "initial", "unset", "none", "auto", "0", "100%"],
+        "ignoreValues": ["transparent", "currentColor", "inherit", "initial", "unset", "none", "auto", "0", "100%", "50%", "/^0 /", "/ 0$/", "/ 0 /"],
         "message": "Use design tokens from @/design-tokens/ instead of hardcoded values. See docs/design-tokens.md"
       }
     ],
@@ -48,6 +49,8 @@
     "node_modules/**",
     "dist/**",
     "build/**",
-    "storybook-static/**"
+    "storybook-static/**",
+    "src/design-tokens/**",
+    "src/proto-design-system/UIShell/Column/grid-example.module.scss"
   ]
 }

@@ -1,6 +1,7 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
 
 
 
@@ -129,7 +130,7 @@
     @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
 
   border: colors.$color-neutral-200 solid;
-  border-width: 0 0 1px;
+  border-width: 0 0 border.$border-width-small;
 
 }
 
@@ -137,26 +138,26 @@
     @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
 
   border: colors.$color-neutral-200 solid;
-  border-width: 0 0 1px;
+  border-width: 0 0 border.$border-width-small;
 }
 
 .banner--warning.banner--stroke {
     @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
 
   border: colors.$color-neutral-200 solid;
-  border-width: 0 0 1px;
+  border-width: 0 0 border.$border-width-small;
 }
 
 .banner--info.banner--stroke {
   @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
 
   border: colors.$color-neutral-200 solid;
-  border-width: 0 0 1px;
+  border-width: 0 0 border.$border-width-small;
 }
 
 .banner--feature.banner--stroke {
   @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-900);
 
   border: colors.$color-neutral-200 solid;
-  border-width: 0 0 1px;
+  border-width: 0 0 border.$border-width-small;
 }

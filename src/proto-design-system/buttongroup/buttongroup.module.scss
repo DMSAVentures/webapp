@@ -78,7 +78,7 @@
 
   // First Child Styles
   &:first-child {
-    border-width: 1px;
+    border-width: border.$border-width-small;
     border-color: var(--color-border-primary-default);
     border-radius: layout.$spacing-03 0 0 layout.$spacing-03;
     border-style: solid;

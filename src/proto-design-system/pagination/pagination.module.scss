@@ -21,12 +21,12 @@
 
             // Middle Children Styles
             &:not(:first-child, :last-child) {
-                border-width: 1px 1px 1px 0;
+                border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
                 border-radius: 0;
             }
 
             &:last-child {
-                border-width: 1px 1px 1px 0;
+                border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
                 border-top-right-radius: border.$border-radius-medium;
                 border-bottom-right-radius: border.$border-radius-medium;
             }

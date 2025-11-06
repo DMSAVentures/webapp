@@ -78,7 +78,7 @@
   font-weight: typography.$font-weight-medium;
   color: var(--color-text-secondary-default);
   text-transform: uppercase;
-  letter-spacing: 0.03rem;
+  letter-spacing: typography.$letter-spacing-wide;
 }
 
 .statValue {
@@ -88,7 +88,7 @@
   font-size: typography.$font-size-h4;
   font-weight: typography.$font-weight-bold;
   color: var(--color-text-primary-default);
-  line-height: 1.2;
+  line-height: typography.$line-height-tight;
 }
 
 .statPercentage {
@@ -105,7 +105,7 @@
   font-size: typography.$font-size-xs;
   font-weight: typography.$font-weight-medium;
   border-radius: layout.$spacing-01;
-  line-height: 1;
+  line-height: typography.$line-height-none;
 }
 
 .statBadgeSuccess {
@@ -129,7 +129,7 @@
 .statSubtext {
   font-size: typography.$font-size-xs;
   color: var(--color-text-tertiary-default);
-  line-height: 1.4;
+  line-height: typography.$line-height-snug;
 }
 
 // Skeleton loader

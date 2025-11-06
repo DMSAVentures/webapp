@@ -102,13 +102,13 @@
   font-size: typography.$font-size-lg;
   font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
-  line-height: 1;
+  line-height: typography.$line-height-none;
 }
 
 .statLabel {
   font-size: typography.$font-size-xs;
   color: var(--color-text-secondary-default);
-  line-height: 1;
+  line-height: typography.$line-height-none;
 }
 
 // Footer

@@ -1,5 +1,6 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/typography" as typography;
 
 .icon-only-button {
     display: inline-flex;
@@ -20,7 +21,7 @@
     position: relative; // For focus ring positioning
 
     .ri {
-        font-size: 1.5rem; // Icon size adjustment
+        font-size: typography.$font-size-h4; // Icon size adjustment (24px)
     }
 
     &--secondary {
@@ -82,7 +83,7 @@
 
 
     .ri {
-        font-size: 1.5rem;
+        font-size: typography.$font-size-h4; // 24px
     }
 
     &:hover {

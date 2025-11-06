@@ -90,7 +90,7 @@
   font-weight: typography.$font-weight-medium;
   color: var(--color-text-secondary-default);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: typography.$letter-spacing-wide;
 }
 
 .progressValue {

@@ -1,5 +1,6 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/design-tokens/border" as border;
 
 .header {
     display: flex;
@@ -55,16 +56,16 @@
             left: 0;
             background-color: var(--color-surface-primary-default);
             border: 1px solid var(--color-border);
-            border-radius: 4px;
+            border-radius: border.$border-radius-small;
             box-shadow: 0 4px 8px var(--color-shadow-default);
-            padding: 0.5rem 0;
+            padding: layout.$spacing-03 0;
             display: flex;
             flex-direction: column;
             min-width: 150px;
             z-index: 1000;
 
             .header__dropdown-item {
-                padding: 0.5rem 1rem;
+                padding: layout.$spacing-03 layout.$spacing-05; // 8px 16px
                 color: var(--color-text-primary-default);
                 text-decoration: none;
 
