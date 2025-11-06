@@ -1,0 +1,216 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: layout.$spacing-05;
+    padding: layout.$spacing-06;
+    background-color: var(--color-surface-primary-default);
+    border: 1px solid var(--color-border-primary-default);
+    border-radius: border.$border-radius-large;
+    transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+    @media (max-width: 767px) {
+        padding: layout.$spacing-05;
+    }
+}
+
+// Confetti Animation
+.confettiContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confettiFall 3s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+// Position Section
+.positionSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: layout.$spacing-03;
+}
+
+.positionLabel {
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-medium;
+    color: var(--color-text-secondary-default);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.positionDisplay {
+    display: flex;
+    align-items: baseline;
+    gap: layout.$spacing-02;
+    position: relative;
+}
+
+.positionHash {
+    font-size: typography.$font-size-3xl;
+    font-weight: typography.$font-weight-bold;
+    color: var(--color-text-secondary-default);
+}
+
+.positionNumber {
+    font-size: typography.$font-size-5xl;
+    font-weight: typography.$font-weight-bold;
+    color: var(--color-text-primary-default);
+    transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+    .improving & {
+        animation: bounceIn motion.$duration-moderate-01 motion.$easing-expressive-standard;
+        color: var(--color-success-default);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.improvementBadge {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-01;
+    padding: layout.$spacing-01 layout.$spacing-03;
+    background-color: var(--color-bg-success-alpha);
+    color: var(--color-success-default);
+    border-radius: border.$border-radius-full;
+    font-size: typography.$font-size-xs;
+    font-weight: typography.$font-weight-semibold;
+    animation: slideInRight motion.$duration-fast-01 motion.$easing-productive-standard;
+
+    i {
+        font-size: typography.$font-size-sm;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.totalUsers {
+    font-size: typography.$font-size-md;
+    font-weight: typography.$font-weight-normal;
+    color: var(--color-text-secondary-default);
+}
+
+// Percentile Section
+.percentileSection {
+    display: flex;
+    justify-content: center;
+}
+
+.percentileBadge {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+    padding: layout.$spacing-03 layout.$spacing-05;
+    background: linear-gradient(135deg, var(--color-bg-warning-alpha) 0%, var(--color-bg-info-alpha) 100%);
+    border: 1px solid var(--color-border-warning-default);
+    border-radius: border.$border-radius-full;
+    transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--color-shadow-default);
+    }
+
+    i {
+        font-size: typography.$font-size-lg;
+        color: var(--color-warning-default);
+    }
+}
+
+.percentileText {
+    font-size: typography.$font-size-md;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-primary-default);
+}
+
+// Loading Indicator
+.loadingIndicator {
+    position: absolute;
+    top: layout.$spacing-03;
+    right: layout.$spacing-03;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-icon-secondary-default);
+
+    i {
+        font-size: typography.$font-size-lg;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Improving state animation
+.improving {
+    .container {
+        border-color: var(--color-border-success-default);
+        box-shadow: 0 0 20px var(--color-bg-success-alpha);
+    }
+}

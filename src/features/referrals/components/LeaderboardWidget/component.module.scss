@@ -1,0 +1,333 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/colors" as colors;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-04;
+    padding: layout.$spacing-05;
+    background-color: var(--color-surface-primary-default);
+    border: 1px solid var(--color-border-primary-default);
+    border-radius: border.$border-radius-large;
+
+    @media (max-width: 767px) {
+        padding: layout.$spacing-04;
+    }
+}
+
+// Header
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: layout.$spacing-03;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+    margin: 0;
+    font-size: typography.$font-size-lg;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-primary-default);
+
+    i {
+        font-size: typography.$font-size-xl;
+        color: var(--color-icon-primary-default);
+    }
+}
+
+.periodSelector {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+}
+
+.periodLabel {
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-medium;
+    color: var(--color-text-secondary-default);
+    padding: layout.$spacing-02 layout.$spacing-03;
+    background-color: var(--color-surface-secondary-default);
+    border-radius: border.$border-radius-small;
+}
+
+.loadingIcon {
+    font-size: typography.$font-size-md;
+    color: var(--color-icon-secondary-default);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Table Container
+.tableContainer {
+    overflow-x: auto;
+    border-radius: border.$border-radius-medium;
+    border: 1px solid var(--color-border-primary-default);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: typography.$font-size-sm;
+
+    thead {
+        background-color: var(--color-surface-secondary-default);
+        border-bottom: 1px solid var(--color-border-primary-default);
+
+        th {
+            padding: layout.$spacing-03 layout.$spacing-04;
+            text-align: left;
+            font-weight: typography.$font-weight-semibold;
+            color: var(--color-text-secondary-default);
+            text-transform: uppercase;
+            font-size: typography.$font-size-xs;
+            letter-spacing: 0.5px;
+
+            @media (max-width: 767px) {
+                padding: layout.$spacing-02 layout.$spacing-03;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid var(--color-border-secondary-default);
+            transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            &:hover {
+                background-color: var(--color-bg-secondary-hover);
+            }
+        }
+
+        td {
+            padding: layout.$spacing-04;
+            color: var(--color-text-primary-default);
+
+            @media (max-width: 767px) {
+                padding: layout.$spacing-03;
+            }
+        }
+    }
+}
+
+// Column Widths
+.rankColumn {
+    width: 80px;
+
+    @media (max-width: 767px) {
+        width: 60px;
+    }
+}
+
+.nameColumn {
+    min-width: 150px;
+}
+
+.referralsColumn {
+    width: 100px;
+    text-align: right;
+}
+
+.pointsColumn {
+    width: 100px;
+    text-align: right;
+}
+
+.badgesColumn {
+    width: 120px;
+}
+
+// Row States
+.row {
+    &.highlighted {
+        background-color: var(--color-bg-info-alpha);
+        border-left: 3px solid var(--color-info-default);
+
+        &:hover {
+            background-color: var(--color-bg-info-alpha);
+        }
+    }
+
+    &.rankChange_up {
+        animation: flashGreen 1s ease-out;
+    }
+
+    &.rankChange_down {
+        animation: flashRed 1s ease-out;
+    }
+}
+
+@keyframes flashGreen {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: var(--color-bg-success-alpha);
+    }
+}
+
+@keyframes flashRed {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: var(--color-bg-danger-alpha);
+    }
+}
+
+// Rank Cell
+.rankCell {
+    font-weight: typography.$font-weight-bold;
+}
+
+.rankDisplay {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+}
+
+.rankIcon {
+    font-size: typography.$font-size-lg;
+
+    tr:nth-child(1) & {
+        color: colors.$color-yellow-500;
+    }
+
+    tr:nth-child(2) & {
+        color: colors.$color-neutral-400;
+    }
+
+    tr:nth-child(3) & {
+        color: colors.$color-orange-600;
+    }
+}
+
+.rankNumber {
+    font-size: typography.$font-size-md;
+}
+
+.changeIcon {
+    font-size: typography.$font-size-sm;
+    animation: bounce 0.5s ease-out;
+
+    .rankChange_up & {
+        color: var(--color-success-default);
+    }
+
+    .rankChange_down & {
+        color: var(--color-error-default);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+// Name Cell
+.nameCell {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+}
+
+.userName {
+    font-weight: typography.$font-weight-medium;
+}
+
+.youBadge {
+    padding: layout.$spacing-01 layout.$spacing-02;
+    background-color: var(--color-bg-info-alpha);
+    color: var(--color-info-default);
+    border-radius: border.$border-radius-small;
+    font-size: typography.$font-size-xs;
+    font-weight: typography.$font-weight-semibold;
+}
+
+// Referrals and Points Cells
+.referralsCell,
+.pointsCell {
+    font-weight: typography.$font-weight-semibold;
+    text-align: right;
+}
+
+// Badges Cell
+.badgesCell {
+    padding-left: layout.$spacing-04;
+}
+
+.badgeList {
+    display: flex;
+    gap: layout.$spacing-02;
+    flex-wrap: wrap;
+}
+
+.badgeIcon {
+    font-size: typography.$font-size-md;
+    color: var(--color-warning-default);
+    transition: transform motion.$duration-fast-01 motion.$easing-productive-standard;
+    cursor: help;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}
+
+// Empty State
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: layout.$spacing-03;
+    padding: layout.$spacing-08 layout.$spacing-05;
+    color: var(--color-text-secondary-default);
+
+    i {
+        font-size: typography.$font-size-4xl;
+        opacity: 0.3;
+    }
+
+    p {
+        margin: 0;
+        font-size: typography.$font-size-md;
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 767px) {
+    .badgesColumn {
+        display: none;
+    }
+
+    .pointsColumn {
+        width: 80px;
+    }
+}

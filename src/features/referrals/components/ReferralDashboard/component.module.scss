@@ -1,0 +1,276 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-06;
+    padding: layout.$spacing-06;
+    background-color: var(--color-surface-primary-default);
+    border-radius: border.$border-radius-large;
+
+    @media (max-width: 767px) {
+        padding: layout.$spacing-04;
+        gap: layout.$spacing-05;
+    }
+}
+
+// Header
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-02;
+    text-align: center;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: layout.$spacing-03;
+    margin: 0;
+    font-size: typography.$font-size-3xl;
+    font-weight: typography.$font-weight-bold;
+    color: var(--color-text-primary-default);
+
+    i {
+        font-size: typography.$font-size-3xl;
+        color: var(--color-icon-primary-default);
+    }
+
+    @media (max-width: 767px) {
+        font-size: typography.$font-size-2xl;
+
+        i {
+            font-size: typography.$font-size-2xl;
+        }
+    }
+}
+
+.subtitle {
+    margin: 0;
+    font-size: typography.$font-size-md;
+    font-weight: typography.$font-weight-normal;
+    color: var(--color-text-secondary-default);
+}
+
+// Stats Grid
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: layout.$spacing-05;
+
+    @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.statCard {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+// Referral Count Card
+.referralCountCard {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-04;
+    padding: layout.$spacing-06;
+    background-color: var(--color-surface-primary-default);
+    border: 1px solid var(--color-border-primary-default);
+    border-radius: border.$border-radius-large;
+    transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--color-shadow-default);
+    }
+
+    @media (max-width: 767px) {
+        padding: layout.$spacing-05;
+    }
+}
+
+.statCardHeader {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+
+    i {
+        font-size: typography.$font-size-xl;
+        color: var(--color-icon-primary-default);
+    }
+}
+
+.statLabel {
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-secondary-default);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.statValue {
+    font-size: typography.$font-size-5xl;
+    font-weight: typography.$font-weight-bold;
+    color: var(--color-text-primary-default);
+    line-height: 1;
+
+    @media (max-width: 767px) {
+        font-size: typography.$font-size-4xl;
+    }
+}
+
+.statDescription {
+    font-size: typography.$font-size-md;
+    font-weight: typography.$font-weight-normal;
+    color: var(--color-text-secondary-default);
+}
+
+// Reward Section
+.rewardSection {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-04;
+    padding: layout.$spacing-05;
+    background: linear-gradient(135deg, var(--color-bg-info-alpha) 0%, var(--color-bg-success-alpha) 100%);
+    border: 1px solid var(--color-border-info-default);
+    border-radius: border.$border-radius-large;
+}
+
+.rewardHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: layout.$spacing-04;
+
+    @media (max-width: 767px) {
+        flex-direction: column;
+        gap: layout.$spacing-03;
+    }
+}
+
+.rewardInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-02;
+}
+
+.rewardTitle {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+    margin: 0;
+    font-size: typography.$font-size-lg;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-primary-default);
+
+    i {
+        font-size: typography.$font-size-xl;
+        color: var(--color-warning-default);
+    }
+}
+
+.rewardDescription {
+    margin: 0;
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-normal;
+    color: var(--color-text-secondary-default);
+}
+
+.rewardProgress {
+    display: flex;
+    align-items: center;
+    padding: layout.$spacing-02 layout.$spacing-04;
+    background-color: var(--color-surface-primary-default);
+    border-radius: border.$border-radius-full;
+}
+
+.progressText {
+    font-size: typography.$font-size-md;
+    font-weight: typography.$font-weight-bold;
+    color: var(--color-text-primary-default);
+}
+
+// Link Section
+.linkSection {
+    display: flex;
+    flex-direction: column;
+    padding: layout.$spacing-05;
+    background-color: var(--color-surface-secondary-default);
+    border: 1px solid var(--color-border-primary-default);
+    border-radius: border.$border-radius-large;
+}
+
+// Share Section
+.shareSection {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-04;
+}
+
+// Section Title
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+    margin: 0;
+    font-size: typography.$font-size-lg;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-primary-default);
+
+    i {
+        font-size: typography.$font-size-xl;
+        color: var(--color-icon-primary-default);
+    }
+}
+
+// Tips Section
+.tipsSection {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-04;
+    padding: layout.$spacing-05;
+    background-color: var(--color-surface-secondary-default);
+    border-radius: border.$border-radius-large;
+}
+
+.tipsList {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-03;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tipItem {
+    display: flex;
+    align-items: flex-start;
+    gap: layout.$spacing-03;
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-normal;
+    color: var(--color-text-secondary-default);
+    line-height: 1.6;
+
+    i {
+        flex-shrink: 0;
+        margin-top: 2px;
+        font-size: typography.$font-size-md;
+        color: var(--color-success-default);
+    }
+}

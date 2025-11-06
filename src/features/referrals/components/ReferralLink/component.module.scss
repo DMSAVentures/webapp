@@ -1,0 +1,138 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-03;
+}
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: layout.$spacing-03;
+}
+
+.label {
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-primary-default);
+}
+
+.copiedFeedback {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+    font-size: typography.$font-size-sm;
+    font-weight: typography.$font-weight-medium;
+    color: var(--color-success-default);
+    animation: fadeIn motion.$duration-fast-01 motion.$easing-productive-standard;
+
+    i {
+        font-size: typography.$font-size-md;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.linkContainer {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$spacing-03;
+    width: 100%;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: stretch;
+    }
+}
+
+.linkDisplay {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: layout.$spacing-03 layout.$spacing-04;
+    background-color: var(--color-surface-secondary-default);
+    border: 1px solid var(--color-border-primary-default);
+    border-radius: border.$border-radius-medium;
+    overflow: hidden;
+}
+
+.linkText {
+    flex: 1;
+    font-size: typography.$font-size-sm;
+    font-family: typography.$font-family-mono;
+    color: var(--color-text-primary-default);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: layout.$spacing-03;
+    flex-shrink: 0;
+
+    @media (max-width: 767px) {
+        width: 100%;
+
+        button {
+            flex: 1;
+        }
+    }
+}
+
+.copyButton,
+.qrButton {
+    display: flex;
+    align-items: center;
+    gap: layout.$spacing-02;
+    white-space: nowrap;
+
+    i {
+        font-size: typography.$font-size-lg;
+    }
+}
+
+// QR Code Modal Styles
+.qrCodeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: layout.$spacing-05;
+    padding: layout.$spacing-05 0;
+}
+
+.qrCodeImage {
+    width: 300px;
+    height: 300px;
+    border-radius: border.$border-radius-medium;
+    box-shadow: 0 4px 12px var(--color-shadow-default);
+}
+
+.qrCodeUrl {
+    font-size: typography.$font-size-sm;
+    font-family: typography.$font-family-mono;
+    color: var(--color-text-secondary-default);
+    text-align: center;
+    word-break: break-all;
+    max-width: 300px;
+}
