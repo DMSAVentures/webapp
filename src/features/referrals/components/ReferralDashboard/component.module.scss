@@ -61,7 +61,6 @@
 .subtitle {
     margin: 0;
     font-size: typography.$font-size-md;
-    font-weight: typography.$font-weight-regular;
     color: var(--color-text-secondary-default);
 }
 
@@ -137,7 +136,6 @@
 
 .statDescription {
     font-size: typography.$font-size-md;
-    font-weight: typography.$font-weight-regular;
     color: var(--color-text-secondary-default);
 }
 
@@ -189,7 +187,6 @@
 .rewardDescription {
     margin: 0;
     font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-regular;
     color: var(--color-text-secondary-default);
 }
 
@@ -264,7 +261,6 @@
     align-items: flex-start;
     gap: layout.$spacing-03;
     font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-regular;
     color: var(--color-text-secondary-default);
     line-height: typography.$line-height-relaxed;
 
