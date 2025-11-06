@@ -1,0 +1,80 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: layout.$spacing-03;
+}
+
+.mode_inline {
+	display: inline-flex;
+	flex-direction: row;
+	vertical-align: middle;
+}
+
+.mode_centered {
+	padding: layout.$spacing-06;
+	min-height: 200px;
+}
+
+.mode_fullscreen {
+	position: fixed;
+	inset: 0;
+	background-color: var(--color-surface-primary-default);
+	z-index: 9999;
+}
+
+.spinner {
+	border: 3px solid var(--color-border-secondary-default);
+	border-top-color: var(--color-border-primary-default);
+	border-radius: 50%;
+	animation: spin motion.$duration-slow-01 motion.$easing-productive-standard infinite;
+}
+
+.size_small {
+	width: 20px;
+	height: 20px;
+	border-width: 2px;
+}
+
+.size_medium {
+	width: 40px;
+	height: 40px;
+	border-width: 3px;
+}
+
+.size_large {
+	width: 60px;
+	height: 60px;
+	border-width: 4px;
+}
+
+.message {
+	margin: 0;
+	font-size: typography.$font-size-md;
+	font-weight: typography.$font-weight-regular;
+	color: var(--color-text-secondary-default);
+	text-align: center;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

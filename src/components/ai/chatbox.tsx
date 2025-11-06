@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import { useSSEChat } from "@/hooks/useSSEChat";
 import Button from "@/proto-design-system/Button/button";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import styles from "./chatbox.module.scss";
 
 export default function ChatBox() {
@@ -51,7 +52,7 @@ export default function ChatBox() {
 				) : null}
 				{loading && (
 					<div className={styles["typing-indicator"]}>
-						<span>AI is typing...</span> <Shimmer />
+						<LoadingSpinner size="small" mode="inline" /> <span>AI is typing...</span>
 					</div>
 				)}
 			</div>
@@ -73,13 +74,5 @@ export default function ChatBox() {
 				</Button>
 			</div>
 		</div>
-	);
-}
-
-function Shimmer() {
-	return (
-		<span className={styles["shimmer-block"]}>
-			<span className={styles["shimmer"]} />
-		</span>
 	);
 }
