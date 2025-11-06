@@ -32,7 +32,7 @@
 	margin: 0 0 layout.$spacing-03 0;
 	font-size: typography.$font-size-h5;
 	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-heading;
+	line-height: typography.$line-height-tight;
 	color: var(--color-text-primary-default);
 }
 
@@ -41,7 +41,7 @@
 	max-width: 400px;
 	font-size: typography.$font-size-md;
 	font-weight: typography.$font-weight-regular;
-	line-height: typography.$line-height-body;
+	line-height: typography.$line-height-normal;
 	color: var(--color-text-secondary-default);
 }
 
