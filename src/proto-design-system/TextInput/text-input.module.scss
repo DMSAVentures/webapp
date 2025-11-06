@@ -17,19 +17,21 @@
         cursor: text;
 
         &__icon {
-            //height: 1em;
-            //width: auto; // Maintain aspect ratio
-            //max-height: 100%; // Ensure it doesn't exceed container height
-            //object-fit: contain; // Ensure the entire image is visible
+            // height: 1em;
+            // width: auto; // Maintain aspect ratio
+            // max-height: 100%; // Ensure it doesn't exceed container height
+            // object-fit: contain; // Ensure the entire image is visible
             color: var(--color-icon-secondary-default);
         }
 
         input {
             background: transparent;
             border: none;
+
             &:focus {
                 outline: none;
             }
+
             flex-grow: 1;
             color: var(--color-text-primary-default);
 
@@ -53,10 +55,11 @@
         }
 
         &:hover {
-            //background-color: var(--color-bg-secondary-hover);
+            // background-color: var(--color-bg-secondary-hover);
             border: 1px solid var(--color-border-focus-default);
             color: var(--color-text-primary-default);
             transition: background-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
+
             &__icon {
                 color: var(--color-icon-primary-default);
             }
@@ -67,9 +70,9 @@
             outline: 2px solid var(--color-focus-ring-default);
             color: var(--color-text-primary-default);
 
-            //&:hover {
+            // &:hover {
             //    background-color: var(--color-bg-secondary-hover);
-            //}
+            // }
 
             .text-input__input-container__icon {
                 color: var(--color-icon-primary-default);
@@ -79,7 +82,7 @@
     }
 
     &__hint {
-        //min-height: 1.3em;
+        // min-height: 1.3em;
     }
 
 

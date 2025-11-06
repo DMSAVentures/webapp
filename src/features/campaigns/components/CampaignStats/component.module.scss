@@ -150,13 +150,14 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
 }
 
 // Responsive adjustments
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .root {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: layout.$spacing-04;
@@ -178,7 +179,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .root {
     grid-template-columns: 1fr;
     gap: layout.$spacing-03;

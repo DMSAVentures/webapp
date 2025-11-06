@@ -85,7 +85,7 @@
   }
 
   // Middle Children Styles
-  &:not(:first-child):not(:last-child) {
+  &:not(:first-child, :last-child) {
     border-width: border.$border-width-small border.$border-width-small border.$border-width-small 0;
     border-color: var(--color-border-primary-default);
     border-radius: 0;
@@ -115,7 +115,8 @@
   // Disabled state
   &:disabled {
     cursor: not-allowed;
-    //opacity: 0.7;
+
+    // opacity: 0.7;
     background-color: var(--color-bg-primary-disabled);
     color: var(--color-text-disabled-default);
   }

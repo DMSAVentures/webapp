@@ -10,7 +10,8 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(pkill:*)",
-      "Bash(npm run storybook:*)"
+      "Bash(npm run storybook:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []

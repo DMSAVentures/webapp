@@ -8,6 +8,7 @@
     justify-content: center;
     border-radius: border.$border-radius-large;
     border: 2px dashed var(--color-border-primary-default);
+
     &--light {
         background-color: var(--color-bg-tertiary-default);
     }
@@ -24,23 +25,24 @@
         gap: layout.$spacing-05;
 
         .fileuploadarea__icon {
-            //font-size: 20px;
-            //color: $color-neutral-600;
+            // font-size: 20px;
+            // color: $color-neutral-600;
         }
 
         .fileuploadarea__title {
             display: flex;
             flex-direction: column;
             text-align: center;
-            //color: $color-neutral-900;
+
+            // color: $color-neutral-900;
 
             .fileuploadarea_supported_meta {
-                //color: $color-neutral-600;
+                // color: $color-neutral-600;
             }
         }
 
         .fileuploadarea__filename {
-            //color: $color-neutral-600;
+            // color: $color-neutral-600;
         }
     }
 

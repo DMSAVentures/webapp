@@ -13,15 +13,16 @@
     display: flex;
     flex-direction: column;
     transition: all .4s ease-in-out;
+
     &--is-full-width {
         margin-left: calc(-1 * layout.$spacing-12 * 3);
     }
 }
 
 .header {
-    //position: sticky;
-    //top: 0;
-    //z-index: 10;
+    // position: sticky;
+    // top: 0;
+    // z-index: 10;
     display: flex;
     align-items: center;
     align-content: center;
@@ -29,19 +30,18 @@
     gap: layout.$spacing-05;
     background-color: var(--color-bg-tertiary-default);
     border-bottom: 0.5px solid var(--color-border-primary-default);
-
     height: layout.$spacing-09;
 }
 
 
 .scrollArea {
-    //width: fit-content;
+    // width: fit-content;
     height: 100%;
     overflow-y: auto;
     padding: layout.$spacing-05;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .toggleButton {
         z-index: 5;
     }

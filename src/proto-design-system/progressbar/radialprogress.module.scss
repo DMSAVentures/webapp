@@ -30,6 +30,7 @@
             height: 85%;
         }
     }
+
     &--medium {
         width: layout.$spacing-09;
         height: layout.$spacing-09;
@@ -39,6 +40,7 @@
             height: 90%;
         }
     }
+
     &--large {
         width: layout.$spacing-10;
         height: layout.$spacing-10;
@@ -52,12 +54,15 @@
     &--info {
         background: conic-gradient(var(--color-info-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
+
     &--success {
         background: conic-gradient(var(--color-success-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
+
     &--warning {
         background: conic-gradient(var(--color-warning-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }
+
     &--error {
         background: conic-gradient(var(--color-error-default) var(--progress-percentage, 0), transparent var(--progress-percentage, 0));
     }

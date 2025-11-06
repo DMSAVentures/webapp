@@ -3,17 +3,19 @@
 
 .content-label__container {
     display: flex;
-    //padding: $spacing-16;
+
+    // padding: $spacing-16;
     gap: layout.$spacing-05;
-    //border-radius: $border-radius-large;
+
+    // border-radius: $border-radius-large;
     width: layout.$spacing-13 * 2;
     align-items: center;
 
-    //&:hover {
+    // &:hover {
     //    background-color: $color-neutral-50;
     //    border: 1px solid $color-neutral-50;
     //    transition: background-color $transition-normal $transition-type-dissolve;
-    //}
+    // }
 
     .content-label__image {
         width: layout.$spacing-08;

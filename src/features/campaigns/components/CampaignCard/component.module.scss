@@ -131,7 +131,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .root {
     padding: layout.$spacing-04;
   }

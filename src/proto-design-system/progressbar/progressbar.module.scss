@@ -6,11 +6,12 @@
     min-width: layout.$spacing-13 * 2;
     height: layout.$spacing-03;
     background: var(--color-bg-tertiary-default);
-    //min-height: $spacing-6;
+
+    // min-height: $spacing-6;
     border-radius: border.$border-radius-small;
 
     .progress-bar__line {
-        //height: $spacing-6;
+        // height: $spacing-6;
         border-radius: border.$border-radius-small;
 
         &--success {

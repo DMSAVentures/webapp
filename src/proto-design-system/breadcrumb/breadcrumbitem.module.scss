@@ -4,7 +4,8 @@
 .breadcrumb-item {
   display: inline-flex;
   align-items: baseline;
-  //justify-content: center;
+
+  // justify-content: center;
   border: none;
   cursor: pointer;
   gap: layout.$spacing-02;
@@ -15,9 +16,9 @@
   }
 
   &:hover .breadcrumb-item__icon {
-    //text-decoration: underline;
-    //text-underline-offset: layout.$spacing-02;
-    //text-decoration-thickness: $spaci*ng-01;
+    // text-decoration: underline;
+    // text-underline-offset: layout.$spacing-02;
+    // text-decoration-thickness: $spaci*ng-01;
   }
 
   &:focus .breadcrumb-item__text {
@@ -25,9 +26,9 @@
   }
 
   &:focus .breadcrumb-item__icon {
-    //text-decoration: underline;
-    //text-underline-offset: layout.$spacing-03;
-    //text-decoration-thickness: 1px;
+    // text-decoration: underline;
+    // text-underline-offset: layout.$spacing-03;
+    // text-decoration-thickness: 1px;
   }
 
   &--disabled {

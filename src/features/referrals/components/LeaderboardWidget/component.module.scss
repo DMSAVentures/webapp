@@ -73,6 +73,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -137,6 +138,7 @@
 // Column Widths
 .rankColumn {
     width: layout.$spacing-10;  // 40px, using 2x for 80px approximation
+
     @media (min-width: breakpoints.$breakpoint-md) {
         width: calc(layout.$spacing-10 * 2);  // 80px
     }
@@ -188,6 +190,7 @@
     0%, 100% {
         background-color: transparent;
     }
+
     50% {
         background-color: var(--color-bg-success-alpha);
     }
@@ -197,6 +200,7 @@
     0%, 100% {
         background-color: transparent;
     }
+
     50% {
         background-color: var(--color-bg-danger-alpha);
     }
@@ -250,6 +254,7 @@
     0%, 100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(calc(-1 * layout.$spacing-01));
     }

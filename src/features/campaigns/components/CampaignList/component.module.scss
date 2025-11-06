@@ -207,6 +207,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -278,13 +279,13 @@
 
 
 // Responsive adjustments
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .campaignGrid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header {
     flex-direction: column;
     align-items: stretch;

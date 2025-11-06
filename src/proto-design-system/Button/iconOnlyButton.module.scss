@@ -35,13 +35,15 @@
     &:active {
         background-color: var(--color-bg-primary-active);
     }
+
     &:focus {
         outline: none;
     }
+
     // Enhanced focus styles for keyboard navigation
      &:focus-visible {
         outline: var(--color-border-focus-default) solid 4px;
-        box-shadow: 0 0 0 4px rgba(var(--color-border-primary-default), 0.5);
+        box-shadow: 0 0 0 4px rgb(var(--color-border-primary-default), 0.5);
     }
 
     // Ensure focus styles work in all browsers
@@ -75,7 +77,6 @@
     transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
     color motion.$duration-moderate-01 motion.$easing-productive-standard,
     border-color motion.$duration-moderate-01 motion.$easing-productive-standard;
-
     background-color: var(--color-surface-primary-default);
     color: var(--color-text-secondary-default); // Text color for contrast on secondary button
 
@@ -99,7 +100,7 @@
 
      &:focus-visible {
         outline: var(--color-border-secondary-default) solid 4px;
-        box-shadow: 0 0 0 2px rgba(var(--color-border-secondary-default), 0.5);
+        box-shadow: 0 0 0 2px rgb(var(--color-border-secondary-default), 0.5);
     }
 
     &:focus:not(:focus-visible) {

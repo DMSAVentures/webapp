@@ -8,12 +8,12 @@
   border-radius: border.$border-radius-large;
   border: border.$border-width-small solid var(--color-border-primary-default);
   padding: layout.$spacing-05;
-
   display: flex;
   cursor: pointer;
   text-align: left;
   gap: layout.$spacing-05;
-  //transition: height $transition-extra-slow $transition-type-dissolve;
+
+  // transition: height $transition-extra-slow $transition-type-dissolve;
 
   &:hover {
     border-color: var(--color-bg-secondary-hover);
@@ -34,19 +34,20 @@
 
 .accordian__icon {
     flex: 0;
-    //min-width: 20px;
-    //height: 20px;
+
+    // min-width: 20px;
+    // height: 20px;
 }
 
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .accordian {
     width: layout.$spacing-13  * 2;
   }
 }
 
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .accordian {
     width: layout.$spacing-13;
   }

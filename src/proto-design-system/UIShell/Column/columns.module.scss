@@ -9,7 +9,6 @@ $breakpoints: (
         xlg: breakpoints.$breakpoint-xlg,
         max: breakpoints.$breakpoint-max,
 );
-
 $columns: (
         sm: grid.$columns-sm,
         md: grid.$columns-md,
@@ -18,18 +17,19 @@ $columns: (
         max: grid.$columns-max,
 );
 
-//@each $breakpoint, $value in $breakpoints {
+// @each $breakpoint, $value in $breakpoints {
 //    @media (min-width: #{$value}) {
 //        .test-media-#{$breakpoint} {
 //            color: blue;
 //        }
 //    }
-//}
+// }
 
 
 @each $breakpoint, $col-count in $columns {
     @for $start from 1 through $col-count {
         $max-span: $col-count - $start + 1;
+
         @if $max-span > 0 {
             @for $span from 1 through $max-span {
                 .column--#{$breakpoint}-start-#{$start}-span-#{$span} {
@@ -40,8 +40,8 @@ $columns: (
             }
         }
 
-        //@for $span from 1 through ($col-count - $start + 1) {
+        // @for $span from 1 through ($col-count - $start + 1) {
         //
-        //}
+        // }
     }
 }

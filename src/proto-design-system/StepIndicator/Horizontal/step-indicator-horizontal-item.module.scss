@@ -21,11 +21,13 @@
     text-align: center;
     border-radius: border.$border-radius-large;
     line-height: layout.$spacing-03;
+
     &--completed {
       color: var(--color-text-inverse-default);
       background-color: var(--color-success-default);
       line-height: layout.$spacing-05; // aligns icon vertically in the circle
     }
+
     &--active {
         color: var(--color-text-inverse-default);
         background-color: var(--color-info-default);

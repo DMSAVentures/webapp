@@ -48,6 +48,7 @@
         opacity: 0;
         transform: translateY(calc(-1 * layout.$spacing-01));
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

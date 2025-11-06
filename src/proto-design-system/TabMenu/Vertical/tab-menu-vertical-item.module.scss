@@ -6,12 +6,14 @@
     display: flex;
     align-items: baseline;
     border: none;
-    //max-height: layout.$spacing-07;
-    //width: 100%;
+
+    // max-height: layout.$spacing-07;
+    // width: 100%;
     padding: layout.$spacing-03;
     gap: layout.$spacing-03;
-    //background-color: colors.$color-white;
-    //color: colors.$color-neutral-600;
+
+    // background-color: colors.$color-white;
+    // color: colors.$color-neutral-600;
     border-radius: border.$border-radius-medium;
 
     &__text {
@@ -19,22 +21,22 @@
     }
 
     &__left-icon {
-        //height: layout.$spacing-20;
-        //width: layout.$spacing-20;
-        //align-content: center;
+        // height: layout.$spacing-20;
+        // width: layout.$spacing-20;
+        // align-content: center;
         text-align: center;
     }
 
     &__right-icon {
-        //height: layout.$spacing-20;
-        //width: layout.$spacing-20;
-        //align-content: center;
+        // height: layout.$spacing-20;
+        // width: layout.$spacing-20;
+        // align-content: center;
         text-align: center;
     }
 
     &__badge {
-        //height: layout.$spacing-20;
-        //width: layout.$spacing-20;
+        // height: layout.$spacing-20;
+        // width: layout.$spacing-20;
         align-content: center;
         vertical-align: center;
         text-align: center;

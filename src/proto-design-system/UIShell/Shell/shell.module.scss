@@ -3,12 +3,13 @@
 
 .shell-container {
     margin-top: layout.$spacing-03;
-    //flex-shrink: 0;
+
+    // flex-shrink: 0;
     flex-grow: 1;
     overflow-y: auto;
 
     .grid-wide {
-        //min-height: 100%
+        // min-height: 100%
     }
 }
 

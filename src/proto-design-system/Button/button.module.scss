@@ -13,19 +13,18 @@
     gap: layout.$spacing-03; // Spacing between icon and text
     align-items: baseline;
     justify-content: center;
-
     font-family: inherit;
-    //font-size: 1rem;                    // Base font size
-    //font-weight: $font-weight-semibold; // Slightly bold weight from tokens
+
+    // font-size: 1rem;                    // Base font size
+    // font-weight: $font-weight-semibold; // Slightly bold weight from tokens
     padding: layout.$spacing-03 layout.$spacing-05;   // Padding using spacing tokens
     border-radius: layout.$spacing-03; // Rounded corners
-    //border: $border-width-interactive solid transparent; // Only visible in interactive states
+    // border: $border-width-interactive solid transparent; // Only visible in interactive states
     border: none;
     cursor: pointer;
     transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
                 color motion.$duration-moderate-01 motion.$easing-productive-standard,
                 border-color motion.$duration-moderate-01 motion.$easing-productive-standard;
-
     min-width: layout.$spacing-07;
 
     // Default color for primary button
@@ -56,13 +55,15 @@
         background-color: var(--color-bg-primary-active);
         color: var(--color-text-inverse-default); // Maintain text color on active (important for anchor elements)
     }
+
     &:focus {
         outline: none;
     }
+
         // Focus State
     &:focus-visible {
         outline: var(--color-border-focus-default) solid 4px;
-        box-shadow: 0 0 0 4px rgba(var(--color-border-primary-default), 0.5);
+        box-shadow: 0 0 0 4px rgb(var(--color-border-primary-default), 0.5);
     }
 
     // Disabled State
@@ -90,12 +91,14 @@
         background-color: var(--color-bg-secondary-active);
         color: var(--color-text-secondary-default); // Maintain text color on active (important for anchor elements)
     }
+
     &:focus {
         outline: none;
     }
+
      &:focus-visible {
         outline: var(--color-border-secondary-default) solid 4px;
-        box-shadow: 0 0 0 4px rgba(var(--color-border-secondary-default), 0.5);
+        box-shadow: 0 0 0 4px rgb(var(--color-border-secondary-default), 0.5);
     }
 
     &:disabled {

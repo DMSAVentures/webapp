@@ -3,9 +3,11 @@
 
 .message-input-container {
     position: sticky;
-    //align-items: center;
+
+    // align-items: center;
     align-content: center;
-    //margin-bottom: layout.$spacing-05;
+
+    // margin-bottom: layout.$spacing-05;
     bottom: layout.$spacing-05;
     z-index: 10;
     display: flex;
@@ -13,11 +15,12 @@
     gap: layout.$spacing-05;
 
     .button {
-        //flex-grow: 0;
+        // flex-grow: 0;
         margin-left: auto;
         width: fit-content;
     }
 }
+
 .shimmer-block {
     display: inline-block;
     width: 20px;
@@ -40,6 +43,7 @@
     0% {
         background-position: -100% 0;
     }
+
     100% {
         background-position: 100% 0;
     }

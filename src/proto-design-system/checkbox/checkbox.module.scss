@@ -5,8 +5,8 @@
 // Style for custom checkbox
 .custom-checkbox-input {
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
+    appearance: none;
     width: layout.$spacing-06;
     height: layout.$spacing-06;
     border: 1px solid var(--color-border-primary-default); // Border color
@@ -37,9 +37,9 @@
 
     // Style for the hover state
     &:hover {
-        //border-color: var(--color-hover-secondary); // Hover border color
+        // border-color: var(--color-hover-secondary); // Hover border color
         &::after {
-            //border-color: var(--color-hover-secondary);
+            // border-color: var(--color-hover-secondary);
         }
     }
 

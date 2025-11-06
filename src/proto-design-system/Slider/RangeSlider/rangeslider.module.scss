@@ -10,7 +10,8 @@
     .rangeslider__label {
         display: flex;
         justify-content: space-between;
-        //color: colors.$color-neutral-200;
+
+        // color: colors.$color-neutral-200;
         padding: 0;
     }
 
@@ -19,16 +20,18 @@
         height: layout.$spacing-03;
         background: var(--color-bg-secondary-default);
         border-radius: border.$border-radius-medium;
+
         .rangeslider__range {
             position: absolute;
             height: 100%;
             background: var(--color-bg-primary-default);
             border-radius: border.$border-radius-medium;
         }
+
         .rangeslider__input {
             appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+            appearance: none;
+            appearance: none;
             outline: none;
             position: absolute;
             top: 50%;
@@ -65,7 +68,7 @@
 
             // Firefox thumb
             &::-moz-range-thumb {
-                -moz-appearance: none;
+                appearance: none;
                 box-shadow: 0 2px 4px 0 var(--color-alpha-shadow);
                 border: 2px solid var(--color-border-primary-default);
                 height: layout.$spacing-04;
@@ -79,7 +82,7 @@
 
             // Chrome/WebKit thumb
             &::-webkit-slider-thumb {
-                -webkit-appearance: none;
+                appearance: none;
                 box-shadow: 0 2px 4px 0 var(--color-alpha-shadow);
                 border: 2px solid var(--color-border-primary-default);
                 height: layout.$spacing-05;

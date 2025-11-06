@@ -27,12 +27,12 @@
             color: var(--color-text-primary-default);
             border-style: solid;
             border-color: var(--color-text-primary-default);
-            border-width: 0 0 2px 0;
+            border-width: 0 0 2px;
         }
     }
 
     &__active-tab-indicator {
-        //height: 2px;
+        // height: 2px;
         background-color: var(--color-text-primary-default);
     }
 }

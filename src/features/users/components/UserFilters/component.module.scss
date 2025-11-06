@@ -115,7 +115,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .root {
     max-width: 100%;
   }

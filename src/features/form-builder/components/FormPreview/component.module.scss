@@ -121,13 +121,13 @@
 }
 
 // Responsive adjustments
-@media (max-width: 1280px) {
+@media (width <= 1280px) {
   .device_desktop .deviceFrame {
     max-width: 960px;
   }
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .device_desktop .deviceFrame,
   .device_tablet .deviceFrame {
     width: 100%;
@@ -135,7 +135,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .root {
     padding: layout.$spacing-04;
     min-height: 400px;

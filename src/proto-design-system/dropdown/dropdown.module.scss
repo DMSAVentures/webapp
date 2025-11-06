@@ -9,6 +9,7 @@
     width: layout.$spacing-13 * 2;
     flex-direction: column;
     gap: layout.$spacing-03;
+
     .dropdown__label-container {
         display: flex;
         align-items: center;
@@ -34,14 +35,15 @@
             gap: layout.$spacing-03;
             align-items: center;
             border: none;
-            //background-color: transparent;
-            //color: colors.$color-neutral-600;
+
+            // background-color: transparent;
+            // color: colors.$color-neutral-600;
             cursor: pointer;
             outline: none;
 
             .dropdown__icon {
-                //font-size: 20px;
-                //color: colors.$color-neutral-300;
+                // font-size: 20px;
+                // color: colors.$color-neutral-300;
                 flex-shrink: 0;
 
                 &:hover {
@@ -64,6 +66,7 @@
             background-color: var(--color-bg-primary-disabled);
             cursor: not-allowed;
             pointer-events: none;
+
             .dropdown__select__text {
                 color: var(--color-text-disabled-default);
             }

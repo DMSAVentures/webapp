@@ -8,6 +8,8 @@
 		"build": "tsc -b tsconfig.build.json && vite build",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
+		"lint:scss": "stylelint \"src/**/*.scss\"",
+		"lint:scss:fix": "stylelint \"src/**/*.scss\" --fix",
 		"format": "biome format --write .",
 		"preview": "vite preview",
 		"storybook": "storybook dev -p 6006"
@@ -38,6 +40,11 @@
 		"@vitejs/plugin-react": "^5.1.0",
 		"sass-embedded": "^1.93.3",
 		"storybook": "^8.6.14",
+		"stylelint": "^16.25.0",
+		"stylelint-config-recess-order": "^7.4.0",
+		"stylelint-config-standard-scss": "^16.0.0",
+		"stylelint-declaration-strict-value": "^1.10.11",
+		"stylelint-scss": "^6.12.1",
 		"typescript": "~5.9.3",
 		"vite": "^6.3.0"
 	},

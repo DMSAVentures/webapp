@@ -4,8 +4,8 @@
 // Style for custom radio button
 .custom-radio-input {
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
+    appearance: none;
     width: layout.$spacing-06;
     height: layout.$spacing-06;
     border: 2px solid var(--color-border-primary-default);
@@ -22,10 +22,11 @@
             content: '';
             width: layout.$spacing-04;
             height: layout.$spacing-04;
-            //border: 1px solid blue;
-            //background-color: blue;
+
+            // border: 1px solid blue;
+            // background-color: blue;
             background-color: var(--color-bg-primary-default); // Inner circle color
-            //border: 1px solid var(--color-border-primary-default); // Inner circle border color
+            // border: 1px solid var(--color-border-primary-default); // Inner circle border color
             border-radius: 50%;
             position: absolute;
             top: 50%;
@@ -46,9 +47,10 @@
 
     // Style for the disabled state
     &:disabled {
-        //border: 1px solid brown;
+        // border: 1px solid brown;
         background-color: var(--color-bg-primary-disabled); // Disabled background color
         cursor: not-allowed;
+
         &:hover {
             border-color: var(--color-border-primary-default); // Hover color
         }

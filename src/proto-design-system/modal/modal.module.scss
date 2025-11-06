@@ -42,6 +42,7 @@
         flex-direction: column;
         text-align: center;
     }
+
     .modal__header__text {
         display: flex;
         width: 100%;
@@ -49,12 +50,12 @@
         gap: layout.$spacing-05;
 
         .modal__title {
-            //color: $color-neutral-900;
+            // color: $color-neutral-900;
             font-weight: 600;
         }
 
         .modal__description {
-            //color: $color-neutral-600;
+            // color: $color-neutral-600;
             color: var(--color-text-secondary-default);
             font-size: var(--font-size-sublabel);
             word-break: break-word;
@@ -64,16 +65,20 @@
 
 .modal__icon {
     align-self: start;
+
     &--info  {
         color: var(--color-info-default);
+
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
             background-color: var(--color-bg-info-alpha);
         }
     }
+
     &--success {
         color: var(--color-success-default);
+
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
@@ -83,6 +88,7 @@
 
     &--warning {
         color: var(--color-warning-default);
+
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             align-self: center;
@@ -94,6 +100,7 @@
 
     &--alert {
         color: var(--color-error-default);
+
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
@@ -103,6 +110,7 @@
 
     &--feature {
         color: var(--color-text-tertiary-default);
+
         &.modal__icon--medium {
             padding: layout.$spacing-02 layout.$spacing-03;
             border-radius: border.$border-radius-round;
