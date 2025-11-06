@@ -6,7 +6,7 @@
 import { memo, useState, type HTMLAttributes } from 'react';
 import { Button } from '@/proto-design-system/Button/button';
 import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
-import Modal from '@/proto-design-system/Modal/modal';
+import Modal from '@/proto-design-system/modal/modal';
 import styles from './component.module.scss';
 
 export interface BulkActionsProps extends HTMLAttributes<HTMLDivElement> {
@@ -133,38 +133,18 @@ export const BulkActions = memo<BulkActionsProps>(
 
         {/* Delete confirmation modal */}
         <Modal
-          open={isDeleteModalOpen}
+          isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
-          size="small"
+          title="Delete Users"
+          description={`Are you sure you want to delete ${selectedUserIds.length} user${selectedUserIds.length !== 1 ? 's' : ''}? This action cannot be undone.`}
+          icon="warning"
+          dismissibleByCloseIcon={true}
+          proceedText={isLoading ? 'Deleting...' : 'Delete'}
+          cancelText="Cancel"
+          onCancel={() => setIsDeleteModalOpen(false)}
+          onProceed={handleConfirmDelete}
         >
-          <div className={styles.modalContent}>
-            <div className={styles.modalHeader}>
-              <div className={styles.modalIcon}>
-                <i className="ri-alert-line" aria-hidden="true" />
-              </div>
-              <h2 className={styles.modalTitle}>Delete Users</h2>
-            </div>
-            <p className={styles.modalDescription}>
-              Are you sure you want to delete {selectedUserIds.length} user
-              {selectedUserIds.length !== 1 ? 's' : ''}? This action cannot be undone.
-            </p>
-            <div className={styles.modalActions}>
-              <Button
-                variant="secondary"
-                onClick={() => setIsDeleteModalOpen(false)}
-                disabled={isLoading}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                onClick={handleConfirmDelete}
-                disabled={isLoading}
-              >
-                {isLoading ? 'Deleting...' : 'Delete'}
-              </Button>
-            </div>
-          </div>
+          {/* Modal content is handled by the Modal component itself */}
         </Modal>
       </>
     );

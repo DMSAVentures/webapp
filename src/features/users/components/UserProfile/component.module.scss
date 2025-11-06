@@ -229,38 +229,11 @@
 .actionItem {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
-}
-
-.actionLabel {
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
-}
-
-.actionControl {
-  display: flex;
   gap: layout.$spacing-03;
-  align-items: center;
 }
 
-.statusSelect {
-  flex: 1;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-sm;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
-  }
+.updateButton {
+  align-self: flex-start;
 }
 
 .actionButton {
@@ -342,12 +315,7 @@
     grid-template-columns: 1fr;
   }
 
-  .actionControl {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .statusSelect {
+  .updateButton {
     width: 100%;
   }
 }

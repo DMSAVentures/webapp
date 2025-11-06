@@ -7,7 +7,7 @@ import { memo, useState, useMemo, useCallback, type HTMLAttributes } from 'react
 import { Button } from '@/proto-design-system/Button/button';
 import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
 import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
-import Checkbox from '@/proto-design-system/Checkbox/Checkbox';
+import Checkbox from '@/proto-design-system/checkbox/checkbox';
 import { UserFilters, type UserFilters as UserFiltersType } from '../UserFilters/component';
 import { BulkActions } from '../BulkActions/component';
 import type { WaitlistUser } from '@/types/common.types';
@@ -339,7 +339,7 @@ export const UserList = memo<UserListProps>(
                     <tr>
                       <th className={styles.tableHeaderCell}>
                         <Checkbox
-                          checked={selectedUserIds.length === filteredAndSortedUsers.length}
+                          checked={selectedUserIds.length === filteredAndSortedUsers.length ? "checked" : "unchecked"}
                           onChange={handleSelectAll}
                           aria-label="Select all users"
                         />
@@ -453,7 +453,7 @@ export const UserList = memo<UserListProps>(
                       >
                         <td className={styles.tableCell}>
                           <Checkbox
-                            checked={selectedUserIds.includes(user.id)}
+                            checked={selectedUserIds.includes(user.id) ? "checked" : "unchecked"}
                             onChange={() => handleSelectUser(user.id)}
                             onClick={(e) => e.stopPropagation()}
                           />

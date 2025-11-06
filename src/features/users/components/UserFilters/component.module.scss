@@ -90,76 +90,15 @@
   gap: layout.$spacing-03;
 }
 
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-02;
-}
-
-.inputLabel {
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-secondary-default);
-}
-
-.dateInput {
-  width: 100%;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-sm;
-  font-family: inherit;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
-  }
-
-  &::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    filter: invert(0.5);
-  }
-}
-
 // Position inputs
 .positionInputs {
   display: flex;
   gap: layout.$spacing-03;
-}
 
-.numberInput {
-  width: 100%;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-sm;
-  font-family: inherit;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-    box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
+  // Make text inputs equal width
+  & > * {
+    flex: 1;
   }
-
-  &::placeholder {
-    color: var(--color-text-tertiary-default);
-  }
-
-  // Remove spinner arrows
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  -moz-appearance: textfield;
 }
 
 // Actions

@@ -3,9 +3,10 @@
  * Filter panel for waitlist users
  */
 
-import { memo, useState, type HTMLAttributes } from 'react';
+import { memo, useState } from 'react';
 import { Button } from '@/proto-design-system/Button/button';
-import Checkbox from '@/proto-design-system/Checkbox/Checkbox';
+import CheckboxWithLabel from '@/proto-design-system/checkbox/checkboxWithLabel';
+import { TextInput } from '@/proto-design-system/TextInput/textInput';
 import type { WaitlistUser } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -18,7 +19,7 @@ export interface UserFilters {
   maxPosition?: number;
 }
 
-export interface UserFiltersProps extends HTMLAttributes<HTMLDivElement> {
+export interface UserFiltersProps {
   /** Current filter values */
   filters: UserFilters;
   /** Filter change handler */
@@ -159,11 +160,13 @@ export const UserFilters = memo<UserFiltersProps>(
           <h4 className={styles.filterLabel}>Status</h4>
           <div className={styles.checkboxGroup}>
             {STATUS_OPTIONS.map(({ value, label }) => (
-              <Checkbox
+              <CheckboxWithLabel
                 key={value}
-                label={label}
-                checked={localFilters.status?.includes(value) || false}
+                text={label}
+                description=""
+                checked={localFilters.status?.includes(value) ? "checked" : "unchecked"}
                 onChange={() => handleStatusToggle(value)}
+                flipCheckboxToRight={false}
               />
             ))}
           </div>
@@ -173,34 +176,22 @@ export const UserFilters = memo<UserFiltersProps>(
         <div className={styles.filterSection}>
           <h4 className={styles.filterLabel}>Date Range</h4>
           <div className={styles.dateRangeInputs}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="date-start" className={styles.inputLabel}>
-                From
-              </label>
-              <input
-                id="date-start"
-                type="date"
-                className={styles.dateInput}
-                value={localFilters.dateRange?.start
-                  ? localFilters.dateRange.start.toISOString().split('T')[0]
-                  : ''}
-                onChange={(e) => handleDateRangeChange('start', e.target.value)}
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label htmlFor="date-end" className={styles.inputLabel}>
-                To
-              </label>
-              <input
-                id="date-end"
-                type="date"
-                className={styles.dateInput}
-                value={localFilters.dateRange?.end
-                  ? localFilters.dateRange.end.toISOString().split('T')[0]
-                  : ''}
-                onChange={(e) => handleDateRangeChange('end', e.target.value)}
-              />
-            </div>
+            <TextInput
+              label="From"
+              type="date"
+              value={localFilters.dateRange?.start
+                ? localFilters.dateRange.start.toISOString().split('T')[0]
+                : ''}
+              onChange={(e) => handleDateRangeChange('start', e.target.value)}
+            />
+            <TextInput
+              label="To"
+              type="date"
+              value={localFilters.dateRange?.end
+                ? localFilters.dateRange.end.toISOString().split('T')[0]
+                : ''}
+              onChange={(e) => handleDateRangeChange('end', e.target.value)}
+            />
           </div>
         </div>
 
@@ -209,11 +200,13 @@ export const UserFilters = memo<UserFiltersProps>(
           <h4 className={styles.filterLabel}>Source</h4>
           <div className={styles.checkboxGroup}>
             {SOURCE_OPTIONS.map((source) => (
-              <Checkbox
+              <CheckboxWithLabel
                 key={source}
-                label={source.charAt(0).toUpperCase() + source.slice(1)}
-                checked={localFilters.source?.includes(source) || false}
+                text={source.charAt(0).toUpperCase() + source.slice(1)}
+                description=""
+                checked={localFilters.source?.includes(source) ? "checked" : "unchecked"}
                 onChange={() => handleSourceToggle(source)}
+                flipCheckboxToRight={false}
               />
             ))}
           </div>
@@ -221,13 +214,15 @@ export const UserFilters = memo<UserFiltersProps>(
 
         {/* Has Referrals Filter */}
         <div className={styles.filterSection}>
-          <Checkbox
-            label="Has referrals"
-            checked={localFilters.hasReferrals || false}
-            onChange={(checked) => setLocalFilters({
+          <CheckboxWithLabel
+            text="Has referrals"
+            description=""
+            checked={localFilters.hasReferrals ? "checked" : "unchecked"}
+            onChange={() => setLocalFilters({
               ...localFilters,
-              hasReferrals: checked || undefined,
+              hasReferrals: !localFilters.hasReferrals || undefined,
             })}
+            flipCheckboxToRight={false}
           />
         </div>
 
@@ -235,34 +230,22 @@ export const UserFilters = memo<UserFiltersProps>(
         <div className={styles.filterSection}>
           <h4 className={styles.filterLabel}>Position Range</h4>
           <div className={styles.positionInputs}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="position-min" className={styles.inputLabel}>
-                Min
-              </label>
-              <input
-                id="position-min"
-                type="number"
-                min="1"
-                className={styles.numberInput}
-                placeholder="1"
-                value={localFilters.minPosition || ''}
-                onChange={(e) => handlePositionChange('min', e.target.value)}
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label htmlFor="position-max" className={styles.inputLabel}>
-                Max
-              </label>
-              <input
-                id="position-max"
-                type="number"
-                min="1"
-                className={styles.numberInput}
-                placeholder="100"
-                value={localFilters.maxPosition || ''}
-                onChange={(e) => handlePositionChange('max', e.target.value)}
-              />
-            </div>
+            <TextInput
+              label="Min"
+              type="number"
+              min={1}
+              placeholder="1"
+              value={localFilters.minPosition?.toString() || ''}
+              onChange={(e) => handlePositionChange('min', e.target.value)}
+            />
+            <TextInput
+              label="Max"
+              type="number"
+              min={1}
+              placeholder="100"
+              value={localFilters.maxPosition?.toString() || ''}
+              onChange={(e) => handlePositionChange('max', e.target.value)}
+            />
           </div>
         </div>
 

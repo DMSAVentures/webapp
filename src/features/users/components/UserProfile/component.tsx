@@ -4,11 +4,12 @@
  */
 
 import { memo, useState, type HTMLAttributes } from 'react';
-import Modal from '@/proto-design-system/Modal/modal';
+import Modal from '@/proto-design-system/modal/modal';
 import { Button } from '@/proto-design-system/Button/button';
 import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
 import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
 import ContentDivider from '@/proto-design-system/contentdivider/contentdivider';
+import Dropdown, { type DropdownOptionInput } from '@/proto-design-system/dropdown/dropdown';
 import type { WaitlistUser, RewardEarned } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -60,6 +61,17 @@ const formatStatus = (status: string): string => {
 };
 
 /**
+ * Status options for dropdown
+ */
+const STATUS_OPTIONS: DropdownOptionInput[] = [
+  { value: 'pending', label: 'Pending' },
+  { value: 'verified', label: 'Verified' },
+  { value: 'invited', label: 'Invited' },
+  { value: 'active', label: 'Active' },
+  { value: 'rejected', label: 'Rejected' },
+];
+
+/**
  * UserProfile displays detailed user information in a modal
  */
 export const UserProfile = memo<UserProfileProps>(
@@ -89,6 +101,10 @@ export const UserProfile = memo<UserProfileProps>(
       }
     };
 
+    const handleStatusChange = (option: DropdownOptionInput) => {
+      setSelectedStatus(option.value as WaitlistUser['status']);
+    };
+
     const handleDelete = () => {
       if (onDelete) {
         onDelete(userId);
@@ -100,9 +116,11 @@ export const UserProfile = memo<UserProfileProps>(
     return (
       <>
         <Modal
-          open={true}
+          isOpen={true}
           onClose={onClose}
-          size="large"
+          title="User Profile"
+          dismissibleByCloseIcon={false}
+          proceedText=""
         >
           <div className={classNames} {...props}>
             {/* Header */}
@@ -343,27 +361,24 @@ export const UserProfile = memo<UserProfileProps>(
               <div className={styles.actionsGrid}>
                 {/* Update Status */}
                 <div className={styles.actionItem}>
-                  <label className={styles.actionLabel}>Update Status</label>
-                  <div className={styles.actionControl}>
-                    <select
-                      value={selectedStatus}
-                      onChange={(e) => setSelectedStatus(e.target.value as WaitlistUser['status'])}
-                      className={styles.statusSelect}
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="verified">Verified</option>
-                      <option value="invited">Invited</option>
-                      <option value="active">Active</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
-                    <Button
-                      variant="secondary"
-                      onClick={handleUpdateStatus}
-                      disabled={selectedStatus === user.status}
-                    >
-                      Update
-                    </Button>
-                  </div>
+                  <Dropdown
+                    label="Update Status"
+                    options={STATUS_OPTIONS.map(opt => ({
+                      ...opt,
+                      selected: opt.value === selectedStatus
+                    }))}
+                    placeholderText="Select status"
+                    size="medium"
+                    onChange={handleStatusChange}
+                  />
+                  <Button
+                    variant="secondary"
+                    onClick={handleUpdateStatus}
+                    disabled={selectedStatus === user.status}
+                    className={styles.updateButton}
+                  >
+                    Update
+                  </Button>
                 </div>
 
                 {/* Send Email */}
@@ -400,35 +415,18 @@ export const UserProfile = memo<UserProfileProps>(
 
         {/* Delete confirmation modal */}
         <Modal
-          open={isDeleteModalOpen}
+          isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
-          size="small"
+          title="Delete User"
+          description={`Are you sure you want to delete ${user.name || user.email}? This action cannot be undone.`}
+          icon="warning"
+          dismissibleByCloseIcon={true}
+          proceedText="Delete"
+          cancelText="Cancel"
+          onCancel={() => setIsDeleteModalOpen(false)}
+          onProceed={handleDelete}
         >
-          <div className={styles.deleteModal}>
-            <div className={styles.deleteModalHeader}>
-              <div className={styles.deleteModalIcon}>
-                <i className="ri-alert-line" aria-hidden="true" />
-              </div>
-              <h2 className={styles.deleteModalTitle}>Delete User</h2>
-            </div>
-            <p className={styles.deleteModalDescription}>
-              Are you sure you want to delete {user.name || user.email}? This action cannot be undone.
-            </p>
-            <div className={styles.deleteModalActions}>
-              <Button
-                variant="secondary"
-                onClick={() => setIsDeleteModalOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                onClick={handleDelete}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
+          {/* Modal content is handled by the Modal component itself */}
         </Modal>
       </>
     );
