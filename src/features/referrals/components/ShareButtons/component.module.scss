@@ -1,0 +1,37 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: layout.$spacing-03;
+    width: 100%;
+
+    @media (max-width: breakpoints.$breakpoint-md) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+// Layout variants
+.layout_horizontal {
+    .container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: layout.$spacing-03;
+    }
+}
+
+.layout_vertical {
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: layout.$spacing-03;
+    }
+}
