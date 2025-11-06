@@ -26,7 +26,7 @@
 }
 
 .title {
-  font-size: typography.$font-size-2xl;
+  font-size: typography.$font-size-h3;
   font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
   margin: 0;
@@ -96,7 +96,7 @@
   font-weight: typography.$font-weight-medium;
 
   .tableRow & {
-    font-weight: typography.$font-weight-normal;
+    font-weight: typography.$font-weight-regular;
     color: var(--color-text-primary-default);
   }
 }
@@ -114,7 +114,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: border.$border-radius-full;
+  border-radius: border.$border-radius-round;
   background-color: var(--color-bg-primary-default);
   color: var(--color-text-inverse-default);
   font-size: typography.$font-size-sm;
