@@ -1,0 +1,191 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  height: 100%;
+  overflow-y: auto;
+}
+
+// Header
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-05;
+  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.title {
+  margin: 0;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
+// Content
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  padding: layout.$spacing-05;
+}
+
+// Section
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+// Layout options
+.layoutOptions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: layout.$spacing-03;
+}
+
+.layoutOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-04;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+  cursor: pointer;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+  text-transform: capitalize;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+
+  i {
+    font-size: typography.$font-size-xl;
+    color: var(--color-icon-secondary-default);
+  }
+
+  &:hover {
+    background-color: var(--color-bg-secondary-hover);
+    border-color: var(--color-border-primary-hover);
+  }
+
+  &.active {
+    background-color: var(--color-bg-info-alpha);
+    border-color: var(--color-border-focus-default);
+    color: var(--color-text-primary-default);
+
+    i {
+      color: var(--color-icon-primary-default);
+    }
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+}
+
+// Color grid
+.colorGrid {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.colorItem {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.colorLabel {
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-primary-default);
+}
+
+.colorInputGroup {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+}
+
+.colorPicker {
+  width: 48px;
+  height: 48px;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  cursor: pointer;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+}
+
+.colorInput {
+  flex: 1;
+  padding: layout.$spacing-03;
+  font-family: monospace;
+  font-size: typography.$font-size-sm;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  background-color: var(--color-surface-primary-default);
+  color: var(--color-text-primary-default);
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-border-focus-default);
+    box-shadow: 0 0 0 3px var(--color-alpha-focus);
+  }
+}
+
+// Input grid
+.inputGrid {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .header {
+    padding: layout.$spacing-04;
+  }
+
+  .content {
+    padding: layout.$spacing-04;
+  }
+
+  .layoutOptions {
+    grid-template-columns: 1fr;
+  }
+}
