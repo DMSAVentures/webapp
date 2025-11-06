@@ -2,9 +2,9 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import PlanCard from "@/components/billing/plans/planCard";
-import { EmptyState } from "@/components/empty/empty";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { ErrorState } from "@/components/error/error";
-import LoadingSpinner from "@/components/loading/loadingSpinner";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { useCancelSubscription } from "@/hooks/useCancelSubscription";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
 import { Button } from "@/proto-design-system/Button/button";
@@ -62,7 +62,7 @@ function Page() {
 	}
 
 	if (!currentSubscription) {
-		return <EmptyState message={"No subscription found"} />;
+		return <EmptyState title="No subscription found" />;
 	}
 
 	return (

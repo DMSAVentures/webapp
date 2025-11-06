@@ -1,7 +1,7 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import CustomCheckout from "@/components/billing/checkout/CustomCheckout";
 import { ErrorState } from "@/components/error/error";
-import LoadingSpinner from "@/components/loading/loadingSpinner";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { useCreateCheckoutSession } from "@/hooks/useCreateCheckoutSession";
 import Banner from "@/proto-design-system/banner/banner";
 

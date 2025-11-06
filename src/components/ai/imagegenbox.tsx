@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import { useSSEImageGen } from "@/hooks/useSSEImageGen";
 import Button from "@/proto-design-system/Button/button";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import styles from "./chatbox.module.scss";
 
 export default function ImageGenBox() {
@@ -43,14 +44,14 @@ export default function ImageGenBox() {
 				})}
 				{loading && (
 					<div className={styles["typing-indicator"]}>
-						<span>AI is typing...</span> <Shimmer />
+						<LoadingSpinner size="small" mode="inline" /> <span>AI is generating image...</span>
 					</div>
 				)}
 			</div>
 			<div className={styles["message-input-container"]}>
 				{loading && (
 					<div className={styles["typing-indicator"]}>
-						<span>AI is typing...</span> <Shimmer />
+						<LoadingSpinner size="small" mode="inline" /> <span>AI is generating image...</span>
 					</div>
 				)}
 				<TextArea
@@ -70,13 +71,5 @@ export default function ImageGenBox() {
 				</Button>
 			</div>
 		</div>
-	);
-}
-
-function Shimmer() {
-	return (
-		<span className={styles["shimmer-block"]}>
-			<span className={styles["shimmer"]} />
-		</span>
 	);
 }
