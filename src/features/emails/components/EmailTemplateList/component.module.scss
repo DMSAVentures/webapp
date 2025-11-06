@@ -1,0 +1,217 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  width: 100%;
+}
+
+// Header section
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.title {
+  font-size: typography.$font-size-h2;
+  font-weight: typography.$font-weight-bold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-secondary-default);
+  margin: 0;
+}
+
+// Grid layout
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: layout.$spacing-04;
+}
+
+// Template card
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+  cursor: pointer;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard,
+              box-shadow motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+    box-shadow: 0 2px 8px var(--color-shadow-default);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-03;
+}
+
+.templateName {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.templateType {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+
+  i {
+    font-size: typography.$font-size-md;
+    color: var(--color-icon-secondary-default);
+  }
+}
+
+// Card content
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.subject,
+.preheader {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.subjectLabel,
+.preheaderLabel {
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-secondary-default);
+  text-transform: uppercase;
+  letter-spacing: typography.$letter-spacing-wider;
+}
+
+.subjectText,
+.preheaderText {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-primary-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preheaderText {
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
+// Card footer
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-03;
+  padding-top: layout.$spacing-03;
+  border-top: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  color: var(--color-text-tertiary-default);
+  font-size: typography.$font-size-xs;
+
+  i {
+    font-size: typography.$font-size-sm;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+}
+
+// Empty state
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-08 layout.$spacing-05;
+  background-color: var(--color-surface-secondary-default);
+  border: border.$border-width-small dashed var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: typography.$font-size-h1;
+  color: var(--color-icon-secondary-default);
+}
+
+.emptyTitle {
+  font-size: typography.$font-size-h4;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.emptyDescription {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-secondary-default);
+  margin: 0;
+  max-width: 400px;
+}
+
+// Responsive adjustments
+@media (max-width: breakpoints.$breakpoint-md) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
