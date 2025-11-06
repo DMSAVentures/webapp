@@ -126,9 +126,10 @@
 }
 
 // Timeline connector line
+// Centered at 16px (half of 32px icon width)
 .connector {
   position: absolute;
-  left: layout.$spacing-04;
+  left: calc(layout.$spacing-08 / 2);
   top: layout.$spacing-07;
   bottom: 0;
   width: border.$border-width-medium;
@@ -312,7 +313,7 @@
   }
 
   .connector {
-    left: layout.$spacing-03;
+    left: calc(layout.$spacing-06 / 2);
     top: layout.$spacing-06;
   }
 
