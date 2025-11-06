@@ -225,13 +225,13 @@ export interface ComponentProps extends HTMLAttributes<HTMLDivElement> {
 ```
 
 ### Component Implementation Pattern
-Use functional components with hooks, forwardRef for DOM access, and memo for optimization:
+Use functional components with hooks and memo for optimization:
 
 ```tsx
-import { memo, forwardRef } from 'react';
+import { memo } from 'react';
 import styles from './component.module.scss';
 
-export const Component = memo(forwardRef<HTMLDivElement, ComponentProps>(
+export const Component = memo(
     function Component({
         variant = 'primary',
         size = 'medium',
@@ -239,7 +239,7 @@ export const Component = memo(forwardRef<HTMLDivElement, ComponentProps>(
         className: customClassName,
         children,
         ...props
-    }, ref) {
+    }: ComponentProps) {
         // BEM-style class composition
         const classNames = [
             styles.root,
@@ -248,14 +248,14 @@ export const Component = memo(forwardRef<HTMLDivElement, ComponentProps>(
             disabled && styles.disabled,
             customClassName
         ].filter(Boolean).join(' ');
-        
+
         return (
-            <div ref={ref} className={classNames} {...props}>
+            <div className={classNames} {...props}>
                 {children}
             </div>
         );
     }
-));
+);
 
 Component.displayName = 'Component';
 ```
@@ -726,7 +726,6 @@ While no test files are currently present, when adding tests:
 - ✅ Implement keyboard navigation
 - ✅ Use the centralized fetcher for API calls
 - ✅ Handle loading and error states consistently
-- ✅ Use forwardRef for components that need DOM access
 - ✅ Memoize components when appropriate
 
 ### DON'Ts

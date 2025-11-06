@@ -13,7 +13,7 @@
     border: 1px solid var(--color-border-primary-default);
     padding: layout.$spacing-05;
     box-shadow: none;
-    overflow: hidden;
+    overflow: visible;
     &::backdrop {
         background-color: var(--color-bg-primary-default);
         opacity: 0.8;
