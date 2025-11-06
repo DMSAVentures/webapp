@@ -56,65 +56,54 @@ ComponentName/
 
 Before writing ANY component:
 1. ✅ Check `src/proto-design-system/` for existing components
-2. ✅ Use proto components with their proper APIs (Button with leftIcon, ProgressBar with progress prop, etc.)
+2. ✅ Use proto components with their proper APIs
 3. ✅ NEVER create custom implementations of form inputs, buttons, badges, modals, etc.
 4. ✅ NEVER apply custom styles that override proto component behavior
 5. ✅ Let proto components handle their own styling, animations, and interactions
 
-### Common Proto Components to Use:
-- **Forms**: TextInput, TextArea, Dropdown, Checkbox, CheckboxWithLabel, Toggle
-- **Buttons**: Button (with leftIcon prop), IconOnlyButton, LinkButton
-- **Feedback**: Badge, StatusBadge, Banner, Toast, ProgressBar
-- **Layout**: Card, ContentDivider, Modal, Sheet
-- **Navigation**: DropdownMenu, Tabs
+**📚 Detailed Component APIs:** See [docs/proto-components.md](./docs/proto-components.md)
 
 ### Design Tokens
 **Always use design tokens from `@/design-tokens/` instead of hardcoded values**
 
-#### SCSS Import Pattern (Always use @use, never @import)
+**📚 Complete Design Token Reference:** See [docs/design-tokens.md](./docs/design-tokens.md)
+
+#### Quick Reference - Most Common Tokens
+
+**Typography:**
 ```scss
-@use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
-// Only import colors for multi-color components (Badge, Banner, etc.)
-// @use "@/design-tokens/colors" as colors;
+font-size: typography.$font-size-md;  // 13px (base)
+font-size: typography.$font-size-h1;  // 40px (heading)
+font-weight: typography.$font-weight-semibold;  // 700
 ```
 
-#### Available Token Categories
-- **Colors**: HSL-based with 10-step scales (50-900) plus alpha variants
-- **Typography**: Purpose-based sizing (xs, sm, md, lg, xl) + headings (h1-h6)
-- **Spacing**: 8px base unit system with 13 steps ($spacing-01 to $spacing-13)
-- **Motion**: Easing curves and duration tokens
-- **Borders**: Consistent border radii
-- **Shadows**: Elevation system
-- **Breakpoints**: Responsive design breakpoints
+**Layout:**
+```scss
+@use "@/design-tokens/layout" as layout;
+padding: layout.$spacing-04;  // 12px
+margin: layout.$spacing-05;   // 20px
+gap: layout.$spacing-03;      // 8px
+```
 
-#### CRITICAL: Valid Token Names
-**Typography Sizes:**
-- ✅ Text: `$font-size-xs`, `$font-size-sm`, `$font-size-md`, `$font-size-lg`, `$font-size-xl`
-- ✅ Headings: `$font-size-h6` (20px), `$font-size-h5` (22px), `$font-size-h4` (24px), `$font-size-h3` (28px), `$font-size-h2` (32px), `$font-size-h1` (40px)
-- ❌ INVALID: `$font-size-2xl`, `$font-size-3xl`, `$font-size-4xl`, `$font-size-5xl` (these do NOT exist)
-
-**Font Weights:**
-- ✅ Valid: `$font-weight-light` (400), `$font-weight-regular` (500), `$font-weight-medium` (600), `$font-weight-semibold` (700), `$font-weight-bold` (800)
-- ❌ INVALID: `$font-weight-normal` (does NOT exist - use `$font-weight-regular`)
-- ⚠️ NOTE: `regular` is the default, so you can omit font-weight declarations for regular weight
-
-**Border Radius:**
-- ✅ Valid: `$border-radius-small` (4px), `$border-radius-medium` (8px), `$border-radius-large` (12px), `$border-radius-round` (999px)
-- ❌ INVALID: `$border-radius-full` (does NOT exist - use `$border-radius-round`)
-
-**Line Heights:**
-- ✅ Valid: `$line-height-none` (1), `$line-height-tight` (1.25), `$line-height-snug` (1.375), `$line-height-normal` (1.5), `$line-height-relaxed` (1.625), `$line-height-loose` (2)
-
-**Letter Spacing:**
-- ✅ Valid: `$letter-spacing-tighter`, `$letter-spacing-tight`, `$letter-spacing-normal`, `$letter-spacing-wide`, `$letter-spacing-wider`
+**Borders:**
+```scss
+@use "@/design-tokens/border" as border;
+border-radius: border.$border-radius-medium;  // 8px
+border-radius: border.$border-radius-round;   // 999px (fully rounded)
+```
 
 **Breakpoints:**
-- ✅ Valid: `$breakpoint-sm` (320px), `$breakpoint-md` (672px), `$breakpoint-lg` (1056px), `$breakpoint-xlg` (1312px), `$breakpoint-max` (1584px)
-- ❌ NEVER use hardcoded pixel values like 767px, 768px, 1024px
+```scss
+@use "@/design-tokens/breakpoints" as breakpoints;
+@media (max-width: breakpoints.$breakpoint-md) { /* tablet */ }
+```
+
+**⚠️ Common Invalid Tokens (DO NOT USE):**
+- ❌ `$font-size-2xl`, `$font-size-3xl`, `$font-size-4xl`, `$font-size-5xl` → Use `$font-size-h1` through `$font-size-h6`
+- ❌ `$font-weight-normal` → Use `$font-weight-regular`
+- ❌ `$border-radius-full` → Use `$border-radius-round`
+- ❌ Hardcoded pixels like `767px`, `768px` → Use `$breakpoint-md`, etc.
 
 #### Color Token Usage
 
@@ -256,109 +245,7 @@ The application uses CSS custom properties for runtime theme switching:
 
 ## Component Development
 
-### Proto Design System Component APIs
-**Know the correct APIs for proto components - never guess or use custom implementations**
-
-#### Button Component
-```tsx
-import { Button } from '@/proto-design-system/Button/button';
-
-// ✅ CORRECT: Use leftIcon prop for icons
-<Button variant="secondary" size="medium" leftIcon="arrow-right">
-  Next
-</Button>
-
-// ❌ WRONG: Don't manually render icons
-<Button variant="secondary">
-  <i className="ri-arrow-right" />
-  Next
-</Button>
-
-// Note: Button adds 'ri-' prefix automatically, so pass icon name without it
-```
-
-#### ProgressBar Component
-```tsx
-import ProgressBar from '@/proto-design-system/progressbar/progressbar';
-
-// ✅ CORRECT: Use progress and showPercentage props
-<ProgressBar
-  progress={75}
-  size="medium"
-  variant="info"
-  showPercentage={false}
-/>
-
-// ❌ WRONG: Don't use percentage or showLabel
-<ProgressBar percentage={75} showLabel={false} />
-```
-
-#### TextInput Component
-```tsx
-import { TextInput } from '@/proto-design-system/TextInput/textInput';
-
-// ✅ CORRECT: Use hint prop
-<TextInput
-  label="Email"
-  type="email"
-  value={email}
-  onChange={handleChange}
-  hint="We'll never share your email"
-  error={errorMessage}
-/>
-
-// ❌ WRONG: Don't use helperText
-<TextInput helperText="Helper text" />
-```
-
-#### Checkbox Component
-```tsx
-import CheckboxWithLabel from '@/proto-design-system/checkbox/checkboxWithLabel';
-
-// ✅ CORRECT: Use "checked" | "unchecked" string values
-<CheckboxWithLabel
-  text="I agree to terms"
-  checked={isChecked ? "checked" : "unchecked"}
-  onChange={handleChange}
-/>
-
-// ❌ WRONG: Don't use boolean
-<CheckboxWithLabel checked={isChecked} />
-```
-
-#### Modal Component
-```tsx
-import Modal from '@/proto-design-system/modal/modal';
-
-// ✅ CORRECT: Requires isOpen, title, proceedText
-<Modal
-  isOpen={isOpen}
-  onClose={handleClose}
-  title="Confirm Action"
-  proceedText="Confirm"
-  cancelText="Cancel"
-  onProceed={handleConfirm}
-  onCancel={handleClose}
->
-  Modal content here
-</Modal>
-
-// ❌ WRONG: Don't use open, or omit required props
-<Modal open={isOpen} size="small" />
-```
-
-#### Import Casing (CRITICAL)
-```tsx
-// ✅ CORRECT: Match the actual folder casing
-import { Button } from '@/proto-design-system/Button/button';
-import Modal from '@/proto-design-system/modal/modal';
-import ProgressBar from '@/proto-design-system/progressbar/progressbar';
-import { Badge } from '@/proto-design-system/badge/badge';
-
-// ❌ WRONG: Case mismatches will cause build errors on Linux
-import { Button } from '@/proto-design-system/button/button';  // Wrong case
-import Modal from '@/proto-design-system/Modal/modal';          // Wrong case
-```
+**📚 For Proto Component APIs:** See [docs/proto-components.md](./docs/proto-components.md) for detailed component usage, props, and examples.
 
 ### TypeScript Patterns
 All components must be typed with proper interfaces and JSDoc documentation:
