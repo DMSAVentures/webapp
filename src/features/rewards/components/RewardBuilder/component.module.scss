@@ -1,0 +1,164 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  width: 100%;
+}
+
+// Section headings
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.sectionTitle {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+// Preview card
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.previewTitle {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-secondary-default);
+  margin: 0;
+}
+
+.previewCard {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+  transition: border-color motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+  }
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  flex-wrap: wrap;
+}
+
+.previewTier {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  background-color: var(--color-bg-primary-default);
+  color: var(--color-text-inverse-default);
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-semibold;
+  border-radius: border.$border-radius-small;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.previewType {
+  display: inline-flex;
+  align-items: center;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  background-color: var(--color-bg-secondary-default);
+  color: var(--color-text-primary-default);
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-medium;
+  border-radius: border.$border-radius-small;
+  text-transform: capitalize;
+}
+
+.previewName {
+  font-size: typography.$font-size-xl;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+  line-height: typography.$line-height-tight;
+}
+
+.previewDescription {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-secondary-default);
+  line-height: typography.$line-height-normal;
+  margin: 0;
+}
+
+.previewValue {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-03;
+  background-color: var(--color-bg-success-alpha);
+  color: var(--color-text-success-default);
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  border-radius: border.$border-radius-small;
+
+  i {
+    font-size: typography.$font-size-lg;
+  }
+}
+
+.previewRequirement {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-03;
+  background-color: var(--color-bg-info-alpha);
+  color: var(--color-text-info-default);
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  border-radius: border.$border-radius-small;
+
+  i {
+    font-size: typography.$font-size-md;
+  }
+}
+
+// Form actions
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: layout.$spacing-03;
+  padding-top: layout.$spacing-04;
+}
+
+// Responsive adjustments
+@media (max-width: breakpoints.$breakpoint-md) {
+  .root {
+    gap: layout.$spacing-04;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .previewCard {
+    padding: layout.$spacing-04;
+  }
+}
