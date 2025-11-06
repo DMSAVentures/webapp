@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
     position: relative;
@@ -23,7 +24,7 @@
     border-radius: border.$border-radius-large;
     transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
 
-    @media (max-width: 767px) {
+    @media (max-width: breakpoints.$breakpoint-md) {
         padding: layout.$spacing-05;
     }
 }
@@ -42,10 +43,10 @@
 
 .confetti {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    top: -10px;
-    animation: confettiFall 3s ease-out forwards;
+    width: layout.$spacing-03;  // 8px, close to 10px
+    height: layout.$spacing-03;
+    top: calc(-1 * layout.$spacing-03);
+    animation: confettiFall motion.$duration-slow-02 ease-out forwards;
     opacity: 0;
 }
 
@@ -73,7 +74,7 @@
     font-weight: typography.$font-weight-medium;
     color: var(--color-text-secondary-default);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: typography.$letter-spacing-wide;
 }
 
 .positionDisplay {
@@ -133,7 +134,7 @@
 @keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translateX(-10px);
+        transform: translateX(calc(-1 * layout.$spacing-03));
     }
     to {
         opacity: 1;
@@ -164,8 +165,8 @@
     transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
     &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px var(--color-shadow-default);
+        transform: translateY(calc(-1 * layout.$spacing-01));
+        box-shadow: 0 layout.$spacing-01 layout.$spacing-03 var(--color-shadow-default);
     }
 
     i {
@@ -188,13 +189,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: layout.$spacing-06;  // 24px
+    height: layout.$spacing-06;
     color: var(--color-icon-secondary-default);
 
     i {
         font-size: typography.$font-size-lg;
-        animation: spin 1s linear infinite;
+        animation: spin motion.$duration-moderate-02 linear infinite;
     }
 }
 

@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
     display: flex;
@@ -45,7 +46,7 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-4px);
+        transform: translateY(calc(-1 * layout.$spacing-01));
     }
     to {
         opacity: 1;
@@ -59,7 +60,7 @@
     gap: layout.$spacing-03;
     width: 100%;
 
-    @media (min-width: 768px) {
+    @media (min-width: breakpoints.$breakpoint-md) {
         flex-direction: row;
         align-items: stretch;
     }
@@ -91,7 +92,7 @@
     gap: layout.$spacing-03;
     flex-shrink: 0;
 
-    @media (max-width: 767px) {
+    @media (max-width: breakpoints.$breakpoint-md) {
         width: 100%;
 
         button {
@@ -122,10 +123,10 @@
 }
 
 .qrCodeImage {
-    width: 300px;
-    height: 300px;
+    width: calc(layout.$spacing-13 * 3.75);  // 300px (80px * 3.75)
+    height: calc(layout.$spacing-13 * 3.75);
     border-radius: border.$border-radius-medium;
-    box-shadow: 0 4px 12px var(--color-shadow-default);
+    box-shadow: 0 layout.$spacing-01 layout.$spacing-03 var(--color-shadow-default);
 }
 
 .qrCodeUrl {
@@ -134,5 +135,5 @@
     color: var(--color-text-secondary-default);
     text-align: center;
     word-break: break-all;
-    max-width: 300px;
+    max-width: calc(layout.$spacing-13 * 3.75);  // 300px
 }

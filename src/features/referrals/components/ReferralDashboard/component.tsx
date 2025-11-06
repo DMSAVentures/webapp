@@ -74,20 +74,16 @@ export const ReferralDashboard = memo(function ReferralDashboard({
     ...props
 }: ReferralDashboardProps) {
     const [referralData, setReferralData] = useState<ReferralData>(initialData);
-    const [loading, setLoading] = useState(false);
 
     // Fetch referral data
     const loadReferralData = useCallback(async () => {
         if (!fetchReferralData) return;
 
         try {
-            setLoading(true);
             const data = await fetchReferralData(userId, campaignId);
             setReferralData(data);
         } catch (error) {
             console.error('Failed to fetch referral data:', error);
-        } finally {
-            setLoading(false);
         }
     }, [userId, campaignId, fetchReferralData]);
 
@@ -185,10 +181,10 @@ export const ReferralDashboard = memo(function ReferralDashboard({
                             </div>
                         </div>
                         <ProgressBar
-                            percentage={progress}
+                            progress={progress}
                             size="medium"
-                            variant="default"
-                            showLabel={false}
+                            variant="info"
+                            showPercentage={false}
                         />
                     </div>
                 )}

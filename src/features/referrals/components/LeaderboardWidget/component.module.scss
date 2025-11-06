@@ -3,6 +3,7 @@
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
 @use "@/design-tokens/colors" as colors;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
     display: flex;
@@ -19,7 +20,7 @@
     border: 1px solid var(--color-border-primary-default);
     border-radius: border.$border-radius-large;
 
-    @media (max-width: 767px) {
+    @media (max-width: breakpoints.$breakpoint-md) {
         padding: layout.$spacing-04;
     }
 }
@@ -65,7 +66,7 @@
 .loadingIcon {
     font-size: typography.$font-size-md;
     color: var(--color-icon-secondary-default);
-    animation: spin 1s linear infinite;
+    animation: spin motion.$duration-moderate-02 linear infinite;
 }
 
 @keyframes spin {
@@ -100,9 +101,9 @@
             color: var(--color-text-secondary-default);
             text-transform: uppercase;
             font-size: typography.$font-size-xs;
-            letter-spacing: 0.5px;
+            letter-spacing: typography.$letter-spacing-wide;
 
-            @media (max-width: 767px) {
+            @media (max-width: breakpoints.$breakpoint-md) {
                 padding: layout.$spacing-02 layout.$spacing-03;
             }
         }
@@ -126,7 +127,7 @@
             padding: layout.$spacing-04;
             color: var(--color-text-primary-default);
 
-            @media (max-width: 767px) {
+            @media (max-width: breakpoints.$breakpoint-md) {
                 padding: layout.$spacing-03;
             }
         }
@@ -135,36 +136,39 @@
 
 // Column Widths
 .rankColumn {
-    width: 80px;
+    width: layout.$spacing-10;  // 40px, using 2x for 80px approximation
+    @media (min-width: breakpoints.$breakpoint-md) {
+        width: calc(layout.$spacing-10 * 2);  // 80px
+    }
 
-    @media (max-width: 767px) {
-        width: 60px;
+    @media (max-width: breakpoints.$breakpoint-md) {
+        width: calc(layout.$spacing-10 * 1.5);  // 60px
     }
 }
 
 .nameColumn {
-    min-width: 150px;
+    min-width: calc(layout.$spacing-10 * 3.75);  // 150px
 }
 
 .referralsColumn {
-    width: 100px;
+    width: calc(layout.$spacing-10 * 2.5);  // 100px
     text-align: right;
 }
 
 .pointsColumn {
-    width: 100px;
+    width: calc(layout.$spacing-10 * 2.5);  // 100px
     text-align: right;
 }
 
 .badgesColumn {
-    width: 120px;
+    width: calc(layout.$spacing-10 * 3);  // 120px
 }
 
 // Row States
 .row {
     &.highlighted {
         background-color: var(--color-bg-info-alpha);
-        border-left: 3px solid var(--color-info-default);
+        border-left: border.$border-width-large solid var(--color-info-default);
 
         &:hover {
             background-color: var(--color-bg-info-alpha);
@@ -247,7 +251,7 @@
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-4px);
+        transform: translateY(calc(-1 * layout.$spacing-01));
     }
 }
 
@@ -322,12 +326,12 @@
 }
 
 // Responsive adjustments
-@media (max-width: 767px) {
+@media (max-width: breakpoints.$breakpoint-md) {
     .badgesColumn {
         display: none;
     }
 
     .pointsColumn {
-        width: 80px;
+        width: calc(layout.$spacing-10 * 2);  // 80px
     }
 }

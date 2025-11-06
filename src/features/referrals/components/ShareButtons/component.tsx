@@ -60,7 +60,7 @@ const platformConfigs: Record<Exclude<SharePlatform, 'copy'>, PlatformConfig> = 
         label: 'LinkedIn',
         icon: 'ri-linkedin-fill',
         color: 'linkedin',
-        getUrl: (url, message) =>
+        getUrl: (url) =>
             `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
     },
     whatsapp: {
