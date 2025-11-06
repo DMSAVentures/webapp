@@ -14,7 +14,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { format } from 'date-fns';
 import styles from './component.module.scss';
 
 export interface GrowthChartData {
@@ -37,11 +36,12 @@ export interface GrowthChartProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 
 /**
  * Format date for display on X-axis
+ * Uses native JavaScript Intl.DateTimeFormat for "MMM d" format (e.g., "Jan 15")
  */
 const formatDate = (dateStr: string): string => {
   try {
     const date = new Date(dateStr);
-    return format(date, 'MMM d');
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   } catch {
     return dateStr;
   }

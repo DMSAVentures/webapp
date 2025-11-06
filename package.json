@@ -19,7 +19,6 @@
 		"@stripe/stripe-js": "^8.3.0",
 		"@tanstack/react-router": "^1.134.12",
 		"@tanstack/react-router-devtools": "^1.134.12",
-		"date-fns": "^4.1.0",
 		"motion": "^12.23.24",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",

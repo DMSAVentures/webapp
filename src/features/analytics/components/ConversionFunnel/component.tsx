@@ -234,7 +234,7 @@ export const ConversionFunnel = memo<ConversionFunnelProps>(
             />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="value" radius={[0, 8, 8, 0]}>
-              {chartData.map((entry, index) => (
+              {chartData.map((_entry, index) => (
                 <Cell key={`cell-${index}`} fill={getBarColor(index)} />
               ))}
               <LabelList content={<CustomLabel />} />
