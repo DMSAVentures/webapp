@@ -22,35 +22,38 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 	// Get navigation groups based on user's persona
 	const navigationGroups = getNavigationGroups();
 
+	// Build the children array for SidebarContent
+	const sidebarGroups = navigationGroups.map((group) => (
+		<SidebarGroup key={group.label} label={group.label}>
+			{group.items.map((item) => (
+				<SidebarItem
+					key={item.href}
+					label={item.label}
+					href={item.href}
+					iconClass={item.iconClass}
+				/>
+			))}
+		</SidebarGroup>
+	));
+
+	const sidebarFooter = (
+		<SidebarFooter key="footer">
+			<UserName />
+			<SidebarGroup label="Settings">
+				<SidebarItem
+					label="Account"
+					href="/account"
+					iconClass="user-line"
+				/>
+			</SidebarGroup>
+		</SidebarFooter>
+	);
+
 	return (
 		<aside className={sidebarClassName}>
+			<HeaderLogo logo={"DMSA Ventures"} />
 			<SidebarContent>
-				<HeaderLogo logo={"DMSA Ventures"} />
-
-				{/* Render persona-based navigation groups */}
-				{navigationGroups.map((group) => (
-					<SidebarGroup key={group.label} label={group.label}>
-						{group.items.map((item) => (
-							<SidebarItem
-								key={item.href}
-								label={item.label}
-								href={item.href}
-								iconClass={item.iconClass}
-							/>
-						))}
-					</SidebarGroup>
-				))}
-
-				<SidebarFooter>
-					<UserName />
-					<SidebarGroup label="Settings">
-						<SidebarItem
-							label="Account"
-							href="/account"
-							iconClass="user-line"
-						/>
-					</SidebarGroup>
-				</SidebarFooter>
+				{[...sidebarGroups, sidebarFooter]}
 			</SidebarContent>
 		</aside>
 	);

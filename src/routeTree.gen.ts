@@ -9,10 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WebhooksRouteImport } from './routes/webhooks'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as MediaRouteImport } from './routes/media'
 import { Route as MainRouteImport } from './routes/main'
-import { Route as ImageGenerationRouteImport } from './routes/image-generation'
-import { Route as ConversationRouteImport } from './routes/conversation'
+import { Route as EmailRouteImport } from './routes/email'
+import { Route as DealsRouteImport } from './routes/deals'
+import { Route as ContactsRouteImport } from './routes/contacts'
+import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as ArticlesRouteImport } from './routes/articles'
+import { Route as ApiKeysRouteImport } from './routes/api-keys'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,9 +30,19 @@ import { Route as BillingPayment_methodRouteImport } from './routes/billing/paym
 import { Route as BillingPayment_attemptRouteImport } from './routes/billing/payment_attempt'
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
 
+const WebhooksRoute = WebhooksRouteImport.update({
+  id: '/webhooks',
+  path: '/webhooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SigninRoute = SigninRouteImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaRoute = MediaRouteImport.update({
+  id: '/media',
+  path: '/media',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MainRoute = MainRouteImport.update({
@@ -33,14 +50,39 @@ const MainRoute = MainRouteImport.update({
   path: '/main',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ImageGenerationRoute = ImageGenerationRouteImport.update({
-  id: '/image-generation',
-  path: '/image-generation',
+const EmailRoute = EmailRouteImport.update({
+  id: '/email',
+  path: '/email',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ConversationRoute = ConversationRouteImport.update({
-  id: '/conversation',
-  path: '/conversation',
+const DealsRoute = DealsRouteImport.update({
+  id: '/deals',
+  path: '/deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsRoute = ContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsRoute = CampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiKeysRoute = ApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountRoute = AccountRouteImport.update({
@@ -93,10 +135,17 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
-  '/conversation': typeof ConversationRoute
-  '/image-generation': typeof ImageGenerationRoute
+  '/analytics': typeof AnalyticsRoute
+  '/api-keys': typeof ApiKeysRoute
+  '/articles': typeof ArticlesRoute
+  '/campaigns': typeof CampaignsRoute
+  '/contacts': typeof ContactsRoute
+  '/deals': typeof DealsRoute
+  '/email': typeof EmailRoute
   '/main': typeof MainRoute
+  '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
+  '/webhooks': typeof WebhooksRoute
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -108,10 +157,17 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
-  '/conversation': typeof ConversationRoute
-  '/image-generation': typeof ImageGenerationRoute
+  '/analytics': typeof AnalyticsRoute
+  '/api-keys': typeof ApiKeysRoute
+  '/articles': typeof ArticlesRoute
+  '/campaigns': typeof CampaignsRoute
+  '/contacts': typeof ContactsRoute
+  '/deals': typeof DealsRoute
+  '/email': typeof EmailRoute
   '/main': typeof MainRoute
+  '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
+  '/webhooks': typeof WebhooksRoute
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -124,10 +180,17 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
-  '/conversation': typeof ConversationRoute
-  '/image-generation': typeof ImageGenerationRoute
+  '/analytics': typeof AnalyticsRoute
+  '/api-keys': typeof ApiKeysRoute
+  '/articles': typeof ArticlesRoute
+  '/campaigns': typeof CampaignsRoute
+  '/contacts': typeof ContactsRoute
+  '/deals': typeof DealsRoute
+  '/email': typeof EmailRoute
   '/main': typeof MainRoute
+  '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
+  '/webhooks': typeof WebhooksRoute
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -141,10 +204,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/account'
-    | '/conversation'
-    | '/image-generation'
+    | '/analytics'
+    | '/api-keys'
+    | '/articles'
+    | '/campaigns'
+    | '/contacts'
+    | '/deals'
+    | '/email'
     | '/main'
+    | '/media'
     | '/signin'
+    | '/webhooks'
     | '/billing/pay'
     | '/billing/payment_attempt'
     | '/billing/payment_method'
@@ -156,10 +226,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/account'
-    | '/conversation'
-    | '/image-generation'
+    | '/analytics'
+    | '/api-keys'
+    | '/articles'
+    | '/campaigns'
+    | '/contacts'
+    | '/deals'
+    | '/email'
     | '/main'
+    | '/media'
     | '/signin'
+    | '/webhooks'
     | '/billing/pay'
     | '/billing/payment_attempt'
     | '/billing/payment_method'
@@ -171,10 +248,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/account'
-    | '/conversation'
-    | '/image-generation'
+    | '/analytics'
+    | '/api-keys'
+    | '/articles'
+    | '/campaigns'
+    | '/contacts'
+    | '/deals'
+    | '/email'
     | '/main'
+    | '/media'
     | '/signin'
+    | '/webhooks'
     | '/billing/pay'
     | '/billing/payment_attempt'
     | '/billing/payment_method'
@@ -187,10 +271,17 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AccountRoute: typeof AccountRoute
-  ConversationRoute: typeof ConversationRoute
-  ImageGenerationRoute: typeof ImageGenerationRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  ApiKeysRoute: typeof ApiKeysRoute
+  ArticlesRoute: typeof ArticlesRoute
+  CampaignsRoute: typeof CampaignsRoute
+  ContactsRoute: typeof ContactsRoute
+  DealsRoute: typeof DealsRoute
+  EmailRoute: typeof EmailRoute
   MainRoute: typeof MainRoute
+  MediaRoute: typeof MediaRoute
   SigninRoute: typeof SigninRoute
+  WebhooksRoute: typeof WebhooksRoute
   BillingPayRoute: typeof BillingPayRoute
   BillingPayment_attemptRoute: typeof BillingPayment_attemptRoute
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
@@ -201,11 +292,25 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/webhooks': {
+      id: '/webhooks'
+      path: '/webhooks'
+      fullPath: '/webhooks'
+      preLoaderRoute: typeof WebhooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signin': {
       id: '/signin'
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media': {
+      id: '/media'
+      path: '/media'
+      fullPath: '/media'
+      preLoaderRoute: typeof MediaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/main': {
@@ -215,18 +320,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/image-generation': {
-      id: '/image-generation'
-      path: '/image-generation'
-      fullPath: '/image-generation'
-      preLoaderRoute: typeof ImageGenerationRouteImport
+    '/email': {
+      id: '/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/conversation': {
-      id: '/conversation'
-      path: '/conversation'
-      fullPath: '/conversation'
-      preLoaderRoute: typeof ConversationRouteImport
+    '/deals': {
+      id: '/deals'
+      path: '/deals'
+      fullPath: '/deals'
+      preLoaderRoute: typeof DealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts': {
+      id: '/contacts'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof ContactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns': {
+      id: '/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api-keys': {
+      id: '/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof ApiKeysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account': {
@@ -299,10 +439,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AccountRoute: AccountRoute,
-  ConversationRoute: ConversationRoute,
-  ImageGenerationRoute: ImageGenerationRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  ApiKeysRoute: ApiKeysRoute,
+  ArticlesRoute: ArticlesRoute,
+  CampaignsRoute: CampaignsRoute,
+  ContactsRoute: ContactsRoute,
+  DealsRoute: DealsRoute,
+  EmailRoute: EmailRoute,
   MainRoute: MainRoute,
+  MediaRoute: MediaRoute,
   SigninRoute: SigninRoute,
+  WebhooksRoute: WebhooksRoute,
   BillingPayRoute: BillingPayRoute,
   BillingPayment_attemptRoute: BillingPayment_attemptRoute,
   BillingPayment_methodRoute: BillingPayment_methodRoute,

@@ -1,6 +1,7 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
 
 .root {
 	display: flex;
@@ -38,19 +39,19 @@
 .size_small {
 	width: 20px;
 	height: 20px;
-	border-width: 2px;
+	border-width: border.$border-width-medium;
 }
 
 .size_medium {
 	width: 40px;
 	height: 40px;
-	border-width: 3px;
+	border-width: border.$border-width-medium;
 }
 
 .size_large {
 	width: 60px;
 	height: 60px;
-	border-width: 4px;
+	border-width: border.$border-width-large;
 }
 
 .message {
@@ -66,9 +67,9 @@
 	width: 1px;
 	height: 1px;
 	padding: 0;
-	margin: -1px;
+	margin: calc(-1 * layout.$spacing-01);
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
 	white-space: nowrap;
 	border-width: 0;
 }

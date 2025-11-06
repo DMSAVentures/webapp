@@ -18,7 +18,7 @@
 .sectionTitle {
 	font-size: typography.$font-size-lg;
 	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-heading;
+	line-height: typography.$line-height-tight;
 	color: var(--color-text-primary-default);
 	margin: 0;
 }
@@ -55,7 +55,7 @@
 	}
 
 	i {
-		font-size: 32px;
+		font-size: typography.$font-size-h1;
 		color: var(--color-icon-primary-default);
 	}
 }
@@ -93,5 +93,5 @@
 	font-weight: typography.$font-weight-semibold;
 	color: var(--color-text-info-default);
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
+	letter-spacing: typography.$letter-spacing-wide;
 }

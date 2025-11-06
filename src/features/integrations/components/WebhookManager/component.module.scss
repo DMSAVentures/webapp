@@ -96,7 +96,7 @@
   gap: layout.$spacing-02;
   color: var(--color-text-secondary-default);
   font-size: typography.$font-size-sm;
-  font-family: monospace;
+  font-family: typography.$font-family-mono;
 
   i {
     font-size: typography.$font-size-md;
@@ -303,6 +303,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }

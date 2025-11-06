@@ -17,7 +17,7 @@
 .pageTitle {
 	font-size: typography.$font-size-h2;
 	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-heading;
+	line-height: typography.$line-height-tight;
 	color: var(--color-text-primary-default);
 	margin: 0;
 }
@@ -25,7 +25,7 @@
 .pageDescription {
 	font-size: typography.$font-size-md;
 	font-weight: typography.$font-weight-regular;
-	line-height: typography.$line-height-body;
+	line-height: typography.$line-height-relaxed;
 	color: var(--color-text-secondary-default);
 	margin: 0;
 }
