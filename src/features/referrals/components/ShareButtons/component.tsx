@@ -152,10 +152,10 @@ export const ShareButtons = memo(function ShareButtons({
                             key={platform}
                             variant="secondary"
                             size="medium"
+                            leftIcon={config.icon.replace('ri-', '')}
                             onClick={() => handleShare(platform)}
                             aria-label={`Share on ${config.label}`}
                         >
-                            <i className={config.icon} aria-hidden="true" />
                             {config.label}
                         </Button>
                     );
@@ -165,10 +165,10 @@ export const ShareButtons = memo(function ShareButtons({
                 <Button
                     variant="secondary"
                     size="medium"
+                    leftIcon={showCopiedFeedback ? "checkbox-circle-fill" : "link"}
                     onClick={handleCopyLink}
                     aria-label="Copy link"
                 >
-                    <i className={showCopiedFeedback ? "ri-checkbox-circle-fill" : "ri-link"} aria-hidden="true" />
                     {showCopiedFeedback ? 'Copied!' : 'Copy Link'}
                 </Button>
             </div>
