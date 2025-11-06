@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -13,50 +14,8 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: layout.$spacing-04;
-  flex-wrap: wrap;
-}
-
-// Category filter
-.categoryFilter {
-  display: flex;
-  gap: layout.$spacing-02;
-  flex-wrap: wrap;
-}
-
-.filterButton {
-  padding: layout.$spacing-02 layout.$spacing-04;
-  background-color: var(--color-bg-secondary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
-  color: var(--color-text-secondary-default);
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-medium;
-  cursor: pointer;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-secondary-hover);
-    border-color: var(--color-border-primary-hover);
-    color: var(--color-text-primary-default);
-  }
-
-  &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: layout.$spacing-01;
-  }
-}
-
-.filterButtonActive {
-  background-color: var(--color-bg-primary-default);
-  border-color: var(--color-bg-primary-default);
-  color: var(--color-text-inverse-default);
-
-  &:hover {
-    background-color: var(--color-bg-primary-hover);
-    border-color: var(--color-bg-primary-hover);
-  }
 }
 
 // Results info
@@ -99,7 +58,7 @@
   color: var(--color-info-default);
 
   i {
-    font-size: typography.$font-size-2xl;
+    font-size: typography.$font-size-h6;
   }
 }
 
@@ -172,7 +131,7 @@
   color: var(--color-icon-secondary-default);
 
   i {
-    font-size: typography.$font-size-3xl;
+    font-size: typography.$font-size-h5;
   }
 }
 
@@ -200,7 +159,7 @@
   text-align: center;
 
   i {
-    font-size: typography.$font-size-3xl;
+    font-size: typography.$font-size-h5;
     color: var(--color-icon-secondary-default);
   }
 
@@ -235,7 +194,7 @@
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .integrationGrid {
     grid-template-columns: 1fr;
   }

@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -266,7 +267,7 @@
   color: var(--color-icon-secondary-default);
 
   i {
-    font-size: typography.$font-size-3xl;
+    font-size: typography.$font-size-h5;
   }
 }
 
@@ -308,7 +309,7 @@
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .webhookMain {
     flex-direction: column;
   }

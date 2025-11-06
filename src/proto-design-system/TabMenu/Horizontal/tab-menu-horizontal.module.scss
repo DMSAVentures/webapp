@@ -1,34 +1,75 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
 
-.tab-menu-horizontal ul {
-    margin: 0;
-    padding: 0 layout.$spacing-03;
-    list-style: none;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    border-style: solid;
-    border-color: var(--color-border-primary-default);
-    border-width: border.$border-width-small 0;
-    gap: layout.$spacing-05;
-    align-items: start;
+.tab-menu-horizontal {
+    ul {
+        margin: 0;
+        padding: 0 layout.$spacing-03;
+        list-style: none;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        border-style: solid;
+        border-color: var(--color-border-primary-default);
+        border-width: border.$border-width-small 0;
+        gap: layout.$spacing-05;
+        align-items: start;
+    }
 
-     li {
-        padding-top: layout.$spacing-03;
-        padding-bottom: layout.$spacing-03;
+    &__item {
+        padding: layout.$spacing-02 layout.$spacing-04;
         display: flex;
         align-items: center;
         gap: layout.$spacing-03;
         color: var(--color-text-secondary-default);
         cursor: pointer;
+        border-radius: border.$border-radius-medium;
+        position: relative;
+        margin-bottom: calc(-1 * border.$border-width-small);
+        transition: color motion.$duration-fast-01 motion.$easing-productive-standard;
 
-        &[aria-selected="true"] {
-            background-color: var(--color-white);
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: border.$border-width-medium;
+            background-color: transparent;
+            transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+        }
+
+        &:hover {
+            &::after {
+                background-color: var(--color-bg-primary-default);
+            }
+        }
+
+        &:active {
+            &::after {
+                background-color: var(--color-bg-primary-active);
+            }
+        }
+
+        &--active {
             color: var(--color-text-primary-default);
-            border-style: solid;
-            border-color: var(--color-text-primary-default);
-            border-width: 0 0 border.$border-width-medium;
+
+            &::after {
+                background-color: var(--color-bg-primary-default);
+            }
+
+            &:hover {
+                &::after {
+                    background-color: var(--color-bg-primary-hover);
+                }
+            }
+
+            &:active {
+                &::after {
+                    background-color: var(--color-bg-primary-active);
+                }
+            }
         }
     }
 

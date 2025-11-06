@@ -1,5 +1,6 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
 
 .tab-menu-horizontal-item {
     // height: layout.$spacing-03;
@@ -8,8 +9,10 @@
     // align-items: center;
     // justify-content: center;
     gap: layout.$spacing-03;
-    color: var(--color-text-secondary-default);
+    color: inherit;
     cursor: pointer;
+    transition: color motion.$duration-fast-01 motion.$easing-productive-standard,
+                background-color motion.$duration-fast-01 motion.$easing-productive-standard;
 
     &__text {
         // vertical-align: center;
@@ -44,8 +47,14 @@
     }
 
     &--active {
+        color: inherit;
+
         .tab-menu-horizontal-item__left-icon {
-            color: var(--color-info-default);
+            color: inherit;
+        }
+
+        .tab-menu-horizontal-item__text {
+            color: inherit;
         }
     }
 }

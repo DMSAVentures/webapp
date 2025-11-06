@@ -6,6 +6,8 @@
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
+import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
 import type { Integration } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -28,6 +30,17 @@ export interface IntegrationListProps extends HTMLAttributes<HTMLDivElement> {
  * Integration category type
  */
 type IntegrationCategory = "all" | "email" | "crm" | "analytics" | "webhook";
+
+/**
+ * Category options for tab menu
+ */
+const CATEGORY_OPTIONS: { label: string; value: IntegrationCategory }[] = [
+	{ label: "All", value: "all" },
+	{ label: "Email", value: "email" },
+	{ label: "CRM", value: "crm" },
+	{ label: "Analytics", value: "analytics" },
+	{ label: "Webhook", value: "webhook" },
+];
 
 /**
  * Maps integration type to category
@@ -178,42 +191,25 @@ export const IntegrationList = memo<IntegrationListProps>(
 			);
 		}
 
+		const activeTabIndex = CATEGORY_OPTIONS.findIndex(
+			(opt) => opt.value === categoryFilter,
+		);
+
 		return (
 			<div className={classNames} {...props}>
 				{/* Category filter */}
 				<div className={styles.header}>
-					<div className={styles.categoryFilter}>
-						<button
-							className={`${styles.filterButton} ${categoryFilter === "all" ? styles.filterButtonActive : ""}`}
-							onClick={() => setCategoryFilter("all")}
-						>
-							All
-						</button>
-						<button
-							className={`${styles.filterButton} ${categoryFilter === "email" ? styles.filterButtonActive : ""}`}
-							onClick={() => setCategoryFilter("email")}
-						>
-							Email
-						</button>
-						<button
-							className={`${styles.filterButton} ${categoryFilter === "crm" ? styles.filterButtonActive : ""}`}
-							onClick={() => setCategoryFilter("crm")}
-						>
-							CRM
-						</button>
-						<button
-							className={`${styles.filterButton} ${categoryFilter === "analytics" ? styles.filterButtonActive : ""}`}
-							onClick={() => setCategoryFilter("analytics")}
-						>
-							Analytics
-						</button>
-						<button
-							className={`${styles.filterButton} ${categoryFilter === "webhook" ? styles.filterButtonActive : ""}`}
-							onClick={() => setCategoryFilter("webhook")}
-						>
-							Webhook
-						</button>
-					</div>
+					<TabMenuHorizontal
+						items={CATEGORY_OPTIONS.map((option) => (
+							<TabMenuHorizontalItem
+								key={option.value}
+								text={option.label}
+								active={categoryFilter === option.value}
+							/>
+						))}
+						activeTab={activeTabIndex}
+						onTabClick={(index) => setCategoryFilter(CATEGORY_OPTIONS[index].value)}
+					/>
 				</div>
 
 				{/* Results info */}
@@ -289,7 +285,6 @@ export const IntegrationList = memo<IntegrationListProps>(
 									{integration.status === "disconnected" && onConnect && (
 										<Button
 											variant="primary"
-											size="small"
 											onClick={() => onConnect(integration.id)}
 											leftIcon="ri-plug-line"
 										>
@@ -301,7 +296,6 @@ export const IntegrationList = memo<IntegrationListProps>(
 											{onConfigure && (
 												<Button
 													variant="secondary"
-													size="small"
 													onClick={() => onConfigure(integration.id)}
 													leftIcon="ri-settings-3-line"
 												>
@@ -311,7 +305,6 @@ export const IntegrationList = memo<IntegrationListProps>(
 											{onDisconnect && (
 												<Button
 													variant="tertiary"
-													size="small"
 													onClick={() => onDisconnect(integration.id)}
 													leftIcon="ri-uninstall-line"
 												>
