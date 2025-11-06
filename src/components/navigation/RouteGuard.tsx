@@ -1,0 +1,42 @@
+import React from 'react';
+import { Navigate, useLocation } from '@tanstack/react-router';
+import { usePersona } from '@/contexts/persona';
+import styles from './routeguard.module.scss';
+
+interface RouteGuardProps {
+	children: React.ReactNode;
+}
+
+/**
+ * RouteGuard component that checks if the user has access to the current route
+ * based on their persona. Redirects to home if access is denied.
+ */
+export function RouteGuard({ children }: RouteGuardProps) {
+	const { canAccessRoute, persona } = usePersona();
+	const location = useLocation();
+
+	const currentPath = location.pathname;
+
+	// Check if user can access this route
+	const hasAccess = canAccessRoute(currentPath);
+
+	if (!hasAccess) {
+		return (
+			<div className={styles.accessDenied}>
+				<div className={styles.accessDeniedContent}>
+					<i className="ri-lock-line" aria-hidden="true" />
+					<h2>Access Denied</h2>
+					<p>
+						Your account role ({persona}) does not have access to this page.
+					</p>
+					<p>
+						Please contact your administrator if you need access.
+					</p>
+					<Navigate to="/" />
+				</div>
+			</div>
+		);
+	}
+
+	return <>{children}</>;
+}

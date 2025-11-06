@@ -1,0 +1,37 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+
+.accessDenied {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: layout.$spacing-06;
+}
+
+.accessDeniedContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: layout.$spacing-04;
+	text-align: center;
+	max-width: 400px;
+
+	i {
+		font-size: 48px;
+		color: var(--color-error-default);
+	}
+
+	h2 {
+		font-size: typography.$font-size-h3;
+		font-weight: typography.$font-weight-semibold;
+		color: var(--color-text-primary-default);
+		margin: 0;
+	}
+
+	p {
+		font-size: typography.$font-size-md;
+		color: var(--color-text-secondary-default);
+		margin: 0;
+	}
+}
