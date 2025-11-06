@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -72,6 +73,7 @@
   }
 
   // Variable styling
+  // stylelint-disable-next-line selector-pseudo-class-no-unknown
   :global(.variable) {
     display: inline-block;
     padding: layout.$spacing-01 layout.$spacing-02;
@@ -93,9 +95,9 @@
     color: var(--color-text-primary-default);
   }
 
-  h1 { font-size: typography.$font-size-2xl; }
-  h2 { font-size: typography.$font-size-xl; }
-  h3 { font-size: typography.$font-size-lg; }
+  h1 { font-size: typography.$font-size-h1; }
+  h2 { font-size: typography.$font-size-h2; }
+  h3 { font-size: typography.$font-size-h3; }
 
   p {
     margin-top: 0;
@@ -162,9 +164,9 @@
     color: var(--color-text-primary-default);
   }
 
-  h1 { font-size: typography.$font-size-2xl; }
-  h2 { font-size: typography.$font-size-xl; }
-  h3 { font-size: typography.$font-size-lg; }
+  h1 { font-size: typography.$font-size-h1; }
+  h2 { font-size: typography.$font-size-h2; }
+  h3 { font-size: typography.$font-size-h3; }
 
   p {
     margin-top: 0;
@@ -191,24 +193,8 @@
   max-width: 375px;
 }
 
-// Help text
-.helpText {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-03;
-  background-color: var(--color-bg-info-alpha);
-  border-radius: border.$border-radius-small;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-info-default);
-
-  i {
-    font-size: typography.$font-size-md;
-  }
-}
-
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .toolbar {
     flex-wrap: wrap;
   }

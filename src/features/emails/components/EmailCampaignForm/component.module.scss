@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -19,7 +20,7 @@
 }
 
 .title {
-  font-size: typography.$font-size-2xl;
+  font-size: typography.$font-size-h2;
   font-weight: typography.$font-weight-bold;
   color: var(--color-text-primary-default);
   margin: 0;
@@ -97,7 +98,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .root {
     max-width: 100%;
   }

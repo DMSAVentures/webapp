@@ -4,13 +4,13 @@
  */
 
 import { memo, useState, type HTMLAttributes } from 'react';
-import { Button } from '@/proto-design-system/Button/Button';
+import { Button } from '@/proto-design-system/Button/button';
 import StatusBadge from '@/proto-design-system/StatusBadge/statusBadge';
 import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
 import type { EmailTemplate } from '@/types/common.types';
 import styles from './component.module.scss';
 
-export interface EmailTemplateListProps extends HTMLAttributes<HTMLDivElement> {
+export interface EmailTemplateListProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /** Campaign ID to fetch templates for */
   campaignId: string;
   /** Callback when a template is selected */
@@ -99,7 +99,6 @@ const EmailTemplateCard = memo<TemplateCardProps>(
             <IconOnlyButton
               iconClass="eye-line"
               variant="secondary"
-              size="small"
               ariaLabel="Preview template"
               onClick={(e) => {
                 e.stopPropagation();
@@ -109,7 +108,6 @@ const EmailTemplateCard = memo<TemplateCardProps>(
             <IconOnlyButton
               iconClass="edit-line"
               variant="secondary"
-              size="small"
               ariaLabel="Edit template"
               onClick={(e) => {
                 e.stopPropagation();
@@ -119,7 +117,6 @@ const EmailTemplateCard = memo<TemplateCardProps>(
             <IconOnlyButton
               iconClass="file-copy-line"
               variant="secondary"
-              size="small"
               ariaLabel="Duplicate template"
               onClick={(e) => {
                 e.stopPropagation();
@@ -129,7 +126,6 @@ const EmailTemplateCard = memo<TemplateCardProps>(
             <IconOnlyButton
               iconClass="delete-bin-line"
               variant="secondary"
-              size="small"
               ariaLabel="Delete template"
               onClick={(e) => {
                 e.stopPropagation();
@@ -158,7 +154,6 @@ export const EmailTemplateList = memo<EmailTemplateListProps>(
     // TODO: Fetch templates from API using campaignId
     // For now, using mock data structure
     const [templates] = useState<EmailTemplate[]>([]);
-    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
     const classNames = [
       styles.root,
@@ -186,7 +181,6 @@ export const EmailTemplateList = memo<EmailTemplateListProps>(
     };
 
     const handleSelect = (templateId: string) => {
-      setSelectedTemplate(templateId);
       onSelect?.(templateId);
     };
 
@@ -216,7 +210,7 @@ export const EmailTemplateList = memo<EmailTemplateListProps>(
 
         {templates.length === 0 ? (
           <div className={styles.emptyState}>
-            <i className="ri-mail-line" aria-hidden="true" />
+            <i className={`ri-mail-line ${styles.emptyIcon}`} aria-hidden="true" />
             <h3 className={styles.emptyTitle}>No templates yet</h3>
             <p className={styles.emptyDescription}>
               Create your first email template to start engaging with your audience

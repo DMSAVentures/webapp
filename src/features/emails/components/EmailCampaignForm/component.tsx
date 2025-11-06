@@ -3,14 +3,14 @@
  * Form for creating email campaigns with trigger configuration
  */
 
-import { memo, useState, useCallback, type HTMLAttributes, type FormEvent } from 'react';
-import { Button } from '@/proto-design-system/Button/Button';
-import TextInput from '@/proto-design-system/textinput/textinput';
+import { memo, useState, useCallback, type HTMLAttributes, type FormEvent, type ChangeEvent } from 'react';
+import { Button } from '@/proto-design-system/Button/button';
+import { TextInput } from '@/proto-design-system/TextInput/textInput';
 import Dropdown from '@/proto-design-system/dropdown/dropdown';
 import type { EmailCampaign } from '@/types/common.types';
 import styles from './component.module.scss';
 
-export interface EmailCampaignFormProps extends HTMLAttributes<HTMLFormElement> {
+export interface EmailCampaignFormProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   /** Campaign ID this email campaign belongs to */
   campaignId: string;
   /** Submit handler */
@@ -56,24 +56,24 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 
     // TODO: Fetch templates and segments from API
     const templates = [
-      { id: '1', label: 'Welcome Email' },
-      { id: '2', label: 'Verification Email' },
-      { id: '3', label: 'Position Update' },
+      { id: '1', label: 'Welcome Email', value: '1' },
+      { id: '2', label: 'Verification Email', value: '2' },
+      { id: '3', label: 'Position Update', value: '3' },
     ];
 
     const segments = [
-      { id: '1', label: 'All Users' },
-      { id: '2', label: 'Verified Users' },
-      { id: '3', label: 'Top Referrers' },
+      { id: '1', label: 'All Users', value: '1' },
+      { id: '2', label: 'Verified Users', value: '2' },
+      { id: '3', label: 'Top Referrers', value: '3' },
     ];
 
     const triggerOptions = [
-      { id: 'manual', label: 'Manual (Send now)' },
-      { id: 'signup', label: 'On Signup' },
-      { id: 'verified', label: 'On Verification' },
-      { id: 'milestone', label: 'On Milestone' },
-      { id: 'scheduled', label: 'Scheduled' },
-      { id: 'inactive', label: 'After Inactivity' },
+      { id: 'manual', label: 'Manual (Send now)', value: 'manual' },
+      { id: 'signup', label: 'On Signup', value: 'signup' },
+      { id: 'verified', label: 'On Verification', value: 'verified' },
+      { id: 'milestone', label: 'On Milestone', value: 'milestone' },
+      { id: 'scheduled', label: 'Scheduled', value: 'scheduled' },
+      { id: 'inactive', label: 'After Inactivity', value: 'inactive' },
     ];
 
     const classNames = [
@@ -206,7 +206,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
               label="Campaign Name"
               placeholder="Enter campaign name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               error={errors.name}
               required
             />
@@ -219,10 +219,10 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
               <span className={styles.required}>*</span>
             </label>
             <Dropdown
-              placeholder="Select a template"
+              placeholderText="Select a template"
               options={templates}
-              value={templateId}
-              onSelect={(value) => setTemplateId(value)}
+              size="medium"
+              onChange={(option) => setTemplateId(option.value)}
               error={errors.templateId}
             />
           </div>
@@ -231,10 +231,10 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
           <div className={styles.formField}>
             <label className={styles.label}>Target Segment (Optional)</label>
             <Dropdown
-              placeholder="Select a segment"
+              placeholderText="Select a segment"
               options={segments}
-              value={segmentId}
-              onSelect={(value) => setSegmentId(value)}
+              size="medium"
+              onChange={(option) => setSegmentId(option.value)}
             />
           </div>
 
@@ -245,10 +245,10 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
               <span className={styles.required}>*</span>
             </label>
             <Dropdown
-              placeholder="Select trigger type"
+              placeholderText="Select trigger type"
               options={triggerOptions}
-              value={trigger}
-              onSelect={(value) => setTrigger(value as EmailCampaign['trigger'])}
+              size="medium"
+              onChange={(option) => setTrigger(option.value as EmailCampaign['trigger'])}
             />
           </div>
 
@@ -265,7 +265,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
                     label="Days"
                     placeholder="0"
                     value={triggerDays}
-                    onChange={(e) => setTriggerDays(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setTriggerDays(e.target.value)}
                     min="0"
                   />
                   <TextInput
@@ -273,7 +273,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
                     label="Hours"
                     placeholder="0"
                     value={triggerHours}
-                    onChange={(e) => setTriggerHours(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setTriggerHours(e.target.value)}
                     min="0"
                     max="23"
                   />
@@ -293,7 +293,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
                   label="Milestone Type"
                   placeholder="e.g., referral_count"
                   value={milestoneType}
-                  onChange={(e) => setMilestoneType(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setMilestoneType(e.target.value)}
                   error={errors.milestoneType}
                 />
                 <TextInput
@@ -301,7 +301,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
                   label="Milestone Value"
                   placeholder="e.g., 5"
                   value={milestoneValue}
-                  onChange={(e) => setMilestoneValue(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setMilestoneValue(e.target.value)}
                   error={errors.milestoneValue}
                   min="1"
                 />
@@ -318,14 +318,14 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
                     type="date"
                     label="Date"
                     value={scheduledDate}
-                    onChange={(e) => setScheduledDate(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setScheduledDate(e.target.value)}
                     error={errors.scheduledDate}
                   />
                   <TextInput
                     type="time"
                     label="Time"
                     value={scheduledTime}
-                    onChange={(e) => setScheduledTime(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setScheduledTime(e.target.value)}
                     error={errors.scheduledTime}
                   />
                 </div>

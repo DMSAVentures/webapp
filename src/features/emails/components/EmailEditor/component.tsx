@@ -4,12 +4,12 @@
  */
 
 import { memo, useRef, useState, useCallback, type HTMLAttributes } from 'react';
-import { Button } from '@/proto-design-system/Button/Button';
-import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
+import ButtonGroup from '@/proto-design-system/buttongroup/buttongroup';
 import DropdownMenu from '@/proto-design-system/dropdownmenu/dropdownmenu';
+import HintText from '@/proto-design-system/hinttext/hinttext';
 import styles from './component.module.scss';
 
-export interface EmailEditorProps extends HTMLAttributes<HTMLDivElement> {
+export interface EmailEditorProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Initial HTML content */
   initialContent?: string;
   /** Available variables for insertion */
@@ -119,6 +119,7 @@ export const EmailEditor = memo<EmailEditorProps>(
       shortcut: false,
       toggle: false,
       button: false,
+      iconPosition: 'left' as const,
       onClick: () => insertVariable(variable),
     }));
 
@@ -126,60 +127,79 @@ export const EmailEditor = memo<EmailEditorProps>(
       <div className={classNames} {...props}>
         {/* Toolbar */}
         <div className={styles.toolbar}>
-          <div className={styles.toolbarGroup}>
-            <IconOnlyButton
-              iconClass="bold"
-              variant="secondary"
-              size="small"
-              ariaLabel="Bold"
-              onClick={() => execCommand('bold')}
-            />
-            <IconOnlyButton
-              iconClass="italic"
-              variant="secondary"
-              size="small"
-              ariaLabel="Italic"
-              onClick={() => execCommand('italic')}
-            />
-            <IconOnlyButton
-              iconClass="underline"
-              variant="secondary"
-              size="small"
-              ariaLabel="Underline"
-              onClick={() => execCommand('underline')}
-            />
-          </div>
+          <ButtonGroup
+            size="small"
+            ariaLabel="Text formatting"
+            items={[
+              {
+                text: '',
+                iconPosition: 'left',
+                icon: 'ri-bold',
+                iconOnly: true,
+                onClick: () => execCommand('bold'),
+                ariaLabel: 'Bold',
+              },
+              {
+                text: '',
+                iconPosition: 'left',
+                icon: 'ri-italic',
+                iconOnly: true,
+                onClick: () => execCommand('italic'),
+                ariaLabel: 'Italic',
+              },
+              {
+                text: '',
+                iconPosition: 'left',
+                icon: 'ri-underline',
+                iconOnly: true,
+                onClick: () => execCommand('underline'),
+                ariaLabel: 'Underline',
+              },
+            ]}
+          />
 
           <div className={styles.toolbarDivider} />
 
-          <div className={styles.toolbarGroup}>
-            <IconOnlyButton
-              iconClass="link"
-              variant="secondary"
-              size="small"
-              ariaLabel="Insert link"
-              onClick={handleInsertLink}
-            />
-            <IconOnlyButton
-              iconClass="image-line"
-              variant="secondary"
-              size="small"
-              ariaLabel="Insert image"
-              onClick={handleInsertImage}
-            />
-          </div>
+          <ButtonGroup
+            size="small"
+            ariaLabel="Insert content"
+            items={[
+              {
+                text: '',
+                iconPosition: 'left',
+                icon: 'ri-link',
+                iconOnly: true,
+                onClick: handleInsertLink,
+                ariaLabel: 'Insert link',
+              },
+              {
+                text: '',
+                iconPosition: 'left',
+                icon: 'ri-image-line',
+                iconOnly: true,
+                onClick: handleInsertImage,
+                ariaLabel: 'Insert image',
+              },
+            ]}
+          />
 
           <div className={styles.toolbarDivider} />
 
           <div className={styles.toolbarGroup} ref={variablesMenuRef}>
-            <Button
-              variant="secondary"
+            <ButtonGroup
               size="small"
-              leftIcon="code-line"
-              onClick={() => setShowVariablesMenu(!showVariablesMenu)}
-            >
-              Insert Variable
-            </Button>
+              ariaLabel="Variable insertion"
+              items={[
+                {
+                  text: 'Insert Variable',
+                  iconPosition: 'left',
+                  icon: 'ri-code-line',
+                  iconOnly: false,
+                  onClick: () => setShowVariablesMenu(!showVariablesMenu),
+                  ariaLabel: 'Insert Variable',
+                },
+              ]}
+            />
             {showVariablesMenu && (
               <div className={styles.variablesMenu}>
                 <DropdownMenu items={variableMenuItems} />
@@ -189,23 +209,28 @@ export const EmailEditor = memo<EmailEditorProps>(
 
           <div className={styles.toolbarSpacer} />
 
-          <div className={styles.toolbarGroup}>
-            <IconOnlyButton
-              iconClass={previewDevice === 'desktop' ? 'computer-line' : 'smartphone-line'}
-              variant="secondary"
-              size="small"
-              ariaLabel={`Switch to ${previewDevice === 'desktop' ? 'mobile' : 'desktop'} preview`}
-              onClick={() => setPreviewDevice(previewDevice === 'desktop' ? 'mobile' : 'desktop')}
-            />
-            <Button
-              variant={showPreview ? 'primary' : 'secondary'}
-              size="small"
-              leftIcon={showPreview ? 'edit-line' : 'eye-line'}
-              onClick={() => setShowPreview(!showPreview)}
-            >
-              {showPreview ? 'Edit' : 'Preview'}
-            </Button>
-          </div>
+          <ButtonGroup
+            size="small"
+            ariaLabel="Preview and device options"
+            items={[
+              {
+                text: '',
+                iconPosition: 'left',
+                icon: previewDevice === 'desktop' ? 'ri-computer-line' : 'ri-smartphone-line',
+                iconOnly: true,
+                onClick: () => setPreviewDevice(previewDevice === 'desktop' ? 'mobile' : 'desktop'),
+                ariaLabel: `Switch to ${previewDevice === 'desktop' ? 'mobile' : 'desktop'} preview`,
+              },
+              {
+                text: showPreview ? 'Edit' : 'Preview',
+                iconPosition: 'left',
+                icon: showPreview ? 'ri-edit-line' : 'ri-eye-line',
+                iconOnly: false,
+                onClick: () => setShowPreview(!showPreview),
+                ariaLabel: showPreview ? 'Switch to edit mode' : 'Switch to preview mode',
+              },
+            ]}
+          />
         </div>
 
         {/* Editor / Preview */}
@@ -236,10 +261,10 @@ export const EmailEditor = memo<EmailEditorProps>(
         </div>
 
         {/* Help text */}
-        <div className={styles.helpText}>
-          <i className="ri-information-line" aria-hidden="true" />
-          Use the toolbar to format text, insert links, images, and dynamic variables
-        </div>
+        <HintText
+          hintText="Use the toolbar to format text, insert links, images, and dynamic variables"
+          state="default"
+        />
       </div>
     );
   }

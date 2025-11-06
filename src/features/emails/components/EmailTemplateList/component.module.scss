@@ -2,6 +2,7 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -25,7 +26,7 @@
 }
 
 .title {
-  font-size: typography.$font-size-2xl;
+  font-size: typography.$font-size-h2;
   font-weight: typography.$font-weight-bold;
   color: var(--color-text-primary-default);
   margin: 0;
@@ -125,7 +126,7 @@
   font-weight: typography.$font-weight-semibold;
   color: var(--color-text-secondary-default);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: typography.$letter-spacing-wider;
 }
 
 .subjectText,
@@ -182,15 +183,15 @@
   border: border.$border-width-small dashed var(--color-border-primary-default);
   border-radius: border.$border-radius-medium;
   text-align: center;
+}
 
-  i {
-    font-size: 48px;
-    color: var(--color-icon-secondary-default);
-  }
+.emptyIcon {
+  font-size: typography.$font-size-h1;
+  color: var(--color-icon-secondary-default);
 }
 
 .emptyTitle {
-  font-size: typography.$font-size-xl;
+  font-size: typography.$font-size-h4;
   font-weight: typography.$font-weight-semibold;
   color: var(--color-text-primary-default);
   margin: 0;
@@ -204,7 +205,7 @@
 }
 
 // Responsive adjustments
-@media (max-width: 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .header {
     flex-direction: column;
     align-items: stretch;
