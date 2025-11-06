@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ConversionFunnel } from './component';
+import {
+  mockAnalyticsHighPerformance,
+  mockAnalyticsViral,
+  mockAnalyticsEarlyStage,
+  mockAnalyticsStruggling,
+} from '@/mocks';
 
 const meta = {
   title: 'Features/Analytics/ConversionFunnel',
@@ -14,91 +20,52 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Default conversion funnel with typical drop-off
+ * Default conversion funnel from high-performance campaign
  */
 export const Default: Story = {
   args: {
-    data: {
-      impressions: 10000,
-      started: 5000,
-      submitted: 3500,
-      verified: 2800,
-      referred: 1400,
-    },
+    data: mockAnalyticsHighPerformance.funnel,
   },
 };
 
 /**
- * High conversion funnel with minimal drop-off
+ * Viral campaign with excellent conversion rates
  */
 export const HighConversion: Story = {
   args: {
-    data: {
-      impressions: 5000,
-      started: 4500,
-      submitted: 4200,
-      verified: 4000,
-      referred: 3500,
-    },
+    data: mockAnalyticsViral.funnel,
   },
 };
 
 /**
- * Low conversion with significant drop-off at verification
- */
-export const LowConversion: Story = {
-  args: {
-    data: {
-      impressions: 20000,
-      started: 8000,
-      submitted: 4000,
-      verified: 1000,
-      referred: 200,
-    },
-  },
-};
-
-/**
- * Early campaign with low numbers
+ * Early stage campaign with typical drop-off
  */
 export const EarlyCampaign: Story = {
   args: {
-    data: {
-      impressions: 500,
-      started: 250,
-      submitted: 180,
-      verified: 150,
-      referred: 75,
-    },
+    data: mockAnalyticsEarlyStage.funnel,
   },
 };
 
 /**
- * Mature campaign with high volume
+ * Struggling campaign with significant drop-off
  */
-export const MatureCampaign: Story = {
+export const LowConversion: Story = {
   args: {
-    data: {
-      impressions: 100000,
-      started: 65000,
-      submitted: 52000,
-      verified: 45000,
-      referred: 32000,
-    },
+    data: mockAnalyticsStruggling.funnel,
   },
 };
 
 /**
- * Perfect funnel (unrealistic but shows the ideal)
+ * Perfect funnel for comparison (unrealistic but shows the ideal)
  */
 export const PerfectFunnel: Story = {
   args: {
     data: {
-      impressions: 1000,
-      started: 1000,
-      submitted: 1000,
-      verified: 1000,
-      referred: 1000,
+      impressions: 10000,
+      started: 10000,
+      submitted: 10000,
+      verified: 10000,
+      referred: 10000,
     },
   },
 };
