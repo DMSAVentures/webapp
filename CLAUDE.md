@@ -262,47 +262,147 @@ Component.displayName = 'Component';
 
 ### Styling Patterns
 
-#### CSS Module Structure
+#### CRITICAL RULES FOR COMPONENT STYLING
+
+**BEFORE creating any new component, ALWAYS:**
+
+1. **Check if a similar component exists in `src/proto-design-system/`** - Reuse existing components whenever possible
+2. **NEVER use hardcoded values** - Always use design tokens from `@/design-tokens/`
+3. **ALWAYS refer to `theme.scss`** - Use CSS custom properties (variables starting with `--color-*`)
+4. **Use semantic variable names** - Choose variables based on purpose (bg vs surface, primary vs secondary)
+
+#### CSS Module Structure with Design Tokens
+
+Always use `@use` syntax and import only the token modules you need:
+
 ```scss
-@import "@/design-tokens/variables.scss";
+// ✅ CORRECT: Import specific token modules
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+// Only import colors if component has multiple color variants (Badge, Banner, StatusBadge, etc.)
+// @use "@/design-tokens/colors" as colors;
 
 .root {
-    // Base styles using design tokens
+    // ✅ CORRECT: Use design tokens and CSS custom properties
     display: flex;
-    padding: $spacing-03;
-    border-radius: $spacing-02;
-    background-color: var(--color-bg-primary-default);
+    padding: layout.$spacing-03;              // Spacing tokens
+    gap: layout.$spacing-04;
+    border-radius: border.$border-radius-medium;  // Border tokens
+    background-color: var(--color-bg-primary-default);  // Theme variables
     color: var(--color-text-primary-default);
-    transition: background-color $duration-moderate-01 $easing-productive-standard;
-    
-    // State modifiers
+    border: 1px solid var(--color-border-primary-default);
+    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;  // Motion tokens
+
+    // State modifiers with semantic progression
     &:hover {
         background-color: var(--color-bg-primary-hover);
     }
-    
+
+    &:active {
+        background-color: var(--color-bg-primary-active);
+    }
+
     &:focus-visible {
         outline: 2px solid var(--color-focus-ring-default);
         outline-offset: 2px;
     }
 }
 
-// BEM variant modifiers
-.variant_secondary {
-    background-color: var(--color-bg-secondary-default);
-    color: var(--color-text-secondary-default);
-}
-
-.size_small {
-    padding: $spacing-02 $spacing-03;
-    font-size: $font-size-sm;
-}
-
-.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
+// ❌ WRONG: Hardcoded values
+.wrong {
+    padding: 12px 16px;  // ❌ Use layout.$spacing-* instead
+    background-color: #f0f0f0;  // ❌ Use var(--color-*) instead
+    border-radius: 8px;  // ❌ Use border.$border-radius-* instead
+    transition: all 200ms ease;  // ❌ Use motion tokens instead
+    color: #666;  // ❌ Use var(--color-text-*) instead
 }
 ```
+
+#### Design Token Reference - Always Use These
+
+**Spacing (8px base unit system):**
+```scss
+padding: layout.$spacing-03;  // 8px
+margin: layout.$spacing-05;   // 20px
+gap: layout.$spacing-04;      // 16px
+// Available: $spacing-01 through $spacing-13
+```
+
+**Typography:**
+```scss
+font-size: typography.$font-size-md;
+font-weight: typography.$font-weight-semibold;
+line-height: typography.$line-height-normal;
+```
+
+**Motion/Animation:**
+```scss
+transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
+// Durations: $duration-fast-01, $duration-moderate-01, $duration-slow-01
+// Easings: $easing-productive-standard, $easing-expressive-standard
+```
+
+**Borders:**
+```scss
+border-radius: border.$border-radius-small;  // or medium, large
+border-width: border.$border-width-small;
+```
+
+**Colors - ALWAYS use theme.scss variables (CSS custom properties):**
+```scss
+// Refer to theme.scss for all available --color-* variables
+background-color: var(--color-bg-primary-default);
+color: var(--color-text-primary-default);
+border-color: var(--color-border-primary-default);
+
+// For hover/active states, use semantic progression:
+&:hover {
+    background-color: var(--color-bg-primary-hover);
+}
+&:active {
+    background-color: var(--color-bg-primary-active);
+}
+```
+
+#### Reusing Existing Components
+
+**ALWAYS check `src/proto-design-system/` before creating new components:**
+
+Available design system components include:
+- Buttons: Button, IconOnlyButton, LinkButton
+- Forms: TextInput, Dropdown, Checkbox, Toggle
+- Feedback: Badge, StatusBadge, Banner, Toast, ProgressBar
+- Layout: Card, ContentDivider, Modal, Sheet
+- Navigation: DropdownMenu, Tabs
+- Typography: Heading, Text components
+- And 28+ more components
+
+**Example - Reusing existing components instead of creating new ones:**
+```tsx
+// ✅ CORRECT: Reuse existing Button component
+import { Button } from '@/proto-design-system/Button';
+
+<Button variant="secondary" size="medium">
+    Click Me
+</Button>
+
+// ❌ WRONG: Creating a new button component
+// Don't create a new MyCustomButton component if Button already exists
+```
+
+#### When to Create New Components vs. Reuse
+
+**CREATE NEW** when:
+- No similar component exists in proto-design-system
+- The component is feature-specific (e.g., CampaignCard, BillingPlanCard)
+- The component combines multiple design system components
+
+**REUSE EXISTING** when:
+- A component with similar functionality exists
+- You can achieve the design with props/variants
+- It's a common UI pattern (buttons, inputs, badges, etc.)
 
 ### Icon Usage Pattern
 Use RemixIcon consistently across all components:
