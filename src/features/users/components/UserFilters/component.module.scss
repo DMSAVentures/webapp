@@ -1,0 +1,122 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  min-width: 280px;
+  max-width: 320px;
+}
+
+// Header
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: layout.$spacing-03;
+  border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
+}
+
+.title {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  background-color: transparent;
+  border: none;
+  border-radius: layout.$spacing-02;
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  cursor: pointer;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    background-color: var(--color-bg-secondary-hover);
+    color: var(--color-text-primary-default);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+
+  i {
+    font-size: typography.$font-size-md;
+  }
+}
+
+// Filter sections
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.filterLabel {
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Checkbox group
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+// Date range inputs
+.dateRangeInputs {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+// Position inputs
+.positionInputs {
+  display: flex;
+  gap: layout.$spacing-03;
+
+  // Make text inputs equal width
+  & > * {
+    flex: 1;
+  }
+}
+
+// Actions
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+  padding-top: layout.$spacing-03;
+  border-top: border.$border-width-small solid var(--color-border-secondary-default);
+}
+
+.applyButton {
+  width: 100%;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .root {
+    max-width: 100%;
+  }
+}

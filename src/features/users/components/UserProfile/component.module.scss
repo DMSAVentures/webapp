@@ -1,0 +1,321 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  padding: layout.$spacing-06;
+}
+
+// Header
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-04;
+  flex: 1;
+}
+
+.userAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: layout.$spacing-10;
+  height: layout.$spacing-10;
+  background-color: var(--color-bg-info-default);
+  border-radius: 50%;
+  color: var(--color-text-info-default);
+
+  i {
+    font-size: layout.$spacing-07;
+  }
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+  flex: 1;
+}
+
+.userName {
+  font-size: typography.$font-size-h4;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.userEmail {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-secondary-default);
+  margin: 0;
+}
+
+// Stats Grid
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: layout.$spacing-04;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-04;
+  background-color: var(--color-surface-secondary-default);
+  border-radius: layout.$spacing-03;
+
+  i {
+    font-size: typography.$font-size-xl;
+    color: var(--color-text-tertiary-default);
+  }
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+}
+
+.statValue {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: typography.$font-size-xs;
+  color: var(--color-text-secondary-default);
+  line-height: 1;
+}
+
+// Section
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.sectionTitle {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+// Details Grid
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: layout.$spacing-04;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.detailLabel {
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-tertiary-default);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailValue {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-primary-default);
+  word-break: break-word;
+}
+
+// Referral List
+.referralList {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.referralItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-03;
+  background-color: var(--color-surface-secondary-default);
+  border-radius: layout.$spacing-02;
+}
+
+.referralInfo {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  flex: 1;
+
+  i {
+    font-size: typography.$font-size-xl;
+    color: var(--color-text-tertiary-default);
+  }
+}
+
+.referralName {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-primary-default);
+}
+
+.referralEmail {
+  font-size: typography.$font-size-xs;
+  color: var(--color-text-secondary-default);
+}
+
+// Reward List
+.rewardList {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.rewardItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-03;
+  background-color: var(--color-surface-secondary-default);
+  border-radius: layout.$spacing-02;
+
+  i {
+    font-size: typography.$font-size-xl;
+    color: var(--color-text-success-default);
+  }
+}
+
+.rewardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+}
+
+.rewardStatus {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-primary-default);
+}
+
+.rewardDate {
+  font-size: typography.$font-size-xs;
+  color: var(--color-text-secondary-default);
+}
+
+// Actions
+.actionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.updateButton {
+  align-self: flex-start;
+}
+
+.actionButton {
+  width: 100%;
+}
+
+// Delete Modal
+.deleteModal {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  padding: layout.$spacing-05;
+}
+
+.deleteModalHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: layout.$spacing-03;
+}
+
+.deleteModalIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: layout.$spacing-10;
+  height: layout.$spacing-10;
+  background-color: var(--color-bg-danger-alpha);
+  border-radius: 50%;
+  color: var(--color-error-default);
+
+  i {
+    font-size: layout.$spacing-07;
+  }
+}
+
+.deleteModalTitle {
+  font-size: typography.$font-size-h4;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+  text-align: center;
+}
+
+.deleteModalDescription {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-secondary-default);
+  line-height: typography.$line-height-normal;
+  text-align: center;
+  margin: 0;
+}
+
+.deleteModalActions {
+  display: flex;
+  gap: layout.$spacing-03;
+  justify-content: center;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .root {
+    padding: layout.$spacing-04;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .updateButton {
+    width: 100%;
+  }
+}
