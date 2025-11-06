@@ -68,15 +68,15 @@
     width: layout.$spacing-08;
     height: layout.$spacing-08;
     border-radius: layout.$spacing-03;
-    border: none;
+    border: 1px solid var(--color-border-primary-default);
     cursor: pointer;
     box-sizing: border-box;
     position: relative;
-    //transition: background-color $duration-moderate-01 $easing-productive-standard,
-    //color $duration-moderate-01 $easing-productive-standard,
-    //box-shadow $duration-moderate-01 $easing-productive-standard;
+    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard,
+    color motion.$duration-moderate-01 motion.$easing-productive-standard,
+    border-color motion.$duration-moderate-01 motion.$easing-productive-standard;
 
-    background-color: var(--color-bg-secondary-default);
+    background-color: var(--color-surface-primary-default);
     color: var(--color-text-secondary-default); // Text color for contrast on secondary button
 
 
@@ -86,10 +86,11 @@
 
     &:hover {
         background-color: var(--color-bg-secondary-hover);
+        border-color: var(--color-border-primary-hover);
     }
 
     &:active {
-        background-color: var(--color-bg-secondary-active);
+        background-color: var(--color-bg-secondary-default);
     }
 
     &:focus {
