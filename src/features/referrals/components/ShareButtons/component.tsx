@@ -154,10 +154,9 @@ export const ShareButtons = memo(function ShareButtons({
                             size="medium"
                             onClick={() => handleShare(platform)}
                             aria-label={`Share on ${config.label}`}
-                            className={`${styles.shareButton} ${styles[`shareButton_${config.color}`]}`}
                         >
                             <i className={config.icon} aria-hidden="true" />
-                            <span className={styles.buttonLabel}>{config.label}</span>
+                            {config.label}
                         </Button>
                     );
                 })}
@@ -168,12 +167,9 @@ export const ShareButtons = memo(function ShareButtons({
                     size="medium"
                     onClick={handleCopyLink}
                     aria-label="Copy link"
-                    className={`${styles.shareButton} ${styles.shareButton_copy}`}
                 >
                     <i className={showCopiedFeedback ? "ri-checkbox-circle-fill" : "ri-link"} aria-hidden="true" />
-                    <span className={styles.buttonLabel}>
-                        {showCopiedFeedback ? 'Copied!' : 'Copy Link'}
-                    </span>
+                    {showCopiedFeedback ? 'Copied!' : 'Copy Link'}
                 </Button>
             </div>
         </div>

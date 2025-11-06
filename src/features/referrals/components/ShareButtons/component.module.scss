@@ -1,8 +1,5 @@
 @use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
     display: flex;
@@ -16,7 +13,7 @@
     gap: layout.$spacing-03;
     width: 100%;
 
-    @media (max-width: 767px) {
+    @media (max-width: breakpoints.$breakpoint-md) {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -36,95 +33,5 @@
         display: flex;
         flex-direction: column;
         gap: layout.$spacing-03;
-    }
-}
-
-// Share button base styles
-.shareButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: layout.$spacing-02;
-    padding: layout.$spacing-03 layout.$spacing-04;
-    transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-    i {
-        font-size: typography.$font-size-lg;
-        transition: transform motion.$duration-fast-01 motion.$easing-productive-standard;
-    }
-
-    &:hover {
-        transform: translateY(-2px);
-
-        i {
-            transform: scale(1.1);
-        }
-    }
-
-    &:active {
-        transform: translateY(0);
-    }
-}
-
-.buttonLabel {
-    font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-medium;
-    white-space: nowrap;
-}
-
-// Platform-specific colors
-.shareButton_twitter {
-    &:hover {
-        background-color: colors.$color-blue-50;
-        border-color: colors.$color-blue-400;
-        color: colors.$color-blue-600;
-    }
-}
-
-.shareButton_facebook {
-    &:hover {
-        background-color: colors.$color-blue-50;
-        border-color: colors.$color-blue-500;
-        color: colors.$color-blue-700;
-    }
-}
-
-.shareButton_linkedin {
-    &:hover {
-        background-color: colors.$color-blue-50;
-        border-color: colors.$color-blue-600;
-        color: colors.$color-blue-800;
-    }
-}
-
-.shareButton_whatsapp {
-    &:hover {
-        background-color: colors.$color-green-50;
-        border-color: colors.$color-green-500;
-        color: colors.$color-green-700;
-    }
-}
-
-.shareButton_telegram {
-    &:hover {
-        background-color: colors.$color-blue-50;
-        border-color: colors.$color-blue-400;
-        color: colors.$color-blue-600;
-    }
-}
-
-.shareButton_email {
-    &:hover {
-        background-color: colors.$color-neutral-100;
-        border-color: colors.$color-neutral-400;
-        color: colors.$color-neutral-700;
-    }
-}
-
-.shareButton_copy {
-    &:hover {
-        background-color: colors.$color-purple-50;
-        border-color: colors.$color-purple-400;
-        color: colors.$color-purple-700;
     }
 }
