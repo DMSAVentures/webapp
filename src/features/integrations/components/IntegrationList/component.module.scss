@@ -1,0 +1,255 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+}
+
+// Header with filters
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+  flex-wrap: wrap;
+}
+
+// Category filter
+.categoryFilter {
+  display: flex;
+  gap: layout.$spacing-02;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: layout.$spacing-02 layout.$spacing-04;
+  background-color: var(--color-bg-secondary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  cursor: pointer;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    background-color: var(--color-bg-secondary-hover);
+    border-color: var(--color-border-primary-hover);
+    color: var(--color-text-primary-default);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+}
+
+.filterButtonActive {
+  background-color: var(--color-bg-primary-default);
+  border-color: var(--color-bg-primary-default);
+  color: var(--color-text-inverse-default);
+
+  &:hover {
+    background-color: var(--color-bg-primary-hover);
+    border-color: var(--color-bg-primary-hover);
+  }
+}
+
+// Results info
+.resultsInfo {
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+}
+
+// Integration grid
+.integrationGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: layout.$spacing-05;
+}
+
+// Integration card
+.integrationCard {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+  }
+}
+
+.integrationIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-bg-info-alpha);
+  border-radius: border.$border-radius-medium;
+  color: var(--color-info-default);
+
+  i {
+    font-size: typography.$font-size-2xl;
+  }
+}
+
+.integrationContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+  flex: 1;
+}
+
+.integrationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-03;
+}
+
+.integrationTitle {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.integrationDescription {
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+  line-height: typography.$line-height-normal;
+  margin: 0;
+}
+
+.lastSynced {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  color: var(--color-text-tertiary-default);
+  font-size: typography.$font-size-xs;
+  margin-top: layout.$spacing-02;
+
+  i {
+    font-size: typography.$font-size-sm;
+  }
+}
+
+.integrationActions {
+  display: flex;
+  gap: layout.$spacing-03;
+  flex-wrap: wrap;
+}
+
+// Empty state
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-10;
+  text-align: center;
+}
+
+.emptyStateIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: var(--color-bg-secondary-default);
+  border-radius: border.$border-radius-large;
+  color: var(--color-icon-secondary-default);
+
+  i {
+    font-size: typography.$font-size-3xl;
+  }
+}
+
+.emptyStateTitle {
+  font-size: typography.$font-size-xl;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.emptyStateDescription {
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-md;
+  margin: 0;
+  max-width: 400px;
+}
+
+// No results
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-08;
+  text-align: center;
+
+  i {
+    font-size: typography.$font-size-3xl;
+    color: var(--color-icon-secondary-default);
+  }
+
+  p {
+    color: var(--color-text-secondary-default);
+    font-size: typography.$font-size-md;
+    margin: 0;
+  }
+}
+
+// Skeleton loading state
+.skeletonCard {
+  height: 260px;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary-default) 0%,
+    var(--color-bg-tertiary-default) 50%,
+    var(--color-bg-secondary-default) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading motion.$duration-slow-02 ease-in-out infinite;
+  border-radius: layout.$spacing-03;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+  .integrationGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .integrationCard {
+    padding: layout.$spacing-04;
+  }
+
+  .categoryFilter {
+    width: 100%;
+  }
+
+  .filterButton {
+    flex: 1;
+    min-width: 0;
+  }
+}

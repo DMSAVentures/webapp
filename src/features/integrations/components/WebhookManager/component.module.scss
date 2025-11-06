@@ -1,0 +1,333 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+}
+
+// Header
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+  flex-wrap: wrap;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.title {
+  font-size: typography.$font-size-xl;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+  margin: 0;
+}
+
+// Webhook list
+.webhookList {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+// Webhook card
+.webhookCard {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+  }
+}
+
+.webhookMain {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+}
+
+.webhookInfo {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+  flex: 1;
+  min-width: 0;
+}
+
+.webhookHeader {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  flex-wrap: wrap;
+}
+
+.webhookName {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.webhookUrl {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+  font-family: monospace;
+
+  i {
+    font-size: typography.$font-size-md;
+    color: var(--color-icon-secondary-default);
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.webhookMeta {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-04;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  color: var(--color-text-tertiary-default);
+  font-size: typography.$font-size-xs;
+
+  i {
+    font-size: typography.$font-size-sm;
+  }
+}
+
+.health_healthy {
+  color: var(--color-success-default);
+}
+
+.health_warning {
+  color: var(--color-warning-default);
+}
+
+.health_error {
+  color: var(--color-error-default);
+}
+
+// Actions
+.webhookActions {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  flex-shrink: 0;
+}
+
+// Expanded details
+.webhookDetails {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+  padding-top: layout.$spacing-04;
+}
+
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.detailTitle {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+// Event list
+.eventList {
+  display: flex;
+  gap: layout.$spacing-02;
+  flex-wrap: wrap;
+}
+
+.eventBadge {
+  padding: layout.$spacing-02 layout.$spacing-03;
+  background-color: var(--color-bg-info-alpha);
+  color: var(--color-info-default);
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-medium;
+  border-radius: border.$border-radius-small;
+}
+
+// Stats grid
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: layout.$spacing-04;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-03;
+  background-color: var(--color-bg-secondary-default);
+  border-radius: border.$border-radius-small;
+}
+
+.statLabel {
+  font-size: typography.$font-size-xs;
+  color: var(--color-text-secondary-default);
+}
+
+.statValue {
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.statSuccess {
+  color: var(--color-success-default);
+}
+
+.statError {
+  color: var(--color-error-default);
+}
+
+// Retry config
+.retryConfig {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.configItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+}
+
+.configLabel {
+  color: var(--color-text-secondary-default);
+  font-weight: typography.$font-weight-medium;
+}
+
+.configValue {
+  color: var(--color-text-primary-default);
+  font-weight: typography.$font-weight-semibold;
+}
+
+// Empty state
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-10;
+  text-align: center;
+}
+
+.emptyStateIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: var(--color-bg-secondary-default);
+  border-radius: border.$border-radius-large;
+  color: var(--color-icon-secondary-default);
+
+  i {
+    font-size: typography.$font-size-3xl;
+  }
+}
+
+.emptyStateTitle {
+  font-size: typography.$font-size-xl;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.emptyStateDescription {
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-md;
+  margin: 0;
+  max-width: 400px;
+}
+
+// Skeleton loading state
+.skeletonCard {
+  height: 120px;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary-default) 0%,
+    var(--color-bg-tertiary-default) 50%,
+    var(--color-bg-secondary-default) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading motion.$duration-slow-02 ease-in-out infinite;
+  border-radius: layout.$spacing-03;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+  .webhookMain {
+    flex-direction: column;
+  }
+
+  .webhookActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+
+    button {
+      width: 100%;
+    }
+  }
+}
