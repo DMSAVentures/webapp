@@ -184,7 +184,7 @@
 
   i {
     font-size: typography.$font-size-xl;
-    animation: spin 1s linear infinite;
+    animation: spin motion.$duration-slow-02 linear infinite;
   }
 }
 
@@ -226,7 +226,7 @@
   text-align: center;
 
   i {
-    font-size: 64px;
+    font-size: calc(typography.$font-size-h1 * 1.6);
     color: var(--color-text-tertiary-default);
   }
 }

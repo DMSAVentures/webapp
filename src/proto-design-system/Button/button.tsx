@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef, memo } from "react";
+import { ButtonHTMLAttributes, memo } from "react";
 import styles from "./button.module.scss";
 import "remixicon/fonts/remixicon.css";
 
@@ -58,20 +58,17 @@ export interface ButtonProps
  * </Button>
  */
 export const Button = memo(
-	forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-		{
-			variant = "primary",
-			disabled = false,
-			leftIcon,
-			onClick,
-			children,
-			type = "button",
-			size = "medium",
-			className: customClassName,
-			...props
-		},
-		ref,
-	) {
+	function Button({
+		variant = "primary",
+		disabled = false,
+		leftIcon,
+		onClick,
+		children,
+		type = "button",
+		size = "medium",
+		className: customClassName,
+		...props
+	}: ButtonProps) {
 		// Compose CSS classes using CSS Modules with BEM naming
 		const classNames = [
 			styles.root,
@@ -84,7 +81,6 @@ export const Button = memo(
 
 		return (
 			<button
-				ref={ref}
 				className={classNames}
 				disabled={disabled}
 				onClick={onClick}
@@ -97,7 +93,7 @@ export const Button = memo(
 				<span className={styles.text}>{children}</span>
 			</button>
 		);
-	}),
+	}
 );
 
 interface SignInButtonProps
@@ -116,19 +112,16 @@ interface SignInButtonProps
 }
 
 export const SignInButton = memo(
-	forwardRef<HTMLAnchorElement, SignInButtonProps>(function SignInButton(
-		{
-			variant = "primary",
-			disabled = false,
-			leftIcon,
-			children,
-			size = "medium",
-			className: customClassName,
-			href,
-			...props
-		},
-		ref,
-	) {
+	function SignInButton({
+		variant = "primary",
+		disabled = false,
+		leftIcon,
+		children,
+		size = "medium",
+		className: customClassName,
+		href,
+		...props
+	}: SignInButtonProps) {
 		// Compose CSS classes using CSS Modules with BEM naming
 		const classNames = [
 			styles.root,
@@ -142,7 +135,6 @@ export const SignInButton = memo(
 		return (
 			<a
 				href={href}
-				ref={ref}
 				className={classNames}
 				style={{ textDecoration: "none" }}
 				aria-disabled={disabled}
@@ -154,7 +146,7 @@ export const SignInButton = memo(
 				<span className={styles.text}>{children}</span>
 			</a>
 		);
-	}),
+	}
 );
 
 // Display name for debugging

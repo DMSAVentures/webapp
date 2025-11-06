@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef, KeyboardEvent } from "react";
+import { ButtonHTMLAttributes, KeyboardEvent } from "react";
 import styles from "./linkbutton.module.scss";
 import "remixicon/fonts/remixicon.css";
 
@@ -22,27 +22,23 @@ interface LinkButtonProps extends ButtonHTMLAttributes<HTMLAnchorElement> {
 	isExternal?: boolean;
 }
 
-const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
-	(
-		{
-			variant = "primary",
-			styleType = "lighter",
-			size = "medium",
-			underline = false,
-			leftIcon,
-			rightIcon,
-			pickLeft = false,
-			pickRight = false,
-			children,
-			href,
-			ariaLabel,
-			isExternal = false,
-			disabled = false,
-			onClick,
-			...props
-		},
-		ref,
-	) => {
+const LinkButton = ({
+	variant = "primary",
+	styleType = "lighter",
+	size = "medium",
+	underline = false,
+	leftIcon,
+	rightIcon,
+	pickLeft = false,
+	pickRight = false,
+	children,
+	href,
+	ariaLabel,
+	isExternal = false,
+	disabled = false,
+	onClick,
+	...props
+}: LinkButtonProps) => {
 		// Generate CSS class names
 		const buttonClasses = [
 			styles.linkbutton,
@@ -79,7 +75,6 @@ const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
 
 		return (
 			<a
-				ref={ref}
 				href={disabled ? undefined : href}
 				className={buttonClasses}
 				onClick={disabled ? (e) => e.preventDefault() : onClick}
@@ -118,9 +113,6 @@ const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
 				)}
 			</a>
 		);
-	},
-);
-
-LinkButton.displayName = "LinkButton";
+};
 
 export default LinkButton;

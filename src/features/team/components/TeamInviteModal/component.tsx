@@ -54,14 +54,14 @@ const validateEmail = (email: string): string | null => {
 /**
  * TeamInviteModal allows inviting new team members
  */
-export const TeamInviteModal = memo<TeamInviteModalProps>(
+export const TeamInviteModal = memo(
   function TeamInviteModal({
     isOpen,
     onClose,
     onInvite,
     loading = false,
     ...props
-  }) {
+  }: TeamInviteModalProps) {
     const [email, setEmail] = useState('');
     const [role, setRole] = useState<TeamMember['role']>('viewer');
     const [emailError, setEmailError] = useState<string | null>(null);

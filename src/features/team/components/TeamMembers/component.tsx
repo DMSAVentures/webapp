@@ -89,12 +89,12 @@ const formatLastActive = (date?: Date): string => {
 /**
  * TeamMembers displays the team member list
  */
-export const TeamMembers = memo<TeamMembersProps>(
+export const TeamMembers = memo(
   function TeamMembers({
     onInvite,
     className: customClassName,
     ...props
-  }) {
+  }: TeamMembersProps) {
     const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
     const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
@@ -239,7 +239,7 @@ export const TeamMembers = memo<TeamMembersProps>(
                         {member.role !== 'owner' && (
                           <IconOnlyButton
                             iconClass={confirmDeleteId === member.id ? "check-line" : "delete-bin-line"}
-                            variant={confirmDeleteId === member.id ? "danger" : "secondary"}
+                            variant="secondary"
                             ariaLabel={confirmDeleteId === member.id ? "Confirm delete" : "Remove member"}
                             onClick={() => handleRemove(member.id)}
                             disabled={removeLoading}
@@ -296,7 +296,7 @@ export const TeamMembers = memo<TeamMembersProps>(
                       <div className={styles.tableCell}>
                         <IconOnlyButton
                           iconClass={confirmDeleteId === member.id ? "check-line" : "delete-bin-line"}
-                          variant={confirmDeleteId === member.id ? "danger" : "secondary"}
+                          variant="secondary"
                           ariaLabel={confirmDeleteId === member.id ? "Confirm delete" : "Remove invitation"}
                           onClick={() => handleRemove(member.id)}
                           disabled={removeLoading}

@@ -1,5 +1,5 @@
-import React, { forwardRef, HTMLAttributes, memo } from "react";
-import styles from "./text.module.scss";
+import React, { memo, HTMLAttributes } from 'react';
+import styles from './text.module.scss';
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
 	/** Visual variant of the text */
@@ -15,17 +15,14 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
 }
 
 export const Text = memo(
-	forwardRef<HTMLElement, TextProps>(function Text(
-		{
-			variant = "label",
-			disabled = false,
-			as: Component = "span",
-			className: customClassName,
-			children,
-			...props
-		},
-		ref,
-	) {
+	function Text({
+		variant = 'label',
+		disabled = false,
+		as: Component = 'span',
+		className: customClassName,
+		children,
+		...props
+	}: TextProps) {
 		const classNames = [
 			styles.text,
 			styles[`text--${variant}`],
@@ -37,7 +34,6 @@ export const Text = memo(
 
 		return (
 			<Component
-				ref={ref as any}
 				className={classNames}
 				aria-disabled={disabled}
 				{...props}
@@ -45,7 +41,7 @@ export const Text = memo(
 				{children}
 			</Component>
 		);
-	}),
+	}
 );
 
 Text.displayName = "Text";
