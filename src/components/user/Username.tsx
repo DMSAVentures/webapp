@@ -1,7 +1,7 @@
 "use client";
 import { useContext } from "react";
-import { SidebarUsername } from "@/proto-design-system/UIShell/Sidebar/sidebarUsername";
 import { AuthContext } from "@/contexts/auth";
+import { SidebarUsername } from "@/proto-design-system/UIShell/Sidebar/sidebarUsername";
 
 export default function UserName() {
 	const auth = useContext(AuthContext);

@@ -1,6 +1,6 @@
 import React from "react";
-import Label, { LabelProps } from "@/proto-design-system/label/label.tsx";
 import { Description } from "@/proto-design-system/Description/description.tsx";
+import Label, { LabelProps } from "@/proto-design-system/label/label.tsx";
 import Linkbutton from "@/proto-design-system/linkbutton/linkbutton.tsx";
 import styles from "./contentlabel.module.scss";
 export interface ContentLabelProps extends LabelProps {
@@ -30,9 +30,7 @@ const ContentLabel: React.FC<ContentLabelProps> = (props) => {
 					disabled={props.disabled}
 					required={props.required}
 				/>
-				<Description disabled={props.disabled}>
-					{props.description}
-				</Description>
+				<Description disabled={props.disabled}>{props.description}</Description>
 				{props.linkTitle && props.linkHref && (
 					<Linkbutton
 						className={styles["content-label__link"]}

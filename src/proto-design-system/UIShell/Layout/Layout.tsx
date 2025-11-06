@@ -2,9 +2,9 @@ import React from "react";
 import "remixicon/fonts/remixicon.css";
 
 import { motion } from "motion/react";
+import { SidebarProvider, useSidebar } from "@/contexts/sidebar.tsx";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton.tsx";
 import { Sidebar } from "@/proto-design-system/UIShell/Sidebar/Sidebar.tsx";
-import { SidebarProvider, useSidebar } from "@/contexts/sidebar.tsx";
 import styles from "./layout.module.scss";
 
 interface LayoutProps {

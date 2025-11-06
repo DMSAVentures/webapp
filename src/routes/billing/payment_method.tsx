@@ -6,9 +6,9 @@ import {
 } from "@stripe/stripe-js";
 import { createFileRoute } from "@tanstack/react-router";
 import LoadingSpinner from "@/components/loading/loadingSpinner";
+import { useCreatePaymentMethodUpdateIntent } from "@/hooks/useCreatePaymentMethodUpdateIntent";
 import Button from "@/proto-design-system/Button/button";
 import { Column } from "@/proto-design-system/UIShell/Column/Column";
-import { useCreatePaymentMethodUpdateIntent } from "@/hooks/useCreatePaymentMethodUpdateIntent";
 
 // import "./page.scss"
 

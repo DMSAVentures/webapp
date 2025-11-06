@@ -1,7 +1,7 @@
 import React from "react";
+import { Caption } from "@/proto-design-system/Caption/caption.tsx";
 import HintText from "@/proto-design-system/hinttext/hinttext.tsx";
 import Label from "@/proto-design-system/label/label.tsx";
-import { Caption } from "@/proto-design-system/Caption/caption.tsx";
 import styles from "./text-area.module.scss";
 
 interface TextAreaProps

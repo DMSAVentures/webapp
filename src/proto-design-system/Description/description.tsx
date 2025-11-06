@@ -1,5 +1,5 @@
-import React, { memo, HTMLAttributes } from 'react';
-import styles from './description.module.scss';
+import React, { HTMLAttributes, memo } from "react";
+import styles from "./description.module.scss";
 
 export interface DescriptionProps extends HTMLAttributes<HTMLSpanElement> {
 	/** Whether the description is disabled */
@@ -18,11 +18,11 @@ export const Description = memo(function Description({
 }: DescriptionProps) {
 	const classNames = [
 		styles.description,
-		disabled && styles['description--disabled'],
+		disabled && styles["description--disabled"],
 		customClassName,
 	]
 		.filter(Boolean)
-		.join(' ');
+		.join(" ");
 
 	return (
 		<span className={classNames} aria-disabled={disabled} {...props}>

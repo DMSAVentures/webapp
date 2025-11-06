@@ -9,20 +9,20 @@
  * @returns Error message or null if valid
  */
 export function validateEmail(email: string): string | null {
-  if (!email) {
-    return 'Email is required';
-  }
+	if (!email) {
+		return "Email is required";
+	}
 
-  if (typeof email !== 'string') {
-    return 'Email must be a string';
-  }
+	if (typeof email !== "string") {
+		return "Email must be a string";
+	}
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.trim())) {
-    return 'Invalid email format';
-  }
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	if (!emailRegex.test(email.trim())) {
+		return "Invalid email format";
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -32,15 +32,15 @@ export function validateEmail(email: string): string | null {
  * @returns Error message or null if valid
  */
 export function validateRequired(value: any, fieldName: string): string | null {
-  if (value === null || value === undefined || value === '') {
-    return `${fieldName} is required`;
-  }
+	if (value === null || value === undefined || value === "") {
+		return `${fieldName} is required`;
+	}
 
-  if (typeof value === 'string' && value.trim() === '') {
-    return `${fieldName} is required`;
-  }
+	if (typeof value === "string" && value.trim() === "") {
+		return `${fieldName} is required`;
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -52,30 +52,30 @@ export function validateRequired(value: any, fieldName: string): string | null {
  * @returns Error message or null if valid
  */
 export function validateLength(
-  value: string,
-  options: {
-    min?: number;
-    max?: number;
-    fieldName?: string;
-  }
+	value: string,
+	options: {
+		min?: number;
+		max?: number;
+		fieldName?: string;
+	},
 ): string | null {
-  const { min, max, fieldName = 'Field' } = options;
+	const { min, max, fieldName = "Field" } = options;
 
-  if (!value) {
-    return null; // Use validateRequired separately for required checks
-  }
+	if (!value) {
+		return null; // Use validateRequired separately for required checks
+	}
 
-  const length = value.length;
+	const length = value.length;
 
-  if (min !== undefined && length < min) {
-    return `${fieldName} must be at least ${min} characters`;
-  }
+	if (min !== undefined && length < min) {
+		return `${fieldName} must be at least ${min} characters`;
+	}
 
-  if (max !== undefined && length > max) {
-    return `${fieldName} must be less than ${max} characters`;
-  }
+	if (max !== undefined && length > max) {
+		return `${fieldName} must be less than ${max} characters`;
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -84,16 +84,16 @@ export function validateLength(
  * @returns Error message or null if valid
  */
 export function validateUrl(url: string): string | null {
-  if (!url) {
-    return null; // Use validateRequired separately for required checks
-  }
+	if (!url) {
+		return null; // Use validateRequired separately for required checks
+	}
 
-  try {
-    new URL(url);
-    return null;
-  } catch {
-    return 'Invalid URL format';
-  }
+	try {
+		new URL(url);
+		return null;
+	} catch {
+		return "Invalid URL format";
+	}
 }
 
 /**
@@ -103,32 +103,32 @@ export function validateUrl(url: string): string | null {
  * @returns Error message or null if valid
  */
 export function validateNumber(
-  value: number,
-  options: {
-    min?: number;
-    max?: number;
-    fieldName?: string;
-  }
+	value: number,
+	options: {
+		min?: number;
+		max?: number;
+		fieldName?: string;
+	},
 ): string | null {
-  const { min, max, fieldName = 'Value' } = options;
+	const { min, max, fieldName = "Value" } = options;
 
-  if (value === null || value === undefined) {
-    return null; // Use validateRequired separately for required checks
-  }
+	if (value === null || value === undefined) {
+		return null; // Use validateRequired separately for required checks
+	}
 
-  if (typeof value !== 'number' || isNaN(value)) {
-    return `${fieldName} must be a valid number`;
-  }
+	if (typeof value !== "number" || isNaN(value)) {
+		return `${fieldName} must be a valid number`;
+	}
 
-  if (min !== undefined && value < min) {
-    return `${fieldName} must be at least ${min}`;
-  }
+	if (min !== undefined && value < min) {
+		return `${fieldName} must be at least ${min}`;
+	}
 
-  if (max !== undefined && value > max) {
-    return `${fieldName} must be less than ${max}`;
-  }
+	if (max !== undefined && value > max) {
+		return `${fieldName} must be less than ${max}`;
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -137,17 +137,17 @@ export function validateNumber(
  * @returns Error message or null if valid
  */
 export function validatePhone(phone: string): string | null {
-  if (!phone) {
-    return null; // Use validateRequired separately for required checks
-  }
+	if (!phone) {
+		return null; // Use validateRequired separately for required checks
+	}
 
-  // Basic phone validation - at least 10 digits
-  const digitsOnly = phone.replace(/\D/g, '');
-  if (digitsOnly.length < 10) {
-    return 'Phone number must contain at least 10 digits';
-  }
+	// Basic phone validation - at least 10 digits
+	const digitsOnly = phone.replace(/\D/g, "");
+	if (digitsOnly.length < 10) {
+		return "Phone number must contain at least 10 digits";
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -158,19 +158,19 @@ export function validatePhone(phone: string): string | null {
  * @returns Error message or null if valid
  */
 export function validatePattern(
-  value: string,
-  pattern: RegExp,
-  errorMessage: string
+	value: string,
+	pattern: RegExp,
+	errorMessage: string,
 ): string | null {
-  if (!value) {
-    return null; // Use validateRequired separately for required checks
-  }
+	if (!value) {
+		return null; // Use validateRequired separately for required checks
+	}
 
-  if (!pattern.test(value)) {
-    return errorMessage;
-  }
+	if (!pattern.test(value)) {
+		return errorMessage;
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -180,34 +180,34 @@ export function validatePattern(
  * @returns Error message or null if valid
  */
 export function validateDate(
-  date: Date | string,
-  options?: {
-    minDate?: Date;
-    maxDate?: Date;
-    fieldName?: string;
-  }
+	date: Date | string,
+	options?: {
+		minDate?: Date;
+		maxDate?: Date;
+		fieldName?: string;
+	},
 ): string | null {
-  const { minDate, maxDate, fieldName = 'Date' } = options || {};
+	const { minDate, maxDate, fieldName = "Date" } = options || {};
 
-  if (!date) {
-    return null; // Use validateRequired separately for required checks
-  }
+	if (!date) {
+		return null; // Use validateRequired separately for required checks
+	}
 
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+	const dateObj = typeof date === "string" ? new Date(date) : date;
 
-  if (isNaN(dateObj.getTime())) {
-    return `${fieldName} must be a valid date`;
-  }
+	if (isNaN(dateObj.getTime())) {
+		return `${fieldName} must be a valid date`;
+	}
 
-  if (minDate && dateObj < minDate) {
-    return `${fieldName} must be after ${minDate.toLocaleDateString()}`;
-  }
+	if (minDate && dateObj < minDate) {
+		return `${fieldName} must be after ${minDate.toLocaleDateString()}`;
+	}
 
-  if (maxDate && dateObj > maxDate) {
-    return `${fieldName} must be before ${maxDate.toLocaleDateString()}`;
-  }
+	if (maxDate && dateObj > maxDate) {
+		return `${fieldName} must be before ${maxDate.toLocaleDateString()}`;
+	}
 
-  return null;
+	return null;
 }
 
 /**
@@ -216,13 +216,13 @@ export function validateDate(
  * @returns First error message or null if all valid
  */
 export function composeValidators(
-  ...validators: Array<() => string | null>
+	...validators: Array<() => string | null>
 ): string | null {
-  for (const validator of validators) {
-    const error = validator();
-    if (error) {
-      return error;
-    }
-  }
-  return null;
+	for (const validator of validators) {
+		const error = validator();
+		if (error) {
+			return error;
+		}
+	}
+	return null;
 }

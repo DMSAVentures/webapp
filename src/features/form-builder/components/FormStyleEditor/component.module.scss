@@ -116,12 +116,6 @@
   gap: layout.$spacing-02;
 }
 
-.colorLabel {
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
-}
-
 .colorInputGroup {
   display: flex;
   align-items: center;
@@ -143,28 +137,6 @@
   &:focus-visible {
     outline: border.$border-width-medium solid var(--color-focus-ring-default);
     outline-offset: layout.$spacing-01;
-  }
-}
-
-.colorInput {
-  flex: 1;
-  padding: layout.$spacing-03;
-  font-family: monospace;
-  font-size: typography.$font-size-sm;
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
-  background-color: var(--color-surface-primary-default);
-  color: var(--color-text-primary-default);
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    border-color: var(--color-border-primary-hover);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-border-focus-default);
-    box-shadow: 0 0 0 3px var(--color-alpha-focus);
   }
 }
 

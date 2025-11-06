@@ -18,186 +18,180 @@
  */
 
 // ============================================================================
-// Campaign-related exports
+// Re-export types for convenience
 // ============================================================================
-export {
-  // Mock data
-  mockUsers,
-  mockCampaignSettings,
-  mockCampaignStats,
-  mockCampaigns,
-  mockCampaignsByStatus,
-  mockCampaignDetail,
-  // Helper functions
-  getMockCampaignById,
-  getMockCampaignsByUserId,
-} from './campaigns.mock';
-
-// ============================================================================
-// Waitlist User-related exports
-// ============================================================================
-export {
-  // Mock data
-  mockWaitlistUsers,
-  mockUsersByStatus,
-  mockUsersByDevice,
-  mockUsersBySource,
-  // Helper functions
-  getMockUserById,
-  getMockUsersByCampaign,
-  getMockUsersByStatus,
-  getMockTopReferrers,
-} from './users.mock';
-
-// ============================================================================
-// Referral & Leaderboard-related exports
-// ============================================================================
-export {
-  // Mock data
-  mockReferrals,
-  mockReferralsBySource,
-  mockReferralsByStatus,
-  mockLeaderboardEntries,
-  mockLeaderboards,
-  // Helper functions
-  getMockReferralById,
-  getMockReferralsByCampaign,
-  getMockReferralsByReferrer,
-  getMockReferralsByStatus as getMockReferralsByStatusHelper,
-  getMockReferralsBySource,
-  getMockLeaderboard,
-  getMockLeaderboardEntry,
-  getMockTopReferrersLeaderboard,
-} from './referrals.mock';
-
-// ============================================================================
-// Form Builder-related exports
-// ============================================================================
-export {
-  // Mock data
-  mockFormFields,
-  mockFormDesigns,
-  mockFormBehaviors,
-  mockFormConfigs,
-  mockFieldTemplates,
-  mockCustomCss,
-  // Helper functions
-  getMockFormConfigById,
-  getMockFormConfigByCampaign,
-  getMockFormsByLayout,
-} from './forms.mock';
-
+export type {
+	Analytics,
+	Campaign,
+	CampaignSettings,
+	CampaignStats,
+	EmailCampaign,
+	EmailTemplate,
+	FormBehavior,
+	FormConfig,
+	FormDesign,
+	FormField,
+	Integration,
+	Leaderboard,
+	LeaderboardEntry,
+	Referral,
+	Reward,
+	RewardEarned,
+	TeamMember,
+	User,
+	WaitlistUser,
+	Webhook,
+} from "../types/common.types";
 // ============================================================================
 // Analytics-related exports
 // ============================================================================
 export {
-  // Mock data
-  mockAnalyticsHighPerformance,
-  mockAnalyticsMediumPerformance,
-  mockAnalyticsEarlyStage,
-  mockAnalyticsViral,
-  mockAnalyticsStruggling,
-  mockAnalyticsData,
-  mockGrowthChartData,
-  mockConversionFunnelData,
-  mockTrafficSourcesData,
-  mockReferralSourcesData,
-  mockGeographicData,
-  mockDeviceData,
-  mockComparisonData,
-  // Helper functions
-  getMockAnalyticsByCampaign,
-} from './analytics.mock';
-
+	// Helper functions
+	getMockAnalyticsByCampaign,
+	mockAnalyticsData,
+	mockAnalyticsEarlyStage,
+	// Mock data
+	mockAnalyticsHighPerformance,
+	mockAnalyticsMediumPerformance,
+	mockAnalyticsStruggling,
+	mockAnalyticsViral,
+	mockComparisonData,
+	mockConversionFunnelData,
+	mockDeviceData,
+	mockGeographicData,
+	mockGrowthChartData,
+	mockReferralSourcesData,
+	mockTrafficSourcesData,
+} from "./analytics.mock";
+// ============================================================================
+// Campaign-related exports
+// ============================================================================
+export {
+	// Helper functions
+	getMockCampaignById,
+	getMockCampaignsByUserId,
+	mockCampaignDetail,
+	mockCampaignSettings,
+	mockCampaignStats,
+	mockCampaigns,
+	mockCampaignsByStatus,
+	// Mock data
+	mockUsers,
+} from "./campaigns.mock";
 // ============================================================================
 // Email-related exports
 // ============================================================================
 export {
-  // Mock data
-  mockEmailTemplates,
-  mockEmailCampaigns,
-  mockEmailCampaignStatsAggregated,
-  // Helper functions
-  getMockEmailTemplateById,
-  getMockEmailTemplatesByCampaign,
-  getMockEmailTemplatesByType,
-  getMockEmailCampaignById,
-  getMockEmailCampaignsByCampaign,
-  getMockEmailCampaignsByStatus,
-} from './emails.mock';
+	getMockEmailCampaignById,
+	getMockEmailCampaignsByCampaign,
+	getMockEmailCampaignsByStatus,
+	// Helper functions
+	getMockEmailTemplateById,
+	getMockEmailTemplatesByCampaign,
+	getMockEmailTemplatesByType,
+	mockEmailCampaignStatsAggregated,
+	mockEmailCampaigns,
+	// Mock data
+	mockEmailTemplates,
+} from "./emails.mock";
+// ============================================================================
+// Form Builder-related exports
+// ============================================================================
+export {
+	getMockFormConfigByCampaign,
+	// Helper functions
+	getMockFormConfigById,
+	getMockFormsByLayout,
+	mockCustomCss,
+	mockFieldTemplates,
+	mockFormBehaviors,
+	mockFormConfigs,
+	mockFormDesigns,
+	// Mock data
+	mockFormFields,
+} from "./forms.mock";
+// ============================================================================
+// Referral & Leaderboard-related exports
+// ============================================================================
+export {
+	getMockLeaderboard,
+	getMockLeaderboardEntry,
+	// Helper functions
+	getMockReferralById,
+	getMockReferralsByCampaign,
+	getMockReferralsByReferrer,
+	getMockReferralsBySource,
+	getMockReferralsByStatus as getMockReferralsByStatusHelper,
+	getMockTopReferrersLeaderboard,
+	mockLeaderboardEntries,
+	mockLeaderboards,
+	// Mock data
+	mockReferrals,
+	mockReferralsBySource,
+	mockReferralsByStatus,
+} from "./referrals.mock";
 
 // ============================================================================
 // Reward-related exports
 // ============================================================================
 export {
-  // Mock data
-  mockRewards,
-  mockRewardsEarned,
-  // Helper functions
-  getMockRewardById,
-  getMockRewardsByCampaign,
-  getMockRewardsByStatus,
-  getMockRewardsByTier,
-  getMockRewardsByType,
-  getMockRewardEarnedById,
-  getMockRewardsEarnedByUser,
-  getMockRewardsEarnedByReward,
-  getMockRewardsEarnedByStatus,
-  mockRewardsSortedByTier,
-  mockRewardTiersOverview,
-  mockUserRewardProgress,
-} from './rewards.mock';
+	// Helper functions
+	getMockRewardById,
+	getMockRewardEarnedById,
+	getMockRewardsByCampaign,
+	getMockRewardsByStatus,
+	getMockRewardsByTier,
+	getMockRewardsByType,
+	getMockRewardsEarnedByReward,
+	getMockRewardsEarnedByStatus,
+	getMockRewardsEarnedByUser,
+	// Mock data
+	mockRewards,
+	mockRewardsEarned,
+	mockRewardsSortedByTier,
+	mockRewardTiersOverview,
+	mockUserRewardProgress,
+} from "./rewards.mock";
 
 // ============================================================================
 // Team & Integration-related exports
 // ============================================================================
 export {
-  // Mock data
-  mockTeamMembers,
-  mockIntegrations,
-  mockWebhooks,
-  mockWebhookDeliveryLogs,
-  mockIntegrationCategories,
-  mockTeamActivityLogs,
-  // Helper functions - Team
-  getMockTeamMemberById,
-  getMockTeamMembersByRole,
-  getMockActiveTeamMembers,
-  getMockPendingInvitations,
-  // Helper functions - Integrations
-  getMockIntegrationById,
-  getMockIntegrationsByType,
-  getMockIntegrationsByStatus,
-  getMockConnectedIntegrations,
-  // Helper functions - Webhooks
-  getMockWebhookById,
-  getMockWebhooksByCampaign,
-  getMockWebhooksByStatus,
-  getMockActiveWebhooks,
-} from './team-integrations.mock';
-
+	getMockActiveTeamMembers,
+	getMockActiveWebhooks,
+	getMockConnectedIntegrations,
+	// Helper functions - Integrations
+	getMockIntegrationById,
+	getMockIntegrationsByStatus,
+	getMockIntegrationsByType,
+	getMockPendingInvitations,
+	// Helper functions - Team
+	getMockTeamMemberById,
+	getMockTeamMembersByRole,
+	// Helper functions - Webhooks
+	getMockWebhookById,
+	getMockWebhooksByCampaign,
+	getMockWebhooksByStatus,
+	mockIntegrationCategories,
+	mockIntegrations,
+	mockTeamActivityLogs,
+	// Mock data
+	mockTeamMembers,
+	mockWebhookDeliveryLogs,
+	mockWebhooks,
+} from "./team-integrations.mock";
 // ============================================================================
-// Re-export types for convenience
+// Waitlist User-related exports
 // ============================================================================
-export type {
-  User,
-  Campaign,
-  CampaignSettings,
-  CampaignStats,
-  WaitlistUser,
-  Referral,
-  FormConfig,
-  FormField,
-  FormDesign,
-  FormBehavior,
-  Reward,
-  RewardEarned,
-  EmailTemplate,
-  EmailCampaign,
-  Analytics,
-  Leaderboard,
-  LeaderboardEntry,
-  TeamMember,
-  Integration,
-  Webhook,
-} from '../types/common.types';
+export {
+	getMockTopReferrers,
+	// Helper functions
+	getMockUserById,
+	getMockUsersByCampaign,
+	getMockUsersByStatus,
+	mockUsersByDevice,
+	mockUsersBySource,
+	mockUsersByStatus,
+	// Mock data
+	mockWaitlistUsers,
+} from "./users.mock";

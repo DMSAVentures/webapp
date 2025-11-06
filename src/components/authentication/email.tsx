@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from "react";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import { useSubmitLogin } from "@/hooks/useSubmitLogin";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import "./email.scss";
 import { Button } from "@/proto-design-system/Button/button";
 import Banner from "@/proto-design-system/banner/banner";

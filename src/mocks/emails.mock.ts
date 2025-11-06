@@ -3,17 +3,17 @@
  * Used for Storybook stories and testing
  */
 
-import type { EmailTemplate, EmailCampaign } from '../types/common.types';
+import type { EmailCampaign, EmailTemplate } from "../types/common.types";
 
 // Mock Email Templates
 export const mockEmailTemplates: EmailTemplate[] = [
-  {
-    id: 'template-1',
-    campaignId: 'campaign-1',
-    name: 'Welcome Email',
-    subject: 'Welcome to {{campaign_name}}! 🎉',
-    preheader: 'Thank you for joining our waitlist',
-    htmlContent: `
+	{
+		id: "template-1",
+		campaignId: "campaign-1",
+		name: "Welcome Email",
+		subject: "Welcome to {{campaign_name}}! 🎉",
+		preheader: "Thank you for joining our waitlist",
+		htmlContent: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -43,26 +43,26 @@ export const mockEmailTemplates: EmailTemplate[] = [
         </body>
       </html>
     `,
-    textContent: `Welcome, {{first_name}}!\n\nThank you for joining the {{campaign_name}} waitlist! We're thrilled to have you on board.\n\nYou're currently at position #{{position}} in the waitlist.\n\nWant to move up faster? Share your unique referral link: {{referral_link}}\n\nBest regards,\nThe {{campaign_name}} Team`,
-    type: 'welcome',
-    variables: [
-      'first_name',
-      'campaign_name',
-      'position',
-      'referral_link',
-      'unsubscribe_link',
-    ],
-    status: 'active',
-    createdAt: new Date('2024-09-15T10:00:00Z'),
-    updatedAt: new Date('2024-09-20T14:30:00Z'),
-  },
-  {
-    id: 'template-2',
-    campaignId: 'campaign-1',
-    name: 'Email Verification',
-    subject: 'Please verify your email address',
-    preheader: 'One more step to secure your spot',
-    htmlContent: `
+		textContent: `Welcome, {{first_name}}!\n\nThank you for joining the {{campaign_name}} waitlist! We're thrilled to have you on board.\n\nYou're currently at position #{{position}} in the waitlist.\n\nWant to move up faster? Share your unique referral link: {{referral_link}}\n\nBest regards,\nThe {{campaign_name}} Team`,
+		type: "welcome",
+		variables: [
+			"first_name",
+			"campaign_name",
+			"position",
+			"referral_link",
+			"unsubscribe_link",
+		],
+		status: "active",
+		createdAt: new Date("2024-09-15T10:00:00Z"),
+		updatedAt: new Date("2024-09-20T14:30:00Z"),
+	},
+	{
+		id: "template-2",
+		campaignId: "campaign-1",
+		name: "Email Verification",
+		subject: "Please verify your email address",
+		preheader: "One more step to secure your spot",
+		htmlContent: `
       <!DOCTYPE html>
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -76,20 +76,20 @@ export const mockEmailTemplates: EmailTemplate[] = [
         </body>
       </html>
     `,
-    textContent: `Hi {{first_name}},\n\nPlease verify your email address to secure your spot on the waitlist.\n\nVerification link: {{verification_link}}\n\nThis link will expire in 24 hours.\n\nIf you didn't sign up for {{campaign_name}}, you can safely ignore this email.`,
-    type: 'verification',
-    variables: ['first_name', 'campaign_name', 'verification_link'],
-    status: 'active',
-    createdAt: new Date('2024-09-15T10:30:00Z'),
-    updatedAt: new Date('2024-09-15T10:30:00Z'),
-  },
-  {
-    id: 'template-3',
-    campaignId: 'campaign-1',
-    name: 'Position Update - Milestone Reached',
-    subject: 'You\'re in the top {{percentile}}%! 🚀',
-    preheader: 'Your referrals are paying off',
-    htmlContent: `
+		textContent: `Hi {{first_name}},\n\nPlease verify your email address to secure your spot on the waitlist.\n\nVerification link: {{verification_link}}\n\nThis link will expire in 24 hours.\n\nIf you didn't sign up for {{campaign_name}}, you can safely ignore this email.`,
+		type: "verification",
+		variables: ["first_name", "campaign_name", "verification_link"],
+		status: "active",
+		createdAt: new Date("2024-09-15T10:30:00Z"),
+		updatedAt: new Date("2024-09-15T10:30:00Z"),
+	},
+	{
+		id: "template-3",
+		campaignId: "campaign-1",
+		name: "Position Update - Milestone Reached",
+		subject: "You're in the top {{percentile}}%! 🚀",
+		preheader: "Your referrals are paying off",
+		htmlContent: `
       <!DOCTYPE html>
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -108,26 +108,26 @@ export const mockEmailTemplates: EmailTemplate[] = [
         </body>
       </html>
     `,
-    textContent: `Congrats, {{first_name}}!\n\nYou've moved up to position #{{position}}!\n\nThat puts you in the top {{percentile}}% of all waitlist members.\n\n{{referral_count}} people joined using your link!\n\nKeep sharing to move up even faster: {{referral_link}}`,
-    type: 'milestone',
-    variables: [
-      'first_name',
-      'position',
-      'percentile',
-      'referral_count',
-      'referral_link',
-    ],
-    status: 'active',
-    createdAt: new Date('2024-09-18T09:00:00Z'),
-    updatedAt: new Date('2024-09-25T11:15:00Z'),
-  },
-  {
-    id: 'template-4',
-    campaignId: 'campaign-1',
-    name: 'Launch Announcement',
-    subject: 'We\'re Live! Your Early Access Code Inside 🎊',
-    preheader: 'Thank you for being an early supporter',
-    htmlContent: `
+		textContent: `Congrats, {{first_name}}!\n\nYou've moved up to position #{{position}}!\n\nThat puts you in the top {{percentile}}% of all waitlist members.\n\n{{referral_count}} people joined using your link!\n\nKeep sharing to move up even faster: {{referral_link}}`,
+		type: "milestone",
+		variables: [
+			"first_name",
+			"position",
+			"percentile",
+			"referral_count",
+			"referral_link",
+		],
+		status: "active",
+		createdAt: new Date("2024-09-18T09:00:00Z"),
+		updatedAt: new Date("2024-09-25T11:15:00Z"),
+	},
+	{
+		id: "template-4",
+		campaignId: "campaign-1",
+		name: "Launch Announcement",
+		subject: "We're Live! Your Early Access Code Inside 🎊",
+		preheader: "Thank you for being an early supporter",
+		htmlContent: `
       <!DOCTYPE html>
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -152,25 +152,20 @@ export const mockEmailTemplates: EmailTemplate[] = [
         </body>
       </html>
     `,
-    textContent: `We're Live!\n\nHi {{first_name}},\n\nThank you for being one of our early supporters. As promised, here's your exclusive early access code:\n\n{{access_code}}\n\nGet started: {{launch_url}}\n\nThis early access code gives you:\n- 3 months free premium access\n- Priority support\n- Exclusive features for early adopters`,
-    type: 'launch',
-    variables: [
-      'first_name',
-      'campaign_name',
-      'access_code',
-      'launch_url',
-    ],
-    status: 'draft',
-    createdAt: new Date('2024-10-01T14:00:00Z'),
-    updatedAt: new Date('2024-10-28T16:30:00Z'),
-  },
-  {
-    id: 'template-5',
-    campaignId: 'campaign-2',
-    name: 'Beta Invitation',
-    subject: 'You\'re invited to join our Beta! 🎯',
-    preheader: 'Download the app and start testing',
-    htmlContent: `
+		textContent: `We're Live!\n\nHi {{first_name}},\n\nThank you for being one of our early supporters. As promised, here's your exclusive early access code:\n\n{{access_code}}\n\nGet started: {{launch_url}}\n\nThis early access code gives you:\n- 3 months free premium access\n- Priority support\n- Exclusive features for early adopters`,
+		type: "launch",
+		variables: ["first_name", "campaign_name", "access_code", "launch_url"],
+		status: "draft",
+		createdAt: new Date("2024-10-01T14:00:00Z"),
+		updatedAt: new Date("2024-10-28T16:30:00Z"),
+	},
+	{
+		id: "template-5",
+		campaignId: "campaign-2",
+		name: "Beta Invitation",
+		subject: "You're invited to join our Beta! 🎯",
+		preheader: "Download the app and start testing",
+		htmlContent: `
       <!DOCTYPE html>
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -193,25 +188,25 @@ export const mockEmailTemplates: EmailTemplate[] = [
         </body>
       </html>
     `,
-    textContent: `Hey {{first_name}},\n\nGreat news! You've been selected to join our exclusive beta program.\n\nDownload the app:\niOS: {{ios_download_link}}\nAndroid: {{android_download_link}}\n\nBeta Access Code: {{beta_code}}\n\nWe'd love to hear your feedback as you test the app!`,
-    type: 'invitation',
-    variables: [
-      'first_name',
-      'ios_download_link',
-      'android_download_link',
-      'beta_code',
-    ],
-    status: 'active',
-    createdAt: new Date('2024-10-20T08:30:00Z'),
-    updatedAt: new Date('2024-10-22T10:15:00Z'),
-  },
-  {
-    id: 'template-6',
-    campaignId: 'campaign-4',
-    name: 'Inactive User Re-engagement',
-    subject: 'We miss you, {{first_name}}! Come back? 💌',
-    preheader: 'Exciting updates since you last visited',
-    htmlContent: `
+		textContent: `Hey {{first_name}},\n\nGreat news! You've been selected to join our exclusive beta program.\n\nDownload the app:\niOS: {{ios_download_link}}\nAndroid: {{android_download_link}}\n\nBeta Access Code: {{beta_code}}\n\nWe'd love to hear your feedback as you test the app!`,
+		type: "invitation",
+		variables: [
+			"first_name",
+			"ios_download_link",
+			"android_download_link",
+			"beta_code",
+		],
+		status: "active",
+		createdAt: new Date("2024-10-20T08:30:00Z"),
+		updatedAt: new Date("2024-10-22T10:15:00Z"),
+	},
+	{
+		id: "template-6",
+		campaignId: "campaign-4",
+		name: "Inactive User Re-engagement",
+		subject: "We miss you, {{first_name}}! Come back? 💌",
+		preheader: "Exciting updates since you last visited",
+		htmlContent: `
       <!DOCTYPE html>
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -232,266 +227,266 @@ export const mockEmailTemplates: EmailTemplate[] = [
         </body>
       </html>
     `,
-    textContent: `We Miss You!\n\nHi {{first_name}}, it's been a while since we last saw you.\n\nA lot has happened since you joined our waitlist:\n- New AI writing features added\n- Launch date moved up to Q1 2025\n- Early bird pricing extended\n\nYou're still at position #{{position}}. Want to improve your spot?\n\nShare your link: {{referral_link}}`,
-    type: 'custom',
-    variables: ['first_name', 'position', 'referral_link'],
-    status: 'active',
-    createdAt: new Date('2024-09-15T11:00:00Z'),
-    updatedAt: new Date('2024-10-10T09:30:00Z'),
-  },
+		textContent: `We Miss You!\n\nHi {{first_name}}, it's been a while since we last saw you.\n\nA lot has happened since you joined our waitlist:\n- New AI writing features added\n- Launch date moved up to Q1 2025\n- Early bird pricing extended\n\nYou're still at position #{{position}}. Want to improve your spot?\n\nShare your link: {{referral_link}}`,
+		type: "custom",
+		variables: ["first_name", "position", "referral_link"],
+		status: "active",
+		createdAt: new Date("2024-09-15T11:00:00Z"),
+		updatedAt: new Date("2024-10-10T09:30:00Z"),
+	},
 ];
 
 // Mock Email Campaigns
 export const mockEmailCampaigns: EmailCampaign[] = [
-  {
-    id: 'email-campaign-1',
-    campaignId: 'campaign-1',
-    name: 'Welcome Series - New Signups',
-    templateId: 'template-1',
-    segmentId: undefined,
-    trigger: 'signup',
-    triggerConfig: undefined,
-    status: 'sending',
-    scheduledFor: undefined,
-    stats: {
-      sent: 12547,
-      delivered: 12389,
-      opened: 9876,
-      clicked: 6234,
-      bounced: 158,
-      unsubscribed: 23,
-    },
-    createdAt: new Date('2024-09-15T10:00:00Z'),
-    sentAt: new Date('2024-09-16T08:00:00Z'),
-  },
-  {
-    id: 'email-campaign-2',
-    campaignId: 'campaign-1',
-    name: 'Email Verification Required',
-    templateId: 'template-2',
-    segmentId: undefined,
-    trigger: 'signup',
-    triggerConfig: undefined,
-    status: 'sent',
-    scheduledFor: undefined,
-    stats: {
-      sent: 12547,
-      delivered: 12423,
-      opened: 11234,
-      clicked: 10892,
-      bounced: 124,
-      unsubscribed: 5,
-    },
-    createdAt: new Date('2024-09-15T10:30:00Z'),
-    sentAt: new Date('2024-09-16T08:05:00Z'),
-  },
-  {
-    id: 'email-campaign-3',
-    campaignId: 'campaign-1',
-    name: 'Milestone Celebration - Top 10%',
-    templateId: 'template-3',
-    segmentId: 'segment-top-10',
-    trigger: 'milestone',
-    triggerConfig: {
-      milestoneType: 'top_percentile',
-      milestoneValue: 10,
-    },
-    status: 'sent',
-    scheduledFor: undefined,
-    stats: {
-      sent: 1254,
-      delivered: 1248,
-      opened: 1123,
-      clicked: 892,
-      bounced: 6,
-      unsubscribed: 2,
-    },
-    createdAt: new Date('2024-09-20T14:00:00Z'),
-    sentAt: new Date('2024-09-25T09:00:00Z'),
-  },
-  {
-    id: 'email-campaign-4',
-    campaignId: 'campaign-1',
-    name: 'Launch Announcement - Early Access',
-    templateId: 'template-4',
-    segmentId: 'segment-verified',
-    trigger: 'manual',
-    triggerConfig: undefined,
-    status: 'scheduled',
-    scheduledFor: new Date('2025-11-15T10:00:00Z'),
-    stats: {
-      sent: 0,
-      delivered: 0,
-      opened: 0,
-      clicked: 0,
-      bounced: 0,
-      unsubscribed: 0,
-    },
-    createdAt: new Date('2024-10-28T16:30:00Z'),
-    sentAt: undefined,
-  },
-  {
-    id: 'email-campaign-5',
-    campaignId: 'campaign-2',
-    name: 'Beta Invitations - First 100',
-    templateId: 'template-5',
-    segmentId: 'segment-top-100',
-    trigger: 'manual',
-    triggerConfig: undefined,
-    status: 'sent',
-    scheduledFor: undefined,
-    stats: {
-      sent: 100,
-      delivered: 100,
-      opened: 98,
-      clicked: 95,
-      bounced: 0,
-      unsubscribed: 0,
-    },
-    createdAt: new Date('2024-10-22T10:00:00Z'),
-    sentAt: new Date('2024-10-25T09:00:00Z'),
-  },
-  {
-    id: 'email-campaign-6',
-    campaignId: 'campaign-4',
-    name: 'Re-engagement - Inactive 30 Days',
-    templateId: 'template-6',
-    segmentId: 'segment-inactive',
-    trigger: 'inactive',
-    triggerConfig: {
-      days: 30,
-    },
-    status: 'sending',
-    scheduledFor: undefined,
-    stats: {
-      sent: 2456,
-      delivered: 2398,
-      opened: 1234,
-      clicked: 567,
-      bounced: 58,
-      unsubscribed: 89,
-    },
-    createdAt: new Date('2024-10-10T09:30:00Z'),
-    sentAt: new Date('2024-10-15T08:00:00Z'),
-  },
-  {
-    id: 'email-campaign-7',
-    campaignId: 'campaign-1',
-    name: 'Weekly Update - Product Progress',
-    templateId: 'template-1',
-    segmentId: undefined,
-    trigger: 'scheduled',
-    triggerConfig: {
-      days: 7,
-    },
-    status: 'draft',
-    scheduledFor: new Date('2025-11-12T10:00:00Z'),
-    stats: {
-      sent: 0,
-      delivered: 0,
-      opened: 0,
-      clicked: 0,
-      bounced: 0,
-      unsubscribed: 0,
-    },
-    createdAt: new Date('2024-11-01T15:00:00Z'),
-    sentAt: undefined,
-  },
-  {
-    id: 'email-campaign-8',
-    campaignId: 'campaign-1',
-    name: 'Position Update - Daily Digest',
-    templateId: 'template-3',
-    segmentId: undefined,
-    trigger: 'scheduled',
-    triggerConfig: {
-      days: 1,
-      hours: 9,
-    },
-    status: 'paused',
-    scheduledFor: undefined,
-    stats: {
-      sent: 4567,
-      delivered: 4512,
-      opened: 3234,
-      clicked: 1892,
-      bounced: 55,
-      unsubscribed: 12,
-    },
-    createdAt: new Date('2024-09-20T10:00:00Z'),
-    sentAt: new Date('2024-10-20T09:00:00Z'),
-  },
+	{
+		id: "email-campaign-1",
+		campaignId: "campaign-1",
+		name: "Welcome Series - New Signups",
+		templateId: "template-1",
+		segmentId: undefined,
+		trigger: "signup",
+		triggerConfig: undefined,
+		status: "sending",
+		scheduledFor: undefined,
+		stats: {
+			sent: 12547,
+			delivered: 12389,
+			opened: 9876,
+			clicked: 6234,
+			bounced: 158,
+			unsubscribed: 23,
+		},
+		createdAt: new Date("2024-09-15T10:00:00Z"),
+		sentAt: new Date("2024-09-16T08:00:00Z"),
+	},
+	{
+		id: "email-campaign-2",
+		campaignId: "campaign-1",
+		name: "Email Verification Required",
+		templateId: "template-2",
+		segmentId: undefined,
+		trigger: "signup",
+		triggerConfig: undefined,
+		status: "sent",
+		scheduledFor: undefined,
+		stats: {
+			sent: 12547,
+			delivered: 12423,
+			opened: 11234,
+			clicked: 10892,
+			bounced: 124,
+			unsubscribed: 5,
+		},
+		createdAt: new Date("2024-09-15T10:30:00Z"),
+		sentAt: new Date("2024-09-16T08:05:00Z"),
+	},
+	{
+		id: "email-campaign-3",
+		campaignId: "campaign-1",
+		name: "Milestone Celebration - Top 10%",
+		templateId: "template-3",
+		segmentId: "segment-top-10",
+		trigger: "milestone",
+		triggerConfig: {
+			milestoneType: "top_percentile",
+			milestoneValue: 10,
+		},
+		status: "sent",
+		scheduledFor: undefined,
+		stats: {
+			sent: 1254,
+			delivered: 1248,
+			opened: 1123,
+			clicked: 892,
+			bounced: 6,
+			unsubscribed: 2,
+		},
+		createdAt: new Date("2024-09-20T14:00:00Z"),
+		sentAt: new Date("2024-09-25T09:00:00Z"),
+	},
+	{
+		id: "email-campaign-4",
+		campaignId: "campaign-1",
+		name: "Launch Announcement - Early Access",
+		templateId: "template-4",
+		segmentId: "segment-verified",
+		trigger: "manual",
+		triggerConfig: undefined,
+		status: "scheduled",
+		scheduledFor: new Date("2025-11-15T10:00:00Z"),
+		stats: {
+			sent: 0,
+			delivered: 0,
+			opened: 0,
+			clicked: 0,
+			bounced: 0,
+			unsubscribed: 0,
+		},
+		createdAt: new Date("2024-10-28T16:30:00Z"),
+		sentAt: undefined,
+	},
+	{
+		id: "email-campaign-5",
+		campaignId: "campaign-2",
+		name: "Beta Invitations - First 100",
+		templateId: "template-5",
+		segmentId: "segment-top-100",
+		trigger: "manual",
+		triggerConfig: undefined,
+		status: "sent",
+		scheduledFor: undefined,
+		stats: {
+			sent: 100,
+			delivered: 100,
+			opened: 98,
+			clicked: 95,
+			bounced: 0,
+			unsubscribed: 0,
+		},
+		createdAt: new Date("2024-10-22T10:00:00Z"),
+		sentAt: new Date("2024-10-25T09:00:00Z"),
+	},
+	{
+		id: "email-campaign-6",
+		campaignId: "campaign-4",
+		name: "Re-engagement - Inactive 30 Days",
+		templateId: "template-6",
+		segmentId: "segment-inactive",
+		trigger: "inactive",
+		triggerConfig: {
+			days: 30,
+		},
+		status: "sending",
+		scheduledFor: undefined,
+		stats: {
+			sent: 2456,
+			delivered: 2398,
+			opened: 1234,
+			clicked: 567,
+			bounced: 58,
+			unsubscribed: 89,
+		},
+		createdAt: new Date("2024-10-10T09:30:00Z"),
+		sentAt: new Date("2024-10-15T08:00:00Z"),
+	},
+	{
+		id: "email-campaign-7",
+		campaignId: "campaign-1",
+		name: "Weekly Update - Product Progress",
+		templateId: "template-1",
+		segmentId: undefined,
+		trigger: "scheduled",
+		triggerConfig: {
+			days: 7,
+		},
+		status: "draft",
+		scheduledFor: new Date("2025-11-12T10:00:00Z"),
+		stats: {
+			sent: 0,
+			delivered: 0,
+			opened: 0,
+			clicked: 0,
+			bounced: 0,
+			unsubscribed: 0,
+		},
+		createdAt: new Date("2024-11-01T15:00:00Z"),
+		sentAt: undefined,
+	},
+	{
+		id: "email-campaign-8",
+		campaignId: "campaign-1",
+		name: "Position Update - Daily Digest",
+		templateId: "template-3",
+		segmentId: undefined,
+		trigger: "scheduled",
+		triggerConfig: {
+			days: 1,
+			hours: 9,
+		},
+		status: "paused",
+		scheduledFor: undefined,
+		stats: {
+			sent: 4567,
+			delivered: 4512,
+			opened: 3234,
+			clicked: 1892,
+			bounced: 55,
+			unsubscribed: 12,
+		},
+		createdAt: new Date("2024-09-20T10:00:00Z"),
+		sentAt: new Date("2024-10-20T09:00:00Z"),
+	},
 ];
 
 // Helper functions
 export const getMockEmailTemplateById = (
-  id: string
+	id: string,
 ): EmailTemplate | undefined => {
-  return mockEmailTemplates.find((template) => template.id === id);
+	return mockEmailTemplates.find((template) => template.id === id);
 };
 
 export const getMockEmailTemplatesByCampaign = (
-  campaignId: string
+	campaignId: string,
 ): EmailTemplate[] => {
-  return mockEmailTemplates.filter(
-    (template) => template.campaignId === campaignId
-  );
+	return mockEmailTemplates.filter(
+		(template) => template.campaignId === campaignId,
+	);
 };
 
 export const getMockEmailTemplatesByType = (
-  type: EmailTemplate['type']
+	type: EmailTemplate["type"],
 ): EmailTemplate[] => {
-  return mockEmailTemplates.filter((template) => template.type === type);
+	return mockEmailTemplates.filter((template) => template.type === type);
 };
 
 export const getMockEmailCampaignById = (
-  id: string
+	id: string,
 ): EmailCampaign | undefined => {
-  return mockEmailCampaigns.find((campaign) => campaign.id === id);
+	return mockEmailCampaigns.find((campaign) => campaign.id === id);
 };
 
 export const getMockEmailCampaignsByCampaign = (
-  campaignId: string
+	campaignId: string,
 ): EmailCampaign[] => {
-  return mockEmailCampaigns.filter(
-    (campaign) => campaign.campaignId === campaignId
-  );
+	return mockEmailCampaigns.filter(
+		(campaign) => campaign.campaignId === campaignId,
+	);
 };
 
 export const getMockEmailCampaignsByStatus = (
-  status: EmailCampaign['status']
+	status: EmailCampaign["status"],
 ): EmailCampaign[] => {
-  return mockEmailCampaigns.filter((campaign) => campaign.status === status);
+	return mockEmailCampaigns.filter((campaign) => campaign.status === status);
 };
 
 // Mock email campaign stats aggregated
 export const mockEmailCampaignStatsAggregated = {
-  totalSent: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.sent, 0),
-  totalDelivered: mockEmailCampaigns.reduce(
-    (sum, c) => sum + c.stats.delivered,
-    0
-  ),
-  totalOpened: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.opened, 0),
-  totalClicked: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.clicked, 0),
-  totalBounced: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.bounced, 0),
-  totalUnsubscribed: mockEmailCampaigns.reduce(
-    (sum, c) => sum + c.stats.unsubscribed,
-    0
-  ),
-  averageOpenRate:
-    (mockEmailCampaigns.reduce(
-      (sum, c) =>
-        sum + (c.stats.delivered > 0 ? c.stats.opened / c.stats.delivered : 0),
-      0
-    ) /
-      mockEmailCampaigns.length) *
-    100,
-  averageClickRate:
-    (mockEmailCampaigns.reduce(
-      (sum, c) =>
-        sum + (c.stats.delivered > 0 ? c.stats.clicked / c.stats.delivered : 0),
-      0
-    ) /
-      mockEmailCampaigns.length) *
-    100,
+	totalSent: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.sent, 0),
+	totalDelivered: mockEmailCampaigns.reduce(
+		(sum, c) => sum + c.stats.delivered,
+		0,
+	),
+	totalOpened: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.opened, 0),
+	totalClicked: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.clicked, 0),
+	totalBounced: mockEmailCampaigns.reduce((sum, c) => sum + c.stats.bounced, 0),
+	totalUnsubscribed: mockEmailCampaigns.reduce(
+		(sum, c) => sum + c.stats.unsubscribed,
+		0,
+	),
+	averageOpenRate:
+		(mockEmailCampaigns.reduce(
+			(sum, c) =>
+				sum + (c.stats.delivered > 0 ? c.stats.opened / c.stats.delivered : 0),
+			0,
+		) /
+			mockEmailCampaigns.length) *
+		100,
+	averageClickRate:
+		(mockEmailCampaigns.reduce(
+			(sum, c) =>
+				sum + (c.stats.delivered > 0 ? c.stats.clicked / c.stats.delivered : 0),
+			0,
+		) /
+			mockEmailCampaigns.length) *
+		100,
 };

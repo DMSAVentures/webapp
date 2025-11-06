@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useSSEChat } from "@/hooks/useSSEChat";
 import Button from "@/proto-design-system/Button/button";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
-import { useSSEChat } from "@/hooks/useSSEChat";
 import styles from "./chatbox.module.scss";
 
 export default function ChatBox() {

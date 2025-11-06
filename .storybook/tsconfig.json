@@ -7,6 +7,11 @@
 			"@/*": ["src/*"]
 		}
 	},
-	"include": ["../src/**/*.stories.ts", "../src/**/*.stories.tsx", "../src/**/*.tsx", "../src/**/*.ts"],
+	"include": [
+		"../src/**/*.stories.ts",
+		"../src/**/*.stories.tsx",
+		"../src/**/*.tsx",
+		"../src/**/*.ts"
+	],
 	"exclude": ["../node_modules"]
 }

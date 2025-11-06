@@ -30,9 +30,7 @@ const Label: React.FC<LabelProps> = (props): JSX.Element => {
 			</span>
 
 			{props.subText && (
-				<Sublabel disabled={props.disabled}>
-					({props.subText})
-				</Sublabel>
+				<Sublabel disabled={props.disabled}>({props.subText})</Sublabel>
 			)}
 			{props.badgeString && (
 				<Badge

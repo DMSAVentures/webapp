@@ -37,23 +37,6 @@
   color: var(--color-text-primary-default);
 }
 
-.unsavedBadge {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-bg-warning-alpha);
-  border: border.$border-width-small solid var(--color-border-warning-default);
-  border-radius: border.$border-radius-small;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-warning-default);
-  font-weight: typography.$font-weight-medium;
-
-  i {
-    font-size: typography.$font-size-md;
-  }
-}
-
 .headerActions {
   display: flex;
   align-items: center;

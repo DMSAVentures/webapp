@@ -23,9 +23,7 @@ const HintText: React.FC<HintTextProps> = (props) => {
 	return (
 		<div className={classNames}>
 			<i className={`${styles["hint-text__tooltip"]} ri-information-fill`} />
-			<Caption disabled={props.state === "disabled"}>
-				{props.hintText}
-			</Caption>
+			<Caption disabled={props.state === "disabled"}>{props.hintText}</Caption>
 		</div>
 	);
 };

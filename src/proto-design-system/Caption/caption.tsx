@@ -1,5 +1,5 @@
-import React, { memo, HTMLAttributes } from 'react';
-import styles from './caption.module.scss';
+import React, { HTMLAttributes, memo } from "react";
+import styles from "./caption.module.scss";
 
 export interface CaptionProps extends HTMLAttributes<HTMLElement> {
 	/** Whether the caption is disabled */
@@ -18,11 +18,11 @@ export const Caption = memo(function Caption({
 }: CaptionProps) {
 	const classNames = [
 		styles.caption,
-		disabled && styles['caption--disabled'],
+		disabled && styles["caption--disabled"],
 		customClassName,
 	]
 		.filter(Boolean)
-		.join(' ');
+		.join(" ");
 
 	return (
 		<small className={classNames} aria-disabled={disabled} {...props}>

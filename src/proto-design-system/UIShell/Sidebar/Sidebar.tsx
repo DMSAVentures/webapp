@@ -1,11 +1,11 @@
 import React from "react";
+import UserName from "@/components/user/Username.tsx";
+import { useSidebar } from "@/contexts/sidebar.tsx";
 import HeaderLogo from "@/proto-design-system/UIShell/Header/HeaderLogo.tsx";
 import { SidebarFooter } from "@/proto-design-system/UIShell/Sidebar/SidebarFooter.tsx";
 import { SidebarContent } from "@/proto-design-system/UIShell/Sidebar/sidebarContent.tsx";
 import { SidebarGroup } from "@/proto-design-system/UIShell/Sidebar/sidebarGroup.tsx";
 import { SidebarItem } from "@/proto-design-system/UIShell/Sidebar/sidebarItem.tsx";
-import UserName from "@/components/user/Username.tsx";
-import { useSidebar } from "@/contexts/sidebar.tsx";
 import styles from "./sidebar.module.scss";
 
 export interface SidebarProps {
