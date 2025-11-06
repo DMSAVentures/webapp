@@ -3,9 +3,9 @@
  * Displays reward tiers as a vertical timeline
  */
 
-import { memo, useState, useEffect, type HTMLAttributes } from 'react';
+import { memo, type HTMLAttributes } from 'react';
 import type { Reward } from '@/types/common.types';
-import ProgressBar from '@/proto-design-system/ProgressBar/progressBar';
+import ProgressBar from '@/proto-design-system/progressbar/progressbar';
 import styles from './component.module.scss';
 
 export interface RewardTiersProps extends HTMLAttributes<HTMLDivElement> {
@@ -116,7 +116,7 @@ export const RewardTiers = memo<RewardTiersProps>(
     className: customClassName,
     ...props
   }) {
-    const [rewards, setRewards] = useState<Reward[]>(providedRewards || []);
+    const rewards = providedRewards || [];
 
     // Sort rewards by tier
     const sortedRewards = [...rewards].sort((a, b) => a.tier - b.tier);
@@ -183,7 +183,7 @@ export const RewardTiers = memo<RewardTiersProps>(
             {nextTierReward && (
               <ProgressBar
                 progress={progressPercent}
-                variant="primary"
+                variant="info"
                 size="medium"
                 showPercentage={false}
               />

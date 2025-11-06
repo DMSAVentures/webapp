@@ -253,7 +253,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(
           placeholder='e.g., "20% off", "Free for 6 months"'
           disabled={loading}
           error={touched.value ? errors.value : undefined}
-          helperText="Optional - Describe the value users receive"
+          hint="Optional - Describe the value users receive"
         />
 
         {/* Tier */}
@@ -270,7 +270,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(
           min={1}
           max={10}
           error={touched.tier ? errors.tier : undefined}
-          helperText="Tier 1 is lowest, Tier 10 is highest"
+          hint="Tier 1 is lowest, Tier 10 is highest"
         />
 
         {/* Divider */}
@@ -328,7 +328,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(
               required
               min={1}
               error={touched.triggerValue ? errors.triggerValue : undefined}
-              helperText={
+              hint={
                 formData.triggerType === 'referral_count'
                   ? 'Users must refer this many people'
                   : 'Users in top N positions receive reward'
@@ -382,7 +382,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(
             disabled={loading}
             min={1}
             error={touched.inventory ? errors.inventory : undefined}
-            helperText="Optional - Limit total number of rewards available"
+            hint="Optional - Limit total number of rewards available"
           />
 
           {/* Expiry Date (optional) */}
@@ -395,7 +395,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(
             onBlur={() => handleBlur('expiryDate')}
             disabled={loading}
             error={touched.expiryDate ? errors.expiryDate : undefined}
-            helperText="Optional - Reward expires after this date"
+            hint="Optional - Reward expires after this date"
           />
         </div>
 
