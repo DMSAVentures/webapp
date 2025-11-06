@@ -37,12 +37,12 @@
         }
 
         .dropdown-menu__label {
-            font-size: typography.$font-size-sm;
+            font-size: var(--font-size-label);
             color: var(--color-text-primary-default)
         }
 
         .dropdown-menu__sublabel {
-            font-size: typography.$font-size-xs;
+            font-size: var(--font-size-sublabel);
             color: var(--color-text-secondary-default)
         }
     }
@@ -50,5 +50,6 @@
     .dropdown-menu__caption {
         padding: layout.$spacing-03;
         color: var(--color-text-tertiary-default);
+        font-size: var(--font-size-caption);
     }
 }

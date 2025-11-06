@@ -5,25 +5,10 @@
     gap: layout.$spacing-03;
     align-items: center;
 
-    &.label__container--disabled {
-        .label__string,
-        .label__sublabel__string {
-            color: var(--color-text-disabled-default);
-        }
-    }
-
     .label__string {
-        //color: $color-neutral-900;
         color: var(--color-text-primary-default);
+        font-size: var(--font-size-label);
     }
-
-    .label__sublabel__string {
-        //color: $color-neutral-600;
-        color: var(--color-text-secondary-default);
-
-    }
-
-
 }
 
 

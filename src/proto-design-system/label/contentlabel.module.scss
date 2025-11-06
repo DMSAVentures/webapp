@@ -27,20 +27,6 @@
         gap: layout.$spacing-03;
         align-items: baseline;
 
-
-        .content-label__description__string {
-            //color: $color-neutral-600;
-            width: 100%;
-            overflow-wrap: break-word; // Break words to prevent overflow
-            word-wrap: break-word; // For IE compatibility
-            word-break: break-word; // Additional word break support
-            white-space: normal; // Allow text to wrap normally
-
-            &--disabled {
-                color: var(--color-text-disabled-default);
-            }
-        }
-
         .content-label__link {
             padding: 0;
         }

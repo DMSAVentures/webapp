@@ -1,4 +1,5 @@
 @use "colors" as *;
+
 // Accessibility-focused contrast ratios:
 // - Text on background: at least 4.5:1 (WCAG AA)
 // - Large text on background: at least 3:1 (WCAG AA)
@@ -7,23 +8,25 @@
 :root {
   // =========================
   // BACKGROUNDS (for buttons and dark UI elements)
+  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
   // =========================
-  --color-bg-primary-default: #{$color-neutral-900};
+  --color-bg-primary-default: #{$color-neutral-900};    // Darkest
   --color-bg-primary-hover: #{$color-neutral-800};
   --color-bg-primary-active: #{$color-neutral-700};
-  --color-bg-primary-disabled: #{$color-neutral-300};
-  --color-bg-secondary-default: #{$color-neutral-200};
-  --color-bg-secondary-hover: #{$color-neutral-300};
-  --color-bg-secondary-active: #{$color-neutral-400};
-  --color-bg-secondary-disabled: #{$color-neutral-300};
+  --color-bg-primary-disabled: #{$color-neutral-400};   // Dark (75% lightness)
+  --color-bg-secondary-default: #{$color-neutral-300};  // Darker (85% lightness)
+  --color-bg-secondary-hover: #{$color-neutral-400};
+  --color-bg-secondary-active: #{$color-neutral-500};
+  --color-bg-secondary-disabled: #{$color-neutral-200}; // Lighter than disabled (93% lightness)
   --color-bg-tertiary-default: #{$color-neutral-50};
-  --color-bg-tertiary-disabled: #{$color-neutral-300};
+  --color-bg-tertiary-disabled: #{$color-neutral-100};
 
   // =========================
   // SURFACES (cards, sheets, modals, popovers)
+  // Hierarchy: Lightest (white/primary) → Lighter (secondary)
   // =========================
-  --color-surface-primary-default: #{$color-white};
-  --color-surface-secondary-default: #{$color-neutral-100};
+  --color-surface-primary-default: #{$color-white};       // Lightest (100% lightness)
+  --color-surface-secondary-default: #{$color-neutral-50}; // Lighter (99.5% lightness)
 
   // =========================
   // BORDERS
@@ -36,19 +39,21 @@
 
   // =========================
   // TEXT
+  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
   // =========================
-  --color-text-disabled-default: #{$color-neutral-600};
+  --color-text-primary-default: #{$color-neutral-900};   // Darkest (15% lightness)
+  --color-text-secondary-default: #{$color-neutral-700}; // Darker (35% lightness)
+  --color-text-disabled-default: #{$color-neutral-500};  // Dark (60% lightness)
   --color-text-inverse-default: #{$color-white};
-  --color-text-primary-default: #{$color-neutral-800};
-  --color-text-secondary-default: #{$color-neutral-600};
-  --color-text-tertiary-default: #{$color-neutral-500};
+  --color-text-tertiary-default: #{$color-neutral-400};  // Lighter (75% lightness) - for sublabels/descriptions
 
   // =========================
   // ICONS
+  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
   // =========================
-  --color-icon-disabled-default: #{$color-neutral-300};
-  --color-icon-primary-default: #{$color-neutral-900};
-  --color-icon-secondary-default: #{$color-neutral-600};
+  --color-icon-primary-default: #{$color-neutral-900};   // Darkest (15% lightness)
+  --color-icon-secondary-default: #{$color-neutral-700}; // Darker (35% lightness)
+  --color-icon-disabled-default: #{$color-neutral-500};  // Dark (60% lightness)
 
 
   // =========================

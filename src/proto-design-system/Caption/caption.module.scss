@@ -1,0 +1,10 @@
+.caption {
+    margin: 0;
+    padding: 0;
+    color: var(--color-text-tertiary-default);
+
+    &--disabled {
+        color: var(--color-text-disabled-default);
+        cursor: not-allowed;
+    }
+}

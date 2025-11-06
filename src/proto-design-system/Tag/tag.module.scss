@@ -10,7 +10,7 @@
     border-radius: border.$border-radius-medium;
     border: 1px solid var(--color-border);
     //font-size: 0.85em;
-    color: var(--color-secondary);
+    color: var(--color-text-secondary-default);
 
     &__image {
         border-radius: border.$border-radius-round;
@@ -21,19 +21,19 @@
     }
 
     &:hover {
-        background-color: var(--color-secondary-bg);
+        background-color: var(--color-bg-secondary-default);
         cursor: pointer;
     }
 
     &[aria-disabled="true"] {
-        background-color: var(--color-secondary-bg);
-        color: var(--color-muted);
+        background-color: var(--color-bg-secondary-default);
+        color: var(--color-text-disabled-default);
         cursor: not-allowed;
     }
 
     &[aria-selected="true"] {
-        background-color: var(--color-bg);
-        color: var(--color-primary);
-        border: 1px solid var(--color-primary);
+        background-color: var(--color-surface-primary-default);
+        color: var(--color-text-primary-default);
+        border: 1px solid var(--color-text-primary-default);
     }
 }

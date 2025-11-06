@@ -12,7 +12,7 @@
 
     &:hover {
         //background-color: colors.$color-neutral-50;
-        border: 1px solid var(--color-primary);
+        border: 1px solid var(--color-text-primary-default);
         transition: border motion.$duration-slow-02 motion.$easing-productive-entrance;
     }
 

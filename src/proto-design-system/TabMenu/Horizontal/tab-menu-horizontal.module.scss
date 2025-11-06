@@ -24,15 +24,15 @@
 
         &[aria-selected="true"] {
             background-color: var(--color-white);
-            color: var(--color-text);
+            color: var(--color-text-primary-default);
             border-style: solid;
-            border-color: var(--color-text);;
+            border-color: var(--color-text-primary-default);
             border-width: 0 0 2px 0;
         }
     }
 
     &__active-tab-indicator {
         //height: 2px;
-        background-color: var(--color-text);
+        background-color: var(--color-text-primary-default);
     }
 }

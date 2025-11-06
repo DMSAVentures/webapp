@@ -62,8 +62,6 @@
     }
 
     &__character-count {
-        font-size: typography.$font-size-xs;
-        color: var(--color-text-secondary-default);
         white-space: nowrap;
         flex-shrink: 0;
         margin-left: auto;

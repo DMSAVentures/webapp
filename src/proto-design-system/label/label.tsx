@@ -1,5 +1,6 @@
 import React, { JSX } from "react";
 import { Badge } from "@/proto-design-system/badge/badge.tsx";
+import { Sublabel } from "@/proto-design-system/Sublabel/sublabel.tsx";
 import styles from "./label.module.scss";
 
 export interface LabelProps {
@@ -22,18 +23,16 @@ export interface LabelProps {
 }
 const Label: React.FC<LabelProps> = (props): JSX.Element => {
 	return (
-		<div
-			className={`${styles["label__container"]} ${styles[`label__container--${props.disabled ? "disabled" : ""}`]}`}
-		>
+		<div className={styles["label__container"]}>
 			<span className={styles["label__string"]}>
 				{props.text}
 				{props.required && <sup>*</sup>}
 			</span>
 
 			{props.subText && (
-				<small className={styles["label__sublabel__string"]}>
+				<Sublabel disabled={props.disabled}>
 					({props.subText})
-				</small>
+				</Sublabel>
 			)}
 			{props.badgeString && (
 				<Badge

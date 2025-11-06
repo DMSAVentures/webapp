@@ -1,5 +1,6 @@
 import React from "react";
 import Label, { LabelProps } from "@/proto-design-system/label/label.tsx";
+import { Description } from "@/proto-design-system/Description/description.tsx";
 import Linkbutton from "@/proto-design-system/linkbutton/linkbutton.tsx";
 import styles from "./contentlabel.module.scss";
 export interface ContentLabelProps extends LabelProps {
@@ -11,9 +12,7 @@ export interface ContentLabelProps extends LabelProps {
 }
 const ContentLabel: React.FC<ContentLabelProps> = (props) => {
 	return (
-		<div
-			className={`${styles["content-label__container"]} ${styles[`content-label__container--${props.disabled ? "disabled" : ""}`]}`}
-		>
+		<div className={styles["content-label__container"]}>
 			{/* eslint-disable-next-line @next/next/no-img-element */}
 			{props.imageSrc && (
 				<img
@@ -31,11 +30,9 @@ const ContentLabel: React.FC<ContentLabelProps> = (props) => {
 					disabled={props.disabled}
 					required={props.required}
 				/>
-				<p
-					className={`${styles["content-label__description__string"]} ${props.disabled ? styles["content-label__description__string--disabled"] : ""}`}
-				>
+				<Description disabled={props.disabled}>
 					{props.description}
-				</p>
+				</Description>
 				{props.linkTitle && props.linkHref && (
 					<Linkbutton
 						className={styles["content-label__link"]}

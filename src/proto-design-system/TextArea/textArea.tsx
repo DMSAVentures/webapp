@@ -1,6 +1,7 @@
 import React from "react";
 import HintText from "@/proto-design-system/hinttext/hinttext.tsx";
 import Label from "@/proto-design-system/label/label.tsx";
+import { Caption } from "@/proto-design-system/Caption/caption.tsx";
 import styles from "./text-area.module.scss";
 
 interface TextAreaProps
@@ -42,11 +43,11 @@ export const TextArea = (props: TextAreaProps) => {
 						/>
 					)}
 					{props.minLength || props.maxLength ? (
-						<small
+						<Caption
 							className={`${styles["text-area__character-count"]} ${unfullfilledCharacters ? styles["text-area__character-count--error"] : ""}`}
 						>
 							{charCount} of {props.minLength || 0}-{props.maxLength} characters
-						</small>
+						</Caption>
 					) : null}
 				</div>
 			)}

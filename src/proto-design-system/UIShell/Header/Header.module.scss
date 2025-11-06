@@ -7,7 +7,7 @@
     padding: layout.$spacing-02 layout.$spacing-04;
     gap: layout.$spacing-08;
     min-height: layout.$spacing-09;
-    background-color: var(--color-bg);
+    background-color: var(--color-surface-primary-default);
     //border-bottom: 1px solid var(--color-border);
 
     #nav-burger {
@@ -51,7 +51,7 @@
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: var(--color-bg);
+            background-color: var(--color-surface-primary-default);
             border: 1px solid var(--color-border);
             border-radius: 4px;
             box-shadow: 0 4px 8px var(--color-shadow-default);
@@ -63,11 +63,11 @@
 
             .header__dropdown-item {
                 padding: 0.5rem 1rem;
-                color: var(--color-text);
+                color: var(--color-text-primary-default);
                 text-decoration: none;
 
                 &:hover {
-                    background-color: var(--color-hover-primary);
+                    background-color: var(--color-bg-secondary-hover);
                 }
             }
         }
