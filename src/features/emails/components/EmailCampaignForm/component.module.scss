@@ -1,0 +1,124 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-06;
+  width: 100%;
+  max-width: 800px;
+}
+
+// Header
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.title {
+  font-size: typography.$font-size-2xl;
+  font-weight: typography.$font-weight-bold;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: typography.$font-size-md;
+  color: var(--color-text-secondary-default);
+  margin: 0;
+}
+
+// Form grid
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.label {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.required {
+  color: var(--color-error-default);
+  margin-left: layout.$spacing-01;
+}
+
+.error {
+  font-size: typography.$font-size-sm;
+  color: var(--color-error-text);
+  margin-top: layout.$spacing-02;
+}
+
+// Trigger configuration
+.triggerConfig {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-04;
+  background-color: var(--color-surface-secondary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+}
+
+.delayInputs,
+.scheduleInputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: layout.$spacing-03;
+}
+
+// Actions
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-03;
+  padding-top: layout.$spacing-04;
+  border-top: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.actionsLeft,
+.actionsRight {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .root {
+    max-width: 100%;
+  }
+
+  .delayInputs,
+  .scheduleInputs {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actionsLeft,
+  .actionsRight {
+    flex-direction: column;
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
+}
