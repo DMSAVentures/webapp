@@ -212,47 +212,6 @@
   flex-wrap: wrap;
 }
 
-.tierBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-bg-secondary-default);
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-semibold;
-  border-radius: border.$border-radius-small;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.inactiveBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-bg-secondary-disabled);
-  color: var(--color-text-disabled-default);
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-medium;
-  border-radius: border.$border-radius-small;
-}
-
-.unlockedBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: var(--color-bg-success-alpha);
-  color: var(--color-text-success-default);
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-semibold;
-  border-radius: border.$border-radius-small;
-
-  i {
-    font-size: typography.$font-size-sm;
-  }
-}
-
 // Name and description
 .name {
   font-size: typography.$font-size-lg;

@@ -6,6 +6,7 @@
 import { memo, type HTMLAttributes } from 'react';
 import type { Reward } from '@/types/common.types';
 import ProgressBar from '@/proto-design-system/progressbar/progressbar';
+import { Badge } from '@/proto-design-system/badge/badge';
 import styles from './component.module.scss';
 
 export interface RewardTiersProps extends HTMLAttributes<HTMLDivElement> {
@@ -225,17 +226,29 @@ export const RewardTiers = memo<RewardTiersProps>(
                 {/* Content */}
                 <div className={styles.content}>
                   <div className={styles.header}>
-                    <div className={styles.tierBadge}>
-                      Tier {reward.tier}
-                    </div>
+                    <Badge
+                      text={`Tier ${reward.tier}`}
+                      variant="blue"
+                      styleType="light"
+                      size="small"
+                    />
                     {reward.status === 'inactive' && (
-                      <div className={styles.inactiveBadge}>Inactive</div>
+                      <Badge
+                        text="Inactive"
+                        variant="gray"
+                        styleType="light"
+                        size="small"
+                      />
                     )}
                     {isUnlocked && (
-                      <div className={styles.unlockedBadge}>
-                        <i className="ri-checkbox-circle-line" aria-hidden="true" />
-                        Unlocked
-                      </div>
+                      <Badge
+                        text="Unlocked"
+                        variant="green"
+                        styleType="light"
+                        size="small"
+                        iconClass="checkbox-circle-line"
+                        iconPosition="left"
+                      />
                     )}
                   </div>
 
