@@ -3,299 +3,317 @@
  * Displays reward tiers as a vertical timeline
  */
 
-import { memo, type HTMLAttributes } from 'react';
-import type { Reward } from '@/types/common.types';
-import ProgressBar from '@/proto-design-system/progressbar/progressbar';
-import { Badge } from '@/proto-design-system/badge/badge';
-import styles from './component.module.scss';
+import { type HTMLAttributes, memo } from "react";
+import { Badge } from "@/proto-design-system/badge/badge";
+import ProgressBar from "@/proto-design-system/progressbar/progressbar";
+import type { Reward } from "@/types/common.types";
+import styles from "./component.module.scss";
 
 export interface RewardTiersProps extends HTMLAttributes<HTMLDivElement> {
-  /** Campaign ID to fetch rewards for */
-  campaignId: string;
-  /** Current user progress (optional) */
-  currentUserProgress?: {
-    referralCount: number;
-    nextTierTarget: number;
-  };
-  /** Rewards data (if not provided, will be fetched) */
-  rewards?: Reward[];
-  /** Loading state */
-  loading?: boolean;
-  /** Additional CSS class name */
-  className?: string;
+	/** Campaign ID to fetch rewards for */
+	campaignId: string;
+	/** Current user progress (optional) */
+	currentUserProgress?: {
+		referralCount: number;
+		nextTierTarget: number;
+	};
+	/** Rewards data (if not provided, will be fetched) */
+	rewards?: Reward[];
+	/** Loading state */
+	loading?: boolean;
+	/** Additional CSS class name */
+	className?: string;
 }
 
 /**
  * Maps reward type to icon
  */
-const getRewardIcon = (type: Reward['type']): string => {
-  switch (type) {
-    case 'early_access':
-      return 'ri-vip-crown-line';
-    case 'discount':
-      return 'ri-coupon-line';
-    case 'premium_feature':
-      return 'ri-star-line';
-    case 'merchandise':
-      return 'ri-t-shirt-line';
-    case 'custom':
-      return 'ri-gift-line';
-    default:
-      return 'ri-gift-line';
-  }
+const getRewardIcon = (type: Reward["type"]): string => {
+	switch (type) {
+		case "early_access":
+			return "ri-vip-crown-line";
+		case "discount":
+			return "ri-coupon-line";
+		case "premium_feature":
+			return "ri-star-line";
+		case "merchandise":
+			return "ri-t-shirt-line";
+		case "custom":
+			return "ri-gift-line";
+		default:
+			return "ri-gift-line";
+	}
 };
 
 /**
  * Gets requirement text for a reward
  */
 const getRequirementText = (reward: Reward): string => {
-  if (reward.triggerType === 'manual') {
-    return 'Manually assigned';
-  }
-  if (reward.triggerType === 'referral_count') {
-    const count = reward.triggerValue || 0;
-    return `Refer ${count} ${count === 1 ? 'person' : 'people'}`;
-  }
-  if (reward.triggerType === 'position') {
-    return `Top ${reward.triggerValue} on waitlist`;
-  }
-  return 'No requirements';
+	if (reward.triggerType === "manual") {
+		return "Manually assigned";
+	}
+	if (reward.triggerType === "referral_count") {
+		const count = reward.triggerValue || 0;
+		return `Refer ${count} ${count === 1 ? "person" : "people"}`;
+	}
+	if (reward.triggerType === "position") {
+		return `Top ${reward.triggerValue} on waitlist`;
+	}
+	return "No requirements";
 };
 
 /**
  * Checks if a tier is unlocked based on user progress
  */
-const isTierUnlocked = (reward: Reward, userProgress?: RewardTiersProps['currentUserProgress']): boolean => {
-  if (!userProgress) return false;
-  if (reward.triggerType === 'referral_count' && reward.triggerValue) {
-    return userProgress.referralCount >= reward.triggerValue;
-  }
-  return false;
+const isTierUnlocked = (
+	reward: Reward,
+	userProgress?: RewardTiersProps["currentUserProgress"],
+): boolean => {
+	if (!userProgress) return false;
+	if (reward.triggerType === "referral_count" && reward.triggerValue) {
+		return userProgress.referralCount >= reward.triggerValue;
+	}
+	return false;
 };
 
 /**
  * Gets the current tier based on user progress
  */
 const getCurrentTier = (
-  rewards: Reward[],
-  userProgress?: RewardTiersProps['currentUserProgress']
+	rewards: Reward[],
+	userProgress?: RewardTiersProps["currentUserProgress"],
 ): number | null => {
-  if (!userProgress) return null;
+	if (!userProgress) return null;
 
-  const unlockedRewards = rewards.filter(reward => isTierUnlocked(reward, userProgress));
-  if (unlockedRewards.length === 0) return null;
+	const unlockedRewards = rewards.filter((reward) =>
+		isTierUnlocked(reward, userProgress),
+	);
+	if (unlockedRewards.length === 0) return null;
 
-  // Return the highest tier that's unlocked
-  return Math.max(...unlockedRewards.map(r => r.tier));
+	// Return the highest tier that's unlocked
+	return Math.max(...unlockedRewards.map((r) => r.tier));
 };
 
 /**
  * Gets the next tier target
  */
 const getNextTierTarget = (
-  rewards: Reward[],
-  currentTier: number | null
+	rewards: Reward[],
+	currentTier: number | null,
 ): Reward | null => {
-  const sortedRewards = [...rewards].sort((a, b) => a.tier - b.tier);
+	const sortedRewards = [...rewards].sort((a, b) => a.tier - b.tier);
 
-  if (currentTier === null) {
-    return sortedRewards[0] || null;
-  }
+	if (currentTier === null) {
+		return sortedRewards[0] || null;
+	}
 
-  return sortedRewards.find(r => r.tier > currentTier) || null;
+	return sortedRewards.find((r) => r.tier > currentTier) || null;
 };
 
 /**
  * RewardTiers displays rewards in a vertical timeline
  */
-export const RewardTiers = memo<RewardTiersProps>(
-  function RewardTiers({
-    campaignId,
-    currentUserProgress,
-    rewards: providedRewards,
-    loading = false,
-    className: customClassName,
-    ...props
-  }) {
-    const rewards = providedRewards || [];
+export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
+	campaignId,
+	currentUserProgress,
+	rewards: providedRewards,
+	loading = false,
+	className: customClassName,
+	...props
+}) {
+	const rewards = providedRewards || [];
 
-    // Sort rewards by tier
-    const sortedRewards = [...rewards].sort((a, b) => a.tier - b.tier);
+	// Sort rewards by tier
+	const sortedRewards = [...rewards].sort((a, b) => a.tier - b.tier);
 
-    // Determine current tier and next target
-    const currentTier = getCurrentTier(sortedRewards, currentUserProgress);
-    const nextTierReward = getNextTierTarget(sortedRewards, currentTier);
+	// Determine current tier and next target
+	const currentTier = getCurrentTier(sortedRewards, currentUserProgress);
+	const nextTierReward = getNextTierTarget(sortedRewards, currentTier);
 
-    // Calculate progress to next tier
-    const progressPercent = currentUserProgress && nextTierReward && nextTierReward.triggerValue
-      ? Math.min(100, (currentUserProgress.referralCount / nextTierReward.triggerValue) * 100)
-      : 0;
+	// Calculate progress to next tier
+	const progressPercent =
+		currentUserProgress && nextTierReward && nextTierReward.triggerValue
+			? Math.min(
+					100,
+					(currentUserProgress.referralCount / nextTierReward.triggerValue) *
+						100,
+				)
+			: 0;
 
-    const remainingToNextTier = nextTierReward && nextTierReward.triggerValue && currentUserProgress
-      ? Math.max(0, nextTierReward.triggerValue - currentUserProgress.referralCount)
-      : 0;
+	const remainingToNextTier =
+		nextTierReward && nextTierReward.triggerValue && currentUserProgress
+			? Math.max(
+					0,
+					nextTierReward.triggerValue - currentUserProgress.referralCount,
+				)
+			: 0;
 
-    const classNames = [
-      styles.root,
-      customClassName
-    ].filter(Boolean).join(' ');
+	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
-    if (loading) {
-      return (
-        <div className={classNames} {...props}>
-          <div className={styles.loading}>
-            <i className="ri-loader-4-line ri-spin" aria-hidden="true" />
-            <span>Loading reward tiers...</span>
-          </div>
-        </div>
-      );
-    }
+	if (loading) {
+		return (
+			<div className={classNames} {...props}>
+				<div className={styles.loading}>
+					<i className="ri-loader-4-line ri-spin" aria-hidden="true" />
+					<span>Loading reward tiers...</span>
+				</div>
+			</div>
+		);
+	}
 
-    if (sortedRewards.length === 0) {
-      return (
-        <div className={classNames} {...props}>
-          <div className={styles.empty}>
-            <i className="ri-gift-line" aria-hidden="true" />
-            <h3>No reward tiers yet</h3>
-            <p>Create reward tiers to incentivize referrals</p>
-          </div>
-        </div>
-      );
-    }
+	if (sortedRewards.length === 0) {
+		return (
+			<div className={classNames} {...props}>
+				<div className={styles.empty}>
+					<i className="ri-gift-line" aria-hidden="true" />
+					<h3>No reward tiers yet</h3>
+					<p>Create reward tiers to incentivize referrals</p>
+				</div>
+			</div>
+		);
+	}
 
-    return (
-      <div className={classNames} {...props}>
-        {/* Progress Section (if user progress provided) */}
-        {currentUserProgress && (
-          <div className={styles.progressSection}>
-            <div className={styles.progressHeader}>
-              <div className={styles.progressStats}>
-                <span className={styles.progressLabel}>Your Progress</span>
-                <span className={styles.progressValue}>
-                  {currentUserProgress.referralCount} {currentUserProgress.referralCount === 1 ? 'referral' : 'referrals'}
-                </span>
-              </div>
-              {nextTierReward && remainingToNextTier > 0 && (
-                <span className={styles.progressRemaining}>
-                  {remainingToNextTier} more to unlock {nextTierReward.name}
-                </span>
-              )}
-            </div>
-            {nextTierReward && (
-              <ProgressBar
-                progress={progressPercent}
-                variant="info"
-                size="medium"
-                showPercentage={false}
-              />
-            )}
-          </div>
-        )}
+	return (
+		<div className={classNames} {...props}>
+			{/* Progress Section (if user progress provided) */}
+			{currentUserProgress && (
+				<div className={styles.progressSection}>
+					<div className={styles.progressHeader}>
+						<div className={styles.progressStats}>
+							<span className={styles.progressLabel}>Your Progress</span>
+							<span className={styles.progressValue}>
+								{currentUserProgress.referralCount}{" "}
+								{currentUserProgress.referralCount === 1
+									? "referral"
+									: "referrals"}
+							</span>
+						</div>
+						{nextTierReward && remainingToNextTier > 0 && (
+							<span className={styles.progressRemaining}>
+								{remainingToNextTier} more to unlock {nextTierReward.name}
+							</span>
+						)}
+					</div>
+					{nextTierReward && (
+						<ProgressBar
+							progress={progressPercent}
+							variant="info"
+							size="medium"
+							showPercentage={false}
+						/>
+					)}
+				</div>
+			)}
 
-        {/* Timeline */}
-        <div className={styles.timeline}>
-          {sortedRewards.map((reward, index) => {
-            const isUnlocked = isTierUnlocked(reward, currentUserProgress);
-            const isCurrent = reward.tier === currentTier;
-            const isNext = nextTierReward?.id === reward.id;
+			{/* Timeline */}
+			<div className={styles.timeline}>
+				{sortedRewards.map((reward, index) => {
+					const isUnlocked = isTierUnlocked(reward, currentUserProgress);
+					const isCurrent = reward.tier === currentTier;
+					const isNext = nextTierReward?.id === reward.id;
 
-            return (
-              <div
-                key={reward.id}
-                className={[
-                  styles.timelineItem,
-                  isUnlocked && styles.unlocked,
-                  isCurrent && styles.current,
-                  isNext && styles.next
-                ].filter(Boolean).join(' ')}
-              >
-                {/* Timeline connector */}
-                {index < sortedRewards.length - 1 && (
-                  <div className={styles.connector} />
-                )}
+					return (
+						<div
+							key={reward.id}
+							className={[
+								styles.timelineItem,
+								isUnlocked && styles.unlocked,
+								isCurrent && styles.current,
+								isNext && styles.next,
+							]
+								.filter(Boolean)
+								.join(" ")}
+						>
+							{/* Timeline connector */}
+							{index < sortedRewards.length - 1 && (
+								<div className={styles.connector} />
+							)}
 
-                {/* Icon */}
-                <div className={styles.iconWrapper}>
-                  {isUnlocked ? (
-                    <i className="ri-checkbox-circle-fill" aria-hidden="true" />
-                  ) : (
-                    <i className={getRewardIcon(reward.type)} aria-hidden="true" />
-                  )}
-                </div>
+							{/* Icon */}
+							<div className={styles.iconWrapper}>
+								{isUnlocked ? (
+									<i className="ri-checkbox-circle-fill" aria-hidden="true" />
+								) : (
+									<i
+										className={getRewardIcon(reward.type)}
+										aria-hidden="true"
+									/>
+								)}
+							</div>
 
-                {/* Content */}
-                <div className={styles.content}>
-                  <div className={styles.header}>
-                    <Badge
-                      text={`Tier ${reward.tier}`}
-                      variant="blue"
-                      styleType="light"
-                      size="small"
-                    />
-                    {reward.status === 'inactive' && (
-                      <Badge
-                        text="Inactive"
-                        variant="gray"
-                        styleType="light"
-                        size="small"
-                      />
-                    )}
-                    {isUnlocked && (
-                      <Badge
-                        text="Unlocked"
-                        variant="green"
-                        styleType="light"
-                        size="small"
-                        iconClass="checkbox-circle-line"
-                        iconPosition="left"
-                      />
-                    )}
-                  </div>
+							{/* Content */}
+							<div className={styles.content}>
+								<div className={styles.header}>
+									<Badge
+										text={`Tier ${reward.tier}`}
+										variant="blue"
+										styleType="light"
+										size="small"
+									/>
+									{reward.status === "inactive" && (
+										<Badge
+											text="Inactive"
+											variant="gray"
+											styleType="light"
+											size="small"
+										/>
+									)}
+									{isUnlocked && (
+										<Badge
+											text="Unlocked"
+											variant="green"
+											styleType="light"
+											size="small"
+											iconClass="checkbox-circle-line"
+											iconPosition="left"
+										/>
+									)}
+								</div>
 
-                  <h4 className={styles.name}>{reward.name}</h4>
-                  <p className={styles.description}>{reward.description}</p>
+								<h4 className={styles.name}>{reward.name}</h4>
+								<p className={styles.description}>{reward.description}</p>
 
-                  {/* Value */}
-                  {reward.value && (
-                    <div className={styles.value}>
-                      <i className="ri-gift-line" aria-hidden="true" />
-                      {reward.value}
-                    </div>
-                  )}
+								{/* Value */}
+								{reward.value && (
+									<div className={styles.value}>
+										<i className="ri-gift-line" aria-hidden="true" />
+										{reward.value}
+									</div>
+								)}
 
-                  {/* Requirement */}
-                  <div className={styles.requirement}>
-                    <i className="ri-flag-line" aria-hidden="true" />
-                    {getRequirementText(reward)}
-                  </div>
+								{/* Requirement */}
+								<div className={styles.requirement}>
+									<i className="ri-flag-line" aria-hidden="true" />
+									{getRequirementText(reward)}
+								</div>
 
-                  {/* Additional info */}
-                  <div className={styles.meta}>
-                    {reward.inventory && (
-                      <span className={styles.metaItem}>
-                        <i className="ri-archive-line" aria-hidden="true" />
-                        {reward.inventory} available
-                      </span>
-                    )}
-                    {reward.expiryDate && (
-                      <span className={styles.metaItem}>
-                        <i className="ri-calendar-line" aria-hidden="true" />
-                        Expires {new Date(reward.expiryDate).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        })}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
-);
+								{/* Additional info */}
+								<div className={styles.meta}>
+									{reward.inventory && (
+										<span className={styles.metaItem}>
+											<i className="ri-archive-line" aria-hidden="true" />
+											{reward.inventory} available
+										</span>
+									)}
+									{reward.expiryDate && (
+										<span className={styles.metaItem}>
+											<i className="ri-calendar-line" aria-hidden="true" />
+											Expires{" "}
+											{new Date(reward.expiryDate).toLocaleDateString("en-US", {
+												month: "short",
+												day: "numeric",
+												year: "numeric",
+											})}
+										</span>
+									)}
+								</div>
+							</div>
+						</div>
+					);
+				})}
+			</div>
+		</div>
+	);
+});
 
-RewardTiers.displayName = 'RewardTiers';
+RewardTiers.displayName = "RewardTiers";

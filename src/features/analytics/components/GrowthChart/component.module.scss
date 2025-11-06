@@ -1,0 +1,70 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+  width: 100%;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+}
+
+// Custom tooltip
+.tooltip {
+  padding: layout.$spacing-03 layout.$spacing-04;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+}
+
+.tooltipLabel {
+  margin: 0 0 layout.$spacing-02 0;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.tooltipItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
+.tooltipDot {
+  display: inline-block;
+  width: layout.$spacing-02;
+  height: layout.$spacing-02;
+  border-radius: 50%;
+}
+
+.tooltipName {
+  font-weight: typography.$font-weight-medium;
+}
+
+.tooltipValue {
+  margin-left: auto;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+// Responsive adjustments
+@media (max-width: breakpoints.$breakpoint-md) {
+  .root {
+    padding: layout.$spacing-04;
+  }
+
+  .tooltip {
+    padding: layout.$spacing-02 layout.$spacing-03;
+  }
+}

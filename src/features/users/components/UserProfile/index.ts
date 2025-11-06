@@ -1,1 +1,1 @@
-export { UserProfile, type UserProfileProps } from './component';
+export { UserProfile, type UserProfileProps } from "./component";

@@ -1,1 +1,1 @@
-export { UserList, type UserListProps } from './component';
+export { UserList, type UserListProps } from "./component";

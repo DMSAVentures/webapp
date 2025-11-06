@@ -1,5 +1,5 @@
-import React, { memo, HTMLAttributes } from 'react';
-import styles from './text.module.scss';
+import React, { HTMLAttributes, memo } from "react";
+import styles from "./text.module.scss";
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
 	/** Visual variant of the text */
@@ -14,34 +14,28 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
 	children: React.ReactNode;
 }
 
-export const Text = memo(
-	function Text({
-		variant = 'label',
-		disabled = false,
-		as: Component = 'span',
-		className: customClassName,
-		children,
-		...props
-	}: TextProps) {
-		const classNames = [
-			styles.text,
-			styles[`text--${variant}`],
-			disabled && styles["text--disabled"],
-			customClassName,
-		]
-			.filter(Boolean)
-			.join(" ");
+export const Text = memo(function Text({
+	variant = "label",
+	disabled = false,
+	as: Component = "span",
+	className: customClassName,
+	children,
+	...props
+}: TextProps) {
+	const classNames = [
+		styles.text,
+		styles[`text--${variant}`],
+		disabled && styles["text--disabled"],
+		customClassName,
+	]
+		.filter(Boolean)
+		.join(" ");
 
-		return (
-			<Component
-				className={classNames}
-				aria-disabled={disabled}
-				{...props}
-			>
-				{children}
-			</Component>
-		);
-	}
-);
+	return (
+		<Component className={classNames} aria-disabled={disabled} {...props}>
+			{children}
+		</Component>
+	);
+});
 
 Text.displayName = "Text";

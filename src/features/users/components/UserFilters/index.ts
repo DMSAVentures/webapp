@@ -1,1 +1,5 @@
-export { UserFilters, type UserFiltersProps, type UserFilters as UserFiltersType } from './component';
+export {
+	UserFilters,
+	type UserFilters as UserFiltersType,
+	type UserFiltersProps,
+} from "./component";

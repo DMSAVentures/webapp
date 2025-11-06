@@ -39,80 +39,80 @@ const LinkButton = ({
 	onClick,
 	...props
 }: LinkButtonProps) => {
-		// Generate CSS class names
-		const buttonClasses = [
-			styles.linkbutton,
-			styles[`linkbutton--${variant}`],
-			styleType ? styles[`linkbutton--${styleType}`] : "",
-			styles[`linkbutton--${size}`],
-			pickLeft ? styles["linkbutton--pick-left"] : "",
-			pickRight ? styles["linkbutton--pick-right"] : "",
-			underline ? styles["linkbutton--underline"] : "",
-			props.className || "",
-		]
-			.filter(Boolean)
-			.join(" ");
+	// Generate CSS class names
+	const buttonClasses = [
+		styles.linkbutton,
+		styles[`linkbutton--${variant}`],
+		styleType ? styles[`linkbutton--${styleType}`] : "",
+		styles[`linkbutton--${size}`],
+		pickLeft ? styles["linkbutton--pick-left"] : "",
+		pickRight ? styles["linkbutton--pick-right"] : "",
+		underline ? styles["linkbutton--underline"] : "",
+		props.className || "",
+	]
+		.filter(Boolean)
+		.join(" ");
 
-		// Handle keyboard events for accessibility
-		const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
-			if (disabled) return;
+	// Handle keyboard events for accessibility
+	const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
+		if (disabled) return;
 
-			// Trigger click on Enter or Space key press
-			if (event.key === "Enter" || event.key === " ") {
-				event.preventDefault();
-				onClick?.(event as unknown as React.MouseEvent<HTMLAnchorElement>);
+		// Trigger click on Enter or Space key press
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			onClick?.(event as unknown as React.MouseEvent<HTMLAnchorElement>);
+		}
+	};
+
+	// External link attributes for security
+	const externalProps = isExternal
+		? {
+				target: "_blank",
+				rel: "noopener noreferrer",
+				"aria-label": `${ariaLabel || children} (opens in a new tab)`,
 			}
-		};
+		: {};
 
-		// External link attributes for security
-		const externalProps = isExternal
-			? {
-					target: "_blank",
-					rel: "noopener noreferrer",
-					"aria-label": `${ariaLabel || children} (opens in a new tab)`,
-				}
-			: {};
-
-		return (
-			<a
-				href={disabled ? undefined : href}
-				className={buttonClasses}
-				onClick={disabled ? (e) => e.preventDefault() : onClick}
-				onKeyDown={handleKeyDown}
-				aria-disabled={disabled}
-				role="button"
-				tabIndex={disabled ? -1 : 0}
-				aria-label={ariaLabel}
-				{...externalProps}
-				{...props}
-			>
-				{leftIcon && (
-					<span
-						className={`${styles["linkbutton__icon"]} ${styles["linkbutton__icon--left"]}`}
-					>
-						<i className={`ri-${leftIcon}`} aria-hidden="true" />
-					</span>
-				)}
-				<span className={styles["linkbutton__text"]}>
-					{children}
-					{isExternal && (
-						<span
-							className={styles["linkbutton__external-icon"]}
-							aria-hidden="true"
-						>
-							<i className="ri-external-link-line" />
-						</span>
-					)}
+	return (
+		<a
+			href={disabled ? undefined : href}
+			className={buttonClasses}
+			onClick={disabled ? (e) => e.preventDefault() : onClick}
+			onKeyDown={handleKeyDown}
+			aria-disabled={disabled}
+			role="button"
+			tabIndex={disabled ? -1 : 0}
+			aria-label={ariaLabel}
+			{...externalProps}
+			{...props}
+		>
+			{leftIcon && (
+				<span
+					className={`${styles["linkbutton__icon"]} ${styles["linkbutton__icon--left"]}`}
+				>
+					<i className={`ri-${leftIcon}`} aria-hidden="true" />
 				</span>
-				{rightIcon && (
+			)}
+			<span className={styles["linkbutton__text"]}>
+				{children}
+				{isExternal && (
 					<span
-						className={`${styles["linkbutton__icon"]} ${styles["linkbutton__icon--right"]}`}
+						className={styles["linkbutton__external-icon"]}
+						aria-hidden="true"
 					>
-						<i className={`ri-${rightIcon}`} aria-hidden="true" />
+						<i className="ri-external-link-line" />
 					</span>
 				)}
-			</a>
-		);
+			</span>
+			{rightIcon && (
+				<span
+					className={`${styles["linkbutton__icon"]} ${styles["linkbutton__icon--right"]}`}
+				>
+					<i className={`ri-${rightIcon}`} aria-hidden="true" />
+				</span>
+			)}
+		</a>
+	);
 };
 
 export default LinkButton;

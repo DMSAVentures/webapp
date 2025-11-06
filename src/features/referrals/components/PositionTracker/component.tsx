@@ -1,38 +1,38 @@
-import { memo, useState, useEffect, useCallback, HTMLAttributes } from 'react';
-import styles from './component.module.scss';
-import 'remixicon/fonts/remixicon.css';
+import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
+import styles from "./component.module.scss";
+import "remixicon/fonts/remixicon.css";
 
 /**
  * Props for the PositionTracker component
  */
 export interface PositionTrackerProps extends HTMLAttributes<HTMLDivElement> {
-    /** User ID to track position for */
-    userId: string;
-    /** Polling interval in milliseconds (default: 10000) */
-    pollingInterval?: number;
-    /** Function to fetch position data */
-    fetchPosition?: (userId: string) => Promise<PositionData>;
-    /** Initial position data (for testing/storybook) */
-    initialPosition?: PositionData;
-    /** Additional CSS class name */
-    className?: string;
+	/** User ID to track position for */
+	userId: string;
+	/** Polling interval in milliseconds (default: 10000) */
+	pollingInterval?: number;
+	/** Function to fetch position data */
+	fetchPosition?: (userId: string) => Promise<PositionData>;
+	/** Initial position data (for testing/storybook) */
+	initialPosition?: PositionData;
+	/** Additional CSS class name */
+	className?: string;
 }
 
 /**
  * Position data structure
  */
 export interface PositionData {
-    position: number;
-    totalUsers: number;
-    percentile: number;
+	position: number;
+	totalUsers: number;
+	percentile: number;
 }
 
 /**
  * Calculate percentile from position and total
  */
 const calculatePercentile = (position: number, total: number): number => {
-    if (total === 0) return 0;
-    return Math.round(((total - position + 1) / total) * 100);
+	if (total === 0) return 0;
+	return Math.round(((total - position + 1) / total) * 100);
 };
 
 /**
@@ -47,131 +47,135 @@ const calculatePercentile = (position: number, total: number): number => {
  * - Show confetti on big improvement (>10 spots)
  */
 export const PositionTracker = memo(function PositionTracker({
-    userId,
-    pollingInterval = 10000,
-    fetchPosition,
-    initialPosition = { position: 0, totalUsers: 0, percentile: 0 },
-    className: customClassName,
-    ...props
+	userId,
+	pollingInterval = 10000,
+	fetchPosition,
+	initialPosition = { position: 0, totalUsers: 0, percentile: 0 },
+	className: customClassName,
+	...props
 }: PositionTrackerProps) {
-    const [positionData, setPositionData] = useState<PositionData>(initialPosition);
-    const [previousPosition, setPreviousPosition] = useState<number>(initialPosition.position);
-    const [showImprovement, setShowImprovement] = useState(false);
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [loading, setLoading] = useState(false);
+	const [positionData, setPositionData] =
+		useState<PositionData>(initialPosition);
+	const [previousPosition, setPreviousPosition] = useState<number>(
+		initialPosition.position,
+	);
+	const [showImprovement, setShowImprovement] = useState(false);
+	const [showConfetti, setShowConfetti] = useState(false);
+	const [loading, setLoading] = useState(false);
 
-    // Fetch position data
-    const loadPosition = useCallback(async () => {
-        if (!fetchPosition) return;
+	// Fetch position data
+	const loadPosition = useCallback(async () => {
+		if (!fetchPosition) return;
 
-        try {
-            setLoading(true);
-            const data = await fetchPosition(userId);
+		try {
+			setLoading(true);
+			const data = await fetchPosition(userId);
 
-            // Check if position improved
-            if (data.position < previousPosition && previousPosition > 0) {
-                const improvement = previousPosition - data.position;
-                setShowImprovement(true);
+			// Check if position improved
+			if (data.position < previousPosition && previousPosition > 0) {
+				const improvement = previousPosition - data.position;
+				setShowImprovement(true);
 
-                // Show confetti on big improvement (>10 spots)
-                if (improvement > 10) {
-                    setShowConfetti(true);
-                    setTimeout(() => setShowConfetti(false), 3000);
-                }
+				// Show confetti on big improvement (>10 spots)
+				if (improvement > 10) {
+					setShowConfetti(true);
+					setTimeout(() => setShowConfetti(false), 3000);
+				}
 
-                setTimeout(() => setShowImprovement(false), 2000);
-            }
+				setTimeout(() => setShowImprovement(false), 2000);
+			}
 
-            setPreviousPosition(positionData.position);
-            setPositionData(data);
-        } catch (error) {
-            console.error('Failed to fetch position:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, [userId, fetchPosition, previousPosition, positionData.position]);
+			setPreviousPosition(positionData.position);
+			setPositionData(data);
+		} catch (error) {
+			console.error("Failed to fetch position:", error);
+		} finally {
+			setLoading(false);
+		}
+	}, [userId, fetchPosition, previousPosition, positionData.position]);
 
-    // Set up polling
-    useEffect(() => {
-        if (!fetchPosition) return;
+	// Set up polling
+	useEffect(() => {
+		if (!fetchPosition) return;
 
-        // Initial load
-        loadPosition();
+		// Initial load
+		loadPosition();
 
-        // Set up polling interval
-        const interval = setInterval(loadPosition, pollingInterval);
+		// Set up polling interval
+		const interval = setInterval(loadPosition, pollingInterval);
 
-        return () => clearInterval(interval);
-    }, [loadPosition, pollingInterval, fetchPosition]);
+		return () => clearInterval(interval);
+	}, [loadPosition, pollingInterval, fetchPosition]);
 
-    const classNames = [
-        styles.root,
-        showImprovement && styles.improving,
-        customClassName
-    ].filter(Boolean).join(' ');
+	const classNames = [
+		styles.root,
+		showImprovement && styles.improving,
+		customClassName,
+	]
+		.filter(Boolean)
+		.join(" ");
 
-    const percentile = positionData.percentile || calculatePercentile(
-        positionData.position,
-        positionData.totalUsers
-    );
+	const percentile =
+		positionData.percentile ||
+		calculatePercentile(positionData.position, positionData.totalUsers);
 
-    return (
-        <div className={classNames} {...props}>
-            {/* Confetti Animation */}
-            {showConfetti && (
-                <div className={styles.confettiContainer}>
-                    {Array.from({ length: 50 }).map((_, i) => (
-                        <div
-                            key={i}
-                            className={styles.confetti}
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 0.5}s`,
-                                backgroundColor: `hsl(${Math.random() * 360}, 70%, 60%)`,
-                            }}
-                        />
-                    ))}
-                </div>
-            )}
+	return (
+		<div className={classNames} {...props}>
+			{/* Confetti Animation */}
+			{showConfetti && (
+				<div className={styles.confettiContainer}>
+					{Array.from({ length: 50 }).map((_, i) => (
+						<div
+							key={i}
+							className={styles.confetti}
+							style={{
+								left: `${Math.random() * 100}%`,
+								animationDelay: `${Math.random() * 0.5}s`,
+								backgroundColor: `hsl(${Math.random() * 360}, 70%, 60%)`,
+							}}
+						/>
+					))}
+				</div>
+			)}
 
-            <div className={styles.container}>
-                {/* Position Display */}
-                <div className={styles.positionSection}>
-                    <div className={styles.positionLabel}>Your Position</div>
-                    <div className={styles.positionDisplay}>
-                        <span className={styles.positionHash}>#</span>
-                        <span className={styles.positionNumber}>{positionData.position.toLocaleString()}</span>
-                        {showImprovement && (
-                            <span className={styles.improvementBadge}>
-                                <i className="ri-arrow-up-line" aria-hidden="true" />
-                                Improved!
-                            </span>
-                        )}
-                    </div>
-                    <div className={styles.totalUsers}>
-                        of {positionData.totalUsers.toLocaleString()} people
-                    </div>
-                </div>
+			<div className={styles.container}>
+				{/* Position Display */}
+				<div className={styles.positionSection}>
+					<div className={styles.positionLabel}>Your Position</div>
+					<div className={styles.positionDisplay}>
+						<span className={styles.positionHash}>#</span>
+						<span className={styles.positionNumber}>
+							{positionData.position.toLocaleString()}
+						</span>
+						{showImprovement && (
+							<span className={styles.improvementBadge}>
+								<i className="ri-arrow-up-line" aria-hidden="true" />
+								Improved!
+							</span>
+						)}
+					</div>
+					<div className={styles.totalUsers}>
+						of {positionData.totalUsers.toLocaleString()} people
+					</div>
+				</div>
 
-                {/* Percentile Badge */}
-                <div className={styles.percentileSection}>
-                    <div className={styles.percentileBadge}>
-                        <i className="ri-trophy-line" aria-hidden="true" />
-                        <span className={styles.percentileText}>
-                            Top {percentile}%
-                        </span>
-                    </div>
-                </div>
+				{/* Percentile Badge */}
+				<div className={styles.percentileSection}>
+					<div className={styles.percentileBadge}>
+						<i className="ri-trophy-line" aria-hidden="true" />
+						<span className={styles.percentileText}>Top {percentile}%</span>
+					</div>
+				</div>
 
-                {/* Loading Indicator */}
-                {loading && (
-                    <div className={styles.loadingIndicator}>
-                        <i className="ri-refresh-line" aria-hidden="true" />
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+				{/* Loading Indicator */}
+				{loading && (
+					<div className={styles.loadingIndicator}>
+						<i className="ri-refresh-line" aria-hidden="true" />
+					</div>
+				)}
+			</div>
+		</div>
+	);
 });
 
-PositionTracker.displayName = 'PositionTracker';
+PositionTracker.displayName = "PositionTracker";

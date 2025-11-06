@@ -1,2 +1,2 @@
-export { RewardTiers } from './component';
-export type { RewardTiersProps } from './component';
+export type { RewardTiersProps } from "./component";
+export { RewardTiers } from "./component";
