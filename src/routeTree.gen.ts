@@ -24,6 +24,9 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
+import { Route as TestUserListRouteImport } from './routes/test/user-list'
+import { Route as TestReferralLinkRouteImport } from './routes/test/referral-link'
+import { Route as TestCampaignCardRouteImport } from './routes/test/campaign-card'
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
 import { Route as BillingPlansRouteImport } from './routes/billing/plans'
 import { Route as BillingPayment_methodRouteImport } from './routes/billing/payment_method'
@@ -105,6 +108,21 @@ const BillingIndexRoute = BillingIndexRouteImport.update({
   path: '/billing/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TestUserListRoute = TestUserListRouteImport.update({
+  id: '/test/user-list',
+  path: '/test/user-list',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestReferralLinkRoute = TestReferralLinkRouteImport.update({
+  id: '/test/referral-link',
+  path: '/test/referral-link',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestCampaignCardRoute = TestCampaignCardRouteImport.update({
+  id: '/test/campaign-card',
+  path: '/test/campaign-card',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OauthSignedinRoute = OauthSignedinRouteImport.update({
   id: '/oauth/signedin',
   path: '/oauth/signedin',
@@ -151,6 +169,9 @@ export interface FileRoutesByFullPath {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/test/campaign-card': typeof TestCampaignCardRoute
+  '/test/referral-link': typeof TestReferralLinkRoute
+  '/test/user-list': typeof TestUserListRoute
   '/billing': typeof BillingIndexRoute
 }
 export interface FileRoutesByTo {
@@ -173,6 +194,9 @@ export interface FileRoutesByTo {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/test/campaign-card': typeof TestCampaignCardRoute
+  '/test/referral-link': typeof TestReferralLinkRoute
+  '/test/user-list': typeof TestUserListRoute
   '/billing': typeof BillingIndexRoute
 }
 export interface FileRoutesById {
@@ -196,6 +220,9 @@ export interface FileRoutesById {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/test/campaign-card': typeof TestCampaignCardRoute
+  '/test/referral-link': typeof TestReferralLinkRoute
+  '/test/user-list': typeof TestUserListRoute
   '/billing/': typeof BillingIndexRoute
 }
 export interface FileRouteTypes {
@@ -220,6 +247,9 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/oauth/signedin'
+    | '/test/campaign-card'
+    | '/test/referral-link'
+    | '/test/user-list'
     | '/billing'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -242,6 +272,9 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/oauth/signedin'
+    | '/test/campaign-card'
+    | '/test/referral-link'
+    | '/test/user-list'
     | '/billing'
   id:
     | '__root__'
@@ -264,6 +297,9 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/oauth/signedin'
+    | '/test/campaign-card'
+    | '/test/referral-link'
+    | '/test/user-list'
     | '/billing/'
   fileRoutesById: FileRoutesById
 }
@@ -287,6 +323,9 @@ export interface RootRouteChildren {
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
   BillingPlansRoute: typeof BillingPlansRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
+  TestCampaignCardRoute: typeof TestCampaignCardRoute
+  TestReferralLinkRoute: typeof TestReferralLinkRoute
+  TestUserListRoute: typeof TestUserListRoute
   BillingIndexRoute: typeof BillingIndexRoute
 }
 
@@ -397,6 +436,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/test/user-list': {
+      id: '/test/user-list'
+      path: '/test/user-list'
+      fullPath: '/test/user-list'
+      preLoaderRoute: typeof TestUserListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test/referral-link': {
+      id: '/test/referral-link'
+      path: '/test/referral-link'
+      fullPath: '/test/referral-link'
+      preLoaderRoute: typeof TestReferralLinkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test/campaign-card': {
+      id: '/test/campaign-card'
+      path: '/test/campaign-card'
+      fullPath: '/test/campaign-card'
+      preLoaderRoute: typeof TestCampaignCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/oauth/signedin': {
       id: '/oauth/signedin'
       path: '/oauth/signedin'
@@ -455,6 +515,9 @@ const rootRouteChildren: RootRouteChildren = {
   BillingPayment_methodRoute: BillingPayment_methodRoute,
   BillingPlansRoute: BillingPlansRoute,
   OauthSignedinRoute: OauthSignedinRoute,
+  TestCampaignCardRoute: TestCampaignCardRoute,
+  TestReferralLinkRoute: TestReferralLinkRoute,
+  TestUserListRoute: TestUserListRoute,
   BillingIndexRoute: BillingIndexRoute,
 }
 export const routeTree = rootRouteImport

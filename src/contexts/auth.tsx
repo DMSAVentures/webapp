@@ -15,11 +15,11 @@ export const AuthContext = createContext(defaultAuthContext);
 
 export const useAuth = () => useContext(AuthContext);
 
-// Determines if the current path is a public route (e.g., /signin, /oauth/*)
+// Determines if the current path is a public route (e.g., /signin, /oauth/*, /test/*)
 function isPublicRoute(): boolean {
 	if (typeof window === "undefined") return false;
 	const path = window.location.pathname;
-	return path === "/signin" || path.startsWith("/oauth");
+	return path === "/signin" || path.startsWith("/oauth") || path.startsWith("/test");
 }
 
 /**
