@@ -1,14 +1,14 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/typography" as typography;
 
-@mixin badge-style($color, $text-color) {
-  background-color: $color;
-  color: $text-color;
+// Updated to use semantic tokens with content-paired colors
+@mixin badge-style($bg-color, $text-color) {
+  background-color: var($bg-color);
+  color: var($text-color);
 
   .badge__icon {
-    color: $text-color;
+    color: var($text-color);
   }
 }
 
@@ -47,183 +47,177 @@
   }
 }
 
+// Filled variants use semantic color tokens with content pairs
 .badge--gray.badge--filled {
-  @include badge-style(colors.$color-neutral-500, colors.$color-white);
+  @include badge-style(--color-gray, --color-gray-content);
 }
 
 .badge--blue.badge--filled {
-  @include badge-style(colors.$color-blue-500, colors.$color-white);
+  @include badge-style(--color-blue, --color-blue-content);
 }
 
 .badge--green.badge--filled {
-  @include badge-style(colors.$color-green-500, colors.$color-white);
+  @include badge-style(--color-green, --color-green-content);
 }
 
 .badge--red.badge--filled {
-  @include badge-style(colors.$color-red-500, colors.$color-white);
+  @include badge-style(--color-red, --color-red-content);
 }
 
 .badge--yellow.badge--filled {
-  @include badge-style(colors.$color-yellow-500, colors.$color-white);
+  @include badge-style(--color-yellow, --color-yellow-content);
 }
 
 .badge--purple.badge--filled {
-  @include badge-style(colors.$color-purple-500, colors.$color-white);
+  @include badge-style(--color-purple, --color-purple-content);
 }
 
 .badge--orange.badge--filled {
-  @include badge-style(colors.$color-orange-500, colors.$color-white);
+  @include badge-style(--color-orange, --color-orange-content);
 }
 
 .badge--pink.badge--filled {
-  @include badge-style(colors.$color-pink-500, colors.$color-white);
+  @include badge-style(--color-pink, --color-pink-content);
 }
 
 .badge--sky.badge--filled {
-  @include badge-style(colors.$color-sky-500, colors.$color-white);
+  @include badge-style(--color-sky, --color-sky-content);
 }
 
 .badge--teal.badge--filled {
-  @include badge-style(colors.$color-teal-500, colors.$color-white);
+  @include badge-style(--color-teal, --color-teal-content);
 }
 
+// Light variants use semantic light color tokens with content pairs
 .badge--gray.badge--light {
-  @include badge-style(colors.$color-neutral-200, colors.$color-neutral-900);
+  @include badge-style(--color-gray-light, --color-gray-light-content);
 }
 
 .badge--blue.badge--light {
-  @include badge-style(colors.$color-blue-200, colors.$color-blue-900);
+  @include badge-style(--color-blue-light, --color-blue-light-content);
 }
 
 .badge--green.badge--light {
-  @include badge-style(colors.$color-green-200, colors.$color-green-900);
+  @include badge-style(--color-green-light, --color-green-light-content);
 }
 
 .badge--red.badge--light {
-  @include badge-style(colors.$color-red-200, colors.$color-red-900);
+  @include badge-style(--color-red-light, --color-red-light-content);
 }
 
 .badge--yellow.badge--light {
-  @include badge-style(colors.$color-yellow-200, colors.$color-yellow-900);
+  @include badge-style(--color-yellow-light, --color-yellow-light-content);
 }
 
 .badge--purple.badge--light {
-  @include badge-style(colors.$color-purple-200, colors.$color-purple-900);
+  @include badge-style(--color-purple-light, --color-purple-light-content);
 }
 
 .badge--orange.badge--light {
-  @include badge-style(colors.$color-orange-200, colors.$color-orange-900);
+  @include badge-style(--color-orange-light, --color-orange-light-content);
 }
 
 .badge--pink.badge--light {
-  @include badge-style(colors.$color-pink-200, colors.$color-pink-900);
+  @include badge-style(--color-pink-light, --color-pink-light-content);
 }
 
 .badge--sky.badge--light {
-  @include badge-style(colors.$color-sky-200, colors.$color-sky-900);
+  @include badge-style(--color-sky-light, --color-sky-light-content);
 }
 
 .badge--teal.badge--light {
-  @include badge-style(colors.$color-teal-200, colors.$color-teal-900);
+  @include badge-style(--color-teal-light, --color-teal-light-content);
 }
 
 
+// Lighter variants use semantic lighter color tokens with content pairs
 .badge--gray.badge--lighter {
-  @include badge-style(colors.$color-neutral-50, colors.$color-neutral-500);
+  @include badge-style(--color-gray-lighter, --color-gray-lighter-content);
 }
 
 .badge--blue.badge--lighter {
-  @include badge-style(colors.$color-blue-50, colors.$color-blue-500);
+  @include badge-style(--color-blue-lighter, --color-blue-lighter-content);
 }
 
 .badge--green.badge--lighter {
-  @include badge-style(colors.$color-green-50, colors.$color-green-500);
+  @include badge-style(--color-green-lighter, --color-green-lighter-content);
 }
 
 .badge--red.badge--lighter {
-  @include badge-style(colors.$color-red-50, colors.$color-red-500);
+  @include badge-style(--color-red-lighter, --color-red-lighter-content);
 }
 
 .badge--yellow.badge--lighter {
-  @include badge-style(colors.$color-yellow-50, colors.$color-yellow-500);
+  @include badge-style(--color-yellow-lighter, --color-yellow-lighter-content);
 }
 
 .badge--purple.badge--lighter {
-  @include badge-style(colors.$color-purple-50, colors.$color-purple-500);
+  @include badge-style(--color-purple-lighter, --color-purple-lighter-content);
 }
 
 .badge--orange.badge--lighter {
-  @include badge-style(colors.$color-orange-50, colors.$color-orange-500);
+  @include badge-style(--color-orange-lighter, --color-orange-lighter-content);
 }
 
 .badge--pink.badge--lighter {
-  @include badge-style(colors.$color-pink-50, colors.$color-pink-500);
+  @include badge-style(--color-pink-lighter, --color-pink-lighter-content);
 }
 
 .badge--sky.badge--lighter {
-  @include badge-style(colors.$color-sky-50, colors.$color-sky-500);
+  @include badge-style(--color-sky-lighter, --color-sky-lighter-content);
 }
 
 .badge--teal.badge--lighter {
-  @include badge-style(colors.$color-teal-50, colors.$color-teal-500);
+  @include badge-style(--color-teal-lighter, --color-teal-lighter-content);
 }
 
+// Stroke variants use white background with colored borders and text
 .badge--gray.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-neutral-500);
-
-  border: 1px solid colors.$color-neutral-500;
+  @include badge-style(--color-stroke-bg, --color-gray-lighter-content);
+  border: 1px solid var(--color-gray-lighter-content);
 }
 
 .badge--blue.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-blue-500);
-
-  border: 1px solid colors.$color-blue-500;
+  @include badge-style(--color-stroke-bg, --color-blue-lighter-content);
+  border: 1px solid var(--color-blue-lighter-content);
 }
 
 .badge--green.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-green-500);
-
-  border: 1px solid colors.$color-green-500;
+  @include badge-style(--color-stroke-bg, --color-green-lighter-content);
+  border: 1px solid var(--color-green-lighter-content);
 }
 
 .badge--red.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-red-500);
-
-  border: 1px solid colors.$color-red-500;
+  @include badge-style(--color-stroke-bg, --color-red-lighter-content);
+  border: 1px solid var(--color-red-lighter-content);
 }
 
 .badge--yellow.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-yellow-500);
-
-  border: 1px solid colors.$color-yellow-500;
+  @include badge-style(--color-stroke-bg, --color-yellow-lighter-content);
+  border: 1px solid var(--color-yellow-lighter-content);
 }
 
 .badge--purple.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-purple-500);
-
-  border: 1px solid colors.$color-purple-500;
+  @include badge-style(--color-stroke-bg, --color-purple-lighter-content);
+  border: 1px solid var(--color-purple-lighter-content);
 }
 
 .badge--orange.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-orange-500);
-
-  border: 1px solid colors.$color-orange-500;
+  @include badge-style(--color-stroke-bg, --color-orange-lighter-content);
+  border: 1px solid var(--color-orange-lighter-content);
 }
 
 .badge--pink.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-pink-500);
-
-  border: 1px solid colors.$color-pink-500;
+  @include badge-style(--color-stroke-bg, --color-pink-lighter-content);
+  border: 1px solid var(--color-pink-lighter-content);
 }
 
 .badge--sky.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-sky-500);
-
-  border: 1px solid colors.$color-sky-500;
+  @include badge-style(--color-stroke-bg, --color-sky-lighter-content);
+  border: 1px solid var(--color-sky-lighter-content);
 }
 
 .badge--teal.badge--stroke {
-  @include badge-style(colors.$color-white, colors.$color-teal-500);
-
-  border: 1px solid colors.$color-teal-500;
+  @include badge-style(--color-stroke-bg, --color-teal-lighter-content);
+  border: 1px solid var(--color-teal-lighter-content);
 }

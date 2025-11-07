@@ -1,13 +1,13 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
 
-@mixin status-badge-style($color, $text-color, $icon-color) {
-  background-color: $color;
-  color: $text-color;
+// Updated to use semantic tokens with content-paired colors
+@mixin status-badge-style($bg-color, $text-color, $icon-color: $text-color) {
+  background-color: var($bg-color);
+  color: var($text-color);
 
   .status-badge__icon {
-    color: $icon-color;
+    color: var($icon-color);
   }
 }
 
@@ -24,42 +24,40 @@
   }
 }
 
+// Light variants use semantic lighter color tokens
 .status-badge--disabled.status-badge--light {
-  @include status-badge-style(colors.$color-neutral-50, colors.$color-neutral-500, colors.$color-neutral-500);
+  @include status-badge-style(--color-gray-lighter, --color-gray-lighter-content);
 }
 
 .status-badge--completed.status-badge--light {
-  @include status-badge-style(colors.$color-green-50, colors.$color-green-500, colors.$color-green-500);
+  @include status-badge-style(--color-success-lighter, --color-success-lighter-content);
 }
 
 .status-badge--failed.status-badge--light {
-  @include status-badge-style(colors.$color-red-50, colors.$color-red-500, colors.$color-red-500);
+  @include status-badge-style(--color-error-lighter, --color-error-lighter-content);
 }
 
 .status-badge--pending.status-badge--light {
-  @include status-badge-style(colors.$color-orange-50, colors.$color-orange-500, colors.$color-orange-500);
+  @include status-badge-style(--color-warning-lighter, --color-warning-lighter-content);
 }
 
+// Stroke variants use white background with colored icons and borders
 .status-badge--disabled.status-badge--stroke {
-  @include status-badge-style(colors.$color-white, colors.$color-neutral-600, colors.$color-neutral-500);
-
-  border: 1px solid colors.$color-neutral-200;
+  @include status-badge-style(--color-stroke-bg, --color-stroke-text, --color-gray-lighter-content);
+  border: 1px solid var(--color-stroke-border);
 }
 
 .status-badge--completed.status-badge--stroke {
-  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-green-500);
-
-  border: 1px solid colors.$color-neutral-200;
+  @include status-badge-style(--color-stroke-bg, --color-stroke-text, --color-success-lighter-content);
+  border: 1px solid var(--color-stroke-border);
 }
 
 .status-badge--failed.status-badge--stroke {
-  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-red-500);
-
-  border: 1px solid colors.$color-neutral-200;
+  @include status-badge-style(--color-stroke-bg, --color-stroke-text, --color-error-lighter-content);
+  border: 1px solid var(--color-stroke-border);
 }
 
 .status-badge--pending.status-badge--stroke {
-  @include status-badge-style(colors.$color-white,colors.$color-neutral-600, colors.$color-orange-500);
-
-  border: 1px solid colors.$color-neutral-200;
+  @include status-badge-style(--color-stroke-bg, --color-stroke-text, --color-warning-lighter-content);
+  border: 1px solid var(--color-stroke-border);
 }

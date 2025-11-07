@@ -1,5 +1,4 @@
 @use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/border" as border;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/typography" as typography;
@@ -96,24 +95,24 @@
 }
 
 // Variant styles with improved color contrast
-// Primary variant
+// Primary variant - uses semantic link tokens
 .linkbutton--primary {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: colors.$color-blue-700;
+    color: var(--color-link-primary);
 
     .linkbutton__text {
-      color: colors.$color-blue-700;
+      color: var(--color-link-primary);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: colors.$color-blue-900;
+        color: var(--color-link-primary-hover);
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba(colors.$color-blue-700, 0.05);
+      background-color: color-mix(in srgb, var(--color-link-primary) 5%, transparent);
 
       .linkbutton__text {
         text-decoration: none;
@@ -121,38 +120,38 @@
     }
 
     &:active {
-      background-color: rgba(colors.$color-blue-700, 0.1);
+      background-color: color-mix(in srgb, var(--color-link-primary) 10%, transparent);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: colors.$color-neutral-400;
+      color: var(--color-link-disabled);
 
       .linkbutton__text {
-        color: colors.$color-neutral-400;
+        color: var(--color-link-disabled);
         text-decoration: underline;
       }
     }
   }
 }
 
-// Gray variant
+// Gray variant - uses semantic link tokens
 .linkbutton--gray {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: colors.$color-neutral-700;
+    color: var(--color-link-neutral);
 
     .linkbutton__text {
-      color: colors.$color-neutral-700;
+      color: var(--color-link-neutral);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: colors.$color-neutral-900;
+        color: var(--color-link-neutral-hover);
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba(colors.$color-neutral-700, 0.05);
+      background-color: color-mix(in srgb, var(--color-link-neutral) 5%, transparent);
 
       .linkbutton__text {
         text-decoration: none;
@@ -160,38 +159,38 @@
     }
 
     &:active {
-      background-color: rgba(colors.$color-neutral-700, 0.1);
+      background-color: color-mix(in srgb, var(--color-link-neutral) 10%, transparent);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: colors.$color-neutral-400;
+      color: var(--color-link-disabled);
 
       .linkbutton__text {
-        color: colors.$color-neutral-400;
+        color: var(--color-link-disabled);
         text-decoration: underline;
       }
     }
   }
 }
 
-// Neutral variant
+// Neutral variant - uses semantic link tokens
 .linkbutton--neutral {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: colors.$color-neutral-800;
+    color: var(--color-link-neutral-alt);
 
     .linkbutton__text {
-      color: colors.$color-neutral-800;
+      color: var(--color-link-neutral-alt);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: colors.$color-neutral-900;
+        color: var(--color-link-neutral-alt-hover);
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba(colors.$color-neutral-800, 0.05);
+      background-color: color-mix(in srgb, var(--color-link-neutral-alt) 5%, transparent);
 
       .linkbutton__text {
         text-decoration: none;
@@ -199,38 +198,38 @@
     }
 
     &:active {
-      background-color: rgba(colors.$color-neutral-800, 0.1);
+      background-color: color-mix(in srgb, var(--color-link-neutral-alt) 10%, transparent);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: colors.$color-neutral-400;
+      color: var(--color-link-disabled);
 
       .linkbutton__text {
-        color: colors.$color-neutral-400;
+        color: var(--color-link-disabled);
         text-decoration: underline;
       }
     }
   }
 }
 
-// Error variant
+// Error variant - uses semantic link tokens
 .linkbutton--error {
   &.linkbutton--lighter {
     background-color: transparent;
-    color: colors.$color-red-700;
+    color: var(--color-link-error);
 
     .linkbutton__text {
-      color: colors.$color-red-700;
+      color: var(--color-link-error);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: colors.$color-red-900;
+        color: var(--color-link-error-hover);
         outline: none;
       }
     }
 
     &:hover {
-      background-color: rgba(colors.$color-red-700, 0.05);
+      background-color: color-mix(in srgb, var(--color-link-error) 5%, transparent);
 
       .linkbutton__text {
         text-decoration: none;
@@ -238,14 +237,14 @@
     }
 
     &:active {
-      background-color: rgba(colors.$color-red-700, 0.1);
+      background-color: color-mix(in srgb, var(--color-link-error) 10%, transparent);
     }
 
     &:disabled, &[aria-disabled="true"] {
-      color: colors.$color-neutral-400;
+      color: var(--color-link-disabled);
 
       .linkbutton__text {
-        color: colors.$color-neutral-400;
+        color: var(--color-link-disabled);
         text-decoration: underline;
       }
     }

@@ -1,24 +1,30 @@
 @use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/border" as border;
 
-
-
-@mixin banner-style($color, $text-color, $link-color, $icon-color) {
-  background-color: $color;
-  color: $text-color;
+// Updated to use semantic tokens with content-paired colors
+@mixin banner-style($bg-color, $text-color, $link-color: $text-color, $icon-color: $text-color) {
+  background-color: var($bg-color);
+  color: var($text-color);
 
   .banner__link {
-    color: $link-color;
+    color: var($link-color);
   }
 
   .banner__icon {
-    color: $icon-color;
+    color: var($icon-color);
   }
 
   .banner__dismiss {
-    opacity: if($text-color == #fff, 0.72, 0.40);
+    // Use CSS custom properties for opacity calculation
+    opacity: 0.72;
+  }
+}
+
+// Lighter variant dismiss button (for dark text on light backgrounds)
+@mixin banner-light-dismiss {
+  .banner__dismiss {
+    opacity: 0.40;
   }
 }
 
@@ -66,98 +72,111 @@
 
 
 
+// Filled variants use semantic color tokens with content pairs
 .banner--error.banner--filled {
-  @include banner-style(colors.$color-red-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(--color-error, --color-error-content);
 }
 
 .banner--success.banner--filled {
-  @include banner-style(colors.$color-green-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(--color-success, --color-success-content);
 }
 
 .banner--warning.banner--filled {
-  @include banner-style(colors.$color-orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(--color-warning, --color-warning-content);
 }
 
 .banner--info.banner--filled {
-  @include banner-style(colors.$color-blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(--color-info, --color-info-content);
 }
 
 .banner--feature.banner--filled {
-  @include banner-style(colors.$color-neutral-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include banner-style(--color-gray, --color-gray-content);
 }
 
+// Light variants use semantic light color tokens
 .banner--error.banner--light {
-  @include banner-style(colors.$color-red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+  @include banner-style(--color-error-light, --color-error-light-content, --color-error-light-content, --color-error-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--success.banner--light {
-  @include banner-style(colors.$color-green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+  @include banner-style(--color-success-light, --color-success-light-content, --color-success-light-content, --color-success-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--warning.banner--light {
-  @include banner-style(colors.$color-orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+  @include banner-style(--color-warning-light, --color-warning-light-content, --color-warning-light-content, --color-warning-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--info.banner--light {
-  @include banner-style(colors.$color-blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+  @include banner-style(--color-info-light, --color-info-light-content, --color-info-light-content, --color-info-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--feature.banner--light {
-  @include banner-style(colors.$color-neutral-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
+  @include banner-style(--color-gray-light, --color-gray-light-content, --color-gray-light-content, --color-gray-lighter-content);
+  @include banner-light-dismiss;
 }
 
+// Lighter variants use semantic lighter color tokens
 .banner--error.banner--lighter{
-  @include banner-style(colors.$color-red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+  @include banner-style(--color-error-lighter, --color-error-light-content, --color-error-light-content, --color-error-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--success.banner--lighter{
-  @include banner-style(colors.$color-green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+  @include banner-style(--color-success-lighter, --color-success-light-content, --color-success-light-content, --color-success-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--warning.banner--lighter{
-  @include banner-style(colors.$color-orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+  @include banner-style(--color-warning-lighter, --color-warning-light-content, --color-warning-light-content, --color-warning-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--info.banner--lighter{
-  @include banner-style(colors.$color-blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+  @include banner-style(--color-info-lighter, --color-info-light-content, --color-info-light-content, --color-info-lighter-content);
+  @include banner-light-dismiss;
 }
 
 .banner--feature.banner--lighter{
-  @include banner-style(colors.$color-neutral-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
+  @include banner-style(--color-gray-lighter, --color-gray-light-content, --color-gray-light-content, --color-gray-lighter-content);
+  @include banner-light-dismiss;
 }
 
+// Stroke variants use white background with colored icons and bottom border
 .banner--error.banner--stroke {
-    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
-
-  border: colors.$color-neutral-200 solid;
+  @include banner-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-error-lighter-content);
+  @include banner-light-dismiss;
+  border: var(--color-stroke-border) solid;
   border-width: 0 0 border.$border-width-small;
-
 }
 
 .banner--success.banner--stroke {
-    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
-
-  border: colors.$color-neutral-200 solid;
+  @include banner-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-success-lighter-content);
+  @include banner-light-dismiss;
+  border: var(--color-stroke-border) solid;
   border-width: 0 0 border.$border-width-small;
 }
 
 .banner--warning.banner--stroke {
-    @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
-
-  border: colors.$color-neutral-200 solid;
+  @include banner-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-warning-lighter-content);
+  @include banner-light-dismiss;
+  border: var(--color-stroke-border) solid;
   border-width: 0 0 border.$border-width-small;
 }
 
 .banner--info.banner--stroke {
-  @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
-
-  border: colors.$color-neutral-200 solid;
+  @include banner-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-info-lighter-content);
+  @include banner-light-dismiss;
+  border: var(--color-stroke-border) solid;
   border-width: 0 0 border.$border-width-small;
 }
 
 .banner--feature.banner--stroke {
-  @include banner-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-900);
-
-  border: colors.$color-neutral-200 solid;
+  @include banner-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-base-content);
+  @include banner-light-dismiss;
+  border: var(--color-stroke-border) solid;
   border-width: 0 0 border.$border-width-small;
 }

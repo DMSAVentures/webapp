@@ -1,25 +1,36 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
 
-@mixin feedback-style($color, $text-color, $link-color, $icon-color) {
-  background-color: $color;
-  color: $text-color;
+// Updated to use semantic tokens with content-paired colors
+@mixin feedback-style($bg-color, $text-color, $link-color: $text-color, $icon-color: $text-color) {
+  background-color: var($bg-color);
+  color: var($text-color);
 
   .feedback__link {
-    color: $link-color;
+    color: var($link-color);
   }
 
   .feedback__icon {
-    color: $icon-color;
+    color: var($icon-color);
   }
 
   .feedback-detailed__buttons__separator {
-    opacity: if($text-color == #fff, 0.72, 0.40);
+    opacity: 0.72;
   }
 
   .feedback__dismiss {
-    opacity: if($text-color == #fff, 0.72, 0.40);
+    opacity: 0.72;
+  }
+}
+
+// Lighter variant styling (for dark text on light backgrounds)
+@mixin feedback-light-styling {
+  .feedback-detailed__buttons__separator {
+    opacity: 0.40;
+  }
+
+  .feedback__dismiss {
+    opacity: 0.40;
   }
 }
 
@@ -105,93 +116,106 @@
 }
 
 
+// Filled variants use semantic color tokens with content pairs
 .feedback--error.feedback--filled {
-  @include feedback-style(colors.$color-red-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(--color-error, --color-error-content);
 }
 
 .feedback--success.feedback--filled {
-  @include feedback-style(colors.$color-green-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(--color-success, --color-success-content);
 }
 
 .feedback--warning.feedback--filled {
-  @include feedback-style(colors.$color-orange-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(--color-warning, --color-warning-content);
 }
 
 .feedback--info.feedback--filled {
-  @include feedback-style(colors.$color-blue-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(--color-info, --color-info-content);
 }
 
 .feedback--feature.feedback--filled {
-  @include feedback-style(colors.$color-neutral-500, colors.$color-white, colors.$color-white, colors.$color-white);
+  @include feedback-style(--color-gray, --color-gray-content);
 }
 
+// Light variants use semantic light color tokens
 .feedback--error.feedback--light {
-  @include feedback-style(colors.$color-red-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+  @include feedback-style(--color-error-light, --color-error-light-content, --color-error-light-content, --color-error-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--success.feedback--light {
-  @include feedback-style(colors.$color-green-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+  @include feedback-style(--color-success-light, --color-success-light-content, --color-success-light-content, --color-success-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--warning.feedback--light {
-  @include feedback-style(colors.$color-orange-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+  @include feedback-style(--color-warning-light, --color-warning-light-content, --color-warning-light-content, --color-warning-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--info.feedback--light {
-  @include feedback-style(colors.$color-blue-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+  @include feedback-style(--color-info-light, --color-info-light-content, --color-info-light-content, --color-info-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--feature.feedback--light {
-  @include feedback-style(colors.$color-neutral-200, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
+  @include feedback-style(--color-gray-light, --color-gray-light-content, --color-gray-light-content, --color-gray-lighter-content);
+  @include feedback-light-styling;
 }
 
+// Lighter variants use semantic lighter color tokens
 .feedback--error.feedback--lighter{
-  @include feedback-style(colors.$color-red-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
+  @include feedback-style(--color-error-lighter, --color-error-light-content, --color-error-light-content, --color-error-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--success.feedback--lighter{
-  @include feedback-style(colors.$color-green-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
+  @include feedback-style(--color-success-lighter, --color-success-light-content, --color-success-light-content, --color-success-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--warning.feedback--lighter{
-  @include feedback-style(colors.$color-orange-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
+  @include feedback-style(--color-warning-lighter, --color-warning-light-content, --color-warning-light-content, --color-warning-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--info.feedback--lighter{
-  @include feedback-style(colors.$color-blue-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
+  @include feedback-style(--color-info-lighter, --color-info-light-content, --color-info-light-content, --color-info-lighter-content);
+  @include feedback-light-styling;
 }
 
 .feedback--feature.feedback--lighter{
-  @include feedback-style(colors.$color-neutral-50, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-500);
+  @include feedback-style(--color-gray-lighter, --color-gray-light-content, --color-gray-light-content, --color-gray-lighter-content);
+  @include feedback-light-styling;
 }
 
+// Stroke variants use white background with colored icons
 .feedback--error.feedback--stroke {
-    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-red-500);
-
-    border: 1px colors.$color-neutral-200 solid;
-
+  @include feedback-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-error-lighter-content);
+  @include feedback-light-styling;
+  border: 1px var(--color-stroke-border) solid;
 }
 
 .feedback--success.feedback--stroke {
-    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-green-500);
-
-    border: 1px colors.$color-neutral-200 solid;
+  @include feedback-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-success-lighter-content);
+  @include feedback-light-styling;
+  border: 1px var(--color-stroke-border) solid;
 }
 
 .feedback--warning.feedback--stroke {
-    @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-orange-500);
-
-    border: 1px colors.$color-neutral-200 solid;
+  @include feedback-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-warning-lighter-content);
+  @include feedback-light-styling;
+  border: 1px var(--color-stroke-border) solid;
 }
 
 .feedback--info.feedback--stroke {
-  @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-blue-500);
-
-  border: 1px colors.$color-neutral-200 solid;
+  @include feedback-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-info-lighter-content);
+  @include feedback-light-styling;
+  border: 1px var(--color-stroke-border) solid;
 }
 
 .feedback--feature.feedback--stroke {
-  @include feedback-style(colors.$color-white, colors.$color-neutral-900, colors.$color-neutral-900, colors.$color-neutral-900);
-
-  border: 1px colors.$color-neutral-200 solid;
+  @include feedback-style(--color-stroke-bg, --color-base-content, --color-base-content, --color-base-content);
+  @include feedback-light-styling;
+  border: 1px var(--color-stroke-border) solid;
 }

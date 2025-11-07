@@ -7,53 +7,194 @@
 
 :root {
   // =========================
-  // BACKGROUNDS (for buttons and dark UI elements)
-  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
+  // SEMANTIC COLOR PAIRS (DaisyUI-inspired)
+  // Each color has a -content variant for guaranteed contrast
   // =========================
-  --color-bg-primary-default: #{$color-neutral-900};    // Darkest
+
+  // Base/Neutral (for general UI elements)
+  --color-base-100: #{$color-white};           // Lightest surface
+  --color-base-200: #{$color-neutral-50};      // Light surface
+  --color-base-300: #{$color-neutral-200};     // Medium surface
+  --color-base-content: #{$color-neutral-900}; // Text on base surfaces
+
+  // Primary brand color (currently using neutral for subtle design)
+  --color-primary: #{$color-neutral-900};
+  --color-primary-content: #{$color-white};
+
+  // Secondary brand color
+  --color-secondary: #{$color-neutral-300};
+  --color-secondary-content: #{$color-neutral-900};
+
+  // Semantic State Colors - Success
+  --color-success: #{$color-green-500};
+  --color-success-content: #{$color-white};
+  --color-success-light: #{$color-green-200};
+  --color-success-light-content: #{$color-green-900};
+  --color-success-lighter: #{$color-green-50};
+  --color-success-lighter-content: #{$color-green-500};
+
+  // Semantic State Colors - Error/Danger
+  --color-error: #{$color-red-500};
+  --color-error-content: #{$color-white};
+  --color-error-light: #{$color-red-200};
+  --color-error-light-content: #{$color-red-900};
+  --color-error-lighter: #{$color-red-50};
+  --color-error-lighter-content: #{$color-red-500};
+
+  // Semantic State Colors - Warning
+  --color-warning: #{$color-orange-500};
+  --color-warning-content: #{$color-white};
+  --color-warning-light: #{$color-orange-200};
+  --color-warning-light-content: #{$color-orange-900};
+  --color-warning-lighter: #{$color-orange-50};
+  --color-warning-lighter-content: #{$color-orange-500};
+
+  // Semantic State Colors - Info
+  --color-info: #{$color-blue-500};
+  --color-info-content: #{$color-white};
+  --color-info-light: #{$color-blue-200};
+  --color-info-light-content: #{$color-blue-900};
+  --color-info-lighter: #{$color-blue-50};
+  --color-info-lighter-content: #{$color-blue-500};
+
+  // Full Color Palette for Badge/Banner components
+  // Each color has filled, light, and lighter variants with content pairs
+
+  // Gray/Neutral
+  --color-gray: #{$color-neutral-500};
+  --color-gray-content: #{$color-white};
+  --color-gray-light: #{$color-neutral-200};
+  --color-gray-light-content: #{$color-neutral-900};
+  --color-gray-lighter: #{$color-neutral-50};
+  --color-gray-lighter-content: #{$color-neutral-500};
+
+  // Blue
+  --color-blue: #{$color-blue-500};
+  --color-blue-content: #{$color-white};
+  --color-blue-light: #{$color-blue-200};
+  --color-blue-light-content: #{$color-blue-900};
+  --color-blue-lighter: #{$color-blue-50};
+  --color-blue-lighter-content: #{$color-blue-500};
+
+  // Green
+  --color-green: #{$color-green-500};
+  --color-green-content: #{$color-white};
+  --color-green-light: #{$color-green-200};
+  --color-green-light-content: #{$color-green-900};
+  --color-green-lighter: #{$color-green-50};
+  --color-green-lighter-content: #{$color-green-500};
+
+  // Red
+  --color-red: #{$color-red-500};
+  --color-red-content: #{$color-white};
+  --color-red-light: #{$color-red-200};
+  --color-red-light-content: #{$color-red-900};
+  --color-red-lighter: #{$color-red-50};
+  --color-red-lighter-content: #{$color-red-500};
+
+  // Yellow
+  --color-yellow: #{$color-yellow-500};
+  --color-yellow-content: #{$color-white};
+  --color-yellow-light: #{$color-yellow-200};
+  --color-yellow-light-content: #{$color-yellow-900};
+  --color-yellow-lighter: #{$color-yellow-50};
+  --color-yellow-lighter-content: #{$color-yellow-500};
+
+  // Purple
+  --color-purple: #{$color-purple-500};
+  --color-purple-content: #{$color-white};
+  --color-purple-light: #{$color-purple-200};
+  --color-purple-light-content: #{$color-purple-900};
+  --color-purple-lighter: #{$color-purple-50};
+  --color-purple-lighter-content: #{$color-purple-500};
+
+  // Orange
+  --color-orange: #{$color-orange-500};
+  --color-orange-content: #{$color-white};
+  --color-orange-light: #{$color-orange-200};
+  --color-orange-light-content: #{$color-orange-900};
+  --color-orange-lighter: #{$color-orange-50};
+  --color-orange-lighter-content: #{$color-orange-500};
+
+  // Pink
+  --color-pink: #{$color-pink-500};
+  --color-pink-content: #{$color-white};
+  --color-pink-light: #{$color-pink-200};
+  --color-pink-light-content: #{$color-pink-900};
+  --color-pink-lighter: #{$color-pink-50};
+  --color-pink-lighter-content: #{$color-pink-500};
+
+  // Sky
+  --color-sky: #{$color-sky-500};
+  --color-sky-content: #{$color-white};
+  --color-sky-light: #{$color-sky-200};
+  --color-sky-light-content: #{$color-sky-900};
+  --color-sky-lighter: #{$color-sky-50};
+  --color-sky-lighter-content: #{$color-sky-500};
+
+  // Teal
+  --color-teal: #{$color-teal-500};
+  --color-teal-content: #{$color-white};
+  --color-teal-light: #{$color-teal-200};
+  --color-teal-light-content: #{$color-teal-900};
+  --color-teal-lighter: #{$color-teal-50};
+  --color-teal-lighter-content: #{$color-teal-500};
+
+  // Stroke/border variants (for components with white backgrounds and colored borders)
+  --color-stroke-bg: #{$color-white};
+  --color-stroke-text: #{$color-neutral-600};
+  --color-stroke-border: #{$color-neutral-200};
+
+  // Link/Interactive text colors (for LinkButton and similar components)
+  --color-link-primary: #{$color-blue-700};
+  --color-link-primary-hover: #{$color-blue-900};
+  --color-link-neutral: #{$color-neutral-700};
+  --color-link-neutral-hover: #{$color-neutral-900};
+  --color-link-neutral-alt: #{$color-neutral-800};
+  --color-link-neutral-alt-hover: #{$color-neutral-900};
+  --color-link-error: #{$color-red-700};
+  --color-link-error-hover: #{$color-red-900};
+  --color-link-disabled: #{$color-neutral-400};
+
+  // =========================
+  // LEGACY TOKENS (for backward compatibility)
+  // These maintain existing component behavior
+  // =========================
+
+  // BACKGROUNDS (for buttons and dark UI elements)
+  --color-bg-primary-default: #{$color-neutral-900};
   --color-bg-primary-hover: #{$color-neutral-800};
   --color-bg-primary-active: #{$color-neutral-700};
-  --color-bg-primary-disabled: #{$color-neutral-400};   // Dark (75% lightness)
-  --color-bg-secondary-default: #{$color-neutral-300};  // Darker (85% lightness)
+  --color-bg-primary-disabled: #{$color-neutral-400};
+  --color-bg-secondary-default: #{$color-neutral-300};
   --color-bg-secondary-hover: #{$color-neutral-200};
   --color-bg-secondary-active: #{$color-neutral-300};
-  --color-bg-secondary-disabled: #{$color-neutral-200}; // Lighter than disabled (93% lightness)
+  --color-bg-secondary-disabled: #{$color-neutral-200};
   --color-bg-tertiary-default: #{$color-neutral-50};
   --color-bg-tertiary-disabled: #{$color-neutral-100};
 
-  // =========================
   // SURFACES (cards, sheets, modals, popovers)
-  // Hierarchy: Lightest (white/primary) → Lighter (secondary)
-  // =========================
-  --color-surface-primary-default: #{$color-white};       // Lightest (100% lightness)
-  --color-surface-secondary-default: #{$color-neutral-50}; // Lighter (99.5% lightness)
+  --color-surface-primary-default: #{$color-white};
+  --color-surface-secondary-default: #{$color-neutral-50};
 
-  // =========================
   // BORDERS
-  // =========================
   --color-border-disabled-default: #{$color-neutral-100};
   --color-border-focus-default: #{$color-neutral-400};
   --color-border-primary-default: #{$color-neutral-300};
   --color-border-primary-hover: #{$color-neutral-400};
   --color-border-secondary-default: #{$color-neutral-200};
 
-  // =========================
   // TEXT
-  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
-  // =========================
-  --color-text-primary-default: #{$color-neutral-900};   // Darkest (15% lightness)
-  --color-text-secondary-default: #{$color-neutral-700}; // Darker (35% lightness)
-  --color-text-disabled-default: #{$color-neutral-500};  // Dark (60% lightness)
+  --color-text-primary-default: #{$color-neutral-900};
+  --color-text-secondary-default: #{$color-neutral-700};
+  --color-text-disabled-default: #{$color-neutral-500};
   --color-text-inverse-default: #{$color-white};
-  --color-text-tertiary-default: #{$color-neutral-400};  // Lighter (75% lightness) - for sublabels/descriptions
+  --color-text-tertiary-default: #{$color-neutral-400};
 
-  // =========================
   // ICONS
-  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
-  // =========================
-  --color-icon-primary-default: #{$color-neutral-900};   // Darkest (15% lightness)
-  --color-icon-secondary-default: #{$color-neutral-700}; // Darker (35% lightness)
-  --color-icon-disabled-default: #{$color-neutral-500};  // Dark (60% lightness)
+  --color-icon-primary-default: #{$color-neutral-900};
+  --color-icon-secondary-default: #{$color-neutral-700};
+  --color-icon-disabled-default: #{$color-neutral-500};
 
 
   // =========================
