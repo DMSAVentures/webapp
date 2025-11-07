@@ -26,7 +26,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
 import { Route as TestUserListRouteImport } from './routes/test/user-list'
 import { Route as TestReferralLinkRouteImport } from './routes/test/referral-link'
+import { Route as TestFormBuilderRouteImport } from './routes/test/form-builder'
+import { Route as TestEmailEditorRouteImport } from './routes/test/email-editor'
 import { Route as TestCampaignCardRouteImport } from './routes/test/campaign-card'
+import { Route as TestAnalyticsDashboardRouteImport } from './routes/test/analytics-dashboard'
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
 import { Route as BillingPlansRouteImport } from './routes/billing/plans'
 import { Route as BillingPayment_methodRouteImport } from './routes/billing/payment_method'
@@ -118,9 +121,24 @@ const TestReferralLinkRoute = TestReferralLinkRouteImport.update({
   path: '/test/referral-link',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TestFormBuilderRoute = TestFormBuilderRouteImport.update({
+  id: '/test/form-builder',
+  path: '/test/form-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestEmailEditorRoute = TestEmailEditorRouteImport.update({
+  id: '/test/email-editor',
+  path: '/test/email-editor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TestCampaignCardRoute = TestCampaignCardRouteImport.update({
   id: '/test/campaign-card',
   path: '/test/campaign-card',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestAnalyticsDashboardRoute = TestAnalyticsDashboardRouteImport.update({
+  id: '/test/analytics-dashboard',
+  path: '/test/analytics-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OauthSignedinRoute = OauthSignedinRouteImport.update({
@@ -169,7 +187,10 @@ export interface FileRoutesByFullPath {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/test/analytics-dashboard': typeof TestAnalyticsDashboardRoute
   '/test/campaign-card': typeof TestCampaignCardRoute
+  '/test/email-editor': typeof TestEmailEditorRoute
+  '/test/form-builder': typeof TestFormBuilderRoute
   '/test/referral-link': typeof TestReferralLinkRoute
   '/test/user-list': typeof TestUserListRoute
   '/billing': typeof BillingIndexRoute
@@ -194,7 +215,10 @@ export interface FileRoutesByTo {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/test/analytics-dashboard': typeof TestAnalyticsDashboardRoute
   '/test/campaign-card': typeof TestCampaignCardRoute
+  '/test/email-editor': typeof TestEmailEditorRoute
+  '/test/form-builder': typeof TestFormBuilderRoute
   '/test/referral-link': typeof TestReferralLinkRoute
   '/test/user-list': typeof TestUserListRoute
   '/billing': typeof BillingIndexRoute
@@ -220,7 +244,10 @@ export interface FileRoutesById {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/test/analytics-dashboard': typeof TestAnalyticsDashboardRoute
   '/test/campaign-card': typeof TestCampaignCardRoute
+  '/test/email-editor': typeof TestEmailEditorRoute
+  '/test/form-builder': typeof TestFormBuilderRoute
   '/test/referral-link': typeof TestReferralLinkRoute
   '/test/user-list': typeof TestUserListRoute
   '/billing/': typeof BillingIndexRoute
@@ -247,7 +274,10 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/oauth/signedin'
+    | '/test/analytics-dashboard'
     | '/test/campaign-card'
+    | '/test/email-editor'
+    | '/test/form-builder'
     | '/test/referral-link'
     | '/test/user-list'
     | '/billing'
@@ -272,7 +302,10 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/oauth/signedin'
+    | '/test/analytics-dashboard'
     | '/test/campaign-card'
+    | '/test/email-editor'
+    | '/test/form-builder'
     | '/test/referral-link'
     | '/test/user-list'
     | '/billing'
@@ -297,7 +330,10 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/oauth/signedin'
+    | '/test/analytics-dashboard'
     | '/test/campaign-card'
+    | '/test/email-editor'
+    | '/test/form-builder'
     | '/test/referral-link'
     | '/test/user-list'
     | '/billing/'
@@ -323,7 +359,10 @@ export interface RootRouteChildren {
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
   BillingPlansRoute: typeof BillingPlansRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
+  TestAnalyticsDashboardRoute: typeof TestAnalyticsDashboardRoute
   TestCampaignCardRoute: typeof TestCampaignCardRoute
+  TestEmailEditorRoute: typeof TestEmailEditorRoute
+  TestFormBuilderRoute: typeof TestFormBuilderRoute
   TestReferralLinkRoute: typeof TestReferralLinkRoute
   TestUserListRoute: typeof TestUserListRoute
   BillingIndexRoute: typeof BillingIndexRoute
@@ -450,11 +489,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestReferralLinkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/test/form-builder': {
+      id: '/test/form-builder'
+      path: '/test/form-builder'
+      fullPath: '/test/form-builder'
+      preLoaderRoute: typeof TestFormBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test/email-editor': {
+      id: '/test/email-editor'
+      path: '/test/email-editor'
+      fullPath: '/test/email-editor'
+      preLoaderRoute: typeof TestEmailEditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/test/campaign-card': {
       id: '/test/campaign-card'
       path: '/test/campaign-card'
       fullPath: '/test/campaign-card'
       preLoaderRoute: typeof TestCampaignCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test/analytics-dashboard': {
+      id: '/test/analytics-dashboard'
+      path: '/test/analytics-dashboard'
+      fullPath: '/test/analytics-dashboard'
+      preLoaderRoute: typeof TestAnalyticsDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/oauth/signedin': {
@@ -515,7 +575,10 @@ const rootRouteChildren: RootRouteChildren = {
   BillingPayment_methodRoute: BillingPayment_methodRoute,
   BillingPlansRoute: BillingPlansRoute,
   OauthSignedinRoute: OauthSignedinRoute,
+  TestAnalyticsDashboardRoute: TestAnalyticsDashboardRoute,
   TestCampaignCardRoute: TestCampaignCardRoute,
+  TestEmailEditorRoute: TestEmailEditorRoute,
+  TestFormBuilderRoute: TestFormBuilderRoute,
   TestReferralLinkRoute: TestReferralLinkRoute,
   TestUserListRoute: TestUserListRoute,
   BillingIndexRoute: BillingIndexRoute,
