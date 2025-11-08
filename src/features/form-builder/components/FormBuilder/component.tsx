@@ -287,14 +287,22 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 						/>
 					</main>
 
-					{/* Right panel - Field Editor */}
+					{/* Right panel - Field Editor or Style Editor */}
 					<aside className={styles.rightPanel}>
-						<FieldEditor
-							field={config.fields.find(f => f.id === selectedFieldId) || null}
-							allFields={config.fields}
-							onFieldUpdate={handleFieldUpdate}
-							onClose={() => setSelectedFieldId(undefined)}
-						/>
+						{selectedFieldId ? (
+							<FieldEditor
+								field={config.fields.find(f => f.id === selectedFieldId) || null}
+								allFields={config.fields}
+								onFieldUpdate={handleFieldUpdate}
+								onClose={() => setSelectedFieldId(undefined)}
+							/>
+						) : (
+							<FormStyleEditor
+								design={config.design}
+								onChange={handleDesignChange}
+								selectedFieldId={selectedFieldId}
+							/>
+						)}
 					</aside>
 				</div>
 			)}

@@ -201,23 +201,13 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.header}>
-				<div className={styles.headerContent}>
-					<h3 className={styles.title}>Edit Field</h3>
-					<Badge
-						text={field.type}
-						variant="gray"
-						styleType="light"
-						size="small"
-					/>
-				</div>
-				<button
-					type="button"
-					className={styles.closeButton}
-					onClick={onClose}
-					aria-label="Close editor"
-				>
-					<i className="ri-close-line" />
-				</button>
+				<h3 className={styles.title}>Edit Field</h3>
+				<Badge
+					text={field.type}
+					variant="gray"
+					styleType="light"
+					size="small"
+				/>
 			</div>
 
 			<div className={styles.content}>
