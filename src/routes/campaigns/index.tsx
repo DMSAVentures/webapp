@@ -60,7 +60,7 @@ function RouteComponent() {
 			transition={{ duration: 0.6 }}
 		>
 			<div className={styles.pageHeader}>
-				<div>
+				<div className={styles.headerContent}>
 					<h1 className={styles.pageTitle}>Campaigns</h1>
 					<p className={styles.pageDescription}>
 						Manage your marketing campaigns and promotional activities

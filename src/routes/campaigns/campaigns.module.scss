@@ -11,12 +11,6 @@
 
 .pageHeader {
 	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
-}
-
-.headerTop {
-	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
 	gap: layout.$spacing-05;
@@ -25,7 +19,7 @@
 .headerContent {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: layout.$spacing-02;
 	flex: 1;
 }
 

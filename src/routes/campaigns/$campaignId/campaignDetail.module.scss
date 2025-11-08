@@ -22,6 +22,13 @@
 	gap: layout.$spacing-05;
 }
 
+.actions {
+	display: flex;
+	gap: layout.$spacing-03;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
 .headerContent {
 	display: flex;
 	flex-direction: column;

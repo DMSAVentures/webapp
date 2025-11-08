@@ -1,11 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { useState } from "react";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
+import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { ErrorState } from "@/components/error/error";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { Button } from "@/proto-design-system/Button/button";
 import { Badge } from "@/proto-design-system/badge/badge";
+import Banner from "@/proto-design-system/banner/banner";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
@@ -20,10 +23,48 @@ export const Route = createFileRoute("/campaigns/$campaignId/")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
-	const { data: campaign, loading, error } = useGetCampaign(campaignId);
+	const { data: campaign, loading, error, refetch } = useGetCampaign(campaignId);
+	const { updateStatus, loading: updating, error: updateError } = useUpdateCampaignStatus();
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
 	const handleEdit = () => {
 		navigate({ to: `/campaigns/$campaignId/edit`, params: { campaignId } });
+	}
+
+	const handleGoLive = async () => {
+		const updated = await updateStatus(campaignId, { status: 'active' });
+		if (updated) {
+			setSuccessMessage('Campaign is now live!');
+			refetch();
+			setTimeout(() => setSuccessMessage(null), 3000);
+		}
+	}
+
+	const handlePause = async () => {
+		const updated = await updateStatus(campaignId, { status: 'paused' });
+		if (updated) {
+			setSuccessMessage('Campaign has been paused');
+			refetch();
+			setTimeout(() => setSuccessMessage(null), 3000);
+		}
+	}
+
+	const handleResume = async () => {
+		const updated = await updateStatus(campaignId, { status: 'active' });
+		if (updated) {
+			setSuccessMessage('Campaign has been resumed');
+			refetch();
+			setTimeout(() => setSuccessMessage(null), 3000);
+		}
+	}
+
+	const handleEnd = async () => {
+		const updated = await updateStatus(campaignId, { status: 'completed' });
+		if (updated) {
+			setSuccessMessage('Campaign has been ended');
+			refetch();
+			setTimeout(() => setSuccessMessage(null), 3000);
+		}
 	}
 
 	const getStatusVariant = (status: string) => {
@@ -120,17 +161,88 @@ function RouteComponent() {
 							/>
 						</div>
 					</div>
-					<Button
-						variant="secondary"
-						leftIcon="ri-edit-line"
-						onClick={handleEdit}
-					>
-						Edit Campaign
-					</Button>
+					<div className={styles.actions}>
+						{campaign.status === 'draft' && (
+							<Button
+								variant="primary"
+								leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-rocket-line"}
+								onClick={handleGoLive}
+								disabled={updating}
+							>
+								{updating ? 'Launching...' : 'Go Live'}
+							</Button>
+						)}
+						{campaign.status === 'active' && (
+							<>
+								<Button
+									variant="secondary"
+									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-pause-line"}
+									onClick={handlePause}
+									disabled={updating}
+								>
+									{updating ? 'Pausing...' : 'Pause'}
+								</Button>
+								<Button
+									variant="tertiary"
+									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"}
+									onClick={handleEnd}
+									disabled={updating}
+								>
+									{updating ? 'Ending...' : 'End Campaign'}
+								</Button>
+							</>
+						)}
+						{campaign.status === 'paused' && (
+							<>
+								<Button
+									variant="primary"
+									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-play-line"}
+									onClick={handleResume}
+									disabled={updating}
+								>
+									{updating ? 'Resuming...' : 'Resume'}
+								</Button>
+								<Button
+									variant="tertiary"
+									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"}
+									onClick={handleEnd}
+									disabled={updating}
+								>
+									{updating ? 'Ending...' : 'End Campaign'}
+								</Button>
+							</>
+						)}
+						{campaign.status !== 'completed' && (
+							<Button
+								variant="secondary"
+								leftIcon="ri-edit-line"
+								onClick={handleEdit}
+							>
+								Edit Campaign
+							</Button>
+						)}
+					</div>
 				</div>
 			</div>
 
 			<div className={styles.pageContent}>
+				{successMessage && (
+					<Banner
+						bannerType="success"
+						variant="filled"
+						alertTitle={successMessage}
+					/>
+				)}
+
+				{updateError && (
+					<Banner
+						bannerType="error"
+						variant="filled"
+						alertTitle="Failed to update campaign status"
+						alertDescription={updateError.error}
+					/>
+				)}
+
 				<CampaignStats stats={stats} />
 
 				<div className={styles.detailsCard}>

@@ -5,6 +5,8 @@
 
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
 import { Button } from "@/proto-design-system/Button/button";
+import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type { Campaign } from "@/types/common.types";
 import { CampaignCard } from "../CampaignCard/component";
 import styles from "./component.module.scss";
@@ -116,79 +118,98 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 						<div className={styles.filters}>
 							{/* Search */}
 							<div className={styles.searchBox}>
-								<i className="ri-search-line" aria-hidden="true" />
-								<input
-									type="text"
+								<TextInput
+									label=""
 									placeholder="Search campaigns..."
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
-									className={styles.searchInput}
+									leftIcon="ri-search-line"
+									showLeftIcon={true}
+									aria-label="Search campaigns"
 								/>
-								{searchQuery && (
-									<button
-										className={styles.searchClear}
-										onClick={() => setSearchQuery("")}
-										aria-label="Clear search"
-									>
-										<i className="ri-close-line" aria-hidden="true" />
-									</button>
-								)}
 							</div>
 
 							{/* Status filter */}
-							<div className={styles.statusFilter}>
-								<button
-									className={`${styles.filterButton} ${statusFilter === "all" ? styles.filterButtonActive : ""}`}
-									onClick={() => setStatusFilter("all")}
-								>
-									All
-								</button>
-								<button
-									className={`${styles.filterButton} ${statusFilter === "active" ? styles.filterButtonActive : ""}`}
-									onClick={() => setStatusFilter("active")}
-								>
-									Active
-								</button>
-								<button
-									className={`${styles.filterButton} ${statusFilter === "draft" ? styles.filterButtonActive : ""}`}
-									onClick={() => setStatusFilter("draft")}
-								>
-									Draft
-								</button>
-								<button
-									className={`${styles.filterButton} ${statusFilter === "paused" ? styles.filterButtonActive : ""}`}
-									onClick={() => setStatusFilter("paused")}
-								>
-									Paused
-								</button>
-								<button
-									className={`${styles.filterButton} ${statusFilter === "completed" ? styles.filterButtonActive : ""}`}
-									onClick={() => setStatusFilter("completed")}
-								>
-									Completed
-								</button>
-							</div>
+							<ButtonGroup
+								items={[
+									{
+										text: "All",
+										icon: "",
+										iconPosition: "left",
+										iconOnly: false,
+										onClick: () => setStatusFilter("all"),
+										selected: statusFilter === "all",
+										ariaLabel: "All campaigns",
+									},
+									{
+										text: "Active",
+										icon: "",
+										iconPosition: "left",
+										iconOnly: false,
+										onClick: () => setStatusFilter("active"),
+										selected: statusFilter === "active",
+										ariaLabel: "Active campaigns",
+									},
+									{
+										text: "Draft",
+										icon: "",
+										iconPosition: "left",
+										iconOnly: false,
+										onClick: () => setStatusFilter("draft"),
+										selected: statusFilter === "draft",
+										ariaLabel: "Draft campaigns",
+									},
+									{
+										text: "Paused",
+										icon: "",
+										iconPosition: "left",
+										iconOnly: false,
+										onClick: () => setStatusFilter("paused"),
+										selected: statusFilter === "paused",
+										ariaLabel: "Paused campaigns",
+									},
+									{
+										text: "Completed",
+										icon: "",
+										iconPosition: "left",
+										iconOnly: false,
+										onClick: () => setStatusFilter("completed"),
+										selected: statusFilter === "completed",
+										ariaLabel: "Completed campaigns",
+									},
+								]}
+								size="small"
+								ariaLabel="Filter by status"
+							/>
 						</div>
 					)}
 
 					{/* Right side - View toggle */}
 					{showViewToggle && (
-						<div className={styles.viewToggle}>
-							<button
-								className={`${styles.viewButton} ${view === "grid" ? styles.viewButtonActive : ""}`}
-								onClick={() => setView("grid")}
-								aria-label="Grid view"
-							>
-								<i className="ri-grid-line" aria-hidden="true" />
-							</button>
-							<button
-								className={`${styles.viewButton} ${view === "list" ? styles.viewButtonActive : ""}`}
-								onClick={() => setView("list")}
-								aria-label="List view"
-							>
-								<i className="ri-list-check" aria-hidden="true" />
-							</button>
-						</div>
+						<ButtonGroup
+							items={[
+								{
+									text: "Grid view",
+									icon: "ri-grid-line",
+									iconPosition: "left",
+									iconOnly: true,
+									onClick: () => setView("grid"),
+									selected: view === "grid",
+									ariaLabel: "Grid view",
+								},
+								{
+									text: "List view",
+									icon: "ri-list-check",
+									iconPosition: "left",
+									iconOnly: true,
+									onClick: () => setView("list"),
+									selected: view === "list",
+									ariaLabel: "List view",
+								},
+							]}
+							size="small"
+							ariaLabel="View options"
+						/>
 					)}
 				</div>
 			)}

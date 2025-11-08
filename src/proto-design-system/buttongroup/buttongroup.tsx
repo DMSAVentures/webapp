@@ -10,6 +10,10 @@ export interface ButtonItemProps {
 	onClick: () => void;
 	disabled?: boolean;
 	/**
+	 * Whether this button is currently selected/active
+	 */
+	selected?: boolean;
+	/**
 	 * Accessible label for the button, especially important for icon-only buttons
 	 */
 	ariaLabel?: string;
@@ -62,7 +66,8 @@ const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
 					styles[`button-item--${size}`],
 					styles[`button-item--${item.iconOnly ? "icon-only" : "icon-text"}`],
 					styles[`button-item__icon--${item.iconPosition}`],
-				].join(" ");
+					item.selected ? styles["button-item--selected"] : "",
+				].filter(Boolean).join(" ");
 
 				return (
 					<button
@@ -72,6 +77,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
 						onKeyDown={(e) => handleKeyDown(e, item.onClick)}
 						disabled={item.disabled}
 						aria-disabled={item.disabled}
+						aria-pressed={item.selected}
 						aria-label={buttonLabel}
 						type="button"
 						tabIndex={item.disabled ? -1 : 0}

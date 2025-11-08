@@ -65,6 +65,19 @@
     background-color: var(--color-bg-secondary-hover);
   }
 
+  // Selected state
+  &--selected {
+    background-color: var(--color-bg-primary-default);
+    color: var(--color-text-inverse-default);
+    border-color: var(--color-bg-primary-default) !important;
+    box-shadow: 0 layout.$spacing-01 layout.$spacing-02 var(--color-shadow-default);
+
+    &:hover {
+      background-color: var(--color-bg-primary-hover);
+      border-color: var(--color-bg-primary-hover) !important;
+    }
+  }
+
   // Focus styles for keyboard navigation
   &:focus {
     outline: none;
