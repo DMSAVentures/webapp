@@ -3,7 +3,7 @@
  * Live preview of the form with applied design settings
  */
 
-import { type HTMLAttributes, memo } from "react";
+import { type HTMLAttributes, memo, useState } from "react";
 import type { FormConfig } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -183,6 +183,7 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	...props
 }) {
 	const { fields, design } = config;
+	const [currentStep, setCurrentStep] = useState(1);
 
 	const classNames = [styles.root, styles[`device_${device}`], customClassName]
 		.filter(Boolean)
@@ -209,8 +210,46 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 		marginTop: `${design.spacing.gap}px`,
 	};
 
+	const navButtonStyle: React.CSSProperties = {
+		fontFamily: design.typography.fontFamily,
+		fontSize: `${design.typography.fontSize}px`,
+		fontWeight: design.typography.fontWeight + 100,
+		color: design.colors.text,
+		backgroundColor: design.colors.background,
+		border: `1px solid ${design.colors.border}`,
+		borderRadius: `${design.borderRadius}px`,
+		padding: `${design.spacing.padding}px ${design.spacing.padding * 2}px`,
+		cursor: "pointer",
+		marginTop: `${design.spacing.gap}px`,
+	};
+
 	// Sort fields by order
 	const sortedFields = [...fields].sort((a, b) => a.order - b.order);
+
+	// For multi-step: assign step to fields if not set, group by step
+	const assignStepsToFields = (fields: typeof sortedFields) => {
+		if (design.layout !== "multi-step") return fields;
+
+		// Auto-assign fields to steps (3 fields per step)
+		return fields.map((field, idx) => ({
+			...field,
+			step: field.step ?? Math.floor(idx / 3) + 1,
+		}));
+	};
+
+	const fieldsWithSteps = assignStepsToFields(sortedFields);
+
+	// Get fields for current step
+	const getCurrentStepFields = () => {
+		if (design.layout !== "multi-step") return fieldsWithSteps;
+		return fieldsWithSteps.filter(f => f.step === currentStep);
+	};
+
+	// Calculate total steps
+	const totalSteps =
+		design.layout === "multi-step"
+			? Math.max(...fieldsWithSteps.map(f => f.step || 1), 1)
+			: 1;
 
 	return (
 		<div className={classNames} {...props}>
@@ -232,6 +271,65 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 						</div>
 					) : (
 						<form style={formStyle} onSubmit={(e) => e.preventDefault()}>
+							{/* Multi-step progress indicator */}
+							{design.layout === "multi-step" && totalSteps > 1 && (
+								<div
+									style={{
+										marginBottom: `${design.spacing.gap * 2}px`,
+									}}
+								>
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+											alignItems: "center",
+											marginBottom: `${design.spacing.gap}px`,
+										}}
+									>
+										<span
+											style={{
+												fontFamily: design.typography.fontFamily,
+												fontSize: `${design.typography.fontSize - 2}px`,
+												color: design.colors.text,
+												opacity: 0.7,
+											}}
+										>
+											Step {currentStep} of {totalSteps}
+										</span>
+										<span
+											style={{
+												fontFamily: design.typography.fontFamily,
+												fontSize: `${design.typography.fontSize - 2}px`,
+												color: design.colors.primary,
+												fontWeight: design.typography.fontWeight + 100,
+											}}
+										>
+											{Math.round((currentStep / totalSteps) * 100)}%
+										</span>
+									</div>
+									{/* Progress bar */}
+									<div
+										style={{
+											width: "100%",
+											height: "6px",
+											backgroundColor: design.colors.border,
+											borderRadius: `${design.borderRadius}px`,
+											overflow: "hidden",
+										}}
+									>
+										<div
+											style={{
+												width: `${(currentStep / totalSteps) * 100}%`,
+												height: "100%",
+												backgroundColor: design.colors.primary,
+												transition: "width 300ms ease",
+											}}
+										/>
+									</div>
+								</div>
+							)}
+
+							{/* Form fields */}
 							{design.layout === "two-column" ? (
 								<div
 									style={{
@@ -240,17 +338,60 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 										gap: `${design.spacing.gap}px`,
 									}}
 								>
-									{sortedFields.map((field) =>
+									{getCurrentStepFields().map((field) =>
 										renderFieldPreview(field, design),
 									)}
 								</div>
 							) : (
-								sortedFields.map((field) => renderFieldPreview(field, design))
+								getCurrentStepFields().map((field) =>
+									renderFieldPreview(field, design),
+								)
 							)}
 
-							<button type="submit" style={submitButtonStyle} disabled>
-								Submit
-							</button>
+							{/* Multi-step navigation buttons */}
+							{design.layout === "multi-step" && totalSteps > 1 ? (
+								<div
+									style={{
+										display: "flex",
+										justifyContent: "space-between",
+										gap: `${design.spacing.gap}px`,
+										marginTop: `${design.spacing.gap}px`,
+									}}
+								>
+									<button
+										type="button"
+										style={{
+											...navButtonStyle,
+											visibility: currentStep === 1 ? "hidden" : "visible",
+										}}
+										onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
+									>
+										← Previous
+									</button>
+									{currentStep === totalSteps ? (
+										<button type="submit" style={submitButtonStyle} disabled>
+											Submit
+										</button>
+									) : (
+										<button
+											type="button"
+											style={{
+												...submitButtonStyle,
+												cursor: "pointer",
+											}}
+											onClick={() =>
+												setCurrentStep(Math.min(totalSteps, currentStep + 1))
+											}
+										>
+											Next →
+										</button>
+									)}
+								</div>
+							) : (
+								<button type="submit" style={submitButtonStyle} disabled>
+									Submit
+								</button>
+							)}
 
 							{/* Apply custom CSS if provided */}
 							{design.customCss && <style>{design.customCss}</style>}

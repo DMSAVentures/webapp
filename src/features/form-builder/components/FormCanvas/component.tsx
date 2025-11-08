@@ -52,6 +52,11 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 		.join(' ');
 
 	const handleFieldDelete = (fieldId: string) => {
+		// If deleting the currently selected field, deselect it
+		if (selectedFieldId === fieldId) {
+			onFieldSelect('');
+		}
+
 		const newFields = fields
 			.filter(f => f.id !== fieldId)
 			.map((field, idx) => ({ ...field, order: idx }));

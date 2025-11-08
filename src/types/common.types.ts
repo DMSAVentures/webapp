@@ -141,6 +141,7 @@ export interface FormField {
 	helpText?: string;
 	required: boolean;
 	order: number;
+	step?: number; // For multi-step forms
 	options?: string[]; // For select/radio
 	validation?: {
 		minLength?: number;
