@@ -5,6 +5,7 @@
 
 import { type HTMLAttributes, memo } from "react";
 import type { FormField } from "@/types/common.types";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import styles from "./component.module.scss";
 
 export interface FieldPaletteProps extends HTMLAttributes<HTMLDivElement> {
@@ -92,15 +93,8 @@ export const FieldPalette = memo<FieldPaletteProps>(function FieldPalette({
 	className: customClassName,
 	...props
 }) {
+	const { handlePaletteDragStart, handleDragEnd } = useDragAndDrop();
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
-
-	const handleDragStart = (
-		e: React.DragEvent,
-		fieldType: FormField["type"],
-	) => {
-		e.dataTransfer.effectAllowed = "copy";
-		e.dataTransfer.setData("fieldType", fieldType);
-	};
 
 	const handleClick = (fieldType: FormField["type"]) => {
 		onFieldSelect(fieldType);
@@ -120,7 +114,8 @@ export const FieldPalette = memo<FieldPaletteProps>(function FieldPalette({
 						type="button"
 						className={styles.fieldItem}
 						draggable
-						onDragStart={(e) => handleDragStart(e, field.type)}
+						onDragStart={handlePaletteDragStart(field.type)}
+						onDragEnd={handleDragEnd}
 						onClick={() => handleClick(field.type)}
 						aria-label={`Add ${field.label} field`}
 					>

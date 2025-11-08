@@ -12,9 +12,8 @@
   border-radius: border.$border-radius-medium;
   overflow: hidden;
 
-  &.draggingOver {
+  &.dragging {
     background-color: var(--color-bg-info-alpha);
-    border: border.$border-width-medium dashed var(--color-border-info-default);
   }
 }
 
@@ -46,9 +45,6 @@
   flex: 1;
   padding: layout.$spacing-05;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-04;
   min-height: 400px;
 }
 
@@ -65,6 +61,7 @@
   border-radius: border.$border-radius-medium;
   color: var(--color-text-secondary-default);
   text-align: center;
+  min-height: 300px;
 
   i {
     font-size: calc(typography.$font-size-h1 * 1.2); // 48px (40px * 1.2)
@@ -77,111 +74,24 @@
   }
 }
 
-// Field item
-.fieldItem {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-04;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
-  cursor: pointer;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-  position: relative;
-
-  &:hover {
-    border-color: var(--color-border-primary-hover);
-    box-shadow: 0 2px 4px var(--color-shadow-default);
-
-    .fieldActions {
-      opacity: 1;
-    }
-  }
-
-  &.selected {
-    border-color: var(--color-border-focus-default);
-    background-color: var(--color-bg-info-alpha);
-  }
-
-  &.dragOver {
-    border-color: var(--color-border-info-default);
-    border-style: dashed;
-    margin-top: layout.$spacing-08;
-  }
-
-  &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: layout.$spacing-01;
-  }
-}
-
-.dragHandle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-icon-secondary-default);
-  cursor: move;
-  padding: layout.$spacing-02;
-
-  i {
-    font-size: typography.$font-size-lg;
-  }
-}
-
-.fieldContent {
+// Fields list container
+.fieldsList {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
   flex: 1;
-  min-width: 0;
+  min-height: 100%;
 }
 
-.fieldHeader {
+// Field container (includes drop zone + field)
+.fieldContainer {
   display: flex;
-  align-items: center;
-  gap: layout.$spacing-03;
-
-  i {
-    font-size: typography.$font-size-lg;
-    color: var(--color-icon-primary-default);
-  }
+  flex-direction: column;
 }
 
-.fieldLabel {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
+// Final drop zone at the bottom - fills remaining space
+.finalDropZone {
   flex: 1;
-}
-
-.required {
-  color: var(--color-error-default);
-  margin-left: layout.$spacing-01;
-}
-
-.fieldType {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-tertiary-default);
-  background-color: var(--color-bg-secondary-default);
-  padding: layout.$spacing-01 layout.$spacing-02;
-  border-radius: border.$border-radius-small;
-  text-transform: uppercase;
-  font-weight: typography.$font-weight-medium;
-}
-
-.fieldPlaceholder {
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
-  font-style: italic;
-}
-
-.fieldActions {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  opacity: 0;
-  transition: opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+  min-height: layout.$spacing-10; // At least 64px
 }
 
 // Responsive
@@ -193,13 +103,5 @@
   .canvas {
     padding: layout.$spacing-04;
     min-height: 300px;
-  }
-
-  .fieldActions {
-    opacity: 1;
-  }
-
-  .fieldType {
-    display: none;
   }
 }

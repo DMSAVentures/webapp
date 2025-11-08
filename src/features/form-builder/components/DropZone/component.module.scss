@@ -1,0 +1,40 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.root {
+  min-height: layout.$spacing-08; // 32px - much larger hit area
+  padding: layout.$spacing-04 0;
+  border-radius: border.$border-radius-small;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Visual indicator line (always present but subtle)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+    border-radius: border.$border-radius-round;
+  }
+
+  &.active {
+    min-height: layout.$spacing-09; // 48px when active
+    background-color: var(--color-bg-info-alpha);
+    border: border.$border-width-small dashed var(--color-border-info-default);
+    padding: layout.$spacing-05 0;
+
+    &::before {
+      background-color: var(--color-border-info-default);
+      height: 3px;
+      box-shadow: 0 0 8px var(--color-border-info-default);
+    }
+  }
+}
