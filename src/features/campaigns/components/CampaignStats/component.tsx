@@ -12,6 +12,8 @@ export interface CampaignStatsProps extends HTMLAttributes<HTMLDivElement> {
 	stats: CampaignStatsType;
 	/** Show loading state */
 	loading?: boolean;
+	/** Click handler for stat cards */
+	onCardClick?: (cardType: 'totalSignups' | 'verified' | 'referrals' | 'kFactor') => void;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -43,6 +45,7 @@ const formatCoefficient = (num: number): string => {
 export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 	stats,
 	loading = false,
+	onCardClick,
 	className: customClassName,
 	...props
 }) {
@@ -53,7 +56,12 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 	return (
 		<div className={classNames} {...props}>
 			{/* Total Signups */}
-			<div className={styles.statCard}>
+			<div
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
+				onClick={() => onCardClick?.('totalSignups')}
+				role={onCardClick ? 'button' : undefined}
+				tabIndex={onCardClick ? 0 : undefined}
+			>
 				<div className={styles.statIcon}>
 					<i className="ri-user-add-line" aria-hidden="true" />
 				</div>
@@ -71,7 +79,12 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 			</div>
 
 			{/* Verified Signups */}
-			<div className={styles.statCard}>
+			<div
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
+				onClick={() => onCardClick?.('verified')}
+				role={onCardClick ? 'button' : undefined}
+				tabIndex={onCardClick ? 0 : undefined}
+			>
 				<div className={`${styles.statIcon} ${styles.statIconSuccess}`}>
 					<i className="ri-verified-badge-line" aria-hidden="true" />
 				</div>
@@ -94,7 +107,12 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 			</div>
 
 			{/* Total Referrals */}
-			<div className={styles.statCard}>
+			<div
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
+				onClick={() => onCardClick?.('referrals')}
+				role={onCardClick ? 'button' : undefined}
+				tabIndex={onCardClick ? 0 : undefined}
+			>
 				<div className={`${styles.statIcon} ${styles.statIconPurple}`}>
 					<i className="ri-share-forward-line" aria-hidden="true" />
 				</div>
@@ -112,7 +130,12 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 			</div>
 
 			{/* Viral Coefficient (K-Factor) */}
-			<div className={styles.statCard}>
+			<div
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
+				onClick={() => onCardClick?.('kFactor')}
+				role={onCardClick ? 'button' : undefined}
+				tabIndex={onCardClick ? 0 : undefined}
+			>
 				<div className={`${styles.statIcon} ${styles.statIconOrange}`}>
 					<i className="ri-line-chart-line" aria-hidden="true" />
 				</div>

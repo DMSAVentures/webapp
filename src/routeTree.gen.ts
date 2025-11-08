@@ -32,6 +32,7 @@ import { Route as BillingPayment_methodRouteImport } from './routes/billing/paym
 import { Route as BillingPayment_attemptRouteImport } from './routes/billing/payment_attempt'
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
 import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns/$campaignId/index'
+import { Route as CampaignsCampaignIdUsersRouteImport } from './routes/campaigns/$campaignId/users'
 import { Route as CampaignsCampaignIdFormBuilderRouteImport } from './routes/campaigns/$campaignId/form-builder'
 import { Route as CampaignsCampaignIdEmbedRouteImport } from './routes/campaigns/$campaignId/embed'
 import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
@@ -152,6 +153,12 @@ const CampaignsCampaignIdIndexRoute =
     path: '/campaigns/$campaignId/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CampaignsCampaignIdUsersRoute =
+  CampaignsCampaignIdUsersRouteImport.update({
+    id: '/campaigns/$campaignId/users',
+    path: '/campaigns/$campaignId/users',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CampaignsCampaignIdFormBuilderRoute =
   CampaignsCampaignIdFormBuilderRouteImport.update({
     id: '/campaigns/$campaignId/form-builder',
@@ -196,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
+  '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -224,6 +232,7 @@ export interface FileRoutesByTo {
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
+  '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesById {
@@ -253,6 +262,7 @@ export interface FileRoutesById {
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
+  '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
   '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
+    | '/campaigns/$campaignId/users'
     | '/campaigns/$campaignId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -311,6 +322,7 @@ export interface FileRouteTypes {
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
+    | '/campaigns/$campaignId/users'
     | '/campaigns/$campaignId'
   id:
     | '__root__'
@@ -339,6 +351,7 @@ export interface FileRouteTypes {
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
+    | '/campaigns/$campaignId/users'
     | '/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
 }
@@ -368,6 +381,7 @@ export interface RootRouteChildren {
   CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
   CampaignsCampaignIdEmbedRoute: typeof CampaignsCampaignIdEmbedRoute
   CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
+  CampaignsCampaignIdUsersRoute: typeof CampaignsCampaignIdUsersRoute
   CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
 }
 
@@ -534,6 +548,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsCampaignIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/$campaignId/users': {
+      id: '/campaigns/$campaignId/users'
+      path: '/campaigns/$campaignId/users'
+      fullPath: '/campaigns/$campaignId/users'
+      preLoaderRoute: typeof CampaignsCampaignIdUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campaigns/$campaignId/form-builder': {
       id: '/campaigns/$campaignId/form-builder'
       path: '/campaigns/$campaignId/form-builder'
@@ -584,6 +605,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
   CampaignsCampaignIdEmbedRoute: CampaignsCampaignIdEmbedRoute,
   CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
+  CampaignsCampaignIdUsersRoute: CampaignsCampaignIdUsersRoute,
   CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
 }
 export const routeTree = rootRouteImport

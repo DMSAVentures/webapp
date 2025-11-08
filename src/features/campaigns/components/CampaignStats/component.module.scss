@@ -35,6 +35,24 @@
   }
 }
 
+.statCardClickable {
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 layout.$spacing-02 layout.$spacing-05 var(--color-shadow-elevated);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus-ring-default);
+    outline-offset: 2px;
+  }
+}
+
 // Icon container
 .statIcon {
   display: flex;

@@ -132,6 +132,15 @@ function RouteComponent() {
 		navigate({ to: `/campaigns/$campaignId/embed`, params: { campaignId } });
 	};
 
+	const handleStatCardClick = (cardType: 'totalSignups' | 'verified' | 'referrals' | 'kFactor') => {
+		// K-Factor card leads to analytics, others lead to users
+		if (cardType === 'kFactor') {
+			navigate({ to: '/analytics' });
+		} else {
+			navigate({ to: `/campaigns/$campaignId/users`, params: { campaignId } });
+		}
+	};
+
 	return (
 		<motion.div
 			className={styles.page}
@@ -303,7 +312,7 @@ function RouteComponent() {
 					/>
 				)}
 
-				<CampaignStats stats={stats} />
+				<CampaignStats stats={stats} onCardClick={handleStatCardClick} />
 
 				<div className={styles.detailsCard}>
 					<h3 className={styles.detailsTitle}>Configuration</h3>
