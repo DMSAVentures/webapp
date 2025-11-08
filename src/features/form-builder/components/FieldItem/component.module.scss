@@ -83,16 +83,6 @@
   margin-left: layout.$spacing-01;
 }
 
-.type {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-tertiary-default);
-  background-color: var(--color-bg-secondary-default);
-  padding: layout.$spacing-01 layout.$spacing-02;
-  border-radius: border.$border-radius-small;
-  text-transform: uppercase;
-  font-weight: typography.$font-weight-medium;
-}
-
 .placeholder {
   font-size: typography.$font-size-sm;
   color: var(--color-text-secondary-default);

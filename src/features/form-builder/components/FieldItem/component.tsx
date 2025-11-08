@@ -5,6 +5,7 @@
 
 import { type DragEvent, type HTMLAttributes, memo } from 'react';
 import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
+import { Badge } from '@/proto-design-system/badge/badge';
 import type { FormField } from '@/types/common.types';
 import styles from './component.module.scss';
 
@@ -93,7 +94,12 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 						{field.label}
 						{field.required && <span className={styles.required}>*</span>}
 					</span>
-					<span className={styles.type}>{field.type}</span>
+					<Badge
+						text={field.type}
+						variant="gray"
+						styleType="light"
+						size="small"
+					/>
 				</div>
 				{field.placeholder && (
 					<span className={styles.placeholder}>{field.placeholder}</span>

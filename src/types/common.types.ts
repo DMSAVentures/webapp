@@ -138,6 +138,7 @@ export interface FormField {
 		| "number";
 	label: string;
 	placeholder?: string;
+	helpText?: string;
 	required: boolean;
 	order: number;
 	options?: string[]; // For select/radio

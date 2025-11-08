@@ -16,6 +16,7 @@ import { Badge } from "@/proto-design-system/badge/badge";
 import type { FormConfig, FormDesign, FormField } from "@/types/common.types";
 import { FieldPalette } from "../FieldPalette/component";
 import { FormCanvas } from "../FormCanvas/component";
+import { FieldEditor } from "../FieldEditor/component";
 import { FormPreview } from "../FormPreview/component";
 import { FormStyleEditor } from "../FormStyleEditor/component";
 import styles from "./component.module.scss";
@@ -164,6 +165,16 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 		setHasUnsavedChanges(true);
 	}, []);
 
+	const handleFieldUpdate = useCallback((updatedField: FormField) => {
+		setConfig((prev) => ({
+			...prev,
+			fields: prev.fields.map(f =>
+				f.id === updatedField.id ? updatedField : f
+			),
+		}));
+		setHasUnsavedChanges(true);
+	}, []);
+
 	const handleDesignChange = useCallback((design: FormDesign) => {
 		setConfig((prev) => ({
 			...prev,
@@ -276,12 +287,13 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 						/>
 					</main>
 
-					{/* Right panel - Style Editor */}
+					{/* Right panel - Field Editor */}
 					<aside className={styles.rightPanel}>
-						<FormStyleEditor
-							design={config.design}
-							onChange={handleDesignChange}
-							selectedFieldId={selectedFieldId}
+						<FieldEditor
+							field={config.fields.find(f => f.id === selectedFieldId) || null}
+							allFields={config.fields}
+							onFieldUpdate={handleFieldUpdate}
+							onClose={() => setSelectedFieldId(undefined)}
 						/>
 					</aside>
 				</div>
