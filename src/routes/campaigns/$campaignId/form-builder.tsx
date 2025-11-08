@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
@@ -18,7 +18,6 @@ export const Route = createFileRoute("/campaigns/$campaignId/form-builder")({
 
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
-	const navigate = useNavigate();
 	const { data: campaign, loading, error } = useGetCampaign(campaignId);
 	const [saveError, setSaveError] = useState<string | null>(null);
 	const [saveSuccess, setSaveSuccess] = useState(false);
@@ -117,11 +116,7 @@ function RouteComponent() {
 
 				<FormBuilder
 					campaignId={campaignId}
-					initialConfig={
-						campaign.form_config?.fields && campaign.form_config.fields.length > 0
-							? campaign.form_config
-							: undefined
-					}
+					initialConfig={undefined}
 					onSave={handleSave}
 				/>
 			</div>

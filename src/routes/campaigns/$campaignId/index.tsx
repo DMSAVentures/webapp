@@ -202,7 +202,7 @@ function RouteComponent() {
 									{updating ? 'Pausing...' : 'Pause'}
 								</Button>
 								<Button
-									variant="tertiary"
+									variant="secondary"
 									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"}
 									onClick={handleEnd}
 									disabled={updating}
@@ -222,7 +222,7 @@ function RouteComponent() {
 									{updating ? 'Resuming...' : 'Resume'}
 								</Button>
 								<Button
-									variant="tertiary"
+									variant="secondary"
 									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"}
 									onClick={handleEnd}
 									disabled={updating}
@@ -260,6 +260,7 @@ function RouteComponent() {
 						bannerType="success"
 						variant="filled"
 						alertTitle={successMessage}
+						alertDescription=""
 					/>
 				)}
 

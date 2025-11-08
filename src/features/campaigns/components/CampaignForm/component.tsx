@@ -391,6 +391,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 									disabled={loading}
 									flipCheckboxToRight={false}
 									text={channel.label}
+									description=""
 								/>
 							))}
 						</div>

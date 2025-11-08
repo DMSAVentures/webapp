@@ -7,7 +7,7 @@ import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpin
 import { ErrorState } from "@/components/error/error";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { Button } from "@/proto-design-system/Button/button";
-import type { Campaign } from "@/types/common.types";
+import type { Campaign } from "@/types/campaign";
 import styles from "./campaigns.module.scss";
 
 export const Route = createFileRoute("/campaigns/")({

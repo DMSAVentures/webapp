@@ -23,38 +23,51 @@ export const TextInput = (props: TextInputProps) => {
 			inputRef.current?.focus();
 		}
 	};
+
+	// Destructure custom props to avoid passing them to DOM element
+	const {
+		label,
+		hint,
+		error,
+		leftIcon,
+		showLeftIcon,
+		rightIcon,
+		showRightIcon,
+		...inputProps
+	} = props;
+
 	return (
 		<div
-			className={`${styles["text-input"]} ${props.error ? styles["text-input--error"] : ""}`}
+			className={`${styles["text-input"]} ${error ? styles["text-input--error"] : ""}`}
 		>
-			<Label text={props.label} required={props.required} />
+			<Label text={label} required={inputProps.required} />
 			<div
-				className={`${styles["text-input__input-container"]} ${props.error ? styles["text-input__input-container--error"] : ""} ${props.disabled ? styles["text-input__input-container--disabled"] : ""}`}
+				className={`${styles["text-input__input-container"]} ${error ? styles["text-input__input-container--error"] : ""} ${inputProps.disabled ? styles["text-input__input-container--disabled"] : ""}`}
 				onClick={handleFocus}
 			>
-				{props.showLeftIcon && (
+				{showLeftIcon && (
 					<i
-						className={`${styles["text-input__input-container__icon"]} ${styles["text-input__input-container__icon--left"]} ${props.leftIcon} `}
+						className={`${styles["text-input__input-container__icon"]} ${styles["text-input__input-container__icon--left"]} ${leftIcon} `}
 					/>
 				)}
-				<input ref={inputRef} {...props} />
-				{props.showRightIcon && (
+				<input ref={inputRef} {...inputProps} />
+				{showRightIcon && (
 					<i
-						className={`${styles["text-input__input-container__icon"]} ${styles["text-input__input-container__icon--right"]} ${props.rightIcon} `}
+						className={`${styles["text-input__input-container__icon"]} ${styles["text-input__input-container__icon--right"]} ${rightIcon} `}
 					/>
 				)}
 			</div>
 			<div className={styles["text-input__hint"]}>
-				{!props.error && props.hint && (
+				{!error && hint && (
 					<HintText
-						hintText={props.hint}
-						state={props.error ? "error" : "default"}
+						hintText={hint}
+						state={error ? "error" : "default"}
 					/>
 				)}
-				{props.error && (
+				{error && (
 					<HintText
-						hintText={props.error}
-						state={props.error ? "error" : "default"}
+						hintText={error}
+						state={error ? "error" : "default"}
 					/>
 				)}
 			</div>
