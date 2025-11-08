@@ -31,6 +31,7 @@ import { Route as BillingPayment_methodRouteImport } from './routes/billing/paym
 import { Route as BillingPayment_attemptRouteImport } from './routes/billing/payment_attempt'
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
 import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns/$campaignId/index'
+import { Route as CampaignsCampaignIdFormBuilderRouteImport } from './routes/campaigns/$campaignId/form-builder'
 import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
 
 const WebhooksRoute = WebhooksRouteImport.update({
@@ -144,6 +145,12 @@ const CampaignsCampaignIdIndexRoute =
     path: '/campaigns/$campaignId/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CampaignsCampaignIdFormBuilderRoute =
+  CampaignsCampaignIdFormBuilderRouteImport.update({
+    id: '/campaigns/$campaignId/form-builder',
+    path: '/campaigns/$campaignId/form-builder',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CampaignsCampaignIdEditRoute = CampaignsCampaignIdEditRouteImport.update({
   id: '/campaigns/$campaignId/edit',
   path: '/campaigns/$campaignId/edit',
@@ -173,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -198,6 +206,7 @@ export interface FileRoutesByTo {
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesById {
@@ -224,6 +233,7 @@ export interface FileRoutesById {
   '/billing/': typeof BillingIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/campaigns'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/campaigns'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId'
   id:
     | '__root__'
@@ -301,6 +313,7 @@ export interface FileRouteTypes {
     | '/billing/'
     | '/campaigns/'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
 }
@@ -327,6 +340,7 @@ export interface RootRouteChildren {
   BillingIndexRoute: typeof BillingIndexRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
   CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
+  CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
   CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
 }
 
@@ -486,6 +500,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsCampaignIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/$campaignId/form-builder': {
+      id: '/campaigns/$campaignId/form-builder'
+      path: '/campaigns/$campaignId/form-builder'
+      fullPath: '/campaigns/$campaignId/form-builder'
+      preLoaderRoute: typeof CampaignsCampaignIdFormBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campaigns/$campaignId/edit': {
       id: '/campaigns/$campaignId/edit'
       path: '/campaigns/$campaignId/edit'
@@ -519,6 +540,7 @@ const rootRouteChildren: RootRouteChildren = {
   BillingIndexRoute: BillingIndexRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
   CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
+  CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
   CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
 }
 export const routeTree = rootRouteImport

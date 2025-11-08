@@ -119,6 +119,14 @@ function RouteComponent() {
 			: 0,
 	}
 
+	// Check if form is configured
+	const hasFormFields = campaign.form_config?.fields && campaign.form_config.fields.length > 0;
+	const canGoLive = campaign.status === 'draft' && hasFormFields;
+
+	const handleConfigureForm = () => {
+		navigate({ to: `/campaigns/$campaignId/form-builder`, params: { campaignId } });
+	}
+
 	return (
 		<motion.div
 			className={styles.page}
@@ -163,14 +171,25 @@ function RouteComponent() {
 					</div>
 					<div className={styles.actions}>
 						{campaign.status === 'draft' && (
-							<Button
-								variant="primary"
-								leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-rocket-line"}
-								onClick={handleGoLive}
-								disabled={updating}
-							>
-								{updating ? 'Launching...' : 'Go Live'}
-							</Button>
+							<>
+								{!hasFormFields && (
+									<Button
+										variant="primary"
+										leftIcon="ri-edit-box-line"
+										onClick={handleConfigureForm}
+									>
+										Configure Form
+									</Button>
+								)}
+								<Button
+									variant={hasFormFields ? "primary" : "secondary"}
+									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-rocket-line"}
+									onClick={handleGoLive}
+									disabled={updating || !canGoLive}
+								>
+									{updating ? 'Launching...' : 'Go Live'}
+								</Button>
+							</>
 						)}
 						{campaign.status === 'active' && (
 							<>
@@ -226,6 +245,16 @@ function RouteComponent() {
 			</div>
 
 			<div className={styles.pageContent}>
+				{campaign.status === 'draft' && !hasFormFields && (
+					<Banner
+						bannerType="warning"
+						variant="filled"
+						alertTitle="Form not configured"
+						alertDescription="You need to configure your waitlist form before launching this campaign. Click 'Configure Form' to get started."
+						dismissible={false}
+					/>
+				)}
+
 				{successMessage && (
 					<Banner
 						bannerType="success"

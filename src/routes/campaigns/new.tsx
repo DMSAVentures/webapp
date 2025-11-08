@@ -25,6 +25,10 @@ function RouteComponent() {
 			slug: slug,
 			type: "waitlist",
 			description: data.description,
+			form_config: {
+				captcha_enabled: data.formConfig?.captchaEnabled ?? false,
+				double_opt_in: data.formConfig?.doubleOptIn ?? false,
+			},
 			referral_config: data.settings.enableReferrals
 				? {
 						enabled: true,

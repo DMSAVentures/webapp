@@ -28,6 +28,10 @@ export interface CampaignFormData {
 		verifiedOnly: boolean;
 		sharingChannels: string[];
 	};
+	formConfig?: {
+		captchaEnabled: boolean;
+		doubleOptIn: boolean;
+	};
 }
 
 export interface CampaignFormProps
@@ -69,10 +73,10 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		description: initialData?.description || "",
 		settings: {
 			emailVerificationRequired:
-				initialData?.settings?.emailVerificationRequired ?? true,
+				initialData?.settings?.emailVerificationRequired ?? false,
 			duplicateHandling: initialData?.settings?.duplicateHandling || "block",
-			enableReferrals: initialData?.settings?.enableReferrals ?? true,
-			enableRewards: initialData?.settings?.enableRewards ?? true,
+			enableReferrals: initialData?.settings?.enableReferrals ?? false,
+			enableRewards: initialData?.settings?.enableRewards ?? false,
 		},
 		referralConfig: {
 			pointsPerReferral: initialData?.referralConfig?.pointsPerReferral ?? 1,
@@ -83,6 +87,10 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				"facebook",
 				"linkedin",
 			],
+		},
+		formConfig: {
+			captchaEnabled: initialData?.formConfig?.captchaEnabled ?? false,
+			doubleOptIn: initialData?.formConfig?.doubleOptIn ?? false,
 		},
 	});
 
@@ -168,6 +176,19 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				},
 			};
 		});
+	};
+
+	const handleFormConfigChange = (
+		field: keyof NonNullable<CampaignFormData["formConfig"]>,
+		value: boolean,
+	) => {
+		setFormData((prev) => ({
+			...prev,
+			formConfig: {
+				...prev.formConfig!,
+				[field]: value,
+			},
+		}));
 	};
 
 	const handleSubmit = async (e: FormEvent) => {
@@ -376,6 +397,38 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					</div>
 				</div>
 			)}
+
+			{/* Waitlist Form Configuration */}
+			<div className={styles.section}>
+				<h3 className={styles.sectionTitle}>Waitlist Form Settings</h3>
+				<p className={styles.sectionDescription}>
+					Basic form behavior settings. You can customize form fields using the Form Builder after creating the campaign.
+				</p>
+
+				{/* Enable CAPTCHA */}
+				<CheckboxWithLabel
+					checked={formData.formConfig?.captchaEnabled ? "checked" : "unchecked"}
+					onChange={(e) =>
+						handleFormConfigChange("captchaEnabled", e.target.checked)
+					}
+					disabled={loading}
+					flipCheckboxToRight={false}
+					text="Enable CAPTCHA"
+					description="Protect your waitlist from bots and spam submissions"
+				/>
+
+				{/* Double Opt-in */}
+				<CheckboxWithLabel
+					checked={formData.formConfig?.doubleOptIn ? "checked" : "unchecked"}
+					onChange={(e) =>
+						handleFormConfigChange("doubleOptIn", e.target.checked)
+					}
+					disabled={loading}
+					flipCheckboxToRight={false}
+					text="Enable double opt-in"
+					description="Require users to confirm their email before being added to the waitlist"
+				/>
+			</div>
 
 			{/* Divider */}
 			<ContentDivider size="thin" />

@@ -68,8 +68,8 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	className: customClassName,
 	...props
 }) {
-	const [config, setConfig] = useState<FormConfig>(
-		initialConfig || {
+	const [config, setConfig] = useState<FormConfig>(() => {
+		const defaultConfig: FormConfig = {
 			id: `form-${campaignId}`,
 			campaignId,
 			fields: [],
@@ -80,8 +80,24 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 				doubleOptIn: true,
 				duplicateHandling: "block",
 			},
-		},
-	);
+		};
+
+		// Merge initialConfig with defaults to ensure all required properties exist
+		if (initialConfig) {
+			return {
+				...defaultConfig,
+				...initialConfig,
+				fields: initialConfig.fields || [],
+				design: initialConfig.design || DEFAULT_DESIGN,
+				behavior: {
+					...defaultConfig.behavior,
+					...initialConfig.behavior,
+				},
+			};
+		}
+
+		return defaultConfig;
+	});
 
 	const [selectedFieldId, setSelectedFieldId] = useState<string | undefined>();
 	const [showPreview, setShowPreview] = useState(false);
