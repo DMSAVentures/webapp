@@ -38,8 +38,7 @@
 .content {
   flex: 1;
   padding: layout.$spacing-05;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   display: flex;
   flex-direction: column;
   gap: layout.$spacing-05;
