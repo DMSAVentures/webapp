@@ -411,20 +411,7 @@ function RouteComponent() {
 					)}
 
 					<div className={styles.detailsSection}>
-						<h4 className={styles.sectionTitle}>Metadata</h4>
 						<div className={styles.detailsList}>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Campaign ID:</strong>
-								<span className={styles.detailValueMono}>{campaign.id}</span>
-							</div>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Slug:</strong>
-								<span className={styles.detailValueMono}>{campaign.slug}</span>
-							</div>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Account ID:</strong>
-								<span className={styles.detailValueMono}>{campaign.account_id}</span>
-							</div>
 							<div className={styles.detailItem}>
 								<strong className={styles.detailLabel}>Created:</strong>
 								<span className={styles.detailValue}>{new Date(campaign.created_at).toLocaleString()}</span>
@@ -443,28 +430,6 @@ function RouteComponent() {
 								<div className={styles.detailItem}>
 									<strong className={styles.detailLabel}>End Date:</strong>
 									<span className={styles.detailValue}>{new Date(campaign.end_date).toLocaleString()}</span>
-								</div>
-							)}
-							{campaign.max_signups && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>Max Signups:</strong>
-									<span className={styles.detailValue}>{campaign.max_signups.toLocaleString()}</span>
-								</div>
-							)}
-							{campaign.privacy_policy_url && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>Privacy Policy:</strong>
-									<a href={campaign.privacy_policy_url} target="_blank" rel="noopener noreferrer" className={styles.detailValue}>
-										{campaign.privacy_policy_url}
-									</a>
-								</div>
-							)}
-							{campaign.terms_url && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>Terms URL:</strong>
-									<a href={campaign.terms_url} target="_blank" rel="noopener noreferrer" className={styles.detailValue}>
-										{campaign.terms_url}
-									</a>
 								</div>
 							)}
 						</div>
