@@ -13,7 +13,8 @@ import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
-import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
+import { FormPreview } from "@/features/form-builder/components/FormPreview/component";
+import type { CampaignStats as CampaignStatsType, FormConfig } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/")({
@@ -130,6 +131,78 @@ function RouteComponent() {
 	const handleViewEmbed = () => {
 		navigate({ to: `/campaigns/$campaignId/embed`, params: { campaignId } });
 	}
+
+	// Transform campaign data to FormConfig for preview
+	const getFormConfigForPreview = (): FormConfig | null => {
+		if (!campaign?.form_config || !campaign.form_config.fields || campaign.form_config.fields.length === 0) {
+			return null;
+		}
+
+		// Map API fields to UI fields
+		const uiFields = campaign.form_config.fields.map((apiField, index) => ({
+			id: apiField.name || `field-${index}`,
+			type: apiField.type,
+			label: apiField.label,
+			placeholder: apiField.placeholder || '',
+			helpText: '',
+			required: apiField.required || false,
+			order: index,
+			options: apiField.options,
+			validation: apiField.validation ? JSON.parse(apiField.validation) : undefined,
+		}));
+
+		// Default design config
+		const defaultDesign = {
+			layout: 'single-column' as const,
+			colors: {
+				primary: '#3b82f6',
+				background: '#ffffff',
+				text: '#1f2937',
+				border: '#e5e7eb',
+				error: '#ef4444',
+				success: '#10b981',
+			},
+			typography: {
+				fontFamily: 'Inter, system-ui, sans-serif',
+				fontSize: 16,
+				fontWeight: 400,
+			},
+			spacing: {
+				padding: 16,
+				gap: 16,
+			},
+			borderRadius: 8,
+			customCss: '',
+		};
+
+		// Try to parse design from custom_css
+		let design = defaultDesign;
+		if (campaign.form_config.custom_css) {
+			try {
+				if (campaign.form_config.custom_css.startsWith('__DESIGN__:')) {
+					const designJson = campaign.form_config.custom_css.substring('__DESIGN__:'.length);
+					design = JSON.parse(designJson);
+				} else {
+					design = { ...defaultDesign, customCss: campaign.form_config.custom_css };
+				}
+			} catch (e) {
+				design = { ...defaultDesign, customCss: campaign.form_config.custom_css };
+			}
+		}
+
+		return {
+			id: `form-${campaignId}`,
+			campaignId,
+			fields: uiFields,
+			design,
+			behavior: {
+				submitAction: 'inline-message',
+				successMessage: 'Thank you for signing up!',
+				doubleOptIn: campaign.form_config.double_opt_in || false,
+				duplicateHandling: 'block',
+			},
+		};
+	};
 
 	return (
 		<motion.div
@@ -469,6 +542,16 @@ function RouteComponent() {
 						</div>
 					</div>
 				</div>
+
+				{hasFormFields && getFormConfigForPreview() && (
+					<div className={styles.detailsCard}>
+						<h3 className={styles.detailsTitle}>Form Preview</h3>
+						<p className={styles.pageDescription} style={{ marginBottom: '20px' }}>
+							See how your form will look when embedded
+						</p>
+						<FormPreview config={getFormConfigForPreview()!} device="desktop" />
+					</div>
+				)}
 			</div>
 		</motion.div>
 	)
