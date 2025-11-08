@@ -25,11 +25,19 @@ function RouteComponent() {
 			slug: slug,
 			type: "waitlist",
 			description: data.description,
-			referral_config: {
-				enabled: data.settings.enableReferrals,
-				points_per_referral: 1,
-				verified_only: true,
-			},
+			referral_config: data.settings.enableReferrals
+				? {
+						enabled: true,
+						points_per_referral: data.referralConfig?.pointsPerReferral || 1,
+						verified_only: data.referralConfig?.verifiedOnly ?? true,
+						sharing_channels: (data.referralConfig?.sharingChannels ||
+							[]) as Array<
+							"email" | "twitter" | "facebook" | "linkedin" | "whatsapp"
+						>,
+				  }
+				: {
+						enabled: false,
+				  },
 			email_config: {
 				verification_required: data.settings.emailVerificationRequired,
 			},

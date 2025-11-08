@@ -7,7 +7,7 @@ import { type HTMLAttributes, memo, useMemo, useState } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
-import type { Campaign } from "@/types/common.types";
+import type { Campaign } from "@/types/campaign";
 import { CampaignCard } from "../CampaignCard/component";
 import styles from "./component.module.scss";
 

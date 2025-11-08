@@ -15,7 +15,7 @@ import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import DropdownMenu from "@/proto-design-system/dropdownmenu/dropdownmenu";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
-import type { Campaign } from "@/types/common.types";
+import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 
 export interface CampaignCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -203,7 +203,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			)}
 
 			{/* Stats */}
-			{showStats && campaign.stats && (
+			{showStats && campaign.total_signups !== undefined && (
 				<>
 					<ContentDivider size="thin" />
 					<div className={styles.stats}>
@@ -211,7 +211,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<i className="ri-user-add-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.stats.totalSignups.toLocaleString()}
+									{campaign.total_signups.toLocaleString()}
 								</span>
 								<span className={styles.statLabel}>Signups</span>
 							</div>
@@ -220,7 +220,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<i className="ri-share-forward-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.stats.totalReferrals.toLocaleString()}
+									{campaign.total_referrals.toLocaleString()}
 								</span>
 								<span className={styles.statLabel}>Referrals</span>
 							</div>
@@ -229,7 +229,9 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<i className="ri-line-chart-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.stats.viralCoefficient.toFixed(1)}
+									{campaign.total_signups > 0
+										? (campaign.total_referrals / campaign.total_signups).toFixed(1)
+										: "0.0"}
 								</span>
 								<span className={styles.statLabel}>K-Factor</span>
 							</div>
@@ -243,12 +245,27 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			<div className={styles.footer}>
 				<span className={styles.date}>
 					<i className="ri-calendar-line" aria-hidden="true" />
-					Created{" "}
-					{new Date(campaign.createdAt).toLocaleDateString("en-US", {
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					})}
+					{campaign.status === "completed" && campaign.end_date ? (
+						<>
+							Completed{" "}
+							{new Date(campaign.end_date).toLocaleDateString("en-US", {
+								month: "short",
+								day: "numeric",
+								year: "numeric",
+							})}
+						</>
+					) : campaign.created_at && !isNaN(new Date(campaign.created_at).getTime()) ? (
+						<>
+							Created{" "}
+							{new Date(campaign.created_at).toLocaleDateString("en-US", {
+								month: "short",
+								day: "numeric",
+								year: "numeric",
+							})}
+						</>
+					) : (
+						<>Created Unknown</>
+					)}
 				</span>
 			</div>
 		</div>

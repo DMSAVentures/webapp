@@ -29,6 +29,39 @@
   color: var(--color-text-primary-default);
 }
 
+.sectionDescription {
+  margin: 0;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+  line-height: typography.$line-height-relaxed;
+}
+
+// Sharing Channels
+.sharingChannels {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.sharingChannelsLabel {
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-primary-default);
+  margin: 0;
+}
+
+.sharingChannelsHint {
+  margin: 0;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-tertiary-default);
+  line-height: typography.$line-height-relaxed;
+}
+
+.sharingChannelsList {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
 
 // Form actions
 .actions {

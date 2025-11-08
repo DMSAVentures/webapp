@@ -23,6 +23,11 @@ export interface CampaignFormData {
 		enableReferrals: boolean;
 		enableRewards: boolean;
 	};
+	referralConfig?: {
+		pointsPerReferral: number;
+		verifiedOnly: boolean;
+		sharingChannels: string[];
+	};
 }
 
 export interface CampaignFormProps
@@ -68,6 +73,16 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			duplicateHandling: initialData?.settings?.duplicateHandling || "block",
 			enableReferrals: initialData?.settings?.enableReferrals ?? true,
 			enableRewards: initialData?.settings?.enableRewards ?? true,
+		},
+		referralConfig: {
+			pointsPerReferral: initialData?.referralConfig?.pointsPerReferral ?? 1,
+			verifiedOnly: initialData?.referralConfig?.verifiedOnly ?? true,
+			sharingChannels: initialData?.referralConfig?.sharingChannels ?? [
+				"email",
+				"twitter",
+				"facebook",
+				"linkedin",
+			],
 		},
 	});
 
@@ -124,6 +139,35 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				[setting]: value,
 			},
 		}));
+	};
+
+	const handleReferralConfigChange = (
+		field: keyof NonNullable<CampaignFormData["referralConfig"]>,
+		value: number | boolean | string[],
+	) => {
+		setFormData((prev) => ({
+			...prev,
+			referralConfig: {
+				...prev.referralConfig!,
+				[field]: value,
+			},
+		}));
+	};
+
+	const handleSharingChannelToggle = (channel: string) => {
+		setFormData((prev) => {
+			const currentChannels = prev.referralConfig?.sharingChannels || [];
+			const newChannels = currentChannels.includes(channel)
+				? currentChannels.filter((c) => c !== channel)
+				: [...currentChannels, channel];
+			return {
+				...prev,
+				referralConfig: {
+					...prev.referralConfig!,
+					sharingChannels: newChannels,
+				},
+			};
+		});
 	};
 
 	const handleSubmit = async (e: FormEvent) => {
@@ -255,6 +299,83 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					}
 				/>
 			</div>
+
+			{/* Referral Configuration Section - Only show if referrals are enabled */}
+			{formData.settings.enableReferrals && (
+				<div className={styles.section}>
+					<h3 className={styles.sectionTitle}>Referral Configuration</h3>
+					<p className={styles.sectionDescription}>
+						Configure how the referral system works for this campaign
+					</p>
+
+					{/* Points Per Referral */}
+					<TextInput
+						id="points-per-referral"
+						label="Points Per Referral"
+						type="number"
+						value={formData.referralConfig?.pointsPerReferral.toString() || "1"}
+						onChange={(e) =>
+							handleReferralConfigChange(
+								"pointsPerReferral",
+								parseInt(e.target.value) || 1,
+							)
+						}
+						placeholder="1"
+						disabled={loading}
+						min={1}
+						max={100}
+						hint="Number of points users earn for each successful referral"
+					/>
+
+					{/* Verified Only */}
+					<CheckboxWithLabel
+						checked={
+							formData.referralConfig?.verifiedOnly ? "checked" : "unchecked"
+						}
+						onChange={(e) =>
+							handleReferralConfigChange("verifiedOnly", e.target.checked)
+						}
+						disabled={loading}
+						flipCheckboxToRight={false}
+						text="Count verified referrals only"
+						description="Only count referrals that have verified their email address"
+					/>
+
+					{/* Sharing Channels */}
+					<div className={styles.sharingChannels}>
+						<label className={styles.sharingChannelsLabel}>
+							Sharing Channels
+						</label>
+						<p className={styles.sharingChannelsHint}>
+							Select which platforms users can share their referral link on
+						</p>
+						<div className={styles.sharingChannelsList}>
+							{[
+								{ value: "email", label: "Email" },
+								{ value: "twitter", label: "Twitter/X" },
+								{ value: "facebook", label: "Facebook" },
+								{ value: "linkedin", label: "LinkedIn" },
+								{ value: "whatsapp", label: "WhatsApp" },
+							].map((channel) => (
+								<CheckboxWithLabel
+									key={channel.value}
+									checked={
+										formData.referralConfig?.sharingChannels.includes(
+											channel.value,
+										)
+											? "checked"
+											: "unchecked"
+									}
+									onChange={() => handleSharingChannelToggle(channel.value)}
+									disabled={loading}
+									flipCheckboxToRight={false}
+									text={channel.label}
+								/>
+							))}
+						</div>
+					</div>
+				</div>
+			)}
 
 			{/* Divider */}
 			<ContentDivider size="thin" />
