@@ -25,6 +25,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
+import { Route as EmbedCampaignIdRouteImport } from './routes/embed.$campaignId'
 import { Route as CampaignsNewRouteImport } from './routes/campaigns/new'
 import { Route as BillingPlansRouteImport } from './routes/billing/plans'
 import { Route as BillingPayment_methodRouteImport } from './routes/billing/payment_method'
@@ -32,6 +33,7 @@ import { Route as BillingPayment_attemptRouteImport } from './routes/billing/pay
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
 import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns/$campaignId/index'
 import { Route as CampaignsCampaignIdFormBuilderRouteImport } from './routes/campaigns/$campaignId/form-builder'
+import { Route as CampaignsCampaignIdEmbedRouteImport } from './routes/campaigns/$campaignId/embed'
 import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
 
 const WebhooksRoute = WebhooksRouteImport.update({
@@ -114,6 +116,11 @@ const OauthSignedinRoute = OauthSignedinRouteImport.update({
   path: '/oauth/signedin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmbedCampaignIdRoute = EmbedCampaignIdRouteImport.update({
+  id: '/embed/$campaignId',
+  path: '/embed/$campaignId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CampaignsNewRoute = CampaignsNewRouteImport.update({
   id: '/campaigns/new',
   path: '/campaigns/new',
@@ -151,6 +158,12 @@ const CampaignsCampaignIdFormBuilderRoute =
     path: '/campaigns/$campaignId/form-builder',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CampaignsCampaignIdEmbedRoute =
+  CampaignsCampaignIdEmbedRouteImport.update({
+    id: '/campaigns/$campaignId/embed',
+    path: '/campaigns/$campaignId/embed',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CampaignsCampaignIdEditRoute = CampaignsCampaignIdEditRouteImport.update({
   id: '/campaigns/$campaignId/edit',
   path: '/campaigns/$campaignId/edit',
@@ -176,10 +189,12 @@ export interface FileRoutesByFullPath {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/campaigns/new': typeof CampaignsNewRoute
+  '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
@@ -202,10 +217,12 @@ export interface FileRoutesByTo {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/campaigns/new': typeof CampaignsNewRoute
+  '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
@@ -229,10 +246,12 @@ export interface FileRoutesById {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/campaigns/new': typeof CampaignsNewRoute
+  '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/billing/': typeof BillingIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
 }
@@ -257,10 +276,12 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/campaigns/new'
+    | '/embed/$campaignId'
     | '/oauth/signedin'
     | '/billing'
     | '/campaigns'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId'
   fileRoutesByTo: FileRoutesByTo
@@ -283,10 +304,12 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/campaigns/new'
+    | '/embed/$campaignId'
     | '/oauth/signedin'
     | '/billing'
     | '/campaigns'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId'
   id:
@@ -309,10 +332,12 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/campaigns/new'
+    | '/embed/$campaignId'
     | '/oauth/signedin'
     | '/billing/'
     | '/campaigns/'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
@@ -336,10 +361,12 @@ export interface RootRouteChildren {
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
   BillingPlansRoute: typeof BillingPlansRoute
   CampaignsNewRoute: typeof CampaignsNewRoute
+  EmbedCampaignIdRoute: typeof EmbedCampaignIdRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
   BillingIndexRoute: typeof BillingIndexRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
   CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
+  CampaignsCampaignIdEmbedRoute: typeof CampaignsCampaignIdEmbedRoute
   CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
   CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
 }
@@ -458,6 +485,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OauthSignedinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/embed/$campaignId': {
+      id: '/embed/$campaignId'
+      path: '/embed/$campaignId'
+      fullPath: '/embed/$campaignId'
+      preLoaderRoute: typeof EmbedCampaignIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campaigns/new': {
       id: '/campaigns/new'
       path: '/campaigns/new'
@@ -507,6 +541,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsCampaignIdFormBuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/$campaignId/embed': {
+      id: '/campaigns/$campaignId/embed'
+      path: '/campaigns/$campaignId/embed'
+      fullPath: '/campaigns/$campaignId/embed'
+      preLoaderRoute: typeof CampaignsCampaignIdEmbedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campaigns/$campaignId/edit': {
       id: '/campaigns/$campaignId/edit'
       path: '/campaigns/$campaignId/edit'
@@ -536,10 +577,12 @@ const rootRouteChildren: RootRouteChildren = {
   BillingPayment_methodRoute: BillingPayment_methodRoute,
   BillingPlansRoute: BillingPlansRoute,
   CampaignsNewRoute: CampaignsNewRoute,
+  EmbedCampaignIdRoute: EmbedCampaignIdRoute,
   OauthSignedinRoute: OauthSignedinRoute,
   BillingIndexRoute: BillingIndexRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
   CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
+  CampaignsCampaignIdEmbedRoute: CampaignsCampaignIdEmbedRoute,
   CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
   CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
 }

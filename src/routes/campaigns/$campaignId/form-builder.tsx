@@ -22,26 +22,123 @@ function RouteComponent() {
 	const [saveError, setSaveError] = useState<string | null>(null);
 	const [saveSuccess, setSaveSuccess] = useState(false);
 
+	// Transform API FormConfig to UI FormConfig
+	const getInitialFormConfig = (): FormConfig | undefined => {
+		if (!campaign?.form_config || !campaign.form_config.fields || campaign.form_config.fields.length === 0) {
+			return undefined;
+		}
+
+		// Map API fields to UI fields
+		const uiFields = campaign.form_config.fields.map((apiField, index) => ({
+			id: apiField.name || `field-${index}`,
+			type: apiField.type,
+			label: apiField.label,
+			placeholder: apiField.placeholder || '',
+			helpText: '',
+			required: apiField.required || false,
+			order: index,
+			options: apiField.options,
+			validation: apiField.validation ? JSON.parse(apiField.validation) : undefined,
+		}));
+
+		// Default design config
+		const defaultDesign = {
+			layout: 'single-column' as const,
+			colors: {
+				primary: '#3b82f6',
+				background: '#ffffff',
+				text: '#1f2937',
+				border: '#e5e7eb',
+				error: '#ef4444',
+				success: '#10b981',
+			},
+			typography: {
+				fontFamily: 'Inter, system-ui, sans-serif',
+				fontSize: 16,
+				fontWeight: 400,
+			},
+			spacing: {
+				padding: 16,
+				gap: 16,
+			},
+			borderRadius: 8,
+			customCss: '',
+		};
+
+		// Try to parse design from custom_css (we store it as JSON with __DESIGN__ prefix)
+		let design = defaultDesign;
+		if (campaign.form_config.custom_css) {
+			try {
+				if (campaign.form_config.custom_css.startsWith('__DESIGN__:')) {
+					const designJson = campaign.form_config.custom_css.substring('__DESIGN__:'.length);
+					design = JSON.parse(designJson);
+				} else {
+					// Legacy: just custom CSS without design config
+					design = { ...defaultDesign, customCss: campaign.form_config.custom_css };
+				}
+			} catch (e) {
+				// If parsing fails, use default with the CSS as-is
+				design = { ...defaultDesign, customCss: campaign.form_config.custom_css };
+			}
+		}
+
+		return {
+			id: `form-${campaignId}`,
+			campaignId,
+			fields: uiFields,
+			design,
+			behavior: {
+				submitAction: 'inline-message',
+				successMessage: 'Thank you for signing up!',
+				doubleOptIn: campaign.form_config.double_opt_in || false,
+				duplicateHandling: 'block',
+			},
+		};
+	};
+
 	const handleSave = async (config: FormConfig) => {
 		setSaveError(null);
 		setSaveSuccess(false);
 
 		try {
-			// TODO: Create API endpoint to save form configuration
+			// Serialize the entire design config into custom_css with a special prefix
+			const designJson = JSON.stringify(config.design);
+			const customCssWithDesign = `__DESIGN__:${designJson}`;
+
+			// Transform UI FormConfig to API FormConfig
+			const apiFormConfig = {
+				fields: config.fields.map(field => ({
+					name: field.id, // Use field ID as name
+					type: field.type,
+					label: field.label,
+					placeholder: field.placeholder || undefined,
+					required: field.required,
+					options: field.options,
+					validation: field.validation ? JSON.stringify(field.validation) : undefined,
+				})),
+				captcha_enabled: false,
+				double_opt_in: config.behavior?.doubleOptIn || false,
+				custom_css: customCssWithDesign,
+			};
+
+			// Update campaign with form_config
 			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/form`,
+				`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
 				{
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
 					},
 					credentials: "include",
-					body: JSON.stringify(config),
+					body: JSON.stringify({
+						form_config: apiFormConfig,
+					}),
 				}
 			);
 
 			if (!response.ok) {
-				throw new Error("Failed to save form configuration");
+				const errorData = await response.json();
+				throw new Error(errorData.error || "Failed to save form configuration");
 			}
 
 			setSaveSuccess(true);
@@ -116,7 +213,7 @@ function RouteComponent() {
 
 				<FormBuilder
 					campaignId={campaignId}
-					initialConfig={undefined}
+					initialConfig={getInitialFormConfig()}
 					onSave={handleSave}
 				/>
 			</div>

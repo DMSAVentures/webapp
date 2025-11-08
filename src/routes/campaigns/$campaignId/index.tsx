@@ -127,6 +127,10 @@ function RouteComponent() {
 		navigate({ to: `/campaigns/$campaignId/form-builder`, params: { campaignId } });
 	}
 
+	const handleViewEmbed = () => {
+		navigate({ to: `/campaigns/$campaignId/embed`, params: { campaignId } });
+	}
+
 	return (
 		<motion.div
 			className={styles.page}
@@ -172,13 +176,20 @@ function RouteComponent() {
 					<div className={styles.actions}>
 						{campaign.status === 'draft' && (
 							<>
-								{!hasFormFields && (
+								<Button
+									variant={hasFormFields ? "secondary" : "primary"}
+									leftIcon="ri-edit-box-line"
+									onClick={handleConfigureForm}
+								>
+									Configure Form
+								</Button>
+								{hasFormFields && (
 									<Button
-										variant="primary"
-										leftIcon="ri-edit-box-line"
-										onClick={handleConfigureForm}
+										variant="secondary"
+										leftIcon="ri-code-s-slash-line"
+										onClick={handleViewEmbed}
 									>
-										Configure Form
+										View Embed
 									</Button>
 								)}
 								<Button
@@ -193,6 +204,15 @@ function RouteComponent() {
 						)}
 						{campaign.status === 'active' && (
 							<>
+								{hasFormFields && (
+									<Button
+										variant="secondary"
+										leftIcon="ri-code-s-slash-line"
+										onClick={handleViewEmbed}
+									>
+										View Embed
+									</Button>
+								)}
 								<Button
 									variant="secondary"
 									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-pause-line"}
@@ -213,6 +233,15 @@ function RouteComponent() {
 						)}
 						{campaign.status === 'paused' && (
 							<>
+								{hasFormFields && (
+									<Button
+										variant="secondary"
+										leftIcon="ri-code-s-slash-line"
+										onClick={handleViewEmbed}
+									>
+										View Embed
+									</Button>
+								)}
 								<Button
 									variant="primary"
 									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-play-line"}
