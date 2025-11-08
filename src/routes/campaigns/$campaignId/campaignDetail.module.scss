@@ -69,9 +69,28 @@
 	border: 1px solid var(--color-border-primary-default);
 }
 
+.detailsSection {
+	padding: layout.$spacing-05 0;
+
+	&:last-child {
+		padding-bottom: 0;
+	}
+
+	&:first-child {
+		padding-top: 0;
+	}
+}
+
 .detailsTitle {
 	margin: 0 0 layout.$spacing-04 0;
 	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+}
+
+.sectionTitle {
+	margin: 0 0 layout.$spacing-04 0;
+	font-size: typography.$font-size-md;
 	font-weight: typography.$font-weight-semibold;
 	color: var(--color-text-primary-default);
 }
