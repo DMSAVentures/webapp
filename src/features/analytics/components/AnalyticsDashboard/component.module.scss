@@ -2,7 +2,6 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
@@ -91,13 +90,13 @@
   }
 
   &.kpiIconPurple {
-    background-color: colors.$color-purple-50;
-    color: colors.$color-purple-600;
+    background-color: var(--color-icon-bg-purple);
+    color: var(--color-icon-fg-purple);
   }
 
   &.kpiIconOrange {
-    background-color: colors.$color-orange-50;
-    color: colors.$color-orange-600;
+    background-color: var(--color-icon-bg-orange);
+    color: var(--color-icon-fg-orange);
   }
 }
 

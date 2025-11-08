@@ -156,6 +156,17 @@
   --color-link-error-hover: #{$color-red-900};
   --color-link-disabled: #{$color-neutral-400};
 
+  // Icon background colors (for stat cards and KPI icons)
+  --color-icon-bg-purple: #{$color-purple-50};
+  --color-icon-fg-purple: #{$color-purple-600};
+  --color-icon-bg-orange: #{$color-orange-50};
+  --color-icon-fg-orange: #{$color-orange-600};
+
+  // Rank/Medal colors (for leaderboards)
+  --color-rank-gold: #{$color-yellow-500};
+  --color-rank-silver: #{$color-neutral-400};
+  --color-rank-bronze: #{$color-orange-600};
+
   // =========================
   // LEGACY TOKENS (for backward compatibility)
   // These maintain existing component behavior

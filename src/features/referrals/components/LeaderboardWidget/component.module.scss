@@ -2,7 +2,6 @@
 @use "@/design-tokens/typography" as typography;
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
 @use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
@@ -221,15 +220,15 @@
     font-size: typography.$font-size-lg;
 
     tr:nth-child(1) & {
-        color: colors.$color-yellow-500;
+        color: var(--color-rank-gold);
     }
 
     tr:nth-child(2) & {
-        color: colors.$color-neutral-400;
+        color: var(--color-rank-silver);
     }
 
     tr:nth-child(3) & {
-        color: colors.$color-orange-600;
+        color: var(--color-rank-bronze);
     }
 }
 
