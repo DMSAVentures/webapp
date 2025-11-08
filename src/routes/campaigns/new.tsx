@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
 import { CampaignForm, type CampaignFormData } from "@/features/campaigns/components/CampaignForm/component";
 import Banner from "@/proto-design-system/banner/banner";
-import styles from "../page.module.scss";
+import styles from "./campaigns.module.scss";
 
 export const Route = createFileRoute("/campaigns/new")({
 	component: RouteComponent,

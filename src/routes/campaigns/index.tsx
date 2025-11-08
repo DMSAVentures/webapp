@@ -8,9 +8,9 @@ import { ErrorState } from "@/components/error/error";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { Button } from "@/proto-design-system/Button/button";
 import type { Campaign } from "@/types/common.types";
-import styles from "./page.module.scss";
+import styles from "./campaigns.module.scss";
 
-export const Route = createFileRoute("/campaigns")({
+export const Route = createFileRoute("/campaigns/")({
 	component: RouteComponent,
 });
 
@@ -21,24 +21,24 @@ function RouteComponent() {
 
 	const handleCreateCampaign = () => {
 		navigate({ to: "/campaigns/new" });
-	};
+	}
 
 	const handleCampaignClick = (campaign: Campaign) => {
 		navigate({ to: `/campaigns/${campaign.id}` });
-	};
+	}
 
 	const handleEdit = (campaign: Campaign) => {
 		navigate({ to: `/campaigns/${campaign.id}/edit` });
-	};
+	}
 
 	const handleDelete = async (campaign: Campaign) => {
 		if (confirm(`Are you sure you want to delete "${campaign.name}"?`)) {
 			const success = await deleteCampaign(campaign.id);
 			if (success) {
-				refetch();
+				refetch()
 			}
 		}
-	};
+	}
 
 	if (loading) {
 		return <LoadingSpinner size="large" mode="centered" message="Loading campaigns..." />;
@@ -66,13 +66,15 @@ function RouteComponent() {
 						Manage your marketing campaigns and promotional activities
 					</p>
 				</div>
-				<Button
-					variant="primary"
-					leftIcon="ri-add-line"
-					onClick={handleCreateCampaign}
-				>
-					Create Campaign
-				</Button>
+				{data.campaigns.length > 0 && (
+					<Button
+						variant="primary"
+						leftIcon="ri-add-line"
+						onClick={handleCreateCampaign}
+					>
+						Create Campaign
+					</Button>
+				)}
 			</div>
 
 			<div className={styles.pageContent}>
@@ -86,5 +88,5 @@ function RouteComponent() {
 				/>
 			</div>
 		</motion.div>
-	);
+	)
 }

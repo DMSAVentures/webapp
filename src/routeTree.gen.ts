@@ -16,13 +16,13 @@ import { Route as MainRouteImport } from './routes/main'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as DealsRouteImport } from './routes/deals'
 import { Route as ContactsRouteImport } from './routes/contacts'
-import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as ApiKeysRouteImport } from './routes/api-keys'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
 import { Route as CampaignsNewRouteImport } from './routes/campaigns/new'
@@ -30,6 +30,8 @@ import { Route as BillingPlansRouteImport } from './routes/billing/plans'
 import { Route as BillingPayment_methodRouteImport } from './routes/billing/payment_method'
 import { Route as BillingPayment_attemptRouteImport } from './routes/billing/payment_attempt'
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
+import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns/$campaignId/index'
+import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
 
 const WebhooksRoute = WebhooksRouteImport.update({
   id: '/webhooks',
@@ -66,11 +68,6 @@ const ContactsRoute = ContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CampaignsRoute = CampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ArticlesRoute = ArticlesRouteImport.update({
   id: '/articles',
   path: '/articles',
@@ -101,6 +98,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BillingIndexRoute = BillingIndexRouteImport.update({
   id: '/billing/',
   path: '/billing/',
@@ -112,9 +114,9 @@ const OauthSignedinRoute = OauthSignedinRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignsNewRoute = CampaignsNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => CampaignsRoute,
+  id: '/campaigns/new',
+  path: '/campaigns/new',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BillingPlansRoute = BillingPlansRouteImport.update({
   id: '/billing/plans',
@@ -136,6 +138,17 @@ const BillingPayRoute = BillingPayRouteImport.update({
   path: '/billing/pay',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignsCampaignIdIndexRoute =
+  CampaignsCampaignIdIndexRouteImport.update({
+    id: '/campaigns/$campaignId/',
+    path: '/campaigns/$campaignId/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CampaignsCampaignIdEditRoute = CampaignsCampaignIdEditRouteImport.update({
+  id: '/campaigns/$campaignId/edit',
+  path: '/campaigns/$campaignId/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -144,7 +157,6 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AnalyticsRoute
   '/api-keys': typeof ApiKeysRoute
   '/articles': typeof ArticlesRoute
-  '/campaigns': typeof CampaignsRouteWithChildren
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
   '/email': typeof EmailRoute
@@ -159,6 +171,9 @@ export interface FileRoutesByFullPath {
   '/campaigns/new': typeof CampaignsNewRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/billing': typeof BillingIndexRoute
+  '/campaigns': typeof CampaignsIndexRoute
+  '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -167,7 +182,6 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/api-keys': typeof ApiKeysRoute
   '/articles': typeof ArticlesRoute
-  '/campaigns': typeof CampaignsRouteWithChildren
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
   '/email': typeof EmailRoute
@@ -182,6 +196,9 @@ export interface FileRoutesByTo {
   '/campaigns/new': typeof CampaignsNewRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/billing': typeof BillingIndexRoute
+  '/campaigns': typeof CampaignsIndexRoute
+  '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -191,7 +208,6 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/api-keys': typeof ApiKeysRoute
   '/articles': typeof ArticlesRoute
-  '/campaigns': typeof CampaignsRouteWithChildren
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
   '/email': typeof EmailRoute
@@ -206,6 +222,9 @@ export interface FileRoutesById {
   '/campaigns/new': typeof CampaignsNewRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/billing/': typeof BillingIndexRoute
+  '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -216,7 +235,6 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/api-keys'
     | '/articles'
-    | '/campaigns'
     | '/contacts'
     | '/deals'
     | '/email'
@@ -231,6 +249,9 @@ export interface FileRouteTypes {
     | '/campaigns/new'
     | '/oauth/signedin'
     | '/billing'
+    | '/campaigns'
+    | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -239,7 +260,6 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/api-keys'
     | '/articles'
-    | '/campaigns'
     | '/contacts'
     | '/deals'
     | '/email'
@@ -254,6 +274,9 @@ export interface FileRouteTypes {
     | '/campaigns/new'
     | '/oauth/signedin'
     | '/billing'
+    | '/campaigns'
+    | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId'
   id:
     | '__root__'
     | '/'
@@ -262,7 +285,6 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/api-keys'
     | '/articles'
-    | '/campaigns'
     | '/contacts'
     | '/deals'
     | '/email'
@@ -277,6 +299,9 @@ export interface FileRouteTypes {
     | '/campaigns/new'
     | '/oauth/signedin'
     | '/billing/'
+    | '/campaigns/'
+    | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -286,7 +311,6 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   ApiKeysRoute: typeof ApiKeysRoute
   ArticlesRoute: typeof ArticlesRoute
-  CampaignsRoute: typeof CampaignsRouteWithChildren
   ContactsRoute: typeof ContactsRoute
   DealsRoute: typeof DealsRoute
   EmailRoute: typeof EmailRoute
@@ -298,8 +322,12 @@ export interface RootRouteChildren {
   BillingPayment_attemptRoute: typeof BillingPayment_attemptRoute
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
   BillingPlansRoute: typeof BillingPlansRoute
+  CampaignsNewRoute: typeof CampaignsNewRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
   BillingIndexRoute: typeof BillingIndexRoute
+  CampaignsIndexRoute: typeof CampaignsIndexRoute
+  CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
+  CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -353,13 +381,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/campaigns': {
-      id: '/campaigns'
-      path: '/campaigns'
-      fullPath: '/campaigns'
-      preLoaderRoute: typeof CampaignsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/articles': {
       id: '/articles'
       path: '/articles'
@@ -402,6 +423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/': {
+      id: '/campaigns/'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/billing/': {
       id: '/billing/'
       path: '/billing'
@@ -418,10 +446,10 @@ declare module '@tanstack/react-router' {
     }
     '/campaigns/new': {
       id: '/campaigns/new'
-      path: '/new'
+      path: '/campaigns/new'
       fullPath: '/campaigns/new'
       preLoaderRoute: typeof CampaignsNewRouteImport
-      parentRoute: typeof CampaignsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/billing/plans': {
       id: '/billing/plans'
@@ -451,20 +479,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingPayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/$campaignId/': {
+      id: '/campaigns/$campaignId/'
+      path: '/campaigns/$campaignId'
+      fullPath: '/campaigns/$campaignId'
+      preLoaderRoute: typeof CampaignsCampaignIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns/$campaignId/edit': {
+      id: '/campaigns/$campaignId/edit'
+      path: '/campaigns/$campaignId/edit'
+      fullPath: '/campaigns/$campaignId/edit'
+      preLoaderRoute: typeof CampaignsCampaignIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
-
-interface CampaignsRouteChildren {
-  CampaignsNewRoute: typeof CampaignsNewRoute
-}
-
-const CampaignsRouteChildren: CampaignsRouteChildren = {
-  CampaignsNewRoute: CampaignsNewRoute,
-}
-
-const CampaignsRouteWithChildren = CampaignsRoute._addFileChildren(
-  CampaignsRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -473,7 +503,6 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   ApiKeysRoute: ApiKeysRoute,
   ArticlesRoute: ArticlesRoute,
-  CampaignsRoute: CampaignsRouteWithChildren,
   ContactsRoute: ContactsRoute,
   DealsRoute: DealsRoute,
   EmailRoute: EmailRoute,
@@ -485,8 +514,12 @@ const rootRouteChildren: RootRouteChildren = {
   BillingPayment_attemptRoute: BillingPayment_attemptRoute,
   BillingPayment_methodRoute: BillingPayment_methodRoute,
   BillingPlansRoute: BillingPlansRoute,
+  CampaignsNewRoute: CampaignsNewRoute,
   OauthSignedinRoute: OauthSignedinRoute,
   BillingIndexRoute: BillingIndexRoute,
+  CampaignsIndexRoute: CampaignsIndexRoute,
+  CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
+  CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

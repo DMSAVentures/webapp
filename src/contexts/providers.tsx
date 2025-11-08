@@ -7,8 +7,8 @@ import { useAuth } from "@/contexts/auth";
 export function Providers({ children }: { children: React.ReactNode }) {
 	const { user } = useAuth();
 
-	// Default to 'viewer' persona if not set
-	const persona = user?.persona ?? 'viewer';
+	// Default to 'admin' persona for development
+	const persona = user?.persona ?? 'admin';
 
 	return (
 		<PersonaProvider persona={persona}>
