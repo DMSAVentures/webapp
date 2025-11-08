@@ -11,11 +11,47 @@ on:
     branches: [ "main" ]
 
 jobs:
+  biome-lint:
+    name: Biome Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Biome lint
+        run: npm run lint
+
+  scss-lint:
+    name: SCSS Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run SCSS lint
+        run: npm run lint:scss
+
   deploy-to-s3:
     name: Deploy to S3 and CloudFront
     runs-on: ubuntu-latest
     # Only deploy on push to main, not on PRs
+    # Also wait for lint jobs to pass
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [biome-lint, scss-lint]
     env:
       S3_BUCKET: protoapp.xyz-webapp
       CLOUDFRONT_DISTRIBUTION_ID: E29P2UU1UDEGD0
