@@ -79,6 +79,14 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 		};
 	}, [handleClickOutside]);
 
+	// Initialize selected option from options with selected: true
+	useEffect(() => {
+		const preselected = props.options.find(option => option.selected);
+		if (preselected && !selectedOption) {
+			setSelectedOption(preselected);
+		}
+	}, [props.options, selectedOption]);
+
 	// Generate CSS class names
 	const dropdownClass = `${styles.dropdown} ${styles[`dropdown--${props.size}`]}`;
 	const selectContainerClass = `${styles["dropdown__select-container"]} 

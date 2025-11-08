@@ -234,16 +234,19 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							label: "Block - Reject duplicate signups",
 							value: "block",
 							description: "Prevent users from signing up multiple times",
+							selected: formData.settings.duplicateHandling === "block",
 						},
 						{
 							label: "Update - Replace existing entry",
 							value: "update",
 							description: "Update the existing user information",
+							selected: formData.settings.duplicateHandling === "update",
 						},
 						{
 							label: "Allow - Create new entry",
 							value: "allow",
 							description: "Allow duplicate signups with separate entries",
+							selected: formData.settings.duplicateHandling === "allow",
 						},
 					]}
 					disabled={loading}
