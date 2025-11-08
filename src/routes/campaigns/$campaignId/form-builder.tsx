@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
+import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
 import { FormBuilder } from "@/features/form-builder/components/FormBuilder/component";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { ErrorState } from "@/components/error/error";
@@ -19,82 +20,9 @@ export const Route = createFileRoute("/campaigns/$campaignId/form-builder")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const { data: campaign, loading, error } = useGetCampaign(campaignId);
+	const formConfig = useFormConfigFromCampaign(campaign);
 	const [saveError, setSaveError] = useState<string | null>(null);
 	const [saveSuccess, setSaveSuccess] = useState(false);
-
-	// Transform API FormConfig to UI FormConfig
-	const getInitialFormConfig = (): FormConfig | undefined => {
-		if (!campaign?.form_config || !campaign.form_config.fields || campaign.form_config.fields.length === 0) {
-			return undefined;
-		}
-
-		// Map API fields to UI fields
-		const uiFields = campaign.form_config.fields.map((apiField, index) => ({
-			id: apiField.name || `field-${index}`,
-			type: apiField.type,
-			label: apiField.label,
-			placeholder: apiField.placeholder || '',
-			helpText: '',
-			required: apiField.required || false,
-			order: index,
-			options: apiField.options,
-			validation: apiField.validation ? JSON.parse(apiField.validation) : undefined,
-		}));
-
-		// Default design config
-		const defaultDesign = {
-			layout: 'single-column' as const,
-			colors: {
-				primary: '#3b82f6',
-				background: '#ffffff',
-				text: '#1f2937',
-				border: '#e5e7eb',
-				error: '#ef4444',
-				success: '#10b981',
-			},
-			typography: {
-				fontFamily: 'Inter, system-ui, sans-serif',
-				fontSize: 16,
-				fontWeight: 400,
-			},
-			spacing: {
-				padding: 16,
-				gap: 16,
-			},
-			borderRadius: 8,
-			customCss: '',
-		};
-
-		// Try to parse design from custom_css (we store it as JSON with __DESIGN__ prefix)
-		let design = defaultDesign;
-		if (campaign.form_config.custom_css) {
-			try {
-				if (campaign.form_config.custom_css.startsWith('__DESIGN__:')) {
-					const designJson = campaign.form_config.custom_css.substring('__DESIGN__:'.length);
-					design = JSON.parse(designJson);
-				} else {
-					// Legacy: just custom CSS without design config
-					design = { ...defaultDesign, customCss: campaign.form_config.custom_css };
-				}
-			} catch (e) {
-				// If parsing fails, use default with the CSS as-is
-				design = { ...defaultDesign, customCss: campaign.form_config.custom_css };
-			}
-		}
-
-		return {
-			id: `form-${campaignId}`,
-			campaignId,
-			fields: uiFields,
-			design,
-			behavior: {
-				submitAction: 'inline-message',
-				successMessage: 'Thank you for signing up!',
-				doubleOptIn: campaign.form_config.double_opt_in || false,
-				duplicateHandling: 'block',
-			},
-		};
-	};
 
 	const handleSave = async (config: FormConfig) => {
 		setSaveError(null);
@@ -213,7 +141,7 @@ function RouteComponent() {
 
 				<FormBuilder
 					campaignId={campaignId}
-					initialConfig={getInitialFormConfig()}
+					initialConfig={formConfig || undefined}
 					onSave={handleSave}
 				/>
 			</div>
