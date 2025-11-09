@@ -10,17 +10,20 @@ import {
 	useMemo,
 	useState,
 } from "react";
+import { useUserHelpers } from "@/hooks/useUserStatus";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
-import type { WaitlistUser } from "@/types/common.types";
+import type {
+	SortDirection,
+	UserFilters as UserFiltersType,
+	UserSortField,
+	WaitlistUser,
+} from "@/types/users.types";
 import { BulkActions } from "../BulkActions/component";
-import {
-	UserFilters,
-	type UserFilters as UserFiltersType,
-} from "../UserFilters/component";
+import { UserFilters } from "../UserFilters/component";
 import styles from "./component.module.scss";
 
 export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
@@ -42,44 +45,6 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-type SortField =
-	| "email"
-	| "name"
-	| "status"
-	| "position"
-	| "referralCount"
-	| "source"
-	| "createdAt";
-type SortDirection = "asc" | "desc";
-
-/**
- * Maps waitlist user status to StatusBadge variant
- */
-const getStatusVariant = (
-	status: WaitlistUser["status"],
-): "completed" | "pending" | "failed" | "disabled" => {
-	switch (status) {
-		case "verified":
-		case "active":
-			return "completed";
-		case "pending":
-			return "pending";
-		case "rejected":
-			return "failed";
-		case "invited":
-			return "pending";
-		default:
-			return "pending";
-	}
-};
-
-/**
- * Converts status text to display format
- */
-const formatStatus = (status: string): string => {
-	return status.charAt(0).toUpperCase() + status.slice(1);
-};
-
 /**
  * UserList displays a filterable, sortable list of waitlist users
  */
@@ -94,8 +59,9 @@ export const UserList = memo<UserListProps>(function UserList({
 	className: customClassName,
 	...props
 }) {
+	const { getStatusVariant, formatStatus } = useUserHelpers();
 	const [searchQuery, setSearchQuery] = useState("");
-	const [sortField, setSortField] = useState<SortField>("position");
+	const [sortField, setSortField] = useState<UserSortField>("position");
 	const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 	const [filters, setFilters] = useState<UserFiltersType>({});
@@ -105,7 +71,7 @@ export const UserList = memo<UserListProps>(function UserList({
 
 	// Handle sort
 	const handleSort = useCallback(
-		(field: SortField) => {
+		(field: UserSortField) => {
 			if (sortField === field) {
 				setSortDirection(sortDirection === "asc" ? "desc" : "asc");
 			} else {

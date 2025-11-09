@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { CampaignFormPreview } from "@/features/campaigns/components/CampaignFormPreview/component";
 import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
+import { useCampaignHelpers } from "@/hooks/useCampaignStatus";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Button } from "@/proto-design-system/Button/button";
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/campaigns/$campaignId/")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
+	const { getStatusVariant, getTypeLabel } = useCampaignHelpers();
 	const {
 		data: campaign,
 		loading,
@@ -74,33 +76,6 @@ function RouteComponent() {
 			setSuccessMessage("Campaign has been ended");
 			refetch();
 			setTimeout(() => setSuccessMessage(null), 3000);
-		}
-	};
-
-	const getStatusVariant = (status: string) => {
-		switch (status) {
-			case "active":
-				return "green";
-			case "paused":
-				return "orange";
-			case "completed":
-				return "blue";
-			case "draft":
-			default:
-				return "gray";
-		}
-	};
-
-	const getTypeLabel = (type: string) => {
-		switch (type) {
-			case "waitlist":
-				return "Waitlist";
-			case "referral":
-				return "Referral";
-			case "contest":
-				return "Contest";
-			default:
-				return type;
 		}
 	};
 

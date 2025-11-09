@@ -137,20 +137,5 @@ export interface ListCampaignsParams {
 	type?: CampaignType;
 }
 
-// ============================================================================
-// Pagination Types
-// ============================================================================
-
-export interface Pagination {
-	next_cursor?: string;
-	has_more: boolean;
-	total_count?: number;
-}
-
-// ============================================================================
-// Error Types
-// ============================================================================
-
-export interface ApiError {
-	error: string;
-}
+// Re-export shared API types for convenience
+export type { ApiError, Pagination } from "./api.types";
