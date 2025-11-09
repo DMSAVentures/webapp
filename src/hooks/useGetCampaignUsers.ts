@@ -48,22 +48,79 @@ export const useGetCampaignUsers = (
 	const [error, setError] = useState<ApiError | null>(null);
 	const [data, setData] = useState<ListUsersResponse | null>(null);
 
-	const fetchUsers = useCallback(async (): Promise<void> => {
-		setLoading(true);
-		setError(null);
-		try {
-			const response = await getCampaignUsers(campaignId, params);
-			setData(response);
-		} catch (error: unknown) {
-			const message = error instanceof Error ? error.message : "Unknown error";
-			setError({ error: message });
-		} finally {
-			setLoading(false);
-		}
-	}, [campaignId, params]);
+	const fetchUsers = useCallback(
+		async (signal?: AbortSignal): Promise<void> => {
+			setLoading(true);
+			setError(null);
+			try {
+				const response = await getCampaignUsers(campaignId, params);
+
+				// Map API response (snake_case) to UI types (camelCase) and parse dates
+				// biome-ignore lint/suspicious/noExplicitAny: API response structure differs from UI types
+				const usersWithParsedDates = response.users.map((user: any) => ({
+					id: user.id,
+					campaignId: user.campaign_id,
+					email: user.email,
+					name:
+						user.first_name && user.last_name
+							? `${user.first_name} ${user.last_name}`.trim()
+							: user.first_name || user.last_name || undefined,
+					customFields: user.metadata || {},
+					status: user.status || "pending",
+					position: user.position || 0,
+					referralCode: user.referral_code || "",
+					referredBy: user.referred_by_id,
+					referralCount: user.referral_count || 0,
+					points: user.points || 0,
+					source: user.source || "direct",
+					utmParams: {
+						source: user.utm_source,
+						medium: user.utm_medium,
+						campaign: user.utm_campaign,
+						term: user.utm_term,
+						content: user.utm_content,
+					},
+					metadata: {
+						ipAddress: user.metadata?.ipAddress,
+						userAgent: user.metadata?.userAgent,
+						country: user.country_code,
+						device: user.metadata?.device,
+					},
+					createdAt: new Date(user.created_at),
+					verifiedAt: user.verified_at ? new Date(user.verified_at) : undefined,
+					invitedAt: user.invited_at ? new Date(user.invited_at) : undefined,
+				}));
+
+				setData({
+					...response,
+					users: usersWithParsedDates,
+				});
+			} catch (error: unknown) {
+				if (signal?.aborted) return;
+				const message =
+					error instanceof Error ? error.message : "Unknown error";
+				setError({ error: message });
+			} finally {
+				if (!signal?.aborted) {
+					setLoading(false);
+				}
+			}
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		},
+		[
+			campaignId,
+			params?.page,
+			params?.limit,
+			params?.status,
+			params?.sort,
+			params?.order,
+		],
+	);
 
 	useEffect(() => {
-		fetchUsers();
+		const controller = new AbortController();
+		fetchUsers(controller.signal);
+		return () => controller.abort();
 	}, [fetchUsers]);
 
 	return {
