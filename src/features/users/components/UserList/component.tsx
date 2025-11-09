@@ -35,7 +35,7 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	/** User click handler */
 	onUserClick?: (user: WaitlistUser) => void;
 	/** Export handler */
-	onExport?: (userIds: string[]) => Promise<void>;
+	onExport?: (users: WaitlistUser[]) => Promise<void>;
 	/** Bulk action handler */
 	onBulkAction?: (action: string, userIds: string[]) => Promise<void>;
 	/** Additional CSS class name */
@@ -246,7 +246,10 @@ export const UserList = memo<UserListProps>(function UserList({
 		action: "email" | "status" | "export" | "delete",
 	) => {
 		if (action === "export" && onExport) {
-			await onExport(selectedUserIds);
+			const selectedUsers = filteredAndSortedUsers.filter((user) =>
+				selectedUserIds.includes(user.id),
+			);
+			await onExport(selectedUsers);
 		} else if (onBulkAction) {
 			await onBulkAction(action, selectedUserIds);
 		}
@@ -256,7 +259,7 @@ export const UserList = memo<UserListProps>(function UserList({
 	// Handle export CSV
 	const handleExportAll = async () => {
 		if (onExport) {
-			await onExport(filteredAndSortedUsers.map((u) => u.id));
+			await onExport(filteredAndSortedUsers);
 		}
 	};
 

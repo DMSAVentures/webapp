@@ -8,6 +8,8 @@ import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import type { WaitlistUser } from "@/types/common.types";
+import { exportUsersToCSV } from "@/utils/csvExport";
 import styles from "./campaignDetail.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/users")({
@@ -100,8 +102,8 @@ function RouteComponent() {
 						onUserClick={(user) => {
 							console.log("User clicked:", user);
 						}}
-						onExport={async (userIds) => {
-							console.log("Export users:", userIds);
+						onExport={async (users: WaitlistUser[]) => {
+							exportUsersToCSV(users, campaign.name);
 						}}
 						onBulkAction={async (action, userIds) => {
 							console.log("Bulk action:", action, userIds);
