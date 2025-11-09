@@ -105,12 +105,22 @@ function RouteComponent() {
   style="border: none; border-radius: 8px;">
 </iframe>`;
 
-	// JavaScript snippet
+	// JavaScript snippet with automatic ref code detection
 	const jsSnippet = `<div id="waitlist-form-${campaignId}"></div>
 <script>
   (function() {
+    // Auto-detect ref code from parent page URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var refCode = urlParams.get('ref');
+
+    // Build iframe URL with ref code if present
+    var iframeSrc = '${embedUrl}';
+    if (refCode) {
+      iframeSrc += '?ref=' + encodeURIComponent(refCode);
+    }
+
     var iframe = document.createElement('iframe');
-    iframe.src = '${embedUrl}';
+    iframe.src = iframeSrc;
     iframe.style.width = '100%';
     iframe.style.height = '600px';
     iframe.style.border = 'none';
@@ -119,12 +129,28 @@ function RouteComponent() {
   })();
 </script>`;
 
-	// React/Next.js component example
+	// React/Next.js component example with automatic ref code detection
 	const reactCode = `// Add this component to your React/Next.js app
+'use client'; // Add this if using Next.js App Router
+
+import { useEffect, useState } from 'react';
+
 export function WaitlistForm() {
+  const [iframeSrc, setIframeSrc] = useState('${embedUrl}');
+
+  useEffect(() => {
+    // Auto-detect ref code from parent page URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const refCode = urlParams.get('ref');
+
+    if (refCode) {
+      setIframeSrc('${embedUrl}?ref=' + encodeURIComponent(refCode));
+    }
+  }, []);
+
   return (
     <iframe
-      src="${embedUrl}"
+      src={iframeSrc}
       width="100%"
       height="600"
       style={{ border: 'none', borderRadius: '8px' }}
@@ -286,10 +312,10 @@ export function WaitlistForm() {
 					>
 						<h3 style={{ marginTop: 0 }}>
 							<i className="ri-code-box-line" style={{ marginRight: "8px" }} />
-							JavaScript Snippet
+							JavaScript Snippet (Recommended)
 						</h3>
 						<p style={{ color: "var(--color-text-secondary-default)" }}>
-							Dynamic JavaScript embed - automatically sizes the form
+							Automatically detects and passes ref codes from your page URL (e.g., yoursite.com/signup?ref=ABC123)
 						</p>
 						<div
 							style={{ display: "flex", gap: "8px", alignItems: "flex-end" }}
@@ -331,7 +357,7 @@ export function WaitlistForm() {
 							React / Next.js
 						</h3>
 						<p style={{ color: "var(--color-text-secondary-default)" }}>
-							Component code for React or Next.js applications
+							Component with automatic ref code detection from URL parameters
 						</p>
 						<div
 							style={{ display: "flex", gap: "8px", alignItems: "flex-end" }}

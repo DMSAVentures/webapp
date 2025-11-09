@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
@@ -22,6 +22,16 @@ function RouteComponent() {
 	const [submitting, setSubmitting] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
+	const [refCode, setRefCode] = useState<string | null>(null);
+
+	// Extract ref code from URL parameters on mount
+	useEffect(() => {
+		const searchParams = new URLSearchParams(window.location.search);
+		const ref = searchParams.get("ref");
+		if (ref) {
+			setRefCode(ref);
+		}
+	}, []);
 
 	if (loading) {
 		return (
@@ -98,6 +108,11 @@ function RouteComponent() {
 					customFields[field.name] = value;
 				}
 			});
+
+			// Add ref code to custom fields if present
+			if (refCode) {
+				customFields.ref_code = refCode;
+			}
 
 			// Submit to API
 			const response = await fetch(
