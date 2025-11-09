@@ -3,12 +3,12 @@
  * Drop zone for form fields with drag-drop reordering
  */
 
-import { type HTMLAttributes, memo } from 'react';
-import type { FormField } from '@/types/common.types';
-import { useDragAndDrop } from '../../hooks/useDragAndDrop';
-import { DropZone } from '../DropZone/component';
-import { FieldItem } from '../FieldItem/component';
-import styles from './component.module.scss';
+import { type HTMLAttributes, memo } from "react";
+import type { FormField } from "@/types/common.types";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
+import { DropZone } from "../DropZone/component";
+import { FieldItem } from "../FieldItem/component";
+import styles from "./component.module.scss";
 
 export interface FormCanvasProps extends HTMLAttributes<HTMLDivElement> {
 	/** Array of form fields */
@@ -49,16 +49,16 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 		customClassName,
 	]
 		.filter(Boolean)
-		.join(' ');
+		.join(" ");
 
 	const handleFieldDelete = (fieldId: string) => {
 		// If deleting the currently selected field, deselect it
 		if (selectedFieldId === fieldId) {
-			onFieldSelect('');
+			onFieldSelect("");
 		}
 
 		const newFields = fields
-			.filter(f => f.id !== fieldId)
+			.filter((f) => f.id !== fieldId)
 			.map((field, idx) => ({ ...field, order: idx }));
 		onFieldsChange(newFields);
 	};
@@ -76,8 +76,8 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 				<h3 className={styles.title}>Form Builder</h3>
 				<p className={styles.subtitle}>
 					{fields.length === 0
-						? 'Drag fields here or click to add'
-						: `${fields.length} field${fields.length !== 1 ? 's' : ''}`}
+						? "Drag fields here or click to add"
+						: `${fields.length} field${fields.length !== 1 ? "s" : ""}`}
 				</p>
 			</div>
 
@@ -133,4 +133,4 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 	);
 });
 
-FormCanvas.displayName = 'FormCanvas';
+FormCanvas.displayName = "FormCanvas";

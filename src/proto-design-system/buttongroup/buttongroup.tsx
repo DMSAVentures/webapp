@@ -67,7 +67,9 @@ const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
 					styles[`button-item--${item.iconOnly ? "icon-only" : "icon-text"}`],
 					styles[`button-item__icon--${item.iconPosition}`],
 					item.selected ? styles["button-item--selected"] : "",
-				].filter(Boolean).join(" ");
+				]
+					.filter(Boolean)
+					.join(" ");
 
 				return (
 					<button

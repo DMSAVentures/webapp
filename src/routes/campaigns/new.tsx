@@ -1,7 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import {
+	CampaignForm,
+	type CampaignFormData,
+} from "@/features/campaigns/components/CampaignForm/component";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
-import { CampaignForm, type CampaignFormData } from "@/features/campaigns/components/CampaignForm/component";
 import Banner from "@/proto-design-system/banner/banner";
 import styles from "./campaigns.module.scss";
 
@@ -38,10 +41,10 @@ function RouteComponent() {
 							[]) as Array<
 							"email" | "twitter" | "facebook" | "linkedin" | "whatsapp"
 						>,
-				  }
+					}
 				: {
 						enabled: false,
-				  },
+					},
 			email_config: {
 				verification_required: data.settings.emailVerificationRequired,
 			},

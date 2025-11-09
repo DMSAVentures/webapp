@@ -3,11 +3,11 @@
  * Displays the form preview on campaign detail page
  */
 
-import { memo } from 'react';
-import type { Campaign } from '@/types/campaign';
-import { FormPreview } from '@/features/form-builder/components/FormPreview/component';
-import { useFormConfigFromCampaign } from '@/hooks/useFormConfigFromCampaign';
-import styles from './component.module.scss';
+import { memo } from "react";
+import { FormPreview } from "@/features/form-builder/components/FormPreview/component";
+import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
+import type { Campaign } from "@/types/campaign";
+import styles from "./component.module.scss";
 
 export interface CampaignFormPreviewProps {
 	/** Campaign data */
@@ -34,7 +34,7 @@ export const CampaignFormPreview = memo<CampaignFormPreviewProps>(
 				<FormPreview config={formConfig} device="desktop" />
 			</div>
 		);
-	}
+	},
 );
 
-CampaignFormPreview.displayName = 'CampaignFormPreview';
+CampaignFormPreview.displayName = "CampaignFormPreview";

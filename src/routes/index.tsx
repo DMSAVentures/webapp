@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { usePersona } from "@/contexts/persona";
 import { useAuth } from "@/contexts/auth";
-import styles from "./page.module.scss";
+import { usePersona } from "@/contexts/persona";
 import cardStyles from "./dashboard.module.scss";
+import styles from "./page.module.scss";
 
 export const Route = createFileRoute("/")({
 	component: Index,
@@ -17,20 +17,20 @@ function Index() {
 	// Get persona-specific welcome message
 	const getWelcomeMessage = () => {
 		switch (persona) {
-			case 'admin':
-				return 'You have full access to all features and settings.';
-			case 'marketing':
-				return 'Access your analytics, campaigns, and email marketing tools.';
-			case 'developer':
-				return 'Manage your API keys, webhooks, and technical integrations.';
-			case 'sales':
-				return 'Track your deals, manage contacts, and view analytics.';
-			case 'content_creator':
-				return 'Create and manage articles and media content.';
-			case 'viewer':
-				return 'You have read-only access to the application.';
+			case "admin":
+				return "You have full access to all features and settings.";
+			case "marketing":
+				return "Access your analytics, campaigns, and email marketing tools.";
+			case "developer":
+				return "Manage your API keys, webhooks, and technical integrations.";
+			case "sales":
+				return "Track your deals, manage contacts, and view analytics.";
+			case "content_creator":
+				return "Create and manage articles and media content.";
+			case "viewer":
+				return "You have read-only access to the application.";
 			default:
-				return 'Welcome to the dashboard.';
+				return "Welcome to the dashboard.";
 		}
 	};
 
@@ -43,11 +43,9 @@ function Index() {
 		>
 			<div className={styles.pageHeader}>
 				<h1 className={styles.pageTitle}>
-					Welcome back, {user?.first_name || 'User'}!
+					Welcome back, {user?.first_name || "User"}!
 				</h1>
-				<p className={styles.pageDescription}>
-					{getWelcomeMessage()}
-				</p>
+				<p className={styles.pageDescription}>{getWelcomeMessage()}</p>
 			</div>
 
 			<div className={cardStyles.dashboard}>
@@ -56,11 +54,15 @@ function Index() {
 					<div className={cardStyles.cardGrid}>
 						{navigationGroups.map((group) =>
 							group.items.map((item) => (
-								<Link key={item.href} to={item.href} className={cardStyles.card}>
+								<Link
+									key={item.href}
+									to={item.href}
+									className={cardStyles.card}
+								>
 									<i className={`ri-${item.iconClass}`} aria-hidden="true" />
 									<span className={cardStyles.cardLabel}>{item.label}</span>
 								</Link>
-							))
+							)),
 						)}
 					</div>
 				</div>
@@ -69,7 +71,7 @@ function Index() {
 					<h2 className={cardStyles.sectionTitle}>Your Role</h2>
 					<div className={cardStyles.personaBadge}>
 						<span className={cardStyles.personaLabel}>
-							{persona.replace('_', ' ').toUpperCase()}
+							{persona.replace("_", " ").toUpperCase()}
 						</span>
 					</div>
 				</div>

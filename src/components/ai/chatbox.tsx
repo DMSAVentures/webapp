@@ -3,8 +3,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useSSEChat } from "@/hooks/useSSEChat";
 import Button from "@/proto-design-system/Button/button";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import styles from "./chatbox.module.scss";
 
 export default function ChatBox() {
@@ -52,7 +52,8 @@ export default function ChatBox() {
 				) : null}
 				{loading && (
 					<div className={styles["typing-indicator"]}>
-						<LoadingSpinner size="small" mode="inline" /> <span>AI is typing...</span>
+						<LoadingSpinner size="small" mode="inline" />{" "}
+						<span>AI is typing...</span>
 					</div>
 				)}
 			</div>

@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useMemo } from 'react';
-import { UserPersona } from '@/types/user';
-import { NavGroup, NavItem } from '@/types/navigation';
-import { navigationConfig } from '@/config/navigation';
+import React, { createContext, useContext, useMemo } from "react";
+import { navigationConfig } from "@/config/navigation";
+import { NavGroup, NavItem } from "@/types/navigation";
+import { UserPersona } from "@/types/user";
 
 interface PersonaContextType {
 	/** Current user's persona */
@@ -19,7 +19,7 @@ const PersonaContext = createContext<PersonaContextType | undefined>(undefined);
 export const usePersona = () => {
 	const context = useContext(PersonaContext);
 	if (!context) {
-		throw new Error('usePersona must be used within a PersonaProvider');
+		throw new Error("usePersona must be used within a PersonaProvider");
 	}
 	return context;
 };
@@ -42,7 +42,7 @@ export function PersonaProvider({ children, persona }: PersonaProviderProps) {
 		 * Filter navigation items based on persona access
 		 */
 		const filterNavItems = (items: NavItem[]): NavItem[] => {
-			return items.filter(item => hasAccess(item.allowedPersonas));
+			return items.filter((item) => hasAccess(item.allowedPersonas));
 		};
 
 		/**
@@ -50,12 +50,12 @@ export function PersonaProvider({ children, persona }: PersonaProviderProps) {
 		 */
 		const getNavigationGroups = (): NavGroup[] => {
 			return navigationConfig
-				.filter(group => hasAccess(group.allowedPersonas))
-				.map(group => ({
+				.filter((group) => hasAccess(group.allowedPersonas))
+				.map((group) => ({
 					...group,
 					items: filterNavItems(group.items),
 				}))
-				.filter(group => group.items.length > 0);
+				.filter((group) => group.items.length > 0);
 		};
 
 		/**
@@ -63,7 +63,7 @@ export function PersonaProvider({ children, persona }: PersonaProviderProps) {
 		 */
 		const canAccessRoute = (route: string): boolean => {
 			// Admin has access to all routes
-			if (persona === 'admin') return true;
+			if (persona === "admin") return true;
 
 			// Check if route exists in any nav item that the persona can access
 			for (const group of navigationConfig) {
@@ -75,7 +75,7 @@ export function PersonaProvider({ children, persona }: PersonaProviderProps) {
 			}
 
 			// Default routes that everyone can access
-			const publicRoutes = ['/', '/account', '/billing'];
+			const publicRoutes = ["/", "/account", "/billing"];
 			return publicRoutes.includes(route);
 		};
 
@@ -88,8 +88,6 @@ export function PersonaProvider({ children, persona }: PersonaProviderProps) {
 	}, [persona]);
 
 	return (
-		<PersonaContext.Provider value={value}>
-			{children}
-		</PersonaContext.Provider>
+		<PersonaContext.Provider value={value}>{children}</PersonaContext.Provider>
 	);
 }

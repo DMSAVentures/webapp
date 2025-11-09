@@ -242,13 +242,13 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	// Get fields for current step
 	const getCurrentStepFields = () => {
 		if (design.layout !== "multi-step") return fieldsWithSteps;
-		return fieldsWithSteps.filter(f => f.step === currentStep);
+		return fieldsWithSteps.filter((f) => f.step === currentStep);
 	};
 
 	// Calculate total steps
 	const totalSteps =
 		design.layout === "multi-step"
-			? Math.max(...fieldsWithSteps.map(f => f.step || 1), 1)
+			? Math.max(...fieldsWithSteps.map((f) => f.step || 1), 1)
 			: 1;
 
 	return (

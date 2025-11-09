@@ -7,7 +7,9 @@ import { Layout } from "@/proto-design-system/UIShell/Layout/Layout";
 function isPublicRoute(): boolean {
 	if (typeof window === "undefined") return false;
 	const path = window.location.pathname;
-	return path === "/signin" || path.startsWith("/oauth") || path.startsWith("/embed");
+	return (
+		path === "/signin" || path.startsWith("/oauth") || path.startsWith("/embed")
+	);
 }
 
 function RootLayout() {

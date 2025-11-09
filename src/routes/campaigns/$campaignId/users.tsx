@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { UserList } from "@/features/users/components/UserList/component";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { ErrorState } from "@/components/error/error";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { UserList } from "@/features/users/components/UserList/component";
+import { useGetCampaign } from "@/hooks/useGetCampaign";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { WaitlistUser } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
 
@@ -19,7 +19,13 @@ function RouteComponent() {
 	const { data: campaign, loading, error } = useGetCampaign(campaignId);
 
 	if (loading) {
-		return <LoadingSpinner size="large" mode="centered" message="Loading campaign..." />;
+		return (
+			<LoadingSpinner
+				size="large"
+				mode="centered"
+				message="Loading campaign..."
+			/>
+		);
 	}
 
 	if (error) {
@@ -79,13 +85,13 @@ function RouteComponent() {
 					loading={false}
 					showFilters={true}
 					onUserClick={(user) => {
-						console.log('User clicked:', user);
+						console.log("User clicked:", user);
 					}}
 					onExport={async (userIds) => {
-						console.log('Export users:', userIds);
+						console.log("Export users:", userIds);
 					}}
 					onBulkAction={async (action, userIds) => {
-						console.log('Bulk action:', action, userIds);
+						console.log("Bulk action:", action, userIds);
 					}}
 				/>
 			</div>

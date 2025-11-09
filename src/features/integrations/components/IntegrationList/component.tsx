@@ -208,7 +208,9 @@ export const IntegrationList = memo<IntegrationListProps>(
 							/>
 						))}
 						activeTab={activeTabIndex}
-						onTabClick={(index) => setCategoryFilter(CATEGORY_OPTIONS[index].value)}
+						onTabClick={(index) =>
+							setCategoryFilter(CATEGORY_OPTIONS[index].value)
+						}
 					/>
 				</div>
 
@@ -229,7 +231,10 @@ export const IntegrationList = memo<IntegrationListProps>(
 					<div className={styles.noResults}>
 						<i className="ri-search-line" aria-hidden="true" />
 						<p>No integrations found in this category</p>
-						<Button onClick={() => setCategoryFilter("all")} variant="secondary">
+						<Button
+							onClick={() => setCategoryFilter("all")}
+							variant="secondary"
+						>
 							View all integrations
 						</Button>
 					</div>
@@ -248,7 +253,9 @@ export const IntegrationList = memo<IntegrationListProps>(
 								{/* Content */}
 								<div className={styles.integrationContent}>
 									<div className={styles.integrationHeader}>
-										<h3 className={styles.integrationTitle}>{integration.name}</h3>
+										<h3 className={styles.integrationTitle}>
+											{integration.name}
+										</h3>
 										<StatusBadge
 											text={getStatusText(integration.status)}
 											variant={getStatusVariant(integration.status)}
@@ -267,14 +274,13 @@ export const IntegrationList = memo<IntegrationListProps>(
 												<i className="ri-refresh-line" aria-hidden="true" />
 												<span>
 													Last synced{" "}
-													{new Date(integration.lastSyncedAt).toLocaleDateString(
-														"en-US",
-														{
-															month: "short",
-															day: "numeric",
-															year: "numeric",
-														},
-													)}
+													{new Date(
+														integration.lastSyncedAt,
+													).toLocaleDateString("en-US", {
+														month: "short",
+														day: "numeric",
+														year: "numeric",
+													})}
 												</span>
 											</div>
 										)}

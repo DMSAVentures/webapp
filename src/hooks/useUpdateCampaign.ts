@@ -1,14 +1,21 @@
-import { useCallback, useState } from 'react';
-import { fetcher } from '@/hooks/fetcher';
-import type { Campaign, UpdateCampaignRequest, ApiError } from '@/types/campaign';
+import { useCallback, useState } from "react";
+import { fetcher } from "@/hooks/fetcher";
+import type {
+	ApiError,
+	Campaign,
+	UpdateCampaignRequest,
+} from "@/types/campaign";
 
-async function updateCampaign(campaignId: string, request: UpdateCampaignRequest): Promise<Campaign> {
+async function updateCampaign(
+	campaignId: string,
+	request: UpdateCampaignRequest,
+): Promise<Campaign> {
 	const response = await fetcher<Campaign>(
 		`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
 		{
-			method: 'PUT',
+			method: "PUT",
 			body: JSON.stringify(request),
-		}
+		},
 	);
 
 	return response;
@@ -20,7 +27,10 @@ export const useUpdateCampaign = () => {
 	const [data, setData] = useState<Campaign | null>(null);
 
 	const operation = useCallback(
-		async (campaignId: string, request: UpdateCampaignRequest): Promise<Campaign | null> => {
+		async (
+			campaignId: string,
+			request: UpdateCampaignRequest,
+		): Promise<Campaign | null> => {
 			setLoading(true);
 			setError(null);
 			try {
@@ -28,14 +38,15 @@ export const useUpdateCampaign = () => {
 				setData(response);
 				return response;
 			} catch (error: unknown) {
-				const message = error instanceof Error ? error.message : 'Unknown error';
+				const message =
+					error instanceof Error ? error.message : "Unknown error";
 				setError({ error: message });
 				return null;
 			} finally {
 				setLoading(false);
 			}
 		},
-		[]
+		[],
 	);
 
 	return {

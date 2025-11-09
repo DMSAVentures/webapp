@@ -1,20 +1,25 @@
-import { useCallback, useEffect, useState } from 'react';
-import { fetcher, ApiError } from '@/hooks/fetcher';
-import type { ListCampaignsResponse, ListCampaignsParams } from '@/types/campaign';
+import { useCallback, useEffect, useState } from "react";
+import { ApiError, fetcher } from "@/hooks/fetcher";
+import type {
+	ListCampaignsParams,
+	ListCampaignsResponse,
+} from "@/types/campaign";
 
-async function getCampaigns(params?: ListCampaignsParams): Promise<ListCampaignsResponse> {
+async function getCampaigns(
+	params?: ListCampaignsParams,
+): Promise<ListCampaignsResponse> {
 	const searchParams = new URLSearchParams();
 
-	if (params?.page) searchParams.append('page', params.page.toString());
-	if (params?.limit) searchParams.append('limit', params.limit.toString());
-	if (params?.status) searchParams.append('status', params.status);
-	if (params?.type) searchParams.append('type', params.type);
+	if (params?.page) searchParams.append("page", params.page.toString());
+	if (params?.limit) searchParams.append("limit", params.limit.toString());
+	if (params?.status) searchParams.append("status", params.status);
+	if (params?.type) searchParams.append("type", params.type);
 
 	const queryString = searchParams.toString();
-	const url = `${import.meta.env.VITE_API_URL}/api/v1/campaigns${queryString ? `?${queryString}` : ''}`;
+	const url = `${import.meta.env.VITE_API_URL}/api/v1/campaigns${queryString ? `?${queryString}` : ""}`;
 
 	const response = await fetcher<ListCampaignsResponse>(url, {
-		method: 'GET',
+		method: "GET",
 	});
 
 	return response;
@@ -32,7 +37,7 @@ export const useGetCampaigns = (params?: ListCampaignsParams) => {
 			const response = await getCampaigns(params);
 			setData(response);
 		} catch (error: unknown) {
-			const message = error instanceof Error ? error.message : 'Unknown error';
+			const message = error instanceof Error ? error.message : "Unknown error";
 			setError({ error: message });
 		} finally {
 			setLoading(false);

@@ -55,7 +55,16 @@ const formatPercentage = (value: number): string => {
 /**
  * Custom label component for bars
  */
-const CustomLabel = (props: any) => {
+interface CustomLabelProps {
+	x?: number;
+	y?: number;
+	width?: number;
+	height?: number;
+	value?: number;
+	conversion?: number;
+}
+
+const CustomLabel = (props: CustomLabelProps) => {
 	const { x, y, width, height, value, conversion } = props;
 
 	return (
@@ -88,7 +97,18 @@ const CustomLabel = (props: any) => {
 /**
  * Custom tooltip component
  */
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+	active?: boolean;
+	payload?: Array<{
+		payload: {
+			name: string;
+			value: number;
+			conversion: number;
+		};
+	}>;
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 	if (!active || !payload || !payload.length) {
 		return null;
 	}

@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import PlanToPay from "@/components/billing/plans/planPay";
 import { ErrorState } from "@/components/error/error";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { Column } from "@/proto-design-system/UIShell/Column/Column";
 
 export const Route = createFileRoute("/billing/plans")({

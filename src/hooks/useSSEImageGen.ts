@@ -43,11 +43,15 @@ export function useSSEImageGen() {
 		);
 
 		const reader = res.body?.getReader();
+		if (!reader) {
+			throw new Error("Failed to get reader from response body");
+		}
+
 		const decoder = new TextDecoder("utf-8");
 		let assistantReply = "";
 
 		while (true) {
-			const { value, done } = await reader?.read()!;
+			const { value, done } = await reader.read();
 			if (done) break;
 
 			const chunk = decoder.decode(value, { stream: true });
@@ -78,6 +82,7 @@ export function useSSEImageGen() {
 					trimmed.startsWith("retry:") ||
 					trimmed.startsWith("message:")
 				) {
+					// Skip SSE metadata lines
 				} else {
 					// Handle trailing base64 content that came untagged in newlines
 					assistantReply += trimmed;

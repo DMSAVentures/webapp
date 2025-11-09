@@ -33,8 +33,8 @@ export interface Campaign {
 	updated_at: string;
 }
 
-export type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed';
-export type CampaignType = 'waitlist' | 'referral' | 'contest';
+export type CampaignStatus = "draft" | "active" | "paused" | "completed";
+export type CampaignType = "waitlist" | "referral" | "contest";
 
 // ============================================================================
 // Campaign Configuration Types
@@ -57,7 +57,13 @@ export interface FormField {
 	validation?: string;
 }
 
-export type FormFieldType = 'email' | 'text' | 'select' | 'checkbox' | 'textarea' | 'number';
+export type FormFieldType =
+	| "email"
+	| "text"
+	| "select"
+	| "checkbox"
+	| "textarea"
+	| "number";
 
 export interface ReferralConfig {
 	enabled?: boolean;
@@ -67,7 +73,12 @@ export interface ReferralConfig {
 	custom_share_messages?: Record<string, string>;
 }
 
-export type SharingChannel = 'email' | 'twitter' | 'facebook' | 'linkedin' | 'whatsapp';
+export type SharingChannel =
+	| "email"
+	| "twitter"
+	| "facebook"
+	| "linkedin"
+	| "whatsapp";
 
 export interface EmailConfig {
 	from_name?: string;

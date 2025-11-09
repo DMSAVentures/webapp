@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { IntegrationList } from "./component";
 import type { Integration } from "@/types/common.types";
+import { IntegrationList } from "./component";
 
 // Mock integrations data
 const mockIntegrations: Integration[] = [

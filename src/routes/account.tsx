@@ -2,14 +2,14 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import PlanCard from "@/components/billing/plans/planCard";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { ErrorState } from "@/components/error/error";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { useCancelSubscription } from "@/hooks/useCancelSubscription";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
 import { Button } from "@/proto-design-system/Button/button";
 import { Badge } from "@/proto-design-system/badge/badge";
 import Banner from "@/proto-design-system/banner/banner";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { Column } from "@/proto-design-system/UIShell/Column/Column";
 import styles from "./account.module.scss";
 

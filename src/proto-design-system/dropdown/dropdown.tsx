@@ -81,7 +81,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
 	// Initialize selected option from options with selected: true
 	useEffect(() => {
-		const preselected = props.options.find(option => option.selected);
+		const preselected = props.options.find((option) => option.selected);
 		if (preselected && !selectedOption) {
 			setSelectedOption(preselected);
 		}

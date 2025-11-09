@@ -1,14 +1,17 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { ErrorState } from "@/components/error/error";
+import {
+	CampaignForm,
+	type CampaignFormData,
+} from "@/features/campaigns/components/CampaignForm/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
-import { CampaignForm, type CampaignFormData } from "@/features/campaigns/components/CampaignForm/component";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { ErrorState } from "@/components/error/error";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import Banner from "@/proto-design-system/banner/banner";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import styles from "./campaignEdit.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/edit")({
@@ -18,8 +21,16 @@ export const Route = createFileRoute("/campaigns/$campaignId/edit")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
-	const { data: campaign, loading: loadingCampaign, error: errorCampaign } = useGetCampaign(campaignId);
-	const { updateCampaign, loading: updating, error: updateError } = useUpdateCampaign();
+	const {
+		data: campaign,
+		loading: loadingCampaign,
+		error: errorCampaign,
+	} = useGetCampaign(campaignId);
+	const {
+		updateCampaign,
+		loading: updating,
+		error: updateError,
+	} = useUpdateCampaign();
 
 	const handleSubmit = async (data: CampaignFormData) => {
 		const updated = await updateCampaign(campaignId, {
@@ -45,11 +56,19 @@ function RouteComponent() {
 	};
 
 	if (loadingCampaign) {
-		return <LoadingSpinner size="large" mode="centered" message="Loading campaign..." />;
+		return (
+			<LoadingSpinner
+				size="large"
+				mode="centered"
+				message="Loading campaign..."
+			/>
+		);
 	}
 
 	if (errorCampaign) {
-		return <ErrorState message={`Failed to load campaign: ${errorCampaign.error}`} />;
+		return (
+			<ErrorState message={`Failed to load campaign: ${errorCampaign.error}`} />
+		);
 	}
 
 	if (!campaign) {
@@ -61,7 +80,8 @@ function RouteComponent() {
 		name: campaign.name,
 		description: campaign.description,
 		settings: {
-			emailVerificationRequired: campaign.email_config?.verification_required ?? true,
+			emailVerificationRequired:
+				campaign.email_config?.verification_required ?? true,
 			duplicateHandling: "block",
 			enableReferrals: campaign.referral_config?.enabled ?? true,
 			enableRewards: true,
@@ -82,7 +102,11 @@ function RouteComponent() {
 							<BreadcrumbItem key="campaigns" state="default" path="/campaigns">
 								Campaigns
 							</BreadcrumbItem>,
-							<BreadcrumbItem key="campaign" state="default" path={`/campaigns/${campaignId}`}>
+							<BreadcrumbItem
+								key="campaign"
+								state="default"
+								path={`/campaigns/${campaignId}`}
+							>
 								{campaign.name}
 							</BreadcrumbItem>,
 							<BreadcrumbItem key="edit" state="active">
