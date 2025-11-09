@@ -8,17 +8,13 @@ export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
 	const checkboxId = useId();
-	const [checked, setChecked] = React.useState<boolean>(
-		props.checked === "checked",
-	);
+	const isChecked = props.checked === "checked";
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (props.disabled) {
 			event.preventDefault();
 			return;
 		}
-
-		setChecked(() => !checked);
 
 		if (props.onChange) {
 			props.onChange(event);
@@ -31,7 +27,7 @@ const Checkbox: React.FC<CheckboxProps> = (props): JSX.Element => {
 				id={checkboxId}
 				className={styles["custom-checkbox-input"]}
 				disabled={props.disabled}
-				checked={checked}
+				checked={isChecked}
 				onChange={handleChange}
 			/>
 			{/*<label htmlFor={checkboxId} className={`custom-checkbox-label ${checked ? 'checked' : ''} ${isIndeterminate ? 'indeterminate' : ''} ${props.disabled ? 'disabled' : ''}`}>*/}
