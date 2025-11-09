@@ -67,6 +67,11 @@ interface CustomLabelProps {
 const CustomLabel = (props: CustomLabelProps) => {
 	const { x, y, width, height, value, conversion } = props;
 
+	// Guard against undefined values
+	if (x === undefined || y === undefined || width === undefined || height === undefined || value === undefined) {
+		return null;
+	}
+
 	return (
 		<g>
 			<text
@@ -104,6 +109,7 @@ interface CustomTooltipProps {
 			name: string;
 			value: number;
 			conversion: number;
+			dropOff: number;
 		};
 	}>;
 }
