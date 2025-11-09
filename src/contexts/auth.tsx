@@ -15,29 +15,35 @@ export const AuthContext = createContext(defaultAuthContext);
 
 export const useAuth = () => useContext(AuthContext);
 
-// Determines if the current path is a public route (e.g., /signin, /oauth/*)
+// Determines if the current path is a public route (e.g., /signin, /oauth/*, /embed/*)
 function isPublicRoute(): boolean {
 	if (typeof window === "undefined") return false;
 	const path = window.location.pathname;
-	return path === "/signin" || path.startsWith("/oauth");
+	return (
+		path === "/signin" ||
+		path.startsWith("/oauth") ||
+		path.startsWith("/embed")
+	);
 }
 
 /**
  * Loads the authenticated user or redirects to /signin if not authenticated.
- * Allows unauthenticated access to public routes (e.g., /signin, /oauth/*).
+ * Allows unauthenticated access to public routes (e.g., /signin, /oauth/*, /embed/*).
  */
 export async function loadAuth(): Promise<User | null> {
+	// Skip auth check entirely for public routes
+	if (isPublicRoute()) {
+		return null;
+	}
+
 	try {
 		const user = await getUser();
 		return user;
 	} catch {
-		if (!isPublicRoute()) {
-			window.location.replace("/signin");
-			return new Promise<never>(() => {
-				/* Never resolves - app will pause until redirect */
-			});
-		}
-		return null;
+		window.location.replace("/signin");
+		return new Promise<never>(() => {
+			/* Never resolves - app will pause until redirect */
+		});
 	}
 }
 

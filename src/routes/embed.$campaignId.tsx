@@ -4,10 +4,11 @@
  */
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ErrorState } from "@/components/error/error";
-import { useGetCampaign } from "@/hooks/useGetCampaign";
+import { publicFetcher, type ApiError } from "@/hooks/fetcher";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import type { Campaign } from "@/types/campaign";
 import type { FormDesign } from "@/types/common.types";
 import styles from "./embed.module.scss";
 
@@ -17,12 +18,32 @@ export const Route = createFileRoute("/embed/$campaignId")({
 
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
-	const { data: campaign, loading, error } = useGetCampaign(campaignId);
+	const [campaign, setCampaign] = useState<Campaign | null>(null);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<ApiError | null>(null);
 	const [formData, setFormData] = useState<Record<string, string>>({});
 	const [submitting, setSubmitting] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const [refCode, setRefCode] = useState<string | null>(null);
+
+	// Fetch campaign data using public API (no auth required)
+	const fetchCampaign = useCallback(async () => {
+		setLoading(true);
+		setError(null);
+		try {
+			const response = await publicFetcher<Campaign>(
+				`${import.meta.env.VITE_API_URL}/api/v1/${campaignId}`,
+				{ method: "GET" },
+			);
+			setCampaign(response);
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : "Failed to load form";
+			setError({ error: message });
+		} finally {
+			setLoading(false);
+		}
+	}, [campaignId]);
 
 	// Extract ref code from URL parameters on mount
 	useEffect(() => {
@@ -33,13 +54,22 @@ function RouteComponent() {
 		}
 	}, []);
 
+	// Fetch campaign on mount
+	useEffect(() => {
+		fetchCampaign();
+	}, [fetchCampaign]);
+
 	if (loading) {
 		return (
 			<LoadingSpinner size="large" mode="centered" message="Loading form..." />
 		);
 	}
 
-	if (error || !campaign) {
+	if (error) {
+		return <ErrorState message={`Error: ${error.error}`} />;
+	}
+
+	if (!campaign) {
 		return <ErrorState message="Form not found" />;
 	}
 
@@ -256,7 +286,7 @@ function RouteComponent() {
 								: undefined,
 					}}
 				>
-					{campaign.form_config.fields.map((field) => (
+					{campaign.form_config?.fields?.map((field) => (
 						<div key={field.name} style={fieldContainerStyle}>
 							<label style={labelStyle}>
 								{field.label}
