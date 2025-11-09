@@ -5,13 +5,13 @@
  */
 
 import type {
+	BrandingConfig,
 	Campaign,
 	CampaignStatus,
 	CampaignType,
 	EmailConfig,
 	FormConfig,
 	ReferralConfig,
-	BrandingConfig,
 	SharingChannel,
 } from "@/types/campaign";
 

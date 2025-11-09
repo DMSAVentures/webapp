@@ -21,9 +21,9 @@ export function camelToSnake(str: string): string {
 /**
  * Recursively converts all keys in an object from snake_case to camelCase
  */
-export function objectKeysToCamel<T = any>(obj: any): T {
+export function objectKeysToCamel<T = unknown>(obj: unknown): T {
 	if (obj === null || obj === undefined) {
-		return obj;
+		return obj as T;
 	}
 
 	if (Array.isArray(obj)) {
@@ -34,22 +34,24 @@ export function objectKeysToCamel<T = any>(obj: any): T {
 		return Object.keys(obj).reduce(
 			(acc, key) => {
 				const camelKey = snakeToCamel(key);
-				acc[camelKey] = objectKeysToCamel(obj[key]);
+				acc[camelKey] = objectKeysToCamel(
+					(obj as Record<string, unknown>)[key],
+				);
 				return acc;
 			},
-			{} as Record<string, any>,
+			{} as Record<string, unknown>,
 		) as T;
 	}
 
-	return obj;
+	return obj as T;
 }
 
 /**
  * Recursively converts all keys in an object from camelCase to snake_case
  */
-export function objectKeysToSnake<T = any>(obj: any): T {
+export function objectKeysToSnake<T = unknown>(obj: unknown): T {
 	if (obj === null || obj === undefined) {
-		return obj;
+		return obj as T;
 	}
 
 	if (Array.isArray(obj)) {
@@ -60,20 +62,22 @@ export function objectKeysToSnake<T = any>(obj: any): T {
 		return Object.keys(obj).reduce(
 			(acc, key) => {
 				const snakeKey = camelToSnake(key);
-				acc[snakeKey] = objectKeysToSnake(obj[key]);
+				acc[snakeKey] = objectKeysToSnake(
+					(obj as Record<string, unknown>)[key],
+				);
 				return acc;
 			},
-			{} as Record<string, any>,
+			{} as Record<string, unknown>,
 		) as T;
 	}
 
-	return obj;
+	return obj as T;
 }
 
 /**
  * Transforms dates in an object from ISO strings to Date objects
  */
-export function transformDates<T extends Record<string, any>>(
+export function transformDates<T extends Record<string, unknown>>(
 	obj: T,
 	dateFields: (keyof T)[],
 ): T {
@@ -81,7 +85,9 @@ export function transformDates<T extends Record<string, any>>(
 
 	for (const field of dateFields) {
 		if (result[field] && typeof result[field] === "string") {
-			result[field] = new Date(result[field] as string) as any;
+			result[field] = new Date(
+				result[field] as string,
+			) as unknown as T[keyof T];
 		}
 	}
 

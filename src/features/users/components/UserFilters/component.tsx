@@ -25,14 +25,13 @@ export interface UserFiltersProps {
 	className?: string;
 }
 
-const STATUS_OPTIONS: Array<{ value: WaitlistUserStatus; label: string }> =
-	[
-		{ value: "pending", label: "Pending" },
-		{ value: "verified", label: "Verified" },
-		{ value: "invited", label: "Invited" },
-		{ value: "active", label: "Active" },
-		{ value: "rejected", label: "Rejected" },
-	];
+const STATUS_OPTIONS: Array<{ value: WaitlistUserStatus; label: string }> = [
+	{ value: "pending", label: "Pending" },
+	{ value: "verified", label: "Verified" },
+	{ value: "invited", label: "Invited" },
+	{ value: "active", label: "Active" },
+	{ value: "rejected", label: "Rejected" },
+];
 
 const SOURCE_OPTIONS = [
 	"organic",

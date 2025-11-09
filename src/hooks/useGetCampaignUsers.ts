@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import type {
-	ListUsersParams,
-	ListUsersResponse,
-} from "@/types/users.types";
+import type { ListUsersParams, ListUsersResponse } from "@/types/users.types";
 import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
 
 async function getCampaignUsers(
@@ -44,7 +41,9 @@ export const useGetCampaignUsers = (
 				const response = await getCampaignUsers(campaignId, params);
 
 				// Transform API response to UI format
-				const transformedUsers = transformApiUsersToWaitlistUsers(response.users);
+				const transformedUsers = transformApiUsersToWaitlistUsers(
+					response.users,
+				);
 
 				setData({
 					...response,
@@ -62,14 +61,7 @@ export const useGetCampaignUsers = (
 			}
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		},
-		[
-			campaignId,
-			params?.page,
-			params?.limit,
-			params?.status,
-			params?.sort,
-			params?.order,
-		],
+		[campaignId, params],
 	);
 
 	useEffect(() => {

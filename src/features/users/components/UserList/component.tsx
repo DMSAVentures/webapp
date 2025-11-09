@@ -17,9 +17,9 @@ import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type {
+	SortDirection,
 	UserFilters as UserFiltersType,
 	UserSortField,
-	SortDirection,
 	WaitlistUser,
 } from "@/types/users.types";
 import { BulkActions } from "../BulkActions/component";
