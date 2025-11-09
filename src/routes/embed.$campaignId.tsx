@@ -85,10 +85,16 @@ function RouteComponent() {
 		setSubmitError(null);
 
 		try {
-			// Build form data from fields
-			const submitData: Record<string, string> = {};
+			// Extract email (required field)
+			const email = formData.email || "";
+
+			// Build custom fields (everything except email)
+			const customFields: Record<string, string> = {};
 			campaign.form_config!.fields!.forEach((field) => {
-				submitData[field.name] = formData[field.name] || "";
+				// Skip email as it's a required field, not a custom field
+				if (field.name !== "email") {
+					customFields[field.name] = formData[field.name] || "";
+				}
 			});
 
 			// Submit to API
@@ -100,13 +106,9 @@ function RouteComponent() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						email: submitData.email || "",
-						first_name:
-							submitData.first_name || submitData.name?.split(" ")[0] || "",
-						last_name:
-							submitData.last_name || submitData.name?.split(" ")[1] || "",
+						email,
 						terms_accepted: true,
-						custom_fields: submitData,
+						custom_fields: customFields,
 					}),
 				},
 			);
