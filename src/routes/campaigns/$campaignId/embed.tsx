@@ -315,7 +315,8 @@ export function WaitlistForm() {
 							JavaScript Snippet (Recommended)
 						</h3>
 						<p style={{ color: "var(--color-text-secondary-default)" }}>
-							Automatically detects and passes ref codes from your page URL (e.g., yoursite.com/signup?ref=ABC123)
+							Automatically detects and passes ref codes from your page URL
+							(e.g., yoursite.com/signup?ref=ABC123)
 						</p>
 						<div
 							style={{ display: "flex", gap: "8px", alignItems: "flex-end" }}

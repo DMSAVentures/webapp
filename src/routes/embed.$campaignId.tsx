@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
