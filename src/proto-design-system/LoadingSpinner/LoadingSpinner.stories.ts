@@ -1,27 +1,27 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { LoadingSpinner } from './LoadingSpinner';
+import type { Meta, StoryObj } from "@storybook/react";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const meta = {
-	title: 'ProtoDesignSystem/Feedback/LoadingSpinner',
+	title: "ProtoDesignSystem/Feedback/LoadingSpinner",
 	component: LoadingSpinner,
-	tags: ['autodocs'],
+	tags: ["autodocs"],
 	parameters: {
-		layout: 'centered',
+		layout: "centered",
 	},
 	argTypes: {
 		size: {
-			control: 'select',
-			options: ['small', 'medium', 'large'],
-			description: 'Size of the spinner',
+			control: "select",
+			options: ["small", "medium", "large"],
+			description: "Size of the spinner",
 		},
 		mode: {
-			control: 'select',
-			options: ['inline', 'centered', 'fullscreen'],
-			description: 'Display mode',
+			control: "select",
+			options: ["inline", "centered", "fullscreen"],
+			description: "Display mode",
 		},
 		message: {
-			control: 'text',
-			description: 'Optional message below spinner',
+			control: "text",
+			description: "Optional message below spinner",
 		},
 	},
 } satisfies Meta<typeof LoadingSpinner>;
@@ -35,50 +35,50 @@ export const Default: Story = {
 
 export const WithMessage: Story = {
 	args: {
-		message: 'Loading your data...',
+		message: "Loading your data...",
 	},
 };
 
 export const Small: Story = {
 	args: {
-		size: 'small',
-		message: 'Loading...',
+		size: "small",
+		message: "Loading...",
 	},
 };
 
 export const Medium: Story = {
 	args: {
-		size: 'medium',
-		message: 'Loading...',
+		size: "medium",
+		message: "Loading...",
 	},
 };
 
 export const Large: Story = {
 	args: {
-		size: 'large',
-		message: 'Loading...',
+		size: "large",
+		message: "Loading...",
 	},
 };
 
 export const Inline: Story = {
 	args: {
-		size: 'small',
-		mode: 'inline',
+		size: "small",
+		mode: "inline",
 	},
 };
 
 export const Centered: Story = {
 	args: {
-		size: 'medium',
-		mode: 'centered',
-		message: 'Please wait...',
+		size: "medium",
+		mode: "centered",
+		message: "Please wait...",
 	},
 };
 
 export const Fullscreen: Story = {
 	args: {
-		size: 'large',
-		mode: 'fullscreen',
-		message: 'Loading application...',
+		size: "large",
+		mode: "fullscreen",
+		message: "Loading application...",
 	},
 };

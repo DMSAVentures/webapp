@@ -230,7 +230,9 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
 									{campaign.total_signups > 0
-										? (campaign.total_referrals / campaign.total_signups).toFixed(1)
+										? (
+												campaign.total_referrals / campaign.total_signups
+											).toFixed(1)
 										: "0.0"}
 								</span>
 								<span className={styles.statLabel}>K-Factor</span>
@@ -254,7 +256,8 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 								year: "numeric",
 							})}
 						</>
-					) : campaign.created_at && !isNaN(new Date(campaign.created_at).getTime()) ? (
+					) : campaign.created_at &&
+						!isNaN(new Date(campaign.created_at).getTime()) ? (
 						<>
 							Created{" "}
 							{new Date(campaign.created_at).toLocaleDateString("en-US", {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { WebhookManager } from "./component";
 import type { Webhook } from "@/types/common.types";
+import { WebhookManager } from "./component";
 
 // Mock webhooks data
 const mockWebhooks: Webhook[] = [

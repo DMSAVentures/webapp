@@ -1,7 +1,7 @@
 import React from "react";
 import UserName from "@/components/user/Username.tsx";
-import { useSidebar } from "@/contexts/sidebar.tsx";
 import { usePersona } from "@/contexts/persona.tsx";
+import { useSidebar } from "@/contexts/sidebar.tsx";
 import HeaderLogo from "@/proto-design-system/UIShell/Header/HeaderLogo.tsx";
 import { SidebarFooter } from "@/proto-design-system/UIShell/Sidebar/SidebarFooter.tsx";
 import { SidebarContent } from "@/proto-design-system/UIShell/Sidebar/sidebarContent.tsx";
@@ -40,11 +40,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 		<SidebarFooter key="footer">
 			<UserName />
 			<SidebarGroup label="Settings">
-				<SidebarItem
-					label="Account"
-					href="/account"
-					iconClass="user-line"
-				/>
+				<SidebarItem label="Account" href="/account" iconClass="user-line" />
 			</SidebarGroup>
 		</SidebarFooter>
 	);
@@ -52,9 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 	return (
 		<aside className={sidebarClassName}>
 			<HeaderLogo logo={"DMSA Ventures"} />
-			<SidebarContent>
-				{[...sidebarGroups, sidebarFooter]}
-			</SidebarContent>
+			<SidebarContent>{[...sidebarGroups, sidebarFooter]}</SidebarContent>
 		</aside>
 	);
 };

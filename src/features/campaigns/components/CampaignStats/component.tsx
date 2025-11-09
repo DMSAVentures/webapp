@@ -13,7 +13,9 @@ export interface CampaignStatsProps extends HTMLAttributes<HTMLDivElement> {
 	/** Show loading state */
 	loading?: boolean;
 	/** Click handler for stat cards */
-	onCardClick?: (cardType: 'totalSignups' | 'verified' | 'referrals' | 'kFactor') => void;
+	onCardClick?: (
+		cardType: "totalSignups" | "verified" | "referrals" | "kFactor",
+	) => void;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -57,9 +59,9 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 		<div className={classNames} {...props}>
 			{/* Total Signups */}
 			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
-				onClick={() => onCardClick?.('totalSignups')}
-				role={onCardClick ? 'button' : undefined}
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+				onClick={() => onCardClick?.("totalSignups")}
+				role={onCardClick ? "button" : undefined}
 				tabIndex={onCardClick ? 0 : undefined}
 			>
 				<div className={styles.statIcon}>
@@ -80,9 +82,9 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 
 			{/* Verified Signups */}
 			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
-				onClick={() => onCardClick?.('verified')}
-				role={onCardClick ? 'button' : undefined}
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+				onClick={() => onCardClick?.("verified")}
+				role={onCardClick ? "button" : undefined}
 				tabIndex={onCardClick ? 0 : undefined}
 			>
 				<div className={`${styles.statIcon} ${styles.statIconSuccess}`}>
@@ -108,9 +110,9 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 
 			{/* Total Referrals */}
 			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
-				onClick={() => onCardClick?.('referrals')}
-				role={onCardClick ? 'button' : undefined}
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+				onClick={() => onCardClick?.("referrals")}
+				role={onCardClick ? "button" : undefined}
 				tabIndex={onCardClick ? 0 : undefined}
 			>
 				<div className={`${styles.statIcon} ${styles.statIconPurple}`}>
@@ -131,9 +133,9 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 
 			{/* Viral Coefficient (K-Factor) */}
 			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ''}`}
-				onClick={() => onCardClick?.('kFactor')}
-				role={onCardClick ? 'button' : undefined}
+				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+				onClick={() => onCardClick?.("kFactor")}
+				role={onCardClick ? "button" : undefined}
 				tabIndex={onCardClick ? 0 : undefined}
 			>
 				<div className={`${styles.statIcon} ${styles.statIconOrange}`}>

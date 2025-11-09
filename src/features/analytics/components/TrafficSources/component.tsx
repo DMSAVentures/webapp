@@ -55,7 +55,18 @@ const formatPercentage = (value: number): string => {
 /**
  * Custom tooltip component
  */
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+	active?: boolean;
+	payload?: Array<{
+		payload: {
+			source: string;
+			count: number;
+			percentage: number;
+		};
+	}>;
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 	if (!active || !payload || !payload.length) {
 		return null;
 	}
@@ -86,7 +97,11 @@ const CustomTooltip = ({ active, payload }: any) => {
 /**
  * Custom label for pie chart
  */
-const renderPieLabel = (entry: any) => {
+interface PieLabelEntry {
+	percentage: number;
+}
+
+const renderPieLabel = (entry: PieLabelEntry) => {
 	return `${formatPercentage(entry.percentage)}`;
 };
 
@@ -146,7 +161,7 @@ export const TrafficSources = memo<TrafficSourcesProps>(
 								layout="vertical"
 								align="right"
 								verticalAlign="middle"
-								formatter={(value, entry: any) => {
+								formatter={(value, entry: { payload: { source: string } }) => {
 									const item = data.find(
 										(d) => d.source === entry.payload.source,
 									);

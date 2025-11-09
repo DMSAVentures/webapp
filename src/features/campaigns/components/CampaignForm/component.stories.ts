@@ -120,7 +120,9 @@ export const Loading: Story = {
 		},
 		submitText: "Create Campaign",
 		loading: true,
-		onSubmit: async () => {},
+		onSubmit: async () => {
+			// Loading state - no action needed
+		},
 		onCancel: () => console.log("Cancelled"),
 	},
 };

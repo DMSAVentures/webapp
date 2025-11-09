@@ -1,4 +1,4 @@
-import { UserPersona } from './user';
+import { UserPersona } from "./user";
 
 /**
  * Navigation item configuration for sidebar

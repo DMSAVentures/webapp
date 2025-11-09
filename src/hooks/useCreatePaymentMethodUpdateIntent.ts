@@ -28,7 +28,12 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 			return;
 		}
 
-		const result = await stripe.confirmCardSetup(data?.client_secret!, {
+		if (!data?.client_secret) {
+			setError("Client secret is missing");
+			return;
+		}
+
+		const result = await stripe.confirmCardSetup(data.client_secret, {
 			payment_method: {
 				card: elements.getElement(CardElement)!,
 			},

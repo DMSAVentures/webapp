@@ -1,7 +1,7 @@
 "use client";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 
 interface PlanCardProps {
 	priceId: string;
@@ -10,7 +10,13 @@ export default function PlanCard(props: PlanCardProps) {
 	const { loading, error, prices } = useGetAllPrices();
 
 	if (loading) {
-		return <LoadingSpinner size="medium" mode="centered" message="Loading plan details..." />;
+		return (
+			<LoadingSpinner
+				size="medium"
+				mode="centered"
+				message="Loading plan details..."
+			/>
+		);
 	}
 
 	if (error) {

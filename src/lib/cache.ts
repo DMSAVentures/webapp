@@ -10,7 +10,7 @@ interface CacheEntry<T> {
 }
 
 class Cache {
-	private cache = new Map<string, CacheEntry<any>>();
+	private cache = new Map<string, CacheEntry<unknown>>();
 
 	/**
 	 * Get value from cache
@@ -111,13 +111,13 @@ export const cache = new Cache();
  */
 export const cacheKeys = {
 	campaigns: {
-		list: (filters?: Record<string, any>) =>
+		list: (filters?: Record<string, unknown>) =>
 			filters ? `campaigns:list:${JSON.stringify(filters)}` : "campaigns:list",
 		detail: (id: string) => `campaigns:${id}`,
 		stats: (id: string) => `campaigns:${id}:stats`,
 	},
 	users: {
-		list: (campaignId: string, filters?: Record<string, any>) =>
+		list: (campaignId: string, filters?: Record<string, unknown>) =>
 			filters
 				? `users:list:${campaignId}:${JSON.stringify(filters)}`
 				: `users:list:${campaignId}`,

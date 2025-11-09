@@ -3,11 +3,11 @@
  * Displays a single form field in the canvas
  */
 
-import { type DragEvent, type HTMLAttributes, memo } from 'react';
-import { IconOnlyButton } from '@/proto-design-system/Button/IconOnlyButton';
-import { Badge } from '@/proto-design-system/badge/badge';
-import type { FormField } from '@/types/common.types';
-import styles from './component.module.scss';
+import { type DragEvent, type HTMLAttributes, memo } from "react";
+import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import { Badge } from "@/proto-design-system/badge/badge";
+import type { FormField } from "@/types/common.types";
+import styles from "./component.module.scss";
 
 export interface FieldItemProps extends HTMLAttributes<HTMLDivElement> {
 	/** Field data */
@@ -29,18 +29,18 @@ export interface FieldItemProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Get field type icon
  */
-const getFieldIcon = (type: FormField['type']): string => {
-	const icons: Record<FormField['type'], string> = {
-		email: 'ri-mail-line',
-		text: 'ri-text',
-		textarea: 'ri-file-text-line',
-		select: 'ri-arrow-down-s-line',
-		checkbox: 'ri-checkbox-line',
-		radio: 'ri-radio-button-line',
-		phone: 'ri-phone-line',
-		url: 'ri-link',
-		date: 'ri-calendar-line',
-		number: 'ri-hashtag',
+const getFieldIcon = (type: FormField["type"]): string => {
+	const icons: Record<FormField["type"], string> = {
+		email: "ri-mail-line",
+		text: "ri-text",
+		textarea: "ri-file-text-line",
+		select: "ri-arrow-down-s-line",
+		checkbox: "ri-checkbox-line",
+		radio: "ri-radio-button-line",
+		phone: "ri-phone-line",
+		url: "ri-link",
+		date: "ri-calendar-line",
+		number: "ri-hashtag",
 	};
 	return icons[type];
 };
@@ -64,7 +64,7 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 		customClassName,
 	]
 		.filter(Boolean)
-		.join(' ');
+		.join(" ");
 
 	const handleDeleteClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
@@ -118,4 +118,4 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 	);
 });
 
-FieldItem.displayName = 'FieldItem';
+FieldItem.displayName = "FieldItem";

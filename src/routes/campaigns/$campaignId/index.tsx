@@ -1,19 +1,19 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
+import { ErrorState } from "@/components/error/error";
+import { CampaignFormPreview } from "@/features/campaigns/components/CampaignFormPreview/component";
+import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { ErrorState } from "@/components/error/error";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { Button } from "@/proto-design-system/Button/button";
 import { Badge } from "@/proto-design-system/badge/badge";
 import Banner from "@/proto-design-system/banner/banner";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
-import { CampaignFormPreview } from "@/features/campaigns/components/CampaignFormPreview/component";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
 
@@ -24,79 +24,94 @@ export const Route = createFileRoute("/campaigns/$campaignId/")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
-	const { data: campaign, loading, error, refetch } = useGetCampaign(campaignId);
-	const { updateStatus, loading: updating, error: updateError } = useUpdateCampaignStatus();
+	const {
+		data: campaign,
+		loading,
+		error,
+		refetch,
+	} = useGetCampaign(campaignId);
+	const {
+		updateStatus,
+		loading: updating,
+		error: updateError,
+	} = useUpdateCampaignStatus();
 	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
 	const handleEdit = () => {
 		navigate({ to: `/campaigns/$campaignId/edit`, params: { campaignId } });
-	}
+	};
 
 	const handleGoLive = async () => {
-		const updated = await updateStatus(campaignId, { status: 'active' });
+		const updated = await updateStatus(campaignId, { status: "active" });
 		if (updated) {
-			setSuccessMessage('Campaign is now live!');
+			setSuccessMessage("Campaign is now live!");
 			refetch();
 			setTimeout(() => setSuccessMessage(null), 3000);
 		}
-	}
+	};
 
 	const handlePause = async () => {
-		const updated = await updateStatus(campaignId, { status: 'paused' });
+		const updated = await updateStatus(campaignId, { status: "paused" });
 		if (updated) {
-			setSuccessMessage('Campaign has been paused');
+			setSuccessMessage("Campaign has been paused");
 			refetch();
 			setTimeout(() => setSuccessMessage(null), 3000);
 		}
-	}
+	};
 
 	const handleResume = async () => {
-		const updated = await updateStatus(campaignId, { status: 'active' });
+		const updated = await updateStatus(campaignId, { status: "active" });
 		if (updated) {
-			setSuccessMessage('Campaign has been resumed');
+			setSuccessMessage("Campaign has been resumed");
 			refetch();
 			setTimeout(() => setSuccessMessage(null), 3000);
 		}
-	}
+	};
 
 	const handleEnd = async () => {
-		const updated = await updateStatus(campaignId, { status: 'completed' });
+		const updated = await updateStatus(campaignId, { status: "completed" });
 		if (updated) {
-			setSuccessMessage('Campaign has been ended');
+			setSuccessMessage("Campaign has been ended");
 			refetch();
 			setTimeout(() => setSuccessMessage(null), 3000);
 		}
-	}
+	};
 
 	const getStatusVariant = (status: string) => {
 		switch (status) {
-			case 'active':
-				return 'green';
-			case 'paused':
-				return 'orange';
-			case 'completed':
-				return 'blue';
-			case 'draft':
+			case "active":
+				return "green";
+			case "paused":
+				return "orange";
+			case "completed":
+				return "blue";
+			case "draft":
 			default:
-				return 'gray';
+				return "gray";
 		}
-	}
+	};
 
 	const getTypeLabel = (type: string) => {
 		switch (type) {
-			case 'waitlist':
-				return 'Waitlist';
-			case 'referral':
-				return 'Referral';
-			case 'contest':
-				return 'Contest';
+			case "waitlist":
+				return "Waitlist";
+			case "referral":
+				return "Referral";
+			case "contest":
+				return "Contest";
 			default:
-				return type
+				return type;
 		}
-	}
+	};
 
 	if (loading) {
-		return <LoadingSpinner size="large" mode="centered" message="Loading campaign..." />;
+		return (
+			<LoadingSpinner
+				size="large"
+				mode="centered"
+				message="Loading campaign..."
+			/>
+		);
 	}
 
 	if (error) {
@@ -112,30 +127,38 @@ function RouteComponent() {
 		totalSignups: campaign.total_signups,
 		verifiedSignups: campaign.total_verified,
 		totalReferrals: campaign.total_referrals,
-		conversionRate: campaign.total_signups > 0
-			? (campaign.total_verified / campaign.total_signups) * 100
-			: 0,
-		viralCoefficient: campaign.total_signups > 0
-			? campaign.total_referrals / campaign.total_signups
-			: 0,
-	}
+		conversionRate:
+			campaign.total_signups > 0
+				? (campaign.total_verified / campaign.total_signups) * 100
+				: 0,
+		viralCoefficient:
+			campaign.total_signups > 0
+				? campaign.total_referrals / campaign.total_signups
+				: 0,
+	};
 
 	// Check if form is configured
-	const hasFormFields = campaign.form_config?.fields && campaign.form_config.fields.length > 0;
-	const canGoLive = campaign.status === 'draft' && hasFormFields;
+	const hasFormFields =
+		campaign.form_config?.fields && campaign.form_config.fields.length > 0;
+	const canGoLive = campaign.status === "draft" && hasFormFields;
 
 	const handleConfigureForm = () => {
-		navigate({ to: `/campaigns/$campaignId/form-builder`, params: { campaignId } });
-	}
+		navigate({
+			to: `/campaigns/$campaignId/form-builder`,
+			params: { campaignId },
+		});
+	};
 
 	const handleViewEmbed = () => {
 		navigate({ to: `/campaigns/$campaignId/embed`, params: { campaignId } });
 	};
 
-	const handleStatCardClick = (cardType: 'totalSignups' | 'verified' | 'referrals' | 'kFactor') => {
+	const handleStatCardClick = (
+		cardType: "totalSignups" | "verified" | "referrals" | "kFactor",
+	) => {
 		// K-Factor card leads to analytics, others lead to users
-		if (cardType === 'kFactor') {
-			navigate({ to: '/analytics' });
+		if (cardType === "kFactor") {
+			navigate({ to: "/analytics" });
 		} else {
 			navigate({ to: `/campaigns/$campaignId/users`, params: { campaignId } });
 		}
@@ -159,7 +182,7 @@ function RouteComponent() {
 								{campaign.name}
 							</BreadcrumbItem>,
 						]}
-						divider='arrow'
+						divider="arrow"
 					/>
 				</div>
 				<div className={styles.headerTop}>
@@ -172,19 +195,19 @@ function RouteComponent() {
 							<Badge
 								text={campaign.status}
 								variant={getStatusVariant(campaign.status)}
-								styleType='light'
-								size='medium'
+								styleType="light"
+								size="medium"
 							/>
 							<Badge
 								text={getTypeLabel(campaign.type)}
-								variant='purple'
-								styleType='light'
-								size='medium'
+								variant="purple"
+								styleType="light"
+								size="medium"
 							/>
 						</div>
 					</div>
 					<div className={styles.actions}>
-						{campaign.status === 'draft' && (
+						{campaign.status === "draft" && (
 							<>
 								<Button
 									variant={hasFormFields ? "secondary" : "primary"}
@@ -204,15 +227,17 @@ function RouteComponent() {
 								)}
 								<Button
 									variant={hasFormFields ? "primary" : "secondary"}
-									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-rocket-line"}
+									leftIcon={
+										updating ? "ri-loader-4-line ri-spin" : "ri-rocket-line"
+									}
 									onClick={handleGoLive}
 									disabled={updating || !canGoLive}
 								>
-									{updating ? 'Launching...' : 'Go Live'}
+									{updating ? "Launching..." : "Go Live"}
 								</Button>
 							</>
 						)}
-						{campaign.status === 'active' && (
+						{campaign.status === "active" && (
 							<>
 								{hasFormFields && (
 									<Button
@@ -225,23 +250,29 @@ function RouteComponent() {
 								)}
 								<Button
 									variant="secondary"
-									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-pause-line"}
+									leftIcon={
+										updating ? "ri-loader-4-line ri-spin" : "ri-pause-line"
+									}
 									onClick={handlePause}
 									disabled={updating}
 								>
-									{updating ? 'Pausing...' : 'Pause'}
+									{updating ? "Pausing..." : "Pause"}
 								</Button>
 								<Button
 									variant="secondary"
-									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"}
+									leftIcon={
+										updating
+											? "ri-loader-4-line ri-spin"
+											: "ri-stop-circle-line"
+									}
 									onClick={handleEnd}
 									disabled={updating}
 								>
-									{updating ? 'Ending...' : 'End Campaign'}
+									{updating ? "Ending..." : "End Campaign"}
 								</Button>
 							</>
 						)}
-						{campaign.status === 'paused' && (
+						{campaign.status === "paused" && (
 							<>
 								{hasFormFields && (
 									<Button
@@ -254,23 +285,29 @@ function RouteComponent() {
 								)}
 								<Button
 									variant="primary"
-									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-play-line"}
+									leftIcon={
+										updating ? "ri-loader-4-line ri-spin" : "ri-play-line"
+									}
 									onClick={handleResume}
 									disabled={updating}
 								>
-									{updating ? 'Resuming...' : 'Resume'}
+									{updating ? "Resuming..." : "Resume"}
 								</Button>
 								<Button
 									variant="secondary"
-									leftIcon={updating ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"}
+									leftIcon={
+										updating
+											? "ri-loader-4-line ri-spin"
+											: "ri-stop-circle-line"
+									}
 									onClick={handleEnd}
 									disabled={updating}
 								>
-									{updating ? 'Ending...' : 'End Campaign'}
+									{updating ? "Ending..." : "End Campaign"}
 								</Button>
 							</>
 						)}
-						{campaign.status !== 'completed' && (
+						{campaign.status !== "completed" && (
 							<Button
 								variant="secondary"
 								leftIcon="ri-edit-line"
@@ -284,7 +321,7 @@ function RouteComponent() {
 			</div>
 
 			<div className={styles.pageContent}>
-				{campaign.status === 'draft' && !hasFormFields && (
+				{campaign.status === "draft" && !hasFormFields && (
 					<Banner
 						bannerType="warning"
 						variant="filled"
@@ -324,24 +361,39 @@ function RouteComponent() {
 								<div className={styles.detailsList}>
 									<div className={styles.detailItem}>
 										<strong className={styles.detailLabel}>Enabled:</strong>
-										<span className={styles.detailValue}>{campaign.referral_config.enabled ? 'Yes' : 'No'}</span>
+										<span className={styles.detailValue}>
+											{campaign.referral_config.enabled ? "Yes" : "No"}
+										</span>
 									</div>
 									{campaign.referral_config.points_per_referral && (
 										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Points per Referral:</strong>
-											<span className={styles.detailValue}>{campaign.referral_config.points_per_referral}</span>
+											<strong className={styles.detailLabel}>
+												Points per Referral:
+											</strong>
+											<span className={styles.detailValue}>
+												{campaign.referral_config.points_per_referral}
+											</span>
 										</div>
 									)}
 									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>Verified Only:</strong>
-										<span className={styles.detailValue}>{campaign.referral_config.verified_only ? 'Yes' : 'No'}</span>
+										<strong className={styles.detailLabel}>
+											Verified Only:
+										</strong>
+										<span className={styles.detailValue}>
+											{campaign.referral_config.verified_only ? "Yes" : "No"}
+										</span>
 									</div>
-									{campaign.referral_config.sharing_channels && campaign.referral_config.sharing_channels.length > 0 && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Sharing Channels:</strong>
-											<span className={styles.detailValue}>{campaign.referral_config.sharing_channels.join(', ')}</span>
-										</div>
-									)}
+									{campaign.referral_config.sharing_channels &&
+										campaign.referral_config.sharing_channels.length > 0 && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													Sharing Channels:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.referral_config.sharing_channels.join(", ")}
+												</span>
+											</div>
+										)}
 								</div>
 							</div>
 							<ContentDivider size="thin" />
@@ -354,25 +406,39 @@ function RouteComponent() {
 								<h4 className={styles.sectionTitle}>Email Settings</h4>
 								<div className={styles.detailsList}>
 									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>Verification Required:</strong>
-										<span className={styles.detailValue}>{campaign.email_config.verification_required ? 'Yes' : 'No'}</span>
+										<strong className={styles.detailLabel}>
+											Verification Required:
+										</strong>
+										<span className={styles.detailValue}>
+											{campaign.email_config.verification_required
+												? "Yes"
+												: "No"}
+										</span>
 									</div>
 									{campaign.email_config.from_name && (
 										<div className={styles.detailItem}>
 											<strong className={styles.detailLabel}>From Name:</strong>
-											<span className={styles.detailValue}>{campaign.email_config.from_name}</span>
+											<span className={styles.detailValue}>
+												{campaign.email_config.from_name}
+											</span>
 										</div>
 									)}
 									{campaign.email_config.from_email && (
 										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>From Email:</strong>
-											<span className={styles.detailValue}>{campaign.email_config.from_email}</span>
+											<strong className={styles.detailLabel}>
+												From Email:
+											</strong>
+											<span className={styles.detailValue}>
+												{campaign.email_config.from_email}
+											</span>
 										</div>
 									)}
 									{campaign.email_config.reply_to && (
 										<div className={styles.detailItem}>
 											<strong className={styles.detailLabel}>Reply To:</strong>
-											<span className={styles.detailValue}>{campaign.email_config.reply_to}</span>
+											<span className={styles.detailValue}>
+												{campaign.email_config.reply_to}
+											</span>
 										</div>
 									)}
 								</div>
@@ -389,28 +455,53 @@ function RouteComponent() {
 									{campaign.branding_config.logo_url && (
 										<div className={styles.detailItem}>
 											<strong className={styles.detailLabel}>Logo URL:</strong>
-											<span className={styles.detailValue}>{campaign.branding_config.logo_url}</span>
+											<span className={styles.detailValue}>
+												{campaign.branding_config.logo_url}
+											</span>
 										</div>
 									)}
 									{campaign.branding_config.primary_color && (
 										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Primary Color:</strong>
+											<strong className={styles.detailLabel}>
+												Primary Color:
+											</strong>
 											<span className={styles.detailValue}>
-												<span style={{ display: 'inline-block', width: '20px', height: '20px', backgroundColor: campaign.branding_config.primary_color, border: '1px solid var(--color-border-primary-default)', borderRadius: '4px', marginRight: '8px', verticalAlign: 'middle' }}></span>
+												<span
+													style={{
+														display: "inline-block",
+														width: "20px",
+														height: "20px",
+														backgroundColor:
+															campaign.branding_config.primary_color,
+														border:
+															"1px solid var(--color-border-primary-default)",
+														borderRadius: "4px",
+														marginRight: "8px",
+														verticalAlign: "middle",
+													}}
+												></span>
 												{campaign.branding_config.primary_color}
 											</span>
 										</div>
 									)}
 									{campaign.branding_config.font_family && (
 										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Font Family:</strong>
-											<span className={styles.detailValue}>{campaign.branding_config.font_family}</span>
+											<strong className={styles.detailLabel}>
+												Font Family:
+											</strong>
+											<span className={styles.detailValue}>
+												{campaign.branding_config.font_family}
+											</span>
 										</div>
 									)}
 									{campaign.branding_config.custom_domain && (
 										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Custom Domain:</strong>
-											<span className={styles.detailValue}>{campaign.branding_config.custom_domain}</span>
+											<strong className={styles.detailLabel}>
+												Custom Domain:
+											</strong>
+											<span className={styles.detailValue}>
+												{campaign.branding_config.custom_domain}
+											</span>
 										</div>
 									)}
 								</div>
@@ -423,22 +514,30 @@ function RouteComponent() {
 						<div className={styles.detailsList}>
 							<div className={styles.detailItem}>
 								<strong className={styles.detailLabel}>Created:</strong>
-								<span className={styles.detailValue}>{new Date(campaign.created_at).toLocaleString()}</span>
+								<span className={styles.detailValue}>
+									{new Date(campaign.created_at).toLocaleString()}
+								</span>
 							</div>
 							<div className={styles.detailItem}>
 								<strong className={styles.detailLabel}>Last Updated:</strong>
-								<span className={styles.detailValue}>{new Date(campaign.updated_at).toLocaleString()}</span>
+								<span className={styles.detailValue}>
+									{new Date(campaign.updated_at).toLocaleString()}
+								</span>
 							</div>
 							{campaign.launch_date && (
 								<div className={styles.detailItem}>
 									<strong className={styles.detailLabel}>Launch Date:</strong>
-									<span className={styles.detailValue}>{new Date(campaign.launch_date).toLocaleString()}</span>
+									<span className={styles.detailValue}>
+										{new Date(campaign.launch_date).toLocaleString()}
+									</span>
 								</div>
 							)}
 							{campaign.end_date && (
 								<div className={styles.detailItem}>
 									<strong className={styles.detailLabel}>End Date:</strong>
-									<span className={styles.detailValue}>{new Date(campaign.end_date).toLocaleString()}</span>
+									<span className={styles.detailValue}>
+										{new Date(campaign.end_date).toLocaleString()}
+									</span>
 								</div>
 							)}
 						</div>
@@ -448,5 +547,5 @@ function RouteComponent() {
 				{hasFormFields && <CampaignFormPreview campaign={campaign} />}
 			</div>
 		</motion.div>
-	)
+	);
 }

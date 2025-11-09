@@ -9,12 +9,17 @@ interface LoginData {
 	token: string;
 }
 
-const isErrorResponse = (error: any): error is ErrorResponse => {
-	return typeof error === "object" && "code" in error && "message" in error;
+const isErrorResponse = (error: unknown): error is ErrorResponse => {
+	return (
+		typeof error === "object" &&
+		error !== null &&
+		"code" in error &&
+		"message" in error
+	);
 };
 
-const isLoginData = (data: any): data is LoginData => {
-	return typeof data === "object" && "token" in data;
+const isLoginData = (data: unknown): data is LoginData => {
+	return typeof data === "object" && data !== null && "token" in data;
 };
 
 interface SubmitLoginOperation {
@@ -61,7 +66,7 @@ export const useSubmitLogin = (): SubmitLoginOperation => {
 					setData(responseData);
 				}
 			}
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.error("Login failed", error);
 			if (error instanceof Error) {
 				setError({ code: "unknown_error", message: error.message });

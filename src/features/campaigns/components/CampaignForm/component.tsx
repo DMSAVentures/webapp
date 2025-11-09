@@ -403,12 +403,15 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			<div className={styles.section}>
 				<h3 className={styles.sectionTitle}>Waitlist Form Settings</h3>
 				<p className={styles.sectionDescription}>
-					Basic form behavior settings. You can customize form fields using the Form Builder after creating the campaign.
+					Basic form behavior settings. You can customize form fields using the
+					Form Builder after creating the campaign.
 				</p>
 
 				{/* Enable CAPTCHA */}
 				<CheckboxWithLabel
-					checked={formData.formConfig?.captchaEnabled ? "checked" : "unchecked"}
+					checked={
+						formData.formConfig?.captchaEnabled ? "checked" : "unchecked"
+					}
 					onChange={(e) =>
 						handleFormConfigChange("captchaEnabled", e.target.checked)
 					}

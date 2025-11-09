@@ -1,15 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
-import { FormBuilder } from "@/features/form-builder/components/FormBuilder/component";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { ErrorState } from "@/components/error/error";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { FormBuilder } from "@/features/form-builder/components/FormBuilder/component";
+import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
+import { useGetCampaign } from "@/hooks/useGetCampaign";
 import Banner from "@/proto-design-system/banner/banner";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { FormConfig } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
 
@@ -35,14 +35,16 @@ function RouteComponent() {
 
 			// Transform UI FormConfig to API FormConfig
 			const apiFormConfig = {
-				fields: config.fields.map(field => ({
+				fields: config.fields.map((field) => ({
 					name: field.id, // Use field ID as name
 					type: field.type,
 					label: field.label,
 					placeholder: field.placeholder || undefined,
 					required: field.required,
 					options: field.options,
-					validation: field.validation ? JSON.stringify(field.validation) : undefined,
+					validation: field.validation
+						? JSON.stringify(field.validation)
+						: undefined,
 				})),
 				captcha_enabled: false,
 				double_opt_in: config.behavior?.doubleOptIn || false,
@@ -61,7 +63,7 @@ function RouteComponent() {
 					body: JSON.stringify({
 						form_config: apiFormConfig,
 					}),
-				}
+				},
 			);
 
 			if (!response.ok) {
@@ -71,14 +73,22 @@ function RouteComponent() {
 
 			setSaveSuccess(true);
 			setTimeout(() => setSaveSuccess(false), 3000);
-		} catch (error: any) {
-			setSaveError(error.message || "Failed to save form configuration");
+		} catch (error: unknown) {
+			const errorMessage =
+				error instanceof Error
+					? error.message
+					: "Failed to save form configuration";
+			setSaveError(errorMessage);
 		}
 	};
 
 	if (loading) {
 		return (
-			<LoadingSpinner size="large" mode="centered" message="Loading campaign..." />
+			<LoadingSpinner
+				size="large"
+				mode="centered"
+				message="Loading campaign..."
+			/>
 		);
 	}
 

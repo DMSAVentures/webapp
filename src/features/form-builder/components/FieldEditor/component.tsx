@@ -3,15 +3,15 @@
  * Edit properties of a selected form field
  */
 
-import { type HTMLAttributes, memo, useState, useEffect } from 'react';
-import { Button } from '@/proto-design-system/Button/button';
-import { Badge } from '@/proto-design-system/badge/badge';
-import { TextInput } from '@/proto-design-system/TextInput/textInput';
-import { TextArea } from '@/proto-design-system/TextArea/textArea';
-import CheckboxWithLabel from '@/proto-design-system/checkbox/checkboxWithLabel';
-import ContentDivider from '@/proto-design-system/contentdivider/contentdivider';
-import type { FormField } from '@/types/common.types';
-import styles from './component.module.scss';
+import { type HTMLAttributes, memo, useEffect, useState } from "react";
+import { Button } from "@/proto-design-system/Button/button";
+import { Badge } from "@/proto-design-system/badge/badge";
+import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
+import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
+import { TextArea } from "@/proto-design-system/TextArea/textArea";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import type { FormField } from "@/types/common.types";
+import styles from "./component.module.scss";
 
 export interface FieldEditorProps extends HTMLAttributes<HTMLDivElement> {
 	/** Field being edited */
@@ -53,10 +53,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	...props
 }) {
 	const [formData, setFormData] = useState<FieldFormData>({
-		label: '',
-		placeholder: '',
+		label: "",
+		placeholder: "",
 		required: false,
-		helpText: '',
+		helpText: "",
 	});
 	const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -64,10 +64,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	useEffect(() => {
 		if (field) {
 			setFormData({
-				label: field.label || '',
-				placeholder: field.placeholder || '',
+				label: field.label || "",
+				placeholder: field.placeholder || "",
 				required: field.required || false,
-				helpText: field.helpText || '',
+				helpText: field.helpText || "",
 				options: field.options || [],
 				validation: field.validation || {},
 			});
@@ -77,7 +77,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 
 	if (!field) {
 		return (
-			<div className={`${styles.root} ${styles.empty} ${customClassName || ''}`} {...props}>
+			<div
+				className={`${styles.root} ${styles.empty} ${customClassName || ""}`}
+				{...props}
+			>
 				<div className={styles.emptyState}>
 					<i className="ri-edit-line" aria-hidden="true" />
 					<p>Select a field to edit its properties</p>
@@ -88,63 +91,68 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 
 	const validateLabel = (label: string): string | null => {
 		if (!label.trim()) {
-			return 'Label is required';
+			return "Label is required";
 		}
 
 		if (label.trim().length < 2) {
-			return 'Label must be at least 2 characters';
+			return "Label must be at least 2 characters";
 		}
 
 		if (label.trim().length > 100) {
-			return 'Label must be less than 100 characters';
+			return "Label must be less than 100 characters";
 		}
 
 		// Check for duplicate labels (case-insensitive)
 		const isDuplicate = allFields.some(
-			f => f.id !== field.id && f.label.toLowerCase().trim() === label.toLowerCase().trim()
+			(f) =>
+				f.id !== field.id &&
+				f.label.toLowerCase().trim() === label.toLowerCase().trim(),
 		);
 
 		if (isDuplicate) {
-			return 'Label must be unique. Another field already uses this label';
+			return "Label must be unique. Another field already uses this label";
 		}
 
 		return null;
 	};
 
 	const handleLabelChange = (value: string) => {
-		setFormData(prev => ({ ...prev, label: value }));
+		setFormData((prev) => ({ ...prev, label: value }));
 
 		// Validate on change
 		const error = validateLabel(value);
-		setErrors(prev => ({
+		setErrors((prev) => ({
 			...prev,
-			label: error || '',
+			label: error || "",
 		}));
 	};
 
 	const handlePlaceholderChange = (value: string) => {
-		setFormData(prev => ({ ...prev, placeholder: value }));
+		setFormData((prev) => ({ ...prev, placeholder: value }));
 	};
 
 	const handleRequiredChange = (checked: boolean) => {
-		setFormData(prev => ({ ...prev, required: checked }));
+		setFormData((prev) => ({ ...prev, required: checked }));
 	};
 
 	const handleHelpTextChange = (value: string) => {
-		setFormData(prev => ({ ...prev, helpText: value }));
+		setFormData((prev) => ({ ...prev, helpText: value }));
 	};
 
 	const handleOptionsChange = (value: string) => {
 		// Split by newline, trim each option, filter empty
 		const options = value
-			.split('\n')
-			.map(opt => opt.trim())
-			.filter(opt => opt.length > 0);
-		setFormData(prev => ({ ...prev, options }));
+			.split("\n")
+			.map((opt) => opt.trim())
+			.filter((opt) => opt.length > 0);
+		setFormData((prev) => ({ ...prev, options }));
 	};
 
-	const handleValidationChange = (key: string, value: any) => {
-		setFormData(prev => ({
+	const handleValidationChange = (
+		key: string,
+		value: string | number | boolean | undefined,
+	) => {
+		setFormData((prev) => ({
 			...prev,
 			validation: {
 				...prev.validation,
@@ -179,10 +187,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	const handleCancel = () => {
 		// Reset form to original values
 		setFormData({
-			label: field.label || '',
-			placeholder: field.placeholder || '',
+			label: field.label || "",
+			placeholder: field.placeholder || "",
 			required: field.required || false,
-			helpText: field.helpText || '',
+			helpText: field.helpText || "",
 		});
 		setErrors({});
 		onClose();
@@ -190,13 +198,13 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 
 	const hasChanges =
 		formData.label !== field.label ||
-		formData.placeholder !== (field.placeholder || '') ||
+		formData.placeholder !== (field.placeholder || "") ||
 		formData.required !== (field.required || false) ||
-		formData.helpText !== (field.helpText || '');
+		formData.helpText !== (field.helpText || "");
 
 	const canSave = hasChanges && !errors.label;
 
-	const classNames = [styles.root, customClassName].filter(Boolean).join(' ');
+	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 	return (
 		<div className={classNames} {...props}>
@@ -225,7 +233,15 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				/>
 
 				{/* Placeholder - Show for input fields */}
-				{['email', 'text', 'textarea', 'phone', 'url', 'date', 'number'].includes(field.type) && (
+				{[
+					"email",
+					"text",
+					"textarea",
+					"phone",
+					"url",
+					"date",
+					"number",
+				].includes(field.type) && (
 					<TextInput
 						id="field-placeholder"
 						label="Placeholder"
@@ -241,7 +257,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				<TextArea
 					id="field-help-text"
 					label="Help Text"
-					value={formData.helpText || ''}
+					value={formData.helpText || ""}
 					onChange={(e) => handleHelpTextChange(e.target.value)}
 					placeholder="Additional instructions or context"
 					rows={3}
@@ -249,13 +265,13 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				/>
 
 				{/* Options - Show for select/radio/checkbox */}
-				{['select', 'radio', 'checkbox'].includes(field.type) && (
+				{["select", "radio", "checkbox"].includes(field.type) && (
 					<>
 						<ContentDivider size="thin" />
 						<TextArea
 							id="field-options"
 							label="Options"
-							value={(formData.options || []).join('\n')}
+							value={(formData.options || []).join("\n")}
 							onChange={(e) => handleOptionsChange(e.target.value)}
 							placeholder="Enter one option per line"
 							rows={6}
@@ -266,7 +282,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				)}
 
 				{/* Text validation - Show for text/textarea */}
-				{['text', 'textarea'].includes(field.type) && (
+				{["text", "textarea"].includes(field.type) && (
 					<>
 						<ContentDivider size="thin" />
 						<div className={styles.validationSection}>
@@ -276,8 +292,13 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 									id="field-min-length"
 									label="Min Length"
 									type="number"
-									value={formData.validation?.minLength?.toString() || ''}
-									onChange={(e) => handleValidationChange('minLength', parseInt(e.target.value) || undefined)}
+									value={formData.validation?.minLength?.toString() || ""}
+									onChange={(e) =>
+										handleValidationChange(
+											"minLength",
+											parseInt(e.target.value) || undefined,
+										)
+									}
 									placeholder="0"
 									min={0}
 								/>
@@ -285,8 +306,13 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 									id="field-max-length"
 									label="Max Length"
 									type="number"
-									value={formData.validation?.maxLength?.toString() || ''}
-									onChange={(e) => handleValidationChange('maxLength', parseInt(e.target.value) || undefined)}
+									value={formData.validation?.maxLength?.toString() || ""}
+									onChange={(e) =>
+										handleValidationChange(
+											"maxLength",
+											parseInt(e.target.value) || undefined,
+										)
+									}
 									placeholder="Unlimited"
 									min={0}
 								/>
@@ -296,7 +322,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				)}
 
 				{/* Number validation - Show for number */}
-				{field.type === 'number' && (
+				{field.type === "number" && (
 					<>
 						<ContentDivider size="thin" />
 						<div className={styles.validationSection}>
@@ -306,16 +332,26 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 									id="field-min"
 									label="Minimum Value"
 									type="number"
-									value={formData.validation?.min?.toString() || ''}
-									onChange={(e) => handleValidationChange('min', parseFloat(e.target.value) || undefined)}
+									value={formData.validation?.min?.toString() || ""}
+									onChange={(e) =>
+										handleValidationChange(
+											"min",
+											parseFloat(e.target.value) || undefined,
+										)
+									}
 									placeholder="No minimum"
 								/>
 								<TextInput
 									id="field-max"
 									label="Maximum Value"
 									type="number"
-									value={formData.validation?.max?.toString() || ''}
-									onChange={(e) => handleValidationChange('max', parseFloat(e.target.value) || undefined)}
+									value={formData.validation?.max?.toString() || ""}
+									onChange={(e) =>
+										handleValidationChange(
+											"max",
+											parseFloat(e.target.value) || undefined,
+										)
+									}
 									placeholder="No maximum"
 								/>
 							</div>
@@ -327,7 +363,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 
 				{/* Required */}
 				<CheckboxWithLabel
-					checked={formData.required ? 'checked' : 'unchecked'}
+					checked={formData.required ? "checked" : "unchecked"}
 					onChange={(e) => handleRequiredChange(e.target.checked)}
 					flipCheckboxToRight={false}
 					text="Required field"
@@ -336,17 +372,14 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 			</div>
 
 			<div className={styles.actions}>
-				<Button
-					variant="secondary"
-					onClick={handleCancel}
-				>
+				<Button variant="secondary" onClick={handleCancel}>
 					Cancel
 				</Button>
 				<Button
 					variant="primary"
 					onClick={handleSave}
 					disabled={!canSave}
-					leftIcon={canSave ? 'ri-check-line' : undefined}
+					leftIcon={canSave ? "ri-check-line" : undefined}
 				>
 					Save Changes
 				</Button>
@@ -355,4 +388,4 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	);
 });
 
-FieldEditor.displayName = 'FieldEditor';
+FieldEditor.displayName = "FieldEditor";

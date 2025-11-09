@@ -297,7 +297,9 @@ export const Loading: Story = {
 		},
 		submitText: "Create Reward",
 		loading: true,
-		onSubmit: async () => {},
+		onSubmit: async () => {
+			// Loading state - no action needed
+		},
 		onCancel: () => console.log("Cancelled"),
 	},
 };

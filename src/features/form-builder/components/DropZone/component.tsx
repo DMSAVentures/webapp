@@ -3,8 +3,8 @@
  * Visual indicator for where a field can be dropped
  */
 
-import { type DragEvent, type HTMLAttributes, memo } from 'react';
-import styles from './component.module.scss';
+import { type DragEvent, type HTMLAttributes, memo } from "react";
+import styles from "./component.module.scss";
 
 export interface DropZoneProps extends HTMLAttributes<HTMLDivElement> {
 	/** Index where field will be dropped */
@@ -33,13 +33,9 @@ export const DropZone = memo<DropZoneProps>(function DropZone({
 	className: customClassName,
 	...props
 }) {
-	const classNames = [
-		styles.root,
-		isActive && styles.active,
-		customClassName,
-	]
+	const classNames = [styles.root, isActive && styles.active, customClassName]
 		.filter(Boolean)
-		.join(' ');
+		.join(" ");
 
 	return (
 		<div
@@ -53,4 +49,4 @@ export const DropZone = memo<DropZoneProps>(function DropZone({
 	);
 });
 
-DropZone.displayName = 'DropZone';
+DropZone.displayName = "DropZone";

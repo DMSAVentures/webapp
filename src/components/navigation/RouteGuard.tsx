@@ -1,7 +1,7 @@
-import React from 'react';
-import { Navigate, useLocation } from '@tanstack/react-router';
-import { usePersona } from '@/contexts/persona';
-import styles from './routeguard.module.scss';
+import { Navigate, useLocation } from "@tanstack/react-router";
+import React from "react";
+import { usePersona } from "@/contexts/persona";
+import styles from "./routeguard.module.scss";
 
 interface RouteGuardProps {
 	children: React.ReactNode;
@@ -29,9 +29,7 @@ export function RouteGuard({ children }: RouteGuardProps) {
 					<p>
 						Your account role ({persona}) does not have access to this page.
 					</p>
-					<p>
-						Please contact your administrator if you need access.
-					</p>
+					<p>Please contact your administrator if you need access.</p>
 					<Navigate to="/" />
 				</div>
 			</div>

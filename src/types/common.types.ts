@@ -61,7 +61,7 @@ export interface WaitlistUser {
 	campaignId: string;
 	email: string;
 	name?: string;
-	customFields: Record<string, any>;
+	customFields: Record<string, unknown>;
 	status: "pending" | "verified" | "invited" | "active" | "rejected";
 	position: number;
 	referralCode: string;
@@ -155,7 +155,7 @@ export interface FormField {
 		showIf: {
 			fieldId: string;
 			operator: "equals" | "contains" | "not_equals";
-			value: any;
+			value: unknown;
 		};
 	};
 }
@@ -402,7 +402,7 @@ export interface Integration {
 		| "facebook_pixel"
 		| "custom";
 	status: "connected" | "disconnected" | "error";
-	config: Record<string, any>;
+	config: Record<string, unknown>;
 	lastSyncedAt?: Date;
 	createdAt: Date;
 }
@@ -465,7 +465,7 @@ export interface ApiResponse<T> {
 
 export interface ApiError {
 	error: string;
-	details?: any;
+	details?: unknown;
 }
 
 // ============================================================================

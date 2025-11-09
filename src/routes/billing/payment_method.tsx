@@ -5,9 +5,9 @@ import {
 	StripeElementsOptions,
 } from "@stripe/stripe-js";
 import { createFileRoute } from "@tanstack/react-router";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { useCreatePaymentMethodUpdateIntent } from "@/hooks/useCreatePaymentMethodUpdateIntent";
 import Button from "@/proto-design-system/Button/button";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { Column } from "@/proto-design-system/UIShell/Column/Column";
 
 // import "./page.scss"

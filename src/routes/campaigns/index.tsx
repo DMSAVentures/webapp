@@ -1,12 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { useDeleteCampaign } from "@/hooks/useDeleteCampaign";
-import { CampaignList } from "@/features/campaigns/components/CampaignList/component";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { ErrorState } from "@/components/error/error";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { CampaignList } from "@/features/campaigns/components/CampaignList/component";
+import { useDeleteCampaign } from "@/hooks/useDeleteCampaign";
+import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { Button } from "@/proto-design-system/Button/button";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { Campaign } from "@/types/campaign";
 import styles from "./campaigns.module.scss";
 
@@ -21,27 +21,33 @@ function RouteComponent() {
 
 	const handleCreateCampaign = () => {
 		navigate({ to: "/campaigns/new" });
-	}
+	};
 
 	const handleCampaignClick = (campaign: Campaign) => {
 		navigate({ to: `/campaigns/${campaign.id}` });
-	}
+	};
 
 	const handleEdit = (campaign: Campaign) => {
 		navigate({ to: `/campaigns/${campaign.id}/edit` });
-	}
+	};
 
 	const handleDelete = async (campaign: Campaign) => {
 		if (confirm(`Are you sure you want to delete "${campaign.name}"?`)) {
 			const success = await deleteCampaign(campaign.id);
 			if (success) {
-				refetch()
+				refetch();
 			}
 		}
-	}
+	};
 
 	if (loading) {
-		return <LoadingSpinner size="large" mode="centered" message="Loading campaigns..." />;
+		return (
+			<LoadingSpinner
+				size="large"
+				mode="centered"
+				message="Loading campaigns..."
+			/>
+		);
 	}
 
 	if (error) {
@@ -88,5 +94,5 @@ function RouteComponent() {
 				/>
 			</div>
 		</motion.div>
-	)
+	);
 }

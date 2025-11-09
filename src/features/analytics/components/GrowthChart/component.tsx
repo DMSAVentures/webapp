@@ -58,16 +58,29 @@ const formatNumber = (value: number): string => {
 /**
  * Custom tooltip component
  */
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface PayloadEntry {
+	dataKey: string;
+	name: string;
+	value: number;
+	color: string;
+}
+
+interface CustomTooltipProps {
+	active?: boolean;
+	payload?: PayloadEntry[];
+	label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 	if (!active || !payload || !payload.length) {
 		return null;
 	}
 
 	return (
 		<div className={styles.tooltip}>
-			<p className={styles.tooltipLabel}>{formatDate(label)}</p>
+			<p className={styles.tooltipLabel}>{formatDate(label || "")}</p>
 			<div className={styles.tooltipContent}>
-				{payload.map((entry: any) => (
+				{payload.map((entry: PayloadEntry) => (
 					<div key={entry.dataKey} className={styles.tooltipItem}>
 						<span
 							className={styles.tooltipDot}

@@ -48,11 +48,15 @@ export function useSSEChat() {
 		);
 
 		const reader = res.body?.getReader();
+		if (!reader) {
+			throw new Error("Failed to get reader from response body");
+		}
+
 		const decoder = new TextDecoder("utf-8");
 		let assistantReply = "";
 
 		while (true) {
-			const { value, done } = await reader?.read()!;
+			const { value, done } = await reader.read();
 			if (done) break;
 
 			const chunk = decoder.decode(value, { stream: true });

@@ -31,7 +31,10 @@ export function validateEmail(email: string): string | null {
  * @param fieldName Name of the field for error message
  * @returns Error message or null if valid
  */
-export function validateRequired(value: any, fieldName: string): string | null {
+export function validateRequired(
+	value: unknown,
+	fieldName: string,
+): string | null {
 	if (value === null || value === undefined || value === "") {
 		return `${fieldName} is required`;
 	}
