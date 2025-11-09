@@ -20,9 +20,7 @@ function isPublicRoute(): boolean {
 	if (typeof window === "undefined") return false;
 	const path = window.location.pathname;
 	return (
-		path === "/signin" ||
-		path.startsWith("/oauth") ||
-		path.startsWith("/embed")
+		path === "/signin" || path.startsWith("/oauth") || path.startsWith("/embed")
 	);
 }
 

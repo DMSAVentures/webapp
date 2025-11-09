@@ -6,7 +6,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { ErrorState } from "@/components/error/error";
-import { publicFetcher, type ApiError } from "@/hooks/fetcher";
+import { type ApiError, publicFetcher } from "@/hooks/fetcher";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { Campaign } from "@/types/campaign";
 import type { FormDesign } from "@/types/common.types";
@@ -38,7 +38,8 @@ function RouteComponent() {
 			);
 			setCampaign(response);
 		} catch (err: unknown) {
-			const message = err instanceof Error ? err.message : "Failed to load form";
+			const message =
+				err instanceof Error ? err.message : "Failed to load form";
 			setError({ error: message });
 		} finally {
 			setLoading(false);
