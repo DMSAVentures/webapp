@@ -29,6 +29,20 @@ function RouteComponent() {
 		setSaveSuccess(false);
 
 		try {
+			// Helper function to convert label to valid field name
+			const labelToFieldName = (label: string, type: string): string => {
+				// Email fields must always be named "email"
+				if (type === "email") {
+					return "email";
+				}
+
+				return label
+					.toLowerCase()
+					.trim()
+					.replace(/\s+/g, "_") // Replace spaces with underscores
+					.replace(/[^a-z0-9_]/g, ""); // Remove special characters
+			};
+
 			// Serialize the entire design config into custom_css with a special prefix
 			const designJson = JSON.stringify(config.design);
 			const customCssWithDesign = `__DESIGN__:${designJson}`;
@@ -36,7 +50,7 @@ function RouteComponent() {
 			// Transform UI FormConfig to API FormConfig
 			const apiFormConfig = {
 				fields: config.fields.map((field) => ({
-					name: field.id, // Use field ID as name
+					name: labelToFieldName(field.label, field.type), // Convert label to field name
 					type: field.type,
 					label: field.label,
 					placeholder: field.placeholder || undefined,

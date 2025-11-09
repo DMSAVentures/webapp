@@ -3,11 +3,11 @@ import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
 import { UserList } from "@/features/users/components/UserList/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
+import { useGetCampaignUsers } from "@/hooks/useGetCampaignUsers";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import type { WaitlistUser } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/users")({
@@ -17,6 +17,16 @@ export const Route = createFileRoute("/campaigns/$campaignId/users")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const { data: campaign, loading, error } = useGetCampaign(campaignId);
+	const {
+		data: usersData,
+		loading: usersLoading,
+		error: usersError,
+	} = useGetCampaignUsers(campaignId, {
+		page: 1,
+		limit: 100,
+		sort: "position",
+		order: "asc",
+	});
 
 	if (loading) {
 		return (
@@ -36,8 +46,7 @@ function RouteComponent() {
 		return <EmptyState title="Campaign not found" icon="megaphone-line" />;
 	}
 
-	// Mock users for now - in production, you'd fetch from API
-	const mockUsers: WaitlistUser[] = [];
+	const users = usersData?.users || [];
 
 	return (
 		<motion.div
@@ -79,21 +88,26 @@ function RouteComponent() {
 			</div>
 
 			<div className={styles.pageContent}>
-				<UserList
-					campaignId={campaignId}
-					users={mockUsers}
-					loading={false}
-					showFilters={true}
-					onUserClick={(user) => {
-						console.log("User clicked:", user);
-					}}
-					onExport={async (userIds) => {
-						console.log("Export users:", userIds);
-					}}
-					onBulkAction={async (action, userIds) => {
-						console.log("Bulk action:", action, userIds);
-					}}
-				/>
+				{usersError && (
+					<ErrorState message={`Failed to load users: ${usersError.error}`} />
+				)}
+				{!usersError && (
+					<UserList
+						campaignId={campaignId}
+						users={users}
+						loading={usersLoading}
+						showFilters={true}
+						onUserClick={(user) => {
+							console.log("User clicked:", user);
+						}}
+						onExport={async (userIds) => {
+							console.log("Export users:", userIds);
+						}}
+						onBulkAction={async (action, userIds) => {
+							console.log("Bulk action:", action, userIds);
+						}}
+					/>
+				)}
 			</div>
 		</motion.div>
 	);

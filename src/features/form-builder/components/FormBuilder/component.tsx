@@ -70,10 +70,20 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	...props
 }) {
 	const [config, setConfig] = useState<FormConfig>(() => {
+		// Default email field that every form must have
+		const defaultEmailField: FormField = {
+			id: "field-email-default",
+			type: "email",
+			label: "Email",
+			placeholder: "your@email.com",
+			required: true,
+			order: 0,
+		};
+
 		const defaultConfig: FormConfig = {
 			id: `form-${campaignId}`,
 			campaignId,
-			fields: [],
+			fields: [defaultEmailField],
 			design: DEFAULT_DESIGN,
 			behavior: {
 				submitAction: "inline-message",
@@ -85,10 +95,19 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 		// Merge initialConfig with defaults to ensure all required properties exist
 		if (initialConfig) {
+			// Ensure email field exists in initialConfig
+			const hasEmailField = initialConfig.fields?.some(
+				(field) => field.type === "email",
+			);
+
+			const fields = hasEmailField
+				? initialConfig.fields || []
+				: [defaultEmailField, ...(initialConfig.fields || [])];
+
 			return {
 				...defaultConfig,
 				...initialConfig,
-				fields: initialConfig.fields || [],
+				fields,
 				design: initialConfig.design || DEFAULT_DESIGN,
 				behavior: {
 					...defaultConfig.behavior,

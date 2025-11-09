@@ -85,15 +85,17 @@ function RouteComponent() {
 		setSubmitError(null);
 
 		try {
-			// Extract email (required field)
-			const email = formData.email || "";
-
-			// Build custom fields (everything except email)
+			// Build all form data
+			const allFormData: Record<string, string> = {};
 			const customFields: Record<string, string> = {};
+
 			campaign.form_config!.fields!.forEach((field) => {
-				// Skip email as it's a required field, not a custom field
+				const value = formData[field.name] || "";
+				allFormData[field.name] = value;
+
+				// Exclude email from custom_fields (it's a required field)
 				if (field.name !== "email") {
-					customFields[field.name] = formData[field.name] || "";
+					customFields[field.name] = value;
 				}
 			});
 
@@ -106,7 +108,7 @@ function RouteComponent() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						email,
+						email: allFormData.email || "",
 						terms_accepted: true,
 						custom_fields: customFields,
 					}),
@@ -114,15 +116,33 @@ function RouteComponent() {
 			);
 
 			if (!response.ok) {
-				const errorData = await response.json();
-				throw new Error(errorData.error || "Failed to submit form");
+				let errorMessage = "Failed to submit form";
+				try {
+					const errorData = await response.json();
+					errorMessage = errorData.error || errorMessage;
+				} catch {
+					// If JSON parsing fails, use default message
+					errorMessage = `Failed to submit form (${response.status})`;
+				}
+				throw new Error(errorMessage);
 			}
 
 			setSubmitted(true);
 		} catch (error: unknown) {
-			const errorMessage =
-				error instanceof Error ? error.message : "Failed to submit form";
+			let errorMessage = "Failed to submit form";
+
+			if (error instanceof Error) {
+				// Network errors (server unreachable, CORS, etc.)
+				if (error.message === "Failed to fetch") {
+					errorMessage =
+						"Unable to connect to the server. Please check your internet connection and try again.";
+				} else {
+					errorMessage = error.message;
+				}
+			}
+
 			setSubmitError(errorMessage);
+			console.error("Form submission error:", error);
 		} finally {
 			setSubmitting(false);
 		}
