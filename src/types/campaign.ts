@@ -127,7 +127,7 @@ export interface UpdateCampaignStatusRequest {
 
 export interface ListCampaignsResponse {
 	campaigns: Campaign[];
-	pagination: Pagination;
+	pagination: import("./api.types").Pagination;
 }
 
 export interface ListCampaignsParams {

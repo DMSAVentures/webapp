@@ -82,7 +82,7 @@ function transformFormConfig(
 	return {
 		fields: apiFormConfig.fields?.map((field) => ({
 			name: field.name,
-			type: field.type as FormConfig["fields"][number]["type"],
+			type: field.type as import("@/types/campaign").FormFieldType,
 			label: field.label,
 			placeholder: field.placeholder,
 			required: field.required,

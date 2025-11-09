@@ -4,14 +4,14 @@
  */
 
 import type {
+	AccountUser,
 	Campaign,
 	CampaignSettings,
 	CampaignStats,
-	User,
 } from "../types/common.types";
 
 // Mock Users (Campaign Owners)
-export const mockUsers: User[] = [
+export const mockUsers: AccountUser[] = [
 	{
 		id: "user-1",
 		email: "sarah.chen@startupco.com",

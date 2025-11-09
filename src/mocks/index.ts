@@ -21,6 +21,7 @@
 // Re-export types for convenience
 // ============================================================================
 export type {
+	AccountUser,
 	Analytics,
 	Campaign,
 	CampaignSettings,
@@ -38,7 +39,6 @@ export type {
 	Reward,
 	RewardEarned,
 	TeamMember,
-	User,
 	WaitlistUser,
 	Webhook,
 } from "../types/common.types";

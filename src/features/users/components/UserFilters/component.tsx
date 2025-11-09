@@ -8,17 +8,16 @@ import { Button } from "@/proto-design-system/Button/button";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type {
-	UserFilters,
-	WaitlistUser,
+	UserFilters as UserFiltersType,
 	WaitlistUserStatus,
 } from "@/types/users.types";
 import styles from "./component.module.scss";
 
 export interface UserFiltersProps {
 	/** Current filter values */
-	filters: UserFilters;
+	filters: UserFiltersType;
 	/** Filter change handler */
-	onChange: (filters: UserFilters) => void;
+	onChange: (filters: UserFiltersType) => void;
 	/** Reset handler */
 	onReset: () => void;
 	/** Additional CSS class name */
@@ -54,7 +53,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	className: customClassName,
 	...props
 }) {
-	const [localFilters, setLocalFilters] = useState<UserFilters>(filters);
+	const [localFilters, setLocalFilters] = useState<UserFiltersType>(filters);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
@@ -133,7 +132,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 	// Handle reset
 	const handleReset = () => {
-		const emptyFilters: UserFilters = {};
+		const emptyFilters: UserFiltersType = {};
 		setLocalFilters(emptyFilters);
 		onReset();
 	};

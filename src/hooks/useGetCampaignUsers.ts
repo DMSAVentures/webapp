@@ -59,9 +59,15 @@ export const useGetCampaignUsers = (
 					setLoading(false);
 				}
 			}
-			// eslint-disable-next-line react-hooks/exhaustive-deps
 		},
-		[campaignId, params],
+		[
+			campaignId,
+			params?.page,
+			params?.limit,
+			params?.status,
+			params?.sort,
+			params?.order,
+		],
 	);
 
 	useEffect(() => {
