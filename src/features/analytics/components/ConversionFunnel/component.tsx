@@ -68,7 +68,13 @@ const CustomLabel = (props: CustomLabelProps) => {
 	const { x, y, width, height, value, conversion } = props;
 
 	// Guard against undefined values
-	if (x === undefined || y === undefined || width === undefined || height === undefined || value === undefined) {
+	if (
+		x === undefined ||
+		y === undefined ||
+		width === undefined ||
+		height === undefined ||
+		value === undefined
+	) {
 		return null;
 	}
 
