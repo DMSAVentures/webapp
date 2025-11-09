@@ -262,8 +262,10 @@ function RouteComponent() {
 								>
 									<input
 										type="checkbox"
-										checked={formData[field.name] || false}
-										onChange={(e) => handleChange(field.name, e.target.checked)}
+										checked={formData[field.name] === "true"}
+										onChange={(e) =>
+											handleChange(field.name, e.target.checked.toString())
+										}
 										required={field.required}
 									/>
 									<span

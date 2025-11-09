@@ -161,10 +161,8 @@ export const TrafficSources = memo<TrafficSourcesProps>(
 								layout="vertical"
 								align="right"
 								verticalAlign="middle"
-								formatter={(value, entry: { payload: { source: string } }) => {
-									const item = data.find(
-										(d) => d.source === entry.payload.source,
-									);
+								formatter={(value) => {
+									const item = data.find((d) => d.source === value);
 									return `${value} (${formatPercentage(item?.percentage || 0)})`;
 								}}
 								wrapperStyle={{
