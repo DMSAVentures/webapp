@@ -6,10 +6,10 @@
  */
 
 // ============================================================================
-// User Types
+// Account User Types (distinct from Waitlist Users)
 // ============================================================================
 
-export interface User {
+export interface AccountUser {
 	id: string;
 	email: string;
 	name: string;
@@ -52,40 +52,18 @@ export interface CampaignStats {
 	viralCoefficient: number;
 }
 
-// ============================================================================
-// Waitlist User Types
-// ============================================================================
-
-export interface WaitlistUser {
-	id: string;
-	campaignId: string;
-	email: string;
-	name?: string;
-	customFields: Record<string, unknown>;
-	status: "pending" | "verified" | "invited" | "active" | "rejected";
-	position: number;
-	referralCode: string;
-	referredBy?: string;
-	referralCount: number;
-	points: number;
-	source: string;
-	utmParams?: {
-		source?: string;
-		medium?: string;
-		campaign?: string;
-		content?: string;
-		term?: string;
-	};
-	metadata: {
-		ipAddress?: string;
-		userAgent?: string;
-		country?: string;
-		device?: "mobile" | "tablet" | "desktop";
-	};
-	createdAt: Date;
-	verifiedAt?: Date;
-	invitedAt?: Date;
-}
+// Re-export waitlist user types from users.types.ts
+export type {
+	WaitlistUser,
+	WaitlistUserStatus,
+	UTMParams,
+	UserMetadata,
+	ListUsersParams,
+	ListUsersResponse,
+	UserFilters,
+	UserSortField,
+	SortDirection,
+} from "./users.types";
 
 // ============================================================================
 // Referral Types
@@ -449,42 +427,13 @@ export interface Toast {
 	duration?: number;
 }
 
-// ============================================================================
-// API Types
-// ============================================================================
-
-export interface ApiResponse<T> {
-	data: T;
-	meta?: {
-		page?: number;
-		limit?: number;
-		total?: number;
-		hasMore?: boolean;
-	};
-}
-
-export interface ApiError {
-	error: string;
-	details?: unknown;
-}
-
-// ============================================================================
-// Pagination Types
-// ============================================================================
-
-export interface PaginationParams {
-	page?: number;
-	limit?: number;
-	offset?: number;
-}
-
-export interface PaginatedResponse<T> {
-	items: T[];
-	pagination: {
-		page: number;
-		limit: number;
-		total: number;
-		totalPages: number;
-		hasMore: boolean;
-	};
-}
+// Re-export API types for convenience
+export type {
+	ApiResponse,
+	ApiError,
+	PaginationParams,
+	PaginatedResponse,
+	Pagination,
+	ListParams,
+	ListResponse,
+} from "./api.types";

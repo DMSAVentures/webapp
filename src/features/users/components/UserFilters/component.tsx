@@ -7,17 +7,12 @@ import { memo, useState } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
-import type { WaitlistUser } from "@/types/common.types";
+import type {
+	UserFilters,
+	WaitlistUser,
+	WaitlistUserStatus,
+} from "@/types/users.types";
 import styles from "./component.module.scss";
-
-export interface UserFilters {
-	status?: WaitlistUser["status"][];
-	dateRange?: { start: Date; end: Date };
-	source?: string[];
-	hasReferrals?: boolean;
-	minPosition?: number;
-	maxPosition?: number;
-}
 
 export interface UserFiltersProps {
 	/** Current filter values */
@@ -30,7 +25,7 @@ export interface UserFiltersProps {
 	className?: string;
 }
 
-const STATUS_OPTIONS: Array<{ value: WaitlistUser["status"]; label: string }> =
+const STATUS_OPTIONS: Array<{ value: WaitlistUserStatus; label: string }> =
 	[
 		{ value: "pending", label: "Pending" },
 		{ value: "verified", label: "Verified" },
@@ -65,7 +60,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 	// Handle status toggle
-	const handleStatusToggle = (status: WaitlistUser["status"]) => {
+	const handleStatusToggle = (status: WaitlistUserStatus) => {
 		const currentStatuses = localFilters.status || [];
 		const newStatuses = currentStatuses.includes(status)
 			? currentStatuses.filter((s) => s !== status)

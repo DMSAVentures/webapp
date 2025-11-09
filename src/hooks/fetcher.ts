@@ -1,10 +1,11 @@
+import type { ApiError } from "@/types/api.types";
+
 interface FetcherOptions extends RequestInit {
 	headers?: HeadersInit;
 }
 
-export interface ApiError {
-	error: string;
-}
+// Re-export ApiError for convenience
+export type { ApiError };
 
 export const fetcher = async <T>(
 	url: string,
