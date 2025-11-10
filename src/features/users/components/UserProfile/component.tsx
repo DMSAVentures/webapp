@@ -157,7 +157,9 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						<div className={styles.statCard}>
 							<i className="ri-number-1" aria-hidden="true" />
 							<div className={styles.statContent}>
-								<span className={styles.statValue}>{formatPosition(user.position)}</span>
+								<span className={styles.statValue}>
+									{formatPosition(user.position)}
+								</span>
 								<span className={styles.statLabel}>Position</span>
 							</div>
 						</div>
