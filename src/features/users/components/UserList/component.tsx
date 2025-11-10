@@ -22,6 +22,7 @@ import type {
 	UserSortField,
 	WaitlistUser,
 } from "@/types/users.types";
+import { formatPosition } from "@/utils/positionFormatter";
 import { BulkActions } from "../BulkActions/component";
 import { UserFilters } from "../UserFilters/component";
 import styles from "./component.module.scss";
@@ -486,7 +487,7 @@ export const UserList = memo<UserListProps>(function UserList({
 											</td>
 											<td className={styles.tableCell}>
 												<span className={styles.position}>
-													#{user.position}
+													{formatPosition(user.position)}
 												</span>
 											</td>
 											<td className={styles.tableCell}>

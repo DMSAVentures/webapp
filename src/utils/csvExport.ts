@@ -4,6 +4,7 @@
  */
 
 import type { WaitlistUser } from "@/types/common.types";
+import { formatPositionForCSV } from "./positionFormatter";
 
 /**
  * Escapes CSV field values to handle special characters
@@ -64,7 +65,7 @@ export function convertUsersToCSV(users: WaitlistUser[]): string {
 			user.email,
 			user.name || "",
 			user.status,
-			user.position,
+			formatPositionForCSV(user.position),
 			user.referralCode,
 			user.referredBy || "",
 			user.referralCount,
