@@ -1,4 +1,5 @@
 import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
+import { formatPositionWithLocale } from "@/utils/positionFormatter";
 import styles from "./component.module.scss";
 import "remixicon/fonts/remixicon.css";
 
@@ -143,9 +144,8 @@ export const PositionTracker = memo(function PositionTracker({
 				<div className={styles.positionSection}>
 					<div className={styles.positionLabel}>Your Position</div>
 					<div className={styles.positionDisplay}>
-						<span className={styles.positionHash}>#</span>
 						<span className={styles.positionNumber}>
-							{positionData.position.toLocaleString()}
+							{formatPositionWithLocale(positionData.position)}
 						</span>
 						{showImprovement && (
 							<span className={styles.improvementBadge}>

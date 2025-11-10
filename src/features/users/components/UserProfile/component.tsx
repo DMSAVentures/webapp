@@ -13,6 +13,7 @@ import Dropdown, {
 import Modal from "@/proto-design-system/modal/modal";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import type { RewardEarned, WaitlistUser } from "@/types/common.types";
+import { formatPosition } from "@/utils/positionFormatter";
 import styles from "./component.module.scss";
 
 export interface UserProfileProps extends HTMLAttributes<HTMLDivElement> {
@@ -156,7 +157,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						<div className={styles.statCard}>
 							<i className="ri-number-1" aria-hidden="true" />
 							<div className={styles.statContent}>
-								<span className={styles.statValue}>#{user.position}</span>
+								<span className={styles.statValue}>{formatPosition(user.position)}</span>
 								<span className={styles.statLabel}>Position</span>
 							</div>
 						</div>
