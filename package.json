@@ -12,7 +12,12 @@
 		"lint:scss:fix": "stylelint \"src/**/*.scss\" --fix",
 		"format": "biome format --write .",
 		"preview": "vite preview",
-		"storybook": "storybook dev -p 6006"
+		"storybook": "storybook dev -p 6006",
+		"test": "playwright test",
+		"test:ui": "playwright test --ui",
+		"test:headed": "playwright test --headed",
+		"test:debug": "playwright test --debug",
+		"test:report": "playwright show-report"
 	},
 	"dependencies": {
 		"@stripe/react-stripe-js": "^5.3.0",
@@ -29,6 +34,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.3",
+		"@playwright/test": "^1.56.1",
 		"@storybook/addon-essentials": "^8.6.14",
 		"@storybook/addon-links": "^8.6.14",
 		"@storybook/react": "^8.6.14",
