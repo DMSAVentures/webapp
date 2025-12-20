@@ -98,7 +98,6 @@ function RouteComponent() {
 						campaignId={campaignId}
 						users={users}
 						loading={usersLoading}
-						showFilters={true}
 						onUserClick={(user) => {
 							console.log("User clicked:", user);
 						}}

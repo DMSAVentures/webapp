@@ -1,12 +1,10 @@
 /**
  * UserFilters Component
- * Filter panel for waitlist users
+ * Horizontal filter bar for waitlist users
  */
 
-import { memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { memo, useCallback, useRef, useState } from "react";
+import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import type {
 	UserFilters as UserFiltersType,
 	WaitlistUserStatus,
@@ -33,237 +31,288 @@ const STATUS_OPTIONS: Array<{ value: WaitlistUserStatus; label: string }> = [
 ];
 
 const SOURCE_OPTIONS = [
-	"organic",
-	"referral",
-	"twitter",
-	"facebook",
-	"linkedin",
-	"instagram",
-	"email",
-	"other",
+	{ value: "organic", label: "Organic" },
+	{ value: "referral", label: "Referral" },
+	{ value: "twitter", label: "Twitter" },
+	{ value: "facebook", label: "Facebook" },
+	{ value: "linkedin", label: "LinkedIn" },
+	{ value: "instagram", label: "Instagram" },
+	{ value: "email", label: "Email" },
+	{ value: "other", label: "Other" },
 ];
 
+interface MultiSelectDropdownProps {
+	label: string;
+	options: Array<{ value: string; label: string }>;
+	selected: string[];
+	onChange: (selected: string[]) => void;
+	placeholder: string;
+}
+
+const MultiSelectDropdown = memo<MultiSelectDropdownProps>(
+	function MultiSelectDropdown({
+		label,
+		options,
+		selected,
+		onChange,
+		placeholder,
+	}) {
+		const [isOpen, setIsOpen] = useState(false);
+		const dropdownRef = useRef<HTMLDivElement>(null);
+
+		const handleToggle = useCallback((value: string) => {
+			onChange(
+				selected.includes(value)
+					? selected.filter((v) => v !== value)
+					: [...selected, value],
+			);
+		}, [selected, onChange]);
+
+		const handleBlur = useCallback((e: React.FocusEvent) => {
+			if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
+				setIsOpen(false);
+			}
+		}, []);
+
+		const getDisplayText = () => {
+			if (selected.length === 0) return placeholder;
+			if (selected.length === 1) {
+				return options.find((o) => o.value === selected[0])?.label || selected[0];
+			}
+			return `${selected.length} selected`;
+		};
+
+		return (
+			<div className={styles.filterGroup}>
+				<label className={styles.filterLabel}>{label}</label>
+				<div
+					ref={dropdownRef}
+					className={styles.multiSelectDropdown}
+					onBlur={handleBlur}
+				>
+					<button
+						type="button"
+						className={`${styles.dropdownTrigger} ${selected.length > 0 ? styles.dropdownTriggerActive : ""}`}
+						onClick={() => setIsOpen(!isOpen)}
+						aria-expanded={isOpen}
+					>
+						<span className={styles.dropdownTriggerText}>{getDisplayText()}</span>
+						<i
+							className={`ri-arrow-${isOpen ? "up" : "down"}-s-line`}
+							aria-hidden="true"
+						/>
+					</button>
+					{isOpen && (
+						<div className={styles.dropdownMenu}>
+							{options.map(({ value, label }) => (
+								<label key={value} className={styles.dropdownItem}>
+									<Checkbox
+										checked={selected.includes(value) ? "checked" : "unchecked"}
+										onChange={() => handleToggle(value)}
+									/>
+									<span>{label}</span>
+								</label>
+							))}
+						</div>
+					)}
+				</div>
+			</div>
+		);
+	},
+);
+
 /**
- * UserFilters displays a filter panel for waitlist users
+ * UserFilters displays a horizontal filter bar for waitlist users
  */
 export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	filters,
 	onChange,
 	onReset,
 	className: customClassName,
-	...props
 }) {
-	const [localFilters, setLocalFilters] = useState<UserFiltersType>(filters);
-
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
-	// Handle status toggle
-	const handleStatusToggle = (status: WaitlistUserStatus) => {
-		const currentStatuses = localFilters.status || [];
-		const newStatuses = currentStatuses.includes(status)
-			? currentStatuses.filter((s) => s !== status)
-			: [...currentStatuses, status];
+	// Check if any filters are active
+	const hasActiveFilters =
+		(filters.status && filters.status.length > 0) ||
+		(filters.source && filters.source.length > 0) ||
+		filters.hasReferrals ||
+		filters.minPosition !== undefined ||
+		filters.maxPosition !== undefined ||
+		filters.dateRange !== undefined;
 
-		setLocalFilters({
-			...localFilters,
-			status: newStatuses.length > 0 ? newStatuses : undefined,
-		});
-	};
+	// Handle status change
+	const handleStatusChange = useCallback(
+		(selected: string[]) => {
+			onChange({
+				...filters,
+				status: selected.length > 0 ? (selected as WaitlistUserStatus[]) : undefined,
+			});
+		},
+		[filters, onChange],
+	);
 
-	// Handle source toggle
-	const handleSourceToggle = (source: string) => {
-		const currentSources = localFilters.source || [];
-		const newSources = currentSources.includes(source)
-			? currentSources.filter((s) => s !== source)
-			: [...currentSources, source];
-
-		setLocalFilters({
-			...localFilters,
-			source: newSources.length > 0 ? newSources : undefined,
-		});
-	};
+	// Handle source change
+	const handleSourceChange = useCallback(
+		(selected: string[]) => {
+			onChange({
+				...filters,
+				source: selected.length > 0 ? selected : undefined,
+			});
+		},
+		[filters, onChange],
+	);
 
 	// Handle date range change
-	const handleDateRangeChange = (field: "start" | "end", value: string) => {
+	const handleDateChange = (field: "start" | "end", value: string) => {
 		const dateValue = value ? new Date(value) : undefined;
+
 		if (!dateValue) {
-			if (field === "start" && localFilters.dateRange?.end) {
-				setLocalFilters({
-					...localFilters,
-					dateRange: undefined,
+			// If clearing a date, check if we should remove the whole range
+			if (field === "start" && !filters.dateRange?.end) {
+				onChange({ ...filters, dateRange: undefined });
+			} else if (field === "end" && !filters.dateRange?.start) {
+				onChange({ ...filters, dateRange: undefined });
+			} else if (field === "start") {
+				onChange({
+					...filters,
+					dateRange: filters.dateRange?.end
+						? { start: new Date(0), end: filters.dateRange.end }
+						: undefined,
 				});
-			} else if (field === "end" && localFilters.dateRange?.start) {
-				setLocalFilters({
-					...localFilters,
-					dateRange: undefined,
+			} else {
+				onChange({
+					...filters,
+					dateRange: filters.dateRange?.start
+						? { start: filters.dateRange.start, end: new Date() }
+						: undefined,
 				});
 			}
 			return;
 		}
 
-		setLocalFilters({
-			...localFilters,
+		onChange({
+			...filters,
 			dateRange: {
-				start:
-					field === "start"
-						? dateValue
-						: localFilters.dateRange?.start || dateValue,
-				end:
-					field === "end"
-						? dateValue
-						: localFilters.dateRange?.end || dateValue,
+				start: field === "start" ? dateValue : filters.dateRange?.start || new Date(0),
+				end: field === "end" ? dateValue : filters.dateRange?.end || new Date(),
 			},
 		});
 	};
 
-	// Handle position range change
+	// Handle position change
 	const handlePositionChange = (field: "min" | "max", value: string) => {
 		const numValue = value ? parseInt(value, 10) : undefined;
-		setLocalFilters({
-			...localFilters,
+		onChange({
+			...filters,
 			[field === "min" ? "minPosition" : "maxPosition"]: numValue,
 		});
 	};
 
-	// Handle apply
-	const handleApply = () => {
-		onChange(localFilters);
-	};
-
-	// Handle reset
-	const handleReset = () => {
-		const emptyFilters: UserFiltersType = {};
-		setLocalFilters(emptyFilters);
-		onReset();
+	// Handle has referrals toggle
+	const handleReferralsToggle = () => {
+		onChange({
+			...filters,
+			hasReferrals: !filters.hasReferrals || undefined,
+		});
 	};
 
 	return (
-		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<h3 className={styles.title}>Filters</h3>
-				<button
-					className={styles.resetButton}
-					onClick={handleReset}
-					aria-label="Reset filters"
-				>
-					<i className="ri-refresh-line" aria-hidden="true" />
-					Reset
-				</button>
-			</div>
-
+		<div className={classNames}>
 			{/* Status Filter */}
-			<div className={styles.filterSection}>
-				<h4 className={styles.filterLabel}>Status</h4>
-				<div className={styles.checkboxGroup}>
-					{STATUS_OPTIONS.map(({ value, label }) => (
-						<CheckboxWithLabel
-							key={value}
-							text={label}
-							description=""
-							checked={
-								localFilters.status?.includes(value) ? "checked" : "unchecked"
-							}
-							onChange={() => handleStatusToggle(value)}
-							flipCheckboxToRight={false}
-						/>
-					))}
-				</div>
-			</div>
-
-			{/* Date Range Filter */}
-			<div className={styles.filterSection}>
-				<h4 className={styles.filterLabel}>Date Range</h4>
-				<div className={styles.dateRangeInputs}>
-					<TextInput
-						label="From"
-						type="date"
-						value={
-							localFilters.dateRange?.start
-								? localFilters.dateRange.start.toISOString().split("T")[0]
-								: ""
-						}
-						onChange={(e) => handleDateRangeChange("start", e.target.value)}
-					/>
-					<TextInput
-						label="To"
-						type="date"
-						value={
-							localFilters.dateRange?.end
-								? localFilters.dateRange.end.toISOString().split("T")[0]
-								: ""
-						}
-						onChange={(e) => handleDateRangeChange("end", e.target.value)}
-					/>
-				</div>
-			</div>
+			<MultiSelectDropdown
+				label="Status"
+				options={STATUS_OPTIONS}
+				selected={filters.status || []}
+				onChange={handleStatusChange}
+				placeholder="All Statuses"
+			/>
 
 			{/* Source Filter */}
-			<div className={styles.filterSection}>
-				<h4 className={styles.filterLabel}>Source</h4>
-				<div className={styles.checkboxGroup}>
-					{SOURCE_OPTIONS.map((source) => (
-						<CheckboxWithLabel
-							key={source}
-							text={source.charAt(0).toUpperCase() + source.slice(1)}
-							description=""
-							checked={
-								localFilters.source?.includes(source) ? "checked" : "unchecked"
-							}
-							onChange={() => handleSourceToggle(source)}
-							flipCheckboxToRight={false}
-						/>
-					))}
-				</div>
-			</div>
+			<MultiSelectDropdown
+				label="Source"
+				options={SOURCE_OPTIONS}
+				selected={filters.source || []}
+				onChange={handleSourceChange}
+				placeholder="All Sources"
+			/>
 
-			{/* Has Referrals Filter */}
-			<div className={styles.filterSection}>
-				<CheckboxWithLabel
-					text="Has referrals"
-					description=""
-					checked={localFilters.hasReferrals ? "checked" : "unchecked"}
-					onChange={() =>
-						setLocalFilters({
-							...localFilters,
-							hasReferrals: !localFilters.hasReferrals || undefined,
-						})
-					}
-					flipCheckboxToRight={false}
-				/>
+			{/* Date Range Filter */}
+			<div className={styles.filterGroup}>
+				<label className={styles.filterLabel}>Date Range</label>
+				<div className={styles.dateInputs}>
+					<input
+						type="date"
+						className={styles.dateInput}
+						value={
+							filters.dateRange?.start
+								? filters.dateRange.start.toISOString().split("T")[0]
+								: ""
+						}
+						onChange={(e) => handleDateChange("start", e.target.value)}
+					/>
+					<span className={styles.dateSeparator}>to</span>
+					<input
+						type="date"
+						className={styles.dateInput}
+						value={
+							filters.dateRange?.end
+								? filters.dateRange.end.toISOString().split("T")[0]
+								: ""
+						}
+						onChange={(e) => handleDateChange("end", e.target.value)}
+					/>
+				</div>
 			</div>
 
 			{/* Position Range Filter */}
-			<div className={styles.filterSection}>
-				<h4 className={styles.filterLabel}>Position Range</h4>
+			<div className={styles.filterGroup}>
+				<label className={styles.filterLabel}>Position</label>
 				<div className={styles.positionInputs}>
-					<TextInput
-						label="Min"
+					<input
 						type="number"
+						className={styles.positionInput}
+						placeholder="Min"
 						min={1}
-						placeholder="1"
-						value={localFilters.minPosition?.toString() || ""}
+						value={filters.minPosition ?? ""}
 						onChange={(e) => handlePositionChange("min", e.target.value)}
 					/>
-					<TextInput
-						label="Max"
+					<span className={styles.dateSeparator}>-</span>
+					<input
 						type="number"
+						className={styles.positionInput}
+						placeholder="Max"
 						min={1}
-						placeholder="100"
-						value={localFilters.maxPosition?.toString() || ""}
+						value={filters.maxPosition ?? ""}
 						onChange={(e) => handlePositionChange("max", e.target.value)}
 					/>
 				</div>
 			</div>
 
-			{/* Action Buttons */}
+			{/* Has Referrals Filter */}
+			<div className={styles.filterGroup}>
+				<label className={styles.filterLabel}>&nbsp;</label>
+				<label className={styles.checkboxFilter}>
+					<Checkbox
+						checked={filters.hasReferrals ? "checked" : "unchecked"}
+						onChange={handleReferralsToggle}
+					/>
+					Has referrals
+				</label>
+			</div>
+
+			{/* Actions */}
 			<div className={styles.actions}>
-				<Button
-					onClick={handleApply}
-					variant="primary"
-					className={styles.applyButton}
-				>
-					Apply Filters
-				</Button>
+				{hasActiveFilters && (
+					<button
+						className={styles.resetButton}
+						onClick={onReset}
+						aria-label="Reset filters"
+					>
+						<i className="ri-refresh-line" aria-hidden="true" />
+						Reset
+					</button>
+				)}
 			</div>
 		</div>
 	);

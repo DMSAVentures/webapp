@@ -12,7 +12,6 @@ import {
 } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
 import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
@@ -34,8 +33,6 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	users: WaitlistUser[];
 	/** Loading state */
 	loading?: boolean;
-	/** Show filters panel */
-	showFilters?: boolean;
 	/** User click handler */
 	onUserClick?: (user: WaitlistUser) => void;
 	/** Export handler */
@@ -53,7 +50,6 @@ export const UserList = memo<UserListProps>(function UserList({
 	campaignId,
 	users,
 	loading = false,
-	showFilters = true,
 	onUserClick,
 	onExport,
 	onBulkAction,
@@ -66,7 +62,6 @@ export const UserList = memo<UserListProps>(function UserList({
 	const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 	const [filters, setFilters] = useState<UserFiltersType>({});
-	const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
@@ -247,279 +242,259 @@ export const UserList = memo<UserListProps>(function UserList({
 
 	return (
 		<div className={classNames} {...props}>
-			<div className={styles.container}>
-				{/* Filters sidebar */}
-				{showFilters && isFilterPanelOpen && (
-					<div className={styles.filterPanel}>
-						<UserFilters
-							filters={filters}
-							onChange={(newFilters) => {
-								setFilters(newFilters);
-								setIsFilterPanelOpen(false);
-							}}
-							onReset={() => {
+			{/* Header with search and actions */}
+			<div className={styles.header}>
+				{/* Search */}
+				<div className={styles.searchBox}>
+					<TextInput
+						label="Search"
+						placeholder="Search by email or name..."
+						value={searchQuery}
+						onChange={(e) => setSearchQuery(e.target.value)}
+						leftIcon="ri-search-line"
+						showLeftIcon={true}
+					/>
+					{searchQuery && (
+						<button
+							className={styles.searchClear}
+							onClick={() => setSearchQuery("")}
+							aria-label="Clear search"
+						>
+							<i className="ri-close-line" aria-hidden="true" />
+						</button>
+					)}
+				</div>
+
+				{/* Actions */}
+				<div className={styles.headerActions}>
+					<Button
+						variant="secondary"
+						leftIcon="ri-download-line"
+						onClick={handleExportAll}
+					>
+						Export CSV
+					</Button>
+				</div>
+			</div>
+
+			{/* Filters bar */}
+			<UserFilters
+				filters={filters}
+				onChange={setFilters}
+				onReset={() => setFilters({})}
+			/>
+
+			{/* Main content */}
+			<div className={styles.main}>
+				{/* Results count */}
+				<div className={styles.resultsInfo}>
+					{filteredAndSortedUsers.length} user
+					{filteredAndSortedUsers.length !== 1 ? "s" : ""}
+					{searchQuery && ` matching "${searchQuery}"`}
+				</div>
+
+				{/* User table */}
+				{loading ? (
+					<div className={styles.loading}>
+						<div className={styles.loadingSpinner} />
+						<p>Loading users...</p>
+					</div>
+				) : filteredAndSortedUsers.length === 0 ? (
+					<div className={styles.noResults}>
+						<i className="ri-search-line" aria-hidden="true" />
+						<p>No users found</p>
+						<Button
+							onClick={() => {
+								setSearchQuery("");
 								setFilters({});
-								setIsFilterPanelOpen(false);
 							}}
-						/>
+							variant="secondary"
+						>
+							Clear filters
+						</Button>
 					</div>
-				)}
-
-				{/* Main content */}
-				<div className={styles.main}>
-					{/* Header with search and actions */}
-					<div className={styles.header}>
-						{/* Search */}
-						<div className={styles.searchBox}>
-							<TextInput
-								label="Search"
-								placeholder="Search by email or name..."
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
-								leftIcon="ri-search-line"
-								showLeftIcon={true}
-							/>
-							{searchQuery && (
-								<button
-									className={styles.searchClear}
-									onClick={() => setSearchQuery("")}
-									aria-label="Clear search"
-								>
-									<i className="ri-close-line" aria-hidden="true" />
-								</button>
-							)}
-						</div>
-
-						{/* Actions */}
-						<div className={styles.headerActions}>
-							{showFilters && (
-								<IconOnlyButton
-									iconClass="filter-line"
-									variant="secondary"
-									ariaLabel="Toggle filters"
-									onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-								/>
-							)}
-							<Button
-								variant="secondary"
-								leftIcon="ri-download-line"
-								onClick={handleExportAll}
-							>
-								Export CSV
-							</Button>
-						</div>
-					</div>
-
-					{/* Results count */}
-					<div className={styles.resultsInfo}>
-						{filteredAndSortedUsers.length} user
-						{filteredAndSortedUsers.length !== 1 ? "s" : ""}
-						{searchQuery && ` matching "${searchQuery}"`}
-					</div>
-
-					{/* User table */}
-					{loading ? (
-						<div className={styles.loading}>
-							<div className={styles.loadingSpinner} />
-							<p>Loading users...</p>
-						</div>
-					) : filteredAndSortedUsers.length === 0 ? (
-						<div className={styles.noResults}>
-							<i className="ri-search-line" aria-hidden="true" />
-							<p>No users found</p>
-							<Button
-								onClick={() => {
-									setSearchQuery("");
-									setFilters({});
-								}}
-								variant="secondary"
-							>
-								Clear filters
-							</Button>
-						</div>
-					) : (
-						<div className={styles.tableWrapper}>
-							<table className={styles.table}>
-								<thead className={styles.tableHead}>
-									<tr>
-										<th className={styles.tableHeaderCell}>
+				) : (
+					<div className={styles.tableWrapper}>
+						<table className={styles.table}>
+							<thead className={styles.tableHead}>
+								<tr>
+									<th className={styles.tableHeaderCell}>
+										<Checkbox
+											checked={
+												selectedUserIds.length ===
+												filteredAndSortedUsers.length
+													? "checked"
+													: "unchecked"
+											}
+											onChange={handleSelectAll}
+											aria-label="Select all users"
+										/>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("email")}
+										>
+											Email
+											{sortField === "email" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("name")}
+										>
+											Name
+											{sortField === "name" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("status")}
+										>
+											Status
+											{sortField === "status" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("position")}
+										>
+											Position
+											{sortField === "position" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("referralCount")}
+										>
+											Referrals
+											{sortField === "referralCount" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("source")}
+										>
+											Source
+											{sortField === "source" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+									<th className={styles.tableHeaderCell}>
+										<button
+											className={styles.sortButton}
+											onClick={() => handleSort("createdAt")}
+										>
+											Date
+											{sortField === "createdAt" && (
+												<i
+													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</th>
+								</tr>
+							</thead>
+							<tbody className={styles.tableBody}>
+								{filteredAndSortedUsers.map((user) => (
+									<tr
+										key={user.id}
+										className={`${styles.tableRow} ${selectedUserIds.includes(user.id) ? styles.tableRowSelected : ""}`}
+										onClick={() => onUserClick?.(user)}
+									>
+										<td className={styles.tableCell}>
 											<Checkbox
 												checked={
-													selectedUserIds.length ===
-													filteredAndSortedUsers.length
+													selectedUserIds.includes(user.id)
 														? "checked"
 														: "unchecked"
 												}
-												onChange={handleSelectAll}
-												aria-label="Select all users"
+												onChange={() => handleSelectUser(user.id)}
+												onClick={(e) => e.stopPropagation()}
 											/>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("email")}
-											>
-												Email
-												{sortField === "email" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.email}>{user.email}</span>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.name}>{user.name || "-"}</span>
+										</td>
+										<td className={styles.tableCell}>
+											<StatusBadge
+												text={formatStatus(user.status)}
+												variant={getStatusVariant(user.status)}
+												styleType="stroke"
+											/>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.position}>
+												{formatPosition(user.position)}
+											</span>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.referralCount}>
+												{user.referralCount}
+											</span>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.source}>
+												{user.source.charAt(0).toUpperCase() +
+													user.source.slice(1)}
+											</span>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.date}>
+												{new Date(user.createdAt).toLocaleDateString(
+													"en-US",
+													{
+														month: "short",
+														day: "numeric",
+														year: "numeric",
+													},
 												)}
-											</button>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("name")}
-											>
-												Name
-												{sortField === "name" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
-												)}
-											</button>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("status")}
-											>
-												Status
-												{sortField === "status" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
-												)}
-											</button>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("position")}
-											>
-												Position
-												{sortField === "position" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
-												)}
-											</button>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("referralCount")}
-											>
-												Referrals
-												{sortField === "referralCount" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
-												)}
-											</button>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("source")}
-											>
-												Source
-												{sortField === "source" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
-												)}
-											</button>
-										</th>
-										<th className={styles.tableHeaderCell}>
-											<button
-												className={styles.sortButton}
-												onClick={() => handleSort("createdAt")}
-											>
-												Date
-												{sortField === "createdAt" && (
-													<i
-														className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-														aria-hidden="true"
-													/>
-												)}
-											</button>
-										</th>
+											</span>
+										</td>
 									</tr>
-								</thead>
-								<tbody className={styles.tableBody}>
-									{filteredAndSortedUsers.map((user) => (
-										<tr
-											key={user.id}
-											className={`${styles.tableRow} ${selectedUserIds.includes(user.id) ? styles.tableRowSelected : ""}`}
-											onClick={() => onUserClick?.(user)}
-										>
-											<td className={styles.tableCell}>
-												<Checkbox
-													checked={
-														selectedUserIds.includes(user.id)
-															? "checked"
-															: "unchecked"
-													}
-													onChange={() => handleSelectUser(user.id)}
-													onClick={(e) => e.stopPropagation()}
-												/>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.email}>{user.email}</span>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.name}>{user.name || "-"}</span>
-											</td>
-											<td className={styles.tableCell}>
-												<StatusBadge
-													text={formatStatus(user.status)}
-													variant={getStatusVariant(user.status)}
-													styleType="stroke"
-												/>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.position}>
-													{formatPosition(user.position)}
-												</span>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.referralCount}>
-													{user.referralCount}
-												</span>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.source}>
-													{user.source.charAt(0).toUpperCase() +
-														user.source.slice(1)}
-												</span>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.date}>
-													{new Date(user.createdAt).toLocaleDateString(
-														"en-US",
-														{
-															month: "short",
-															day: "numeric",
-															year: "numeric",
-														},
-													)}
-												</span>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-					)}
-				</div>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
 			</div>
 
 			{/* Bulk actions */}

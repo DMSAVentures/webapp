@@ -5,30 +5,197 @@
 
 .root {
   display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-05;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-04;
+  background-color: var(--color-surface-secondary-default);
   border: border.$border-width-small solid var(--color-border-primary-default);
   border-radius: layout.$spacing-03;
-  min-width: 280px;
-  max-width: 320px;
 }
 
-// Header
-.header {
+// Filter group
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+  min-width: 140px;
+}
+
+.filterLabel {
+  font-size: typography.$font-size-xs;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-secondary-default);
+  text-transform: uppercase;
+  letter-spacing: typography.$letter-spacing-wide;
+}
+
+// Multi-select dropdown
+.multiSelectDropdown {
+  position: relative;
+}
+
+.dropdownTrigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: layout.$spacing-03;
-  border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
+  gap: layout.$spacing-02;
+  width: 100%;
+  min-width: 140px;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  cursor: pointer;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-focus-default);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-focus-ring-default);
+  }
+
+  i {
+    font-size: typography.$font-size-md;
+    color: var(--color-icon-secondary-default);
+  }
 }
 
-.title {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
+.dropdownTriggerActive {
   color: var(--color-text-primary-default);
-  margin: 0;
+}
+
+.dropdownTriggerText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + layout.$spacing-01);
+  left: 0;
+  z-index: 100;
+  min-width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  box-shadow: 0 4px 12px var(--color-shadow-default);
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-primary-default);
+  cursor: pointer;
+  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    background-color: var(--color-bg-secondary-hover);
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+// Date inputs
+.dateInputs {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+}
+
+.dateInput {
+  width: 130px;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-primary-default);
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-focus-default);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-focus-ring-default);
+  }
+}
+
+.dateSeparator {
+  color: var(--color-text-tertiary-default);
+  font-size: typography.$font-size-sm;
+}
+
+// Position inputs
+.positionInputs {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+}
+
+.positionInput {
+  width: 70px;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-primary-default);
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    border-color: var(--color-border-focus-default);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-focus-ring-default);
+  }
+
+  // Hide number input spinners
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  &[type="number"] {
+    appearance: textfield;
+  }
+}
+
+// Checkbox filter
+.checkboxFilter {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-02 0;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-primary-default);
+  cursor: pointer;
+}
+
+// Actions
+.actions {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  margin-left: auto;
 }
 
 .resetButton {
@@ -36,18 +203,18 @@
   align-items: center;
   gap: layout.$spacing-02;
   padding: layout.$spacing-02 layout.$spacing-03;
-  background-color: transparent;
-  border: none;
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-secondary-default);
   font-size: typography.$font-size-sm;
   font-weight: typography.$font-weight-medium;
+  color: var(--color-text-secondary-default);
+  background-color: transparent;
+  border: none;
+  border-radius: border.$border-radius-small;
   cursor: pointer;
   transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover {
-    background-color: var(--color-bg-secondary-hover);
     color: var(--color-text-primary-default);
+    background-color: var(--color-bg-secondary-hover);
   }
 
   &:focus-visible {
@@ -60,62 +227,40 @@
   }
 }
 
-// Filter sections
-.filterSection {
+// Active filter indicator
+.activeFilters {
   display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-03;
-}
-
-.filterLabel {
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-02 layout.$spacing-03;
   font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
-  margin: 0;
-  text-transform: uppercase;
+  color: var(--color-text-info-default);
+  background-color: var(--color-bg-info-default);
+  border-radius: border.$border-radius-small;
 }
 
-// Checkbox group
-.checkboxGroup {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-02;
-}
-
-// Date range inputs
-.dateRangeInputs {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-03;
-}
-
-// Position inputs
-.positionInputs {
-  display: flex;
-  gap: layout.$spacing-03;
-
-  // Make text inputs equal width
-  & > * {
-    flex: 1;
-  }
-}
-
-// Actions
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-02;
-  padding-top: layout.$spacing-03;
-  border-top: border.$border-width-small solid var(--color-border-secondary-default);
-}
-
-.applyButton {
-  width: 100%;
-}
-
-// Responsive adjustments
+// Responsive
 @media (width <= 768px) {
   .root {
-    max-width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filterGroup {
+    width: 100%;
+  }
+
+  .dateInputs {
+    flex-wrap: wrap;
+  }
+
+  .dateInput {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .actions {
+    margin-left: 0;
+    justify-content: flex-end;
   }
 }
