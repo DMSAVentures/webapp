@@ -7,53 +7,54 @@
 
 :root {
   // =========================
-  // BACKGROUNDS (for buttons and dark UI elements)
-  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
+  // BACKGROUNDS (for buttons and interactive UI elements)
+  // Primary: dark buttons | Secondary: light buttons | Tertiary: ghost/subtle
   // =========================
-  --color-bg-primary-default: #{$color-neutral-900};    // Darkest
-  --color-bg-primary-hover: #{$color-neutral-800};
-  --color-bg-primary-active: #{$color-neutral-700};
-  --color-bg-primary-disabled: #{$color-neutral-400};   // Dark (75% lightness)
-  --color-bg-secondary-default: #{$color-neutral-300};  // Darker (85% lightness)
-  --color-bg-secondary-hover: #{$color-neutral-200};
-  --color-bg-secondary-active: #{$color-neutral-300};
-  --color-bg-secondary-disabled: #{$color-neutral-200}; // Lighter than disabled (93% lightness)
-  --color-bg-tertiary-default: #{$color-neutral-50};
-  --color-bg-tertiary-disabled: #{$color-neutral-100};
+  --color-bg-primary-default: #{$color-neutral-900};    // 25% - Darkest
+  --color-bg-primary-hover: #{$color-neutral-800};      // 35%
+  --color-bg-primary-active: #{$color-neutral-700};     // 45%
+  --color-bg-primary-disabled: #{$color-neutral-400};   // 75% - Faded
+  --color-bg-secondary-default: #{$color-neutral-100};  // 96% - Very light
+  --color-bg-secondary-hover: #{$color-neutral-200};    // 92% - Slightly darker on hover
+  --color-bg-secondary-active: #{$color-neutral-200};   // 92%
+  --color-bg-secondary-disabled: #{$color-neutral-50};  // 98% - Near white
+  --color-bg-tertiary-default: transparent;
+  --color-bg-tertiary-disabled: #{$color-neutral-50};   // 98%
 
   // =========================
   // SURFACES (cards, sheets, modals, popovers)
-  // Hierarchy: Lightest (white/primary) → Lighter (secondary)
+  // Hierarchy: Primary (white) → Secondary (tinted)
   // =========================
-  --color-surface-primary-default: #{$color-white};       // Lightest (100% lightness)
-  --color-surface-secondary-default: #{$color-neutral-50}; // Lighter (99.5% lightness)
+  --color-surface-primary-default: #{$color-white};        // 100% - Pure white
+  --color-surface-secondary-default: #{$color-neutral-50}; // 97% - Subtle tint
 
   // =========================
   // BORDERS
+  // Hierarchy: Primary (subtle) → Secondary (very subtle) → Disabled (faint)
   // =========================
-  --color-border-disabled-default: #{$color-neutral-100};
-  --color-border-focus-default: #{$color-neutral-400};
-  --color-border-primary-default: #{$color-neutral-300};
-  --color-border-primary-hover: #{$color-neutral-400};
-  --color-border-secondary-default: #{$color-neutral-200};
+  --color-border-primary-default: #{$color-neutral-100};   // 96% - Very subtle borders
+  --color-border-primary-hover: #{$color-neutral-200};     // 92% - Slightly darker on hover
+  --color-border-secondary-default: #{$color-neutral-50};  // 98% - Near invisible
+  --color-border-focus-default: #{$color-neutral-400};     // 75% - Focus ring fallback
+  --color-border-disabled-default: #{$color-neutral-100};  // 96% - Disabled borders
 
   // =========================
   // TEXT
-  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
+  // Hierarchy: Primary (darkest) → Secondary → Tertiary → Disabled (lightest)
   // =========================
-  --color-text-primary-default: #{$color-neutral-900};   // Darkest (15% lightness)
-  --color-text-secondary-default: #{$color-neutral-700}; // Darker (35% lightness)
-  --color-text-disabled-default: #{$color-neutral-500};  // Dark (60% lightness)
-  --color-text-inverse-default: #{$color-white};
-  --color-text-tertiary-default: #{$color-neutral-400};  // Lighter (75% lightness) - for sublabels/descriptions
+  --color-text-primary-default: #{$color-neutral-800};   // 35% - Main content (softer than 900)
+  --color-text-secondary-default: #{$color-neutral-600}; // 55% - Supporting text
+  --color-text-tertiary-default: #{$color-neutral-500};  // 65% - Sublabels, descriptions
+  --color-text-disabled-default: #{$color-neutral-400};  // 75% - Disabled, muted
+  --color-text-inverse-default: #{$color-white};         // 100% - On dark backgrounds
 
   // =========================
   // ICONS
-  // Hierarchy: Darkest (primary) → Darker (secondary) → Dark (disabled)
+  // Hierarchy: Primary (darkest) → Secondary → Disabled (lightest)
   // =========================
-  --color-icon-primary-default: #{$color-neutral-900};   // Darkest (15% lightness)
-  --color-icon-secondary-default: #{$color-neutral-700}; // Darker (35% lightness)
-  --color-icon-disabled-default: #{$color-neutral-500};  // Dark (60% lightness)
+  --color-icon-primary-default: #{$color-neutral-700};   // 45% - Softer primary
+  --color-icon-secondary-default: #{$color-neutral-500}; // 65% - Subtle
+  --color-icon-disabled-default: #{$color-neutral-400};  // 75% - Disabled
 
 
   // =========================

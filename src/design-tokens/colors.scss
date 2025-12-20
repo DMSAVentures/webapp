@@ -8,16 +8,17 @@ $color-neutral-saturation: 20%;
 
 // Neutral color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
-$color-neutral-900: hsl($color-neutral-hue, $color-neutral-saturation, 15%);   // #212b36 - Darkest, for primary text
-$color-neutral-800: hsl($color-neutral-hue, $color-neutral-saturation, 25%);   // #364152 - Headings, important text
-$color-neutral-700: hsl($color-neutral-hue, $color-neutral-saturation, 35%);   // #4b5563 - Body text
-$color-neutral-600: hsl($color-neutral-hue, $color-neutral-saturation, 45%);   // #6b7280 - Secondary text, labels
-$color-neutral-500: hsl($color-neutral-hue, $color-neutral-saturation, 60%);   // #9ca3af - Muted text, placeholders
-$color-neutral-400: hsl($color-neutral-hue, $color-neutral-saturation, 75%);   // #d1d5db - Borders, dividers
-$color-neutral-300: hsl($color-neutral-hue, $color-neutral-saturation, 85%);   // #e5e7eb - Light backgrounds, hover states
-$color-neutral-200: hsl($color-neutral-hue, $color-neutral-saturation, 93%);   // #f3f4f6 - Background accents, alternate rows
-$color-neutral-100: hsl($color-neutral-hue, $color-neutral-saturation, 98%);   // #f9fafb - Very light background
-$color-neutral-50: hsl($color-neutral-hue, $color-neutral-saturation, 99.5%);  // #fcfcfd - Subtle background variations
+// Light, airy palette - softer contrast for modern aesthetic
+$color-neutral-900: hsl($color-neutral-hue, $color-neutral-saturation, 25%);   // Darkest, primary text
+$color-neutral-800: hsl($color-neutral-hue, $color-neutral-saturation, 35%);   // Headings
+$color-neutral-700: hsl($color-neutral-hue, $color-neutral-saturation, 45%);   // Secondary text
+$color-neutral-600: hsl($color-neutral-hue, $color-neutral-saturation, 55%);   // Tertiary text
+$color-neutral-500: hsl($color-neutral-hue, $color-neutral-saturation, 65%);   // Muted text, placeholders
+$color-neutral-400: hsl($color-neutral-hue, $color-neutral-saturation, 75%);   // Disabled text, subtle icons
+$color-neutral-300: hsl($color-neutral-hue, $color-neutral-saturation, 85%);   // Borders, dividers
+$color-neutral-200: hsl($color-neutral-hue, $color-neutral-saturation, 92%);   // Light backgrounds, hover
+$color-neutral-100: hsl($color-neutral-hue, $color-neutral-saturation, 96%);   // Very light backgrounds
+$color-neutral-50: hsl($color-neutral-hue, $color-neutral-saturation, 98%);    // Near white surfaces
 $color-white: hsl($color-neutral-hue, $color-neutral-saturation, 100%);
 $color-blue-hue: 230;
 $color-blue-saturation: 10%;
