@@ -11,6 +11,7 @@
         display: flex;
         align-items: center;
         gap: layout.$spacing-03;
+        background-color: var(--color-surface-input-default);
         border: 1px solid var(--color-border-primary-default);
         border-radius: border.$border-radius-medium;
         padding: layout.$spacing-03 layout.$spacing-03 layout.$spacing-03 layout.$spacing-03;

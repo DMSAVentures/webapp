@@ -7,15 +7,16 @@
     appearance: none;
     width: layout.$spacing-06;
     height: layout.$spacing-06;
-    border: 1px solid var(--color-border-primary-default); // Border color
-    border-radius: border.$border-radius-small; // Square corners or small radius
+    background-color: var(--color-surface-input-default);
+    border: 1px solid var(--color-border-primary-default);
+    border-radius: border.$border-radius-small;
     outline: none;
     cursor: pointer;
     position: relative;
 
     // Style for the checked state
     &:checked {
-        background-color: var(--color-bg-tertiary-default); // Background color when checked
+        background-color: var(--color-surface-input-default); // Keep surface color when checked
 
         // Checkmark to indicate selection
         &::after {

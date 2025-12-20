@@ -23,20 +23,21 @@
 
   // =========================
   // SURFACES (cards, sheets, modals, popovers)
-  // Hierarchy: Primary (white) → Secondary (tinted)
+  // Hierarchy: Primary (white) → Secondary (tinted) → Input (subtle fill)
   // =========================
   --color-surface-primary-default: #{$color-white};        // 100% - Pure white
-  --color-surface-secondary-default: #{$color-neutral-50}; // 97% - Subtle tint
+  --color-surface-secondary-default: #{$color-neutral-50}; // 98% - Subtle tint
+  --color-surface-input-default: #{$color-neutral-100};    // 96% - Input fields fill
 
   // =========================
   // BORDERS
-  // Hierarchy: Primary (subtle) → Secondary (very subtle) → Disabled (faint)
+  // Experiment: white borders, relying on surface colors for definition
   // =========================
-  --color-border-primary-default: #{$color-neutral-100};   // 96% - Very subtle borders
-  --color-border-primary-hover: #{$color-neutral-200};     // 92% - Slightly darker on hover
-  --color-border-secondary-default: #{$color-neutral-50};  // 98% - Near invisible
+  --color-border-primary-default: #{$color-white};         // 100% - White (no visible border)
+  --color-border-primary-hover: #{$color-neutral-200};     // 92% - Appears on hover
+  --color-border-secondary-default: #{$color-white};       // 100% - White
   --color-border-focus-default: #{$color-neutral-400};     // 75% - Focus ring fallback
-  --color-border-disabled-default: #{$color-neutral-100};  // 96% - Disabled borders
+  --color-border-disabled-default: #{$color-white};        // 100% - White
 
   // =========================
   // TEXT

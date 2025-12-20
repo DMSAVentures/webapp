@@ -6,6 +6,7 @@
     appearance: none;
     width: layout.$spacing-06;
     height: layout.$spacing-06;
+    background-color: var(--color-surface-input-default);
     border: 2px solid var(--color-border-primary-default);
     border-radius: border.$border-radius-round;
     outline: none;
@@ -14,7 +15,7 @@
 
     // Style for the selected state
     &:checked {
-        background-color: var(--color-bg-tertiary-default); // Selected background color
+        background-color: var(--color-surface-input-default); // Keep surface color when selected
         // Inner circle to indicate selection
         &::before {
             content: '';
