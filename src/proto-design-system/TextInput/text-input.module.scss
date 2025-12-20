@@ -67,8 +67,7 @@
         }
 
         &:focus-within {
-            box-shadow: 0 0 0 4px var(--color-alpha-focus), 0 0 0 2px var(--color-white);
-            outline: 2px solid var(--color-focus-ring-default);
+            outline: 1px solid var(--color-focus-ring-default);
             color: var(--color-text-primary-default);
 
             // &:hover {
