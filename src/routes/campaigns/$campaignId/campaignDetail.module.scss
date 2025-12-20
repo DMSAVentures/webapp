@@ -70,10 +70,12 @@
 
 .detailsCard {
 	margin-top: layout.$spacing-06;
+}
+
+.detailsContent {
 	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
+	background-color: var(--color-surface-secondary-default);
 	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
 }
 
 .detailsSection {
@@ -90,14 +92,14 @@
 
 .detailsTitle {
 	margin: 0 0 layout.$spacing-04 0;
-	font-size: typography.$font-size-lg;
+	font-size: typography.$font-size-h4;
 	font-weight: typography.$font-weight-semibold;
 	color: var(--color-text-primary-default);
 }
 
 .sectionTitle {
-	margin: 0 0 layout.$spacing-04 0;
-	font-size: typography.$font-size-md;
+	margin: 0 0 layout.$spacing-03 0;
+	font-size: typography.$font-size-xl;
 	font-weight: typography.$font-weight-semibold;
 	color: var(--color-text-primary-default);
 }

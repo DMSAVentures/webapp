@@ -4,15 +4,11 @@
 
 .root {
 	margin-top: layout.$spacing-06;
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
 }
 
 .title {
-	margin: 0 0 layout.$spacing-04 0;
-	font-size: typography.$font-size-lg;
+	margin: 0 0 layout.$spacing-02 0;
+	font-size: typography.$font-size-h4;
 	font-weight: typography.$font-weight-semibold;
 	color: var(--color-text-primary-default);
 }
@@ -22,5 +18,11 @@
 	font-weight: typography.$font-weight-regular;
 	line-height: typography.$line-height-relaxed;
 	color: var(--color-text-secondary-default);
-	margin: 0 0 layout.$spacing-05 0;
+	margin: 0 0 layout.$spacing-04 0;
+}
+
+.previewContainer {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-secondary-default);
+	border-radius: border.$border-radius-medium;
 }

@@ -31,7 +31,9 @@ export const CampaignFormPreview = memo<CampaignFormPreviewProps>(
 				<p className={styles.description}>
 					See how your form will look when embedded
 				</p>
-				<FormPreview config={formConfig} device="desktop" />
+				<div className={styles.previewContainer}>
+					<FormPreview config={formConfig} device="desktop" />
+				</div>
 			</div>
 		);
 	},

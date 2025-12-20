@@ -24,28 +24,18 @@
   display: flex;
   gap: layout.$spacing-04;
   padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
+  background-color: var(--color-surface-secondary-default);
+  border: none;
   border-radius: layout.$spacing-03;
-  transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
 
   &:hover {
-    border-color: var(--color-border-primary-hover);
-    box-shadow: 0 layout.$spacing-01 layout.$spacing-03 var(--color-shadow-default);
+    background-color: var(--color-surface-input-default);
   }
 }
 
 .statCardClickable {
   cursor: pointer;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 layout.$spacing-02 layout.$spacing-05 var(--color-shadow-elevated);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
 
   &:focus-visible {
     outline: 2px solid var(--color-focus-ring-default);
@@ -58,26 +48,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: layout.$spacing-09;
-  height: layout.$spacing-09;
-  min-width: layout.$spacing-09;
-  background-color: var(--color-bg-info-default);
-  border-radius: layout.$spacing-02;
-  color: var(--color-text-info-default);
-  font-size: typography.$font-size-h4;
+  padding: layout.$spacing-04;
+  color: var(--color-text-secondary-default);
+
+  i {
+    font-size: typography.$font-size-h5;
+  }
 
   &.statIconSuccess {
-    background-color: var(--color-bg-success-default);
     color: var(--color-text-success-default);
   }
 
   &.statIconPurple {
-    background-color: colors.$color-purple-50;
     color: colors.$color-purple-600;
   }
 
   &.statIconOrange {
-    background-color: colors.$color-orange-50;
     color: colors.$color-orange-600;
   }
 }
@@ -186,10 +172,11 @@
   }
 
   .statIcon {
-    width: layout.$spacing-08;
-    height: layout.$spacing-08;
-    min-width: layout.$spacing-08;
-    font-size: typography.$font-size-xl;
+    padding: layout.$spacing-03;
+
+    i {
+      font-size: typography.$font-size-h6;
+    }
   }
 
   .statValue {

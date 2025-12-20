@@ -8,11 +8,16 @@
   flex-direction: column;
   gap: layout.$spacing-04;
   padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
+  background-color: var(--color-surface-secondary-default);
+  border: none;
   border-radius: layout.$spacing-03;
   cursor: pointer;
   position: relative;
+  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+  &:hover {
+    background-color: var(--color-surface-input-default);
+  }
 
   &:focus-visible {
     outline: border.$border-width-medium solid var(--color-focus-ring-default);
@@ -77,6 +82,7 @@
 .stats {
   display: flex;
   gap: layout.$spacing-05;
+  padding-top: layout.$spacing-05;
 }
 
 .statItem {
@@ -116,6 +122,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: layout.$spacing-05;
 }
 
 .date {

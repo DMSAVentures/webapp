@@ -12,7 +12,6 @@ import {
 	useState,
 } from "react";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import DropdownMenu from "@/proto-design-system/dropdownmenu/dropdownmenu";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import type { Campaign } from "@/types/campaign";
@@ -205,7 +204,6 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			{/* Stats */}
 			{showStats && campaign.total_signups !== undefined && (
 				<>
-					<ContentDivider size="thin" />
 					<div className={styles.stats}>
 						<div className={styles.statItem}>
 							<i className="ri-user-add-line" aria-hidden="true" />
@@ -243,7 +241,6 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			)}
 
 			{/* Footer */}
-			<ContentDivider size="thin" />
 			<div className={styles.footer}>
 				<span className={styles.date}>
 					<i className="ri-calendar-line" aria-hidden="true" />

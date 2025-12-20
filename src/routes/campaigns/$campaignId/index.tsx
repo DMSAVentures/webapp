@@ -328,11 +328,11 @@ function RouteComponent() {
 
 				<div className={styles.detailsCard}>
 					<h3 className={styles.detailsTitle}>Configuration</h3>
-
-					{campaign.referral_config && (
+					<div className={styles.detailsContent}>
+						{campaign.referral_config && (
 						<>
 							<div className={styles.detailsSection}>
-								<h4 className={styles.sectionTitle}>Referral Settings</h4>
+								<div className={styles.sectionTitle}>Referral Settings</div>
 								<div className={styles.detailsList}>
 									<div className={styles.detailItem}>
 										<strong className={styles.detailLabel}>Enabled:</strong>
@@ -378,7 +378,7 @@ function RouteComponent() {
 					{campaign.email_config && (
 						<>
 							<div className={styles.detailsSection}>
-								<h4 className={styles.sectionTitle}>Email Settings</h4>
+								<div className={styles.sectionTitle}>Email Settings</div>
 								<div className={styles.detailsList}>
 									<div className={styles.detailItem}>
 										<strong className={styles.detailLabel}>
@@ -425,7 +425,7 @@ function RouteComponent() {
 					{campaign.branding_config && (
 						<>
 							<div className={styles.detailsSection}>
-								<h4 className={styles.sectionTitle}>Branding Settings</h4>
+								<div className={styles.sectionTitle}>Branding Settings</div>
 								<div className={styles.detailsList}>
 									{campaign.branding_config.logo_url && (
 										<div className={styles.detailItem}>
@@ -518,8 +518,9 @@ function RouteComponent() {
 						</div>
 					</div>
 				</div>
+			</div>
 
-				{hasFormFields && <CampaignFormPreview campaign={campaign} />}
+			{hasFormFields && <CampaignFormPreview campaign={campaign} />}
 			</div>
 		</motion.div>
 	);
