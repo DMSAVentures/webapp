@@ -162,7 +162,7 @@
   }
 
   &.tableRowSelected {
-    background-color: var(--color-bg-info-alpha);
+    background-color: var(--color-bg-secondary-hover);
   }
 }
 
@@ -243,7 +243,7 @@
   text-align: center;
 
   i {
-    font-size: calc(typography.$font-size-h1 * 1.6); // 64px (40px * 1.6)
+    font-size: typography.$font-size-h1 * 1.6; // 64px
     color: var(--color-text-tertiary-default);
   }
 

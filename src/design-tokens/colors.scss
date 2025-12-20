@@ -26,7 +26,7 @@ $color-white: oklch(100% 0 $color-neutral-hue);                            // Pu
 
 // Blue
 $color-blue-hue: 250;
-$color-blue-chroma: 0.05;
+$color-blue-chroma: 0.15;
 
 $color-blue-900: oklch(28% $color-blue-chroma $color-blue-hue);   // Darkest blue
 $color-blue-800: oklch(38% $color-blue-chroma $color-blue-hue);   // Headings, important text
@@ -40,8 +40,8 @@ $color-blue-100: oklch(98% $color-blue-chroma $color-blue-hue);   // Very light 
 $color-blue-50: oklch(99.2% $color-blue-chroma $color-blue-hue);  // Subtle background variations
 
 // Orange
-$color-orange-hue: 60;
-$color-orange-chroma: 0.05;
+$color-orange-hue: 55;
+$color-orange-chroma: 0.16;
 
 $color-orange-900: oklch(35% $color-orange-chroma $color-orange-hue);   // Darkest orange
 $color-orange-800: oklch(45% $color-orange-chroma $color-orange-hue);   // Headings, important text
@@ -56,7 +56,7 @@ $color-orange-50: oklch(99% $color-orange-chroma $color-orange-hue);    // Subtl
 
 // Red
 $color-red-hue: 25;
-$color-red-chroma: 0.13;
+$color-red-chroma: 0.18;
 
 $color-red-900: oklch(30% $color-red-chroma $color-red-hue);   // Darkest red
 $color-red-800: oklch(40% $color-red-chroma $color-red-hue);   // Headings, important text
@@ -71,7 +71,7 @@ $color-red-50: oklch(99% $color-red-chroma $color-red-hue);    // Subtle backgro
 
 // Green
 $color-green-hue: 145;
-$color-green-chroma: 0.12;
+$color-green-chroma: 0.16;
 
 $color-green-900: oklch(32% $color-green-chroma $color-green-hue);   // Darkest green
 $color-green-800: oklch(42% $color-green-chroma $color-green-hue);   // Headings, important text
@@ -86,7 +86,7 @@ $color-green-50: oklch(99% $color-green-chroma $color-green-hue);    // Subtle b
 
 // Yellow
 $color-yellow-hue: 85;
-$color-yellow-chroma: 0.12;
+$color-yellow-chroma: 0.16;
 
 $color-yellow-900: oklch(50% $color-yellow-chroma $color-yellow-hue);   // Darkest yellow
 $color-yellow-800: oklch(55% $color-yellow-chroma $color-yellow-hue);   // Headings, important text
@@ -101,7 +101,7 @@ $color-yellow-50: oklch(99% $color-yellow-chroma $color-yellow-hue);    // Subtl
 
 // Purple
 $color-purple-hue: 295;
-$color-purple-chroma: 0.13;
+$color-purple-chroma: 0.16;
 
 $color-purple-900: oklch(32% $color-purple-chroma $color-purple-hue);   // Darkest purple
 $color-purple-800: oklch(40% $color-purple-chroma $color-purple-hue);   // Headings, important text
@@ -116,7 +116,7 @@ $color-purple-50: oklch(98.5% $color-purple-chroma $color-purple-hue);  // Subtl
 
 // Sky
 $color-sky-hue: 215;
-$color-sky-chroma: 0.08;
+$color-sky-chroma: 0.12;
 
 $color-sky-900: oklch(35% $color-sky-chroma $color-sky-hue);   // Darkest sky
 $color-sky-800: oklch(45% $color-sky-chroma $color-sky-hue);   // Headings, important text
@@ -131,7 +131,7 @@ $color-sky-50: oklch(99% $color-sky-chroma $color-sky-hue);    // Subtle backgro
 
 // Pink
 $color-pink-hue: 350;
-$color-pink-chroma: 0.12;
+$color-pink-chroma: 0.16;
 
 $color-pink-900: oklch(30% $color-pink-chroma $color-pink-hue);   // Darkest pink
 $color-pink-800: oklch(40% $color-pink-chroma $color-pink-hue);   // Headings, important text
@@ -145,8 +145,8 @@ $color-pink-100: oklch(97% $color-pink-chroma $color-pink-hue);   // Very light 
 $color-pink-50: oklch(99% $color-pink-chroma $color-pink-hue);    // Subtle background variations
 
 // Teal
-$color-teal-hue: 190;
-$color-teal-chroma: 0.08;
+$color-teal-hue: 180;
+$color-teal-chroma: 0.12;
 
 $color-teal-900: oklch(32% $color-teal-chroma $color-teal-hue);   // Darkest teal
 $color-teal-800: oklch(42% $color-teal-chroma $color-teal-hue);   // Headings, important text
@@ -160,62 +160,64 @@ $color-teal-100: oklch(97% $color-teal-chroma $color-teal-hue);   // Very light 
 $color-teal-50: oklch(99% $color-teal-chroma $color-teal-hue);    // Subtle background variations
 
 // Alpha values
+// Using string interpolation to output raw CSS oklch with alpha
+
 // Neutral Alpha
-$color-neutral-alpha-24: oklch(74% $color-neutral-chroma $color-neutral-hue / 0.24);
-$color-neutral-alpha-16: oklch(74% $color-neutral-chroma $color-neutral-hue / 0.16);
-$color-neutral-alpha-10: oklch(74% $color-neutral-chroma $color-neutral-hue / 0.10);
+$color-neutral-alpha-24: #{oklch(74% $color-neutral-chroma $color-neutral-hue) + " / 0.24)"};
+$color-neutral-alpha-16: #{oklch(74% $color-neutral-chroma $color-neutral-hue) + " / 0.16)"};
+$color-neutral-alpha-10: #{oklch(74% $color-neutral-chroma $color-neutral-hue) + " / 0.10)"};
 
 // Blue Alpha
-$blue-alpha-24: oklch(74% $color-blue-chroma $color-blue-hue / 0.24);
-$blue-alpha-16: oklch(74% $color-blue-chroma $color-blue-hue / 0.16);
-$blue-alpha-10: oklch(74% $color-blue-chroma $color-blue-hue / 0.10);
+$blue-alpha-24: #{oklch(74% $color-blue-chroma $color-blue-hue) + " / 0.24)"};
+$blue-alpha-16: #{oklch(74% $color-blue-chroma $color-blue-hue) + " / 0.16)"};
+$blue-alpha-10: #{oklch(74% $color-blue-chroma $color-blue-hue) + " / 0.10)"};
 
 // Orange Alpha
-$orange-alpha-24: oklch(73% $color-orange-chroma $color-orange-hue / 0.24);
-$orange-alpha-16: oklch(73% $color-orange-chroma $color-orange-hue / 0.16);
-$orange-alpha-10: oklch(73% $color-orange-chroma $color-orange-hue / 0.10);
+$orange-alpha-24: #{oklch(73% $color-orange-chroma $color-orange-hue) + " / 0.24)"};
+$orange-alpha-16: #{oklch(73% $color-orange-chroma $color-orange-hue) + " / 0.16)"};
+$orange-alpha-10: #{oklch(73% $color-orange-chroma $color-orange-hue) + " / 0.10)"};
 
 // Red Alpha
-$red-alpha-24: oklch(70% $color-red-chroma $color-red-hue / 0.24);
-$red-alpha-16: oklch(70% $color-red-chroma $color-red-hue / 0.16);
-$red-alpha-10: oklch(70% $color-red-chroma $color-red-hue / 0.10);
+$red-alpha-24: #{oklch(70% $color-red-chroma $color-red-hue) + " / 0.24)"};
+$red-alpha-16: #{oklch(70% $color-red-chroma $color-red-hue) + " / 0.16)"};
+$red-alpha-10: #{oklch(70% $color-red-chroma $color-red-hue) + " / 0.10)"};
 
 // Green Alpha
-$green-alpha-24: oklch(56% $color-green-chroma $color-green-hue / 0.24);
-$green-alpha-16: oklch(56% $color-green-chroma $color-green-hue / 0.16);
-$green-alpha-10: oklch(56% $color-green-chroma $color-green-hue / 0.10);
+$green-alpha-24: #{oklch(56% $color-green-chroma $color-green-hue) + " / 0.24)"};
+$green-alpha-16: #{oklch(56% $color-green-chroma $color-green-hue) + " / 0.16)"};
+$green-alpha-10: #{oklch(56% $color-green-chroma $color-green-hue) + " / 0.10)"};
 
 // Yellow Alpha
-$yellow-alpha-24: oklch(74% $color-yellow-chroma $color-yellow-hue / 0.24);
-$yellow-alpha-16: oklch(74% $color-yellow-chroma $color-yellow-hue / 0.16);
-$yellow-alpha-10: oklch(74% $color-yellow-chroma $color-yellow-hue / 0.10);
+$yellow-alpha-24: #{oklch(74% $color-yellow-chroma $color-yellow-hue) + " / 0.24)"};
+$yellow-alpha-16: #{oklch(74% $color-yellow-chroma $color-yellow-hue) + " / 0.16)"};
+$yellow-alpha-10: #{oklch(74% $color-yellow-chroma $color-yellow-hue) + " / 0.10)"};
 
 // Sky Alpha
-$sky-alpha-24: oklch(74% $color-sky-chroma $color-sky-hue / 0.24);
-$sky-alpha-16: oklch(74% $color-sky-chroma $color-sky-hue / 0.16);
-$sky-alpha-10: oklch(74% $color-sky-chroma $color-sky-hue / 0.10);
+$sky-alpha-24: #{oklch(74% $color-sky-chroma $color-sky-hue) + " / 0.24)"};
+$sky-alpha-16: #{oklch(74% $color-sky-chroma $color-sky-hue) + " / 0.16)"};
+$sky-alpha-10: #{oklch(74% $color-sky-chroma $color-sky-hue) + " / 0.10)"};
 
 // Purple Alpha
-$purple-alpha-24: oklch(72% $color-purple-chroma $color-purple-hue / 0.24);
-$purple-alpha-16: oklch(72% $color-purple-chroma $color-purple-hue / 0.16);
-$purple-alpha-10: oklch(72% $color-purple-chroma $color-purple-hue / 0.10);
+$purple-alpha-24: #{oklch(72% $color-purple-chroma $color-purple-hue) + " / 0.24)"};
+$purple-alpha-16: #{oklch(72% $color-purple-chroma $color-purple-hue) + " / 0.16)"};
+$purple-alpha-10: #{oklch(72% $color-purple-chroma $color-purple-hue) + " / 0.10)"};
 
 // Pink Alpha
-$pink-alpha-24: oklch(73% $color-pink-chroma $color-pink-hue / 0.24);
-$pink-alpha-16: oklch(73% $color-pink-chroma $color-pink-hue / 0.16);
-$pink-alpha-10: oklch(73% $color-pink-chroma $color-pink-hue / 0.10);
+$pink-alpha-24: #{oklch(73% $color-pink-chroma $color-pink-hue) + " / 0.24)"};
+$pink-alpha-16: #{oklch(73% $color-pink-chroma $color-pink-hue) + " / 0.16)"};
+$pink-alpha-10: #{oklch(73% $color-pink-chroma $color-pink-hue) + " / 0.10)"};
 
 // Teal Alpha
-$teal-alpha-24: oklch(60% $color-teal-chroma $color-teal-hue / 0.24);
-$teal-alpha-16: oklch(60% $color-teal-chroma $color-teal-hue / 0.16);
-$teal-alpha-10: oklch(60% $color-teal-chroma $color-teal-hue / 0.10);
+$teal-alpha-24: #{oklch(60% $color-teal-chroma $color-teal-hue) + " / 0.24)"};
+$teal-alpha-16: #{oklch(60% $color-teal-chroma $color-teal-hue) + " / 0.16)"};
+$teal-alpha-10: #{oklch(60% $color-teal-chroma $color-teal-hue) + " / 0.10)"};
 
 // White Alpha
-$white-alpha-24: oklch(100% 0 $color-neutral-hue / 0.24);
-$white-alpha-16: oklch(100% 0 $color-neutral-hue / 0.16);
-$white-alpha-10: oklch(100% 0 $color-neutral-hue / 0.10);
+$white-alpha-24: #{oklch(100% 0 $color-neutral-hue) + " / 0.24)"};
+$white-alpha-16: #{oklch(100% 0 $color-neutral-hue) + " / 0.16)"};
+$white-alpha-10: #{oklch(100% 0 $color-neutral-hue) + " / 0.10)"};
 
 // Black Alpha
-$black-alpha-24: oklch(20% $color-neutral-chroma $color-neutral-hue / 0.24);
-$black-alpha-16: oklch(20% $color-neutral-chroma $color-neutral-hue / 0.16);
-$black-alpha-10: oklch(20% $color-neutral-chroma $color-neutral-hue / 0.10);
+$black-alpha-24: #{oklch(20% $color-neutral-chroma $color-neutral-hue) + " / 0.24)"};
+$black-alpha-16: #{oklch(20% $color-neutral-chroma $color-neutral-hue) + " / 0.16)"};
+$black-alpha-10: #{oklch(20% $color-neutral-chroma $color-neutral-hue) + " / 0.10)"};
