@@ -391,8 +391,7 @@ export const UserList = memo<UserListProps>(function UserList({
 									<th className={styles.tableHeaderCell}>
 										<Checkbox
 											checked={
-												selectedUserIds.length ===
-												filteredAndSortedUsers.length
+												selectedUserIds.length === filteredAndSortedUsers.length
 													? "checked"
 													: "unchecked"
 											}
@@ -549,14 +548,11 @@ export const UserList = memo<UserListProps>(function UserList({
 										</td>
 										<td className={styles.tableCell}>
 											<span className={styles.date}>
-												{new Date(user.createdAt).toLocaleDateString(
-													"en-US",
-													{
-														month: "short",
-														day: "numeric",
-														year: "numeric",
-													},
-												)}
+												{new Date(user.createdAt).toLocaleDateString("en-US", {
+													month: "short",
+													day: "numeric",
+													year: "numeric",
+												})}
 											</span>
 										</td>
 									</tr>

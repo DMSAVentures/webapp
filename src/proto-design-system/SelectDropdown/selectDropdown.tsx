@@ -3,13 +3,7 @@
  * A flexible dropdown component supporting single or multi-select with checkboxes
  */
 
-import {
-	memo,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import styles from "./selectDropdown.module.scss";
 
@@ -78,8 +72,10 @@ export const SelectDropdown = memo<SelectDropdownProps>(
 		// Get selected values as array for unified handling
 		const selectedValues: string[] =
 			mode === "multi"
-				? ((props as MultiSelectProps).value || [])
-				: ((props as SingleSelectProps).value ? [(props as SingleSelectProps).value as string] : []);
+				? (props as MultiSelectProps).value || []
+				: (props as SingleSelectProps).value
+					? [(props as SingleSelectProps).value as string]
+					: [];
 
 		const classNames = [
 			styles.root,
@@ -143,7 +139,8 @@ export const SelectDropdown = memo<SelectDropdownProps>(
 					multiProps.onChange?.(newValues);
 				} else {
 					const singleProps = props as SingleSelectProps;
-					const newValue = singleProps.value === optionValue ? undefined : optionValue;
+					const newValue =
+						singleProps.value === optionValue ? undefined : optionValue;
 					singleProps.onChange?.(newValue);
 					setIsOpen(false);
 				}
@@ -156,7 +153,9 @@ export const SelectDropdown = memo<SelectDropdownProps>(
 			if (selectedValues.length === 0) return placeholder;
 
 			if (mode === "single" || selectedValues.length === 1) {
-				const selectedOption = options.find((o) => o.value === selectedValues[0]);
+				const selectedOption = options.find(
+					(o) => o.value === selectedValues[0],
+				);
 				return selectedOption?.label || selectedValues[0];
 			}
 
@@ -191,7 +190,11 @@ export const SelectDropdown = memo<SelectDropdownProps>(
 				</button>
 
 				{isOpen && (
-					<div className={styles.menu} role="listbox" aria-multiselectable={mode === "multi"}>
+					<div
+						className={styles.menu}
+						role="listbox"
+						aria-multiselectable={mode === "multi"}
+					>
 						{options.map((option) => {
 							const isSelected = selectedValues.includes(option.value);
 							const itemClassNames = [
@@ -209,7 +212,9 @@ export const SelectDropdown = memo<SelectDropdownProps>(
 									role="option"
 									aria-selected={isSelected}
 									aria-disabled={option.disabled}
-									onClick={() => handleOptionClick(option.value, option.disabled)}
+									onClick={() =>
+										handleOptionClick(option.value, option.disabled)
+									}
 								>
 									{mode === "multi" && (
 										<Checkbox

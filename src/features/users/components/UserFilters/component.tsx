@@ -68,7 +68,8 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 		(selected: string[]) => {
 			onChange({
 				...filters,
-				status: selected.length > 0 ? (selected as WaitlistUserStatus[]) : undefined,
+				status:
+					selected.length > 0 ? (selected as WaitlistUserStatus[]) : undefined,
 			});
 		},
 		[filters, onChange],
@@ -116,7 +117,10 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 		onChange({
 			...filters,
 			dateRange: {
-				start: field === "start" ? dateValue : filters.dateRange?.start || new Date(0),
+				start:
+					field === "start"
+						? dateValue
+						: filters.dateRange?.start || new Date(0),
 				end: field === "end" ? dateValue : filters.dateRange?.end || new Date(),
 			},
 		});
