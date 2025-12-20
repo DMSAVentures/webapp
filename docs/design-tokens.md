@@ -328,6 +328,57 @@ colors.$color-black
 }
 ```
 
+## Visual Hierarchy & Design Style
+
+### Flat Design Approach
+
+Our design system uses a **flat design style** that relies on surface colors, padding, and typography to create visual hierarchy — rather than borders and shadows.
+
+**Core Principles:**
+
+1. **Surface Colors for Separation** - Use `--color-surface-secondary-default` to differentiate content sections from the page background
+2. **Typography for Hierarchy** - Use font size and weight variations to establish importance
+3. **Spacing for Grouping** - Use consistent padding and gaps to group related content
+4. **Minimal Borders** - Avoid visible borders; use surface color contrast instead
+5. **No Decorative Shadows** - Reserve shadows only for elevated elements (modals, dropdowns)
+
+### Card & Section Pattern
+
+- Use surface color backgrounds instead of borders or shadows
+- Apply medium border radius for rounded corners
+- On hover, transition to a slightly different surface color (`--color-surface-input-default`)
+
+### Title Outside, Content Inside Pattern
+
+When designing sections with titles:
+- Keep section titles on the page background (white)
+- Wrap content in a surface-colored container
+- This creates clear visual separation between the title and its content
+
+### Typography Hierarchy
+
+| Element | Font Size | Weight | Color |
+|---------|-----------|--------|-------|
+| Page title | `$font-size-h2` | semibold | primary |
+| Section title | `$font-size-h4` | semibold | primary |
+| Subsection title | `$font-size-xl` | semibold | primary |
+| Body text | `$font-size-md` | regular | primary |
+| Labels | `$font-size-sm` | medium | secondary |
+| Captions | `$font-size-xs` | regular | tertiary |
+
+### Interactive Cards
+
+- Use surface color as default background
+- Transition to a different surface color on hover
+- Include focus-visible outline for accessibility
+- Use motion tokens for smooth transitions
+
+### Icon Styling
+
+- Display icons with adequate padding, without background shapes
+- Use semantic colors for status variants (success, warning, error)
+- Size icons appropriately using heading font sizes
+
 ## Quick Reference
 
 ```scss
