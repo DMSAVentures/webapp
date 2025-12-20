@@ -1,0 +1,158 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+// Label
+.label {
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-secondary-default);
+}
+
+// Trigger button
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-02;
+  min-width: 140px;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+  background-color: var(--color-surface-input-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  cursor: pointer;
+  transition:
+    border-color motion.$duration-fast-01 motion.$easing-productive-standard,
+    background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-border-focus-default);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-focus-ring-default);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.triggerOpen {
+  border-color: var(--color-focus-ring-default);
+}
+
+.triggerHasValue {
+  color: var(--color-text-primary-default);
+}
+
+.triggerText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.triggerIcon {
+  font-size: typography.$font-size-md;
+  color: var(--color-icon-secondary-default);
+  flex-shrink: 0;
+}
+
+// Dropdown menu
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 100%;
+  max-height: 280px;
+  margin-top: layout.$spacing-01;
+  overflow-y: auto;
+  background-color: var(--color-surface-input-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  box-shadow: 0 4px 12px var(--color-shadow-default);
+}
+
+// Menu item
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-primary-default);
+  cursor: pointer;
+  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover:not(.menuItemDisabled) {
+    background-color: var(--color-bg-secondary-hover);
+  }
+
+  i {
+    font-size: typography.$font-size-md;
+    color: var(--color-text-info-default);
+  }
+}
+
+.menuItemSelected {
+  background-color: var(--color-bg-secondary-default);
+}
+
+.menuItemDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.menuItemLabel {
+  flex: 1;
+}
+
+// Size variants
+.size_small {
+  .trigger {
+    min-width: 100px;
+    padding: layout.$spacing-01 layout.$spacing-02;
+    font-size: typography.$font-size-xs;
+  }
+
+  .menuItem {
+    padding: layout.$spacing-01 layout.$spacing-02;
+    font-size: typography.$font-size-xs;
+  }
+}
+
+.size_large {
+  .trigger {
+    min-width: 180px;
+    padding: layout.$spacing-03 layout.$spacing-04;
+    font-size: typography.$font-size-md;
+  }
+
+  .menuItem {
+    padding: layout.$spacing-03 layout.$spacing-04;
+    font-size: typography.$font-size-md;
+  }
+}
+
+// Disabled state
+.disabled {
+  .trigger {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

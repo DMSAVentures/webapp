@@ -3,8 +3,10 @@
  * Horizontal filter bar for waitlist users
  */
 
-import { memo, useCallback, useRef, useState } from "react";
-import Checkbox from "@/proto-design-system/checkbox/checkbox";
+import { memo, useCallback } from "react";
+import { Button } from "@/proto-design-system/Button/button";
+import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
+import { SelectDropdown } from "@/proto-design-system/SelectDropdown/selectDropdown";
 import type {
 	UserFilters as UserFiltersType,
 	WaitlistUserStatus,
@@ -22,7 +24,7 @@ export interface UserFiltersProps {
 	className?: string;
 }
 
-const STATUS_OPTIONS: Array<{ value: WaitlistUserStatus; label: string }> = [
+const STATUS_OPTIONS = [
 	{ value: "pending", label: "Pending" },
 	{ value: "verified", label: "Verified" },
 	{ value: "invited", label: "Invited" },
@@ -40,86 +42,6 @@ const SOURCE_OPTIONS = [
 	{ value: "email", label: "Email" },
 	{ value: "other", label: "Other" },
 ];
-
-interface MultiSelectDropdownProps {
-	label: string;
-	options: Array<{ value: string; label: string }>;
-	selected: string[];
-	onChange: (selected: string[]) => void;
-	placeholder: string;
-}
-
-const MultiSelectDropdown = memo<MultiSelectDropdownProps>(
-	function MultiSelectDropdown({
-		label,
-		options,
-		selected,
-		onChange,
-		placeholder,
-	}) {
-		const [isOpen, setIsOpen] = useState(false);
-		const dropdownRef = useRef<HTMLDivElement>(null);
-
-		const handleToggle = useCallback((value: string) => {
-			onChange(
-				selected.includes(value)
-					? selected.filter((v) => v !== value)
-					: [...selected, value],
-			);
-		}, [selected, onChange]);
-
-		const handleBlur = useCallback((e: React.FocusEvent) => {
-			if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
-				setIsOpen(false);
-			}
-		}, []);
-
-		const getDisplayText = () => {
-			if (selected.length === 0) return placeholder;
-			if (selected.length === 1) {
-				return options.find((o) => o.value === selected[0])?.label || selected[0];
-			}
-			return `${selected.length} selected`;
-		};
-
-		return (
-			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>{label}</label>
-				<div
-					ref={dropdownRef}
-					className={styles.multiSelectDropdown}
-					onBlur={handleBlur}
-				>
-					<button
-						type="button"
-						className={`${styles.dropdownTrigger} ${selected.length > 0 ? styles.dropdownTriggerActive : ""}`}
-						onClick={() => setIsOpen(!isOpen)}
-						aria-expanded={isOpen}
-					>
-						<span className={styles.dropdownTriggerText}>{getDisplayText()}</span>
-						<i
-							className={`ri-arrow-${isOpen ? "up" : "down"}-s-line`}
-							aria-hidden="true"
-						/>
-					</button>
-					{isOpen && (
-						<div className={styles.dropdownMenu}>
-							{options.map(({ value, label }) => (
-								<label key={value} className={styles.dropdownItem}>
-									<Checkbox
-										checked={selected.includes(value) ? "checked" : "unchecked"}
-										onChange={() => handleToggle(value)}
-									/>
-									<span>{label}</span>
-								</label>
-							))}
-						</div>
-					)}
-				</div>
-			</div>
-		);
-	},
-);
 
 /**
  * UserFilters displays a horizontal filter bar for waitlist users
@@ -220,22 +142,28 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	return (
 		<div className={classNames}>
 			{/* Status Filter */}
-			<MultiSelectDropdown
-				label="Status"
-				options={STATUS_OPTIONS}
-				selected={filters.status || []}
-				onChange={handleStatusChange}
-				placeholder="All Statuses"
-			/>
+			<div className={styles.filterGroup}>
+				<label className={styles.filterLabel}>Status</label>
+				<SelectDropdown
+					mode="multi"
+					options={STATUS_OPTIONS}
+					value={filters.status || []}
+					onChange={handleStatusChange}
+					placeholder="All Statuses"
+				/>
+			</div>
 
 			{/* Source Filter */}
-			<MultiSelectDropdown
-				label="Source"
-				options={SOURCE_OPTIONS}
-				selected={filters.source || []}
-				onChange={handleSourceChange}
-				placeholder="All Sources"
-			/>
+			<div className={styles.filterGroup}>
+				<label className={styles.filterLabel}>Source</label>
+				<SelectDropdown
+					mode="multi"
+					options={SOURCE_OPTIONS}
+					value={filters.source || []}
+					onChange={handleSourceChange}
+					placeholder="All Sources"
+				/>
+			</div>
 
 			{/* Date Range Filter */}
 			<div className={styles.filterGroup}>
@@ -291,27 +219,29 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Has Referrals Filter */}
 			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>&nbsp;</label>
-				<label className={styles.checkboxFilter}>
-					<Checkbox
+				<label className={styles.filterLabel}>Referrals</label>
+				<div className={styles.checkboxFilter}>
+					<CheckboxWithLabel
 						checked={filters.hasReferrals ? "checked" : "unchecked"}
 						onChange={handleReferralsToggle}
+						text="Has referrals"
+						description=""
+						flipCheckboxToRight={false}
 					/>
-					Has referrals
-				</label>
+				</div>
 			</div>
 
 			{/* Actions */}
 			<div className={styles.actions}>
 				{hasActiveFilters && (
-					<button
-						className={styles.resetButton}
+					<Button
+						variant="secondary"
+						size="small"
+						leftIcon="ri-refresh-line"
 						onClick={onReset}
-						aria-label="Reset filters"
 					>
-						<i className="ri-refresh-line" aria-hidden="true" />
-						Reset
-					</button>
+						Reset filters
+					</Button>
 				)}
 			</div>
 		</div>

@@ -13,6 +13,7 @@ import {
 import { useUserHelpers } from "@/hooks/useUserStatus";
 import { Button } from "@/proto-design-system/Button/button";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
+import Modal from "@/proto-design-system/modal/modal";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type {
@@ -22,7 +23,6 @@ import type {
 	WaitlistUser,
 } from "@/types/users.types";
 import { formatPosition } from "@/utils/positionFormatter";
-import { BulkActions } from "../BulkActions/component";
 import { UserFilters } from "../UserFilters/component";
 import styles from "./component.module.scss";
 
@@ -62,8 +62,11 @@ export const UserList = memo<UserListProps>(function UserList({
 	const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 	const [filters, setFilters] = useState<UserFiltersType>({});
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [isBulkLoading, setIsBulkLoading] = useState(false);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
+	const hasSelection = selectedUserIds.length > 0;
 
 	// Handle sort
 	const handleSort = useCallback(
@@ -207,15 +210,39 @@ export const UserList = memo<UserListProps>(function UserList({
 	const handleBulkAction = async (
 		action: "email" | "status" | "export" | "delete",
 	) => {
-		if (action === "export" && onExport) {
-			const selectedUsers = filteredAndSortedUsers.filter((user) =>
-				selectedUserIds.includes(user.id),
-			);
-			await onExport(selectedUsers);
-		} else if (onBulkAction) {
-			await onBulkAction(action, selectedUserIds);
+		if (action === "delete") {
+			setIsDeleteModalOpen(true);
+			return;
 		}
-		setSelectedUserIds([]);
+
+		setIsBulkLoading(true);
+		try {
+			if (action === "export" && onExport) {
+				const selectedUsers = filteredAndSortedUsers.filter((user) =>
+					selectedUserIds.includes(user.id),
+				);
+				await onExport(selectedUsers);
+			} else if (onBulkAction) {
+				await onBulkAction(action, selectedUserIds);
+			}
+			setSelectedUserIds([]);
+		} finally {
+			setIsBulkLoading(false);
+		}
+	};
+
+	// Handle confirm delete
+	const handleConfirmDelete = async () => {
+		setIsBulkLoading(true);
+		try {
+			if (onBulkAction) {
+				await onBulkAction("delete", selectedUserIds);
+			}
+			setSelectedUserIds([]);
+			setIsDeleteModalOpen(false);
+		} finally {
+			setIsBulkLoading(false);
+		}
 	};
 
 	// Handle export CSV
@@ -274,6 +301,41 @@ export const UserList = memo<UserListProps>(function UserList({
 					>
 						Export CSV
 					</Button>
+					{hasSelection && (
+						<>
+							<Button
+								variant="secondary"
+								leftIcon="ri-mail-line"
+								onClick={() => handleBulkAction("email")}
+								disabled={isBulkLoading}
+							>
+								Email
+							</Button>
+							<Button
+								variant="secondary"
+								leftIcon="ri-refresh-line"
+								onClick={() => handleBulkAction("status")}
+								disabled={isBulkLoading}
+							>
+								Update Status
+							</Button>
+							<Button
+								variant="secondary"
+								leftIcon="ri-delete-bin-line"
+								onClick={() => handleBulkAction("delete")}
+								disabled={isBulkLoading}
+							>
+								Delete
+							</Button>
+							<Button
+								variant="secondary"
+								onClick={() => setSelectedUserIds([])}
+								disabled={isBulkLoading}
+							>
+								Clear
+							</Button>
+						</>
+					)}
 				</div>
 			</div>
 
@@ -288,6 +350,14 @@ export const UserList = memo<UserListProps>(function UserList({
 			<div className={styles.main}>
 				{/* Results count */}
 				<div className={styles.resultsInfo}>
+					{hasSelection ? (
+						<>
+							<span className={styles.selectionCount}>
+								{selectedUserIds.length} selected
+							</span>
+							<span className={styles.resultsDivider}>/</span>
+						</>
+					) : null}
 					{filteredAndSortedUsers.length} user
 					{filteredAndSortedUsers.length !== 1 ? "s" : ""}
 					{searchQuery && ` matching "${searchQuery}"`}
@@ -497,11 +567,18 @@ export const UserList = memo<UserListProps>(function UserList({
 				)}
 			</div>
 
-			{/* Bulk actions */}
-			<BulkActions
-				selectedUserIds={selectedUserIds}
-				onAction={handleBulkAction}
-				onClearSelection={() => setSelectedUserIds([])}
+			{/* Delete confirmation modal */}
+			<Modal
+				isOpen={isDeleteModalOpen}
+				onClose={() => setIsDeleteModalOpen(false)}
+				title="Delete Users"
+				description={`Are you sure you want to delete ${selectedUserIds.length} user${selectedUserIds.length !== 1 ? "s" : ""}? This action cannot be undone.`}
+				icon="warning"
+				dismissibleByCloseIcon={true}
+				proceedText={isBulkLoading ? "Deleting..." : "Delete"}
+				cancelText="Cancel"
+				onCancel={() => setIsDeleteModalOpen(false)}
+				onProceed={handleConfirmDelete}
 			/>
 		</div>
 	);

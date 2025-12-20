@@ -89,7 +89,19 @@
 
 // Results info
 .resultsInfo {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
   font-size: typography.$font-size-sm;
+  color: var(--color-text-tertiary-default);
+}
+
+.selectionCount {
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-primary-default);
+}
+
+.resultsDivider {
   color: var(--color-text-tertiary-default);
 }
 
