@@ -63,7 +63,7 @@
         // Focus State
     &:focus-visible {
         outline: var(--color-border-focus-default) solid 4px;
-        box-shadow: 0 0 0 4px rgb(var(--color-border-primary-default), 0.5);
+        box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-border-primary-default) 50%, transparent);
     }
 
     // Disabled State
@@ -98,7 +98,7 @@
 
      &:focus-visible {
         outline: var(--color-border-secondary-default) solid 4px;
-        box-shadow: 0 0 0 4px rgb(var(--color-border-secondary-default), 0.5);
+        box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-border-secondary-default) 50%, transparent);
     }
 
     &:disabled {

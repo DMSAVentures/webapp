@@ -39,7 +39,7 @@
     // Enhanced focus styles for keyboard navigation
      &:focus-visible {
         outline: var(--color-border-focus-default) solid 4px;
-        box-shadow: 0 0 0 4px rgb(var(--color-border-primary-default), 0.5);
+        box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-border-primary-default) 50%, transparent);
     }
 
     // Ensure focus styles work in all browsers
@@ -96,7 +96,7 @@
 
      &:focus-visible {
         outline: var(--color-border-secondary-default) solid 4px;
-        box-shadow: 0 0 0 2px rgb(var(--color-border-secondary-default), 0.5);
+        box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-border-secondary-default) 50%, transparent);
     }
 
     &:focus:not(:focus-visible) {
