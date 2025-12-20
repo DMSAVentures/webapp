@@ -330,197 +330,205 @@ function RouteComponent() {
 					<h3 className={styles.detailsTitle}>Configuration</h3>
 					<div className={styles.detailsContent}>
 						{campaign.referral_config && (
-						<>
-							<div className={styles.detailsSection}>
-								<div className={styles.sectionTitle}>Referral Settings</div>
-								<div className={styles.detailsList}>
-									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>Enabled:</strong>
-										<span className={styles.detailValue}>
-											{campaign.referral_config.enabled ? "Yes" : "No"}
-										</span>
-									</div>
-									{campaign.referral_config.points_per_referral && (
+							<>
+								<div className={styles.detailsSection}>
+									<div className={styles.sectionTitle}>Referral Settings</div>
+									<div className={styles.detailsList}>
 										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												Points per Referral:
-											</strong>
+											<strong className={styles.detailLabel}>Enabled:</strong>
 											<span className={styles.detailValue}>
-												{campaign.referral_config.points_per_referral}
+												{campaign.referral_config.enabled ? "Yes" : "No"}
 											</span>
 										</div>
-									)}
-									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>
-											Verified Only:
-										</strong>
-										<span className={styles.detailValue}>
-											{campaign.referral_config.verified_only ? "Yes" : "No"}
-										</span>
-									</div>
-									{campaign.referral_config.sharing_channels &&
-										campaign.referral_config.sharing_channels.length > 0 && (
+										{campaign.referral_config.points_per_referral && (
 											<div className={styles.detailItem}>
 												<strong className={styles.detailLabel}>
-													Sharing Channels:
+													Points per Referral:
 												</strong>
 												<span className={styles.detailValue}>
-													{campaign.referral_config.sharing_channels.join(", ")}
+													{campaign.referral_config.points_per_referral}
 												</span>
 											</div>
 										)}
+										<div className={styles.detailItem}>
+											<strong className={styles.detailLabel}>
+												Verified Only:
+											</strong>
+											<span className={styles.detailValue}>
+												{campaign.referral_config.verified_only ? "Yes" : "No"}
+											</span>
+										</div>
+										{campaign.referral_config.sharing_channels &&
+											campaign.referral_config.sharing_channels.length > 0 && (
+												<div className={styles.detailItem}>
+													<strong className={styles.detailLabel}>
+														Sharing Channels:
+													</strong>
+													<span className={styles.detailValue}>
+														{campaign.referral_config.sharing_channels.join(
+															", ",
+														)}
+													</span>
+												</div>
+											)}
+									</div>
 								</div>
-							</div>
-							<ContentDivider size="thin" />
-						</>
-					)}
+								<ContentDivider size="thin" />
+							</>
+						)}
 
-					{campaign.email_config && (
-						<>
-							<div className={styles.detailsSection}>
-								<div className={styles.sectionTitle}>Email Settings</div>
-								<div className={styles.detailsList}>
+						{campaign.email_config && (
+							<>
+								<div className={styles.detailsSection}>
+									<div className={styles.sectionTitle}>Email Settings</div>
+									<div className={styles.detailsList}>
+										<div className={styles.detailItem}>
+											<strong className={styles.detailLabel}>
+												Verification Required:
+											</strong>
+											<span className={styles.detailValue}>
+												{campaign.email_config.verification_required
+													? "Yes"
+													: "No"}
+											</span>
+										</div>
+										{campaign.email_config.from_name && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													From Name:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.email_config.from_name}
+												</span>
+											</div>
+										)}
+										{campaign.email_config.from_email && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													From Email:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.email_config.from_email}
+												</span>
+											</div>
+										)}
+										{campaign.email_config.reply_to && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													Reply To:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.email_config.reply_to}
+												</span>
+											</div>
+										)}
+									</div>
+								</div>
+								<ContentDivider size="thin" />
+							</>
+						)}
+
+						{campaign.branding_config && (
+							<>
+								<div className={styles.detailsSection}>
+									<div className={styles.sectionTitle}>Branding Settings</div>
+									<div className={styles.detailsList}>
+										{campaign.branding_config.logo_url && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													Logo URL:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.branding_config.logo_url}
+												</span>
+											</div>
+										)}
+										{campaign.branding_config.primary_color && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													Primary Color:
+												</strong>
+												<span className={styles.detailValue}>
+													<span
+														style={{
+															display: "inline-block",
+															width: "20px",
+															height: "20px",
+															backgroundColor:
+																campaign.branding_config.primary_color,
+															border:
+																"1px solid var(--color-border-primary-default)",
+															borderRadius: "4px",
+															marginRight: "8px",
+															verticalAlign: "middle",
+														}}
+													></span>
+													{campaign.branding_config.primary_color}
+												</span>
+											</div>
+										)}
+										{campaign.branding_config.font_family && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													Font Family:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.branding_config.font_family}
+												</span>
+											</div>
+										)}
+										{campaign.branding_config.custom_domain && (
+											<div className={styles.detailItem}>
+												<strong className={styles.detailLabel}>
+													Custom Domain:
+												</strong>
+												<span className={styles.detailValue}>
+													{campaign.branding_config.custom_domain}
+												</span>
+											</div>
+										)}
+									</div>
+								</div>
+								<ContentDivider size="thin" />
+							</>
+						)}
+
+						<div className={styles.detailsSection}>
+							<div className={styles.detailsList}>
+								<div className={styles.detailItem}>
+									<strong className={styles.detailLabel}>Created:</strong>
+									<span className={styles.detailValue}>
+										{new Date(campaign.created_at).toLocaleString()}
+									</span>
+								</div>
+								<div className={styles.detailItem}>
+									<strong className={styles.detailLabel}>Last Updated:</strong>
+									<span className={styles.detailValue}>
+										{new Date(campaign.updated_at).toLocaleString()}
+									</span>
+								</div>
+								{campaign.launch_date && (
 									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>
-											Verification Required:
-										</strong>
+										<strong className={styles.detailLabel}>Launch Date:</strong>
 										<span className={styles.detailValue}>
-											{campaign.email_config.verification_required
-												? "Yes"
-												: "No"}
+											{new Date(campaign.launch_date).toLocaleString()}
 										</span>
 									</div>
-									{campaign.email_config.from_name && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>From Name:</strong>
-											<span className={styles.detailValue}>
-												{campaign.email_config.from_name}
-											</span>
-										</div>
-									)}
-									{campaign.email_config.from_email && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												From Email:
-											</strong>
-											<span className={styles.detailValue}>
-												{campaign.email_config.from_email}
-											</span>
-										</div>
-									)}
-									{campaign.email_config.reply_to && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Reply To:</strong>
-											<span className={styles.detailValue}>
-												{campaign.email_config.reply_to}
-											</span>
-										</div>
-									)}
-								</div>
+								)}
+								{campaign.end_date && (
+									<div className={styles.detailItem}>
+										<strong className={styles.detailLabel}>End Date:</strong>
+										<span className={styles.detailValue}>
+											{new Date(campaign.end_date).toLocaleString()}
+										</span>
+									</div>
+								)}
 							</div>
-							<ContentDivider size="thin" />
-						</>
-					)}
-
-					{campaign.branding_config && (
-						<>
-							<div className={styles.detailsSection}>
-								<div className={styles.sectionTitle}>Branding Settings</div>
-								<div className={styles.detailsList}>
-									{campaign.branding_config.logo_url && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Logo URL:</strong>
-											<span className={styles.detailValue}>
-												{campaign.branding_config.logo_url}
-											</span>
-										</div>
-									)}
-									{campaign.branding_config.primary_color && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												Primary Color:
-											</strong>
-											<span className={styles.detailValue}>
-												<span
-													style={{
-														display: "inline-block",
-														width: "20px",
-														height: "20px",
-														backgroundColor:
-															campaign.branding_config.primary_color,
-														border:
-															"1px solid var(--color-border-primary-default)",
-														borderRadius: "4px",
-														marginRight: "8px",
-														verticalAlign: "middle",
-													}}
-												></span>
-												{campaign.branding_config.primary_color}
-											</span>
-										</div>
-									)}
-									{campaign.branding_config.font_family && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												Font Family:
-											</strong>
-											<span className={styles.detailValue}>
-												{campaign.branding_config.font_family}
-											</span>
-										</div>
-									)}
-									{campaign.branding_config.custom_domain && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												Custom Domain:
-											</strong>
-											<span className={styles.detailValue}>
-												{campaign.branding_config.custom_domain}
-											</span>
-										</div>
-									)}
-								</div>
-							</div>
-							<ContentDivider size="thin" />
-						</>
-					)}
-
-					<div className={styles.detailsSection}>
-						<div className={styles.detailsList}>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Created:</strong>
-								<span className={styles.detailValue}>
-									{new Date(campaign.created_at).toLocaleString()}
-								</span>
-							</div>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Last Updated:</strong>
-								<span className={styles.detailValue}>
-									{new Date(campaign.updated_at).toLocaleString()}
-								</span>
-							</div>
-							{campaign.launch_date && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>Launch Date:</strong>
-									<span className={styles.detailValue}>
-										{new Date(campaign.launch_date).toLocaleString()}
-									</span>
-								</div>
-							)}
-							{campaign.end_date && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>End Date:</strong>
-									<span className={styles.detailValue}>
-										{new Date(campaign.end_date).toLocaleString()}
-									</span>
-								</div>
-							)}
 						</div>
 					</div>
 				</div>
-			</div>
 
-			{hasFormFields && <CampaignFormPreview campaign={campaign} />}
+				{hasFormFields && <CampaignFormPreview campaign={campaign} />}
 			</div>
 		</motion.div>
 	);
