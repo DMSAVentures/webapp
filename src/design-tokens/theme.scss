@@ -23,21 +23,22 @@
 
   // =========================
   // SURFACES (cards, sheets, modals, popovers)
-  // Hierarchy: Primary (white) → Secondary (tinted) → Input (subtle fill)
+  // Clean white design
   // =========================
-  --color-surface-primary-default: #{$color-white};        // 100% - Pure white
-  --color-surface-secondary-default: #{$color-neutral-50}; // 98% - Subtle tint
-  --color-surface-input-default: #{$color-neutral-100};    // 96% - Input fields fill
+  --color-surface-page-default: #{$color-white};           // 100% - Pure white page
+  --color-surface-primary-default: #{$color-white};        // 100% - Cards, modals
+  --color-surface-secondary-default: #{$color-neutral-50}; // 99% - Subtle tint
+  --color-surface-input-default: #{$color-neutral-100};    // 97.5% - Input fields fill
 
   // =========================
   // BORDERS
-  // Experiment: white borders, relying on surface colors for definition
+  // White borders - use shadows for depth instead
   // =========================
-  --color-border-primary-default: #{$color-white};         // 100% - White (no visible border)
-  --color-border-primary-hover: #{$color-neutral-200};     // 92% - Appears on hover
-  --color-border-secondary-default: #{$color-white};       // 100% - White
-  --color-border-focus-default: #{$color-neutral-400};     // 75% - Focus ring fallback
-  --color-border-disabled-default: #{$color-white};        // 100% - White
+  --color-border-primary-default: #{$color-white};         // 100% - No visible border
+  --color-border-primary-hover: #{$color-white};           // 100%
+  --color-border-secondary-default: #{$color-white};       // 100%
+  --color-border-focus-default: #{$color-neutral-400};     // 83% - Focus ring fallback
+  --color-border-disabled-default: #{$color-white};        // 100%
 
   // =========================
   // TEXT

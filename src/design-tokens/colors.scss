@@ -2,26 +2,25 @@
 // Monochrome Color Palette using HSL
 // ==============================
 
-// Base neutral hue - very slight blue undertone for better readability
-$color-neutral-hue: 210;
-$color-neutral-saturation: 5%;
+$color-neutral-hue: 0;
+$color-neutral-chroma: 0; // Pure neutral grays - no tint
 
-// Neutral color scale with consistent lightness steps
-// Using HSL for better control over lightness while maintaining the same hue
-// Light, airy palette - softer contrast for modern aesthetic
-$color-neutral-900: hsl($color-neutral-hue, $color-neutral-saturation, 25%);   // Darkest, primary text
-$color-neutral-800: hsl($color-neutral-hue, $color-neutral-saturation, 35%);   // Headings
-$color-neutral-700: hsl($color-neutral-hue, $color-neutral-saturation, 45%);   // Secondary text
-$color-neutral-600: hsl($color-neutral-hue, $color-neutral-saturation, 55%);   // Tertiary text
-$color-neutral-500: hsl($color-neutral-hue, $color-neutral-saturation, 65%);   // Muted text, placeholders
-$color-neutral-400: hsl($color-neutral-hue, $color-neutral-saturation, 75%);   // Disabled text, subtle icons
-$color-neutral-300: hsl($color-neutral-hue, $color-neutral-saturation, 85%);   // Borders, dividers
-$color-neutral-200: hsl($color-neutral-hue, $color-neutral-saturation, 92%);   // Light backgrounds, hover
-$color-neutral-100: hsl($color-neutral-hue, $color-neutral-saturation, 96%);   // Very light backgrounds
-$color-neutral-50: hsl($color-neutral-hue, $color-neutral-saturation, 98%);    // Near white surfaces
-$color-white: hsl($color-neutral-hue, $color-neutral-saturation, 100%);
+// Neutral color scale with perceptually uniform lightness
+// OKLCH ensures consistent perceived brightness across the scale
+$color-neutral-900: oklch(35% $color-neutral-chroma $color-neutral-hue);   // Darkest, primary text
+$color-neutral-800: oklch(45% $color-neutral-chroma $color-neutral-hue);   // Headings
+$color-neutral-700: oklch(55% $color-neutral-chroma $color-neutral-hue);   // Secondary text
+$color-neutral-600: oklch(65% $color-neutral-chroma $color-neutral-hue);   // Tertiary text
+$color-neutral-500: oklch(75% $color-neutral-chroma $color-neutral-hue);   // Muted text, placeholders
+$color-neutral-400: oklch(83% $color-neutral-chroma $color-neutral-hue);   // Disabled text, subtle icons
+$color-neutral-300: oklch(91% $color-neutral-chroma $color-neutral-hue);   // Borders, dividers
+$color-neutral-200: oklch(95% $color-neutral-chroma $color-neutral-hue);   // Light backgrounds, hover
+$color-neutral-100: oklch(97.5% $color-neutral-chroma $color-neutral-hue); // Very light backgrounds
+$color-neutral-50: oklch(99% $color-neutral-chroma $color-neutral-hue);    // Near white surfaces
+$color-white: oklch(100% 0 $color-neutral-hue);                            // Pure white
+
 $color-blue-hue: 230;
-$color-blue-saturation: 10%;
+$color-blue-saturation: 65%;
 
 // Blue color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -37,7 +36,7 @@ $color-blue-100: hsl($color-blue-hue, $color-blue-saturation, 98%);   // #D5E2FF
 $color-blue-50: hsl($color-blue-hue, $color-blue-saturation, 99.5%);  // #EBF1FF - Subtle background variations
 
 $color-orange-hue: 30;
-$color-orange-saturation: 10%;
+$color-orange-saturation: 75%;
 
 // Orange color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -53,7 +52,7 @@ $color-orange-100: hsl($color-orange-hue, $color-orange-saturation, 98%);   // #
 $color-orange-50: hsl($color-orange-hue, $color-orange-saturation, 99.5%);  // #FFE6D5 - Subtle background variations
 
 $color-red-hue: 0;
-$color-red-saturation: 10%;
+$color-red-saturation: 70%;
 
 // Red color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -70,8 +69,8 @@ $color-red-50: hsl($color-red-hue, $color-red-saturation, 99.5%);  // #FFEBEC - 
 
 
 // Green
-$color-green-hue: 120;
-$color-green-saturation: 10%;
+$color-green-hue: 145;
+$color-green-saturation: 60%;
 
 // Green color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -87,7 +86,7 @@ $color-green-100: hsl($color-green-hue, $color-green-saturation, 98%);   // #D0F
 $color-green-50: hsl($color-green-hue, $color-green-saturation, 99.5%);  // #E0FAEC - Subtle background variations
 
 $color-yellow-hue: 45;
-$color-yellow-saturation: 10%;
+$color-yellow-saturation: 85%;
 
 // Yellow color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -103,7 +102,7 @@ $color-yellow-100: hsl($color-yellow-hue, $color-yellow-saturation, 98%);   // #
 $color-yellow-50: hsl($color-yellow-hue, $color-yellow-saturation, 99.5%);  // #FFEFCC - Subtle background variations
 
 $color-purple-hue: 270;
-$color-purple-saturation: 10%;
+$color-purple-saturation: 65%;
 
 // Purple color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -120,7 +119,7 @@ $color-purple-50: hsl($color-purple-hue, $color-purple-saturation, 99.5%);  // #
 
 
 $color-sky-hue: 200;
-$color-sky-saturation: 10%;
+$color-sky-saturation: 75%;
 
 // Sky color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -136,7 +135,7 @@ $color-sky-100: hsl($color-sky-hue, $color-sky-saturation, 98%);   // #C0EAFF - 
 $color-sky-50: hsl($color-sky-hue, $color-sky-saturation, 99.5%);  // #D5F1FF - Subtle background variations
 
 $color-pink-hue: 330;
-$color-pink-saturation: 10%;
+$color-pink-saturation: 70%;
 
 // Pink color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -152,8 +151,8 @@ $color-pink-100: hsl($color-pink-hue, $color-pink-saturation, 98%);   // #FFD5EA
 $color-pink-50: hsl($color-pink-hue, $color-pink-saturation, 99.5%);  // #FFEBF4 - Subtle background variations
 
 
-$color-teal-hue: 180;
-$color-teal-saturation: 10%;
+$color-teal-hue: 170;
+$color-teal-saturation: 60%;
 
 // Teal color scale with consistent lightness steps
 // Using HSL for better control over lightness while maintaining the same hue
@@ -169,10 +168,9 @@ $color-teal-100: hsl($color-teal-hue, $color-teal-saturation, 98%);   // #D0FBF5
 $color-teal-50: hsl($color-teal-hue, $color-teal-saturation, 99.5%);  // #E4FBF8 - Subtle background variations
 
 // Neutral Alpha
-$color-neutral-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.24);
-$color-neutral-alpha-16: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.16);
-$color-neutral-alpha-10: hsla($color-neutral-hue, $color-neutral-saturation, 64%, 0.10);
-
+$color-neutral-alpha-24: oklch(74% $color-neutral-chroma $color-neutral-hue / 0.24);
+$color-neutral-alpha-16: oklch(74% $color-neutral-chroma $color-neutral-hue / 0.16);
+$color-neutral-alpha-10: oklch(74% $color-neutral-chroma $color-neutral-hue / 0.10);
 // Blue Alpha
 $blue-alpha-24: hsla($color-blue-hue, $color-blue-saturation, 64%, 0.24);
 $blue-alpha-16: hsla($color-blue-hue, $color-blue-saturation, 64%, 0.16);
@@ -219,11 +217,11 @@ $teal-alpha-16: hsla($color-teal-hue, $color-teal-saturation, 48%, 0.16);
 $teal-alpha-10: hsla($color-teal-hue, $color-teal-saturation, 48%, 0.10);
 
 // White Alpha
-$white-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 100%, 0.24);
-$white-alpha-16: hsla($color-neutral-hue, $color-neutral-saturation, 100%, 0.16);
-$white-alpha-10: hsla($color-neutral-hue, $color-neutral-saturation, 100%, 0.10);
+$white-alpha-24: oklch(100% 0 $color-neutral-hue / 0.24);
+$white-alpha-16: oklch(100% 0 $color-neutral-hue / 0.16);
+$white-alpha-10: oklch(100% 0 $color-neutral-hue / 0.10);
 
 // Black Alpha
-$black-alpha-24: hsla($color-neutral-hue, $color-neutral-saturation, 8%, 0.24);
-$black-alpha-16: hsla($color-neutral-hue, $color-neutral-saturation, 8%, 0.16);
-$black-alpha-10: hsla($color-neutral-hue, $color-neutral-saturation, 8%, 0.10);
+$black-alpha-24: oklch(20% $color-neutral-chroma $color-neutral-hue / 0.24);
+$black-alpha-16: oklch(20% $color-neutral-chroma $color-neutral-hue / 0.16);
+$black-alpha-10: oklch(20% $color-neutral-chroma $color-neutral-hue / 0.10);

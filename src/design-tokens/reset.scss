@@ -23,6 +23,9 @@ body {
     /* 5. Improve text rendering */
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
+
+    /* 6. Page background */
+    background-color: var(--color-surface-page-default);
 }
 
 /* 6. Improve media defaults */
