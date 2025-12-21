@@ -82,7 +82,10 @@
 .previewContainer {
   flex: 1;
   overflow: auto;
-  background-color: var(--color-surface-secondary-default);
+  background-color: var(--color-bg-secondary-default);
+  min-height: 600px;
+  padding: layout.$spacing-04;
+  border-radius: border.$border-radius-medium;
 }
 
 // Responsive adjustments

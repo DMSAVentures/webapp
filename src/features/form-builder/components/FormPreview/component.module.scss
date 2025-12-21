@@ -7,9 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: layout.$spacing-06;
-  background-color: var(--color-surface-secondary-default);
-  border-radius: border.$border-radius-medium;
+  padding: 0;
   min-height: 600px;
   overflow: auto;
 }
@@ -69,8 +67,8 @@
 
 // Preview content area
 .previewContent {
-  padding: layout.$spacing-06;
-  background-color: var(--color-bg-tertiary-default);
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
   overflow-y: auto;
 }
 
@@ -182,7 +180,7 @@
   background-color: var(--form-bg-color, var(--color-surface-primary-default));
   border: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
   border-radius: var(--form-border-radius, border.$border-radius-medium);
-  padding: var(--form-padding, layout.$spacing-04) calc(var(--form-padding, layout.$spacing-04) * 2);
+  padding: layout.$spacing-03 layout.$spacing-05;
   cursor: pointer;
   transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
 
@@ -199,7 +197,7 @@
   background-color: var(--form-primary-color, var(--color-primary));
   border: none;
   border-radius: var(--form-border-radius, border.$border-radius-medium);
-  padding: var(--form-padding, layout.$spacing-04) calc(var(--form-padding, layout.$spacing-04) * 2);
+  padding: layout.$spacing-03 layout.$spacing-05;
   margin-top: var(--form-gap, layout.$spacing-04);
   cursor: pointer;
   transition: opacity motion.$duration-fast-01 motion.$easing-productive-standard;
@@ -258,7 +256,6 @@
 
 @media (width <= 768px) {
   .root {
-    padding: layout.$spacing-04;
     min-height: 400px;
   }
 
@@ -276,10 +273,6 @@
   .deviceDot {
     width: 10px;
     height: 10px;
-  }
-
-  .previewContent {
-    padding: layout.$spacing-04;
   }
 
   .emptyState {
