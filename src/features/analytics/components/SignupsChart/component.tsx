@@ -3,7 +3,7 @@
  * Area chart showing signups over time with period selector
  */
 
-import { type HTMLAttributes, memo, useState } from "react";
+import { type HTMLAttributes, memo, useMemo, useState } from "react";
 import {
 	Area,
 	AreaChart,
@@ -13,6 +13,8 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
 import type { AnalyticsPeriod, ApiSignupDataPoint } from "@/types/api.types";
 import styles from "./component.module.scss";
 
@@ -278,6 +280,19 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
+	const periodButtonItems = useMemo(
+		() =>
+			PERIOD_OPTIONS.map((option) => ({
+				text: option.label,
+				icon: "",
+				iconPosition: "left" as const,
+				iconOnly: false,
+				onClick: () => handlePeriodChange(option.value),
+				selected: selectedPeriod === option.value,
+			})),
+		[selectedPeriod],
+	);
+
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.header}>
@@ -288,40 +303,29 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 					</span>
 				</div>
 				<div className={styles.headerRight}>
-					<div className={styles.periodSelector}>
-						{PERIOD_OPTIONS.map((option) => (
-							<button
-								key={option.value}
-								type="button"
-								className={`${styles.periodButton} ${selectedPeriod === option.value ? styles.periodButtonActive : ""}`}
-								onClick={() => handlePeriodChange(option.value)}
-							>
-								{option.label}
-							</button>
-						))}
-					</div>
+					<ButtonGroup
+						items={periodButtonItems}
+						size="small"
+						ariaLabel="Select time period"
+					/>
 					{onNavigate && (
 						<div className={styles.navigation}>
-							<button
-								type="button"
-								className={styles.navButton}
+							<IconOnlyButton
+								iconClass="arrow-left-s-line"
+								variant="secondary"
 								onClick={() => onNavigate("back")}
-								aria-label="Previous period"
-							>
-								<i className="ri-arrow-left-s-line" aria-hidden="true" />
-							</button>
+								ariaLabel="Previous period"
+							/>
 							{dateRangeLabel && (
 								<span className={styles.dateRangeLabel}>{dateRangeLabel}</span>
 							)}
-							<button
-								type="button"
-								className={styles.navButton}
+							<IconOnlyButton
+								iconClass="arrow-right-s-line"
+								variant="secondary"
 								onClick={() => onNavigate("forward")}
 								disabled={!canGoForward}
-								aria-label="Next period"
-							>
-								<i className="ri-arrow-right-s-line" aria-hidden="true" />
-							</button>
+								ariaLabel="Next period"
+							/>
 						</div>
 					)}
 				</div>
