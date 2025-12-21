@@ -8,8 +8,6 @@
   flex-direction: column;
   gap: layout.$spacing-04;
   height: 100%;
-  background-color: var(--color-bg-secondary-default);
-  border-radius: border.$border-radius-medium;
   overflow: hidden;
 
   &.dragging {
@@ -23,7 +21,6 @@
   flex-direction: column;
   gap: layout.$spacing-02;
   padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
   border-bottom: border.$border-width-small solid var(--color-border-primary-default);
 }
 

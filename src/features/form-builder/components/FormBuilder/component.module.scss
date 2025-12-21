@@ -56,28 +56,26 @@
 .builder {
   display: grid;
   grid-template-columns: 280px 1fr 320px;
-  gap: 0;
+  gap: layout.$spacing-04;
   flex: 1;
   overflow: hidden;
-  background-color: var(--color-surface-secondary-default);
+  padding: layout.$spacing-04;
+  background-color: var(--color-bg-secondary-default);
+  border-radius: border.$border-radius-medium;
 }
 
-// Panels
-.leftPanel {
+// Panels - all three share the same container styling
+.leftPanel,
+.centerPanel,
+.rightPanel {
   background-color: var(--color-surface-primary-default);
-  border-right: border.$border-width-small solid var(--color-border-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
   overflow-y: auto;
 }
 
 .centerPanel {
-  padding: layout.$spacing-05;
-  overflow-y: auto;
-}
-
-.rightPanel {
-  background-color: var(--color-surface-primary-default);
-  border-left: border.$border-width-small solid var(--color-border-primary-default);
-  overflow-y: auto;
+  padding: 0; // FormCanvas handles its own padding
 }
 
 // Preview container
@@ -104,19 +102,11 @@
   .builder {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
-    gap: layout.$spacing-04;
-    padding: layout.$spacing-04;
   }
 
   .leftPanel,
   .rightPanel {
-    border: border.$border-width-small solid var(--color-border-primary-default);
-    border-radius: border.$border-radius-medium;
     max-height: 400px;
-  }
-
-  .centerPanel {
-    padding: 0;
   }
 
   .header {
