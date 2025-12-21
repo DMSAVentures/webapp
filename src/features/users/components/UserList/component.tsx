@@ -24,6 +24,7 @@ import type {
 } from "@/types/users.types";
 import { formatPosition } from "@/utils/positionFormatter";
 import { UserFilters } from "../UserFilters/component";
+import { UtmSourceBadge } from "../UtmSourceBadge/component";
 import styles from "./component.module.scss";
 
 export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
@@ -525,9 +526,7 @@ export const UserList = memo<UserListProps>(function UserList({
 											</span>
 										</td>
 										<td className={styles.tableCell}>
-											<span className={styles.utmSource}>
-												{user.utmSource || "-"}
-											</span>
+											<UtmSourceBadge source={user.utmSource} />
 										</td>
 										<td className={styles.tableCell}>
 											<span className={styles.date}>
