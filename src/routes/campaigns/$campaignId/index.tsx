@@ -6,10 +6,12 @@ import {
 	type DateRange,
 	SignupsChart,
 } from "@/features/analytics/components/SignupsChart";
+import { SourcesChart } from "@/features/analytics/components/SourcesChart";
 import { CampaignFormPreview } from "@/features/campaigns/components/CampaignFormPreview/component";
 import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
 import { useCampaignHelpers } from "@/hooks/useCampaignStatus";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
+import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
 import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import type { AnalyticsPeriod } from "@/types/api.types";
@@ -149,6 +151,49 @@ function RouteComponent() {
 		now.setHours(23, 59, 59, 999);
 		return signupsDateRange.to < now;
 	}, [signupsDateRange.to]);
+
+	// Sources chart state
+	const [sourcesPeriod, setSourcesPeriod] = useState<AnalyticsPeriod>("day");
+	const [sourcesDateRange, setSourcesDateRange] = useState<DateRange>(() =>
+		getDefaultDateRange("day"),
+	);
+
+	const sourcesParams = useMemo(
+		() => ({
+			period: sourcesPeriod,
+			from: sourcesDateRange.from.toISOString(),
+			to: sourcesDateRange.to.toISOString(),
+		}),
+		[sourcesPeriod, sourcesDateRange],
+	);
+
+	const { data: sourcesData, loading: sourcesLoading } = useGetSignupsBySource(
+		campaignId,
+		sourcesParams,
+	);
+
+	const handleSourcesPeriodChange = useCallback(
+		(newPeriod: AnalyticsPeriod) => {
+			setSourcesPeriod(newPeriod);
+			setSourcesDateRange(getDefaultDateRange(newPeriod));
+		},
+		[],
+	);
+
+	const handleSourcesNavigate = useCallback(
+		(direction: "back" | "forward") => {
+			setSourcesDateRange((current) =>
+				navigateDateRange(current, sourcesPeriod, direction),
+			);
+		},
+		[sourcesPeriod],
+	);
+
+	const sourcesCanGoForward = useMemo(() => {
+		const now = new Date();
+		now.setHours(23, 59, 59, 999);
+		return sourcesDateRange.to < now;
+	}, [sourcesDateRange.to]);
 
 	const handleEdit = () => {
 		navigate({ to: `/campaigns/$campaignId/edit`, params: { campaignId } });
@@ -446,6 +491,18 @@ function RouteComponent() {
 					onNavigate={handleSignupsNavigate}
 					canGoForward={canGoForward}
 					loading={signupsLoading}
+				/>
+
+				<SourcesChart
+					data={sourcesData?.data ?? []}
+					sources={sourcesData?.sources ?? []}
+					total={sourcesData?.total ?? 0}
+					period={sourcesData?.period ?? sourcesPeriod}
+					dateRange={sourcesDateRange}
+					onPeriodChange={handleSourcesPeriodChange}
+					onNavigate={handleSourcesNavigate}
+					canGoForward={sourcesCanGoForward}
+					loading={sourcesLoading}
 				/>
 
 				<div className={styles.detailsCard}>

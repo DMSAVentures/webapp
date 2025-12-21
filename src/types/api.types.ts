@@ -141,3 +141,16 @@ export interface SignupsOverTimeParams {
 	from?: string;
 	to?: string;
 }
+
+export interface ApiSignupsBySourceDataPoint {
+	date: string;
+	utm_source: string | null;
+	count: number;
+}
+
+export interface ApiSignupsBySourceResponse {
+	data: ApiSignupsBySourceDataPoint[];
+	sources: string[];
+	total: number;
+	period: AnalyticsPeriod;
+}

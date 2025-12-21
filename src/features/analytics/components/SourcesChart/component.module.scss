@@ -1,0 +1,184 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+  width: 100%;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+  margin-bottom: layout.$spacing-05;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: layout.$spacing-03;
+}
+
+.title {
+  margin: 0;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.total {
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-tertiary-default);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+}
+
+.dateRangeLabel {
+  min-width: 140px;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-secondary-default);
+  text-align: center;
+}
+
+.chartContainer {
+  width: 100%;
+}
+
+// Custom tooltip
+.tooltip {
+  padding: layout.$spacing-03 layout.$spacing-04;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+}
+
+.tooltipLabel {
+  margin: 0 0 layout.$spacing-02 0;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.tooltipItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
+.tooltipDot {
+  display: inline-block;
+  width: layout.$spacing-02;
+  height: layout.$spacing-02;
+  border-radius: 50%;
+}
+
+.tooltipName {
+  font-weight: typography.$font-weight-medium;
+}
+
+.tooltipValue {
+  margin-left: auto;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.tooltipTotal {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding-top: layout.$spacing-02;
+  margin-top: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+  border-top: border.$border-width-small solid var(--color-border-secondary-default);
+}
+
+// Loading state
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.loadingSpinner {
+  width: layout.$spacing-08;
+  height: layout.$spacing-08;
+  border: layout.$spacing-01 solid var(--color-border-primary-default);
+  border-top-color: var(--color-info-default);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Empty state
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: layout.$spacing-03;
+  height: 300px;
+  color: var(--color-text-tertiary-default);
+
+  i {
+    font-size: layout.$spacing-10;
+  }
+
+  p {
+    margin: 0;
+    font-size: typography.$font-size-md;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: breakpoints.$breakpoint-md) {
+  .root {
+    padding: layout.$spacing-04;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerRight {
+    align-items: flex-start;
+  }
+
+  .tooltip {
+    padding: layout.$spacing-02 layout.$spacing-03;
+  }
+}
