@@ -1,2 +1,3 @@
-export type { DateRange, SignupsChartProps } from "./component";
+export type { DateRange } from "@/hooks/useChartNavigation";
+export type { SignupsChartProps } from "./component";
 export { SignupsChart } from "./component";

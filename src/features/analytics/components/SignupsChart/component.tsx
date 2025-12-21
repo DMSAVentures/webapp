@@ -13,15 +13,11 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import type { DateRange } from "@/hooks/useChartNavigation";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
 import type { AnalyticsPeriod, ApiSignupDataPoint } from "@/types/api.types";
 import styles from "./component.module.scss";
-
-export interface DateRange {
-	from: Date;
-	to: Date;
-}
 
 export interface SignupsChartProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "data"> {

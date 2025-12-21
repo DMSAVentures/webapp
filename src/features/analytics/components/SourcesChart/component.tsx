@@ -14,6 +14,7 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import type { DateRange } from "@/hooks/useChartNavigation";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
 import type {
@@ -21,11 +22,6 @@ import type {
 	ApiSignupsBySourceDataPoint,
 } from "@/types/api.types";
 import styles from "./component.module.scss";
-
-export interface DateRange {
-	from: Date;
-	to: Date;
-}
 
 export interface SourcesChartProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "data"> {
@@ -289,7 +285,10 @@ const getTopSources = (
 	const sourceTotals = new Map<string, number>();
 	for (const point of data) {
 		const sourceKey = point.utm_source || "direct";
-		sourceTotals.set(sourceKey, (sourceTotals.get(sourceKey) || 0) + point.count);
+		sourceTotals.set(
+			sourceKey,
+			(sourceTotals.get(sourceKey) || 0) + point.count,
+		);
 	}
 
 	// Sort by count descending

@@ -1,84 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
-import {
-	type DateRange,
-	SignupsChart,
-} from "@/features/analytics/components/SignupsChart";
-import { SourcesChart } from "@/features/analytics/components/SourcesChart";
 import { CampaignFormPreview } from "@/features/campaigns/components/CampaignFormPreview/component";
 import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
 import { useCampaignHelpers } from "@/hooks/useCampaignStatus";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
-import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
-import type { AnalyticsPeriod } from "@/types/api.types";
-
-/**
- * Get the default date range based on period
- */
-const getDefaultDateRange = (period: AnalyticsPeriod): DateRange => {
-	const now = new Date();
-	const to = new Date(now);
-	to.setHours(23, 59, 59, 999);
-
-	const from = new Date(now);
-	switch (period) {
-		case "hour":
-			from.setHours(0, 0, 0, 0);
-			break;
-		case "day":
-			from.setDate(from.getDate() - 30);
-			from.setHours(0, 0, 0, 0);
-			break;
-		case "week":
-			from.setDate(from.getDate() - 12 * 7);
-			from.setHours(0, 0, 0, 0);
-			break;
-		case "month":
-			from.setMonth(from.getMonth() - 12);
-			from.setDate(1);
-			from.setHours(0, 0, 0, 0);
-			break;
-	}
-	return { from, to };
-};
-
-/**
- * Navigate date range based on period and direction
- */
-const navigateDateRange = (
-	current: DateRange,
-	period: AnalyticsPeriod,
-	direction: "back" | "forward",
-): DateRange => {
-	const multiplier = direction === "back" ? -1 : 1;
-	const from = new Date(current.from);
-	const to = new Date(current.to);
-
-	switch (period) {
-		case "hour":
-			from.setDate(from.getDate() + multiplier);
-			to.setDate(to.getDate() + multiplier);
-			break;
-		case "day":
-			from.setDate(from.getDate() + 30 * multiplier);
-			to.setDate(to.getDate() + 30 * multiplier);
-			break;
-		case "week":
-			from.setDate(from.getDate() + 12 * 7 * multiplier);
-			to.setDate(to.getDate() + 12 * 7 * multiplier);
-			break;
-		case "month":
-			from.setMonth(from.getMonth() + 12 * multiplier);
-			to.setMonth(to.getMonth() + 12 * multiplier);
-			break;
-	}
-	return { from, to };
-};
-
 import { Button } from "@/proto-design-system/Button/button";
 import { Badge } from "@/proto-design-system/badge/badge";
 import Banner from "@/proto-design-system/banner/banner";
@@ -110,90 +38,6 @@ function RouteComponent() {
 		error: updateError,
 	} = useUpdateCampaignStatus();
 	const [successMessage, setSuccessMessage] = useState<string | null>(null);
-	const [signupsPeriod, setSignupsPeriod] = useState<AnalyticsPeriod>("day");
-	const [signupsDateRange, setSignupsDateRange] = useState<DateRange>(() =>
-		getDefaultDateRange("day"),
-	);
-
-	const signupsParams = useMemo(
-		() => ({
-			period: signupsPeriod,
-			from: signupsDateRange.from.toISOString(),
-			to: signupsDateRange.to.toISOString(),
-		}),
-		[signupsPeriod, signupsDateRange],
-	);
-
-	const { data: signupsData, loading: signupsLoading } = useGetSignupsOverTime(
-		campaignId,
-		signupsParams,
-	);
-
-	const handleSignupsPeriodChange = useCallback(
-		(newPeriod: AnalyticsPeriod) => {
-			setSignupsPeriod(newPeriod);
-			setSignupsDateRange(getDefaultDateRange(newPeriod));
-		},
-		[],
-	);
-
-	const handleSignupsNavigate = useCallback(
-		(direction: "back" | "forward") => {
-			setSignupsDateRange((current) =>
-				navigateDateRange(current, signupsPeriod, direction),
-			);
-		},
-		[signupsPeriod],
-	);
-
-	const canGoForward = useMemo(() => {
-		const now = new Date();
-		now.setHours(23, 59, 59, 999);
-		return signupsDateRange.to < now;
-	}, [signupsDateRange.to]);
-
-	// Sources chart state
-	const [sourcesPeriod, setSourcesPeriod] = useState<AnalyticsPeriod>("day");
-	const [sourcesDateRange, setSourcesDateRange] = useState<DateRange>(() =>
-		getDefaultDateRange("day"),
-	);
-
-	const sourcesParams = useMemo(
-		() => ({
-			period: sourcesPeriod,
-			from: sourcesDateRange.from.toISOString(),
-			to: sourcesDateRange.to.toISOString(),
-		}),
-		[sourcesPeriod, sourcesDateRange],
-	);
-
-	const { data: sourcesData, loading: sourcesLoading } = useGetSignupsBySource(
-		campaignId,
-		sourcesParams,
-	);
-
-	const handleSourcesPeriodChange = useCallback(
-		(newPeriod: AnalyticsPeriod) => {
-			setSourcesPeriod(newPeriod);
-			setSourcesDateRange(getDefaultDateRange(newPeriod));
-		},
-		[],
-	);
-
-	const handleSourcesNavigate = useCallback(
-		(direction: "back" | "forward") => {
-			setSourcesDateRange((current) =>
-				navigateDateRange(current, sourcesPeriod, direction),
-			);
-		},
-		[sourcesPeriod],
-	);
-
-	const sourcesCanGoForward = useMemo(() => {
-		const now = new Date();
-		now.setHours(23, 59, 59, 999);
-		return sourcesDateRange.to < now;
-	}, [sourcesDateRange.to]);
 
 	const handleEdit = () => {
 		navigate({ to: `/campaigns/$campaignId/edit`, params: { campaignId } });
@@ -481,29 +325,6 @@ function RouteComponent() {
 				)}
 
 				<CampaignStats stats={stats} onCardClick={handleStatCardClick} />
-
-				<SignupsChart
-					data={signupsData?.data ?? []}
-					total={signupsData?.total ?? 0}
-					period={signupsData?.period ?? signupsPeriod}
-					dateRange={signupsDateRange}
-					onPeriodChange={handleSignupsPeriodChange}
-					onNavigate={handleSignupsNavigate}
-					canGoForward={canGoForward}
-					loading={signupsLoading}
-				/>
-
-				<SourcesChart
-					data={sourcesData?.data ?? []}
-					sources={sourcesData?.sources ?? []}
-					total={sourcesData?.total ?? 0}
-					period={sourcesData?.period ?? sourcesPeriod}
-					dateRange={sourcesDateRange}
-					onPeriodChange={handleSourcesPeriodChange}
-					onNavigate={handleSourcesNavigate}
-					canGoForward={sourcesCanGoForward}
-					loading={sourcesLoading}
-				/>
 
 				<div className={styles.detailsCard}>
 					<h3 className={styles.detailsTitle}>Configuration</h3>
