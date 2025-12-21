@@ -1,2 +1,2 @@
-export { UtmSourceBadge } from "./component";
 export type { UtmSourceBadgeProps } from "./component";
+export { UtmSourceBadge } from "./component";
