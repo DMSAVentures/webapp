@@ -87,43 +87,44 @@
   flex-direction: column;
   width: 100%;
   max-width: 130px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgb(0, 0, 0, 0.12);
 }
 
 // Mini form elements in preview
 .previewLabel {
-  height: 5px;
+  height: layout.$spacing-02;
   width: 35%;
-  border-radius: 2px;
+  border-radius: border.$border-radius-small;
 }
 
 .previewInput {
-  height: 20px;
+  height: layout.$spacing-05;
   border-style: solid;
   display: flex;
   align-items: center;
-  padding: 0 6px;
-  transition: border-color 0.15s ease;
+  padding: 0 layout.$spacing-02;
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
 }
 
 .previewPlaceholder {
-  height: 5px;
+  height: layout.$spacing-02;
   width: 55%;
-  border-radius: 2px;
+  border-radius: border.$border-radius-small;
 }
 
 .previewButton {
-  height: 22px;
+  height: layout.$spacing-06;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform motion.$duration-fast-01 motion.$easing-productive-standard,
+    box-shadow motion.$duration-fast-01 motion.$easing-productive-standard;
 }
 
 .previewButtonText {
-  height: 5px;
+  height: layout.$spacing-02;
   width: 45%;
-  border-radius: 2px;
+  border-radius: border.$border-radius-small;
 }
 
 // Accent bar to show primary color

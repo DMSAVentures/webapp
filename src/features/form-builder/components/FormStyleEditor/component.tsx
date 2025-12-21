@@ -3,7 +3,7 @@
  * Edit form design settings (colors, typography, spacing)
  */
 
-import { type HTMLAttributes, memo, useState, useCallback } from "react";
+import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
@@ -188,278 +188,288 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 						/>
 					</div>
 				) : (
-				<div className={styles.content}>
+					<div className={styles.content}>
+						{/* Colors Section */}
+						<section className={styles.section}>
+							<h4 className={styles.sectionTitle}>Colors</h4>
+							<div className={styles.colorGrid}>
+								<div className={styles.colorItem}>
+									<div className={styles.colorInputGroup}>
+										<input
+											id="color-primary"
+											type="color"
+											value={design.colors.primary}
+											onChange={(e) =>
+												handleColorChange("primary", e.target.value)
+											}
+											className={styles.colorPicker}
+											aria-label="Primary color"
+										/>
+										<TextInput
+											id="color-primary-text"
+											label="Primary"
+											type="text"
+											value={design.colors.primary}
+											onChange={(e) =>
+												handleColorChange("primary", e.target.value)
+											}
+											placeholder="#000000"
+										/>
+									</div>
+								</div>
 
-					{/* Colors Section */}
-					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Colors</h4>
-						<div className={styles.colorGrid}>
-							<div className={styles.colorItem}>
-								<div className={styles.colorInputGroup}>
-									<input
-										id="color-primary"
-										type="color"
-										value={design.colors.primary}
-										onChange={(e) =>
-											handleColorChange("primary", e.target.value)
-										}
-										className={styles.colorPicker}
-										aria-label="Primary color"
-									/>
-									<TextInput
-										id="color-primary-text"
-										label="Primary"
-										type="text"
-										value={design.colors.primary}
-										onChange={(e) =>
-											handleColorChange("primary", e.target.value)
-										}
-										placeholder="#000000"
-									/>
+								<div className={styles.colorItem}>
+									<div className={styles.colorInputGroup}>
+										<input
+											id="color-background"
+											type="color"
+											value={design.colors.background}
+											onChange={(e) =>
+												handleColorChange("background", e.target.value)
+											}
+											className={styles.colorPicker}
+											aria-label="Background color"
+										/>
+										<TextInput
+											id="color-background-text"
+											label="Background"
+											type="text"
+											value={design.colors.background}
+											onChange={(e) =>
+												handleColorChange("background", e.target.value)
+											}
+											placeholder="#ffffff"
+										/>
+									</div>
+								</div>
+
+								<div className={styles.colorItem}>
+									<div className={styles.colorInputGroup}>
+										<input
+											id="color-text"
+											type="color"
+											value={design.colors.text}
+											onChange={(e) =>
+												handleColorChange("text", e.target.value)
+											}
+											className={styles.colorPicker}
+											aria-label="Text color"
+										/>
+										<TextInput
+											id="color-text-text"
+											label="Text"
+											type="text"
+											value={design.colors.text}
+											onChange={(e) =>
+												handleColorChange("text", e.target.value)
+											}
+											placeholder="#000000"
+										/>
+									</div>
+								</div>
+
+								<div className={styles.colorItem}>
+									<div className={styles.colorInputGroup}>
+										<input
+											id="color-border"
+											type="color"
+											value={design.colors.border}
+											onChange={(e) =>
+												handleColorChange("border", e.target.value)
+											}
+											className={styles.colorPicker}
+											aria-label="Border color"
+										/>
+										<TextInput
+											id="color-border-text"
+											label="Border"
+											type="text"
+											value={design.colors.border}
+											onChange={(e) =>
+												handleColorChange("border", e.target.value)
+											}
+											placeholder="#e0e0e0"
+										/>
+									</div>
+								</div>
+
+								<div className={styles.colorItem}>
+									<div className={styles.colorInputGroup}>
+										<input
+											id="color-error"
+											type="color"
+											value={design.colors.error}
+											onChange={(e) =>
+												handleColorChange("error", e.target.value)
+											}
+											className={styles.colorPicker}
+											aria-label="Error color"
+										/>
+										<TextInput
+											id="color-error-text"
+											label="Error"
+											type="text"
+											value={design.colors.error}
+											onChange={(e) =>
+												handleColorChange("error", e.target.value)
+											}
+											placeholder="#ff0000"
+										/>
+									</div>
+								</div>
+
+								<div className={styles.colorItem}>
+									<div className={styles.colorInputGroup}>
+										<input
+											id="color-success"
+											type="color"
+											value={design.colors.success}
+											onChange={(e) =>
+												handleColorChange("success", e.target.value)
+											}
+											className={styles.colorPicker}
+											aria-label="Success color"
+										/>
+										<TextInput
+											id="color-success-text"
+											label="Success"
+											type="text"
+											value={design.colors.success}
+											onChange={(e) =>
+												handleColorChange("success", e.target.value)
+											}
+											placeholder="#00ff00"
+										/>
+									</div>
 								</div>
 							</div>
+						</section>
 
-							<div className={styles.colorItem}>
-								<div className={styles.colorInputGroup}>
-									<input
-										id="color-background"
-										type="color"
-										value={design.colors.background}
-										onChange={(e) =>
-											handleColorChange("background", e.target.value)
-										}
-										className={styles.colorPicker}
-										aria-label="Background color"
-									/>
-									<TextInput
-										id="color-background-text"
-										label="Background"
-										type="text"
-										value={design.colors.background}
-										onChange={(e) =>
-											handleColorChange("background", e.target.value)
-										}
-										placeholder="#ffffff"
-									/>
-								</div>
+						<ContentDivider size="thin" />
+
+						{/* Typography Section */}
+						<section className={styles.section}>
+							<h4 className={styles.sectionTitle}>Typography</h4>
+							<div className={styles.inputGrid}>
+								<TextInput
+									id="font-family"
+									label="Font Family"
+									type="text"
+									value={design.typography.fontFamily}
+									onChange={(e) =>
+										handleTypographyChange("fontFamily", e.target.value)
+									}
+									placeholder="Inter, sans-serif"
+								/>
+								<TextInput
+									id="font-size"
+									label="Font Size (px)"
+									type="number"
+									value={design.typography.fontSize.toString()}
+									onChange={(e) =>
+										handleTypographyChange(
+											"fontSize",
+											parseInt(e.target.value) || 16,
+										)
+									}
+									min={12}
+									max={24}
+								/>
+								<TextInput
+									id="font-weight"
+									label="Font Weight"
+									type="number"
+									value={design.typography.fontWeight.toString()}
+									onChange={(e) =>
+										handleTypographyChange(
+											"fontWeight",
+											parseInt(e.target.value) || 400,
+										)
+									}
+									min={100}
+									max={900}
+									step={100}
+								/>
 							</div>
+						</section>
 
-							<div className={styles.colorItem}>
-								<div className={styles.colorInputGroup}>
-									<input
-										id="color-text"
-										type="color"
-										value={design.colors.text}
-										onChange={(e) => handleColorChange("text", e.target.value)}
-										className={styles.colorPicker}
-										aria-label="Text color"
-									/>
-									<TextInput
-										id="color-text-text"
-										label="Text"
-										type="text"
-										value={design.colors.text}
-										onChange={(e) => handleColorChange("text", e.target.value)}
-										placeholder="#000000"
-									/>
-								</div>
+						<ContentDivider size="thin" />
+
+						{/* Spacing Section */}
+						<section className={styles.section}>
+							<h4 className={styles.sectionTitle}>Spacing</h4>
+							<div className={styles.inputGrid}>
+								<TextInput
+									id="padding"
+									label="Padding (px)"
+									type="number"
+									value={design.spacing.padding.toString()}
+									onChange={(e) =>
+										handleSpacingChange(
+											"padding",
+											parseInt(e.target.value) || 16,
+										)
+									}
+									min={0}
+									max={100}
+								/>
+								<TextInput
+									id="gap"
+									label="Gap (px)"
+									type="number"
+									value={design.spacing.gap.toString()}
+									onChange={(e) =>
+										handleSpacingChange("gap", parseInt(e.target.value) || 16)
+									}
+									min={0}
+									max={100}
+								/>
+								<TextInput
+									id="border-radius"
+									label="Border Radius (px)"
+									type="number"
+									value={design.borderRadius.toString()}
+									onChange={(e) =>
+										handleBorderRadiusChange(parseInt(e.target.value) || 8)
+									}
+									min={0}
+									max={50}
+								/>
 							</div>
+						</section>
 
-							<div className={styles.colorItem}>
-								<div className={styles.colorInputGroup}>
-									<input
-										id="color-border"
-										type="color"
-										value={design.colors.border}
-										onChange={(e) =>
-											handleColorChange("border", e.target.value)
-										}
-										className={styles.colorPicker}
-										aria-label="Border color"
-									/>
-									<TextInput
-										id="color-border-text"
-										label="Border"
-										type="text"
-										value={design.colors.border}
-										onChange={(e) =>
-											handleColorChange("border", e.target.value)
-										}
-										placeholder="#e0e0e0"
-									/>
-								</div>
+						<ContentDivider size="thin" />
+
+						{/* Submit Button Section */}
+						<section className={styles.section}>
+							<h4 className={styles.sectionTitle}>Submit Button</h4>
+							<div className={styles.inputGrid}>
+								<TextInput
+									id="submit-button-text"
+									label="Button Text"
+									type="text"
+									value={design.submitButtonText || "Submit"}
+									onChange={(e) => handleSubmitButtonTextChange(e.target.value)}
+									placeholder="Submit"
+								/>
 							</div>
+						</section>
 
-							<div className={styles.colorItem}>
-								<div className={styles.colorInputGroup}>
-									<input
-										id="color-error"
-										type="color"
-										value={design.colors.error}
-										onChange={(e) => handleColorChange("error", e.target.value)}
-										className={styles.colorPicker}
-										aria-label="Error color"
-									/>
-									<TextInput
-										id="color-error-text"
-										label="Error"
-										type="text"
-										value={design.colors.error}
-										onChange={(e) => handleColorChange("error", e.target.value)}
-										placeholder="#ff0000"
-									/>
-								</div>
-							</div>
+						<ContentDivider size="thin" />
 
-							<div className={styles.colorItem}>
-								<div className={styles.colorInputGroup}>
-									<input
-										id="color-success"
-										type="color"
-										value={design.colors.success}
-										onChange={(e) =>
-											handleColorChange("success", e.target.value)
-										}
-										className={styles.colorPicker}
-										aria-label="Success color"
-									/>
-									<TextInput
-										id="color-success-text"
-										label="Success"
-										type="text"
-										value={design.colors.success}
-										onChange={(e) =>
-											handleColorChange("success", e.target.value)
-										}
-										placeholder="#00ff00"
-									/>
-								</div>
-							</div>
-						</div>
-					</section>
-
-					<ContentDivider size="thin" />
-
-					{/* Typography Section */}
-					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Typography</h4>
-						<div className={styles.inputGrid}>
-							<TextInput
-								id="font-family"
-								label="Font Family"
-								type="text"
-								value={design.typography.fontFamily}
-								onChange={(e) =>
-									handleTypographyChange("fontFamily", e.target.value)
-								}
-								placeholder="Inter, sans-serif"
+						{/* Custom CSS Section */}
+						<section className={styles.section}>
+							<h4 className={styles.sectionTitle}>Custom CSS</h4>
+							<TextArea
+								id="custom-css"
+								label="Additional Styles"
+								value={design.customCss || ""}
+								onChange={(e) => handleCustomCssChange(e.target.value)}
+								placeholder="/* Add custom CSS here */"
+								rows={8}
 							/>
-							<TextInput
-								id="font-size"
-								label="Font Size (px)"
-								type="number"
-								value={design.typography.fontSize.toString()}
-								onChange={(e) =>
-									handleTypographyChange(
-										"fontSize",
-										parseInt(e.target.value) || 16,
-									)
-								}
-								min={12}
-								max={24}
-							/>
-							<TextInput
-								id="font-weight"
-								label="Font Weight"
-								type="number"
-								value={design.typography.fontWeight.toString()}
-								onChange={(e) =>
-									handleTypographyChange(
-										"fontWeight",
-										parseInt(e.target.value) || 400,
-									)
-								}
-								min={100}
-								max={900}
-								step={100}
-							/>
-						</div>
-					</section>
-
-					<ContentDivider size="thin" />
-
-					{/* Spacing Section */}
-					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Spacing</h4>
-						<div className={styles.inputGrid}>
-							<TextInput
-								id="padding"
-								label="Padding (px)"
-								type="number"
-								value={design.spacing.padding.toString()}
-								onChange={(e) =>
-									handleSpacingChange("padding", parseInt(e.target.value) || 16)
-								}
-								min={0}
-								max={100}
-							/>
-							<TextInput
-								id="gap"
-								label="Gap (px)"
-								type="number"
-								value={design.spacing.gap.toString()}
-								onChange={(e) =>
-									handleSpacingChange("gap", parseInt(e.target.value) || 16)
-								}
-								min={0}
-								max={100}
-							/>
-							<TextInput
-								id="border-radius"
-								label="Border Radius (px)"
-								type="number"
-								value={design.borderRadius.toString()}
-								onChange={(e) =>
-									handleBorderRadiusChange(parseInt(e.target.value) || 8)
-								}
-								min={0}
-								max={50}
-							/>
-						</div>
-					</section>
-
-					<ContentDivider size="thin" />
-
-					{/* Submit Button Section */}
-					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Submit Button</h4>
-						<div className={styles.inputGrid}>
-							<TextInput
-								id="submit-button-text"
-								label="Button Text"
-								type="text"
-								value={design.submitButtonText || "Submit"}
-								onChange={(e) => handleSubmitButtonTextChange(e.target.value)}
-								placeholder="Submit"
-							/>
-						</div>
-					</section>
-
-					<ContentDivider size="thin" />
-
-					{/* Custom CSS Section */}
-					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Custom CSS</h4>
-						<TextArea
-							id="custom-css"
-							label="Additional Styles"
-							value={design.customCss || ""}
-							onChange={(e) => handleCustomCssChange(e.target.value)}
-							placeholder="/* Add custom CSS here */"
-							rows={8}
-						/>
-					</section>
-				</div>
+						</section>
+					</div>
 				)}
 			</div>
 		);

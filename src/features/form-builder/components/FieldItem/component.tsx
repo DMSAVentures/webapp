@@ -146,7 +146,9 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 				{/* Column toggle button (only in two-column mode) */}
 				{showColumnToggle && (
 					<IconOnlyButton
-						iconClass={currentColumn === 1 ? "arrow-right-line" : "arrow-left-line"}
+						iconClass={
+							currentColumn === 1 ? "arrow-right-line" : "arrow-left-line"
+						}
 						variant="secondary"
 						ariaLabel={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 						onClick={handleColumnToggleClick}

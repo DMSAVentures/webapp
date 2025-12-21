@@ -193,7 +193,7 @@
   font-family: var(--form-font-family, inherit);
   font-size: var(--form-font-size, 14px);
   font-weight: calc(var(--form-font-weight, 400) + 100);
-  color: var(--form-bg-color, #ffffff);
+  color: var(--form-bg-color, #fff);
   background-color: var(--form-primary-color, var(--color-primary));
   border: none;
   border-radius: var(--form-border-radius, border.$border-radius-medium);

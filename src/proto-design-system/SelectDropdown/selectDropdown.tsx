@@ -219,7 +219,9 @@ export const SelectDropdown = memo<SelectDropdownProps>(
 									{mode === "multi" && (
 										<Checkbox
 											checked={isSelected ? "checked" : "unchecked"}
-											onChange={() => {}}
+											onChange={() => {
+												// Selection handled by parent li onClick
+											}}
 											disabled={option.disabled}
 										/>
 									)}

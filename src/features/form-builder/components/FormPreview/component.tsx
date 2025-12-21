@@ -5,8 +5,8 @@
 
 import { type HTMLAttributes, memo, useState } from "react";
 import type { FormConfig } from "@/types/common.types";
-import { FormField } from "../FormField/component";
 import { useFormStyles } from "../../hooks/useFormStyles";
+import { FormField } from "../FormField/component";
 import styles from "./component.module.scss";
 
 export interface FormPreviewProps extends HTMLAttributes<HTMLDivElement> {
@@ -145,12 +145,7 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 							) : (
 								<div className={styles.fieldsColumn}>
 									{currentFields.map((field) => (
-										<FormField
-											key={field.id}
-											field={field}
-											value=""
-											disabled
-										/>
+										<FormField key={field.id} field={field} value="" disabled />
 									))}
 								</div>
 							)}
@@ -164,9 +159,7 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 										style={{
 											visibility: currentStep === 1 ? "hidden" : "visible",
 										}}
-										onClick={() =>
-											setCurrentStep(Math.max(1, currentStep - 1))
-										}
+										onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
 									>
 										← Previous
 									</button>

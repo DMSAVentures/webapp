@@ -8,9 +8,9 @@ import type {
 	FormDesign,
 	FormField as FormFieldType,
 } from "@/types/common.types";
-import { FormField } from "../FormField/component";
 import { useFormState } from "../../hooks/useFormState";
 import { useFormStyles } from "../../hooks/useFormStyles";
+import { FormField } from "../FormField/component";
 import styles from "./component.module.scss";
 
 /** Minimal config interface - only requires what FormRenderer actually uses */
@@ -186,9 +186,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 					</div>
 				</div>
 			) : (
-				<div className={styles.fields}>
-					{sortedFields.map(renderField)}
-				</div>
+				<div className={styles.fields}>{sortedFields.map(renderField)}</div>
 			)}
 
 			{/* Submit button */}

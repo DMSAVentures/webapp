@@ -88,12 +88,20 @@ export const useFormState = (
 				}
 
 				// Min/max length validation
-				if (field.validation?.minLength && value.length < field.validation.minLength) {
-					newErrors[field.id] = `Minimum ${field.validation.minLength} characters required`;
+				if (
+					field.validation?.minLength &&
+					value.length < field.validation.minLength
+				) {
+					newErrors[field.id] =
+						`Minimum ${field.validation.minLength} characters required`;
 				}
 
-				if (field.validation?.maxLength && value.length > field.validation.maxLength) {
-					newErrors[field.id] = `Maximum ${field.validation.maxLength} characters allowed`;
+				if (
+					field.validation?.maxLength &&
+					value.length > field.validation.maxLength
+				) {
+					newErrors[field.id] =
+						`Maximum ${field.validation.maxLength} characters allowed`;
 				}
 
 				// Number validation
@@ -102,10 +110,16 @@ export const useFormState = (
 					if (isNaN(numValue)) {
 						newErrors[field.id] = "Please enter a valid number";
 					} else {
-						if (field.validation?.min !== undefined && numValue < field.validation.min) {
+						if (
+							field.validation?.min !== undefined &&
+							numValue < field.validation.min
+						) {
 							newErrors[field.id] = `Minimum value is ${field.validation.min}`;
 						}
-						if (field.validation?.max !== undefined && numValue > field.validation.max) {
+						if (
+							field.validation?.max !== undefined &&
+							numValue > field.validation.max
+						) {
 							newErrors[field.id] = `Maximum value is ${field.validation.max}`;
 						}
 					}

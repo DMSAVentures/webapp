@@ -8,8 +8,8 @@ import type { FormField as FormFieldType } from "@/types/common.types";
 import { CheckboxField } from "./CheckboxField";
 import { RadioField } from "./RadioField";
 import { SelectField } from "./SelectField";
-import { TextField } from "./TextField";
 import { TextareaField } from "./TextareaField";
+import { TextField } from "./TextField";
 
 export interface FormFieldProps {
 	/** Field configuration */
@@ -67,5 +67,5 @@ FormField.displayName = "FormField";
 export { CheckboxField } from "./CheckboxField";
 export { RadioField } from "./RadioField";
 export { SelectField } from "./SelectField";
-export { TextField } from "./TextField";
 export { TextareaField } from "./TextareaField";
+export { TextField } from "./TextField";

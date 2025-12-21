@@ -35,7 +35,10 @@ const getInputType = (fieldType: FormField["type"]): string => {
 /**
  * Filters input value based on field type
  */
-const filterInputValue = (value: string, fieldType: FormField["type"]): string => {
+const filterInputValue = (
+	value: string,
+	fieldType: FormField["type"],
+): string => {
 	switch (fieldType) {
 		case "phone":
 			// Allow only digits, +, -, (, ), spaces

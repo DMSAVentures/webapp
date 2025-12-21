@@ -60,14 +60,7 @@ export const useGetCampaignUsers = (
 				}
 			}
 		},
-		[
-			campaignId,
-			params?.page,
-			params?.limit,
-			params?.status,
-			params?.sort,
-			params?.order,
-		],
+		[campaignId, params],
 	);
 
 	useEffect(() => {
