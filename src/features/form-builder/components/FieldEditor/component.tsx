@@ -32,6 +32,7 @@ interface FieldFormData {
 	required: boolean;
 	helpText?: string;
 	options?: string[];
+	optionsText?: string; // Raw text value for the options textarea
 	validation?: {
 		minLength?: number;
 		maxLength?: number;
@@ -63,12 +64,14 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	// Update form data when field changes
 	useEffect(() => {
 		if (field) {
+			const optionsArray = field.options || [];
 			setFormData({
 				label: field.label || "",
 				placeholder: field.placeholder || "",
 				required: field.required || false,
 				helpText: field.helpText || "",
-				options: field.options || [],
+				options: optionsArray,
+				optionsText: optionsArray.join("\n"),
 				validation: field.validation || {},
 			});
 			setErrors({});
@@ -140,12 +143,13 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	};
 
 	const handleOptionsChange = (value: string) => {
-		// Split by newline, trim each option, filter empty
+		// Store raw text to preserve newlines while typing
+		// Parse options only for validation/preview (trim and filter empty)
 		const options = value
 			.split("\n")
 			.map((opt) => opt.trim())
 			.filter((opt) => opt.length > 0);
-		setFormData((prev) => ({ ...prev, options }));
+		setFormData((prev) => ({ ...prev, options, optionsText: value }));
 	};
 
 	const handleValidationChange = (
@@ -186,21 +190,37 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 
 	const handleCancel = () => {
 		// Reset form to original values
+		const optionsArray = field.options || [];
 		setFormData({
 			label: field.label || "",
 			placeholder: field.placeholder || "",
 			required: field.required || false,
 			helpText: field.helpText || "",
+			options: optionsArray,
+			optionsText: optionsArray.join("\n"),
+			validation: field.validation || {},
 		});
 		setErrors({});
 		onClose();
 	};
 
+	// Compare options arrays
+	const optionsChanged =
+		JSON.stringify(formData.options || []) !==
+		JSON.stringify(field.options || []);
+
+	// Compare validation objects
+	const validationChanged =
+		JSON.stringify(formData.validation || {}) !==
+		JSON.stringify(field.validation || {});
+
 	const hasChanges =
 		formData.label !== field.label ||
 		formData.placeholder !== (field.placeholder || "") ||
 		formData.required !== (field.required || false) ||
-		formData.helpText !== (field.helpText || "");
+		formData.helpText !== (field.helpText || "") ||
+		optionsChanged ||
+		validationChanged;
 
 	const canSave = hasChanges && !errors.label;
 
@@ -271,7 +291,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 						<TextArea
 							id="field-options"
 							label="Options"
-							value={(formData.options || []).join("\n")}
+							value={formData.optionsText ?? ""}
 							onChange={(e) => handleOptionsChange(e.target.value)}
 							placeholder="Enter one option per line"
 							rows={6}

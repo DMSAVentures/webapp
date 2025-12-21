@@ -157,6 +157,9 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 	const handleFieldSelect = useCallback(
 		(fieldType: FormField["type"]) => {
+			// Add default options for select/radio/checkbox fields
+			const needsOptions = ["select", "radio", "checkbox"].includes(fieldType);
+
 			const newField: FormField = {
 				id: `field-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 				type: fieldType,
@@ -164,6 +167,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 				placeholder: "",
 				required: false,
 				order: config.fields.length,
+				...(needsOptions && { options: ["Option 1", "Option 2", "Option 3"] }),
 			};
 
 			setConfig((prev) => ({

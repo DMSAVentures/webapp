@@ -60,9 +60,13 @@ export interface FormField {
 export type FormFieldType =
 	| "email"
 	| "text"
+	| "textarea"
 	| "select"
 	| "checkbox"
-	| "textarea"
+	| "radio"
+	| "phone"
+	| "url"
+	| "date"
 	| "number";
 
 export interface ReferralConfig {

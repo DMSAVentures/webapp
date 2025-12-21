@@ -325,23 +325,118 @@ function RouteComponent() {
 									))}
 								</select>
 							) : field.type === "checkbox" ? (
-								<label
-									style={{ display: "flex", alignItems: "center", gap: "8px" }}
-								>
-									<input
-										type="checkbox"
-										checked={formData[field.name] === "true"}
-										onChange={(e) =>
-											handleChange(field.name, e.target.checked.toString())
-										}
-										required={field.required}
-									/>
-									<span
-										style={{ fontSize: `${design.typography.fontSize - 2}px` }}
+								field.options && field.options.length > 0 ? (
+									<div>
+										{field.options.map((option, idx) => (
+											<label
+												key={idx}
+												style={{
+													display: "flex",
+													alignItems: "center",
+													gap: "8px",
+													marginBottom: `${design.spacing.gap / 2}px`,
+													cursor: "pointer",
+												}}
+											>
+												<input
+													type="checkbox"
+													checked={(formData[field.name] || "")
+														.split(",")
+														.includes(option)}
+													onChange={(e) => {
+														const currentValues = (formData[field.name] || "")
+															.split(",")
+															.filter(Boolean);
+														const newValues = e.target.checked
+															? [...currentValues, option]
+															: currentValues.filter((v) => v !== option);
+														handleChange(field.name, newValues.join(","));
+													}}
+													style={{
+														width: "20px",
+														height: "20px",
+														accentColor: design.colors.primary,
+													}}
+												/>
+												<span
+													style={{
+														fontSize: `${design.typography.fontSize}px`,
+														color: design.colors.text,
+													}}
+												>
+													{option}
+												</span>
+											</label>
+										))}
+									</div>
+								) : (
+									<label
+										style={{
+											display: "flex",
+											alignItems: "center",
+											gap: "8px",
+										}}
 									>
-										{field.placeholder || field.label}
-									</span>
-								</label>
+										<input
+											type="checkbox"
+											checked={formData[field.name] === "true"}
+											onChange={(e) =>
+												handleChange(field.name, e.target.checked.toString())
+											}
+											required={field.required}
+											style={{
+												width: "20px",
+												height: "20px",
+												accentColor: design.colors.primary,
+											}}
+										/>
+										<span
+											style={{
+												fontSize: `${design.typography.fontSize}px`,
+												color: design.colors.text,
+											}}
+										>
+											{field.placeholder || field.label}
+										</span>
+									</label>
+								)
+							) : field.type === "radio" ? (
+								<div>
+									{field.options?.map((option, idx) => (
+										<label
+											key={idx}
+											style={{
+												display: "flex",
+												alignItems: "center",
+												gap: "8px",
+												marginBottom: `${design.spacing.gap / 2}px`,
+												cursor: "pointer",
+											}}
+										>
+											<input
+												type="radio"
+												name={field.name}
+												value={option}
+												checked={formData[field.name] === option}
+												onChange={(e) => handleChange(field.name, e.target.value)}
+												required={field.required}
+												style={{
+													width: "20px",
+													height: "20px",
+													accentColor: design.colors.primary,
+												}}
+											/>
+											<span
+												style={{
+													fontSize: `${design.typography.fontSize}px`,
+													color: design.colors.text,
+												}}
+											>
+												{option}
+											</span>
+										</label>
+									))}
+								</div>
 							) : (
 								<input
 									type={field.type}

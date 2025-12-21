@@ -52,6 +52,14 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 		.join(" ");
 
 	const handleFieldDelete = (fieldId: string) => {
+		// Find the field to check if it's an email field
+		const fieldToDelete = fields.find((f) => f.id === fieldId);
+
+		// Prevent deletion of email field (required for all forms)
+		if (fieldToDelete?.type === "email") {
+			return;
+		}
+
 		// If deleting the currently selected field, deselect it
 		if (selectedFieldId === fieldId) {
 			onFieldSelect("");

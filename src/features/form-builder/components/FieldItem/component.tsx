@@ -104,15 +104,25 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 				{field.placeholder && (
 					<span className={styles.placeholder}>{field.placeholder}</span>
 				)}
+				{/* Show options count for select/radio/checkbox fields */}
+				{["select", "radio", "checkbox"].includes(field.type) && (
+					<span className={styles.optionsCount}>
+						{field.options?.length || 0} option
+						{(field.options?.length || 0) !== 1 ? "s" : ""}
+					</span>
+				)}
 			</div>
 
 			<div className={styles.actions}>
-				<IconOnlyButton
-					iconClass="delete-bin-line"
-					variant="secondary"
-					ariaLabel="Delete field"
-					onClick={handleDeleteClick}
-				/>
+				{/* Hide delete button for email field (required) */}
+				{field.type !== "email" && (
+					<IconOnlyButton
+						iconClass="delete-bin-line"
+						variant="secondary"
+						ariaLabel="Delete field"
+						onClick={handleDeleteClick}
+					/>
+				)}
 			</div>
 		</div>
 	);

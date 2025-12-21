@@ -89,6 +89,11 @@
   font-style: italic;
 }
 
+.optionsCount {
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-tertiary-default);
+}
+
 .actions {
   display: flex;
   align-items: center;

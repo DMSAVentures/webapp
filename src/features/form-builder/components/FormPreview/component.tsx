@@ -87,31 +87,61 @@ const renderFieldPreview = (
 		case "checkbox":
 			return (
 				<div key={field.id} style={{ marginBottom: `${design.spacing.gap}px` }}>
-					<label
-						style={{
-							...labelStyle,
-							display: "flex",
-							alignItems: "center",
-							gap: "8px",
-							cursor: "pointer",
-						}}
-					>
-						<input
-							type="checkbox"
-							style={{
-								width: "20px",
-								height: "20px",
-								accentColor: design.colors.primary,
-							}}
-							disabled
-						/>
-						<span>
-							{field.label}
-							{field.required && (
-								<span style={{ color: design.colors.error }}> *</span>
-							)}
-						</span>
+					<label style={labelStyle}>
+						{field.label}
+						{field.required && (
+							<span style={{ color: design.colors.error }}> *</span>
+						)}
 					</label>
+					{field.options && field.options.length > 0 ? (
+						field.options.map((option, idx) => (
+							<label
+								key={idx}
+								style={{
+									...labelStyle,
+									display: "flex",
+									alignItems: "center",
+									gap: "8px",
+									fontWeight: 400,
+									marginBottom: `${design.spacing.gap / 2}px`,
+									cursor: "pointer",
+								}}
+							>
+								<input
+									type="checkbox"
+									style={{
+										width: "20px",
+										height: "20px",
+										accentColor: design.colors.primary,
+									}}
+									disabled
+								/>
+								<span>{option}</span>
+							</label>
+						))
+					) : (
+						<label
+							style={{
+								...labelStyle,
+								display: "flex",
+								alignItems: "center",
+								gap: "8px",
+								fontWeight: 400,
+								cursor: "pointer",
+							}}
+						>
+							<input
+								type="checkbox"
+								style={{
+									width: "20px",
+									height: "20px",
+									accentColor: design.colors.primary,
+								}}
+								disabled
+							/>
+							<span>{field.placeholder || "Option"}</span>
+						</label>
+					)}
 				</div>
 			);
 
