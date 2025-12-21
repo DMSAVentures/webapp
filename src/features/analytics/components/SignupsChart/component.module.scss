@@ -1,0 +1,243 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+  width: 100%;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: layout.$spacing-04;
+  margin-bottom: layout.$spacing-05;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: layout.$spacing-03;
+}
+
+.title {
+  margin: 0;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.total {
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-tertiary-default);
+}
+
+.periodSelector {
+  display: flex;
+  gap: layout.$spacing-01;
+  padding: layout.$spacing-01;
+  background-color: var(--color-surface-secondary-default);
+  border-radius: border.$border-radius-small;
+}
+
+.periodButton {
+  padding: layout.$spacing-02 layout.$spacing-03;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-secondary-default);
+  background-color: transparent;
+  border: none;
+  border-radius: border.$border-radius-small;
+  cursor: pointer;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    color: var(--color-text-primary-default);
+    background-color: var(--color-bg-secondary-hover);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: 1px;
+  }
+}
+
+.periodButtonActive {
+  color: var(--color-text-primary-default);
+  background-color: var(--color-surface-primary-default);
+  box-shadow: 0 1px 2px var(--color-shadow-default);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: layout.$spacing-08;
+  height: layout.$spacing-08;
+  padding: 0;
+  font-size: typography.$font-size-lg;
+  color: var(--color-text-secondary-default);
+  background-color: var(--color-surface-secondary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  cursor: pointer;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover:not(:disabled) {
+    color: var(--color-text-primary-default);
+    background-color: var(--color-bg-secondary-hover);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    color: var(--color-text-disabled-default);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.dateRangeLabel {
+  min-width: 140px;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-secondary-default);
+  text-align: center;
+}
+
+.chartContainer {
+  width: 100%;
+}
+
+// Custom tooltip
+.tooltip {
+  padding: layout.$spacing-03 layout.$spacing-04;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-small;
+  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+}
+
+.tooltipLabel {
+  margin: 0 0 layout.$spacing-02 0;
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+}
+
+.tooltipItem {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
+.tooltipDot {
+  display: inline-block;
+  width: layout.$spacing-02;
+  height: layout.$spacing-02;
+  background-color: var(--color-info-default);
+  border-radius: 50%;
+}
+
+.tooltipName {
+  font-weight: typography.$font-weight-medium;
+}
+
+.tooltipValue {
+  margin-left: auto;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+// Loading state
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.loadingSpinner {
+  width: layout.$spacing-08;
+  height: layout.$spacing-08;
+  border: layout.$spacing-01 solid var(--color-border-primary-default);
+  border-top-color: var(--color-info-default);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Empty state
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: layout.$spacing-03;
+  height: 300px;
+  color: var(--color-text-tertiary-default);
+
+  i {
+    font-size: layout.$spacing-10;
+  }
+
+  p {
+    margin: 0;
+    font-size: typography.$font-size-md;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: breakpoints.$breakpoint-md) {
+  .root {
+    padding: layout.$spacing-04;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .periodSelector {
+    align-self: flex-start;
+  }
+
+  .tooltip {
+    padding: layout.$spacing-02 layout.$spacing-03;
+  }
+}

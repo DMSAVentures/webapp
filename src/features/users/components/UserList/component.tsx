@@ -502,11 +502,13 @@ export const UserList = memo<UserListProps>(function UserList({
 										<td className={styles.tableCell}>
 											<span className={styles.email}>{user.email}</span>
 										</td>
-										<td className={`${styles.tableCell} ${styles.tableCellBadge}`}>
+										<td
+											className={`${styles.tableCell} ${styles.tableCellBadge}`}
+										>
 											<StatusBadge
 												text={formatStatus(user.status)}
 												variant={getStatusVariant(user.status)}
-												styleType='light'
+												styleType="light"
 											/>
 										</td>
 										<td className={styles.tableCell}>
@@ -525,7 +527,9 @@ export const UserList = memo<UserListProps>(function UserList({
 													user.source.slice(1)}
 											</span>
 										</td>
-										<td className={`${styles.tableCell} ${styles.tableCellBadge}`}>
+										<td
+											className={`${styles.tableCell} ${styles.tableCellBadge}`}
+										>
 											<UtmSourceBadge source={user.utmSource} />
 										</td>
 										<td className={styles.tableCell}>

@@ -118,3 +118,26 @@ export interface ApiListUsersResponse {
 	page_size: number;
 	total_pages: number;
 }
+
+// ============================================================================
+// Analytics API Types
+// ============================================================================
+
+export type AnalyticsPeriod = "hour" | "day" | "week" | "month";
+
+export interface ApiSignupDataPoint {
+	date: string;
+	count: number;
+}
+
+export interface ApiSignupsOverTimeResponse {
+	data: ApiSignupDataPoint[];
+	total: number;
+	period: AnalyticsPeriod;
+}
+
+export interface SignupsOverTimeParams {
+	period?: AnalyticsPeriod;
+	from?: string;
+	to?: string;
+}
