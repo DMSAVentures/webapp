@@ -184,6 +184,11 @@
   vertical-align: middle;
 }
 
+.tableCellBadge {
+  width: 1%;
+  white-space: nowrap;
+}
+
 // Cell content styles
 .email {
   font-weight: typography.$font-weight-medium;
