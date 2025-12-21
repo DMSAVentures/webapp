@@ -69,6 +69,15 @@ export const useFormState = (
 					}
 				}
 
+				// Phone validation
+				if (field.type === "phone") {
+					// Must contain at least 7 digits (after stripping non-digits)
+					const digitsOnly = value.replace(/\D/g, "");
+					if (digitsOnly.length < 7) {
+						newErrors[field.id] = "Please enter a valid phone number";
+					}
+				}
+
 				// URL validation
 				if (field.type === "url") {
 					try {

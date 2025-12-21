@@ -3,7 +3,7 @@
  * Handles: text, email, phone, url, date, number field types
  */
 
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -19,6 +19,31 @@ export interface TextFieldProps {
 	/** Error message */
 	error?: string;
 }
+
+/**
+ * Maps field types to HTML input types
+ */
+const getInputType = (fieldType: FormField["type"]): string => {
+	switch (fieldType) {
+		case "phone":
+			return "tel";
+		default:
+			return fieldType;
+	}
+};
+
+/**
+ * Filters input value based on field type
+ */
+const filterInputValue = (value: string, fieldType: FormField["type"]): string => {
+	switch (fieldType) {
+		case "phone":
+			// Allow only digits, +, -, (, ), spaces
+			return value.replace(/[^\d+\-() ]/g, "");
+		default:
+			return value;
+	}
+};
 
 /**
  * Renders text-based input fields
@@ -38,6 +63,14 @@ export const TextField = memo<TextFieldProps>(function TextField({
 		.filter(Boolean)
 		.join(" ");
 
+	const handleChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			const filteredValue = filterInputValue(e.target.value, field.type);
+			onChange?.(filteredValue);
+		},
+		[field.type, onChange],
+	);
+
 	return (
 		<div className={styles.field}>
 			<label htmlFor={inputId} className={styles.label}>
@@ -51,9 +84,9 @@ export const TextField = memo<TextFieldProps>(function TextField({
 
 			<input
 				id={inputId}
-				type={field.type}
+				type={getInputType(field.type)}
 				value={value}
-				onChange={(e) => onChange?.(e.target.value)}
+				onChange={handleChange}
 				placeholder={field.placeholder}
 				disabled={disabled}
 				required={field.required}

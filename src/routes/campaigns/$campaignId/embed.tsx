@@ -411,7 +411,7 @@ export function WaitlistForm() {
 							<iframe
 								src={embedUrl}
 								width="100%"
-								height="600"
+								height="800"
 								style={{ border: "none", display: "block" }}
 								title="Form Preview"
 							/>
