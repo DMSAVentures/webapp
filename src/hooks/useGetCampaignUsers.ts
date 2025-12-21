@@ -33,12 +33,25 @@ export const useGetCampaignUsers = (
 	const [error, setError] = useState<ApiError | null>(null);
 	const [data, setData] = useState<ListUsersResponse | null>(null);
 
+	// Extract primitive values to use as stable dependencies
+	const page = params?.page;
+	const limit = params?.limit;
+	const status = params?.status;
+	const sort = params?.sort;
+	const order = params?.order;
+
 	const fetchUsers = useCallback(
 		async (signal?: AbortSignal): Promise<void> => {
 			setLoading(true);
 			setError(null);
 			try {
-				const response = await getCampaignUsers(campaignId, params);
+				const response = await getCampaignUsers(campaignId, {
+					page,
+					limit,
+					status,
+					sort,
+					order,
+				});
 
 				// Transform API response to UI format
 				const transformedUsers = transformApiUsersToWaitlistUsers(
@@ -60,7 +73,7 @@ export const useGetCampaignUsers = (
 				}
 			}
 		},
-		[campaignId, params],
+		[campaignId, page, limit, status, sort, order],
 	);
 
 	useEffect(() => {
