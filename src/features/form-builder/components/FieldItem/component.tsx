@@ -22,6 +22,10 @@ export interface FieldItemProps extends HTMLAttributes<HTMLDivElement> {
 	onSelect: () => void;
 	/** Delete handler */
 	onDelete: () => void;
+	/** Whether to show column toggle (two-column layout) */
+	showColumnToggle?: boolean;
+	/** Column toggle handler */
+	onColumnToggle?: () => void;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -55,6 +59,8 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 	onDragEnd,
 	onSelect,
 	onDelete,
+	showColumnToggle = false,
+	onColumnToggle,
 	className: customClassName,
 	...props
 }) {
@@ -70,6 +76,13 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 		e.stopPropagation();
 		onDelete();
 	};
+
+	const handleColumnToggleClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		onColumnToggle?.();
+	};
+
+	const currentColumn = field.column || 1;
 
 	return (
 		<div
@@ -114,6 +127,16 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			</div>
 
 			<div className={styles.actions}>
+				{/* Column toggle button (only in two-column mode) */}
+				{showColumnToggle && (
+					<IconOnlyButton
+						iconClass={currentColumn === 1 ? "layout-left-line" : "layout-right-line"}
+						variant="secondary"
+						ariaLabel={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
+						onClick={handleColumnToggleClick}
+						title={`Column ${currentColumn} - Click to move to ${currentColumn === 1 ? "right" : "left"}`}
+					/>
+				)}
 				{/* Hide delete button for email field (required) */}
 				{field.type !== "email" && (
 					<IconOnlyButton

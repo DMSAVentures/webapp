@@ -114,10 +114,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--form-gap, layout.$spacing-04);
+  align-items: start;
 
   @media (width <= 768px) {
     grid-template-columns: 1fr;
   }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
 }
 
 // Multi-step progress

@@ -67,6 +67,11 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	const isMultiStep = design.layout === "multi-step";
 	const isFullWidthButton = design.layout === "single-column";
 
+	// Split fields by column for two-column layout
+	const currentFields = getCurrentStepFields();
+	const leftColumnFields = currentFields.filter((f) => (f.column || 1) === 1);
+	const rightColumnFields = currentFields.filter((f) => f.column === 2);
+
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.deviceFrame}>
@@ -114,20 +119,41 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 							)}
 
 							{/* Form fields */}
-							<div
-								className={
-									isTwoColumn ? styles.fieldsGrid : styles.fieldsColumn
-								}
-							>
-								{getCurrentStepFields().map((field) => (
-									<FormField
-										key={field.id}
-										field={field}
-										value=""
-										disabled
-									/>
-								))}
-							</div>
+							{isTwoColumn ? (
+								<div className={styles.fieldsGrid}>
+									<div className={styles.column}>
+										{leftColumnFields.map((field) => (
+											<FormField
+												key={field.id}
+												field={field}
+												value=""
+												disabled
+											/>
+										))}
+									</div>
+									<div className={styles.column}>
+										{rightColumnFields.map((field) => (
+											<FormField
+												key={field.id}
+												field={field}
+												value=""
+												disabled
+											/>
+										))}
+									</div>
+								</div>
+							) : (
+								<div className={styles.fieldsColumn}>
+									{currentFields.map((field) => (
+										<FormField
+											key={field.id}
+											field={field}
+											value=""
+											disabled
+										/>
+									))}
+								</div>
+							)}
 
 							{/* Multi-step navigation buttons */}
 							{isMultiStep && totalSteps > 1 ? (

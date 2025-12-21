@@ -119,6 +119,7 @@ export interface FormField {
 	helpText?: string;
 	required: boolean;
 	order: number;
+	column?: 1 | 2; // For two-column layout (1 = left, 2 = right)
 	step?: number; // For multi-step forms
 	options?: string[]; // For select/radio
 	validation?: {

@@ -23,6 +23,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--form-gap, layout.$spacing-04);
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
 }
 
 .submitButton {
@@ -100,5 +106,11 @@
 @media (max-width: 768px) {
   .fieldsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .column {
+    &:empty {
+      display: none;
+    }
   }
 }

@@ -308,6 +308,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 							onFieldsChange={handleFieldsChange}
 							onFieldSelect={setSelectedFieldId}
 							selectedFieldId={selectedFieldId}
+							layout={config.design.layout}
 						/>
 					</main>
 

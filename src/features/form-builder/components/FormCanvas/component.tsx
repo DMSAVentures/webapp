@@ -3,8 +3,8 @@
  * Drop zone for form fields with drag-drop reordering
  */
 
-import { type HTMLAttributes, memo } from "react";
-import type { FormField } from "@/types/common.types";
+import { type HTMLAttributes, memo, useCallback } from "react";
+import type { FormDesign, FormField } from "@/types/common.types";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { DropZone } from "../DropZone/component";
 import { FieldItem } from "../FieldItem/component";
@@ -19,6 +19,8 @@ export interface FormCanvasProps extends HTMLAttributes<HTMLDivElement> {
 	onFieldSelect: (fieldId: string) => void;
 	/** Currently selected field ID */
 	selectedFieldId?: string;
+	/** Current layout mode */
+	layout?: FormDesign["layout"];
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -31,6 +33,7 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 	onFieldsChange,
 	onFieldSelect,
 	selectedFieldId,
+	layout = "single-column",
 	className: customClassName,
 	...props
 }) {
@@ -42,6 +45,8 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 		handleDropZoneDragLeave,
 		handleDropZoneDrop,
 	} = useDragAndDrop();
+
+	const isTwoColumn = layout === "two-column";
 
 	const classNames = [
 		styles.root,
@@ -70,6 +75,21 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 			.map((field, idx) => ({ ...field, order: idx }));
 		onFieldsChange(newFields);
 	};
+
+	const handleColumnToggle = useCallback(
+		(fieldId: string) => {
+			const newFields = fields.map((field) => {
+				if (field.id === fieldId) {
+					// Toggle between column 1 and 2
+					const currentColumn = field.column || 1;
+					return { ...field, column: currentColumn === 1 ? 2 : 1 } as FormField;
+				}
+				return field;
+			});
+			onFieldsChange(newFields);
+		},
+		[fields, onFieldsChange],
+	);
 
 	const handleDrop = (index: number) => (e: React.DragEvent) => {
 		const newFields = handleDropZoneDrop(index, fields)(e);
@@ -121,6 +141,8 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 									onDragEnd={handleDragEnd}
 									onSelect={() => onFieldSelect(field.id)}
 									onDelete={() => handleFieldDelete(field.id)}
+									showColumnToggle={isTwoColumn}
+									onColumnToggle={() => handleColumnToggle(field.id)}
 								/>
 							</div>
 						))}

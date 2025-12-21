@@ -122,14 +122,16 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 
 	const formClassName = [styles.form, className].filter(Boolean).join(" ");
 
-	const fieldsClassName = isTwoColumn ? styles.fieldsGrid : styles.fields;
-
 	const buttonClassName = [
 		styles.submitButton,
 		isFullWidthButton && styles["submitButton--fullWidth"],
 	]
 		.filter(Boolean)
 		.join(" ");
+
+	// Split fields by column for two-column layout
+	const leftColumnFields = sortedFields.filter((f) => (f.column || 1) === 1);
+	const rightColumnFields = sortedFields.filter((f) => f.column === 2);
 
 	// Show success state
 	if (submitted) {
@@ -147,6 +149,18 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 		);
 	}
 
+	// Render a field
+	const renderField = (field: FormFieldType) => (
+		<FormField
+			key={field.id}
+			field={field}
+			value={getFieldValue(field)}
+			onChange={handleFieldChange(field)}
+			disabled={isDisabled}
+			error={getFieldError(field)}
+		/>
+	);
+
 	return (
 		<form
 			className={formClassName}
@@ -162,18 +176,20 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 			)}
 
 			{/* Form fields */}
-			<div className={fieldsClassName}>
-				{sortedFields.map((field) => (
-					<FormField
-						key={field.id}
-						field={field}
-						value={getFieldValue(field)}
-						onChange={handleFieldChange(field)}
-						disabled={isDisabled}
-						error={getFieldError(field)}
-					/>
-				))}
-			</div>
+			{isTwoColumn ? (
+				<div className={styles.fieldsGrid}>
+					<div className={styles.column}>
+						{leftColumnFields.map(renderField)}
+					</div>
+					<div className={styles.column}>
+						{rightColumnFields.map(renderField)}
+					</div>
+				</div>
+			) : (
+				<div className={styles.fields}>
+					{sortedFields.map(renderField)}
+				</div>
+			)}
 
 			{/* Submit button */}
 			<button
