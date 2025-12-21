@@ -100,20 +100,23 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 				<i className="ri-draggable" aria-hidden="true" />
 			</div>
 
+			{/* Left side: Type icon and badge */}
+			<div className={styles.typeInfo}>
+				<i className={getFieldIcon(field.type)} aria-hidden="true" />
+				<Badge
+					text={field.type}
+					variant="gray"
+					styleType="light"
+					size="small"
+				/>
+			</div>
+
+			{/* Center: Field label and details */}
 			<div className={styles.content}>
-				<div className={styles.header}>
-					<i className={getFieldIcon(field.type)} aria-hidden="true" />
-					<span className={styles.label}>
-						{field.label}
-						{field.required && <span className={styles.required}>*</span>}
-					</span>
-					<Badge
-						text={field.type}
-						variant="gray"
-						styleType="light"
-						size="small"
-					/>
-				</div>
+				<span className={styles.label}>
+					{field.label}
+					{field.required && <span className={styles.required}>*</span>}
+				</span>
 				{field.placeholder && (
 					<span className={styles.placeholder}>{field.placeholder}</span>
 				)}
@@ -126,18 +129,31 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 				)}
 			</div>
 
+			{/* Column indicator (only in two-column mode) */}
+			{showColumnToggle && (
+				<div className={styles.columnIndicator}>
+					<Badge
+						text={currentColumn === 1 ? "Left" : "Right"}
+						variant={currentColumn === 1 ? "blue" : "purple"}
+						styleType="light"
+						size="small"
+					/>
+				</div>
+			)}
+
+			{/* Actions: always visible */}
 			<div className={styles.actions}>
 				{/* Column toggle button (only in two-column mode) */}
 				{showColumnToggle && (
 					<IconOnlyButton
-						iconClass={currentColumn === 1 ? "layout-left-line" : "layout-right-line"}
+						iconClass={currentColumn === 1 ? "arrow-right-line" : "arrow-left-line"}
 						variant="secondary"
 						ariaLabel={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 						onClick={handleColumnToggleClick}
-						title={`Column ${currentColumn} - Click to move to ${currentColumn === 1 ? "right" : "left"}`}
+						title={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 					/>
 				)}
-				{/* Hide delete button for email field (required) */}
+				{/* Delete button - always visible, but not for email field */}
 				{field.type !== "email" && (
 					<IconOnlyButton
 						iconClass="delete-bin-line"

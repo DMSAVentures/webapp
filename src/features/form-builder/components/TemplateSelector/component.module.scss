@@ -1,0 +1,187 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+// Header
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+}
+
+.title {
+  margin: 0;
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
+// Grid layout
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: layout.$spacing-03;
+}
+
+// Template card
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: border.$border-radius-medium;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+  text-align: left;
+  position: relative;
+
+  &:hover {
+    border-color: var(--color-border-primary-hover);
+    box-shadow: 0 4px 12px var(--color-shadow-default);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: layout.$spacing-01;
+  }
+
+  &.selected {
+    border-color: var(--color-border-focus-default);
+    box-shadow: 0 0 0 3px var(--color-alpha-focus);
+
+    &:hover {
+      border-color: var(--color-border-focus-default);
+    }
+  }
+}
+
+// Preview area
+.previewWrapper {
+  position: relative;
+  padding: layout.$spacing-04;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  overflow: hidden;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 130px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+// Mini form elements in preview
+.previewLabel {
+  height: 5px;
+  width: 35%;
+  border-radius: 2px;
+}
+
+.previewInput {
+  height: 20px;
+  border-style: solid;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  transition: border-color 0.15s ease;
+}
+
+.previewPlaceholder {
+  height: 5px;
+  width: 55%;
+  border-radius: 2px;
+}
+
+.previewButton {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.previewButtonText {
+  height: 5px;
+  width: 45%;
+  border-radius: 2px;
+}
+
+// Accent bar to show primary color
+.accentBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+// Card content
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+  padding: layout.$spacing-03;
+  border-top: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.cardName {
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.cardDescription {
+  font-size: typography.$font-size-xs;
+  color: var(--color-text-secondary-default);
+  line-height: typography.$line-height-tight;
+}
+
+// Selected badge
+.selectedBadge {
+  position: absolute;
+  top: layout.$spacing-02;
+  right: layout.$spacing-02;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-success-default);
+  border-radius: border.$border-radius-round;
+  color: var(--color-white);
+  font-size: typography.$font-size-sm;
+}
+
+// Dark theme card adjustments
+.dark {
+  .cardContent {
+    background-color: var(--color-surface-secondary-default);
+  }
+}
+
+// Responsive
+@media (width <= 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,12 +3,15 @@
  * Edit form design settings (colors, typography, spacing)
  */
 
-import { type HTMLAttributes, memo } from "react";
+import { type HTMLAttributes, memo, useState, useCallback } from "react";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type { FormDesign } from "@/types/common.types";
+import { TemplateSelector } from "../TemplateSelector";
 import styles from "./component.module.scss";
+
+type StyleMode = "templates" | "custom";
 
 export interface FormStyleEditorProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -33,7 +36,20 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 		className: customClassName,
 		...props
 	}) {
+		const [mode, setMode] = useState<StyleMode>("templates");
+		const [selectedTemplateId, setSelectedTemplateId] = useState<
+			string | undefined
+		>();
+
 		const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
+
+		const handleTemplateSelect = useCallback(
+			(newDesign: FormDesign, templateId: string) => {
+				setSelectedTemplateId(templateId);
+				onChange(newDesign);
+			},
+			[onChange],
+		);
 
 		const handleColorChange = (
 			colorKey: keyof FormDesign["colors"],
@@ -105,7 +121,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 		return (
 			<div className={classNames} {...props}>
 				<div className={styles.header}>
-					<h3 className={styles.title}>Style Editor</h3>
+					<h3 className={styles.title}>Appearance Editor</h3>
 					<p className={styles.subtitle}>
 						{selectedFieldId
 							? "Field selected - Edit properties"
@@ -113,38 +129,66 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 					</p>
 				</div>
 
-				<div className={styles.content}>
-					{/* Layout Section */}
-					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Layout</h4>
-						<div className={styles.layoutOptions}>
-							{(["single-column", "two-column", "multi-step"] as const).map(
-								(layoutType) => (
-									<button
-										key={layoutType}
-										type="button"
-										className={`${styles.layoutOption} ${design.layout === layoutType ? styles.active : ""}`}
-										onClick={() => handleLayoutChange(layoutType)}
-										aria-label={`${layoutType} layout`}
-									>
-										<i
-											className={
-												layoutType === "single-column"
-													? "ri-layout-line"
-													: layoutType === "two-column"
-														? "ri-layout-column-line"
-														: "ri-layout-row-line"
-											}
-											aria-hidden="true"
-										/>
-										<span>{layoutType.replace("-", " ")}</span>
-									</button>
-								),
-							)}
-						</div>
-					</section>
+				{/* Layout Section - Always visible */}
+				<div className={styles.layoutSection}>
+					<h4 className={styles.sectionTitle}>Layout</h4>
+					<div className={styles.layoutOptions}>
+						{(["single-column", "two-column", "multi-step"] as const).map(
+							(layoutType) => (
+								<button
+									key={layoutType}
+									type="button"
+									className={`${styles.layoutOption} ${design.layout === layoutType ? styles.active : ""}`}
+									onClick={() => handleLayoutChange(layoutType)}
+									aria-label={`${layoutType} layout`}
+								>
+									<i
+										className={
+											layoutType === "single-column"
+												? "ri-layout-line"
+												: layoutType === "two-column"
+													? "ri-layout-column-line"
+													: "ri-layout-row-line"
+										}
+										aria-hidden="true"
+									/>
+									<span>{layoutType.replace("-", " ")}</span>
+								</button>
+							),
+						)}
+					</div>
+				</div>
+				{/* Mode Toggle */}
+				<div className={styles.modeToggle}>
+					<button
+						type="button"
+						className={`${styles.modeButton} ${mode === "templates" ? styles.active : ""}`}
+						onClick={() => setMode("templates")}
+						aria-pressed={mode === "templates"}
+					>
+						<i className="ri-layout-grid-line" aria-hidden="true" />
+						Templates
+					</button>
+					<button
+						type="button"
+						className={`${styles.modeButton} ${mode === "custom" ? styles.active : ""}`}
+						onClick={() => setMode("custom")}
+						aria-pressed={mode === "custom"}
+					>
+						<i className="ri-palette-line" aria-hidden="true" />
+						Custom
+					</button>
+				</div>
 
-					<ContentDivider size="thin" />
+				{mode === "templates" ? (
+					<div className={styles.content}>
+						<TemplateSelector
+							selectedTemplateId={selectedTemplateId}
+							onTemplateSelect={handleTemplateSelect}
+						/>
+					</div>
+				) : (
+				<div className={styles.content}>
 
 					{/* Colors Section */}
 					<section className={styles.section}>
@@ -416,6 +460,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 						/>
 					</section>
 				</div>
+				)}
 			</div>
 		);
 	},
