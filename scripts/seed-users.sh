@@ -3,7 +3,7 @@
 # Seed script to populate campaign with dummy users
 # Usage: ./scripts/seed-users.sh
 
-API_URL="http://localhost:8080/api/v1/campaigns/33e69926-ac89-46bb-9b15-d21b53dffe65/users"
+API_URL="http://localhost:8080/api/v1/campaigns/efd59c40-209e-4f34-a9b1-13abcca608ce/users"
 TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiZjUyMmY0NmMtMjY0ZC00ODgxLWIxODMtMmQ2NWQ4ZTUyZjc2IiwiYXVkIjoiYmFzZS1zZXJ2ZXIiLCJhdXRoX3R5cGUiOiJvYXV0aCIsImV4cCI6MTc2NjM1ODExNywiaWF0IjoxNzY2MjcxNzE3LCJpc3MiOiJiYXNlLXNlcnZlciIsInN1YiI6ImVmZTNkZjdjLTYzZDYtNDY1YS1iMmM5LTExMWVmOWViMDU0ZCJ9.xaoRu_G0pJFU0iAmQHEk6qfakd5omGZ98G4Ad6DpvF4"
 
 # Arrays of realistic UTM values

@@ -305,7 +305,7 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 				<div className={styles.headerRight}>
 					<ButtonGroup
 						items={periodButtonItems}
-						size="small"
+						size="2x-small"
 						ariaLabel="Select time period"
 					/>
 					{onNavigate && (

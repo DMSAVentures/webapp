@@ -1,12 +1,12 @@
 /**
  * SourcesChart Component
- * Multi-line area chart showing signups by UTM source over time
+ * Stacked bar chart showing signups by UTM source over time
  */
 
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
 import {
-	Area,
-	AreaChart,
+	Bar,
+	BarChart,
 	CartesianGrid,
 	Legend,
 	ResponsiveContainer,
@@ -89,12 +89,21 @@ const DEFAULT_COLORS = [
 	"#EC4899", // pink
 	"#06B6D4", // cyan
 	"#F97316", // orange
+	"#14B8A6", // teal
+	"#6366F1", // indigo
 ];
+
+// Max number of sources to show (rest grouped into "Other")
+const MAX_SOURCES = 10;
+
+// Color for "Other" category
+const OTHER_COLOR = "#9CA3AF";
 
 /**
  * Get color for a source
  */
 const getSourceColor = (source: string, index: number): string => {
+	if (source === "other") return OTHER_COLOR;
 	const normalizedSource = source.toLowerCase();
 	if (SOURCE_COLORS[normalizedSource]) {
 		return SOURCE_COLORS[normalizedSource];
@@ -107,6 +116,7 @@ const getSourceColor = (source: string, index: number): string => {
  */
 const getSourceDisplayName = (source: string): string => {
 	if (!source || source === "") return "Direct";
+	if (source === "other") return "Other";
 	return source.charAt(0).toUpperCase() + source.slice(1);
 };
 
@@ -158,44 +168,108 @@ const formatDateRange = (
 };
 
 /**
- * Format date for X-axis (UTC)
+ * Format date for display based on period
+ * Uses UTC to avoid timezone issues with API dates
  */
 const formatDateForPeriod = (
 	dateStr: string,
 	period: AnalyticsPeriod,
-): string => {
+): { line1: string; line2?: string } => {
 	try {
 		const date = new Date(dateStr);
 		switch (period) {
-			case "hour":
-				return date.toLocaleTimeString("en-US", {
+			case "hour": {
+				const time = date.toLocaleTimeString("en-US", {
 					hour: "numeric",
 					hour12: true,
 					timeZone: "UTC",
 				});
+				const day = date.toLocaleDateString("en-US", {
+					month: "short",
+					day: "numeric",
+					timeZone: "UTC",
+				});
+				return { line1: time, line2: day };
+			}
 			case "day":
+				return {
+					line1: date.toLocaleDateString("en-US", {
+						month: "short",
+						day: "numeric",
+						timeZone: "UTC",
+					}),
+				};
 			case "week":
-				return date.toLocaleDateString("en-US", {
-					month: "short",
-					day: "numeric",
-					timeZone: "UTC",
-				});
+				return {
+					line1: date.toLocaleDateString("en-US", {
+						month: "short",
+						day: "numeric",
+						timeZone: "UTC",
+					}),
+				};
 			case "month":
-				return date.toLocaleDateString("en-US", {
-					month: "short",
-					year: "numeric",
-					timeZone: "UTC",
-				});
+				return {
+					line1: date.toLocaleDateString("en-US", {
+						month: "short",
+						year: "numeric",
+						timeZone: "UTC",
+					}),
+				};
 			default:
-				return date.toLocaleDateString("en-US", {
-					month: "short",
-					day: "numeric",
-					timeZone: "UTC",
-				});
+				return {
+					line1: date.toLocaleDateString("en-US", {
+						month: "short",
+						day: "numeric",
+						timeZone: "UTC",
+					}),
+				};
 		}
 	} catch {
-		return dateStr;
+		return { line1: dateStr };
 	}
+};
+
+/**
+ * Custom X-axis tick for multi-line labels
+ */
+interface CustomXAxisTickProps {
+	x?: number;
+	y?: number;
+	payload?: { value: string };
+	period: AnalyticsPeriod;
+}
+
+const CustomXAxisTick = ({ x, y, payload, period }: CustomXAxisTickProps) => {
+	if (!payload) return null;
+
+	const formatted = formatDateForPeriod(payload.value, period);
+
+	return (
+		<g transform={`translate(${x},${y})`}>
+			<text
+				x={0}
+				y={0}
+				dy={12}
+				textAnchor="middle"
+				fill="var(--color-text-tertiary-default)"
+				fontSize={12}
+			>
+				{formatted.line1}
+			</text>
+			{formatted.line2 && (
+				<text
+					x={0}
+					y={0}
+					dy={26}
+					textAnchor="middle"
+					fill="var(--color-text-tertiary-default)"
+					fontSize={11}
+				>
+					{formatted.line2}
+				</text>
+			)}
+		</g>
+	);
 };
 
 /**
@@ -206,28 +280,61 @@ const formatNumber = (value: number): string => {
 };
 
 /**
+ * Get top sources by total count, grouping rest into "Other"
+ */
+const getTopSources = (
+	data: ApiSignupsBySourceDataPoint[],
+): { topSources: string[]; hasOther: boolean } => {
+	// Calculate total count per source
+	const sourceTotals = new Map<string, number>();
+	for (const point of data) {
+		const sourceKey = point.utm_source || "direct";
+		sourceTotals.set(sourceKey, (sourceTotals.get(sourceKey) || 0) + point.count);
+	}
+
+	// Sort by count descending
+	const sorted = Array.from(sourceTotals.entries()).sort((a, b) => b[1] - a[1]);
+
+	// Take top N sources
+	const topSources = sorted.slice(0, MAX_SOURCES).map(([source]) => source);
+	const hasOther = sorted.length > MAX_SOURCES;
+
+	return { topSources, hasOther };
+};
+
+/**
  * Transform API data for Recharts
- * Groups data by date with each source as a separate key
+ * Groups data by date with top sources + "Other"
  */
 const transformDataForChart = (
 	data: ApiSignupsBySourceDataPoint[],
-	sources: string[],
+	topSources: string[],
+	hasOther: boolean,
 ): Record<string, string | number>[] => {
 	const dateMap = new Map<string, Record<string, string | number>>();
+	const topSourceSet = new Set(topSources);
 
 	// Initialize all dates with all sources set to 0
 	for (const point of data) {
 		if (!dateMap.has(point.date)) {
 			const entry: Record<string, string | number> = { date: point.date };
-			for (const source of sources) {
-				entry[source || "direct"] = 0;
+			for (const source of topSources) {
+				entry[source] = 0;
+			}
+			if (hasOther) {
+				entry.other = 0;
 			}
 			dateMap.set(point.date, entry);
 		}
 
 		const entry = dateMap.get(point.date)!;
 		const sourceKey = point.utm_source || "direct";
-		entry[sourceKey] = point.count;
+
+		if (topSourceSet.has(sourceKey)) {
+			entry[sourceKey] = point.count;
+		} else if (hasOther) {
+			entry.other = (entry.other as number) + point.count;
+		}
 	}
 
 	return Array.from(dateMap.values()).sort(
@@ -262,7 +369,10 @@ const CustomTooltip = ({
 		return null;
 	}
 
-	const dateLabel = formatDateForPeriod(label || "", period);
+	const formatted = formatDateForPeriod(label || "", period);
+	const dateLabel = formatted.line2
+		? `${formatted.line1}, ${formatted.line2}`
+		: formatted.line1;
 	const total = payload.reduce((sum, entry) => sum + entry.value, 0);
 
 	return (
@@ -332,16 +442,19 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 		[selectedPeriod],
 	);
 
-	// Transform data for Recharts
+	// Get top sources and determine if we need "Other"
+	const { topSources, hasOther } = useMemo(() => getTopSources(data), [data]);
+
+	// Transform data for Recharts (with top sources + Other)
 	const chartData = useMemo(
-		() => transformDataForChart(data, sources),
-		[data, sources],
+		() => transformDataForChart(data, topSources, hasOther),
+		[data, topSources, hasOther],
 	);
 
-	// Normalize sources (replace empty string with "direct")
-	const normalizedSources = useMemo(
-		() => sources.map((s) => (s === "" ? "direct" : s)),
-		[sources],
+	// Sources to display in chart (top sources + "other" if needed)
+	const displaySources = useMemo(
+		() => (hasOther ? [...topSources, "other"] : topSources),
+		[topSources, hasOther],
 	);
 
 	return (
@@ -356,7 +469,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 				<div className={styles.headerRight}>
 					<ButtonGroup
 						items={periodButtonItems}
-						size="small"
+						size="2x-small"
 						ariaLabel="Select time period"
 					/>
 					{onNavigate && (
@@ -394,7 +507,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 					</div>
 				) : (
 					<ResponsiveContainer width="100%" height={height}>
-						<AreaChart
+						<BarChart
 							data={chartData}
 							margin={{
 								top: 10,
@@ -403,29 +516,6 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 								bottom: 0,
 							}}
 						>
-							<defs>
-								{normalizedSources.map((source, index) => (
-									<linearGradient
-										key={source}
-										id={`gradient-${source}`}
-										x1="0"
-										y1="0"
-										x2="0"
-										y2="1"
-									>
-										<stop
-											offset="5%"
-											stopColor={getSourceColor(source, index)}
-											stopOpacity={0.3}
-										/>
-										<stop
-											offset="95%"
-											stopColor={getSourceColor(source, index)}
-											stopOpacity={0}
-										/>
-									</linearGradient>
-								))}
-							</defs>
 							<CartesianGrid
 								strokeDasharray="3 3"
 								stroke="var(--color-border-secondary-default)"
@@ -433,16 +523,11 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 							/>
 							<XAxis
 								dataKey="date"
-								tickFormatter={(value) =>
-									formatDateForPeriod(value, selectedPeriod)
-								}
 								stroke="var(--color-text-tertiary-default)"
-								tick={{
-									fill: "var(--color-text-tertiary-default)",
-									fontSize: 12,
-								}}
+								tick={<CustomXAxisTick period={selectedPeriod} />}
 								tickLine={false}
 								axisLine={false}
+								height={selectedPeriod === "hour" ? 45 : 30}
 							/>
 							<YAxis
 								stroke="var(--color-text-tertiary-default)"
@@ -458,8 +543,8 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 							<Tooltip
 								content={<CustomTooltip period={selectedPeriod} />}
 								cursor={{
-									stroke: "var(--color-border-primary-default)",
-									strokeDasharray: "3 3",
+									fill: "var(--color-bg-secondary-default)",
+									opacity: 0.5,
 								}}
 							/>
 							<Legend
@@ -474,25 +559,21 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 									</span>
 								)}
 							/>
-							{normalizedSources.map((source, index) => (
-								<Area
+							{displaySources.map((source, index) => (
+								<Bar
 									key={source}
-									type="monotone"
 									dataKey={source}
 									name={getSourceDisplayName(source)}
-									stroke={getSourceColor(source, index)}
-									strokeWidth={2}
-									fill={`url(#gradient-${source})`}
-									dot={false}
-									activeDot={{
-										r: 4,
-										fill: getSourceColor(source, index),
-										stroke: "var(--color-surface-primary-default)",
-										strokeWidth: 2,
-									}}
+									stackId="sources"
+									fill={getSourceColor(source, index)}
+									radius={
+										index === displaySources.length - 1
+											? [4, 4, 0, 0]
+											: [0, 0, 0, 0]
+									}
 								/>
 							))}
-						</AreaChart>
+						</BarChart>
 					</ResponsiveContainer>
 				)}
 			</div>
