@@ -4,15 +4,16 @@
  */
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ErrorState } from "@/components/error/error";
 import {
 	FormRenderer,
 	type FormRendererConfig,
 } from "@/features/form-builder/components/FormRenderer/component";
-import { type ApiError, publicFetcher } from "@/hooks/fetcher";
+import { useFormSubmission } from "@/hooks/useFormSubmission";
+import { usePublicCampaign } from "@/hooks/usePublicCampaign";
+import { useTrackingData } from "@/hooks/useTrackingData";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import type { Campaign } from "@/types/campaign";
 import type { FormDesign, FormField } from "@/types/common.types";
 import styles from "./embed.module.scss";
 
@@ -47,43 +48,10 @@ const DEFAULT_DESIGN: FormDesign = {
 
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
-	const [campaign, setCampaign] = useState<Campaign | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<ApiError | null>(null);
-	const [refCode, setRefCode] = useState<string | null>(null);
 
-	// Fetch campaign data using public API (no auth required)
-	const fetchCampaign = useCallback(async () => {
-		setLoading(true);
-		setError(null);
-		try {
-			const response = await publicFetcher<Campaign>(
-				`${import.meta.env.VITE_API_URL}/api/v1/${campaignId}`,
-				{ method: "GET" },
-			);
-			setCampaign(response);
-		} catch (err: unknown) {
-			const message =
-				err instanceof Error ? err.message : "Failed to load form";
-			setError({ error: message });
-		} finally {
-			setLoading(false);
-		}
-	}, [campaignId]);
-
-	// Extract ref code from URL parameters on mount
-	useEffect(() => {
-		const searchParams = new URLSearchParams(window.location.search);
-		const ref = searchParams.get("ref");
-		if (ref) {
-			setRefCode(ref);
-		}
-	}, []);
-
-	// Fetch campaign on mount
-	useEffect(() => {
-		fetchCampaign();
-	}, [fetchCampaign]);
+	// Fetch campaign and tracking data
+	const { campaign, loading, error } = usePublicCampaign(campaignId);
+	const tracking = useTrackingData();
 
 	// Parse design config from custom_css and build FormRendererConfig
 	const formConfig = useMemo((): FormRendererConfig | null => {
@@ -119,55 +87,12 @@ function RouteComponent() {
 		return { fields, design };
 	}, [campaign]);
 
-	// Handle form submission with campaign-specific API logic
-	const handleSubmit = useCallback(
-		async (formData: Record<string, string>) => {
-			if (!campaign?.form_config?.fields) return;
-
-			// Build custom fields (exclude email - it's a required top-level field)
-			const customFields: Record<string, string> = {};
-
-			campaign.form_config.fields.forEach((field) => {
-				const value = formData[field.name] || "";
-				if (field.name !== "email") {
-					customFields[field.name] = value;
-				}
-			});
-
-			// Add ref code to custom fields if present
-			if (refCode) {
-				customFields.ref_code = refCode;
-			}
-
-			// Submit to API
-			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/users`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						email: formData.email || "",
-						terms_accepted: true,
-						custom_fields: customFields,
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				let errorMessage = "Failed to submit form";
-				try {
-					const errorData = await response.json();
-					errorMessage = errorData.error || errorMessage;
-				} catch {
-					errorMessage = `Failed to submit form (${response.status})`;
-				}
-				throw new Error(errorMessage);
-			}
-		},
-		[campaign, campaignId, refCode],
-	);
+	// Form submission handler
+	const { submit } = useFormSubmission({
+		campaignId,
+		fields: campaign?.form_config?.fields || [],
+		tracking,
+	});
 
 	if (loading) {
 		return (
@@ -192,7 +117,7 @@ function RouteComponent() {
 			<FormRenderer
 				config={formConfig}
 				mode="interactive"
-				onSubmit={handleSubmit}
+				onSubmit={submit}
 				submitText={formConfig.design.submitButtonText}
 				className={styles.form}
 			/>
