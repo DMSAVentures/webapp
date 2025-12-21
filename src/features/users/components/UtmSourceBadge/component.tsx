@@ -87,7 +87,7 @@ export const UtmSourceBadge = memo<UtmSourceBadgeProps>(
 			<Badge
 				text={displayText}
 				variant={config.color}
-				styleType="stroke"
+				styleType="filled"
 				size="small"
 				iconClass={config.icon}
 				iconPosition="left"

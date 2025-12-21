@@ -26,7 +26,7 @@ $color-white: oklch(100% 0 $color-neutral-hue);                            // Pu
 
 // Blue
 $color-blue-hue: 250;
-$color-blue-chroma: 0.15;
+$color-blue-chroma: 0.11;
 
 $color-blue-900: oklch(28% $color-blue-chroma $color-blue-hue);   // Darkest blue
 $color-blue-800: oklch(38% $color-blue-chroma $color-blue-hue);   // Headings, important text
@@ -41,7 +41,7 @@ $color-blue-50: oklch(99.2% $color-blue-chroma $color-blue-hue);  // Subtle back
 
 // Orange
 $color-orange-hue: 55;
-$color-orange-chroma: 0.16;
+$color-orange-chroma: 0.11;
 
 $color-orange-900: oklch(35% $color-orange-chroma $color-orange-hue);   // Darkest orange
 $color-orange-800: oklch(45% $color-orange-chroma $color-orange-hue);   // Headings, important text
@@ -56,7 +56,7 @@ $color-orange-50: oklch(99% $color-orange-chroma $color-orange-hue);    // Subtl
 
 // Red
 $color-red-hue: 25;
-$color-red-chroma: 0.18;
+$color-red-chroma: 0.11;
 
 $color-red-900: oklch(30% $color-red-chroma $color-red-hue);   // Darkest red
 $color-red-800: oklch(40% $color-red-chroma $color-red-hue);   // Headings, important text
@@ -71,7 +71,7 @@ $color-red-50: oklch(99% $color-red-chroma $color-red-hue);    // Subtle backgro
 
 // Green
 $color-green-hue: 145;
-$color-green-chroma: 0.16;
+$color-green-chroma: 0.11;
 
 $color-green-900: oklch(32% $color-green-chroma $color-green-hue);   // Darkest green
 $color-green-800: oklch(42% $color-green-chroma $color-green-hue);   // Headings, important text
@@ -86,7 +86,7 @@ $color-green-50: oklch(99% $color-green-chroma $color-green-hue);    // Subtle b
 
 // Yellow
 $color-yellow-hue: 85;
-$color-yellow-chroma: 0.16;
+$color-yellow-chroma: 0.11;
 
 $color-yellow-900: oklch(50% $color-yellow-chroma $color-yellow-hue);   // Darkest yellow
 $color-yellow-800: oklch(55% $color-yellow-chroma $color-yellow-hue);   // Headings, important text
@@ -101,7 +101,7 @@ $color-yellow-50: oklch(99% $color-yellow-chroma $color-yellow-hue);    // Subtl
 
 // Purple
 $color-purple-hue: 295;
-$color-purple-chroma: 0.16;
+$color-purple-chroma: 0.11;
 
 $color-purple-900: oklch(32% $color-purple-chroma $color-purple-hue);   // Darkest purple
 $color-purple-800: oklch(40% $color-purple-chroma $color-purple-hue);   // Headings, important text
@@ -116,7 +116,7 @@ $color-purple-50: oklch(98.5% $color-purple-chroma $color-purple-hue);  // Subtl
 
 // Sky
 $color-sky-hue: 215;
-$color-sky-chroma: 0.12;
+$color-sky-chroma: 0.11;
 
 $color-sky-900: oklch(35% $color-sky-chroma $color-sky-hue);   // Darkest sky
 $color-sky-800: oklch(45% $color-sky-chroma $color-sky-hue);   // Headings, important text
@@ -131,7 +131,7 @@ $color-sky-50: oklch(99% $color-sky-chroma $color-sky-hue);    // Subtle backgro
 
 // Pink
 $color-pink-hue: 350;
-$color-pink-chroma: 0.16;
+$color-pink-chroma: 0.11;
 
 $color-pink-900: oklch(30% $color-pink-chroma $color-pink-hue);   // Darkest pink
 $color-pink-800: oklch(40% $color-pink-chroma $color-pink-hue);   // Headings, important text
@@ -146,7 +146,7 @@ $color-pink-50: oklch(99% $color-pink-chroma $color-pink-hue);    // Subtle back
 
 // Teal
 $color-teal-hue: 180;
-$color-teal-chroma: 0.12;
+$color-teal-chroma: 0.11;
 
 $color-teal-900: oklch(32% $color-teal-chroma $color-teal-hue);   // Darkest teal
 $color-teal-800: oklch(42% $color-teal-chroma $color-teal-hue);   // Headings, important text
