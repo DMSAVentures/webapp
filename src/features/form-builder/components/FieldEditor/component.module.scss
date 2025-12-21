@@ -42,6 +42,7 @@
   display: flex;
   flex-direction: column;
   gap: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
 
   // Ensure children don't overflow
   > * {

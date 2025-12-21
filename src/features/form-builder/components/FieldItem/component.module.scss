@@ -16,6 +16,7 @@
   user-select: none;
 
   &:hover {
+    background-color: var(--color-bg-secondary-hover);
     border-color: var(--color-border-primary-hover);
     box-shadow: 0 2px 4px var(--color-shadow-default);
 

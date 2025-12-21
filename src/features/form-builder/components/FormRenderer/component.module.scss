@@ -60,7 +60,7 @@
 
 .error {
   padding: var(--form-padding, layout.$spacing-04);
-  background-color: rgba(239, 68, 68, 0.1);
+  background-color: var(--color-bg-danger-alpha);
   border: 1px solid var(--form-error-color, var(--color-error-default));
   border-radius: var(--form-border-radius, border.$border-radius-medium);
   margin-bottom: var(--form-gap, layout.$spacing-04);
