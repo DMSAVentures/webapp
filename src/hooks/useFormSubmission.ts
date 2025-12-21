@@ -9,11 +9,14 @@ import type { TrackingData } from "./useTrackingData";
 interface FormSubmissionPayload {
 	email: string;
 	terms_accepted: boolean;
+	marketing_consent: boolean;
 	custom_fields: Record<string, string>;
-	source: string;
-	metadata: TrackingData["metadata"];
-	ref_code?: string;
-	utm_params?: TrackingData["utmParams"];
+	referral_code?: string;
+	utm_source?: string;
+	utm_medium?: string;
+	utm_campaign?: string;
+	utm_content?: string;
+	utm_term?: string;
 }
 
 interface UseFormSubmissionResult {
@@ -82,19 +85,32 @@ export const useFormSubmission = ({
 				const payload: FormSubmissionPayload = {
 					email: formData.email || "",
 					terms_accepted: true,
+					marketing_consent: true,
 					custom_fields: customFields,
-					source: tracking.source,
-					metadata: tracking.metadata,
 				};
 
 				// Add referral code if present
 				if (tracking.refCode) {
-					payload.ref_code = tracking.refCode;
+					payload.referral_code = tracking.refCode;
 				}
 
-				// Add UTM parameters if present
+				// Add UTM parameters as flat fields
 				if (tracking.utmParams) {
-					payload.utm_params = tracking.utmParams;
+					if (tracking.utmParams.source) {
+						payload.utm_source = tracking.utmParams.source;
+					}
+					if (tracking.utmParams.medium) {
+						payload.utm_medium = tracking.utmParams.medium;
+					}
+					if (tracking.utmParams.campaign) {
+						payload.utm_campaign = tracking.utmParams.campaign;
+					}
+					if (tracking.utmParams.content) {
+						payload.utm_content = tracking.utmParams.content;
+					}
+					if (tracking.utmParams.term) {
+						payload.utm_term = tracking.utmParams.term;
+					}
 				}
 
 				// Submit to API
