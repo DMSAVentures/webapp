@@ -41,6 +41,7 @@ const DEFAULT_DESIGN: FormDesign = {
 		gap: 16,
 	},
 	borderRadius: 8,
+	submitButtonText: "Submit",
 	customCss: "",
 };
 
@@ -192,6 +193,7 @@ function RouteComponent() {
 				config={formConfig}
 				mode="interactive"
 				onSubmit={handleSubmit}
+				submitText={formConfig.design.submitButtonText}
 				className={styles.form}
 			/>
 		</div>

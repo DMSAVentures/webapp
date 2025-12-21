@@ -88,6 +88,13 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 			});
 		};
 
+		const handleSubmitButtonTextChange = (value: string) => {
+			onChange({
+				...design,
+				submitButtonText: value,
+			});
+		};
+
 		const handleCustomCssChange = (value: string) => {
 			onChange({
 				...design,
@@ -373,6 +380,23 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								}
 								min={0}
 								max={50}
+							/>
+						</div>
+					</section>
+
+					<ContentDivider size="thin" />
+
+					{/* Submit Button Section */}
+					<section className={styles.section}>
+						<h4 className={styles.sectionTitle}>Submit Button</h4>
+						<div className={styles.inputGrid}>
+							<TextInput
+								id="submit-button-text"
+								label="Button Text"
+								type="text"
+								value={design.submitButtonText || "Submit"}
+								onChange={(e) => handleSubmitButtonTextChange(e.target.value)}
+								placeholder="Submit"
 							/>
 						</div>
 					</section>

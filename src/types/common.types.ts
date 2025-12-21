@@ -158,6 +158,7 @@ export interface FormDesign {
 		gap: number;
 	};
 	borderRadius: number;
+	submitButtonText?: string;
 	customCss?: string;
 }
 

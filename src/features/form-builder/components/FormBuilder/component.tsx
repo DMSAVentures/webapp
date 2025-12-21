@@ -56,6 +56,7 @@ const DEFAULT_DESIGN: FormDesign = {
 		gap: 16,
 	},
 	borderRadius: 8,
+	submitButtonText: "Submit",
 	customCss: "",
 };
 

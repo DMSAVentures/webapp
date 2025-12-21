@@ -150,7 +150,7 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 											className={`${styles.submitButton} ${isFullWidthButton ? styles.submitButtonFullWidth : ""}`}
 											disabled
 										>
-											Submit
+											{design.submitButtonText || "Submit"}
 										</button>
 									) : (
 										<button
@@ -170,7 +170,7 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 									className={`${styles.submitButton} ${isFullWidthButton ? styles.submitButtonFullWidth : ""}`}
 									disabled
 								>
-									Submit
+									{design.submitButtonText || "Submit"}
 								</button>
 							)}
 
