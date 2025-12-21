@@ -506,7 +506,7 @@ export const UserList = memo<UserListProps>(function UserList({
 											<StatusBadge
 												text={formatStatus(user.status)}
 												variant={getStatusVariant(user.status)}
-												styleType="stroke"
+												styleType="light"
 											/>
 										</td>
 										<td className={styles.tableCell}>
