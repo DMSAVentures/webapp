@@ -189,7 +189,6 @@ export {
 	getMockUserById,
 	getMockUsersByCampaign,
 	getMockUsersByStatus,
-	mockUsersByDevice,
 	mockUsersBySource,
 	mockUsersByStatus,
 	// Mock data

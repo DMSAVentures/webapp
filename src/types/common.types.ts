@@ -58,9 +58,7 @@ export type {
 	ListUsersResponse,
 	SortDirection,
 	UserFilters,
-	UserMetadata,
 	UserSortField,
-	UTMParams,
 	WaitlistUser,
 	WaitlistUserStatus,
 } from "./users.types";

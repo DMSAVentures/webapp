@@ -12,20 +12,27 @@ export interface WaitlistUser {
 	id: string;
 	campaignId: string;
 	email: string;
-	name?: string;
-	customFields: Record<string, unknown>;
+	emailVerified: boolean;
 	status: WaitlistUserStatus;
 	position: number;
+	originalPosition: number;
 	referralCode: string;
-	referredBy?: string;
+	referredById?: string;
 	referralCount: number;
+	verifiedReferralCount: number;
+	shareCount: number;
 	points: number;
 	source: string;
-	utmParams?: UTMParams;
-	metadata: UserMetadata;
+	termsAccepted: boolean;
+	marketingConsent: boolean;
+	customFields?: Record<string, string>;
+	utmSource?: string;
+	utmMedium?: string;
+	utmCampaign?: string;
+	utmContent?: string;
+	utmTerm?: string;
 	createdAt: Date;
-	verifiedAt?: Date;
-	invitedAt?: Date;
+	updatedAt: Date;
 }
 
 export type WaitlistUserStatus =
@@ -92,7 +99,6 @@ export interface UserFilters {
 
 export type UserSortField =
 	| "email"
-	| "name"
 	| "status"
 	| "position"
 	| "referralCount"

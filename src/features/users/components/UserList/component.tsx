@@ -59,7 +59,7 @@ export const UserList = memo<UserListProps>(function UserList({
 	const { getStatusVariant, formatStatus } = useUserHelpers();
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sortField, setSortField] = useState<UserSortField>("position");
-	const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+	const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 	const [filters, setFilters] = useState<UserFiltersType>({});
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -88,10 +88,8 @@ export const UserList = memo<UserListProps>(function UserList({
 		// Apply search
 		if (searchQuery.trim()) {
 			const query = searchQuery.toLowerCase();
-			filtered = filtered.filter(
-				(user) =>
-					user.email.toLowerCase().includes(query) ||
-					user.name?.toLowerCase().includes(query),
+			filtered = filtered.filter((user) =>
+				user.email.toLowerCase().includes(query),
 			);
 		}
 
@@ -143,10 +141,6 @@ export const UserList = memo<UserListProps>(function UserList({
 				case "email":
 					aValue = a.email;
 					bValue = b.email;
-					break;
-				case "name":
-					aValue = a.name || "";
-					bValue = b.name || "";
 					break;
 				case "status":
 					aValue = a.status;
@@ -275,7 +269,7 @@ export const UserList = memo<UserListProps>(function UserList({
 				<div className={styles.searchBox}>
 					<TextInput
 						label="Search"
-						placeholder="Search by email or name..."
+						placeholder="Search by email..."
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
 						leftIcon="ri-search-line"
@@ -416,20 +410,6 @@ export const UserList = memo<UserListProps>(function UserList({
 									<th className={styles.tableHeaderCell}>
 										<button
 											className={styles.sortButton}
-											onClick={() => handleSort("name")}
-										>
-											Name
-											{sortField === "name" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
 											onClick={() => handleSort("status")}
 										>
 											Status
@@ -483,6 +463,7 @@ export const UserList = memo<UserListProps>(function UserList({
 											)}
 										</button>
 									</th>
+									<th className={styles.tableHeaderCell}>UTM Source</th>
 									<th className={styles.tableHeaderCell}>
 										<button
 											className={styles.sortButton}
@@ -521,9 +502,6 @@ export const UserList = memo<UserListProps>(function UserList({
 											<span className={styles.email}>{user.email}</span>
 										</td>
 										<td className={styles.tableCell}>
-											<span className={styles.name}>{user.name || "-"}</span>
-										</td>
-										<td className={styles.tableCell}>
 											<StatusBadge
 												text={formatStatus(user.status)}
 												variant={getStatusVariant(user.status)}
@@ -544,6 +522,11 @@ export const UserList = memo<UserListProps>(function UserList({
 											<span className={styles.source}>
 												{user.source.charAt(0).toUpperCase() +
 													user.source.slice(1)}
+											</span>
+										</td>
+										<td className={styles.tableCell}>
+											<span className={styles.utmSource}>
+												{user.utmSource || "-"}
 											</span>
 										</td>
 										<td className={styles.tableCell}>

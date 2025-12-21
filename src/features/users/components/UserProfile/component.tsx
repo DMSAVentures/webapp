@@ -133,8 +133,10 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 								<i className="ri-user-line" aria-hidden="true" />
 							</div>
 							<div className={styles.userInfo}>
-								<h2 className={styles.userName}>{user.name || "Unknown"}</h2>
-								<p className={styles.userEmail}>{user.email}</p>
+								<h2 className={styles.userName}>{user.email}</h2>
+								<p className={styles.userEmail}>
+									{user.emailVerified ? "Verified" : "Not verified"}
+								</p>
 							</div>
 							<StatusBadge
 								text={formatStatus(user.status)}
@@ -196,10 +198,12 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 								<span className={styles.detailLabel}>Referral Code</span>
 								<span className={styles.detailValue}>{user.referralCode}</span>
 							</div>
-							{user.referredBy && (
+							{user.referredById && (
 								<div className={styles.detailItem}>
 									<span className={styles.detailLabel}>Referred By</span>
-									<span className={styles.detailValue}>{user.referredBy}</span>
+									<span className={styles.detailValue}>
+										{user.referredById}
+									</span>
 								</div>
 							)}
 							<div className={styles.detailItem}>
@@ -214,95 +218,56 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 									})}
 								</span>
 							</div>
-							{user.verifiedAt && (
-								<div className={styles.detailItem}>
-									<span className={styles.detailLabel}>Verified At</span>
-									<span className={styles.detailValue}>
-										{new Date(user.verifiedAt).toLocaleString("en-US", {
-											month: "long",
-											day: "numeric",
-											year: "numeric",
-											hour: "numeric",
-											minute: "2-digit",
-										})}
-									</span>
-								</div>
-							)}
-							{user.invitedAt && (
-								<div className={styles.detailItem}>
-									<span className={styles.detailLabel}>Invited At</span>
-									<span className={styles.detailValue}>
-										{new Date(user.invitedAt).toLocaleString("en-US", {
-											month: "long",
-											day: "numeric",
-											year: "numeric",
-											hour: "numeric",
-											minute: "2-digit",
-										})}
-									</span>
-								</div>
-							)}
 						</div>
 					</div>
 
 					{/* UTM Parameters */}
-					{user.utmParams && Object.keys(user.utmParams).length > 0 && (
+					{(user.utmSource ||
+						user.utmMedium ||
+						user.utmCampaign ||
+						user.utmContent ||
+						user.utmTerm) && (
 						<>
 							<ContentDivider size="thin" />
 							<div className={styles.section}>
 								<h3 className={styles.sectionTitle}>UTM Parameters</h3>
 								<div className={styles.detailsGrid}>
-									{user.utmParams.source && (
+									{user.utmSource && (
 										<div className={styles.detailItem}>
 											<span className={styles.detailLabel}>Source</span>
 											<span className={styles.detailValue}>
-												{user.utmParams.source}
+												{user.utmSource}
 											</span>
 										</div>
 									)}
-									{user.utmParams.medium && (
+									{user.utmMedium && (
 										<div className={styles.detailItem}>
 											<span className={styles.detailLabel}>Medium</span>
 											<span className={styles.detailValue}>
-												{user.utmParams.medium}
+												{user.utmMedium}
 											</span>
 										</div>
 									)}
-									{user.utmParams.campaign && (
+									{user.utmCampaign && (
 										<div className={styles.detailItem}>
 											<span className={styles.detailLabel}>Campaign</span>
 											<span className={styles.detailValue}>
-												{user.utmParams.campaign}
+												{user.utmCampaign}
 											</span>
 										</div>
 									)}
-								</div>
-							</div>
-						</>
-					)}
-
-					{/* Metadata */}
-					{user.metadata && (
-						<>
-							<ContentDivider size="thin" />
-							<div className={styles.section}>
-								<h3 className={styles.sectionTitle}>Metadata</h3>
-								<div className={styles.detailsGrid}>
-									{user.metadata.country && (
+									{user.utmContent && (
 										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Country</span>
+											<span className={styles.detailLabel}>Content</span>
 											<span className={styles.detailValue}>
-												{user.metadata.country}
+												{user.utmContent}
 											</span>
 										</div>
 									)}
-									{user.metadata.device && (
+									{user.utmTerm && (
 										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Device</span>
-											<span className={styles.detailValue}>
-												{user.metadata.device.charAt(0).toUpperCase() +
-													user.metadata.device.slice(1)}
-											</span>
+											<span className={styles.detailLabel}>Term</span>
+											<span className={styles.detailValue}>{user.utmTerm}</span>
 										</div>
 									)}
 								</div>
@@ -325,9 +290,6 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 												<i className="ri-user-line" aria-hidden="true" />
 												<div>
 													<div className={styles.referralName}>
-														{referredUser.name || referredUser.email}
-													</div>
-													<div className={styles.referralEmail}>
 														{referredUser.email}
 													</div>
 												</div>
@@ -438,7 +400,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 				isOpen={isDeleteModalOpen}
 				onClose={() => setIsDeleteModalOpen(false)}
 				title="Delete User"
-				description={`Are you sure you want to delete ${user.name || user.email}? This action cannot be undone.`}
+				description={`Are you sure you want to delete ${user.email}? This action cannot be undone.`}
 				icon="warning"
 				dismissibleByCloseIcon={true}
 				proceedText="Delete"

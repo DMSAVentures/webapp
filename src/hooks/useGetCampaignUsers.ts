@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import type { ApiListUsersResponse } from "@/types/api.types";
 import type { ListUsersParams, ListUsersResponse } from "@/types/users.types";
 import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
 
 async function getCampaignUsers(
 	campaignId: string,
 	params?: ListUsersParams,
-): Promise<ListUsersResponse> {
+): Promise<ApiListUsersResponse> {
 	const searchParams = new URLSearchParams();
 
 	if (params?.page) searchParams.append("page", params.page.toString());
@@ -18,7 +19,7 @@ async function getCampaignUsers(
 	const queryString = searchParams.toString();
 	const url = `${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/users${queryString ? `?${queryString}` : ""}`;
 
-	const response = await fetcher<ListUsersResponse>(url, {
+	const response = await fetcher<ApiListUsersResponse>(url, {
 		method: "GET",
 	});
 
