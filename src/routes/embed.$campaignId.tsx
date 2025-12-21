@@ -4,27 +4,51 @@
  */
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ErrorState } from "@/components/error/error";
+import {
+	FormRenderer,
+	type FormRendererConfig,
+} from "@/features/form-builder/components/FormRenderer/component";
 import { type ApiError, publicFetcher } from "@/hooks/fetcher";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { Campaign } from "@/types/campaign";
-import type { FormDesign } from "@/types/common.types";
+import type { FormDesign, FormField } from "@/types/common.types";
 import styles from "./embed.module.scss";
 
 export const Route = createFileRoute("/embed/$campaignId")({
 	component: RouteComponent,
 });
 
+// Default design configuration
+const DEFAULT_DESIGN: FormDesign = {
+	layout: "single-column",
+	colors: {
+		primary: "#3b82f6",
+		background: "#ffffff",
+		text: "#1f2937",
+		border: "#e5e7eb",
+		error: "#ef4444",
+		success: "#10b981",
+	},
+	typography: {
+		fontFamily: "Inter, system-ui, sans-serif",
+		fontSize: 16,
+		fontWeight: 400,
+	},
+	spacing: {
+		padding: 16,
+		gap: 16,
+	},
+	borderRadius: 8,
+	customCss: "",
+};
+
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const [campaign, setCampaign] = useState<Campaign | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ApiError | null>(null);
-	const [formData, setFormData] = useState<Record<string, string>>({});
-	const [submitting, setSubmitting] = useState(false);
-	const [submitted, setSubmitted] = useState(false);
-	const [submitError, setSubmitError] = useState<string | null>(null);
 	const [refCode, setRefCode] = useState<string | null>(null);
 
 	// Fetch campaign data using public API (no auth required)
@@ -60,81 +84,50 @@ function RouteComponent() {
 		fetchCampaign();
 	}, [fetchCampaign]);
 
-	if (loading) {
-		return (
-			<LoadingSpinner size="large" mode="centered" message="Loading form..." />
-		);
-	}
+	// Parse design config from custom_css and build FormRendererConfig
+	const formConfig = useMemo((): FormRendererConfig | null => {
+		if (!campaign?.form_config?.fields) return null;
 
-	if (error) {
-		return <ErrorState message={`Error: ${error.error}`} />;
-	}
+		let design: FormDesign = { ...DEFAULT_DESIGN };
 
-	if (!campaign) {
-		return <ErrorState message="Form not found" />;
-	}
-
-	if (
-		!campaign.form_config?.fields ||
-		campaign.form_config.fields.length === 0
-	) {
-		return <ErrorState message="This form is not yet configured" />;
-	}
-
-	// Parse design config from custom_css
-	let design: FormDesign = {
-		layout: "single-column",
-		colors: {
-			primary: "#3b82f6",
-			background: "#ffffff",
-			text: "#1f2937",
-			border: "#e5e7eb",
-			error: "#ef4444",
-			success: "#10b981",
-		},
-		typography: {
-			fontFamily: "Inter, system-ui, sans-serif",
-			fontSize: 16,
-			fontWeight: 400,
-		},
-		spacing: {
-			padding: 16,
-			gap: 16,
-		},
-		borderRadius: 8,
-		customCss: "",
-	};
-
-	if (campaign.form_config.custom_css?.startsWith("__DESIGN__:")) {
-		try {
-			const designJson = campaign.form_config.custom_css.substring(
-				"__DESIGN__:".length,
-			);
-			design = JSON.parse(designJson);
-		} catch (e) {
-			console.error("Failed to parse design config:", e);
+		if (campaign.form_config.custom_css?.startsWith("__DESIGN__:")) {
+			try {
+				const designJson = campaign.form_config.custom_css.substring(
+					"__DESIGN__:".length,
+				);
+				design = JSON.parse(designJson);
+			} catch (e) {
+				console.error("Failed to parse design config:", e);
+			}
 		}
-	}
 
-	const handleChange = (fieldName: string, value: string) => {
-		setFormData((prev) => ({ ...prev, [fieldName]: value }));
-	};
+		// Map campaign fields to FormField format (use name as id for API compatibility)
+		const fields: FormField[] = campaign.form_config.fields.map(
+			(field, idx) => ({
+				id: field.name, // Use name as id so formData keys match API expectations
+				type: field.type,
+				name: field.name,
+				label: field.label,
+				placeholder: field.placeholder,
+				required: field.required ?? false, // Ensure boolean
+				options: field.options,
+				order: idx,
+			}),
+		);
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setSubmitting(true);
-		setSubmitError(null);
+		return { fields, design };
+	}, [campaign]);
 
-		try {
-			// Build all form data
-			const allFormData: Record<string, string> = {};
+	// Handle form submission with campaign-specific API logic
+	const handleSubmit = useCallback(
+		async (formData: Record<string, string>) => {
+			if (!campaign?.form_config?.fields) return;
+
+			// Build custom fields (exclude email - it's a required top-level field)
 			const customFields: Record<string, string> = {};
 
-			campaign.form_config!.fields!.forEach((field) => {
+			campaign.form_config.fields.forEach((field) => {
 				const value = formData[field.name] || "";
-				allFormData[field.name] = value;
-
-				// Exclude email from custom_fields (it's a required field)
 				if (field.name !== "email") {
 					customFields[field.name] = value;
 				}
@@ -154,7 +147,7 @@ function RouteComponent() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						email: allFormData.email || "",
+						email: formData.email || "",
 						terms_accepted: true,
 						custom_fields: customFields,
 					}),
@@ -167,298 +160,40 @@ function RouteComponent() {
 					const errorData = await response.json();
 					errorMessage = errorData.error || errorMessage;
 				} catch {
-					// If JSON parsing fails, use default message
 					errorMessage = `Failed to submit form (${response.status})`;
 				}
 				throw new Error(errorMessage);
 			}
+		},
+		[campaign, campaignId, refCode],
+	);
 
-			setSubmitted(true);
-		} catch (error: unknown) {
-			let errorMessage = "Failed to submit form";
-
-			if (error instanceof Error) {
-				// Network errors (server unreachable, CORS, etc.)
-				if (error.message === "Failed to fetch") {
-					errorMessage =
-						"Unable to connect to the server. Please check your internet connection and try again.";
-				} else {
-					errorMessage = error.message;
-				}
-			}
-
-			setSubmitError(errorMessage);
-			console.error("Form submission error:", error);
-		} finally {
-			setSubmitting(false);
-		}
-	};
-
-	const formStyle: React.CSSProperties = {
-		fontFamily: design.typography.fontFamily,
-		backgroundColor: design.colors.background,
-		padding: `${design.spacing.padding * 2}px`,
-		borderRadius: `${design.borderRadius}px`,
-		maxWidth: design.layout === "single-column" ? "600px" : "900px",
-		margin: "0 auto",
-	};
-
-	const fieldContainerStyle: React.CSSProperties = {
-		marginBottom: `${design.spacing.gap}px`,
-	};
-
-	const labelStyle: React.CSSProperties = {
-		fontFamily: design.typography.fontFamily,
-		fontSize: `${design.typography.fontSize}px`,
-		fontWeight: design.typography.fontWeight + 100,
-		color: design.colors.text,
-		marginBottom: `${design.spacing.gap / 2}px`,
-		display: "block",
-	};
-
-	const inputStyle: React.CSSProperties = {
-		fontFamily: design.typography.fontFamily,
-		fontSize: `${design.typography.fontSize}px`,
-		color: design.colors.text,
-		backgroundColor: design.colors.background,
-		border: `1px solid ${design.colors.border}`,
-		borderRadius: `${design.borderRadius}px`,
-		padding: `${design.spacing.padding}px`,
-		width: "100%",
-	};
-
-	const buttonStyle: React.CSSProperties = {
-		fontFamily: design.typography.fontFamily,
-		fontSize: `${design.typography.fontSize}px`,
-		fontWeight: design.typography.fontWeight + 100,
-		color: design.colors.background,
-		backgroundColor: design.colors.primary,
-		border: "none",
-		borderRadius: `${design.borderRadius}px`,
-		padding: `${design.spacing.padding}px ${design.spacing.padding * 2}px`,
-		cursor: submitting ? "not-allowed" : "pointer",
-		width: design.layout === "single-column" ? "100%" : "auto",
-		marginTop: `${design.spacing.gap}px`,
-	};
-
-	if (submitted) {
+	if (loading) {
 		return (
-			<div className={styles.root} style={formStyle}>
-				<div className={styles.success}>
-					<i
-						className="ri-check-circle-line"
-						style={{ fontSize: "48px", color: design.colors.success }}
-					/>
-					<h2 style={{ color: design.colors.text }}>
-						Thank you for signing up!
-					</h2>
-					<p style={{ color: design.colors.text }}>We'll be in touch soon.</p>
-				</div>
-			</div>
+			<LoadingSpinner size="large" mode="centered" message="Loading form..." />
 		);
+	}
+
+	if (error) {
+		return <ErrorState message={`Error: ${error.error}`} />;
+	}
+
+	if (!campaign) {
+		return <ErrorState message="Form not found" />;
+	}
+
+	if (!formConfig) {
+		return <ErrorState message="This form is not yet configured" />;
 	}
 
 	return (
 		<div className={styles.root}>
-			<form style={formStyle} onSubmit={handleSubmit}>
-				{submitError && (
-					<div
-						style={{
-							padding: `${design.spacing.padding}px`,
-							backgroundColor: design.colors.error + "20",
-							border: `1px solid ${design.colors.error}`,
-							borderRadius: `${design.borderRadius}px`,
-							marginBottom: `${design.spacing.gap}px`,
-							color: design.colors.error,
-						}}
-					>
-						{submitError}
-					</div>
-				)}
-
-				<div
-					style={{
-						display: design.layout === "two-column" ? "grid" : "block",
-						gridTemplateColumns:
-							design.layout === "two-column" ? "1fr 1fr" : undefined,
-						gap:
-							design.layout === "two-column"
-								? `${design.spacing.gap}px`
-								: undefined,
-					}}
-				>
-					{campaign.form_config?.fields?.map((field) => (
-						<div key={field.name} style={fieldContainerStyle}>
-							<label style={labelStyle}>
-								{field.label}
-								{field.required && (
-									<span style={{ color: design.colors.error }}> *</span>
-								)}
-							</label>
-
-							{field.type === "textarea" ? (
-								<textarea
-									value={formData[field.name] || ""}
-									onChange={(e) => handleChange(field.name, e.target.value)}
-									placeholder={field.placeholder}
-									required={field.required}
-									style={{
-										...inputStyle,
-										minHeight: "100px",
-										resize: "vertical",
-									}}
-								/>
-							) : field.type === "select" ? (
-								<select
-									value={formData[field.name] || ""}
-									onChange={(e) => handleChange(field.name, e.target.value)}
-									required={field.required}
-									style={inputStyle}
-								>
-									<option value="">
-										{field.placeholder || "Select an option"}
-									</option>
-									{field.options?.map((option, idx) => (
-										<option key={idx} value={option}>
-											{option}
-										</option>
-									))}
-								</select>
-							) : field.type === "checkbox" ? (
-								field.options && field.options.length > 0 ? (
-									<div>
-										{field.options.map((option, idx) => (
-											<label
-												key={idx}
-												style={{
-													display: "flex",
-													alignItems: "center",
-													gap: "8px",
-													marginBottom: `${design.spacing.gap / 2}px`,
-													cursor: "pointer",
-												}}
-											>
-												<input
-													type="checkbox"
-													checked={(formData[field.name] || "")
-														.split(",")
-														.includes(option)}
-													onChange={(e) => {
-														const currentValues = (formData[field.name] || "")
-															.split(",")
-															.filter(Boolean);
-														const newValues = e.target.checked
-															? [...currentValues, option]
-															: currentValues.filter((v) => v !== option);
-														handleChange(field.name, newValues.join(","));
-													}}
-													style={{
-														width: "20px",
-														height: "20px",
-														accentColor: design.colors.primary,
-													}}
-												/>
-												<span
-													style={{
-														fontSize: `${design.typography.fontSize}px`,
-														color: design.colors.text,
-													}}
-												>
-													{option}
-												</span>
-											</label>
-										))}
-									</div>
-								) : (
-									<label
-										style={{
-											display: "flex",
-											alignItems: "center",
-											gap: "8px",
-										}}
-									>
-										<input
-											type="checkbox"
-											checked={formData[field.name] === "true"}
-											onChange={(e) =>
-												handleChange(field.name, e.target.checked.toString())
-											}
-											required={field.required}
-											style={{
-												width: "20px",
-												height: "20px",
-												accentColor: design.colors.primary,
-											}}
-										/>
-										<span
-											style={{
-												fontSize: `${design.typography.fontSize}px`,
-												color: design.colors.text,
-											}}
-										>
-											{field.placeholder || field.label}
-										</span>
-									</label>
-								)
-							) : field.type === "radio" ? (
-								<div>
-									{field.options?.map((option, idx) => (
-										<label
-											key={idx}
-											style={{
-												display: "flex",
-												alignItems: "center",
-												gap: "8px",
-												marginBottom: `${design.spacing.gap / 2}px`,
-												cursor: "pointer",
-											}}
-										>
-											<input
-												type="radio"
-												name={field.name}
-												value={option}
-												checked={formData[field.name] === option}
-												onChange={(e) => handleChange(field.name, e.target.value)}
-												required={field.required}
-												style={{
-													width: "20px",
-													height: "20px",
-													accentColor: design.colors.primary,
-												}}
-											/>
-											<span
-												style={{
-													fontSize: `${design.typography.fontSize}px`,
-													color: design.colors.text,
-												}}
-											>
-												{option}
-											</span>
-										</label>
-									))}
-								</div>
-							) : (
-								<input
-									type={field.type}
-									value={formData[field.name] || ""}
-									onChange={(e) => handleChange(field.name, e.target.value)}
-									placeholder={field.placeholder}
-									required={field.required}
-									style={inputStyle}
-								/>
-							)}
-						</div>
-					))}
-				</div>
-
-				<button type="submit" style={buttonStyle} disabled={submitting}>
-					{submitting ? "Submitting..." : "Submit"}
-				</button>
-
-				{design.customCss && !design.customCss.startsWith("__DESIGN__:") && (
-					<style>{design.customCss}</style>
-				)}
-			</form>
+			<FormRenderer
+				config={formConfig}
+				mode="interactive"
+				onSubmit={handleSubmit}
+				className={styles.form}
+			/>
 		</div>
 	);
 }

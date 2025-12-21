@@ -1,0 +1,133 @@
+/**
+ * FormField Component Styles
+ * Uses CSS custom properties injected from useFormStyles hook
+ */
+
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.field {
+  margin-bottom: var(--form-gap, layout.$spacing-04);
+}
+
+.label {
+  display: block;
+  font-family: var(--form-font-family, inherit);
+  font-size: var(--form-font-size, 14px);
+  font-weight: calc(var(--form-font-weight, 400) + 100);
+  color: var(--form-text-color, var(--color-text-primary-default));
+  margin-bottom: calc(var(--form-gap, layout.$spacing-04) / 2);
+}
+
+.required {
+  color: var(--form-error-color, var(--color-error-default));
+  margin-left: layout.$spacing-01;
+}
+
+.input {
+  width: 100%;
+  font-family: var(--form-font-family, inherit);
+  font-size: var(--form-font-size, 14px);
+  color: var(--form-text-color, var(--color-text-primary-default));
+  background-color: var(--form-bg-color, var(--color-surface-primary-default));
+  border: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
+  border-radius: var(--form-border-radius, border.$border-radius-medium);
+  padding: var(--form-padding, layout.$spacing-04);
+  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard,
+    box-shadow motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &::placeholder {
+    color: var(--form-text-color, var(--color-text-secondary-default));
+    opacity: 0.6;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--form-primary-color, var(--color-border-focus-default));
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--form-primary-color, var(--color-border-focus-default));
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: var(--form-bg-color, var(--color-bg-secondary-disabled));
+  }
+
+  &--error {
+    border-color: var(--form-error-color, var(--color-error-default));
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+    }
+  }
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right layout.$spacing-03 center;
+  background-size: 16px;
+  padding-right: layout.$spacing-08;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.optionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--form-gap, layout.$spacing-04) / 2);
+}
+
+.optionLabel {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  font-family: var(--form-font-family, inherit);
+  font-size: var(--form-font-size, 14px);
+  color: var(--form-text-color, var(--color-text-primary-default));
+  cursor: pointer;
+
+  &:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.checkbox,
+.radio {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--form-primary-color, var(--color-primary));
+  cursor: inherit;
+}
+
+.error {
+  display: block;
+  font-family: var(--form-font-family, inherit);
+  font-size: calc(var(--form-font-size, 14px) - 2px);
+  color: var(--form-error-color, var(--color-error-default));
+  margin-top: calc(var(--form-gap, layout.$spacing-04) / 2);
+}
+
+.helpText {
+  display: block;
+  font-family: var(--form-font-family, inherit);
+  font-size: calc(var(--form-font-size, 14px) - 2px);
+  color: var(--form-text-color, var(--color-text-secondary-default));
+  opacity: 0.7;
+  margin-top: calc(var(--form-gap, layout.$spacing-04) / 2);
+}

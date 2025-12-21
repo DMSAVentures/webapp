@@ -1,0 +1,104 @@
+/**
+ * FormRenderer Component Styles
+ * Handles form layout and container styling
+ */
+
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.form {
+  font-family: var(--form-font-family, inherit);
+  background-color: var(--form-bg-color, var(--color-surface-primary-default));
+  padding: calc(var(--form-padding, layout.$spacing-04) * 2);
+  border-radius: var(--form-border-radius, border.$border-radius-medium);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--form-gap, layout.$spacing-04);
+}
+
+.submitButton {
+  font-family: var(--form-font-family, inherit);
+  font-size: var(--form-font-size, 14px);
+  font-weight: calc(var(--form-font-weight, 400) + 100);
+  color: var(--form-bg-color, #ffffff);
+  background-color: var(--form-primary-color, var(--color-primary));
+  border: none;
+  border-radius: var(--form-border-radius, border.$border-radius-medium);
+  padding: var(--form-padding, layout.$spacing-04) calc(var(--form-padding, layout.$spacing-04) * 2);
+  margin-top: var(--form-gap, layout.$spacing-04);
+  cursor: pointer;
+  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard,
+    opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--form-primary-color, var(--color-primary));
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &--fullWidth {
+    width: 100%;
+  }
+}
+
+.error {
+  padding: var(--form-padding, layout.$spacing-04);
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--form-error-color, var(--color-error-default));
+  border-radius: var(--form-border-radius, border.$border-radius-medium);
+  margin-bottom: var(--form-gap, layout.$spacing-04);
+  color: var(--form-error-color, var(--color-error-default));
+  font-size: var(--form-font-size, 14px);
+}
+
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--form-padding, layout.$spacing-04) * 2);
+  gap: var(--form-gap, layout.$spacing-04);
+
+  &Icon {
+    font-size: 48px;
+    color: var(--form-success-color, var(--color-success-default));
+  }
+
+  &Title {
+    font-size: calc(var(--form-font-size, 14px) + 4px);
+    font-weight: 600;
+    color: var(--form-text-color, var(--color-text-primary-default));
+    margin: 0;
+  }
+
+  &Message {
+    font-size: var(--form-font-size, 14px);
+    color: var(--form-text-color, var(--color-text-secondary-default));
+    margin: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .fieldsGrid {
+    grid-template-columns: 1fr;
+  }
+}
