@@ -14,16 +14,15 @@ import { useUserHelpers } from "@/hooks/useUserStatus";
 import { Button } from "@/proto-design-system/Button/button";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import Modal from "@/proto-design-system/modal/modal";
+import Pagination from "@/proto-design-system/pagination/pagination";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type {
 	SortDirection,
-	UserFilters as UserFiltersType,
 	UserSortField,
 	WaitlistUser,
 } from "@/types/users.types";
 import { formatPosition } from "@/utils/positionFormatter";
-import { UserFilters } from "../UserFilters/component";
 import { UtmSourceBadge } from "../UtmSourceBadge/component";
 import styles from "./component.module.scss";
 
@@ -34,10 +33,20 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	users: WaitlistUser[];
 	/** Loading state */
 	loading?: boolean;
+	/** Pagination - current page */
+	currentPage?: number;
+	/** Pagination - total pages */
+	totalPages?: number;
+	/** Pagination - items per page */
+	pageSize?: number;
+	/** Total users count (across all pages) */
+	totalUsers?: number;
+	/** Page change handler */
+	onPageChange?: (page: number) => void;
 	/** User click handler */
 	onUserClick?: (user: WaitlistUser) => void;
 	/** Export handler */
-	onExport?: (users: WaitlistUser[]) => Promise<void>;
+	onExport?: () => Promise<void>;
 	/** Bulk action handler */
 	onBulkAction?: (action: string, userIds: string[]) => Promise<void>;
 	/** Additional CSS class name */
@@ -51,6 +60,11 @@ export const UserList = memo<UserListProps>(function UserList({
 	campaignId,
 	users,
 	loading = false,
+	currentPage = 1,
+	totalPages = 1,
+	pageSize = 25,
+	totalUsers = 0,
+	onPageChange,
 	onUserClick,
 	onExport,
 	onBulkAction,
@@ -62,7 +76,6 @@ export const UserList = memo<UserListProps>(function UserList({
 	const [sortField, setSortField] = useState<UserSortField>("position");
 	const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
-	const [filters, setFilters] = useState<UserFiltersType>({});
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [isBulkLoading, setIsBulkLoading] = useState(false);
 
@@ -82,7 +95,7 @@ export const UserList = memo<UserListProps>(function UserList({
 		[sortField, sortDirection],
 	);
 
-	// Filter and sort users
+	// Filter and sort users (client-side search and sort only)
 	const filteredAndSortedUsers = useMemo(() => {
 		let filtered = users;
 
@@ -94,47 +107,8 @@ export const UserList = memo<UserListProps>(function UserList({
 			);
 		}
 
-		// Apply filters
-		if (filters.status && filters.status.length > 0) {
-			filtered = filtered.filter((user) =>
-				filters.status!.includes(user.status),
-			);
-		}
-
-		if (filters.source && filters.source.length > 0) {
-			filtered = filtered.filter((user) =>
-				filters.source!.includes(user.source),
-			);
-		}
-
-		if (filters.hasReferrals) {
-			filtered = filtered.filter((user) => user.referralCount > 0);
-		}
-
-		if (filters.minPosition !== undefined) {
-			filtered = filtered.filter(
-				(user) => user.position >= filters.minPosition!,
-			);
-		}
-
-		if (filters.maxPosition !== undefined) {
-			filtered = filtered.filter(
-				(user) => user.position <= filters.maxPosition!,
-			);
-		}
-
-		if (filters.dateRange) {
-			filtered = filtered.filter((user) => {
-				const createdAt = new Date(user.createdAt);
-				return (
-					createdAt >= filters.dateRange!.start &&
-					createdAt <= filters.dateRange!.end
-				);
-			});
-		}
-
 		// Sort
-		filtered.sort((a, b) => {
+		const sorted = [...filtered].sort((a, b) => {
 			let aValue: string | number;
 			let bValue: string | number;
 
@@ -180,8 +154,8 @@ export const UserList = memo<UserListProps>(function UserList({
 			return 0;
 		});
 
-		return filtered;
-	}, [users, searchQuery, filters, sortField, sortDirection]);
+		return sorted;
+	}, [users, searchQuery, sortField, sortDirection]);
 
 	// Handle select all
 	const handleSelectAll = useCallback(() => {
@@ -210,14 +184,15 @@ export const UserList = memo<UserListProps>(function UserList({
 			return;
 		}
 
+		if (action === "export" && onExport) {
+			await onExport();
+			setSelectedUserIds([]);
+			return;
+		}
+
 		setIsBulkLoading(true);
 		try {
-			if (action === "export" && onExport) {
-				const selectedUsers = filteredAndSortedUsers.filter((user) =>
-					selectedUserIds.includes(user.id),
-				);
-				await onExport(selectedUsers);
-			} else if (onBulkAction) {
+			if (onBulkAction) {
 				await onBulkAction(action, selectedUserIds);
 			}
 			setSelectedUserIds([]);
@@ -243,7 +218,7 @@ export const UserList = memo<UserListProps>(function UserList({
 	// Handle export CSV
 	const handleExportAll = async () => {
 		if (onExport) {
-			await onExport(filteredAndSortedUsers);
+			await onExport();
 		}
 	};
 
@@ -334,12 +309,6 @@ export const UserList = memo<UserListProps>(function UserList({
 				</div>
 			</div>
 
-			{/* Filters bar */}
-			<UserFilters
-				filters={filters}
-				onChange={setFilters}
-				onReset={() => setFilters({})}
-			/>
 
 			{/* Main content */}
 			<div className={styles.main}>
@@ -353,9 +322,17 @@ export const UserList = memo<UserListProps>(function UserList({
 							<span className={styles.resultsDivider}>/</span>
 						</>
 					) : null}
-					{filteredAndSortedUsers.length} user
-					{filteredAndSortedUsers.length !== 1 ? "s" : ""}
-					{searchQuery && ` matching "${searchQuery}"`}
+					{searchQuery ? (
+						<>
+							{filteredAndSortedUsers.length} user
+							{filteredAndSortedUsers.length !== 1 ? "s" : ""} matching "
+							{searchQuery}"
+						</>
+					) : (
+						<>
+							{totalUsers} user{totalUsers !== 1 ? "s" : ""} total
+						</>
+					)}
 				</div>
 
 				{/* User table */}
@@ -368,15 +345,14 @@ export const UserList = memo<UserListProps>(function UserList({
 					<div className={styles.noResults}>
 						<i className="ri-search-line" aria-hidden="true" />
 						<p>No users found</p>
-						<Button
-							onClick={() => {
-								setSearchQuery("");
-								setFilters({});
-							}}
-							variant="secondary"
-						>
-							Clear filters
-						</Button>
+						{searchQuery && (
+							<Button
+								onClick={() => setSearchQuery("")}
+								variant="secondary"
+							>
+								Clear search
+							</Button>
+						)}
 					</div>
 				) : (
 					<div className={styles.tableWrapper}>
@@ -545,6 +521,19 @@ export const UserList = memo<UserListProps>(function UserList({
 								))}
 							</tbody>
 						</table>
+					</div>
+				)}
+
+				{/* Pagination */}
+				{totalPages > 1 && (
+					<div className={styles.pagination}>
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							itemsPerPage={pageSize}
+							style="rounded"
+							onPageChange={onPageChange ?? (() => {})}
+						/>
 					</div>
 				)}
 			</div>

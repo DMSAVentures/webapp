@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { useCallback, useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { UserList } from "@/features/users/components/UserList/component";
+import { useExportCampaignUsers } from "@/hooks/useExportCampaignUsers";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useGetCampaignUsers } from "@/hooks/useGetCampaignUsers";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import type { WaitlistUser } from "@/types/common.types";
 import { exportUsersToCSV } from "@/utils/csvExport";
 import styles from "./campaignDetail.module.scss";
 
@@ -16,19 +17,33 @@ export const Route = createFileRoute("/campaigns/$campaignId/users")({
 	component: RouteComponent,
 });
 
+const DEFAULT_PAGE_SIZE = 25;
+
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const { data: campaign, loading, error } = useGetCampaign(campaignId);
+
+	// Pagination state
+	const [page, setPage] = useState(1);
+
 	const {
 		data: usersData,
 		loading: usersLoading,
 		error: usersError,
 	} = useGetCampaignUsers(campaignId, {
-		page: 1,
-		limit: 100,
+		page,
+		limit: DEFAULT_PAGE_SIZE,
 		sort: "position",
 		order: "asc",
 	});
+
+	// Export hook
+	const { fetchAllUsers } = useExportCampaignUsers(campaignId);
+
+	// Handle page change
+	const handlePageChange = useCallback((newPage: number) => {
+		setPage(newPage);
+	}, []);
 
 	if (loading) {
 		return (
@@ -98,11 +113,17 @@ function RouteComponent() {
 						campaignId={campaignId}
 						users={users}
 						loading={usersLoading}
+						currentPage={usersData?.page ?? 1}
+						totalPages={usersData?.total_pages ?? 1}
+						pageSize={usersData?.page_size ?? DEFAULT_PAGE_SIZE}
+						totalUsers={usersData?.total_count ?? 0}
+						onPageChange={handlePageChange}
 						onUserClick={(user) => {
 							console.log("User clicked:", user);
 						}}
-						onExport={async (users: WaitlistUser[]) => {
-							exportUsersToCSV(users, campaign.name);
+						onExport={async () => {
+							const allUsers = await fetchAllUsers();
+							exportUsersToCSV(allUsers, campaign.name);
 						}}
 						onBulkAction={async (action, userIds) => {
 							console.log("Bulk action:", action, userIds);

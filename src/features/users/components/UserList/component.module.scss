@@ -312,6 +312,13 @@
   line-height: typography.$line-height-normal;
 }
 
+// Pagination
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding-top: layout.$spacing-04;
+}
+
 // Responsive adjustments
 @media (width <= 1024px) {
   .container {
