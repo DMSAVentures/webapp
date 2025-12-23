@@ -66,10 +66,12 @@ function RouteComponent() {
 			transition={{ duration: 0.6 }}
 		>
 			<div className={styles.pageHeader}>
-				<h1 className={styles.pageTitle}>Create Campaign</h1>
-				<p className={styles.pageDescription}>
-					Create a new waitlist or referral campaign
-				</p>
+				<div className={styles.headerContent}>
+					<h1 className={styles.pageTitle}>Create Campaign</h1>
+					<p className={styles.pageDescription}>
+						Create a new waitlist or referral campaign
+					</p>
+				</div>
 			</div>
 
 			{error && (
