@@ -129,9 +129,10 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 		.filter(Boolean)
 		.join(" ");
 
-	// Split fields by column for two-column layout
-	const leftColumnFields = sortedFields.filter((f) => (f.column || 1) === 1);
-	const rightColumnFields = sortedFields.filter((f) => f.column === 2);
+	// Split fields by column for two-column layout using Object.groupBy (ES2025)
+	const columnGroups = Object.groupBy(sortedFields, (f) => f.column ?? 1);
+	const leftColumnFields = columnGroups[1] ?? [];
+	const rightColumnFields = columnGroups[2] ?? [];
 
 	// Show success state
 	if (submitted) {

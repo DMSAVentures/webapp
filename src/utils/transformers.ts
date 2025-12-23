@@ -20,6 +20,7 @@ export function camelToSnake(str: string): string {
 
 /**
  * Recursively converts all keys in an object from snake_case to camelCase
+ * Uses Object.fromEntries() for cleaner object transformation (ES2019+)
  */
 export function objectKeysToCamel<T = unknown>(obj: unknown): T {
 	if (obj === null || obj === undefined) {
@@ -31,15 +32,11 @@ export function objectKeysToCamel<T = unknown>(obj: unknown): T {
 	}
 
 	if (typeof obj === "object" && obj.constructor === Object) {
-		return Object.keys(obj).reduce(
-			(acc, key) => {
-				const camelKey = snakeToCamel(key);
-				acc[camelKey] = objectKeysToCamel(
-					(obj as Record<string, unknown>)[key],
-				);
-				return acc;
-			},
-			{} as Record<string, unknown>,
+		return Object.fromEntries(
+			Object.entries(obj as Record<string, unknown>).map(([key, value]) => [
+				snakeToCamel(key),
+				objectKeysToCamel(value),
+			]),
 		) as T;
 	}
 
@@ -48,6 +45,7 @@ export function objectKeysToCamel<T = unknown>(obj: unknown): T {
 
 /**
  * Recursively converts all keys in an object from camelCase to snake_case
+ * Uses Object.fromEntries() for cleaner object transformation (ES2019+)
  */
 export function objectKeysToSnake<T = unknown>(obj: unknown): T {
 	if (obj === null || obj === undefined) {
@@ -59,15 +57,11 @@ export function objectKeysToSnake<T = unknown>(obj: unknown): T {
 	}
 
 	if (typeof obj === "object" && obj.constructor === Object) {
-		return Object.keys(obj).reduce(
-			(acc, key) => {
-				const snakeKey = camelToSnake(key);
-				acc[snakeKey] = objectKeysToSnake(
-					(obj as Record<string, unknown>)[key],
-				);
-				return acc;
-			},
-			{} as Record<string, unknown>,
+		return Object.fromEntries(
+			Object.entries(obj as Record<string, unknown>).map(([key, value]) => [
+				camelToSnake(key),
+				objectKeysToSnake(value),
+			]),
 		) as T;
 	}
 
