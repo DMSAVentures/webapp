@@ -3,7 +3,13 @@
  * Area chart showing signups over time with period selector
  */
 
-import { type HTMLAttributes, memo, useMemo, useState } from "react";
+import {
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useMemo,
+	useState,
+} from "react";
 import {
 	Area,
 	AreaChart,
@@ -269,10 +275,13 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 	const [selectedPeriod, setSelectedPeriod] = useState<AnalyticsPeriod>(period);
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
-	const handlePeriodChange = (newPeriod: AnalyticsPeriod) => {
-		setSelectedPeriod(newPeriod);
-		onPeriodChange?.(newPeriod);
-	};
+	const handlePeriodChange = useCallback(
+		(newPeriod: AnalyticsPeriod) => {
+			setSelectedPeriod(newPeriod);
+			onPeriodChange?.(newPeriod);
+		},
+		[onPeriodChange],
+	);
 
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
@@ -286,7 +295,7 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 				onClick: () => handlePeriodChange(option.value),
 				selected: selectedPeriod === option.value,
 			})),
-		[selectedPeriod],
+		[selectedPeriod, handlePeriodChange],
 	);
 
 	return (

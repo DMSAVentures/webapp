@@ -36,11 +36,20 @@ function RouteComponent() {
 		const updated = await updateCampaign(campaignId, {
 			name: data.name,
 			description: data.description,
-			referral_config: {
-				enabled: data.settings.enableReferrals,
-				points_per_referral: 1,
-				verified_only: true,
-			},
+			referral_config: data.settings.enableReferrals
+				? {
+						enabled: true,
+						points_per_referral: data.referralConfig?.pointsPerReferral || 1,
+						verified_only: data.referralConfig?.verifiedOnly ?? true,
+						positions_to_jump: data.referralConfig?.positionsToJump || 0,
+						sharing_channels: (data.referralConfig?.sharingChannels ||
+							[]) as Array<
+							"email" | "twitter" | "facebook" | "linkedin" | "whatsapp"
+						>,
+					}
+				: {
+						enabled: false,
+					},
 			email_config: {
 				verification_required: data.settings.emailVerificationRequired,
 			},
@@ -83,8 +92,19 @@ function RouteComponent() {
 			emailVerificationRequired:
 				campaign.email_config?.verification_required ?? true,
 			duplicateHandling: "block",
-			enableReferrals: campaign.referral_config?.enabled ?? true,
-			enableRewards: true,
+			enableReferrals: campaign.referral_config?.enabled ?? false,
+			enableRewards: false,
+		},
+		referralConfig: {
+			pointsPerReferral: campaign.referral_config?.points_per_referral ?? 1,
+			verifiedOnly: campaign.referral_config?.verified_only ?? true,
+			positionsToJump: campaign.referral_config?.positions_to_jump ?? 0,
+			sharingChannels: campaign.referral_config?.sharing_channels ?? [
+				"email",
+				"twitter",
+				"facebook",
+				"linkedin",
+			],
 		},
 	};
 

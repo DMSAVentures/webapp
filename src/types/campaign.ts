@@ -73,6 +73,7 @@ export interface ReferralConfig {
 	enabled?: boolean;
 	points_per_referral?: number;
 	verified_only?: boolean;
+	positions_to_jump?: number;
 	sharing_channels?: SharingChannel[];
 	custom_share_messages?: Record<string, string>;
 }

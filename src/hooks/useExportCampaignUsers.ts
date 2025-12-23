@@ -19,8 +19,7 @@ export const useExportCampaignUsers = (campaignId: string) => {
 			const allUsers = transformApiUsersToWaitlistUsers(response.users);
 			return allUsers;
 		} catch (error: unknown) {
-			const message =
-				error instanceof Error ? error.message : "Unknown error";
+			const message = error instanceof Error ? error.message : "Unknown error";
 			setError({ error: message });
 			throw error;
 		} finally {

@@ -309,7 +309,6 @@ export const UserList = memo<UserListProps>(function UserList({
 				</div>
 			</div>
 
-
 			{/* Main content */}
 			<div className={styles.main}>
 				{/* Results count */}
@@ -346,10 +345,7 @@ export const UserList = memo<UserListProps>(function UserList({
 						<i className="ri-search-line" aria-hidden="true" />
 						<p>No users found</p>
 						{searchQuery && (
-							<Button
-								onClick={() => setSearchQuery("")}
-								variant="secondary"
-							>
+							<Button onClick={() => setSearchQuery("")} variant="secondary">
 								Clear search
 							</Button>
 						)}
@@ -532,7 +528,7 @@ export const UserList = memo<UserListProps>(function UserList({
 							totalPages={totalPages}
 							itemsPerPage={pageSize}
 							style="rounded"
-							onPageChange={onPageChange ?? (() => {})}
+							onPageChange={onPageChange ?? (() => undefined)}
 						/>
 					</div>
 				)}

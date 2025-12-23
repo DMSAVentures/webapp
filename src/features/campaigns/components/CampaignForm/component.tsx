@@ -26,6 +26,7 @@ export interface CampaignFormData {
 	referralConfig?: {
 		pointsPerReferral: number;
 		verifiedOnly: boolean;
+		positionsToJump: number;
 		sharingChannels: string[];
 	};
 	formConfig?: {
@@ -80,6 +81,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		referralConfig: {
 			pointsPerReferral: initialData?.referralConfig?.pointsPerReferral ?? 1,
 			verifiedOnly: initialData?.referralConfig?.verifiedOnly ?? true,
+			positionsToJump: initialData?.referralConfig?.positionsToJump ?? 0,
 			sharingChannels: initialData?.referralConfig?.sharingChannels ?? [
 				"email",
 				"twitter",
@@ -372,6 +374,25 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						flipCheckboxToRight={false}
 						text="Count verified referrals only"
 						description="Only count referrals that have verified their email address"
+					/>
+
+					{/* Positions to Jump */}
+					<TextInput
+						id="positions-to-jump"
+						label="Positions to Jump"
+						type="number"
+						value={formData.referralConfig?.positionsToJump.toString() || "0"}
+						onChange={(e) =>
+							handleReferralConfigChange(
+								"positionsToJump",
+								parseInt(e.target.value) || 0,
+							)
+						}
+						placeholder="0"
+						disabled={loading}
+						min={0}
+						max={1000}
+						hint="Number of positions a referred user jumps ahead in the queue (0 = no jump)"
 					/>
 
 					{/* Sharing Channels */}

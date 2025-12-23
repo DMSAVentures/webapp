@@ -3,7 +3,13 @@
  * Stacked bar chart showing signups by UTM source over time
  */
 
-import { type HTMLAttributes, memo, useMemo, useState } from "react";
+import {
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useMemo,
+	useState,
+} from "react";
 import {
 	Bar,
 	BarChart,
@@ -421,10 +427,13 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 	const [selectedPeriod, setSelectedPeriod] = useState<AnalyticsPeriod>(period);
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
-	const handlePeriodChange = (newPeriod: AnalyticsPeriod) => {
-		setSelectedPeriod(newPeriod);
-		onPeriodChange?.(newPeriod);
-	};
+	const handlePeriodChange = useCallback(
+		(newPeriod: AnalyticsPeriod) => {
+			setSelectedPeriod(newPeriod);
+			onPeriodChange?.(newPeriod);
+		},
+		[onPeriodChange],
+	);
 
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
@@ -438,7 +447,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 				onClick: () => handlePeriodChange(option.value),
 				selected: selectedPeriod === option.value,
 			})),
-		[selectedPeriod],
+		[selectedPeriod, handlePeriodChange],
 	);
 
 	// Get top sources and determine if we need "Other"
