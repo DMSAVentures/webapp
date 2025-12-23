@@ -317,6 +317,20 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						handleSettingChange("duplicateHandling", option.value)
 					}
 				/>
+
+				{/* Enable CAPTCHA */}
+				<CheckboxWithLabel
+					checked={
+						formData.formConfig?.captchaEnabled ? "checked" : "unchecked"
+					}
+					onChange={(e) =>
+						handleFormConfigChange("captchaEnabled", e.target.checked)
+					}
+					disabled={loading}
+					flipCheckboxToRight={false}
+					text="Enable CAPTCHA"
+					description="Protect your waitlist from bots and spam submissions"
+				/>
 			</div>
 
 			{/* Referral Configuration Section - Only show if referrals are enabled */}
@@ -396,29 +410,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					</div>
 				</div>
 			)}
-
-			{/* Waitlist Form Configuration */}
-			<div className={styles.section}>
-				<h3 className={styles.sectionTitle}>Waitlist Form Settings</h3>
-				<p className={styles.sectionDescription}>
-					Basic form behavior settings. You can customize form fields using the
-					Form Builder after creating the campaign.
-				</p>
-
-				{/* Enable CAPTCHA */}
-				<CheckboxWithLabel
-					checked={
-						formData.formConfig?.captchaEnabled ? "checked" : "unchecked"
-					}
-					onChange={(e) =>
-						handleFormConfigChange("captchaEnabled", e.target.checked)
-					}
-					disabled={loading}
-					flipCheckboxToRight={false}
-					text="Enable CAPTCHA"
-					description="Protect your waitlist from bots and spam submissions"
-				/>
-			</div>
 
 			{/* Divider */}
 			<ContentDivider size="thin" />
