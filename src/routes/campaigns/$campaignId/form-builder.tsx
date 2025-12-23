@@ -61,7 +61,6 @@ function RouteComponent() {
 						: undefined,
 				})),
 				captcha_enabled: false,
-				double_opt_in: config.behavior?.doubleOptIn || false,
 				custom_css: customCssWithDesign,
 			};
 

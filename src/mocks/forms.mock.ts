@@ -485,31 +485,26 @@ export const mockFormBehaviors: Record<string, FormBehavior> = {
 		submitAction: "inline-message",
 		successMessage:
 			"Thank you for joining! Check your email for the next steps.",
-		doubleOptIn: true,
 		duplicateHandling: "block",
 	},
 	redirectToThankYou: {
 		submitAction: "redirect",
 		redirectUrl: "https://example.com/thank-you",
-		doubleOptIn: false,
 		duplicateHandling: "update",
 	},
 	showReferralPage: {
 		submitAction: "referral-page",
 		successMessage: "You're on the list! Share your unique link to move up.",
-		doubleOptIn: true,
 		duplicateHandling: "block",
 	},
 	simpleConfirmation: {
 		submitAction: "inline-message",
 		successMessage: "All set! We'll be in touch soon.",
-		doubleOptIn: false,
 		duplicateHandling: "allow",
 	},
 	strictVerification: {
 		submitAction: "inline-message",
 		successMessage: "Please check your email to verify your address.",
-		doubleOptIn: true,
 		duplicateHandling: "block",
 	},
 };

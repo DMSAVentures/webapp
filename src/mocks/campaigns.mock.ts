@@ -148,7 +148,6 @@ export const mockCampaigns: Campaign[] = [
 				submitAction: "referral-page",
 				successMessage:
 					"Thank you for joining! Share your link to move up the waitlist.",
-				doubleOptIn: true,
 				duplicateHandling: "block",
 			},
 		},
@@ -191,7 +190,6 @@ export const mockCampaigns: Campaign[] = [
 			behavior: {
 				submitAction: "inline-message",
 				successMessage: "Welcome to the beta! Check your email for next steps.",
-				doubleOptIn: true,
 				duplicateHandling: "update",
 			},
 		},
@@ -234,7 +232,6 @@ export const mockCampaigns: Campaign[] = [
 			behavior: {
 				submitAction: "redirect",
 				redirectUrl: "https://ecommerce.com/seller-welcome",
-				doubleOptIn: false,
 				duplicateHandling: "allow",
 			},
 		},
@@ -277,7 +274,6 @@ export const mockCampaigns: Campaign[] = [
 			behavior: {
 				submitAction: "referral-page",
 				successMessage: "You're on the list! Refer friends to skip the line.",
-				doubleOptIn: true,
 				duplicateHandling: "block",
 			},
 		},
@@ -320,7 +316,6 @@ export const mockCampaigns: Campaign[] = [
 			behavior: {
 				submitAction: "inline-message",
 				successMessage: "Subscribed! First issue coming next Monday.",
-				doubleOptIn: false,
 				duplicateHandling: "update",
 			},
 		},
@@ -363,7 +358,6 @@ export const mockCampaigns: Campaign[] = [
 			behavior: {
 				submitAction: "redirect",
 				redirectUrl: "https://conference2026.com/confirmed",
-				doubleOptIn: true,
 				duplicateHandling: "block",
 			},
 		},
@@ -406,7 +400,6 @@ export const mockCampaigns: Campaign[] = [
 			behavior: {
 				submitAction: "referral-page",
 				successMessage: "You're in! Refer others to earn bonus tokens.",
-				doubleOptIn: true,
 				duplicateHandling: "block",
 			},
 		},

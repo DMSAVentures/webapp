@@ -89,7 +89,6 @@ export const useFormConfigFromCampaign = (
 			behavior: {
 				submitAction: "inline-message",
 				successMessage: "Thank you for signing up!",
-				doubleOptIn: campaign.form_config.double_opt_in || false,
 				duplicateHandling: "block",
 			},
 		};

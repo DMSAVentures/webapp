@@ -30,7 +30,6 @@ export interface CampaignFormData {
 	};
 	formConfig?: {
 		captchaEnabled: boolean;
-		doubleOptIn: boolean;
 	};
 }
 
@@ -90,7 +89,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		},
 		formConfig: {
 			captchaEnabled: initialData?.formConfig?.captchaEnabled ?? false,
-			doubleOptIn: initialData?.formConfig?.doubleOptIn ?? false,
 		},
 	});
 
@@ -419,18 +417,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					flipCheckboxToRight={false}
 					text="Enable CAPTCHA"
 					description="Protect your waitlist from bots and spam submissions"
-				/>
-
-				{/* Double Opt-in */}
-				<CheckboxWithLabel
-					checked={formData.formConfig?.doubleOptIn ? "checked" : "unchecked"}
-					onChange={(e) =>
-						handleFormConfigChange("doubleOptIn", e.target.checked)
-					}
-					disabled={loading}
-					flipCheckboxToRight={false}
-					text="Enable double opt-in"
-					description="Require users to confirm their email before being added to the waitlist"
 				/>
 			</div>
 

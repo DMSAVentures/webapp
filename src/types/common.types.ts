@@ -165,7 +165,6 @@ export interface FormBehavior {
 	submitAction: "inline-message" | "redirect" | "referral-page";
 	redirectUrl?: string;
 	successMessage?: string;
-	doubleOptIn: boolean;
 	duplicateHandling: "block" | "update" | "allow";
 }
 

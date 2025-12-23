@@ -89,7 +89,6 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 			behavior: {
 				submitAction: "inline-message",
 				successMessage: "Thank you for signing up!",
-				doubleOptIn: true,
 				duplicateHandling: "block",
 			},
 		};

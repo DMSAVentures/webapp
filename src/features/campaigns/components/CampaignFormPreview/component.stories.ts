@@ -40,7 +40,6 @@ const mockCampaign: Campaign = {
 			},
 		],
 		captcha_enabled: false,
-		double_opt_in: true,
 		custom_css:
 			'__DESIGN__:{"layout":"single-column","colors":{"primary":"#3b82f6","background":"#ffffff","text":"#1f2937","border":"#e5e7eb","error":"#ef4444","success":"#10b981"},"typography":{"fontFamily":"Inter, system-ui, sans-serif","fontSize":16,"fontWeight":400},"spacing":{"padding":16,"gap":16},"borderRadius":8,"customCss":""}',
 	},
