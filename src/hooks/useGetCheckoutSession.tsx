@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 
 interface GetCheckoutSessionResponse {
 	session_id: string;
@@ -32,13 +33,9 @@ export const useGetCheckoutSession = (args: IArguments) => {
 					},
 				);
 
-				// On successful response, set the client secret
 				setData(response);
 			} catch (error: unknown) {
-				// Set error if the fetcher throws an error
-				setError({
-					error: error instanceof Error ? error.message : "Unknown error",
-				});
+				setError(toApiError(error));
 			} finally {
 				setLoading(false);
 			}

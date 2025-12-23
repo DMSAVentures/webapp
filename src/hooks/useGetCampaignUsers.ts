@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 import type { ApiListUsersResponse } from "@/types/api.types";
 import type { ListUsersParams, ListUsersResponse } from "@/types/users.types";
 import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
@@ -65,9 +66,7 @@ export const useGetCampaignUsers = (
 				});
 			} catch (error: unknown) {
 				if (signal?.aborted) return;
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 			} finally {
 				if (!signal?.aborted) {
 					setLoading(false);

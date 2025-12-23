@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 import type {
 	ListCampaignsParams,
 	ListCampaignsResponse,
@@ -37,8 +38,7 @@ export const useGetCampaigns = (params?: ListCampaignsParams) => {
 			const response = await getCampaigns(params);
 			setData(response);
 		} catch (error: unknown) {
-			const message = error instanceof Error ? error.message : "Unknown error";
-			setError({ error: message });
+			setError(toApiError(error));
 		} finally {
 			setLoading(false);
 		}

@@ -1,6 +1,7 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { getErrorMessage } from "@/utils";
 import { PaymentMethodUpdateIntentResponse } from "@/types/billing";
 
 async function createPaymentMethodUpdateIntent(): Promise<PaymentMethodUpdateIntentResponse> {
@@ -23,8 +24,6 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 	const handlePaymentUpdate = useCallback(async () => {
 		if (!stripe || !elements) {
 			console.error("Stripe.js has not loaded yet.");
-			// Stripe.js hasn't yet loaded.
-			// Make sure to disable form submission until Stripe.js has loaded.
 			return;
 		}
 
@@ -43,9 +42,6 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 			console.error(result.error.message);
 			setError(result.error.message!);
 		} else {
-			// The setup has succeeded. Display a success message and send
-			// result.setupIntent.payment_method to your server to save the
-			// card to a Customer
 			console.log(result.setupIntent.payment_method);
 		}
 	}, [stripe, elements, data]);
@@ -57,7 +53,7 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 				const response = await createPaymentMethodUpdateIntent();
 				setData(response);
 			} catch (error: unknown) {
-				setError(error instanceof Error ? error.message : "Unknown error");
+				setError(getErrorMessage(error));
 			} finally {
 				setLoading(false);
 			}

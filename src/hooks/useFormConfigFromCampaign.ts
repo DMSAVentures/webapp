@@ -1,6 +1,37 @@
 import { useMemo } from "react";
 import type { Campaign } from "@/types/campaign";
-import type { FormConfig } from "@/types/common.types";
+import type { FormConfig, FormDesign, FormBehavior } from "@/types/common.types";
+
+/** Default design configuration with type safety */
+const DEFAULT_DESIGN = {
+	layout: "single-column",
+	colors: {
+		primary: "#3b82f6",
+		background: "#ffffff",
+		text: "#1f2937",
+		border: "#e5e7eb",
+		error: "#ef4444",
+		success: "#10b981",
+	},
+	typography: {
+		fontFamily: "Inter, system-ui, sans-serif",
+		fontSize: 16,
+		fontWeight: 400,
+	},
+	spacing: {
+		padding: 16,
+		gap: 16,
+	},
+	borderRadius: 8,
+	customCss: "",
+} as const satisfies FormDesign;
+
+/** Default behavior configuration */
+const DEFAULT_BEHAVIOR = {
+	submitAction: "inline-message",
+	successMessage: "Thank you for signing up!",
+	duplicateHandling: "block",
+} as const satisfies FormBehavior;
 
 /**
  * Transform campaign form_config to FormConfig for preview/editing
@@ -33,28 +64,7 @@ export const useFormConfigFromCampaign = (
 		}));
 
 		// Default design config
-		const defaultDesign = {
-			layout: "single-column" as const,
-			colors: {
-				primary: "#3b82f6",
-				background: "#ffffff",
-				text: "#1f2937",
-				border: "#e5e7eb",
-				error: "#ef4444",
-				success: "#10b981",
-			},
-			typography: {
-				fontFamily: "Inter, system-ui, sans-serif",
-				fontSize: 16,
-				fontWeight: 400,
-			},
-			spacing: {
-				padding: 16,
-				gap: 16,
-			},
-			borderRadius: 8,
-			customCss: "",
-		};
+		const defaultDesign: FormDesign = { ...DEFAULT_DESIGN };
 
 		// Try to parse design from custom_css
 		let design = defaultDesign;
@@ -86,11 +96,7 @@ export const useFormConfigFromCampaign = (
 			campaignId: campaign.id,
 			fields: uiFields,
 			design,
-			behavior: {
-				submitAction: "inline-message",
-				successMessage: "Thank you for signing up!",
-				duplicateHandling: "block",
-			},
+			behavior: { ...DEFAULT_BEHAVIOR },
 		};
 	}, [campaign]);
 };

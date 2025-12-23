@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 import type {
 	ApiError,
 	Campaign,
@@ -38,9 +39,7 @@ export const useUpdateCampaignStatus = () => {
 				setData(response);
 				return response;
 			} catch (error: unknown) {
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 				return null;
 			} finally {
 				setLoading(false);

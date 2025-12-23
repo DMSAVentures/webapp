@@ -69,6 +69,26 @@ export type FormFieldType =
 	| "date"
 	| "number";
 
+/** Type for fields that require options (select, radio) */
+export type OptionsFieldType = Extract<FormFieldType, "select" | "radio">;
+
+/** Type for fields that don't require options */
+export type SimpleFieldType = Exclude<FormFieldType, OptionsFieldType>;
+
+/**
+ * Type guard to check if a form field type requires options
+ */
+export const isOptionsFieldType = (type: FormFieldType): type is OptionsFieldType => {
+	return type === "select" || type === "radio";
+};
+
+/**
+ * Type guard to check if a form field has options
+ */
+export const hasOptions = (field: FormField): field is FormField & { options: string[] } => {
+	return isOptionsFieldType(field.type) && Array.isArray(field.options);
+};
+
 export interface ReferralConfig {
 	enabled?: boolean;
 	points_per_referral?: number;

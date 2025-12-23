@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 import { GetCurrentSubscriptionResponse } from "@/types/billing";
 
 async function getCurrentSubscription(): Promise<GetCurrentSubscriptionResponse> {
@@ -31,10 +32,7 @@ export const useGetCurrentSubscription = () => {
 				const response = await getCurrentSubscription();
 				setCurrentSubscription(response);
 			} catch (error: unknown) {
-				// Set error if the fetcher throws an error
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 			} finally {
 				setLoading(false);
 			}

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { isAbortError, toApiError } from "@/utils";
 import type { Campaign } from "@/types/campaign";
 
 export const useGetCampaign = (campaignId: string) => {
@@ -23,12 +24,10 @@ export const useGetCampaign = (campaignId: string) => {
 				);
 				setData(response);
 			} catch (error: unknown) {
-				if (error instanceof Error && error.name === "AbortError") {
+				if (isAbortError(error)) {
 					return; // Request was cancelled, don't update state
 				}
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 			} finally {
 				setLoading(false);
 			}

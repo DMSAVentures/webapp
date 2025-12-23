@@ -1,4 +1,5 @@
 import type { ApiError } from "@/types/api.types";
+import { isAbortError, isApiError } from "@/utils";
 
 interface FetcherOptions extends RequestInit {
 	headers?: HeadersInit;
@@ -29,26 +30,26 @@ export const fetcher = async <T>(
 			credentials: "include",
 		});
 
-		const data = await response.json();
+		const data: unknown = await response.json();
 
 		// Check if response is not OK (not a 2xx status)
 		if (!response.ok) {
-			// Throw the API error object
-			const apiError: ApiError = data;
-			throw new Error(apiError.error || "An unknown error occurred");
+			const errorMessage = isApiError(data)
+				? data.error
+				: "An unknown error occurred";
+			throw new Error(errorMessage);
 		}
 
 		// Return the parsed data if response is OK
 		return data as T;
 	} catch (error: unknown) {
 		// Handle abort signal
-		if (error instanceof Error && error.name === "AbortError") {
+		if (isAbortError(error)) {
 			console.debug("Fetch request was aborted");
-			return Promise.reject(error); // Reject with the abort error or handle it accordingly
+			return Promise.reject(error);
 		}
 
 		console.log("Error fetching request", error);
-		// Throw error for the calling function to catch
 		throw error;
 	}
 };
@@ -78,26 +79,26 @@ export const publicFetcher = async <T>(
 			// Note: NO credentials included for public requests
 		});
 
-		const data = await response.json();
+		const data: unknown = await response.json();
 
 		// Check if response is not OK (not a 2xx status)
 		if (!response.ok) {
-			// Throw the API error object
-			const apiError: ApiError = data;
-			throw new Error(apiError.error || "An unknown error occurred");
+			const errorMessage = isApiError(data)
+				? data.error
+				: "An unknown error occurred";
+			throw new Error(errorMessage);
 		}
 
 		// Return the parsed data if response is OK
 		return data as T;
 	} catch (error: unknown) {
 		// Handle abort signal
-		if (error instanceof Error && error.name === "AbortError") {
+		if (isAbortError(error)) {
 			console.debug("Fetch request was aborted");
 			return Promise.reject(error);
 		}
 
 		console.log("Error fetching request", error);
-		// Throw error for the calling function to catch
 		throw error;
 	}
 };

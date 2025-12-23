@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { getErrorMessage } from "@/utils";
 import { CancelSubscriptionResponse } from "@/types/billing";
 
 async function cancelSubscription(): Promise<CancelSubscriptionResponse> {
@@ -24,7 +25,7 @@ export const useCancelSubscription = () => {
 			const response = await cancelSubscription();
 			setData(response);
 		} catch (error: unknown) {
-			setError(error instanceof Error ? error.message : "Unknown error");
+			setError(getErrorMessage(error));
 		} finally {
 			setLoading(false);
 		}

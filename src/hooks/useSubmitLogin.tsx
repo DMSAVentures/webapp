@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getErrorMessage, isCodedError, hasProperty } from "@/utils";
 
 interface ErrorResponse {
 	code: string;
@@ -9,17 +10,8 @@ interface LoginData {
 	token: string;
 }
 
-const isErrorResponse = (error: unknown): error is ErrorResponse => {
-	return (
-		typeof error === "object" &&
-		error !== null &&
-		"code" in error &&
-		"message" in error
-	);
-};
-
 const isLoginData = (data: unknown): data is LoginData => {
-	return typeof data === "object" && data !== null && "token" in data;
+	return hasProperty(data, "token") && typeof data.token === "string";
 };
 
 interface SubmitLoginOperation {
@@ -54,28 +46,23 @@ export const useSubmitLogin = (): SubmitLoginOperation => {
 			);
 
 			if (!response.ok) {
-				const errorData: ErrorResponse = await response.json();
-				if (isErrorResponse(errorData)) {
+				const errorData: unknown = await response.json();
+				if (isCodedError(errorData)) {
 					throw new Error(errorData.message || "Login failed");
-				} else {
-					throw new Error("unknown response received");
 				}
-			} else {
-				const responseData: LoginData = await response.json();
-				if (isLoginData(responseData)) {
-					setData(responseData);
-				}
+				throw new Error("Unknown response received");
+			}
+
+			const responseData: unknown = await response.json();
+			if (isLoginData(responseData)) {
+				setData(responseData);
 			}
 		} catch (error: unknown) {
 			console.error("Login failed", error);
-			if (error instanceof Error) {
-				setError({ code: "unknown_error", message: error.message });
-			} else {
-				setError({
-					code: "unknown_error",
-					message: "An error occurred during login",
-				});
-			}
+			setError({
+				code: "unknown_error",
+				message: getErrorMessage(error),
+			});
 		} finally {
 			setLoading(false);
 		}

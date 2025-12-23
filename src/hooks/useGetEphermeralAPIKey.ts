@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { getErrorMessage } from "@/utils";
 
 interface EphermalAPIKeyResponse {
 	key: string;
@@ -27,7 +28,7 @@ export const useGetEphermeralAPIKey = () => {
 			const response = await getEphermeralAPIKey();
 			setData(response);
 		} catch (error: unknown) {
-			setError(error instanceof Error ? error.message : "Unknown error");
+			setError(getErrorMessage(error));
 		} finally {
 			setLoading(false);
 		}

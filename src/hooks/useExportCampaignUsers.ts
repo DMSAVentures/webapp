@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 import type { ApiListUsersResponse } from "@/types/api.types";
 import type { WaitlistUser } from "@/types/users.types";
 import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
@@ -19,8 +20,7 @@ export const useExportCampaignUsers = (campaignId: string) => {
 			const allUsers = transformApiUsersToWaitlistUsers(response.users);
 			return allUsers;
 		} catch (error: unknown) {
-			const message = error instanceof Error ? error.message : "Unknown error";
-			setError({ error: message });
+			setError(toApiError(error));
 			throw error;
 		} finally {
 			setLoading(false);

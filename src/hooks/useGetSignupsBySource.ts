@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { type ApiError, fetcher } from "@/hooks/fetcher";
+import { isAbortError, toApiError } from "@/utils";
 import type {
 	ApiSignupsBySourceResponse,
 	SignupsOverTimeParams,
@@ -35,12 +36,10 @@ export const useGetSignupsBySource = (
 				});
 				setData(response);
 			} catch (error: unknown) {
-				if (error instanceof Error && error.name === "AbortError") {
+				if (isAbortError(error)) {
 					return;
 				}
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 			} finally {
 				setLoading(false);
 			}

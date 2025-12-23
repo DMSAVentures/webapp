@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 
 interface CreateSubscriptionIntentResponse {
 	client_secret: string;
@@ -29,13 +30,9 @@ export const useCreateSubscriptionIntent = (args: IArguments) => {
 					},
 				);
 
-				// On successful response, set the client secret
 				setClientSecret(response.client_secret);
 			} catch (error: unknown) {
-				// Set error if the fetcher throws an error
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 			} finally {
 				setLoading(false);
 			}

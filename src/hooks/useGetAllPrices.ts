@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { getErrorMessage, isAbortError } from "@/utils";
 
 export interface Price {
 	product_id: string;
@@ -28,11 +29,10 @@ export const useGetAllPrices = () => {
 			);
 			setPrices(response);
 		} catch (error: unknown) {
-			if (error instanceof Error && error.name === "AbortError") {
-				// Handle abort error separately if needed
+			if (isAbortError(error)) {
 				console.debug("Request was aborted.");
 			} else {
-				setError(error instanceof Error ? error.message : "Unknown error"); // Only set error for actual failures
+				setError(getErrorMessage(error));
 			}
 		} finally {
 			setLoading(false);
@@ -46,7 +46,6 @@ export const useGetAllPrices = () => {
 		fetchPrices(signal);
 
 		return () => {
-			// Aborts the fetch request when the component unmounts
 			controller.abort();
 		};
 	}, [fetchPrices]);

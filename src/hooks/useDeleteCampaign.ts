@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { toApiError } from "@/utils";
 import type { ApiError } from "@/types/campaign";
 
 async function deleteCampaign(campaignId: string): Promise<void> {
@@ -23,9 +24,7 @@ export const useDeleteCampaign = () => {
 				await deleteCampaign(campaignId);
 				return true;
 			} catch (error: unknown) {
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				setError({ error: message });
+				setError(toApiError(error));
 				return false;
 			} finally {
 				setLoading(false);

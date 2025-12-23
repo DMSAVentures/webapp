@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
+import { getErrorMessage } from "@/utils";
 import { CustomerPortalResponse } from "@/types/billing";
 
 async function createCustomerPortal(): Promise<CustomerPortalResponse> {
@@ -24,8 +25,7 @@ export const useCreateCustomerPortal = () => {
 			const response = await createCustomerPortal();
 			setData(response);
 		} catch (error: unknown) {
-			const message = error instanceof Error ? error.message : "Unknown error";
-			setError(message);
+			setError(getErrorMessage(error));
 		} finally {
 			setLoading(false);
 		}
