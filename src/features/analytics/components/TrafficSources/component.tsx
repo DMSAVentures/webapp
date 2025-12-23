@@ -26,6 +26,8 @@ export interface TrafficSourceData {
 	count: number;
 	/** Percentage of total traffic */
 	percentage: number;
+	/** Index signature for recharts compatibility */
+	[key: string]: string | number;
 }
 
 export interface TrafficSourcesProps
@@ -95,14 +97,11 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 };
 
 /**
- * Custom label for pie chart
+ * Custom label for pie chart - uses percent (0-1 decimal) from recharts v3
  */
-interface PieLabelEntry {
-	percentage: number;
-}
-
-const renderPieLabel = (entry: PieLabelEntry) => {
-	return `${formatPercentage(entry.percentage)}`;
+const renderPieLabel = (props: { percent?: number }) => {
+	const percentValue = (props.percent ?? 0) * 100;
+	return `${formatPercentage(percentValue)}`;
 };
 
 /**
