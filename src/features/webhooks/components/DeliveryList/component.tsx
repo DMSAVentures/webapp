@@ -1,0 +1,285 @@
+/**
+ * DeliveryList Component
+ * Display webhook delivery history with expandable details
+ */
+
+import { Fragment, type HTMLAttributes, memo, useState } from "react";
+import { Button } from "@/proto-design-system/Button/button";
+import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
+import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
+import Pagination from "@/proto-design-system/pagination/pagination";
+import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import type { DeliveryStatus, WebhookDelivery } from "@/types/webhook";
+import styles from "./component.module.scss";
+
+export interface DeliveryListProps extends HTMLAttributes<HTMLDivElement> {
+	/** Deliveries to display */
+	deliveries: WebhookDelivery[];
+	/** Loading state */
+	loading?: boolean;
+	/** Pagination - current page */
+	currentPage?: number;
+	/** Pagination - total pages */
+	totalPages?: number;
+	/** Pagination - items per page */
+	pageSize?: number;
+	/** Page change handler */
+	onPageChange?: (page: number) => void;
+	/** Refresh handler */
+	onRefresh?: () => void;
+	/** Additional CSS class name */
+	className?: string;
+}
+
+const getStatusVariant = (status: DeliveryStatus): "success" | "error" | "warning" | "info" => {
+	switch (status) {
+		case "success":
+			return "success";
+		case "failed":
+			return "error";
+		case "pending":
+			return "warning";
+		default:
+			return "info";
+	}
+};
+
+const formatDuration = (ms?: number): string => {
+	if (!ms) return "-";
+	if (ms < 1000) return `${ms}ms`;
+	return `${(ms / 1000).toFixed(2)}s`;
+};
+
+const formatStatus = (status: DeliveryStatus): string => {
+	return status.charAt(0).toUpperCase() + status.slice(1);
+};
+
+/**
+ * DeliveryList displays webhook delivery history
+ */
+type FilterType = "all" | "failed";
+
+export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
+	deliveries,
+	loading = false,
+	currentPage = 1,
+	totalPages = 1,
+	pageSize = 20,
+	onPageChange,
+	onRefresh,
+	className: customClassName,
+	...props
+}) {
+	const [expandedDeliveryId, setExpandedDeliveryId] = useState<string | null>(null);
+	const [filter, setFilter] = useState<FilterType>("all");
+
+	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
+
+	const toggleDelivery = (deliveryId: string) => {
+		setExpandedDeliveryId((prev) => (prev === deliveryId ? null : deliveryId));
+	};
+
+	// Filter deliveries based on selected filter
+	const filteredDeliveries = filter === "all"
+		? deliveries
+		: deliveries.filter((d) => d.status === "failed");
+
+	// Empty state
+	if (!loading && deliveries.length === 0) {
+		return (
+			<EmptyState
+				title="No deliveries yet"
+				description="Webhook deliveries will appear here when events are triggered"
+				icon="list-check"
+			/>
+		);
+	}
+
+	return (
+		<div className={classNames} {...props}>
+			{/* Header */}
+			<div className={styles.header}>
+				<div className={styles.headerLeft}>
+					<ButtonGroup
+						size="small"
+						ariaLabel="Filter deliveries"
+						items={[
+							{
+								text: "All",
+								icon: "ri-list-check",
+								iconPosition: "left",
+								iconOnly: false,
+								selected: filter === "all",
+								onClick: () => setFilter("all"),
+							},
+							{
+								text: "Failed",
+								icon: "ri-error-warning-line",
+								iconPosition: "left",
+								iconOnly: false,
+								selected: filter === "failed",
+								onClick: () => setFilter("failed"),
+							},
+						]}
+					/>
+					<div className={styles.resultsInfo}>
+						{filteredDeliveries.length} deliver{filteredDeliveries.length !== 1 ? "ies" : "y"}
+						{filter === "failed" && deliveries.length > 0 && ` of ${deliveries.length} total`}
+					</div>
+				</div>
+				{onRefresh && (
+					<Button
+						variant="secondary"
+						size="small"
+						leftIcon="ri-refresh-line"
+						onClick={onRefresh}
+					>
+						Refresh
+					</Button>
+				)}
+			</div>
+
+			{/* Main content */}
+			<div className={styles.main}>
+				{loading ? (
+					<div className={styles.loading}>
+						<div className={styles.loadingSpinner} />
+						<p>Loading deliveries...</p>
+					</div>
+				) : filteredDeliveries.length === 0 ? (
+					<EmptyState
+						title={filter === "failed" ? "No failed deliveries" : "No deliveries"}
+						description={filter === "failed" ? "All webhook deliveries were successful" : "Webhook deliveries will appear here when events are triggered"}
+						icon="list-check"
+					/>
+				) : (
+					<div className={styles.tableWrapper}>
+						<table className={styles.table}>
+							<thead className={styles.tableHead}>
+								<tr>
+									<th className={styles.tableHeaderCell}>Status</th>
+									<th className={styles.tableHeaderCell}>Event</th>
+									<th className={styles.tableHeaderCell}>Response</th>
+									<th className={styles.tableHeaderCell}>Duration</th>
+									<th className={styles.tableHeaderCell}>Attempt</th>
+									<th className={styles.tableHeaderCell}>Next Retry</th>
+									<th className={styles.tableHeaderCell}>Created At</th>
+									<th className={styles.tableHeaderCell}></th>
+								</tr>
+							</thead>
+							<tbody className={styles.tableBody}>
+								{filteredDeliveries.map((delivery) => (
+									<Fragment key={delivery.id}>
+										<tr
+											className={`${styles.tableRow} ${expandedDeliveryId === delivery.id ? styles.tableRowExpanded : ""}`}
+											onClick={() => toggleDelivery(delivery.id)}
+										>
+											<td className={`${styles.tableCell} ${styles.tableCellBadge}`}>
+												<StatusBadge
+													text={formatStatus(delivery.status)}
+													variant={getStatusVariant(delivery.status)}
+													styleType="light"
+												/>
+											</td>
+											<td className={styles.tableCell}>
+												<span className={styles.eventType}>{delivery.event_type}</span>
+											</td>
+											<td className={styles.tableCell}>
+												{delivery.response_status ? (
+													<span className={`${styles.statusCode} ${delivery.response_status >= 200 && delivery.response_status < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}>
+														{delivery.response_status}
+													</span>
+												) : (
+													<span className={styles.noResponse}>-</span>
+												)}
+											</td>
+											<td className={styles.tableCell}>
+												<span className={styles.duration}>
+													{formatDuration(delivery.duration_ms)}
+												</span>
+											</td>
+											<td className={styles.tableCell}>
+												<span className={styles.attempt}>
+													{delivery.attempt_number}
+												</span>
+											</td>
+											<td className={styles.tableCell}>
+												{delivery.next_retry_at ? (
+													<span className={styles.nextRetry}>
+														{new Date(delivery.next_retry_at).toLocaleString()}
+													</span>
+												) : (
+													<span className={styles.noRetry}>-</span>
+												)}
+											</td>
+											<td className={styles.tableCell}>
+												<span className={styles.timestamp}>
+													{new Date(delivery.created_at).toLocaleString()}
+												</span>
+											</td>
+											<td className={styles.tableCell}>
+												<i className={`${styles.expandIcon} ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`} />
+											</td>
+										</tr>
+										{expandedDeliveryId === delivery.id && (
+											<tr className={styles.detailsRow}>
+												<td colSpan={8} className={styles.detailsCell}>
+													<div className={styles.detailsContent}>
+														{delivery.error_message && (
+															<div className={styles.errorMessage}>
+																<strong>Error:</strong> {delivery.error_message}
+															</div>
+														)}
+
+														<div className={styles.detailSection}>
+															<h4 className={styles.detailTitle}>Request Payload</h4>
+															<pre className={styles.codeBlock}>
+																{JSON.stringify(delivery.payload, null, 2)}
+															</pre>
+														</div>
+
+														{delivery.response_body && (
+															<div className={styles.detailSection}>
+																<h4 className={styles.detailTitle}>Response Body</h4>
+																<pre className={styles.codeBlock}>
+																	{delivery.response_body}
+																</pre>
+															</div>
+														)}
+
+														{delivery.delivered_at && (
+														<div className={styles.detailMeta}>
+															<span className={styles.metaItem}>
+																<strong>Delivered at:</strong> {new Date(delivery.delivered_at).toLocaleString()}
+															</span>
+														</div>
+													)}
+													</div>
+												</td>
+											</tr>
+										)}
+									</Fragment>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
+
+				{/* Pagination */}
+				{totalPages > 1 && (
+					<div className={styles.pagination}>
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							itemsPerPage={pageSize}
+							style="rounded"
+							onPageChange={onPageChange ?? (() => undefined)}
+						/>
+					</div>
+				)}
+			</div>
+		</div>
+	);
+});
+
+DeliveryList.displayName = "DeliveryList";

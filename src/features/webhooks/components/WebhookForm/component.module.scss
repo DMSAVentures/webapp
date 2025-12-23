@@ -1,0 +1,90 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-06;
+  max-width: 600px;
+  width: 100%;
+}
+
+// Section styles
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: typography.$font-size-lg;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.sectionDescription {
+  margin: 0;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+  line-height: typography.$line-height-relaxed;
+}
+
+// Events
+.eventsError {
+  font-size: typography.$font-size-sm;
+  color: var(--color-error-text);
+}
+
+.eventCategories {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-05;
+}
+
+.eventCategory {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.categoryHeader {
+  padding-bottom: layout.$spacing-02;
+  border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-02;
+  padding-left: layout.$spacing-05;
+}
+
+// Form actions
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: layout.$spacing-03;
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+  .root {
+    max-width: 100%;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}

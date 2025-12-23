@@ -15,7 +15,8 @@
       "Bash(npm run lint:scss:*)",
       "Bash(npx stylelint:*)",
       "Bash(git rebase:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(xargs -I {} bash -c 'echo \"\"\"\"===== {} =====\"\"\"\" && head -50 {}')"
     ],
     "deny": [],
     "ask": []

@@ -22,8 +22,11 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WebhooksIndexRouteImport } from './routes/webhooks/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
+import { Route as WebhooksNewRouteImport } from './routes/webhooks/new'
+import { Route as WebhooksWebhookIdRouteImport } from './routes/webhooks/$webhookId'
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
 import { Route as EmbedCampaignIdRouteImport } from './routes/embed.$campaignId'
 import { Route as CampaignsNewRouteImport } from './routes/campaigns/new'
@@ -102,6 +105,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WebhooksIndexRoute = WebhooksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WebhooksRoute,
+} as any)
 const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
   id: '/campaigns/',
   path: '/campaigns/',
@@ -111,6 +119,16 @@ const BillingIndexRoute = BillingIndexRouteImport.update({
   id: '/billing/',
   path: '/billing/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const WebhooksNewRoute = WebhooksNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => WebhooksRoute,
+} as any)
+const WebhooksWebhookIdRoute = WebhooksWebhookIdRouteImport.update({
+  id: '/$webhookId',
+  path: '/$webhookId',
+  getParentRoute: () => WebhooksRoute,
 } as any)
 const OauthSignedinRoute = OauthSignedinRouteImport.update({
   id: '/oauth/signedin',
@@ -190,7 +208,7 @@ export interface FileRoutesByFullPath {
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
-  '/webhooks': typeof WebhooksRoute
+  '/webhooks': typeof WebhooksRouteWithChildren
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -198,8 +216,11 @@ export interface FileRoutesByFullPath {
   '/campaigns/new': typeof CampaignsNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/webhooks/$webhookId': typeof WebhooksWebhookIdRoute
+  '/webhooks/new': typeof WebhooksNewRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
@@ -219,7 +240,6 @@ export interface FileRoutesByTo {
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
-  '/webhooks': typeof WebhooksRoute
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -227,8 +247,11 @@ export interface FileRoutesByTo {
   '/campaigns/new': typeof CampaignsNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/webhooks/$webhookId': typeof WebhooksWebhookIdRoute
+  '/webhooks/new': typeof WebhooksNewRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/webhooks': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
@@ -249,7 +272,7 @@ export interface FileRoutesById {
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
-  '/webhooks': typeof WebhooksRoute
+  '/webhooks': typeof WebhooksRouteWithChildren
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -257,8 +280,11 @@ export interface FileRoutesById {
   '/campaigns/new': typeof CampaignsNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
+  '/webhooks/$webhookId': typeof WebhooksWebhookIdRoute
+  '/webhooks/new': typeof WebhooksNewRoute
   '/billing/': typeof BillingIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
@@ -288,8 +314,11 @@ export interface FileRouteTypes {
     | '/campaigns/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
+    | '/webhooks/$webhookId'
+    | '/webhooks/new'
     | '/billing'
     | '/campaigns'
+    | '/webhooks/'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
@@ -309,7 +338,6 @@ export interface FileRouteTypes {
     | '/main'
     | '/media'
     | '/signin'
-    | '/webhooks'
     | '/billing/pay'
     | '/billing/payment_attempt'
     | '/billing/payment_method'
@@ -317,8 +345,11 @@ export interface FileRouteTypes {
     | '/campaigns/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
+    | '/webhooks/$webhookId'
+    | '/webhooks/new'
     | '/billing'
     | '/campaigns'
+    | '/webhooks'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
@@ -346,8 +377,11 @@ export interface FileRouteTypes {
     | '/campaigns/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
+    | '/webhooks/$webhookId'
+    | '/webhooks/new'
     | '/billing/'
     | '/campaigns/'
+    | '/webhooks/'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
@@ -368,7 +402,7 @@ export interface RootRouteChildren {
   MainRoute: typeof MainRoute
   MediaRoute: typeof MediaRoute
   SigninRoute: typeof SigninRoute
-  WebhooksRoute: typeof WebhooksRoute
+  WebhooksRoute: typeof WebhooksRouteWithChildren
   BillingPayRoute: typeof BillingPayRoute
   BillingPayment_attemptRoute: typeof BillingPayment_attemptRoute
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
@@ -478,6 +512,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/webhooks/': {
+      id: '/webhooks/'
+      path: '/'
+      fullPath: '/webhooks/'
+      preLoaderRoute: typeof WebhooksIndexRouteImport
+      parentRoute: typeof WebhooksRoute
+    }
     '/campaigns/': {
       id: '/campaigns/'
       path: '/campaigns'
@@ -491,6 +532,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/billing'
       preLoaderRoute: typeof BillingIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/webhooks/new': {
+      id: '/webhooks/new'
+      path: '/new'
+      fullPath: '/webhooks/new'
+      preLoaderRoute: typeof WebhooksNewRouteImport
+      parentRoute: typeof WebhooksRoute
+    }
+    '/webhooks/$webhookId': {
+      id: '/webhooks/$webhookId'
+      path: '/$webhookId'
+      fullPath: '/webhooks/$webhookId'
+      preLoaderRoute: typeof WebhooksWebhookIdRouteImport
+      parentRoute: typeof WebhooksRoute
     }
     '/oauth/signedin': {
       id: '/oauth/signedin'
@@ -579,6 +634,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface WebhooksRouteChildren {
+  WebhooksWebhookIdRoute: typeof WebhooksWebhookIdRoute
+  WebhooksNewRoute: typeof WebhooksNewRoute
+  WebhooksIndexRoute: typeof WebhooksIndexRoute
+}
+
+const WebhooksRouteChildren: WebhooksRouteChildren = {
+  WebhooksWebhookIdRoute: WebhooksWebhookIdRoute,
+  WebhooksNewRoute: WebhooksNewRoute,
+  WebhooksIndexRoute: WebhooksIndexRoute,
+}
+
+const WebhooksRouteWithChildren = WebhooksRoute._addFileChildren(
+  WebhooksRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -592,7 +663,7 @@ const rootRouteChildren: RootRouteChildren = {
   MainRoute: MainRoute,
   MediaRoute: MediaRoute,
   SigninRoute: SigninRoute,
-  WebhooksRoute: WebhooksRoute,
+  WebhooksRoute: WebhooksRouteWithChildren,
   BillingPayRoute: BillingPayRoute,
   BillingPayment_attemptRoute: BillingPayment_attemptRoute,
   BillingPayment_methodRoute: BillingPayment_methodRoute,
