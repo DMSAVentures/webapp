@@ -27,6 +27,7 @@ export interface CampaignFormData {
 		pointsPerReferral: number;
 		verifiedOnly: boolean;
 		positionsToJump: number;
+		referrerPositionsToJump: number;
 		sharingChannels: string[];
 	};
 	formConfig?: {
@@ -82,6 +83,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			pointsPerReferral: initialData?.referralConfig?.pointsPerReferral ?? 1,
 			verifiedOnly: initialData?.referralConfig?.verifiedOnly ?? true,
 			positionsToJump: initialData?.referralConfig?.positionsToJump ?? 0,
+			referrerPositionsToJump: initialData?.referralConfig?.referrerPositionsToJump ?? 1,
 			sharingChannels: initialData?.referralConfig?.sharingChannels ?? [
 				"email",
 				"twitter",
@@ -376,10 +378,29 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						description="Only count referrals that have verified their email address"
 					/>
 
-					{/* Positions to Jump */}
+					{/* Referrer Positions to Jump */}
+					<TextInput
+						id="referrer-positions-to-jump"
+						label="Referrer Positions to Jump"
+						type="number"
+						value={formData.referralConfig?.referrerPositionsToJump.toString() || "1"}
+						onChange={(e) =>
+							handleReferralConfigChange(
+								"referrerPositionsToJump",
+								parseInt(e.target.value) || 1,
+							)
+						}
+						placeholder="1"
+						disabled={loading}
+						min={1}
+						max={1000}
+						hint="Number of positions the referrer jumps ahead for each successful referral"
+					/>
+
+					{/* Referee Positions to Jump */}
 					<TextInput
 						id="positions-to-jump"
-						label="Positions to Jump"
+						label="Referee Positions to Jump"
 						type="number"
 						value={formData.referralConfig?.positionsToJump.toString() || "0"}
 						onChange={(e) =>
@@ -392,7 +413,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						disabled={loading}
 						min={0}
 						max={1000}
-						hint="Number of positions a referred user jumps ahead in the queue (0 = no jump)"
+						hint="Number of positions a new user jumps ahead when they use a referral code (0 = no jump)"
 					/>
 
 					{/* Sharing Channels */}

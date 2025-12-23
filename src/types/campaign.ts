@@ -94,6 +94,7 @@ export interface ReferralConfig {
 	points_per_referral?: number;
 	verified_only?: boolean;
 	positions_to_jump?: number;
+	referrer_positions_to_jump?: number;
 	sharing_channels?: SharingChannel[];
 	custom_share_messages?: Record<string, string>;
 }
