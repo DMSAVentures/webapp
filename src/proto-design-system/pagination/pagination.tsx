@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
 			<button
 				className={styles["pagination__button"]}
-				disabled={pageWindow === 1}
+				disabled={currentPage === 1}
 				onClick={handleToFirst}
 				title="First Page"
 			>
@@ -109,7 +109,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
 			<button
 				className={styles["pagination__button"]}
-				disabled={pageWindow === maxPageWindow}
+				disabled={currentPage === totalPages}
 				onClick={handleToLast}
 				title="Last Page"
 			>
