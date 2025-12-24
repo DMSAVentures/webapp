@@ -30,6 +30,11 @@ export const fetcher = async <T>(
 			credentials: "include",
 		});
 
+		// Handle 204 No Content responses
+		if (response.status === 204) {
+			return undefined as T;
+		}
+
 		const data: unknown = await response.json();
 
 		// Check if response is not OK (not a 2xx status)

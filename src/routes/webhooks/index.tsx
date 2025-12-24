@@ -11,6 +11,7 @@ import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import Feedback from "@/proto-design-system/feedback/feedback";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import Modal from "@/proto-design-system/modal/modal";
 import type { WebhookStatus } from "@/types/webhook";
 import styles from "./webhooks.module.scss";
 
@@ -27,23 +28,47 @@ interface TestFeedback {
 function RouteComponent() {
 	const navigate = useNavigate();
 	const { data: webhooks, loading, error, refetch } = useGetWebhooks();
-	const { deleteWebhook } = useDeleteWebhook();
+	const { deleteWebhook, error: deleteError } = useDeleteWebhook();
 	const { testWebhook } = useTestWebhook();
 
 	const [testingWebhookId, setTestingWebhookId] = useState<string | null>(null);
 	const [testFeedback, setTestFeedback] = useState<TestFeedback | null>(null);
+	const [deleteWebhookId, setDeleteWebhookId] = useState<string | null>(null);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const [deleteFeedback, setDeleteFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
 	const handleCreateWebhook = () => {
 		navigate({ to: "/webhooks/new" });
 	};
 
-	const handleDelete = async (webhookId: string) => {
-		if (confirm(`Are you sure you want to delete this webhook?`)) {
-			const success = await deleteWebhook(webhookId);
-			if (success) {
-				refetch();
-			}
+	const handleDeleteClick = (webhookId: string) => {
+		setDeleteWebhookId(webhookId);
+	};
+
+	const handleDeleteConfirm = async () => {
+		if (!deleteWebhookId) return;
+
+		setIsDeleting(true);
+		setDeleteFeedback(null);
+		const success = await deleteWebhook(deleteWebhookId);
+		setIsDeleting(false);
+		setDeleteWebhookId(null);
+
+		if (success) {
+			setDeleteFeedback({ type: "success", message: "Webhook deleted successfully" });
+			refetch();
+		} else {
+			setDeleteFeedback({ type: "error", message: deleteError?.error || "Failed to delete webhook" });
 		}
+
+		// Auto-dismiss feedback after 4 seconds
+		setTimeout(() => {
+			setDeleteFeedback(null);
+		}, 4000);
+	};
+
+	const handleDeleteCancel = () => {
+		setDeleteWebhookId(null);
 	};
 
 	const handleTest = async (webhookId: string) => {
@@ -132,6 +157,16 @@ function RouteComponent() {
 				</Button>
 			</div>
 
+			{deleteFeedback && (
+				<Feedback
+					feedbackType={deleteFeedback.type}
+					variant="light"
+					size="small"
+					alertTitle={deleteFeedback.message}
+					dismissable
+				/>
+			)}
+
 			<div className={styles.pageContent}>
 				{!webhooks || webhooks.length === 0 ? (
 					<EmptyState
@@ -174,7 +209,7 @@ function RouteComponent() {
 											ariaLabel="Delete webhook"
 											variant="secondary"
 											iconClass="delete-bin-line"
-											onClick={() => handleDelete(webhook.id)}
+											onClick={() => handleDeleteClick(webhook.id)}
 										/>
 									</div>
 								</div>
@@ -222,6 +257,19 @@ function RouteComponent() {
 					</div>
 				)}
 			</div>
+
+			<Modal
+				isOpen={deleteWebhookId !== null}
+				onClose={handleDeleteCancel}
+				title="Delete Webhook"
+				description="Are you sure you want to delete this webhook? This action cannot be undone."
+				icon="warning"
+				dismissibleByCloseIcon={true}
+				proceedText={isDeleting ? "Deleting..." : "Delete"}
+				cancelText="Cancel"
+				onCancel={handleDeleteCancel}
+				onProceed={handleDeleteConfirm}
+			/>
 		</motion.div>
 	);
 }
