@@ -103,6 +103,12 @@
   }
 }
 
+.referralSection {
+  width: 100%;
+  margin-top: var(--form-gap, layout.$spacing-04);
+  text-align: left;
+}
+
 // Responsive adjustments
 @media (width <= 768px) {
   .fieldsGrid {

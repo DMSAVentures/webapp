@@ -324,7 +324,12 @@ function RouteComponent() {
 					/>
 				)}
 
-				<CampaignStats stats={stats} onCardClick={handleStatCardClick} />
+				<CampaignStats
+					stats={stats}
+					verificationEnabled={campaign.email_config?.verification_required ?? false}
+					referralsEnabled={campaign.referral_config?.enabled ?? false}
+					onCardClick={handleStatCardClick}
+				/>
 
 				<div className={styles.detailsCard}>
 					<h3 className={styles.detailsTitle}>Configuration</h3>
@@ -419,71 +424,6 @@ function RouteComponent() {
 												</strong>
 												<span className={styles.detailValue}>
 													{campaign.email_config.reply_to}
-												</span>
-											</div>
-										)}
-									</div>
-								</div>
-								<ContentDivider size="thin" />
-							</>
-						)}
-
-						{campaign.branding_config && (
-							<>
-								<div className={styles.detailsSection}>
-									<div className={styles.sectionTitle}>Branding Settings</div>
-									<div className={styles.detailsList}>
-										{campaign.branding_config.logo_url && (
-											<div className={styles.detailItem}>
-												<strong className={styles.detailLabel}>
-													Logo URL:
-												</strong>
-												<span className={styles.detailValue}>
-													{campaign.branding_config.logo_url}
-												</span>
-											</div>
-										)}
-										{campaign.branding_config.primary_color && (
-											<div className={styles.detailItem}>
-												<strong className={styles.detailLabel}>
-													Primary Color:
-												</strong>
-												<span className={styles.detailValue}>
-													<span
-														style={{
-															display: "inline-block",
-															width: "20px",
-															height: "20px",
-															backgroundColor:
-																campaign.branding_config.primary_color,
-															border:
-																"1px solid var(--color-border-primary-default)",
-															borderRadius: "4px",
-															marginRight: "8px",
-															verticalAlign: "middle",
-														}}
-													></span>
-													{campaign.branding_config.primary_color}
-												</span>
-											</div>
-										)}
-										{campaign.branding_config.font_family && (
-											<div className={styles.detailItem}>
-												<strong className={styles.detailLabel}>
-													Font Family:
-												</strong>
-												<span className={styles.detailValue}>
-													{campaign.branding_config.font_family}
-												</span>
-											</div>
-										)}
-										{campaign.branding_config.custom_domain && (
-											<div className={styles.detailItem}>
-												<strong className={styles.detailLabel}>
-													Custom Domain:
-												</strong>
-												<span className={styles.detailValue}>
-													{campaign.branding_config.custom_domain}
 												</span>
 											</div>
 										)}

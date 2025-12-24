@@ -4,6 +4,7 @@
  */
 
 import { useCallback, useState } from "react";
+import type { SharingChannel } from "@/types/campaign";
 import type { TrackingData } from "./useTrackingData";
 
 interface FormSubmissionPayload {
@@ -19,10 +20,19 @@ interface FormSubmissionPayload {
 	utm_term?: string;
 }
 
+/**
+ * Response from the signup API endpoint
+ */
+export interface SignupResponse {
+	user_id: string;
+	referral_codes?: Partial<Record<SharingChannel, string>>;
+}
+
 interface UseFormSubmissionResult {
-	submit: (formData: Record<string, string>) => Promise<void>;
+	submit: (formData: Record<string, string>) => Promise<SignupResponse | undefined>;
 	submitting: boolean;
 	submitted: boolean;
+	signupData: SignupResponse | null;
 	error: string | null;
 	reset: () => void;
 }
@@ -63,6 +73,7 @@ export const useFormSubmission = ({
 }: UseFormSubmissionOptions): UseFormSubmissionResult => {
 	const [submitting, setSubmitting] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
+	const [signupData, setSignupData] = useState<SignupResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	const submit = useCallback(
@@ -136,7 +147,12 @@ export const useFormSubmission = ({
 					throw new Error(errorMessage);
 				}
 
+				// Parse and store the signup response
+				const responseData: SignupResponse = await response.json();
+				setSignupData(responseData);
 				setSubmitted(true);
+
+				return responseData;
 			} catch (err) {
 				const message =
 					err instanceof Error ? err.message : "Failed to submit form";
@@ -151,6 +167,7 @@ export const useFormSubmission = ({
 
 	const reset = useCallback(() => {
 		setSubmitted(false);
+		setSignupData(null);
 		setError(null);
 	}, []);
 
@@ -158,6 +175,7 @@ export const useFormSubmission = ({
 		submit,
 		submitting,
 		submitted,
+		signupData,
 		error,
 		reset,
 	};

@@ -4,6 +4,9 @@
  */
 
 import { memo, useCallback, useState } from "react";
+import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
+import type { SignupResponse } from "@/hooks/useFormSubmission";
+import type { SharingChannel } from "@/types/campaign";
 import type {
 	FormDesign,
 	FormField as FormFieldType,
@@ -25,13 +28,19 @@ export interface FormRendererProps {
 	/** Render mode: preview (disabled) or interactive (functional) */
 	mode: "preview" | "interactive";
 	/** Submit handler for interactive mode */
-	onSubmit?: (data: Record<string, string>) => Promise<void>;
+	onSubmit?: (data: Record<string, string>) => Promise<unknown>;
 	/** Submit button text */
 	submitText?: string;
 	/** Success message after submission */
 	successMessage?: string;
 	/** Success title after submission */
 	successTitle?: string;
+	/** Signup response data containing referral codes */
+	signupData?: SignupResponse | null;
+	/** Enabled sharing channels from campaign config */
+	enabledChannels?: SharingChannel[];
+	/** Base URL for referral links (the URL where the form is embedded) */
+	embedUrl?: string;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -46,6 +55,9 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	submitText = "Submit",
 	successMessage = "We'll be in touch soon.",
 	successTitle = "Thank you for signing up!",
+	signupData,
+	enabledChannels = [],
+	embedUrl,
 	className,
 }) {
 	const { fields, design } = config;
@@ -134,6 +146,12 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	const leftColumnFields = columnGroups[1] ?? [];
 	const rightColumnFields = columnGroups[2] ?? [];
 
+	// Check if we have referral data to display
+	const hasReferralLinks =
+		signupData?.referral_codes &&
+		enabledChannels.length > 0 &&
+		embedUrl;
+
 	// Show success state
 	if (submitted) {
 		return (
@@ -145,6 +163,17 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 					/>
 					<h2 className={styles.successTitle}>{successTitle}</h2>
 					<p className={styles.successMessage}>{successMessage}</p>
+
+					{/* Show channel-specific referral links if available */}
+					{hasReferralLinks && (
+						<div className={styles.referralSection}>
+							<ChannelReferralLinks
+								referralCodes={signupData.referral_codes!}
+								enabledChannels={enabledChannels}
+								baseUrl={embedUrl}
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 		);

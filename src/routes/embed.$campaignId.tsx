@@ -88,11 +88,14 @@ function RouteComponent() {
 	}, [campaign]);
 
 	// Form submission handler
-	const { submit } = useFormSubmission({
+	const { submit, signupData } = useFormSubmission({
 		campaignId,
 		fields: campaign?.form_config?.fields || [],
 		tracking,
 	});
+
+	// Get the current embed URL for referral links
+	const embedUrl = typeof window !== "undefined" ? window.location.href.split("?")[0] : "";
 
 	if (loading) {
 		return (
@@ -119,6 +122,9 @@ function RouteComponent() {
 				mode="interactive"
 				onSubmit={submit}
 				submitText={formConfig.design.submitButtonText}
+				signupData={signupData}
+				enabledChannels={campaign.referral_config?.sharing_channels}
+				embedUrl={embedUrl}
 				className={styles.form}
 			/>
 		</div>

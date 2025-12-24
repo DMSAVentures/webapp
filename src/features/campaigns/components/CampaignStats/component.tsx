@@ -12,6 +12,10 @@ export interface CampaignStatsProps extends HTMLAttributes<HTMLDivElement> {
 	stats: CampaignStatsType;
 	/** Show loading state */
 	loading?: boolean;
+	/** Whether email verification is enabled for the campaign */
+	verificationEnabled?: boolean;
+	/** Whether referrals are enabled for the campaign */
+	referralsEnabled?: boolean;
 	/** Click handler for stat cards */
 	onCardClick?: (
 		cardType: "totalSignups" | "verified" | "referrals" | "kFactor",
@@ -47,6 +51,8 @@ const formatCoefficient = (num: number): string => {
 export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 	stats,
 	loading = false,
+	verificationEnabled = true,
+	referralsEnabled = true,
 	onCardClick,
 	className: customClassName,
 	...props
@@ -80,94 +86,100 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 				</div>
 			</div>
 
-			{/* Verified Signups */}
-			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-				onClick={() => onCardClick?.("verified")}
-				role={onCardClick ? "button" : undefined}
-				tabIndex={onCardClick ? 0 : undefined}
-			>
-				<div className={`${styles.statIcon} ${styles.statIconSuccess}`}>
-					<i className="ri-verified-badge-line" aria-hidden="true" />
-				</div>
-				<div className={styles.statContent}>
-					<div className={styles.statLabel}>Verified</div>
-					<div className={styles.statValue}>
-						{loading ? (
-							<div className={styles.skeleton} />
-						) : (
-							<>
-								{formatNumber(stats.verifiedSignups)}
-								<span className={styles.statPercentage}>
-									({formatPercentage(stats.conversionRate)})
-								</span>
-							</>
-						)}
+			{/* Verified Signups - only show if verification is enabled */}
+			{verificationEnabled && (
+				<div
+					className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+					onClick={() => onCardClick?.("verified")}
+					role={onCardClick ? "button" : undefined}
+					tabIndex={onCardClick ? 0 : undefined}
+				>
+					<div className={`${styles.statIcon} ${styles.statIconSuccess}`}>
+						<i className="ri-verified-badge-line" aria-hidden="true" />
 					</div>
-					<div className={styles.statSubtext}>Email verified users</div>
+					<div className={styles.statContent}>
+						<div className={styles.statLabel}>Verified</div>
+						<div className={styles.statValue}>
+							{loading ? (
+								<div className={styles.skeleton} />
+							) : (
+								<>
+									{formatNumber(stats.verifiedSignups)}
+									<span className={styles.statPercentage}>
+										({formatPercentage(stats.conversionRate)})
+									</span>
+								</>
+							)}
+						</div>
+						<div className={styles.statSubtext}>Email verified users</div>
+					</div>
 				</div>
-			</div>
+			)}
 
-			{/* Total Referrals */}
-			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-				onClick={() => onCardClick?.("referrals")}
-				role={onCardClick ? "button" : undefined}
-				tabIndex={onCardClick ? 0 : undefined}
-			>
-				<div className={`${styles.statIcon} ${styles.statIconPurple}`}>
-					<i className="ri-share-forward-line" aria-hidden="true" />
-				</div>
-				<div className={styles.statContent}>
-					<div className={styles.statLabel}>Referrals</div>
-					<div className={styles.statValue}>
-						{loading ? (
-							<div className={styles.skeleton} />
-						) : (
-							formatNumber(stats.totalReferrals)
-						)}
+			{/* Total Referrals - only show if referrals are enabled */}
+			{referralsEnabled && (
+				<div
+					className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+					onClick={() => onCardClick?.("referrals")}
+					role={onCardClick ? "button" : undefined}
+					tabIndex={onCardClick ? 0 : undefined}
+				>
+					<div className={`${styles.statIcon} ${styles.statIconPurple}`}>
+						<i className="ri-share-forward-line" aria-hidden="true" />
 					</div>
-					<div className={styles.statSubtext}>Users referred by others</div>
+					<div className={styles.statContent}>
+						<div className={styles.statLabel}>Referrals</div>
+						<div className={styles.statValue}>
+							{loading ? (
+								<div className={styles.skeleton} />
+							) : (
+								formatNumber(stats.totalReferrals)
+							)}
+						</div>
+						<div className={styles.statSubtext}>Users referred by others</div>
+					</div>
 				</div>
-			</div>
+			)}
 
-			{/* Viral Coefficient (K-Factor) */}
-			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-				onClick={() => onCardClick?.("kFactor")}
-				role={onCardClick ? "button" : undefined}
-				tabIndex={onCardClick ? 0 : undefined}
-			>
-				<div className={`${styles.statIcon} ${styles.statIconOrange}`}>
-					<i className="ri-line-chart-line" aria-hidden="true" />
-				</div>
-				<div className={styles.statContent}>
-					<div className={styles.statLabel}>K-Factor</div>
-					<div className={styles.statValue}>
-						{loading ? (
-							<div className={styles.skeleton} />
-						) : (
-							<>
-								{formatCoefficient(stats.viralCoefficient)}
-								<span className={styles.statBadge}>
-									{stats.viralCoefficient >= 1 ? (
-										<span className={styles.statBadgeSuccess}>
-											<i className="ri-arrow-up-line" aria-hidden="true" />
-											Viral
-										</span>
-									) : (
-										<span className={styles.statBadgeWarning}>
-											<i className="ri-arrow-down-line" aria-hidden="true" />
-											Sub-viral
-										</span>
-									)}
-								</span>
-							</>
-						)}
+			{/* Viral Coefficient (K-Factor) - only show if referrals are enabled */}
+			{referralsEnabled && (
+				<div
+					className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
+					onClick={() => onCardClick?.("kFactor")}
+					role={onCardClick ? "button" : undefined}
+					tabIndex={onCardClick ? 0 : undefined}
+				>
+					<div className={`${styles.statIcon} ${styles.statIconOrange}`}>
+						<i className="ri-line-chart-line" aria-hidden="true" />
 					</div>
-					<div className={styles.statSubtext}>Average referrals per user</div>
+					<div className={styles.statContent}>
+						<div className={styles.statLabel}>K-Factor</div>
+						<div className={styles.statValue}>
+							{loading ? (
+								<div className={styles.skeleton} />
+							) : (
+								<>
+									{formatCoefficient(stats.viralCoefficient)}
+									<span className={styles.statBadge}>
+										{stats.viralCoefficient >= 1 ? (
+											<span className={styles.statBadgeSuccess}>
+												<i className="ri-arrow-up-line" aria-hidden="true" />
+												Viral
+											</span>
+										) : (
+											<span className={styles.statBadgeWarning}>
+												<i className="ri-arrow-down-line" aria-hidden="true" />
+												Sub-viral
+											</span>
+										)}
+									</span>
+								</>
+							)}
+						</div>
+						<div className={styles.statSubtext}>Average referrals per user</div>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 });

@@ -1,0 +1,131 @@
+/**
+ * ChannelReferralLinks Component Styles
+ */
+
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/colors" as colors;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	color: var(--color-text-primary-default);
+
+	i {
+		font-size: typography.$font-size-lg;
+		color: var(--color-icon-primary-default);
+	}
+}
+
+.title {
+	margin: 0;
+	font-size: typography.$font-size-md;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+}
+
+.channelList {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-03;
+}
+
+.channelCard {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03;
+	background-color: var(--color-surface-secondary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.channelHeader {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}
+
+.channelIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: border.$border-radius-small;
+	font-size: typography.$font-size-sm;
+
+	// Platform-specific colors
+	&_twitter {
+		background-color: colors.$color-neutral-900;
+		color: colors.$color-white;
+	}
+
+	&_facebook {
+		background-color: #1877f2;
+		color: colors.$color-white;
+	}
+
+	&_linkedin {
+		background-color: #0a66c2;
+		color: colors.$color-white;
+	}
+
+	&_whatsapp {
+		background-color: #25d366;
+		color: colors.$color-white;
+	}
+
+	&_email {
+		background-color: colors.$color-neutral-600;
+		color: colors.$color-white;
+	}
+}
+
+.channelLabel {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+}
+
+.linkContainer {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}
+
+.linkDisplay {
+	flex: 1;
+	min-width: 0;
+	padding: layout.$spacing-02 layout.$spacing-03;
+	background-color: var(--color-surface-primary-default);
+	border: 1px solid var(--color-border-secondary-default);
+	border-radius: border.$border-radius-small;
+	overflow: hidden;
+}
+
+.linkText {
+	display: block;
+	font-family: monospace;
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-secondary-default);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	flex-shrink: 0;
+}
