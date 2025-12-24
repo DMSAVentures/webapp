@@ -95,7 +95,8 @@ function RouteComponent() {
 	});
 
 	// Get the current embed URL for referral links
-	const embedUrl = typeof window !== "undefined" ? window.location.href.split("?")[0] : "";
+	const embedUrl =
+		typeof window !== "undefined" ? window.location.href.split("?")[0] : "";
 
 	if (loading) {
 		return (

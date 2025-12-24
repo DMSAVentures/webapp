@@ -6,9 +6,9 @@ import { DeliveryList } from "@/features/webhooks/components/DeliveryList/compon
 import { useGetWebhook } from "@/hooks/useGetWebhook";
 import { useGetWebhookDeliveries } from "@/hooks/useGetWebhookDeliveries";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
+import { Button } from "@/proto-design-system/Button/button";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
-import { Button } from "@/proto-design-system/Button/button";
 import Feedback from "@/proto-design-system/feedback/feedback";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import styles from "./webhookDetail.module.scss";
@@ -108,9 +108,7 @@ function RouteComponent() {
 						<h1 className={styles.pageTitle}>Delivery History</h1>
 						{webhook && (
 							<>
-								<p className={styles.pageDescription}>
-									{webhook.url}
-								</p>
+								<p className={styles.pageDescription}>{webhook.url}</p>
 								<p className={styles.retryInfo}>
 									{webhook.retry_enabled
 										? `Retries enabled (max ${webhook.max_retries} attempts)`

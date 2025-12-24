@@ -5,9 +5,9 @@ import { ErrorState } from "@/components/error/error";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
 import { useGetWebhooks } from "@/hooks/useGetWebhooks";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Badge } from "@/proto-design-system/badge/badge";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import { Badge } from "@/proto-design-system/badge/badge";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import Feedback from "@/proto-design-system/feedback/feedback";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
@@ -35,7 +35,10 @@ function RouteComponent() {
 	const [testFeedback, setTestFeedback] = useState<TestFeedback | null>(null);
 	const [deleteWebhookId, setDeleteWebhookId] = useState<string | null>(null);
 	const [isDeleting, setIsDeleting] = useState(false);
-	const [deleteFeedback, setDeleteFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+	const [deleteFeedback, setDeleteFeedback] = useState<{
+		type: "success" | "error";
+		message: string;
+	} | null>(null);
 
 	const handleCreateWebhook = () => {
 		navigate({ to: "/webhooks/new" });
@@ -55,10 +58,16 @@ function RouteComponent() {
 		setDeleteWebhookId(null);
 
 		if (success) {
-			setDeleteFeedback({ type: "success", message: "Webhook deleted successfully" });
+			setDeleteFeedback({
+				type: "success",
+				message: "Webhook deleted successfully",
+			});
 			refetch();
 		} else {
-			setDeleteFeedback({ type: "error", message: deleteError?.error || "Failed to delete webhook" });
+			setDeleteFeedback({
+				type: "error",
+				message: deleteError?.error || "Failed to delete webhook",
+			});
 		}
 
 		// Auto-dismiss feedback after 4 seconds
@@ -97,7 +106,7 @@ function RouteComponent() {
 			// Auto-dismiss after 4 seconds
 			setTimeout(() => {
 				setTestFeedback((current) =>
-					current?.webhookId === webhookId ? null : current
+					current?.webhookId === webhookId ? null : current,
 				);
 			}, 4000);
 		}
@@ -124,13 +133,26 @@ function RouteComponent() {
 	const getStatusBadge = (status: WebhookStatus) => {
 		switch (status) {
 			case "active":
-				return <Badge variant="green" text="Active" styleType="light" size="small" />;
+				return (
+					<Badge variant="green" text="Active" styleType="light" size="small" />
+				);
 			case "paused":
-				return <Badge variant="yellow" text="Paused" styleType="light" size="small" />;
+				return (
+					<Badge
+						variant="yellow"
+						text="Paused"
+						styleType="light"
+						size="small"
+					/>
+				);
 			case "failed":
-				return <Badge variant="red" text="Failed" styleType="light" size="small" />;
+				return (
+					<Badge variant="red" text="Failed" styleType="light" size="small" />
+				);
 			default:
-				return <Badge variant="gray" text={status} styleType="light" size="small" />;
+				return (
+					<Badge variant="gray" text={status} styleType="light" size="small" />
+				);
 		}
 	};
 
@@ -145,7 +167,8 @@ function RouteComponent() {
 				<div className={styles.headerContent}>
 					<h1 className={styles.pageTitle}>Webhooks</h1>
 					<p className={styles.pageDescription}>
-						Configure webhook endpoints to receive real-time notifications when events occur
+						Configure webhook endpoints to receive real-time notifications when
+						events occur
 					</p>
 				</div>
 				<Button
@@ -187,7 +210,10 @@ function RouteComponent() {
 										<p className={styles.webhookUrl}>{webhook.url}</p>
 										<div className={styles.webhookMeta}>
 											{getStatusBadge(webhook.status)}
-											<span>Created {new Date(webhook.created_at).toLocaleDateString()}</span>
+											<span>
+												Created{" "}
+												{new Date(webhook.created_at).toLocaleDateString()}
+											</span>
 										</div>
 									</div>
 									<div className={styles.webhookActions}>
@@ -195,7 +221,10 @@ function RouteComponent() {
 											variant="secondary"
 											size="small"
 											onClick={() => handleTest(webhook.id)}
-											disabled={testingWebhookId === webhook.id || webhook.status !== "active"}
+											disabled={
+												testingWebhookId === webhook.id ||
+												webhook.status !== "active"
+											}
 										>
 											{testingWebhookId === webhook.id ? "Sending..." : "Test"}
 										</Button>
@@ -226,20 +255,30 @@ function RouteComponent() {
 
 								<div className={styles.webhookEvents}>
 									{webhook.events.map((event) => (
-										<Badge key={event} variant="gray" text={event} styleType="lighter" size="small" />
+										<Badge
+											key={event}
+											variant="gray"
+											text={event}
+											styleType="lighter"
+											size="small"
+										/>
 									))}
 								</div>
 
 								<div className={styles.webhookStats}>
 									<div className={styles.statItem}>
 										<span className={styles.statLabel}>Delivered:</span>
-										<span className={`${styles.statValue} ${styles.statValueSuccess}`}>
+										<span
+											className={`${styles.statValue} ${styles.statValueSuccess}`}
+										>
 											{webhook.total_sent}
 										</span>
 									</div>
 									<div className={styles.statItem}>
 										<span className={styles.statLabel}>Failed:</span>
-										<span className={`${styles.statValue} ${webhook.total_failed > 0 ? styles.statValueError : ''}`}>
+										<span
+											className={`${styles.statValue} ${webhook.total_failed > 0 ? styles.statValueError : ""}`}
+										>
 											{webhook.total_failed}
 										</span>
 									</div>

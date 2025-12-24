@@ -50,10 +50,7 @@ export const toCodedApiError = (
  * Handles errors in async operations with consistent logging
  * Returns the error message for display
  */
-export const handleAsyncError = (
-	error: unknown,
-	context?: string,
-): string => {
+export const handleAsyncError = (error: unknown, context?: string): string => {
 	const message = getErrorMessage(error);
 
 	if (context) {

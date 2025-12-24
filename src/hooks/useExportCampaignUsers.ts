@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type { ApiListUsersResponse } from "@/types/api.types";
 import type { WaitlistUser } from "@/types/users.types";
+import { toApiError } from "@/utils";
 import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
 
 export const useExportCampaignUsers = (campaignId: string) => {

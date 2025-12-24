@@ -21,13 +21,20 @@
  * ```
  */
 
-import { Table as TableRoot, type TableProps } from "./table";
-import { TableHeader, type TableHeaderProps } from "./TableHeader";
 import { TableBody, type TableBodyProps } from "./TableBody";
-import { TableRow, type TableRowProps } from "./TableRow";
-import { TableHeaderCell, type TableHeaderCellProps, type SortDirection } from "./TableHeaderCell";
 import { TableCell, type TableCellProps } from "./TableCell";
-import { TableExpandedRow, type TableExpandedRowProps } from "./TableExpandedRow";
+import {
+	TableExpandedRow,
+	type TableExpandedRowProps,
+} from "./TableExpandedRow";
+import { TableHeader, type TableHeaderProps } from "./TableHeader";
+import {
+	type SortDirection,
+	TableHeaderCell,
+	type TableHeaderCellProps,
+} from "./TableHeaderCell";
+import { TableRow, type TableRowProps } from "./TableRow";
+import { type TableProps, Table as TableRoot } from "./table";
 
 // Create compound component
 type TableCompound = typeof TableRoot & {

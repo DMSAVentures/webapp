@@ -64,24 +64,27 @@
 	border-radius: border.$border-radius-small;
 	font-size: typography.$font-size-sm;
 
-	// Platform-specific colors
+	// Platform-specific brand colors (exempt from design token rule)
 	&_twitter {
 		background-color: colors.$color-neutral-900;
 		color: colors.$color-white;
 	}
 
 	&_facebook {
-		background-color: #1877f2;
+		/* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
+		background-color: #1877f2; // Facebook brand blue
 		color: colors.$color-white;
 	}
 
 	&_linkedin {
-		background-color: #0a66c2;
+		/* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
+		background-color: #0a66c2; // LinkedIn brand blue
 		color: colors.$color-white;
 	}
 
 	&_whatsapp {
-		background-color: #25d366;
+		/* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
+		background-color: #25d366; // WhatsApp brand green
 		color: colors.$color-white;
 	}
 
@@ -115,7 +118,7 @@
 
 .linkText {
 	display: block;
-	font-family: monospace;
+	font-family: typography.$font-family-mono;
 	font-size: typography.$font-size-xs;
 	color: var(--color-text-secondary-default);
 	white-space: nowrap;

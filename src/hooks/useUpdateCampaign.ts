@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type {
 	ApiError,
 	Campaign,
 	UpdateCampaignRequest,
 } from "@/types/campaign";
+import { toApiError } from "@/utils";
 
 async function updateCampaign(
 	campaignId: string,

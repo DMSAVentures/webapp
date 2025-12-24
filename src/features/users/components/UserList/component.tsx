@@ -353,7 +353,8 @@ export const UserList = memo<UserListProps>(function UserList({
 								<Table.HeaderCell narrow>
 									<Checkbox
 										checked={
-											selectedUserIds.length === filteredAndSortedUsers.length &&
+											selectedUserIds.length ===
+												filteredAndSortedUsers.length &&
 											filteredAndSortedUsers.length > 0
 												? "checked"
 												: "unchecked"
@@ -378,14 +379,18 @@ export const UserList = memo<UserListProps>(function UserList({
 								</Table.HeaderCell>
 								<Table.HeaderCell
 									sortable
-									sortDirection={sortField === "position" ? sortDirection : null}
+									sortDirection={
+										sortField === "position" ? sortDirection : null
+									}
 									onSort={() => handleSort("position")}
 								>
 									Position
 								</Table.HeaderCell>
 								<Table.HeaderCell
 									sortable
-									sortDirection={sortField === "referralCount" ? sortDirection : null}
+									sortDirection={
+										sortField === "referralCount" ? sortDirection : null
+									}
 									onSort={() => handleSort("referralCount")}
 								>
 									Referrals
@@ -400,7 +405,9 @@ export const UserList = memo<UserListProps>(function UserList({
 								<Table.HeaderCell>UTM Source</Table.HeaderCell>
 								<Table.HeaderCell
 									sortable
-									sortDirection={sortField === "createdAt" ? sortDirection : null}
+									sortDirection={
+										sortField === "createdAt" ? sortDirection : null
+									}
 									onSort={() => handleSort("createdAt")}
 								>
 									Date

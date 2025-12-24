@@ -100,7 +100,7 @@
 
 // Body
 .body {
-  tr:not(:last-child):not(.expandedRow) {
+  tr:not(:last-child, .expandedRow) {
     border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
   }
 }

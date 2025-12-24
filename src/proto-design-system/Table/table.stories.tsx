@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { Table, type SortDirection } from "./index";
-import StatusBadge from "../StatusBadge/statusBadge";
 import Checkbox from "../checkbox/checkbox";
+import StatusBadge from "../StatusBadge/statusBadge";
+import { type SortDirection, Table } from "./index";
 
 const meta: Meta<typeof Table> = {
 	title: "ProtoDesignSystem/Table",
@@ -18,10 +18,34 @@ type Story = StoryObj<typeof meta>;
 
 // Sample data
 const users = [
-	{ id: "1", name: "John Doe", email: "john@example.com", status: "active", role: "Admin" },
-	{ id: "2", name: "Jane Smith", email: "jane@example.com", status: "pending", role: "User" },
-	{ id: "3", name: "Bob Johnson", email: "bob@example.com", status: "active", role: "User" },
-	{ id: "4", name: "Alice Brown", email: "alice@example.com", status: "inactive", role: "Editor" },
+	{
+		id: "1",
+		name: "John Doe",
+		email: "john@example.com",
+		status: "active",
+		role: "Admin",
+	},
+	{
+		id: "2",
+		name: "Jane Smith",
+		email: "jane@example.com",
+		status: "pending",
+		role: "User",
+	},
+	{
+		id: "3",
+		name: "Bob Johnson",
+		email: "bob@example.com",
+		status: "active",
+		role: "User",
+	},
+	{
+		id: "4",
+		name: "Alice Brown",
+		email: "alice@example.com",
+		status: "inactive",
+		role: "Editor",
+	},
 ];
 
 /**
@@ -46,7 +70,13 @@ export const Basic: Story = {
 						<Table.Cell fitContent>
 							<StatusBadge
 								text={user.status}
-								variant={user.status === "active" ? "completed" : user.status === "pending" ? "pending" : "failed"}
+								variant={
+									user.status === "active"
+										? "completed"
+										: user.status === "pending"
+											? "pending"
+											: "failed"
+								}
 								styleType="light"
 							/>
 						</Table.Cell>
@@ -119,7 +149,13 @@ export const Sortable: Story = {
 							<Table.Cell fitContent>
 								<StatusBadge
 									text={user.status}
-									variant={user.status === "active" ? "completed" : user.status === "pending" ? "pending" : "failed"}
+									variant={
+										user.status === "active"
+											? "completed"
+											: user.status === "pending"
+												? "pending"
+												: "failed"
+									}
 									styleType="light"
 								/>
 							</Table.Cell>
@@ -149,7 +185,7 @@ export const Selectable: Story = {
 
 		const handleSelectRow = (id: string) => {
 			setSelectedIds((prev) =>
-				prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+				prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
 			);
 		};
 
@@ -159,7 +195,9 @@ export const Selectable: Story = {
 					<Table.Row>
 						<Table.HeaderCell narrow>
 							<Checkbox
-								checked={selectedIds.length === users.length ? "checked" : "unchecked"}
+								checked={
+									selectedIds.length === users.length ? "checked" : "unchecked"
+								}
 								onChange={handleSelectAll}
 								aria-label="Select all"
 							/>
@@ -178,7 +216,9 @@ export const Selectable: Story = {
 						>
 							<Table.Cell narrow>
 								<Checkbox
-									checked={selectedIds.includes(user.id) ? "checked" : "unchecked"}
+									checked={
+										selectedIds.includes(user.id) ? "checked" : "unchecked"
+									}
 									onChange={() => handleSelectRow(user.id)}
 									onClick={(e) => e.stopPropagation()}
 								/>
@@ -230,18 +270,33 @@ export const Expandable: Story = {
 								<Table.Cell narrow>
 									<i
 										className={`ri-arrow-${expandedId === user.id ? "up" : "down"}-s-line`}
-										style={{ fontSize: "20px", color: "var(--color-text-tertiary-default)" }}
+										style={{
+											fontSize: "20px",
+											color: "var(--color-text-tertiary-default)",
+										}}
 									/>
 								</Table.Cell>
 							</Table.Row>
 							<Table.ExpandedRow colSpan={4} expanded={expandedId === user.id}>
-								<div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										gap: "8px",
+									}}
+								>
 									<strong>User Details</strong>
 									<p style={{ margin: 0 }}>
-										This is the expanded content for {user.name}. You can display
-										additional details, forms, or any other content here.
+										This is the expanded content for {user.name}. You can
+										display additional details, forms, or any other content
+										here.
 									</p>
-									<p style={{ margin: 0, color: "var(--color-text-secondary-default)" }}>
+									<p
+										style={{
+											margin: 0,
+											color: "var(--color-text-secondary-default)",
+										}}
+									>
 										Status: {user.status}
 									</p>
 								</div>
@@ -288,8 +343,12 @@ export const ResponsiveWidth: Story = {
 		minWidth: "600px",
 	},
 	render: (args) => (
-		<div style={{ maxWidth: "400px", border: "1px dashed #ccc", padding: "16px" }}>
-			<p style={{ marginTop: 0 }}>Container is 400px wide, table scrolls horizontally</p>
+		<div
+			style={{ maxWidth: "400px", border: "1px dashed #ccc", padding: "16px" }}
+		>
+			<p style={{ marginTop: 0 }}>
+				Container is 400px wide, table scrolls horizontally
+			</p>
 			<Table {...args}>
 				<Table.Header>
 					<Table.Row>

@@ -152,9 +152,7 @@ export const ChannelReferralLinks = memo<ChannelReferralLinksProps>(
 			return null;
 		}
 
-		const classNames = [styles.root, customClassName]
-			.filter(Boolean)
-			.join(" ");
+		const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 		return (
 			<div className={classNames} {...props}>

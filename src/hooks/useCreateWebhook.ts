@@ -1,7 +1,10 @@
 import { useCallback, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
+import type {
+	CreateWebhookRequest,
+	CreateWebhookResponse,
+} from "@/types/webhook";
 import { toApiError } from "@/utils";
-import type { CreateWebhookRequest, CreateWebhookResponse } from "@/types/webhook";
 
 async function createWebhook(
 	request: CreateWebhookRequest,
@@ -23,7 +26,9 @@ export const useCreateWebhook = () => {
 	const [data, setData] = useState<CreateWebhookResponse | null>(null);
 
 	const operation = useCallback(
-		async (request: CreateWebhookRequest): Promise<CreateWebhookResponse | null> => {
+		async (
+			request: CreateWebhookRequest,
+		): Promise<CreateWebhookResponse | null> => {
 			setLoading(true);
 			setError(null);
 			try {

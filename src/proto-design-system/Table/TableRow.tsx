@@ -40,7 +40,7 @@ export const TableRow = memo<TableRowProps>(function TableRow({
 			]
 				.filter(Boolean)
 				.join(" "),
-		[onClick, expandable, selected, expanded, customClassName]
+		[onClick, expandable, selected, expanded, customClassName],
 	);
 
 	return (

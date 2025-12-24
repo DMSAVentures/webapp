@@ -1,6 +1,10 @@
 import { useMemo } from "react";
 import type { Campaign } from "@/types/campaign";
-import type { FormConfig, FormDesign, FormBehavior } from "@/types/common.types";
+import type {
+	FormBehavior,
+	FormConfig,
+	FormDesign,
+} from "@/types/common.types";
 
 /** Default design configuration with type safety */
 const DEFAULT_DESIGN = {

@@ -84,7 +84,9 @@ export const isArrayOf = <T>(
 /**
  * Type guard for non-empty arrays
  */
-export const isNonEmptyArray = <T>(value: T[] | undefined | null): value is [T, ...T[]] => {
+export const isNonEmptyArray = <T>(
+	value: T[] | undefined | null,
+): value is [T, ...T[]] => {
 	return Array.isArray(value) && value.length > 0;
 };
 

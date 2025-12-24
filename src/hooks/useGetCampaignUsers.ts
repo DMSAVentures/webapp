@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type { ApiListUsersResponse } from "@/types/api.types";
 import type { ListUsersParams, ListUsersResponse } from "@/types/users.types";
+import { toApiError } from "@/utils";
 import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
 
 async function getCampaignUsers(

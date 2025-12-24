@@ -34,7 +34,9 @@ export interface DeliveryListProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-const getStatusVariant = (status: DeliveryStatus): "completed" | "failed" | "pending" => {
+const getStatusVariant = (
+	status: DeliveryStatus,
+): "completed" | "failed" | "pending" => {
 	switch (status) {
 		case "success":
 			return "completed";
@@ -74,7 +76,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 	className: customClassName,
 	...props
 }) {
-	const [expandedDeliveryId, setExpandedDeliveryId] = useState<string | null>(null);
+	const [expandedDeliveryId, setExpandedDeliveryId] = useState<string | null>(
+		null,
+	);
 	const [filter, setFilter] = useState<FilterType>("all");
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -136,8 +140,11 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 						]}
 					/>
 					<div className={styles.resultsInfo}>
-						{filteredDeliveries.length} deliver{filteredDeliveries.length !== 1 ? "ies" : "y"}
-						{filter !== "all" && deliveries.length > 0 && ` of ${deliveries.length} total`}
+						{filteredDeliveries.length} deliver
+						{filteredDeliveries.length !== 1 ? "ies" : "y"}
+						{filter !== "all" &&
+							deliveries.length > 0 &&
+							` of ${deliveries.length} total`}
 					</div>
 				</div>
 				{onRefresh && (
@@ -202,11 +209,15 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											/>
 										</Table.Cell>
 										<Table.Cell>
-											<span className={styles.eventType}>{delivery.event_type}</span>
+											<span className={styles.eventType}>
+												{delivery.event_type}
+											</span>
 										</Table.Cell>
 										<Table.Cell>
 											{delivery.response_status ? (
-												<span className={`${styles.statusCode} ${delivery.response_status >= 200 && delivery.response_status < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}>
+												<span
+													className={`${styles.statusCode} ${delivery.response_status >= 200 && delivery.response_status < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}
+												>
 													{delivery.response_status}
 												</span>
 											) : (
@@ -222,7 +233,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											<span className={styles.attempt}>
 												{maxRetries
 													? `${delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number} / ${maxRetries}`
-													: delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number}
+													: delivery.status === "pending"
+														? delivery.attempt_number - 1
+														: delivery.attempt_number}
 											</span>
 										</Table.Cell>
 										<Table.Cell>
@@ -241,11 +254,16 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										</Table.Cell>
 										<Table.Cell narrow>
 											<div className={styles.expandIcon}>
-												<i className={`ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`} />
+												<i
+													className={`ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`}
+												/>
 											</div>
 										</Table.Cell>
 									</Table.Row>
-									<Table.ExpandedRow colSpan={8} expanded={expandedDeliveryId === delivery.id}>
+									<Table.ExpandedRow
+										colSpan={8}
+										expanded={expandedDeliveryId === delivery.id}
+									>
 										<div className={styles.detailsContent}>
 											{delivery.error_message && (
 												<div className={styles.errorMessage}>
@@ -272,7 +290,8 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											{delivery.delivered_at && (
 												<div className={styles.detailMeta}>
 													<span className={styles.metaItem}>
-														<strong>Delivered at:</strong> {new Date(delivery.delivered_at).toLocaleString()}
+														<strong>Delivered at:</strong>{" "}
+														{new Date(delivery.delivered_at).toLocaleString()}
 													</span>
 												</div>
 											)}

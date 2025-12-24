@@ -148,9 +148,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 
 	// Check if we have referral data to display
 	const hasReferralLinks =
-		signupData?.referral_codes &&
-		enabledChannels.length > 0 &&
-		embedUrl;
+		signupData?.referral_codes && enabledChannels.length > 0 && embedUrl;
 
 	// Show success state
 	if (submitted) {

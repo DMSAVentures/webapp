@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type {
 	ListCampaignsParams,
 	ListCampaignsResponse,
 } from "@/types/campaign";
+import { toApiError } from "@/utils";
 
 async function getCampaigns(
 	params?: ListCampaignsParams,

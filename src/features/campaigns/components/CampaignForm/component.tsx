@@ -83,7 +83,8 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			pointsPerReferral: initialData?.referralConfig?.pointsPerReferral ?? 1,
 			verifiedOnly: initialData?.referralConfig?.verifiedOnly ?? true,
 			positionsToJump: initialData?.referralConfig?.positionsToJump ?? 0,
-			referrerPositionsToJump: initialData?.referralConfig?.referrerPositionsToJump ?? 1,
+			referrerPositionsToJump:
+				initialData?.referralConfig?.referrerPositionsToJump ?? 1,
 			sharingChannels: initialData?.referralConfig?.sharingChannels ?? [
 				"email",
 				"twitter",
@@ -383,7 +384,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						id="referrer-positions-to-jump"
 						label="Referrer Positions to Jump"
 						type="number"
-						value={formData.referralConfig?.referrerPositionsToJump.toString() || "1"}
+						value={
+							formData.referralConfig?.referrerPositionsToJump.toString() || "1"
+						}
 						onChange={(e) =>
 							handleReferralConfigChange(
 								"referrerPositionsToJump",

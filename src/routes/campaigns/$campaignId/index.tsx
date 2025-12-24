@@ -326,7 +326,9 @@ function RouteComponent() {
 
 				<CampaignStats
 					stats={stats}
-					verificationEnabled={campaign.email_config?.verification_required ?? false}
+					verificationEnabled={
+						campaign.email_config?.verification_required ?? false
+					}
 					referralsEnabled={campaign.referral_config?.enabled ?? false}
 					onCardClick={handleStatCardClick}
 				/>

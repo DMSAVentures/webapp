@@ -8,7 +8,8 @@ import styles from "./table.module.scss";
 
 export type SortDirection = "asc" | "desc" | null;
 
-export interface TableHeaderCellProps extends HTMLAttributes<HTMLTableCellElement> {
+export interface TableHeaderCellProps
+	extends HTMLAttributes<HTMLTableCellElement> {
 	/** Whether the column is sortable */
 	sortable?: boolean;
 	/** Current sort direction (null means not sorted) */
@@ -24,54 +25,56 @@ export interface TableHeaderCellProps extends HTMLAttributes<HTMLTableCellElemen
 /**
  * TableHeaderCell represents a header cell with optional sorting
  */
-export const TableHeaderCell = memo<TableHeaderCellProps>(function TableHeaderCell({
-	sortable = false,
-	sortDirection = null,
-	onSort,
-	narrow = false,
-	className: customClassName,
-	children,
-	...props
-}) {
-	const classNames = useMemo(
-		() =>
-			[
-				styles.headerCell,
-				sortable && styles.headerCellSortable,
-				narrow && styles.headerCellNarrow,
-				customClassName,
-			]
-				.filter(Boolean)
-				.join(" "),
-		[sortable, narrow, customClassName]
-	);
+export const TableHeaderCell = memo<TableHeaderCellProps>(
+	function TableHeaderCell({
+		sortable = false,
+		sortDirection = null,
+		onSort,
+		narrow = false,
+		className: customClassName,
+		children,
+		...props
+	}) {
+		const classNames = useMemo(
+			() =>
+				[
+					styles.headerCell,
+					sortable && styles.headerCellSortable,
+					narrow && styles.headerCellNarrow,
+					customClassName,
+				]
+					.filter(Boolean)
+					.join(" "),
+			[sortable, narrow, customClassName],
+		);
 
-	if (sortable) {
+		if (sortable) {
+			return (
+				<th className={classNames} {...props}>
+					<button
+						type="button"
+						className={styles.sortButton}
+						onClick={onSort}
+						aria-label={`Sort by ${children}`}
+					>
+						{children}
+						{sortDirection && (
+							<i
+								className={`${styles.sortIcon} ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
+								aria-hidden="true"
+							/>
+						)}
+					</button>
+				</th>
+			);
+		}
+
 		return (
 			<th className={classNames} {...props}>
-				<button
-					type="button"
-					className={styles.sortButton}
-					onClick={onSort}
-					aria-label={`Sort by ${children}`}
-				>
-					{children}
-					{sortDirection && (
-						<i
-							className={`${styles.sortIcon} ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-							aria-hidden="true"
-						/>
-					)}
-				</button>
+				{children}
 			</th>
 		);
-	}
-
-	return (
-		<th className={classNames} {...props}>
-			{children}
-		</th>
-	);
-});
+	},
+);
 
 TableHeaderCell.displayName = "TableHeaderCell";

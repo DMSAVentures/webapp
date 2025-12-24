@@ -29,19 +29,21 @@ export const Table = memo<TableProps>(function Table({
 	...props
 }) {
 	const classNames = useMemo(
-		() => [styles.wrapper, loading && styles.wrapperLoading, customClassName].filter(Boolean).join(" "),
-		[customClassName, loading]
+		() =>
+			[styles.wrapper, loading && styles.wrapperLoading, customClassName]
+				.filter(Boolean)
+				.join(" "),
+		[customClassName, loading],
 	);
 
-	const tableStyle: CSSProperties = useMemo(
-		() => ({ minWidth }),
-		[minWidth]
-	);
+	const tableStyle: CSSProperties = useMemo(() => ({ minWidth }), [minWidth]);
 
 	return (
 		<div className={classNames} {...props}>
 			{/* Loading overlay */}
-			<div className={`${styles.loadingOverlay} ${loading ? styles.loadingOverlayVisible : ""}`}>
+			<div
+				className={`${styles.loadingOverlay} ${loading ? styles.loadingOverlayVisible : ""}`}
+			>
 				<div className={styles.loadingSpinner} />
 				<p className={styles.loadingMessage}>{loadingMessage}</p>
 			</div>

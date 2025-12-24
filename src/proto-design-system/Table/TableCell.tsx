@@ -35,7 +35,7 @@ export const TableCell = memo<TableCellProps>(function TableCell({
 			]
 				.filter(Boolean)
 				.join(" "),
-		[fitContent, narrow, customClassName]
+		[fitContent, narrow, customClassName],
 	);
 
 	return (

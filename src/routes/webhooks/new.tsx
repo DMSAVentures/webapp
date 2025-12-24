@@ -6,9 +6,9 @@ import {
 	type WebhookFormData,
 } from "@/features/webhooks/components/WebhookForm/component";
 import { useCreateWebhook } from "@/hooks/useCreateWebhook";
-import Banner from "@/proto-design-system/banner/banner";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import Banner from "@/proto-design-system/banner/banner";
 import styles from "./new.module.scss";
 
 export const Route = createFileRoute("/webhooks/new")({
@@ -78,13 +78,9 @@ function RouteComponent() {
 						/>
 
 						<div className={styles.secretCard}>
-							<span className={styles.secretLabel}>
-								Webhook Signing Secret
-							</span>
+							<span className={styles.secretLabel}>Webhook Signing Secret</span>
 							<div className={styles.secretValueContainer}>
-								<code className={styles.secretValue}>
-									{webhookSecret}
-								</code>
+								<code className={styles.secretValue}>{webhookSecret}</code>
 								<IconOnlyButton
 									ariaLabel={copied ? "Copied!" : "Copy secret"}
 									variant="secondary"
@@ -93,17 +89,13 @@ function RouteComponent() {
 								/>
 							</div>
 							<p className={styles.secretHint}>
-								Use this secret to verify webhook signatures in
-								your server. All webhook requests include an
-								X-Webhook-Signature header that you can validate
-								using HMAC-SHA256.
+								Use this secret to verify webhook signatures in your server. All
+								webhook requests include an X-Webhook-Signature header that you
+								can validate using HMAC-SHA256.
 							</p>
 						</div>
 
-						<Button
-							variant="primary"
-							onClick={handleSecretAcknowledged}
-						>
+						<Button variant="primary" onClick={handleSecretAcknowledged}>
 							I've saved the secret
 						</Button>
 					</div>
@@ -123,8 +115,7 @@ function RouteComponent() {
 				<div className={styles.headerContent}>
 					<h1 className={styles.pageTitle}>Create Webhook</h1>
 					<p className={styles.pageDescription}>
-						Configure a new webhook endpoint to receive real-time
-						notifications
+						Configure a new webhook endpoint to receive real-time notifications
 					</p>
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { isAbortError, toApiError } from "@/utils";
 import type { Campaign } from "@/types/campaign";
+import { isAbortError, toApiError } from "@/utils";
 
 export const useGetCampaign = (campaignId: string) => {
 	const [loading, setLoading] = useState<boolean>(true);

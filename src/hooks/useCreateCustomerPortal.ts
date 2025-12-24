@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetcher } from "@/hooks/fetcher";
-import { getErrorMessage } from "@/utils";
 import { CustomerPortalResponse } from "@/types/billing";
+import { getErrorMessage } from "@/utils";
 
 async function createCustomerPortal(): Promise<CustomerPortalResponse> {
 	const resp = await fetcher<CustomerPortalResponse>(

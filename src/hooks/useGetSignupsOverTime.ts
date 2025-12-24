@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { type ApiError, fetcher } from "@/hooks/fetcher";
-import { isAbortError, toApiError } from "@/utils";
 import type {
 	ApiSignupsOverTimeResponse,
 	SignupsOverTimeParams,
 } from "@/types/api.types";
+import { isAbortError, toApiError } from "@/utils";
 
 export const useGetSignupsOverTime = (
 	campaignId: string,

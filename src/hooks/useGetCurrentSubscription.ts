@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import { GetCurrentSubscriptionResponse } from "@/types/billing";
+import { toApiError } from "@/utils";
 
 async function getCurrentSubscription(): Promise<GetCurrentSubscriptionResponse> {
 	const response = await fetcher<GetCurrentSubscriptionResponse>(

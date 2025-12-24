@@ -29,7 +29,9 @@ export interface SignupResponse {
 }
 
 interface UseFormSubmissionResult {
-	submit: (formData: Record<string, string>) => Promise<SignupResponse | undefined>;
+	submit: (
+		formData: Record<string, string>,
+	) => Promise<SignupResponse | undefined>;
 	submitting: boolean;
 	submitted: boolean;
 	signupData: SignupResponse | null;

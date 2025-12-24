@@ -37,7 +37,8 @@ function RouteComponent() {
 						points_per_referral: data.referralConfig?.pointsPerReferral || 1,
 						verified_only: data.referralConfig?.verifiedOnly ?? true,
 						positions_to_jump: data.referralConfig?.positionsToJump || 0,
-						referrer_positions_to_jump: data.referralConfig?.referrerPositionsToJump || 1,
+						referrer_positions_to_jump:
+							data.referralConfig?.referrerPositionsToJump || 1,
 						sharing_channels: (data.referralConfig?.sharingChannels ||
 							[]) as Array<
 							"email" | "twitter" | "facebook" | "linkedin" | "whatsapp"

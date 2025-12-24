@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type { Webhook } from "@/types/webhook";
+import { toApiError } from "@/utils";
 
 async function getWebhook(webhookId: string): Promise<Webhook> {
 	const response = await fetcher<Webhook>(

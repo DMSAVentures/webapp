@@ -24,11 +24,7 @@ const EVENT_CATEGORIES = {
 	],
 	Referral: ["referral.created", "referral.verified", "referral.converted"],
 	Reward: ["reward.earned", "reward.delivered", "reward.redeemed"],
-	Campaign: [
-		"campaign.milestone",
-		"campaign.launched",
-		"campaign.completed",
-	],
+	Campaign: ["campaign.milestone", "campaign.launched", "campaign.completed"],
 } as const;
 
 export interface WebhookFormData {
@@ -121,7 +117,10 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 
 			if (touched.events) {
 				const error = validateField("events", newEvents);
-				setErrors((prevErrors) => ({ ...prevErrors, events: error || undefined }));
+				setErrors((prevErrors) => ({
+					...prevErrors,
+					events: error || undefined,
+				}));
 			}
 
 			return { ...prev, events: newEvents };
@@ -130,14 +129,10 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 
 	const handleSelectAllCategory = (categoryEvents: readonly string[]) => {
 		setFormData((prev) => {
-			const allSelected = categoryEvents.every((e) =>
-				prev.events.includes(e),
-			);
+			const allSelected = categoryEvents.every((e) => prev.events.includes(e));
 			let newEvents: string[];
 			if (allSelected) {
-				newEvents = prev.events.filter(
-					(e) => !categoryEvents.includes(e),
-				);
+				newEvents = prev.events.filter((e) => !categoryEvents.includes(e));
 			} else {
 				newEvents = [
 					...prev.events,
@@ -147,7 +142,10 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 
 			if (touched.events) {
 				const error = validateField("events", newEvents);
-				setErrors((prevErrors) => ({ ...prevErrors, events: error || undefined }));
+				setErrors((prevErrors) => ({
+					...prevErrors,
+					events: error || undefined,
+				}));
 			}
 
 			return { ...prev, events: newEvents };
@@ -204,67 +202,53 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 				)}
 
 				<div className={styles.eventCategories}>
-					{Object.entries(EVENT_CATEGORIES).map(
-						([category, events]) => {
-							const allSelected = events.every((e) =>
-								formData.events.includes(e),
-							);
-							const someSelected =
-								!allSelected &&
-								events.some((e) => formData.events.includes(e));
+					{Object.entries(EVENT_CATEGORIES).map(([category, events]) => {
+						const allSelected = events.every((e) =>
+							formData.events.includes(e),
+						);
+						const someSelected =
+							!allSelected && events.some((e) => formData.events.includes(e));
 
-							return (
-								<div
-									key={category}
-									className={styles.eventCategory}
-								>
-									<div className={styles.categoryHeader}>
+						return (
+							<div key={category} className={styles.eventCategory}>
+								<div className={styles.categoryHeader}>
+									<CheckboxWithLabel
+										checked={
+											allSelected
+												? "checked"
+												: someSelected
+													? "indeterminate"
+													: "unchecked"
+										}
+										onChange={() => handleSelectAllCategory(events)}
+										disabled={loading}
+										flipCheckboxToRight={false}
+										text={category}
+										description=""
+									/>
+								</div>
+								<div className={styles.eventsList}>
+									{events.map((event) => (
 										<CheckboxWithLabel
+											key={event}
 											checked={
-												allSelected
+												formData.events.includes(event)
 													? "checked"
-													: someSelected
-														? "indeterminate"
-														: "unchecked"
+													: "unchecked"
 											}
-											onChange={() =>
-												handleSelectAllCategory(events)
-											}
+											onChange={() => handleEventToggle(event)}
 											disabled={loading}
 											flipCheckboxToRight={false}
-											text={category}
-											description=""
+											text={event}
+											description={
+												WEBHOOK_EVENTS[event as keyof typeof WEBHOOK_EVENTS]
+											}
 										/>
-									</div>
-									<div className={styles.eventsList}>
-										{events.map((event) => (
-											<CheckboxWithLabel
-												key={event}
-												checked={
-													formData.events.includes(
-														event,
-													)
-														? "checked"
-														: "unchecked"
-												}
-												onChange={() =>
-													handleEventToggle(event)
-												}
-												disabled={loading}
-												flipCheckboxToRight={false}
-												text={event}
-												description={
-													WEBHOOK_EVENTS[
-														event as keyof typeof WEBHOOK_EVENTS
-													]
-												}
-											/>
-										))}
-									</div>
+									))}
 								</div>
-							);
-						},
-					)}
+							</div>
+						);
+					})}
 				</div>
 			</div>
 
@@ -287,9 +271,7 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 					type="submit"
 					disabled={loading}
 					variant="primary"
-					leftIcon={
-						loading ? "ri-loader-4-line ri-spin" : "ri-check-line"
-					}
+					leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
 				>
 					{loading ? "Saving..." : submitText}
 				</Button>

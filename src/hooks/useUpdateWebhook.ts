@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type { UpdateWebhookRequest, Webhook } from "@/types/webhook";
+import { toApiError } from "@/utils";
 
 async function updateWebhook(
 	webhookId: string,
@@ -24,7 +24,10 @@ export const useUpdateWebhook = () => {
 	const [data, setData] = useState<Webhook | null>(null);
 
 	const operation = useCallback(
-		async (webhookId: string, request: UpdateWebhookRequest): Promise<Webhook | null> => {
+		async (
+			webhookId: string,
+			request: UpdateWebhookRequest,
+		): Promise<Webhook | null> => {
 			setLoading(true);
 			setError(null);
 			try {

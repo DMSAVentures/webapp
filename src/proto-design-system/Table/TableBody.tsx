@@ -6,7 +6,8 @@
 import { type HTMLAttributes, memo, useMemo } from "react";
 import styles from "./table.module.scss";
 
-export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> {
+export interface TableBodyProps
+	extends HTMLAttributes<HTMLTableSectionElement> {
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -21,7 +22,7 @@ export const TableBody = memo<TableBodyProps>(function TableBody({
 }) {
 	const classNames = useMemo(
 		() => [styles.body, customClassName].filter(Boolean).join(" "),
-		[customClassName]
+		[customClassName],
 	);
 
 	return (

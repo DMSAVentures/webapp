@@ -129,7 +129,7 @@
   font-weight: typography.$font-weight-semibold;
   color: var(--color-text-secondary-default);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: typography.$letter-spacing-wider;
 }
 
 .codeBlock {
@@ -140,11 +140,10 @@
   font-family: typography.$font-family-mono;
   font-size: typography.$font-size-xs;
   color: var(--color-text-primary-default);
-  overflow-x: auto;
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: break-word;
   max-height: 200px;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .detailMeta {

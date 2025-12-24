@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetcher } from "@/hooks/fetcher";
-import { toApiError } from "@/utils";
 import type { ListWebhookDeliveriesResponse } from "@/types/webhook";
+import { toApiError } from "@/utils";
 
 interface UseGetWebhookDeliveriesParams {
 	page?: number;
