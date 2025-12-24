@@ -7,8 +7,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 import { ErrorState } from "@/components/error/error";
 import {
-	FormRenderer,
 	type CaptchaConfig,
+	FormRenderer,
 	type FormRendererConfig,
 } from "@/features/form-builder/components/FormRenderer/component";
 import { useFormSubmission } from "@/hooks/useFormSubmission";

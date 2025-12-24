@@ -65,6 +65,7 @@ export interface UpdateWebhookRequest {
 
 export interface ListWebhookDeliveriesResponse {
 	deliveries: WebhookDelivery[];
+	total: number;
 	pagination: {
 		page: number;
 		limit: number;

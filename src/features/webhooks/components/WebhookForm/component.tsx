@@ -206,20 +206,12 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 						const allSelected = events.every((e) =>
 							formData.events.includes(e),
 						);
-						const someSelected =
-							!allSelected && events.some((e) => formData.events.includes(e));
 
 						return (
 							<div key={category} className={styles.eventCategory}>
 								<div className={styles.categoryHeader}>
 									<CheckboxWithLabel
-										checked={
-											allSelected
-												? "checked"
-												: someSelected
-													? "indeterminate"
-													: "unchecked"
-										}
+										checked={allSelected ? "checked" : "unchecked"}
 										onChange={() => handleSelectAllCategory(events)}
 										disabled={loading}
 										flipCheckboxToRight={false}

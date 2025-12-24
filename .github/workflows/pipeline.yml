@@ -72,6 +72,7 @@ jobs:
           VITE_GOOGLE_REDIRECT_URL: "https://protoapp.xyz/api/auth/google/callback"
           VITE_API_URL: "https://protoapp.xyz"
           VITE_STRIPE_PUBLISHABLE_KEY: "pk_live_51PxCuHP3M2g0n0x3rpcflZx5JgmeMo7Le4eQFEj2coL6EwODaZ4L0YsfUGm32hXjzMruRZtmQXqUlvHcz2ZsVCwZ00O8C2Is5h"
+          VITE_TURNSTILE_SITE_KEY: "0x4AAAAAACI80A46LKnXUKgs"
         run: npm run build
 
       - name: Configure AWS credentials
