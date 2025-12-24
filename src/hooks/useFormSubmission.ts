@@ -18,6 +18,7 @@ interface FormSubmissionPayload {
 	utm_campaign?: string;
 	utm_content?: string;
 	utm_term?: string;
+	captcha_token?: string;
 }
 
 /**
@@ -28,9 +29,15 @@ export interface SignupResponse {
 	referral_codes?: Partial<Record<SharingChannel, string>>;
 }
 
+interface SubmitOptions {
+	/** Captcha token from Turnstile verification */
+	captchaToken?: string;
+}
+
 interface UseFormSubmissionResult {
 	submit: (
 		formData: Record<string, string>,
+		options?: SubmitOptions,
 	) => Promise<SignupResponse | undefined>;
 	submitting: boolean;
 	submitted: boolean;
@@ -79,7 +86,7 @@ export const useFormSubmission = ({
 	const [error, setError] = useState<string | null>(null);
 
 	const submit = useCallback(
-		async (formData: Record<string, string>) => {
+		async (formData: Record<string, string>, options?: SubmitOptions) => {
 			setSubmitting(true);
 			setError(null);
 
@@ -101,6 +108,11 @@ export const useFormSubmission = ({
 					marketing_consent: true,
 					custom_fields: customFields,
 				};
+
+				// Add captcha token if provided
+				if (options?.captchaToken) {
+					payload.captcha_token = options.captchaToken;
+				}
 
 				// Add referral code if present
 				if (tracking.refCode) {

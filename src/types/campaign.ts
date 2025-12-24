@@ -40,9 +40,22 @@ export type CampaignType = "waitlist" | "referral" | "contest";
 // Campaign Configuration Types
 // ============================================================================
 
+/** Captcha configuration for form protection */
+export interface CaptchaFormConfig {
+	/** Whether captcha is enabled */
+	enabled?: boolean;
+	/** Captcha provider (e.g., "turnstile") */
+	provider?: string;
+	/** Site key for the captcha provider */
+	site_key?: string;
+}
+
 export interface FormConfig {
 	fields?: FormField[];
+	/** @deprecated Use captcha.enabled instead */
 	captcha_enabled?: boolean;
+	/** Captcha configuration object */
+	captcha?: CaptchaFormConfig;
 	double_opt_in?: boolean;
 	custom_css?: string;
 }

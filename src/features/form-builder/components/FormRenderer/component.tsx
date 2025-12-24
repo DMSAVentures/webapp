@@ -3,9 +3,13 @@
  * Renders a complete form with fields, layout, and submit functionality
  */
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
 import type { SignupResponse } from "@/hooks/useFormSubmission";
+import {
+	Turnstile,
+	type TurnstileRef,
+} from "@/proto-design-system/Turnstile/component";
 import type { SharingChannel } from "@/types/campaign";
 import type {
 	FormDesign,
@@ -16,10 +20,28 @@ import { useFormStyles } from "../../hooks/useFormStyles";
 import { FormField } from "../FormField/component";
 import styles from "./component.module.scss";
 
+/** Captcha configuration for form protection */
+export interface CaptchaConfig {
+	/** Whether captcha is enabled */
+	enabled: boolean;
+	/** Captcha provider (currently only turnstile is supported) */
+	provider: "turnstile";
+	/** Site key for the captcha provider */
+	siteKey: string;
+}
+
 /** Minimal config interface - only requires what FormRenderer actually uses */
 export interface FormRendererConfig {
 	fields: FormFieldType[];
 	design: FormDesign;
+	/** Optional captcha configuration */
+	captcha?: CaptchaConfig;
+}
+
+/** Options passed to onSubmit handler */
+export interface FormSubmitOptions {
+	/** Captcha token if verification was required */
+	captchaToken?: string;
 }
 
 export interface FormRendererProps {
@@ -28,7 +50,10 @@ export interface FormRendererProps {
 	/** Render mode: preview (disabled) or interactive (functional) */
 	mode: "preview" | "interactive";
 	/** Submit handler for interactive mode */
-	onSubmit?: (data: Record<string, string>) => Promise<unknown>;
+	onSubmit?: (
+		data: Record<string, string>,
+		options?: FormSubmitOptions,
+	) => Promise<unknown>;
 	/** Submit button text */
 	submitText?: string;
 	/** Success message after submission */
@@ -60,7 +85,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	embedUrl,
 	className,
 }) {
-	const { fields, design } = config;
+	const { fields, design, captcha } = config;
 	const formStyles = useFormStyles(design);
 	const { formData, errors, handleChange, validate, clearErrors } =
 		useFormState();
@@ -68,9 +93,31 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	const [submitting, setSubmitting] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
+	const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+	const [captchaError, setCaptchaError] = useState(false);
+	const turnstileRef = useRef<TurnstileRef>(null);
+
+	// Check if captcha is required and configured
+	const isCaptchaEnabled =
+		captcha?.enabled && captcha?.provider === "turnstile" && captcha?.siteKey;
 
 	// Sort fields by order
 	const sortedFields = [...fields].sort((a, b) => a.order - b.order);
+
+	// Handle captcha verification
+	const handleCaptchaVerify = useCallback((token: string) => {
+		setCaptchaToken(token);
+		setCaptchaError(false);
+	}, []);
+
+	const handleCaptchaError = useCallback(() => {
+		setCaptchaToken(null);
+		setCaptchaError(true);
+	}, []);
+
+	const handleCaptchaExpire = useCallback(() => {
+		setCaptchaToken(null);
+	}, []);
 
 	// Handle form submission
 	const handleSubmit = useCallback(
@@ -84,24 +131,44 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 				return;
 			}
 
+			// Check captcha if required
+			if (isCaptchaEnabled && !captchaToken) {
+				setSubmitError("Please complete the captcha verification");
+				return;
+			}
+
 			setSubmitting(true);
 			setSubmitError(null);
 			clearErrors();
 
 			try {
 				if (onSubmit) {
-					await onSubmit(formData);
+					await onSubmit(formData, {
+						captchaToken: captchaToken || undefined,
+					});
 				}
 				setSubmitted(true);
 			} catch (error) {
 				const message =
 					error instanceof Error ? error.message : "Failed to submit form";
 				setSubmitError(message);
+				// Reset captcha on error so user can try again
+				turnstileRef.current?.reset();
+				setCaptchaToken(null);
 			} finally {
 				setSubmitting(false);
 			}
 		},
-		[mode, validate, sortedFields, formData, onSubmit, clearErrors],
+		[
+			mode,
+			validate,
+			sortedFields,
+			formData,
+			onSubmit,
+			clearErrors,
+			isCaptchaEnabled,
+			captchaToken,
+		],
 	);
 
 	// Handle field change - maps field.id to formData key
@@ -215,6 +282,24 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 				</div>
 			) : (
 				<div className={styles.fields}>{sortedFields.map(renderField)}</div>
+			)}
+
+			{/* Captcha widget */}
+			{isCaptchaEnabled && captcha && (
+				<div className={styles.captcha}>
+					<Turnstile
+						ref={turnstileRef}
+						siteKey={captcha.siteKey}
+						onVerify={handleCaptchaVerify}
+						onError={handleCaptchaError}
+						onExpire={handleCaptchaExpire}
+					/>
+					{captchaError && (
+						<div className={styles.captchaError}>
+							Captcha verification failed. Please try again.
+						</div>
+					)}
+				</div>
 			)}
 
 			{/* Submit button */}

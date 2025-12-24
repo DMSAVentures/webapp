@@ -4,10 +4,11 @@
  */
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { ErrorState } from "@/components/error/error";
 import {
 	FormRenderer,
+	type CaptchaConfig,
 	type FormRendererConfig,
 } from "@/features/form-builder/components/FormRenderer/component";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
@@ -84,15 +85,48 @@ function RouteComponent() {
 			}),
 		);
 
-		return { fields, design };
+		// Parse captcha config if present
+		// Site key comes from VITE_TURNSTILE_SITE_KEY env variable
+		let captcha: CaptchaConfig | undefined;
+		const captchaRaw = campaign.form_config.captcha as
+			| { enabled?: boolean; provider?: string }
+			| undefined;
+		const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+		if (
+			captchaRaw?.enabled &&
+			captchaRaw?.provider === "turnstile" &&
+			turnstileSiteKey
+		) {
+			captcha = {
+				enabled: true,
+				provider: "turnstile",
+				siteKey: turnstileSiteKey,
+			};
+		}
+
+		return { fields, design, captcha };
 	}, [campaign]);
 
 	// Form submission handler
-	const { submit, signupData } = useFormSubmission({
+	const { submit: submitForm, signupData } = useFormSubmission({
 		campaignId,
 		fields: campaign?.form_config?.fields || [],
 		tracking,
 	});
+
+	// Wrap submit to pass captcha token from FormRenderer options
+	const handleSubmit = useCallback(
+		async (
+			formData: Record<string, string>,
+			options?: { captchaToken?: string },
+		) => {
+			return submitForm(formData, {
+				captchaToken: options?.captchaToken,
+			});
+		},
+		[submitForm],
+	);
 
 	// Get the current embed URL for referral links
 	const embedUrl =
@@ -121,7 +155,7 @@ function RouteComponent() {
 			<FormRenderer
 				config={formConfig}
 				mode="interactive"
-				onSubmit={submit}
+				onSubmit={handleSubmit}
 				submitText={formConfig.design.submitButtonText}
 				signupData={signupData}
 				enabledChannels={campaign.referral_config?.sharing_channels}

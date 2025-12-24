@@ -1,0 +1,14 @@
+@use "@/design-tokens/layout" as layout;
+
+.container {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin: layout.$spacing-03 0;
+}
+
+.widget {
+	// Turnstile widget renders its own iframe
+	// This container ensures proper sizing
+	min-height: 65px;
+}
