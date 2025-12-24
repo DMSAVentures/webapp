@@ -105,91 +105,7 @@
   color: var(--color-text-tertiary-default);
 }
 
-// Table wrapper
-.tableWrapper {
-  overflow-x: auto;
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-03;
-  background-color: var(--color-surface-primary-default);
-}
-
-// Table
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: typography.$font-size-sm;
-}
-
-.tableHead {
-  background-color: var(--color-surface-secondary-default);
-  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-}
-
-.tableHeaderCell {
-  padding: layout.$spacing-03 layout.$spacing-04;
-  text-align: left;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-secondary-default);
-  white-space: nowrap;
-
-  &:first-child {
-    width: 48px;
-  }
-}
-
-.sortButton {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  padding: 0;
-  background: none;
-  border: none;
-  color: var(--color-text-secondary-default);
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  cursor: pointer;
-  transition: color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    color: var(--color-text-primary-default);
-  }
-
-  i {
-    font-size: typography.$font-size-md;
-  }
-}
-
-.tableBody {
-  tr:not(:last-child) {
-    border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
-  }
-}
-
-.tableRow {
-  cursor: pointer;
-  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-secondary-hover);
-  }
-
-  &.tableRowSelected {
-    background-color: var(--color-bg-secondary-hover);
-  }
-}
-
-.tableCell {
-  padding: layout.$spacing-03 layout.$spacing-04;
-  color: var(--color-text-primary-default);
-  vertical-align: middle;
-}
-
-.tableCellBadge {
-  width: 1%;
-  white-space: nowrap;
-}
-
-// Cell content styles
+// Cell content styles (feature-specific)
 .email {
   font-weight: typography.$font-weight-medium;
   color: var(--color-text-primary-default);
@@ -217,38 +133,6 @@
   font-size: typography.$font-size-xs;
 }
 
-// Loading state
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-13;
-  text-align: center;
-
-  p {
-    margin: 0;
-    color: var(--color-text-secondary-default);
-    font-size: typography.$font-size-md;
-  }
-}
-
-.loadingSpinner {
-  width: layout.$spacing-08;
-  height: layout.$spacing-08;
-  border: layout.$spacing-01 solid var(--color-border-primary-default);
-  border-top-color: var(--color-text-info-default);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 // No results
 .noResults {
   display: flex;
@@ -258,6 +142,9 @@
   gap: layout.$spacing-03;
   padding: layout.$spacing-13 layout.$spacing-05;
   text-align: center;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  background-color: var(--color-surface-primary-default);
 
   i {
     font-size: typography.$font-size-display;
@@ -342,13 +229,5 @@
 
   .headerActions {
     justify-content: space-between;
-  }
-
-  .tableWrapper {
-    overflow-x: scroll;
-  }
-
-  .table {
-    min-width: 800px;
   }
 }

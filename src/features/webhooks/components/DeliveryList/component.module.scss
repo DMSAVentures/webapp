@@ -1,6 +1,5 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
 
 .root {
@@ -37,70 +36,7 @@
   gap: layout.$spacing-04;
 }
 
-// Table wrapper
-.tableWrapper {
-  overflow-x: auto;
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-03;
-  background-color: var(--color-surface-primary-default);
-}
-
-// Table
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: typography.$font-size-sm;
-}
-
-.tableHead {
-  background-color: var(--color-surface-secondary-default);
-  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-}
-
-.tableHeaderCell {
-  padding: layout.$spacing-03 layout.$spacing-04;
-  text-align: left;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-secondary-default);
-  white-space: nowrap;
-
-  &:last-child {
-    width: 48px;
-    text-align: center;
-  }
-}
-
-.tableBody {
-  tr:not(:last-child):not(.detailsRow) {
-    border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
-  }
-}
-
-.tableRow {
-  cursor: pointer;
-  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    background-color: var(--color-bg-secondary-hover);
-  }
-
-  &.tableRowExpanded {
-    background-color: var(--color-bg-secondary-hover);
-  }
-}
-
-.tableCell {
-  padding: layout.$spacing-03 layout.$spacing-04;
-  color: var(--color-text-primary-default);
-  vertical-align: middle;
-}
-
-.tableCellBadge {
-  width: 1%;
-  white-space: nowrap;
-}
-
-// Cell content styles
+// Cell content styles (feature-specific)
 .eventType {
   font-weight: typography.$font-weight-medium;
   font-family: typography.$font-family-mono;
@@ -155,25 +91,18 @@
 }
 
 .expandIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: typography.$font-size-lg;
   color: var(--color-text-tertiary-default);
 }
 
-// Details row
-.detailsRow {
-  background-color: var(--color-surface-secondary-default);
-}
-
-.detailsCell {
-  padding: 0 !important;
-}
-
+// Expanded row content (feature-specific)
 .detailsContent {
   display: flex;
   flex-direction: column;
   gap: layout.$spacing-04;
-  padding: layout.$spacing-04;
-  border-top: border.$border-width-small solid var(--color-border-primary-default);
 }
 
 .errorMessage {
@@ -236,52 +165,9 @@
   }
 }
 
-// Loading state
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-13;
-  text-align: center;
-
-  p {
-    margin: 0;
-    color: var(--color-text-secondary-default);
-    font-size: typography.$font-size-md;
-  }
-}
-
-.loadingSpinner {
-  width: layout.$spacing-08;
-  height: layout.$spacing-08;
-  border: layout.$spacing-01 solid var(--color-border-primary-default);
-  border-top-color: var(--color-text-info-default);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 // Pagination
 .pagination {
   display: flex;
   justify-content: center;
   padding-top: layout.$spacing-04;
-}
-
-// Responsive adjustments
-@media (width <= 768px) {
-  .tableWrapper {
-    overflow-x: scroll;
-  }
-
-  .table {
-    min-width: 800px;
-  }
 }

@@ -9,6 +9,7 @@ import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import Pagination from "@/proto-design-system/pagination/pagination";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Table } from "@/proto-design-system/Table";
 import type { DeliveryStatus, WebhookDelivery } from "@/types/webhook";
 import styles from "./component.module.scss";
 
@@ -153,12 +154,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 
 			{/* Main content */}
 			<div className={styles.main}>
-				{loading ? (
-					<div className={styles.loading}>
-						<div className={styles.loadingSpinner} />
-						<p>Loading deliveries...</p>
-					</div>
-				) : filteredDeliveries.length === 0 ? (
+				{!loading && filteredDeliveries.length === 0 ? (
 					<EmptyState
 						title={
 							filter === "pending"
@@ -177,118 +173,117 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 						icon="list-check"
 					/>
 				) : (
-					<div className={styles.tableWrapper}>
-						<table className={styles.table}>
-							<thead className={styles.tableHead}>
-								<tr>
-									<th className={styles.tableHeaderCell}>Status</th>
-									<th className={styles.tableHeaderCell}>Event</th>
-									<th className={styles.tableHeaderCell}>Response</th>
-									<th className={styles.tableHeaderCell}>Duration</th>
-									<th className={styles.tableHeaderCell}>Attempt</th>
-									<th className={styles.tableHeaderCell}>Next Retry</th>
-									<th className={styles.tableHeaderCell}>Created At</th>
-									<th className={styles.tableHeaderCell}></th>
-								</tr>
-							</thead>
-							<tbody className={styles.tableBody}>
-								{filteredDeliveries.map((delivery) => (
-									<Fragment key={delivery.id}>
-										<tr
-											className={`${styles.tableRow} ${expandedDeliveryId === delivery.id ? styles.tableRowExpanded : ""}`}
-											onClick={() => toggleDelivery(delivery.id)}
-										>
-											<td className={`${styles.tableCell} ${styles.tableCellBadge}`}>
-												<StatusBadge
-													text={formatStatus(delivery.status)}
-													variant={getStatusVariant(delivery.status)}
-													styleType="light"
-												/>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.eventType}>{delivery.event_type}</span>
-											</td>
-											<td className={styles.tableCell}>
-												{delivery.response_status ? (
-													<span className={`${styles.statusCode} ${delivery.response_status >= 200 && delivery.response_status < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}>
-														{delivery.response_status}
-													</span>
-												) : (
-													<span className={styles.noResponse}>-</span>
-												)}
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.duration}>
-													{formatDuration(delivery.duration_ms)}
+					<Table loading={loading} loadingMessage="Loading deliveries...">
+						<Table.Header>
+							<Table.Row>
+								<Table.HeaderCell>Status</Table.HeaderCell>
+								<Table.HeaderCell>Event</Table.HeaderCell>
+								<Table.HeaderCell>Response</Table.HeaderCell>
+								<Table.HeaderCell>Duration</Table.HeaderCell>
+								<Table.HeaderCell>Attempt</Table.HeaderCell>
+								<Table.HeaderCell>Next Retry</Table.HeaderCell>
+								<Table.HeaderCell>Created At</Table.HeaderCell>
+								<Table.HeaderCell narrow />
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							{filteredDeliveries.map((delivery) => (
+								<Fragment key={delivery.id}>
+									<Table.Row
+										expandable
+										expanded={expandedDeliveryId === delivery.id}
+										onClick={() => toggleDelivery(delivery.id)}
+									>
+										<Table.Cell fitContent>
+											<StatusBadge
+												text={formatStatus(delivery.status)}
+												variant={getStatusVariant(delivery.status)}
+												styleType="light"
+											/>
+										</Table.Cell>
+										<Table.Cell>
+											<span className={styles.eventType}>{delivery.event_type}</span>
+										</Table.Cell>
+										<Table.Cell>
+											{delivery.response_status ? (
+												<span className={`${styles.statusCode} ${delivery.response_status >= 200 && delivery.response_status < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}>
+													{delivery.response_status}
 												</span>
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.attempt}>
-													{maxRetries
-														? `${delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number} / ${maxRetries}`
-														: delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number}
+											) : (
+												<span className={styles.noResponse}>-</span>
+											)}
+										</Table.Cell>
+										<Table.Cell>
+											<span className={styles.duration}>
+												{formatDuration(delivery.duration_ms)}
+											</span>
+										</Table.Cell>
+										<Table.Cell>
+											<span className={styles.attempt}>
+												{maxRetries
+													? `${delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number} / ${maxRetries}`
+													: delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number}
+											</span>
+										</Table.Cell>
+										<Table.Cell>
+											{delivery.next_retry_at && delivery.attempt_number < 5 ? (
+												<span className={styles.nextRetry}>
+													{new Date(delivery.next_retry_at).toLocaleString()}
 												</span>
-											</td>
-											<td className={styles.tableCell}>
-												{delivery.next_retry_at && delivery.attempt_number < 5 ? (
-													<span className={styles.nextRetry}>
-														{new Date(delivery.next_retry_at).toLocaleString()}
-													</span>
-												) : (
-													<span className={styles.noRetry}>-</span>
-												)}
-											</td>
-											<td className={styles.tableCell}>
-												<span className={styles.timestamp}>
-													{new Date(delivery.created_at).toLocaleString()}
-												</span>
-											</td>
-											<td className={styles.tableCell}>
-												<i className={`${styles.expandIcon} ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`} />
-											</td>
-										</tr>
-										{expandedDeliveryId === delivery.id && (
-											<tr className={styles.detailsRow}>
-												<td colSpan={8} className={styles.detailsCell}>
-													<div className={styles.detailsContent}>
-														{delivery.error_message && (
-															<div className={styles.errorMessage}>
-																<strong>Error:</strong> {delivery.error_message}
-															</div>
-														)}
-
-														<div className={styles.detailSection}>
-															<h4 className={styles.detailTitle}>Request Payload</h4>
-															<pre className={styles.codeBlock}>
-																{JSON.stringify(delivery.payload, null, 2)}
-															</pre>
-														</div>
-
-														{delivery.response_body && (
-															<div className={styles.detailSection}>
-																<h4 className={styles.detailTitle}>Response Body</h4>
-																<pre className={styles.codeBlock}>
-																	{delivery.response_body}
-																</pre>
-															</div>
-														)}
-
-														{delivery.delivered_at && (
-														<div className={styles.detailMeta}>
-															<span className={styles.metaItem}>
-																<strong>Delivered at:</strong> {new Date(delivery.delivered_at).toLocaleString()}
-															</span>
-														</div>
-													)}
+											) : (
+												<span className={styles.noRetry}>-</span>
+											)}
+										</Table.Cell>
+										<Table.Cell>
+											<span className={styles.timestamp}>
+												{new Date(delivery.created_at).toLocaleString()}
+											</span>
+										</Table.Cell>
+										<Table.Cell narrow>
+											<div className={styles.expandIcon}>
+												<i className={`ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`} />
+											</div>
+										</Table.Cell>
+									</Table.Row>
+									{expandedDeliveryId === delivery.id && (
+										<Table.ExpandedRow colSpan={8}>
+											<div className={styles.detailsContent}>
+												{delivery.error_message && (
+													<div className={styles.errorMessage}>
+														<strong>Error:</strong> {delivery.error_message}
 													</div>
-												</td>
-											</tr>
-										)}
-									</Fragment>
-								))}
-							</tbody>
-						</table>
-					</div>
+												)}
+
+												<div className={styles.detailSection}>
+													<h4 className={styles.detailTitle}>Request Payload</h4>
+													<pre className={styles.codeBlock}>
+														{JSON.stringify(delivery.payload, null, 2)}
+													</pre>
+												</div>
+
+												{delivery.response_body && (
+													<div className={styles.detailSection}>
+														<h4 className={styles.detailTitle}>Response Body</h4>
+														<pre className={styles.codeBlock}>
+															{delivery.response_body}
+														</pre>
+													</div>
+												)}
+
+												{delivery.delivered_at && (
+													<div className={styles.detailMeta}>
+														<span className={styles.metaItem}>
+															<strong>Delivered at:</strong> {new Date(delivery.delivered_at).toLocaleString()}
+														</span>
+													</div>
+												)}
+											</div>
+										</Table.ExpandedRow>
+									)}
+								</Fragment>
+							))}
+						</Table.Body>
+					</Table>
 				)}
 
 				{/* Pagination */}

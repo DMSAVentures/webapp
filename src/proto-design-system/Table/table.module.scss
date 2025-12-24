@@ -1,0 +1,195 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+// Table wrapper
+.wrapper {
+  position: relative;
+  overflow-x: auto;
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-radius: layout.$spacing-03;
+  background-color: var(--color-surface-primary-default);
+}
+
+.wrapperLoading {
+  overflow: hidden;
+  min-height: 200px;
+}
+
+// Loading overlay
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: layout.$spacing-04;
+  background-color: var(--color-surface-primary-default);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity motion.$duration-moderate-01 motion.$easing-productive-standard,
+    visibility motion.$duration-moderate-01 motion.$easing-productive-standard;
+  z-index: 10;
+}
+
+.loadingOverlayVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+// Table
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: typography.$font-size-sm;
+}
+
+// Header
+.header {
+  background-color: var(--color-surface-secondary-default);
+  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+// Header cell
+.headerCell {
+  padding: layout.$spacing-03 layout.$spacing-04;
+  text-align: left;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-secondary-default);
+  white-space: nowrap;
+}
+
+.headerCellSortable {
+  padding: 0;
+}
+
+.headerCellNarrow {
+  width: layout.$spacing-09;
+}
+
+.sortButton {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  width: 100%;
+  padding: layout.$spacing-03 layout.$spacing-04;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-sm;
+  font-weight: typography.$font-weight-semibold;
+  cursor: pointer;
+  transition: color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+  &:hover {
+    color: var(--color-text-primary-default);
+  }
+
+  &:focus-visible {
+    outline: border.$border-width-medium solid var(--color-focus-ring-default);
+    outline-offset: -2px;
+  }
+}
+
+.sortIcon {
+  font-size: typography.$font-size-md;
+}
+
+// Body
+.body {
+  tr:not(:last-child):not(.expandedRow) {
+    border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
+  }
+}
+
+// Row
+.row {
+  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+}
+
+.rowClickable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-bg-secondary-hover);
+  }
+}
+
+.rowSelected {
+  background-color: var(--color-bg-secondary-hover);
+}
+
+.rowExpanded {
+  background-color: var(--color-bg-secondary-hover);
+}
+
+// Cell
+.cell {
+  padding: layout.$spacing-03 layout.$spacing-04;
+  color: var(--color-text-primary-default);
+  vertical-align: middle;
+}
+
+.cellFitContent {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.cellNarrow {
+  width: layout.$spacing-09;
+}
+
+// Expanded row
+.expandedRow {
+  background-color: var(--color-surface-secondary-default);
+}
+
+.expandedCell {
+  padding: 0;
+}
+
+.expandedContent {
+  padding: layout.$spacing-04;
+  border-top: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+// Expand icon
+.expandIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: typography.$font-size-lg;
+  color: var(--color-text-tertiary-default);
+}
+
+// Loading spinner
+.loadingMessage {
+  margin: 0;
+  color: var(--color-text-secondary-default);
+  font-size: typography.$font-size-md;
+}
+
+.loadingSpinner {
+  width: layout.$spacing-08;
+  height: layout.$spacing-08;
+  border: layout.$spacing-01 solid var(--color-border-primary-default);
+  border-top-color: var(--color-text-info-default);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+  .wrapper {
+    overflow-x: scroll;
+  }
+}

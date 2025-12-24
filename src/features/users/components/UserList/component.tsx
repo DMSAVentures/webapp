@@ -16,6 +16,7 @@ import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import Modal from "@/proto-design-system/modal/modal";
 import Pagination from "@/proto-design-system/pagination/pagination";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Table } from "@/proto-design-system/Table";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type {
 	SortDirection,
@@ -335,12 +336,7 @@ export const UserList = memo<UserListProps>(function UserList({
 				</div>
 
 				{/* User table */}
-				{loading ? (
-					<div className={styles.loading}>
-						<div className={styles.loadingSpinner} />
-						<p>Loading users...</p>
-					</div>
-				) : filteredAndSortedUsers.length === 0 ? (
+				{!loading && filteredAndSortedUsers.length === 0 ? (
 					<div className={styles.noResults}>
 						<i className="ri-search-line" aria-hidden="true" />
 						<p>No users found</p>
@@ -351,173 +347,126 @@ export const UserList = memo<UserListProps>(function UserList({
 						)}
 					</div>
 				) : (
-					<div className={styles.tableWrapper}>
-						<table className={styles.table}>
-							<thead className={styles.tableHead}>
-								<tr>
-									<th className={styles.tableHeaderCell}>
+					<Table loading={loading} loadingMessage="Loading users...">
+						<Table.Header>
+							<Table.Row>
+								<Table.HeaderCell narrow>
+									<Checkbox
+										checked={
+											selectedUserIds.length === filteredAndSortedUsers.length &&
+											filteredAndSortedUsers.length > 0
+												? "checked"
+												: "unchecked"
+										}
+										onChange={handleSelectAll}
+										aria-label="Select all users"
+									/>
+								</Table.HeaderCell>
+								<Table.HeaderCell
+									sortable
+									sortDirection={sortField === "email" ? sortDirection : null}
+									onSort={() => handleSort("email")}
+								>
+									Email
+								</Table.HeaderCell>
+								<Table.HeaderCell
+									sortable
+									sortDirection={sortField === "status" ? sortDirection : null}
+									onSort={() => handleSort("status")}
+								>
+									Status
+								</Table.HeaderCell>
+								<Table.HeaderCell
+									sortable
+									sortDirection={sortField === "position" ? sortDirection : null}
+									onSort={() => handleSort("position")}
+								>
+									Position
+								</Table.HeaderCell>
+								<Table.HeaderCell
+									sortable
+									sortDirection={sortField === "referralCount" ? sortDirection : null}
+									onSort={() => handleSort("referralCount")}
+								>
+									Referrals
+								</Table.HeaderCell>
+								<Table.HeaderCell
+									sortable
+									sortDirection={sortField === "source" ? sortDirection : null}
+									onSort={() => handleSort("source")}
+								>
+									Source
+								</Table.HeaderCell>
+								<Table.HeaderCell>UTM Source</Table.HeaderCell>
+								<Table.HeaderCell
+									sortable
+									sortDirection={sortField === "createdAt" ? sortDirection : null}
+									onSort={() => handleSort("createdAt")}
+								>
+									Date
+								</Table.HeaderCell>
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							{filteredAndSortedUsers.map((user) => (
+								<Table.Row
+									key={user.id}
+									selected={selectedUserIds.includes(user.id)}
+									onClick={() => onUserClick?.(user)}
+								>
+									<Table.Cell narrow>
 										<Checkbox
 											checked={
-												selectedUserIds.length === filteredAndSortedUsers.length
+												selectedUserIds.includes(user.id)
 													? "checked"
 													: "unchecked"
 											}
-											onChange={handleSelectAll}
-											aria-label="Select all users"
+											onChange={() => handleSelectUser(user.id)}
+											onClick={(e) => e.stopPropagation()}
 										/>
-									</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
-											onClick={() => handleSort("email")}
-										>
-											Email
-											{sortField === "email" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
-											onClick={() => handleSort("status")}
-										>
-											Status
-											{sortField === "status" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
-											onClick={() => handleSort("position")}
-										>
-											Position
-											{sortField === "position" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
-											onClick={() => handleSort("referralCount")}
-										>
-											Referrals
-											{sortField === "referralCount" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
-											onClick={() => handleSort("source")}
-										>
-											Source
-											{sortField === "source" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-									<th className={styles.tableHeaderCell}>UTM Source</th>
-									<th className={styles.tableHeaderCell}>
-										<button
-											className={styles.sortButton}
-											onClick={() => handleSort("createdAt")}
-										>
-											Date
-											{sortField === "createdAt" && (
-												<i
-													className={`ri-arrow-${sortDirection === "asc" ? "up" : "down"}-s-line`}
-													aria-hidden="true"
-												/>
-											)}
-										</button>
-									</th>
-								</tr>
-							</thead>
-							<tbody className={styles.tableBody}>
-								{filteredAndSortedUsers.map((user) => (
-									<tr
-										key={user.id}
-										className={`${styles.tableRow} ${selectedUserIds.includes(user.id) ? styles.tableRowSelected : ""}`}
-										onClick={() => onUserClick?.(user)}
-									>
-										<td className={styles.tableCell}>
-											<Checkbox
-												checked={
-													selectedUserIds.includes(user.id)
-														? "checked"
-														: "unchecked"
-												}
-												onChange={() => handleSelectUser(user.id)}
-												onClick={(e) => e.stopPropagation()}
-											/>
-										</td>
-										<td className={styles.tableCell}>
-											<span className={styles.email}>{user.email}</span>
-										</td>
-										<td
-											className={`${styles.tableCell} ${styles.tableCellBadge}`}
-										>
-											<StatusBadge
-												text={formatStatus(user.status)}
-												variant={getStatusVariant(user.status)}
-												styleType="light"
-											/>
-										</td>
-										<td className={styles.tableCell}>
-											<span className={styles.position}>
-												{formatPosition(user.position)}
-											</span>
-										</td>
-										<td className={styles.tableCell}>
-											<span className={styles.referralCount}>
-												{user.referralCount}
-											</span>
-										</td>
-										<td className={styles.tableCell}>
-											<span className={styles.source}>
-												{user.source.charAt(0).toUpperCase() +
-													user.source.slice(1)}
-											</span>
-										</td>
-										<td
-											className={`${styles.tableCell} ${styles.tableCellBadge}`}
-										>
-											<UtmSourceBadge source={user.utmSource} />
-										</td>
-										<td className={styles.tableCell}>
-											<span className={styles.date}>
-												{new Date(user.createdAt).toLocaleDateString("en-US", {
-													month: "short",
-													day: "numeric",
-													year: "numeric",
-												})}
-											</span>
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+									</Table.Cell>
+									<Table.Cell>
+										<span className={styles.email}>{user.email}</span>
+									</Table.Cell>
+									<Table.Cell fitContent>
+										<StatusBadge
+											text={formatStatus(user.status)}
+											variant={getStatusVariant(user.status)}
+											styleType="light"
+										/>
+									</Table.Cell>
+									<Table.Cell>
+										<span className={styles.position}>
+											{formatPosition(user.position)}
+										</span>
+									</Table.Cell>
+									<Table.Cell>
+										<span className={styles.referralCount}>
+											{user.referralCount}
+										</span>
+									</Table.Cell>
+									<Table.Cell>
+										<span className={styles.source}>
+											{user.source.charAt(0).toUpperCase() +
+												user.source.slice(1)}
+										</span>
+									</Table.Cell>
+									<Table.Cell fitContent>
+										<UtmSourceBadge source={user.utmSource} />
+									</Table.Cell>
+									<Table.Cell>
+										<span className={styles.date}>
+											{new Date(user.createdAt).toLocaleDateString("en-US", {
+												month: "short",
+												day: "numeric",
+												year: "numeric",
+											})}
+										</span>
+									</Table.Cell>
+								</Table.Row>
+							))}
+						</Table.Body>
+					</Table>
 				)}
 
 				{/* Pagination */}
