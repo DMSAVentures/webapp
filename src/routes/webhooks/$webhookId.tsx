@@ -107,9 +107,16 @@ function RouteComponent() {
 					<div className={styles.headerContent}>
 						<h1 className={styles.pageTitle}>Delivery History</h1>
 						{webhook && (
-							<p className={styles.pageDescription}>
-								{webhook.url}
-							</p>
+							<>
+								<p className={styles.pageDescription}>
+									{webhook.url}
+								</p>
+								<p className={styles.retryInfo}>
+									{webhook.retry_enabled
+										? `Retries enabled (max ${webhook.max_retries} attempts)`
+										: "Retries disabled"}
+								</p>
+							</>
 						)}
 					</div>
 					<Button
@@ -140,6 +147,7 @@ function RouteComponent() {
 					currentPage={page}
 					totalPages={totalPages}
 					pageSize={DEFAULT_PAGE_SIZE}
+					maxRetries={webhook?.max_retries}
 					onPageChange={handlePageChange}
 					onRefresh={refetch}
 				/>

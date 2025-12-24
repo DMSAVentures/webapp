@@ -50,6 +50,12 @@
 	word-break: break-all;
 }
 
+.retryInfo {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+	margin: 0;
+}
+
 .pageContent {
 	display: flex;
 	flex-direction: column;

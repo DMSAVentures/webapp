@@ -23,6 +23,8 @@ export interface DeliveryListProps extends HTMLAttributes<HTMLDivElement> {
 	totalPages?: number;
 	/** Pagination - items per page */
 	pageSize?: number;
+	/** Max retries configured for the webhook */
+	maxRetries?: number;
 	/** Page change handler */
 	onPageChange?: (page: number) => void;
 	/** Refresh handler */
@@ -31,16 +33,16 @@ export interface DeliveryListProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-const getStatusVariant = (status: DeliveryStatus): "success" | "error" | "warning" | "info" => {
+const getStatusVariant = (status: DeliveryStatus): "completed" | "failed" | "pending" => {
 	switch (status) {
 		case "success":
-			return "success";
+			return "completed";
 		case "failed":
-			return "error";
+			return "failed";
 		case "pending":
-			return "warning";
+			return "pending";
 		default:
-			return "info";
+			return "pending";
 	}
 };
 
@@ -57,7 +59,7 @@ const formatStatus = (status: DeliveryStatus): string => {
 /**
  * DeliveryList displays webhook delivery history
  */
-type FilterType = "all" | "failed";
+type FilterType = "all" | "pending" | "failed";
 
 export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 	deliveries,
@@ -65,6 +67,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 	currentPage = 1,
 	totalPages = 1,
 	pageSize = 20,
+	maxRetries,
 	onPageChange,
 	onRefresh,
 	className: customClassName,
@@ -80,9 +83,18 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 	};
 
 	// Filter deliveries based on selected filter
-	const filteredDeliveries = filter === "all"
-		? deliveries
-		: deliveries.filter((d) => d.status === "failed");
+	const filteredDeliveries = (() => {
+		switch (filter) {
+			case "pending":
+				// Deliveries in progress (initial or retrying)
+				return deliveries.filter((d) => d.attempt_number < 5);
+			case "failed":
+				// Permanently failed deliveries (all retries exhausted)
+				return deliveries.filter((d) => d.status === "failed");
+			default:
+				return deliveries;
+		}
+	})();
 
 	// Empty state
 	if (!loading && deliveries.length === 0) {
@@ -114,7 +126,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 							},
 							{
 								text: "Failed",
-								icon: "ri-error-warning-line",
+								icon: "ri-close-circle-line",
 								iconPosition: "left",
 								iconOnly: false,
 								selected: filter === "failed",
@@ -124,7 +136,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 					/>
 					<div className={styles.resultsInfo}>
 						{filteredDeliveries.length} deliver{filteredDeliveries.length !== 1 ? "ies" : "y"}
-						{filter === "failed" && deliveries.length > 0 && ` of ${deliveries.length} total`}
+						{filter !== "all" && deliveries.length > 0 && ` of ${deliveries.length} total`}
 					</div>
 				</div>
 				{onRefresh && (
@@ -148,8 +160,20 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 					</div>
 				) : filteredDeliveries.length === 0 ? (
 					<EmptyState
-						title={filter === "failed" ? "No failed deliveries" : "No deliveries"}
-						description={filter === "failed" ? "All webhook deliveries were successful" : "Webhook deliveries will appear here when events are triggered"}
+						title={
+							filter === "pending"
+								? "No deliveries in progress"
+								: filter === "failed"
+									? "No failed deliveries"
+									: "No deliveries"
+						}
+						description={
+							filter === "pending"
+								? "No deliveries are currently being attempted or retried"
+								: filter === "failed"
+									? "All webhook deliveries were successful or are still being retried"
+									: "Webhook deliveries will appear here when events are triggered"
+						}
 						icon="list-check"
 					/>
 				) : (
@@ -200,11 +224,13 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											</td>
 											<td className={styles.tableCell}>
 												<span className={styles.attempt}>
-													{delivery.attempt_number}
+													{maxRetries
+														? `${delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number} / ${maxRetries}`
+														: delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number}
 												</span>
 											</td>
 											<td className={styles.tableCell}>
-												{delivery.next_retry_at ? (
+												{delivery.next_retry_at && delivery.attempt_number < 5 ? (
 													<span className={styles.nextRetry}>
 														{new Date(delivery.next_retry_at).toLocaleString()}
 													</span>
