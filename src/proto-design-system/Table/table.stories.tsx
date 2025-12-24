@@ -234,20 +234,18 @@ export const Expandable: Story = {
 									/>
 								</Table.Cell>
 							</Table.Row>
-							{expandedId === user.id && (
-								<Table.ExpandedRow colSpan={4}>
-									<div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-										<strong>User Details</strong>
-										<p style={{ margin: 0 }}>
-											This is the expanded content for {user.name}. You can display
-											additional details, forms, or any other content here.
-										</p>
-										<p style={{ margin: 0, color: "var(--color-text-secondary-default)" }}>
-											Status: {user.status}
-										</p>
-									</div>
-								</Table.ExpandedRow>
-							)}
+							<Table.ExpandedRow colSpan={4} expanded={expandedId === user.id}>
+								<div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+									<strong>User Details</strong>
+									<p style={{ margin: 0 }}>
+										This is the expanded content for {user.name}. You can display
+										additional details, forms, or any other content here.
+									</p>
+									<p style={{ margin: 0, color: "var(--color-text-secondary-default)" }}>
+										Status: {user.status}
+									</p>
+								</div>
+							</Table.ExpandedRow>
 						</>
 					))}
 				</Table.Body>

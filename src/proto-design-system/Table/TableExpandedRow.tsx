@@ -9,6 +9,8 @@ import styles from "./table.module.scss";
 export interface TableExpandedRowProps extends HTMLAttributes<HTMLTableRowElement> {
 	/** Number of columns to span */
 	colSpan: number;
+	/** Whether the row is expanded */
+	expanded?: boolean;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -18,19 +20,22 @@ export interface TableExpandedRowProps extends HTMLAttributes<HTMLTableRowElemen
  */
 export const TableExpandedRow = memo<TableExpandedRowProps>(function TableExpandedRow({
 	colSpan,
+	expanded = true,
 	className: customClassName,
 	children,
 	...props
 }) {
 	const rowClassNames = useMemo(
-		() => [styles.expandedRow, customClassName].filter(Boolean).join(" "),
-		[customClassName]
+		() => [styles.expandedRow, expanded && styles.expandedRowVisible, customClassName].filter(Boolean).join(" "),
+		[expanded, customClassName]
 	);
 
 	return (
 		<tr className={rowClassNames} {...props}>
 			<td colSpan={colSpan} className={styles.expandedCell}>
-				<div className={styles.expandedContent}>{children}</div>
+				<div className={styles.expandedWrapper}>
+					<div className={styles.expandedContent}>{children}</div>
+				</div>
 			</td>
 		</tr>
 	);

@@ -144,16 +144,44 @@
 
 // Expanded row
 .expandedRow {
+  visibility: collapse;
   background-color: var(--color-surface-secondary-default);
+  transition: visibility 0s motion.$duration-moderate-01; // delay collapse until animation finishes
+}
+
+.expandedRowVisible {
+  visibility: visible;
+  transition: visibility 0s 0s; // show immediately when expanding
 }
 
 .expandedCell {
   padding: 0;
 }
 
+.expandedWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows motion.$duration-moderate-01 motion.$easing-productive-standard,
+    opacity motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+  .expandedRowVisible & {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
 .expandedContent {
-  padding: layout.$spacing-04;
-  border-top: border.$border-width-small solid var(--color-border-primary-default);
+  overflow: hidden;
+  min-height: 0;
+  padding: 0 layout.$spacing-04;
+  transition: padding motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+  .expandedRowVisible & {
+    padding: layout.$spacing-04;
+    border-top: border.$border-width-small solid var(--color-border-primary-default);
+  }
 }
 
 // Expand icon

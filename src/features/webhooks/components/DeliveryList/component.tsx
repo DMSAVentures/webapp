@@ -245,41 +245,39 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											</div>
 										</Table.Cell>
 									</Table.Row>
-									{expandedDeliveryId === delivery.id && (
-										<Table.ExpandedRow colSpan={8}>
-											<div className={styles.detailsContent}>
-												{delivery.error_message && (
-													<div className={styles.errorMessage}>
-														<strong>Error:</strong> {delivery.error_message}
-													</div>
-												)}
+									<Table.ExpandedRow colSpan={8} expanded={expandedDeliveryId === delivery.id}>
+										<div className={styles.detailsContent}>
+											{delivery.error_message && (
+												<div className={styles.errorMessage}>
+													<strong>Error:</strong> {delivery.error_message}
+												</div>
+											)}
 
+											<div className={styles.detailSection}>
+												<h4 className={styles.detailTitle}>Request Payload</h4>
+												<pre className={styles.codeBlock}>
+													{JSON.stringify(delivery.payload, null, 2)}
+												</pre>
+											</div>
+
+											{delivery.response_body && (
 												<div className={styles.detailSection}>
-													<h4 className={styles.detailTitle}>Request Payload</h4>
+													<h4 className={styles.detailTitle}>Response Body</h4>
 													<pre className={styles.codeBlock}>
-														{JSON.stringify(delivery.payload, null, 2)}
+														{delivery.response_body}
 													</pre>
 												</div>
+											)}
 
-												{delivery.response_body && (
-													<div className={styles.detailSection}>
-														<h4 className={styles.detailTitle}>Response Body</h4>
-														<pre className={styles.codeBlock}>
-															{delivery.response_body}
-														</pre>
-													</div>
-												)}
-
-												{delivery.delivered_at && (
-													<div className={styles.detailMeta}>
-														<span className={styles.metaItem}>
-															<strong>Delivered at:</strong> {new Date(delivery.delivered_at).toLocaleString()}
-														</span>
-													</div>
-												)}
-											</div>
-										</Table.ExpandedRow>
-									)}
+											{delivery.delivered_at && (
+												<div className={styles.detailMeta}>
+													<span className={styles.metaItem}>
+														<strong>Delivered at:</strong> {new Date(delivery.delivered_at).toLocaleString()}
+													</span>
+												</div>
+											)}
+										</div>
+									</Table.ExpandedRow>
 								</Fragment>
 							))}
 						</Table.Body>
