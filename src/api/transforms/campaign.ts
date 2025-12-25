@@ -5,25 +5,25 @@
  */
 
 import type {
-	ApiCampaign,
-	ApiEmailSettings,
-	ApiBrandingSettings,
-	ApiFormSettings,
-	ApiReferralSettings,
-	ApiFormField,
-	ApiShareMessage,
-	ApiTrackingIntegration,
-} from "../types/campaign";
-import type {
+	BrandingSettings,
 	Campaign,
 	EmailSettings,
-	BrandingSettings,
+	FormField,
 	FormSettings,
 	ReferralSettings,
-	FormField,
 	ShareMessage,
 	TrackingIntegration,
 } from "@/types/campaign";
+import type {
+	ApiBrandingSettings,
+	ApiCampaign,
+	ApiEmailSettings,
+	ApiFormField,
+	ApiFormSettings,
+	ApiReferralSettings,
+	ApiShareMessage,
+	ApiTrackingIntegration,
+} from "../types/campaign";
 import { parseDate } from "./base";
 
 // ============================================================================

@@ -4,7 +4,12 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { publicFetcher, type ApiError, type ApiCampaign, toUiCampaign } from "@/api";
+import {
+	type ApiCampaign,
+	type ApiError,
+	publicFetcher,
+	toUiCampaign,
+} from "@/api";
 import type { Campaign } from "@/types/campaign";
 
 interface UsePublicCampaignResult {

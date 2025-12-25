@@ -44,8 +44,7 @@ function RouteComponent() {
 		return <EmptyState title="Campaign not found" icon="megaphone-line" />;
 	}
 
-	const hasFormFields =
-		campaign.formFields && campaign.formFields.length > 0;
+	const hasFormFields = campaign.formFields && campaign.formFields.length > 0;
 
 	if (!hasFormFields) {
 		return (

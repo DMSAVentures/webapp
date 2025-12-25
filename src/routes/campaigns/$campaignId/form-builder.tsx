@@ -46,13 +46,13 @@ function RouteComponent() {
 			// Transform UI FormConfig to API structure
 			const formFields = config.fields.map((field, index) => ({
 				name: labelToFieldName(field.label, field.type), // Convert label to field name
-				fieldType: field.type,
+				field_type: field.type,
 				label: field.label,
 				placeholder: field.placeholder || undefined,
 				required: field.required,
 				options: field.options,
 				validation_pattern: field.validation?.pattern || undefined,
-				displayOrder: index,
+				display_order: index,
 			}));
 
 			const formSettings = {

@@ -113,8 +113,7 @@ function RouteComponent() {
 	};
 
 	// Check if form is configured
-	const hasFormFields =
-		campaign.formFields && campaign.formFields.length > 0;
+	const hasFormFields = campaign.formFields && campaign.formFields.length > 0;
 	const canGoLive = campaign.status === "draft" && hasFormFields;
 
 	const handleConfigureForm = () => {

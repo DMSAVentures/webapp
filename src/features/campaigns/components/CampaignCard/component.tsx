@@ -228,9 +228,9 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
 									{campaign.totalSignups > 0
-										? (
-												campaign.totalReferrals / campaign.totalSignups
-											).toFixed(1)
+										? (campaign.totalReferrals / campaign.totalSignups).toFixed(
+												1,
+											)
 										: "0.0"}
 								</span>
 								<span className={styles.statLabel}>K-Factor</span>

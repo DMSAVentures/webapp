@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetcher, type ApiError, type ApiWebhook, toUiWebhook } from "@/api";
+import { type ApiError, type ApiWebhook, fetcher, toUiWebhook } from "@/api";
 import type { Webhook } from "@/types/webhook";
 import { toApiError } from "@/utils";
 

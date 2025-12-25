@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 import {
-	fetcher,
 	type ApiError,
 	type ApiUpdateWebhookRequest,
 	type ApiWebhook,
+	fetcher,
 	toUiWebhook,
 } from "@/api";
 import type { Webhook } from "@/types/webhook";

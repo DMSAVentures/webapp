@@ -17,7 +17,10 @@ export const TEMPLATE_VARIABLES = [
 	{ name: "position", description: "Waitlist position number" },
 	{ name: "referral_link", description: "User's unique referral link" },
 	{ name: "campaign_name", description: "Name of the campaign" },
-	{ name: "verification_link", description: "Email verification link (verification only)" },
+	{
+		name: "verification_link",
+		description: "Email verification link (verification only)",
+	},
 ] as const;
 
 export const SAMPLE_TEMPLATE_DATA: Record<string, string | number> = {
@@ -29,9 +32,13 @@ export const SAMPLE_TEMPLATE_DATA: Record<string, string | number> = {
 	verification_link: "https://example.com/verify?token=xyz123",
 };
 
-export const DEFAULT_EMAIL_TEMPLATES: Record<"verification" | "welcome", DefaultEmailTemplate> = {
+export const DEFAULT_EMAIL_TEMPLATES: Record<
+	"verification" | "welcome",
+	DefaultEmailTemplate
+> = {
 	verification: {
-		subject: "Verify your email - You're #{{position}} on the {{campaign_name}} waitlist",
+		subject:
+			"Verify your email - You're #{{position}} on the {{campaign_name}} waitlist",
 		htmlBody: `<!DOCTYPE html>
 <html>
 <head>
@@ -163,7 +170,10 @@ We'll notify you when it's your turn. Stay tuned!`,
 /**
  * Renders a template string by replacing {{variable}} placeholders with actual values
  */
-export function renderTemplate(template: string, data: Record<string, string | number>): string {
+export function renderTemplate(
+	template: string,
+	data: Record<string, string | number>,
+): string {
 	return template.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
 		return String(data[variable] ?? match);
 	});

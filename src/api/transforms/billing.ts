@@ -4,8 +4,8 @@
  * Transform between API (snake_case) and UI (camelCase) billing types
  */
 
-import type { ApiSubscription, ApiPrice } from "../types/billing";
-import type { Subscription, Price } from "@/types/billing";
+import type { Price, Subscription } from "@/types/billing";
+import type { ApiPrice, ApiSubscription } from "../types/billing";
 import { parseDate } from "./base";
 
 // ============================================================================

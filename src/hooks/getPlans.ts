@@ -1,4 +1,4 @@
-import { fetcher, type ApiPriceResponse, toUiPrices } from "@/api";
+import { type ApiPriceResponse, fetcher, toUiPrices } from "@/api";
 import type { Price } from "@/types/billing";
 
 export async function getPlans(): Promise<Price[]> {

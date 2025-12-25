@@ -4,25 +4,25 @@
  */
 
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
+import {
+	DEFAULT_EMAIL_TEMPLATES,
+	renderTemplate,
+	SAMPLE_TEMPLATE_DATA,
+	TEMPLATE_VARIABLES,
+} from "@/features/campaigns/constants/defaultEmailTemplates";
+import {
+	useCreateEmailTemplate,
+	useGetEmailTemplates,
+	useSendTestEmail,
+	useUpdateEmailTemplate,
+} from "@/hooks/useEmailTemplates";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import { Badge } from "@/proto-design-system/badge/badge";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
 import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
-import {
-	DEFAULT_EMAIL_TEMPLATES,
-	TEMPLATE_VARIABLES,
-	SAMPLE_TEMPLATE_DATA,
-	renderTemplate,
-} from "@/features/campaigns/constants/defaultEmailTemplates";
-import {
-	useGetEmailTemplates,
-	useCreateEmailTemplate,
-	useUpdateEmailTemplate,
-	useSendTestEmail,
-} from "@/hooks/useEmailTemplates";
+import { TextArea } from "@/proto-design-system/TextArea/textArea";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import styles from "./component.module.scss";
 
 export interface EmailBuilderProps
@@ -45,7 +45,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	...props
 }) {
 	// Current email type being edited
-	const [emailType, setEmailType] = useState<"verification" | "welcome">(initialType);
+	const [emailType, setEmailType] = useState<"verification" | "welcome">(
+		initialType,
+	);
 
 	// Form state
 	const defaultTemplate = DEFAULT_EMAIL_TEMPLATES[emailType];
@@ -55,7 +57,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
 	// Preview state
-	const [previewDevice, setPreviewDevice] = useState<"mobile" | "tablet" | "desktop">("desktop");
+	const [previewDevice, setPreviewDevice] = useState<
+		"mobile" | "tablet" | "desktop"
+	>("desktop");
 
 	// Test email state
 	const [testEmailRecipient, setTestEmailRecipient] = useState("");
@@ -68,28 +72,37 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	// API hooks
 	const { createTemplate, loading: creating } = useCreateEmailTemplate();
 	const { updateTemplate, loading: updating } = useUpdateEmailTemplate();
-	const { sendTestEmail, loading: sendingTest, success: testSuccess, reset: resetTestState } = useSendTestEmail();
+	const {
+		sendTestEmail,
+		loading: sendingTest,
+		success: testSuccess,
+		reset: resetTestState,
+	} = useSendTestEmail();
 
 	const saving = creating || updating;
 
 	// Handle tab change
-	const handleTabChange = useCallback((index: number) => {
-		const newType = index === 0 ? "verification" : "welcome";
-		setEmailType(newType);
+	const handleTabChange = useCallback(
+		(index: number) => {
+			const newType = index === 0 ? "verification" : "welcome";
+			setEmailType(newType);
 
-		// Load existing template or default
-		const existing = templates.find((t) => t.type === newType);
-		const defaultTpl = DEFAULT_EMAIL_TEMPLATES[newType];
+			// Load existing template or default
+			const existing = templates.find((t) => t.type === newType);
+			const defaultTpl = DEFAULT_EMAIL_TEMPLATES[newType];
 
-		setSubject(existing?.subject || defaultTpl.subject);
-		setHtmlBody(existing?.html_body || defaultTpl.htmlBody);
-		setTextBody(existing?.text_body || defaultTpl.textBody);
-		setHasUnsavedChanges(false);
-	}, [templates]);
+			setSubject(existing?.subject || defaultTpl.subject);
+			setHtmlBody(existing?.html_body || defaultTpl.htmlBody);
+			setTextBody(existing?.text_body || defaultTpl.textBody);
+			setHasUnsavedChanges(false);
+		},
+		[templates],
+	);
 
 	// Handle save
 	const handleSave = useCallback(async () => {
-		const templateName = emailType === "verification" ? "Verification Email" : "Welcome Email";
+		const templateName =
+			emailType === "verification" ? "Verification Email" : "Welcome Email";
 
 		if (existingTemplate) {
 			await updateTemplate(campaignId, existingTemplate.id, {
@@ -111,14 +124,30 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 		await refetch();
 		setHasUnsavedChanges(false);
-	}, [campaignId, emailType, existingTemplate, subject, htmlBody, textBody, createTemplate, updateTemplate, refetch]);
+	}, [
+		campaignId,
+		emailType,
+		existingTemplate,
+		subject,
+		htmlBody,
+		textBody,
+		createTemplate,
+		updateTemplate,
+		refetch,
+	]);
 
 	// Handle test email
 	const handleSendTestEmail = useCallback(async () => {
 		if (!testEmailRecipient || !existingTemplate) return;
 		resetTestState();
 		await sendTestEmail(campaignId, existingTemplate.id, testEmailRecipient);
-	}, [campaignId, existingTemplate, testEmailRecipient, sendTestEmail, resetTestState]);
+	}, [
+		campaignId,
+		existingTemplate,
+		testEmailRecipient,
+		sendTestEmail,
+		resetTestState,
+	]);
 
 	// Insert variable
 	const insertVariable = useCallback((variable: string) => {
@@ -272,7 +301,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 							<p>Click a variable to insert it into your email template.</p>
 							<div className={styles.variablesList}>
 								{TEMPLATE_VARIABLES.filter(
-									(v) => emailType === "verification" || v.name !== "verification_link",
+									(v) =>
+										emailType === "verification" ||
+										v.name !== "verification_link",
 								).map((variable) => (
 									<button
 										key={variable.name}
@@ -280,8 +311,12 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 										className={styles.variableButton}
 										onClick={() => insertVariable(variable.name)}
 									>
-										<span className={styles.variableName}>{`{{${variable.name}}}`}</span>
-										<span className={styles.variableDesc}>{variable.description}</span>
+										<span
+											className={styles.variableName}
+										>{`{{${variable.name}}}`}</span>
+										<span className={styles.variableDesc}>
+											{variable.description}
+										</span>
 									</button>
 								))}
 							</div>
@@ -292,7 +327,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				{/* Center panel - Live Preview */}
 				<main className={styles.centerPanel}>
 					<div className={styles.previewWrapper}>
-						<div className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}>
+						<div
+							className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
+						>
 							{/* Email header */}
 							<div className={styles.emailHeader}>
 								<div className={styles.emailHeaderRow}>
@@ -301,7 +338,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 								</div>
 								<div className={styles.emailHeaderRow}>
 									<span className={styles.emailLabel}>To:</span>
-									<span className={styles.emailValue}>{SAMPLE_TEMPLATE_DATA.email}</span>
+									<span className={styles.emailValue}>
+										{SAMPLE_TEMPLATE_DATA.email}
+									</span>
 								</div>
 							</div>
 							{/* Email body */}

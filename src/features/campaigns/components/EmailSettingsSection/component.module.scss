@@ -60,7 +60,7 @@
 	gap: layout.$spacing-03;
 
 	> i {
-		font-size: 20px;
+		font-size: typography.$font-size-h6;
 		color: var(--color-icon-secondary-default);
 	}
 }
@@ -132,7 +132,7 @@
 	border-radius: border.$border-radius-medium;
 
 	> i {
-		font-size: 32px;
+		font-size: typography.$font-size-h2;
 		color: var(--color-icon-secondary-default);
 	}
 
@@ -160,6 +160,6 @@
 	border-radius: border.$border-radius-small;
 
 	> i {
-		font-size: 16px;
+		font-size: typography.$font-size-xl;
 	}
 }

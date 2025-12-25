@@ -21,8 +21,9 @@ interface FormTrackingIntegration {
 	id: string;
 	label?: string;
 }
-import { validateLength, validateRequired } from "@/utils/validation";
+
 import { EmailSettingsSection } from "@/features/campaigns/components/EmailSettingsSection/component";
+import { validateLength, validateRequired } from "@/utils/validation";
 import styles from "./component.module.scss";
 
 export interface CampaignFormData {

@@ -1,4 +1,4 @@
-import { fetcher, type ApiUser, toUiUser } from "@/api";
+import { type ApiUser, fetcher, toUiUser } from "@/api";
 import type { User } from "@/types/user";
 
 export async function getUser(): Promise<User> {

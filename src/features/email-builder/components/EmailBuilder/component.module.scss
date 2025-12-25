@@ -186,7 +186,7 @@
 }
 
 .variableName {
-	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+	font-family: typography.$font-family-mono;
 	font-size: typography.$font-size-sm;
 	font-weight: typography.$font-weight-medium;
 	color: var(--color-text-info-default);
@@ -266,7 +266,7 @@
 .emailBody {
 	flex: 1;
 	min-height: 400px;
-	background-color: #f5f5f5;
+	background-color: var(--color-surface-secondary-default);
 }
 
 .emailIframe {
@@ -274,7 +274,7 @@
 	height: 100%;
 	min-height: 400px;
 	border: none;
-	background-color: #ffffff;
+	background-color: var(--color-white);
 }
 
 // Editor Panel (right)

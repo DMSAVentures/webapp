@@ -4,8 +4,8 @@
  * Transform between API (snake_case) and UI (camelCase) user types
  */
 
-import type { ApiWaitlistUser, ApiUser } from "../types/user";
-import type { WaitlistUser, User } from "@/types/user";
+import type { User, WaitlistUser } from "@/types/user";
+import type { ApiUser, ApiWaitlistUser } from "../types/user";
 import { parseDate } from "./base";
 
 // ============================================================================

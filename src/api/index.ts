@@ -4,12 +4,10 @@
  * Centralized exports for API client, types, and transforms
  */
 
+export type { ApiError } from "./client";
 // Client
 export { fetcher, publicFetcher } from "./client";
-export type { ApiError } from "./client";
-
-// Types
-export * from "./types";
-
 // Transforms
 export * from "./transforms";
+// Types
+export * from "./types";

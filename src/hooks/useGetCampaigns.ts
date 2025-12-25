@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-	fetcher,
 	type ApiError,
 	type ApiListCampaignsResponse,
+	fetcher,
 	toUiCampaign,
 } from "@/api";
 import type { Campaign, ListCampaignsParams } from "@/types/campaign";

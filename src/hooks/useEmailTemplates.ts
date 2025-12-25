@@ -5,7 +5,7 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { fetcher, type ApiError } from "@/api";
+import { type ApiError, fetcher } from "@/api";
 import { isAbortError, toApiError } from "@/utils";
 
 // ============================================================================
@@ -16,7 +16,13 @@ export interface EmailTemplate {
 	id: string;
 	campaign_id: string;
 	name: string;
-	type: "verification" | "welcome" | "position_update" | "reward_earned" | "milestone" | "custom";
+	type:
+		| "verification"
+		| "welcome"
+		| "position_update"
+		| "reward_earned"
+		| "milestone"
+		| "custom";
 	subject: string;
 	html_body: string;
 	text_body?: string;
@@ -56,7 +62,10 @@ export interface SendTestEmailRequest {
 // useGetEmailTemplates - Fetch all templates for a campaign
 // ============================================================================
 
-export const useGetEmailTemplates = (campaignId: string, type?: EmailTemplate["type"]) => {
+export const useGetEmailTemplates = (
+	campaignId: string,
+	type?: EmailTemplate["type"],
+) => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ApiError | null>(null);
 	const [templates, setTemplates] = useState<EmailTemplate[]>([]);
@@ -76,7 +85,10 @@ export const useGetEmailTemplates = (campaignId: string, type?: EmailTemplate["t
 					? `${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/email-templates?type=${type}`
 					: `${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/email-templates`;
 
-				const response = await fetcher<EmailTemplate[]>(url, { method: "GET", signal });
+				const response = await fetcher<EmailTemplate[]>(url, {
+					method: "GET",
+					signal,
+				});
 				setTemplates(response || []);
 			} catch (error: unknown) {
 				if (isAbortError(error)) {
@@ -166,7 +178,10 @@ export const useCreateEmailTemplate = () => {
 	const [data, setData] = useState<EmailTemplate | null>(null);
 
 	const createTemplate = useCallback(
-		async (campaignId: string, request: CreateEmailTemplateRequest): Promise<EmailTemplate | null> => {
+		async (
+			campaignId: string,
+			request: CreateEmailTemplateRequest,
+		): Promise<EmailTemplate | null> => {
 			setLoading(true);
 			setError(null);
 			try {

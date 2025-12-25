@@ -102,7 +102,10 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	const turnstileRef = useRef<TurnstileRef>(null);
 
 	// Fire conversion tracking when form is submitted (only in interactive mode)
-	useConversionTracking(trackingIntegrations, submitted && mode === "interactive");
+	useConversionTracking(
+		trackingIntegrations,
+		submitted && mode === "interactive",
+	);
 
 	// Check if captcha is required and configured
 	const isCaptchaEnabled =

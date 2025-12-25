@@ -8,14 +8,36 @@
 import { useEffect, useRef } from "react";
 import type { TrackingIntegration } from "@/types/campaign";
 
+interface FbqFunction {
+	(...args: unknown[]): void;
+	push?: (...args: unknown[]) => void;
+	loaded?: boolean;
+	version?: string;
+	queue?: unknown[];
+	callMethod?: (...args: unknown[]) => void;
+}
+
+interface TtqFunction {
+	(...args: unknown[]): void;
+	track: (event: string, data?: Record<string, unknown>) => void;
+	page: () => void;
+	load: (pixelId: string) => void;
+	methods?: string[];
+	setAndDefer?: (t: TtqFunction, e: string) => void;
+	instance?: (t: string) => unknown[];
+	_i?: Record<string, unknown[] & { _u?: string }>;
+	push?: (...args: unknown[]) => void;
+}
+
 declare global {
 	interface Window {
 		gtag?: (...args: unknown[]) => void;
-		fbq?: (...args: unknown[]) => void;
-		ttq?: {
-			track: (event: string, data?: Record<string, unknown>) => void;
-		};
+		fbq?: FbqFunction;
+		_fbq?: FbqFunction;
+		ttq?: TtqFunction;
 		lintrk?: (action: string, data: { conversion_id: number }) => void;
+		dataLayer?: unknown[];
+		_linkedin_data_partner_ids?: string[];
 	}
 }
 
@@ -59,10 +81,7 @@ async function fireGoogleAnalytics(
 
 			// Initialize gtag
 			window.gtag = function gtag(...args: unknown[]) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				((window as any).dataLayer = (window as any).dataLayer || []).push(
-					args,
-				);
+				(window.dataLayer = window.dataLayer || []).push(args);
 			};
 			window.gtag("js", new Date());
 			window.gtag("config", id);
@@ -93,22 +112,19 @@ async function fireMetaPixel(integration: TrackingIntegration): Promise<void> {
 			);
 
 			// Initialize fbq
-			window.fbq = function fbq(...args: unknown[]) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				((window as any)._fbq = (window as any)._fbq || window.fbq).callMethod
-					? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-						((window as any)._fbq as any).callMethod(...args)
-					: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-						((window as any)._fbq as any).queue.push(args);
+			const fbq: FbqFunction = function fbq(...args: unknown[]) {
+				const _fbq = (window._fbq = window._fbq || window.fbq);
+				if (_fbq?.callMethod) {
+					_fbq.callMethod(...args);
+				} else {
+					_fbq?.queue?.push(args);
+				}
 			};
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window.fbq as any).push = window.fbq;
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window.fbq as any).loaded = true;
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window.fbq as any).version = "2.0";
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window.fbq as any).queue = [];
+			fbq.push = fbq;
+			fbq.loaded = true;
+			fbq.version = "2.0";
+			fbq.queue = [];
+			window.fbq = fbq;
 			window.fbq("init", id);
 		}
 
@@ -136,10 +152,7 @@ async function fireGoogleAds(integration: TrackingIntegration): Promise<void> {
 			);
 
 			window.gtag = function gtag(...args: unknown[]) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				((window as any).dataLayer = (window as any).dataLayer || []).push(
-					args,
-				);
+				(window.dataLayer = window.dataLayer || []).push(args);
 			};
 			window.gtag("js", new Date());
 			window.gtag("config", id);
@@ -171,11 +184,12 @@ async function fireTikTokPixel(
 				"tiktok-pixel-script",
 			);
 
-			// Initialize ttq
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq = (window as any).ttq || [];
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq.methods = [
+			// Initialize ttq - using type assertion for array-based initialization
+			const ttqArray: unknown[] = [];
+			const ttq = ttqArray as unknown as TtqFunction;
+			window.ttq = ttq;
+
+			ttq.methods = [
 				"page",
 				"track",
 				"identify",
@@ -190,42 +204,39 @@ async function fireTikTokPixel(
 				"enableCookie",
 				"disableCookie",
 			];
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq.setAndDefer = function (t: any, e: string) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				t[e] = function (...args: any[]) {
-					t.push([e, ...args]);
+
+			ttq.setAndDefer = function (
+				t: TtqFunction & Record<string, unknown>,
+				e: string,
+			) {
+				t[e] = function (...args: unknown[]) {
+					ttqArray.push([e, ...args]);
 				};
 			};
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			for (const method of (window as any).ttq.methods) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				(window as any).ttq.setAndDefer((window as any).ttq, method);
+
+			for (const method of ttq.methods) {
+				ttq.setAndDefer(ttq as TtqFunction & Record<string, unknown>, method);
 			}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq.instance = function (t: string) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				const e = (window as any).ttq._i[t] || [];
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				for (const method of (window as any).ttq.methods) {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					(window as any).ttq.setAndDefer(e, method);
+
+			ttq.instance = function (t: string) {
+				const e = ttq._i?.[t] || [];
+				for (const method of ttq.methods || []) {
+					ttq.setAndDefer?.(
+						e as unknown as TtqFunction & Record<string, unknown>,
+						method,
+					);
 				}
 				return e;
 			};
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq.load = function (pixelId: string) {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				(window as any).ttq._i = (window as any).ttq._i || {};
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				(window as any).ttq._i[pixelId] = [];
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				(window as any).ttq._i[pixelId]._u = "https://analytics.tiktok.com";
+
+			ttq.load = function (pixelId: string) {
+				ttq._i = ttq._i || {};
+				ttq._i[pixelId] = [] as unknown[] & { _u?: string };
+				ttq._i[pixelId]._u = "https://analytics.tiktok.com";
 			};
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq.load(id);
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any).ttq.page();
+
+			ttq.load(id);
+			ttq.page();
 		}
 
 		// Fire CompleteRegistration event
@@ -253,12 +264,9 @@ async function fireLinkedInInsight(
 			);
 
 			// Initialize lintrk
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any)._linkedin_data_partner_ids =
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				(window as any)._linkedin_data_partner_ids || [];
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(window as any)._linkedin_data_partner_ids.push(id);
+			window._linkedin_data_partner_ids =
+				window._linkedin_data_partner_ids || [];
+			window._linkedin_data_partner_ids.push(id);
 		}
 
 		// Fire conversion (LinkedIn tracks page views by default, but we can track a conversion)

@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetcher, type ApiListUsersResponse, type ApiError, toUiWaitlistUsers } from "@/api";
+import {
+	type ApiError,
+	type ApiListUsersResponse,
+	fetcher,
+	toUiWaitlistUsers,
+} from "@/api";
 import type { WaitlistUser } from "@/types/user";
 import { toApiError } from "@/utils";
 

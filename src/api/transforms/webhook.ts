@@ -4,8 +4,8 @@
  * Transform between API (snake_case) and UI (camelCase) webhook types
  */
 
-import type { ApiWebhook, ApiWebhookDelivery } from "../types/webhook";
 import type { Webhook, WebhookDelivery } from "@/types/webhook";
+import type { ApiWebhook, ApiWebhookDelivery } from "../types/webhook";
 import { parseDate } from "./base";
 
 // ============================================================================

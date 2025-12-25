@@ -42,8 +42,14 @@ export const EmailPreview = memo<EmailPreviewProps>(function EmailPreview({
 	);
 
 	// Render subject and body with variable replacement
-	const renderedSubject = useMemo(() => renderTemplate(subject, data), [subject, data]);
-	const renderedBody = useMemo(() => renderTemplate(htmlBody, data), [htmlBody, data]);
+	const renderedSubject = useMemo(
+		() => renderTemplate(subject, data),
+		[subject, data],
+	);
+	const renderedBody = useMemo(
+		() => renderTemplate(htmlBody, data),
+		[htmlBody, data],
+	);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
