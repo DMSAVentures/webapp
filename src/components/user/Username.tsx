@@ -11,8 +11,8 @@ export default function UserName() {
 
 	return (
 		<SidebarUsername
-			first_name={auth.user.first_name}
-			last_name={auth.user.last_name}
+			firstName={auth.user.firstName}
+			lastName={auth.user.lastName}
 		/>
 	);
 }

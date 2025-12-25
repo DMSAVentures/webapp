@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
+import { fetcher, type ApiError } from "@/api";
 import { toApiError } from "@/utils";
 
 interface CreateSubscriptionIntentResponse {

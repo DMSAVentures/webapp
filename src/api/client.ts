@@ -1,5 +1,11 @@
-import type { ApiError } from "@/types/api.types";
+/**
+ * API Client
+ *
+ * Centralized HTTP client for all API calls
+ */
+
 import { isAbortError, isApiError } from "@/utils";
+import type { ApiError } from "./types/common";
 
 interface FetcherOptions extends RequestInit {
 	headers?: HeadersInit;
@@ -8,6 +14,10 @@ interface FetcherOptions extends RequestInit {
 // Re-export ApiError for convenience
 export type { ApiError };
 
+/**
+ * Authenticated fetcher that includes credentials (cookies)
+ * Use this for protected API endpoints
+ */
 export const fetcher = async <T>(
 	url: string,
 	options: FetcherOptions = {},

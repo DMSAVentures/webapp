@@ -28,10 +28,10 @@ function RouteComponent() {
 			slug: slug,
 			type: "waitlist",
 			description: data.description,
-			form_config: {
+			form_settings: {
 				captcha_enabled: data.formConfig?.captchaEnabled ?? false,
 			},
-			referral_config: data.settings.enableReferrals
+			referral_settings: data.settings.enableReferrals
 				? {
 						enabled: true,
 						points_per_referral: data.referralConfig?.pointsPerReferral || 1,
@@ -47,8 +47,9 @@ function RouteComponent() {
 				: {
 						enabled: false,
 					},
-			email_config: {
+			email_settings: {
 				verification_required: data.settings.emailVerificationRequired,
+				send_welcome_email: data.settings.sendWelcomeEmail,
 			},
 		});
 

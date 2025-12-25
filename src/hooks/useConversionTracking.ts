@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useRef } from "react";
-import type { TrackingConfig, TrackingIntegration } from "@/types/campaign";
+import type { TrackingIntegration } from "@/types/campaign";
 
 declare global {
 	interface Window {
@@ -46,7 +46,7 @@ function loadScript(src: string, id: string): Promise<void> {
 async function fireGoogleAnalytics(
 	integration: TrackingIntegration,
 ): Promise<void> {
-	const { id } = integration;
+	const id = integration.trackingId;
 	if (!id) return;
 
 	try {
@@ -81,7 +81,7 @@ async function fireGoogleAnalytics(
  * Initialize and fire Meta Pixel conversion
  */
 async function fireMetaPixel(integration: TrackingIntegration): Promise<void> {
-	const { id } = integration;
+	const id = integration.trackingId;
 	if (!id) return;
 
 	try {
@@ -123,7 +123,8 @@ async function fireMetaPixel(integration: TrackingIntegration): Promise<void> {
  * Initialize and fire Google Ads conversion
  */
 async function fireGoogleAds(integration: TrackingIntegration): Promise<void> {
-	const { id, label } = integration;
+	const id = integration.trackingId;
+	const label = integration.trackingLabel;
 	if (!id) return;
 
 	try {
@@ -159,7 +160,7 @@ async function fireGoogleAds(integration: TrackingIntegration): Promise<void> {
 async function fireTikTokPixel(
 	integration: TrackingIntegration,
 ): Promise<void> {
-	const { id } = integration;
+	const id = integration.trackingId;
 	if (!id) return;
 
 	try {
@@ -240,7 +241,7 @@ async function fireTikTokPixel(
 async function fireLinkedInInsight(
 	integration: TrackingIntegration,
 ): Promise<void> {
-	const { id } = integration;
+	const id = integration.trackingId;
 	if (!id) return;
 
 	try {
@@ -273,9 +274,9 @@ async function fireLinkedInInsight(
 async function fireTrackingEvent(
 	integration: TrackingIntegration,
 ): Promise<void> {
-	if (!integration.enabled || !integration.id) return;
+	if (!integration.enabled || !integration.trackingId) return;
 
-	switch (integration.type) {
+	switch (integration.integrationType) {
 		case "google_analytics":
 			await fireGoogleAnalytics(integration);
 			break;
@@ -292,18 +293,20 @@ async function fireTrackingEvent(
 			await fireLinkedInInsight(integration);
 			break;
 		default:
-			console.warn(`Unknown tracking integration type: ${integration.type}`);
+			console.warn(
+				`Unknown tracking integration type: ${integration.integrationType}`,
+			);
 	}
 }
 
 /**
  * Hook to fire conversion tracking events on the thank you page
  *
- * @param trackingConfig - The tracking configuration from the campaign
+ * @param trackingIntegrations - The tracking integrations from the campaign
  * @param shouldFire - Whether tracking should fire (typically when form is submitted)
  */
 export function useConversionTracking(
-	trackingConfig: TrackingConfig | undefined,
+	trackingIntegrations: TrackingIntegration[] | undefined,
 	shouldFire: boolean,
 ): void {
 	// Use ref to prevent multiple firings
@@ -312,15 +315,18 @@ export function useConversionTracking(
 	useEffect(() => {
 		// Only fire once when shouldFire becomes true
 		if (!shouldFire || hasFiredRef.current) return;
-		if (!trackingConfig?.integrations?.length) return;
+		if (!trackingIntegrations?.length) return;
 
 		hasFiredRef.current = true;
 
 		// Fire all enabled integrations
-		trackingConfig.integrations.forEach((integration) => {
+		trackingIntegrations.forEach((integration) => {
 			fireTrackingEvent(integration).catch((error) => {
-				console.error(`Failed to fire ${integration.type} tracking:`, error);
+				console.error(
+					`Failed to fire ${integration.integrationType} tracking:`,
+					error,
+				);
 			});
 		});
-	}, [shouldFire, trackingConfig]);
+	}, [shouldFire, trackingIntegrations]);
 }

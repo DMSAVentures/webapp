@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
+import { fetcher } from "@/api";
 import { CustomerPortalResponse } from "@/types/billing";
 import { getErrorMessage } from "@/utils";
 

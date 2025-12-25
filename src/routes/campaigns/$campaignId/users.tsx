@@ -114,9 +114,9 @@ function RouteComponent() {
 						users={users}
 						loading={usersLoading}
 						currentPage={usersData?.page ?? 1}
-						totalPages={usersData?.total_pages ?? 1}
-						pageSize={usersData?.page_size ?? DEFAULT_PAGE_SIZE}
-						totalUsers={usersData?.total_count ?? 0}
+						totalPages={usersData?.totalPages ?? 1}
+						pageSize={usersData?.pageSize ?? DEFAULT_PAGE_SIZE}
+						totalUsers={usersData?.totalCount ?? 0}
 						onPageChange={handlePageChange}
 						onUserClick={(user) => {
 							console.log("User clicked:", user);
@@ -128,9 +128,9 @@ function RouteComponent() {
 						onBulkAction={async (action, userIds) => {
 							console.log("Bulk action:", action, userIds);
 						}}
-						referralEnabled={campaign.referral_config?.enabled ?? false}
+						referralEnabled={campaign.referralSettings?.enabled ?? false}
 						emailVerificationEnabled={
-							campaign.email_config?.verification_required ?? false
+							campaign.emailSettings?.verificationRequired ?? false
 						}
 					/>
 				)}

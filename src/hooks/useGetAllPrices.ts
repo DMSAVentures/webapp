@@ -1,17 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
+import { fetcher, type ApiPrice, toUiPrices } from "@/api";
+import type { Price } from "@/types/billing";
 import { getErrorMessage, isAbortError } from "@/utils";
 
-export interface Price {
-	product_id: string;
-	price_id: string;
-	description: string;
-}
-
-type PriceResponse = Price[];
-
 export const useGetAllPrices = () => {
-	const [prices, setPrices] = useState<PriceResponse>();
+	const [prices, setPrices] = useState<Price[]>();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -20,14 +13,14 @@ export const useGetAllPrices = () => {
 		setError(null);
 
 		try {
-			const response = await fetcher<PriceResponse>(
+			const response = await fetcher<ApiPrice[]>(
 				`${import.meta.env.VITE_API_URL}/api/billing/plans`,
 				{
 					method: "GET",
 					signal,
 				},
 			);
-			setPrices(response);
+			setPrices(toUiPrices(response));
 		} catch (error: unknown) {
 			if (isAbortError(error)) {
 				console.debug("Request was aborted.");

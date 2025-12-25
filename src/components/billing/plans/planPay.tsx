@@ -6,16 +6,16 @@ import { Price } from "@/types/billing";
 
 export default function PlanToPay(props: Price) {
 	const navigate = useNavigate();
-	const handlePay = (price_id: string) => {
+	const handlePay = (priceId: string) => {
 		navigate({
 			to: "/billing/pay",
-			search: { plan: price_id },
+			search: { plan: priceId },
 		});
 	};
 	return (
 		<div>
 			<p>{props.description}</p>
-			<Button onClick={() => handlePay(props.price_id)}>Pay</Button>
+			<Button onClick={() => handlePay(props.priceId)}>Pay</Button>
 		</div>
 	);
 }

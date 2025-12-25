@@ -1,15 +1,23 @@
 import { useCallback, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import type {
-	CreateWebhookRequest,
-	CreateWebhookResponse,
-} from "@/types/webhook";
+import {
+	fetcher,
+	type ApiError,
+	type ApiCreateWebhookRequest,
+	type ApiCreateWebhookResponse,
+	toUiWebhook,
+} from "@/api";
+import type { Webhook } from "@/types/webhook";
 import { toApiError } from "@/utils";
 
+interface CreateWebhookResponse {
+	webhook: Webhook;
+	secret: string;
+}
+
 async function createWebhook(
-	request: CreateWebhookRequest,
+	request: ApiCreateWebhookRequest,
 ): Promise<CreateWebhookResponse> {
-	const response = await fetcher<CreateWebhookResponse>(
+	const response = await fetcher<ApiCreateWebhookResponse>(
 		`${import.meta.env.VITE_API_URL}/api/protected/webhooks`,
 		{
 			method: "POST",
@@ -17,7 +25,10 @@ async function createWebhook(
 		},
 	);
 
-	return response;
+	return {
+		webhook: toUiWebhook(response.webhook),
+		secret: response.secret,
+	};
 }
 
 export const useCreateWebhook = () => {
@@ -27,7 +38,7 @@ export const useCreateWebhook = () => {
 
 	const operation = useCallback(
 		async (
-			request: CreateWebhookRequest,
+			request: ApiCreateWebhookRequest,
 		): Promise<CreateWebhookResponse | null> => {
 			setLoading(true);
 			setError(null);

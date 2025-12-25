@@ -92,7 +92,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 		switch (filter) {
 			case "pending":
 				// Deliveries in progress (initial or retrying)
-				return deliveries.filter((d) => d.attempt_number < 5);
+				return deliveries.filter((d) => d.attemptNumber < 5);
 			case "failed":
 				// Permanently failed deliveries (all retries exhausted)
 				return deliveries.filter((d) => d.status === "failed");
@@ -210,15 +210,15 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										</Table.Cell>
 										<Table.Cell>
 											<span className={styles.eventType}>
-												{delivery.event_type}
+												{delivery.eventType}
 											</span>
 										</Table.Cell>
 										<Table.Cell>
-											{delivery.response_status ? (
+											{delivery.responseStatus ? (
 												<span
-													className={`${styles.statusCode} ${delivery.response_status >= 200 && delivery.response_status < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}
+													className={`${styles.statusCode} ${delivery.responseStatus >= 200 && delivery.responseStatus < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}
 												>
-													{delivery.response_status}
+													{delivery.responseStatus}
 												</span>
 											) : (
 												<span className={styles.noResponse}>-</span>
@@ -226,22 +226,22 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										</Table.Cell>
 										<Table.Cell>
 											<span className={styles.duration}>
-												{formatDuration(delivery.duration_ms)}
+												{formatDuration(delivery.durationMs)}
 											</span>
 										</Table.Cell>
 										<Table.Cell>
 											<span className={styles.attempt}>
 												{maxRetries
-													? `${delivery.status === "pending" ? delivery.attempt_number - 1 : delivery.attempt_number} / ${maxRetries}`
+													? `${delivery.status === "pending" ? delivery.attemptNumber - 1 : delivery.attemptNumber} / ${maxRetries}`
 													: delivery.status === "pending"
-														? delivery.attempt_number - 1
-														: delivery.attempt_number}
+														? delivery.attemptNumber - 1
+														: delivery.attemptNumber}
 											</span>
 										</Table.Cell>
 										<Table.Cell>
-											{delivery.next_retry_at && delivery.attempt_number < 5 ? (
+											{delivery.nextRetryAt && delivery.attemptNumber < 5 ? (
 												<span className={styles.nextRetry}>
-													{new Date(delivery.next_retry_at).toLocaleString()}
+													{new Date(delivery.nextRetryAt).toLocaleString()}
 												</span>
 											) : (
 												<span className={styles.noRetry}>-</span>
@@ -249,7 +249,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										</Table.Cell>
 										<Table.Cell>
 											<span className={styles.timestamp}>
-												{new Date(delivery.created_at).toLocaleString()}
+												{new Date(delivery.createdAt).toLocaleString()}
 											</span>
 										</Table.Cell>
 										<Table.Cell narrow>
@@ -265,9 +265,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										expanded={expandedDeliveryId === delivery.id}
 									>
 										<div className={styles.detailsContent}>
-											{delivery.error_message && (
+											{delivery.errorMessage && (
 												<div className={styles.errorMessage}>
-													<strong>Error:</strong> {delivery.error_message}
+													<strong>Error:</strong> {delivery.errorMessage}
 												</div>
 											)}
 
@@ -278,20 +278,20 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 												</pre>
 											</div>
 
-											{delivery.response_body && (
+											{delivery.responseBody && (
 												<div className={styles.detailSection}>
 													<h4 className={styles.detailTitle}>Response Body</h4>
 													<pre className={styles.codeBlock}>
-														{delivery.response_body}
+														{delivery.responseBody}
 													</pre>
 												</div>
 											)}
 
-											{delivery.delivered_at && (
+											{delivery.deliveredAt && (
 												<div className={styles.detailMeta}>
 													<span className={styles.metaItem}>
 														<strong>Delivered at:</strong>{" "}
-														{new Date(delivery.delivered_at).toLocaleString()}
+														{new Date(delivery.deliveredAt).toLocaleString()}
 													</span>
 												</div>
 											)}

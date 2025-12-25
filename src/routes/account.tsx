@@ -87,7 +87,7 @@ function Page() {
 			>
 				<div className={styles.billing}>
 					<h5>Subscription</h5>
-					<PlanCard priceId={currentSubscription.price_id!} />
+					<PlanCard priceId={currentSubscription.priceId!} />
 					<div className={styles["billing-status"]}>
 						<p>Status:</p>
 						<Badge
@@ -103,7 +103,7 @@ function Page() {
 						currentSubscription.status === "active" && (
 							<p>
 								Next billing date:{" "}
-								{currentSubscription.next_billing_date.toLocaleDateString()}
+								{currentSubscription.nextBillingDate.toLocaleDateString()}
 							</p>
 						)}
 				</div>

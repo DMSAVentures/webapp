@@ -1,13 +1,13 @@
-import { fetcher } from "@/hooks/fetcher";
-import { PriceResponse } from "@/types/billing";
+import { fetcher, type ApiPriceResponse, toUiPrices } from "@/api";
+import type { Price } from "@/types/billing";
 
-export async function getPlans(): Promise<PriceResponse> {
-	const response = await fetcher<PriceResponse>(
+export async function getPlans(): Promise<Price[]> {
+	const response = await fetcher<ApiPriceResponse>(
 		`${import.meta.env.VITE_API_URL}/api/billing/plans`,
 		{
 			method: "GET",
 		},
 	);
 
-	return response;
+	return toUiPrices(response);
 }

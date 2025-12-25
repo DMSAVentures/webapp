@@ -212,7 +212,7 @@ function RouteComponent() {
 											{getStatusBadge(webhook.status)}
 											<span>
 												Created{" "}
-												{new Date(webhook.created_at).toLocaleDateString()}
+												{new Date(webhook.createdAt).toLocaleDateString()}
 											</span>
 										</div>
 									</div>
@@ -271,22 +271,22 @@ function RouteComponent() {
 										<span
 											className={`${styles.statValue} ${styles.statValueSuccess}`}
 										>
-											{webhook.total_sent}
+											{webhook.totalSent}
 										</span>
 									</div>
 									<div className={styles.statItem}>
 										<span className={styles.statLabel}>Failed:</span>
 										<span
-											className={`${styles.statValue} ${webhook.total_failed > 0 ? styles.statValueError : ""}`}
+											className={`${styles.statValue} ${webhook.totalFailed > 0 ? styles.statValueError : ""}`}
 										>
-											{webhook.total_failed}
+											{webhook.totalFailed}
 										</span>
 									</div>
-									{webhook.last_success_at && (
+									{webhook.lastSuccessAt && (
 										<div className={styles.statItem}>
 											<span className={styles.statLabel}>Last success:</span>
 											<span className={styles.statValue}>
-												{new Date(webhook.last_success_at).toLocaleString()}
+												{new Date(webhook.lastSuccessAt).toLocaleString()}
 											</span>
 										</div>
 									)}

@@ -46,6 +46,7 @@ export const mockCampaignSettings: Record<string, CampaignSettings> = {
 	standard: {
 		redirectUrl: "https://startupco.com/welcome",
 		emailVerificationRequired: true,
+		sendWelcomeEmail: true,
 		duplicateHandling: "block",
 		enableReferrals: true,
 		enableRewards: true,
@@ -53,12 +54,14 @@ export const mockCampaignSettings: Record<string, CampaignSettings> = {
 	noVerification: {
 		redirectUrl: "https://example.com/thankyou",
 		emailVerificationRequired: false,
+		sendWelcomeEmail: true,
 		duplicateHandling: "update",
 		enableReferrals: true,
 		enableRewards: false,
 	},
 	minimal: {
 		emailVerificationRequired: false,
+		sendWelcomeEmail: false,
 		duplicateHandling: "allow",
 		enableReferrals: false,
 		enableRewards: false,
@@ -66,6 +69,7 @@ export const mockCampaignSettings: Record<string, CampaignSettings> = {
 	highSecurity: {
 		redirectUrl: "https://secure-app.com/verified",
 		emailVerificationRequired: true,
+		sendWelcomeEmail: true,
 		duplicateHandling: "block",
 		enableReferrals: true,
 		enableRewards: true,

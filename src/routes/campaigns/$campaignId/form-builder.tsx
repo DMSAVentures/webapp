@@ -43,30 +43,26 @@ function RouteComponent() {
 					.replace(/[^a-z0-9_]/g, ""); // Remove special characters
 			};
 
-			// Serialize the entire design config into custom_css with a special prefix
-			const designJson = JSON.stringify(config.design);
-			const customCssWithDesign = `__DESIGN__:${designJson}`;
+			// Transform UI FormConfig to API structure
+			const formFields = config.fields.map((field, index) => ({
+				name: labelToFieldName(field.label, field.type), // Convert label to field name
+				fieldType: field.type,
+				label: field.label,
+				placeholder: field.placeholder || undefined,
+				required: field.required,
+				options: field.options,
+				validation_pattern: field.validation?.pattern || undefined,
+				displayOrder: index,
+			}));
 
-			// Transform UI FormConfig to API FormConfig
-			const apiFormConfig = {
-				fields: config.fields.map((field) => ({
-					name: labelToFieldName(field.label, field.type), // Convert label to field name
-					type: field.type,
-					label: field.label,
-					placeholder: field.placeholder || undefined,
-					required: field.required,
-					options: field.options,
-					validation: field.validation
-						? JSON.stringify(field.validation)
-						: undefined,
-				})),
+			const formSettings = {
 				captcha_enabled: false,
-				custom_css: customCssWithDesign,
+				design: config.design,
 				success_title: config.behavior.successTitle,
 				success_message: config.behavior.successMessage,
 			};
 
-			// Update campaign with form_config
+			// Update campaign with form_fields and form_settings
 			const response = await fetch(
 				`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
 				{
@@ -76,7 +72,8 @@ function RouteComponent() {
 					},
 					credentials: "include",
 					body: JSON.stringify({
-						form_config: apiFormConfig,
+						form_fields: formFields,
+						form_settings: formSettings,
 					}),
 				},
 			);
@@ -168,7 +165,7 @@ function RouteComponent() {
 					campaignId={campaignId}
 					initialConfig={formConfig || undefined}
 					onSave={handleSave}
-					enabledReferralChannels={campaign.referral_config?.sharing_channels}
+					enabledReferralChannels={campaign.referralSettings?.sharingChannels}
 				/>
 			</div>
 		</motion.div>

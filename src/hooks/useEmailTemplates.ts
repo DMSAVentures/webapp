@@ -5,7 +5,7 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { fetcher, type ApiError } from "@/hooks/fetcher";
+import { fetcher, type ApiError } from "@/api";
 import { isAbortError, toApiError } from "@/utils";
 
 // ============================================================================

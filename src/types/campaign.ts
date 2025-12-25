@@ -1,78 +1,125 @@
 /**
- * Campaign Type Definitions
+ * Campaign UI Type Definitions
  *
- * Based on OpenAPI Schema v1.0.0
- * Aligned with backend API contracts
+ * UI types (camelCase) for use in React components
  */
 
+import type { ApiFormSettingsDesign, ApiSharingChannel } from "@/api/types";
+
 // ============================================================================
-// Campaign Core Types
+// Campaign Core Types (UI - camelCase)
 // ============================================================================
 
 export interface Campaign {
 	id: string;
-	account_id: string;
+	accountId: string;
 	name: string;
 	slug: string;
 	description?: string;
 	status: CampaignStatus;
 	type: CampaignType;
-	launch_date?: string;
-	end_date?: string;
-	form_config?: FormConfig;
-	referral_config?: ReferralConfig;
-	email_config?: EmailConfig;
-	branding_config?: BrandingConfig;
-	tracking_config?: TrackingConfig;
-	privacy_policy_url?: string;
-	terms_url?: string;
-	max_signups?: number;
-	total_signups: number;
-	total_verified: number;
-	total_referrals: number;
-	created_at: string;
-	updated_at: string;
+	launchDate?: Date;
+	endDate?: Date;
+	privacyPolicyUrl?: string;
+	termsUrl?: string;
+	maxSignups?: number;
+	totalSignups: number;
+	totalVerified: number;
+	totalReferrals: number;
+	createdAt: Date;
+	updatedAt: Date;
+
+	// Settings (loaded via relationships)
+	emailSettings?: EmailSettings;
+	brandingSettings?: BrandingSettings;
+	formSettings?: FormSettings;
+	referralSettings?: ReferralSettings;
+	formFields?: FormField[];
+	shareMessages?: ShareMessage[];
+	trackingIntegrations?: TrackingIntegration[];
 }
 
 export type CampaignStatus = "draft" | "active" | "paused" | "completed";
 export type CampaignType = "waitlist" | "referral" | "contest";
 
 // ============================================================================
-// Campaign Configuration Types
+// Settings Types (UI - camelCase)
 // ============================================================================
 
-/** Captcha configuration for form protection */
-export interface CaptchaFormConfig {
-	/** Whether captcha is enabled */
-	enabled?: boolean;
-	/** Captcha provider (e.g., "turnstile") */
-	provider?: string;
-	/** Site key for the captcha provider */
-	site_key?: string;
+export interface EmailSettings {
+	id: string;
+	campaignId: string;
+	fromName?: string;
+	fromEmail?: string;
+	replyTo?: string;
+	verificationRequired: boolean;
+	sendWelcomeEmail: boolean;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
-export interface FormConfig {
-	fields?: FormField[];
-	/** @deprecated Use captcha.enabled instead */
-	captcha_enabled?: boolean;
-	/** Captcha configuration object */
-	captcha?: CaptchaFormConfig;
-	double_opt_in?: boolean;
-	custom_css?: string;
-	/** Custom success title shown after signup */
-	success_title?: string;
-	/** Custom success message shown after signup */
-	success_message?: string;
+export interface BrandingSettings {
+	id: string;
+	campaignId: string;
+	logoUrl?: string;
+	primaryColor?: string;
+	fontFamily?: string;
+	customDomain?: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
+
+export interface FormSettings {
+	id: string;
+	campaignId: string;
+	captchaEnabled: boolean;
+	captchaProvider?: CaptchaProvider;
+	captchaSiteKey?: string;
+	doubleOptIn: boolean;
+	design?: FormSettingsDesign;
+	successTitle?: string;
+	successMessage?: string;
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export type CaptchaProvider = "turnstile" | "recaptcha" | "hcaptcha";
+
+/** Form design configuration - same structure as API (no transformation needed) */
+export type FormSettingsDesign = ApiFormSettingsDesign;
+
+export interface ReferralSettings {
+	id: string;
+	campaignId: string;
+	enabled: boolean;
+	pointsPerReferral: number;
+	verifiedOnly: boolean;
+	positionsToJump: number;
+	referrerPositionsToJump: number;
+	sharingChannels: SharingChannel[];
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export type SharingChannel = ApiSharingChannel;
+
+// ============================================================================
+// Entity Types (UI - camelCase)
+// ============================================================================
 
 export interface FormField {
+	id: string;
+	campaignId: string;
 	name: string;
-	type: FormFieldType;
+	fieldType: FormFieldType;
 	label: string;
 	placeholder?: string;
-	required?: boolean;
+	required: boolean;
+	validationPattern?: string;
 	options?: string[];
-	validation?: string;
+	displayOrder: number;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 export type FormFieldType =
@@ -93,60 +140,40 @@ export type OptionsFieldType = Extract<FormFieldType, "select" | "radio">;
 /** Type for fields that don't require options */
 export type SimpleFieldType = Exclude<FormFieldType, OptionsFieldType>;
 
-/**
- * Type guard to check if a form field type requires options
- */
+/** Type guard to check if a form field type requires options */
 export const isOptionsFieldType = (
 	type: FormFieldType,
 ): type is OptionsFieldType => {
 	return type === "select" || type === "radio";
 };
 
-/**
- * Type guard to check if a form field has options
- */
+/** Type guard to check if a form field has options */
 export const hasOptions = (
 	field: FormField,
 ): field is FormField & { options: string[] } => {
-	return isOptionsFieldType(field.type) && Array.isArray(field.options);
+	return isOptionsFieldType(field.fieldType) && Array.isArray(field.options);
 };
 
-export interface ReferralConfig {
-	enabled?: boolean;
-	points_per_referral?: number;
-	verified_only?: boolean;
-	positions_to_jump?: number;
-	referrer_positions_to_jump?: number;
-	sharing_channels?: SharingChannel[];
-	custom_share_messages?: Record<string, string>;
+export interface ShareMessage {
+	id: string;
+	campaignId: string;
+	channel: SharingChannel;
+	message: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
-export type SharingChannel =
-	| "email"
-	| "twitter"
-	| "facebook"
-	| "linkedin"
-	| "whatsapp";
-
-export interface EmailConfig {
-	from_name?: string;
-	from_email?: string;
-	reply_to?: string;
-	verification_required?: boolean;
+export interface TrackingIntegration {
+	id: string;
+	campaignId: string;
+	integrationType: TrackingIntegrationType;
+	enabled: boolean;
+	trackingId: string;
+	trackingLabel?: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
-export interface BrandingConfig {
-	logo_url?: string;
-	primary_color?: string;
-	font_family?: string;
-	custom_domain?: string;
-}
-
-// ============================================================================
-// Tracking Configuration Types
-// ============================================================================
-
-/** Supported tracking integration types */
 export type TrackingIntegrationType =
 	| "google_analytics"
 	| "meta_pixel"
@@ -154,60 +181,9 @@ export type TrackingIntegrationType =
 	| "tiktok_pixel"
 	| "linkedin_insight";
 
-/** Individual tracking integration configuration */
-export interface TrackingIntegration {
-	/** Type of tracking integration */
-	type: TrackingIntegrationType;
-	/** Whether this integration is enabled */
-	enabled: boolean;
-	/** Integration ID (Measurement ID, Pixel ID, Partner ID, etc.) */
-	id: string;
-	/** Additional label (used for Google Ads conversion label) */
-	label?: string;
-}
-
-/** Campaign tracking configuration */
-export interface TrackingConfig {
-	/** List of configured tracking integrations */
-	integrations: TrackingIntegration[];
-}
-
 // ============================================================================
-// Campaign Request/Response Types
+// List/Filter Types
 // ============================================================================
-
-export interface CreateCampaignRequest {
-	name: string;
-	slug: string;
-	description?: string;
-	type: CampaignType;
-	form_config?: FormConfig;
-	referral_config?: ReferralConfig;
-	email_config?: EmailConfig;
-	branding_config?: BrandingConfig;
-}
-
-export interface UpdateCampaignRequest {
-	name?: string;
-	description?: string;
-	launch_date?: string;
-	end_date?: string;
-	form_config?: FormConfig;
-	referral_config?: ReferralConfig;
-	email_config?: EmailConfig;
-	branding_config?: BrandingConfig;
-	tracking_config?: TrackingConfig;
-	max_signups?: number;
-}
-
-export interface UpdateCampaignStatusRequest {
-	status: CampaignStatus;
-}
-
-export interface ListCampaignsResponse {
-	campaigns: Campaign[];
-	pagination: import("./api.types").Pagination;
-}
 
 export interface ListCampaignsParams {
 	page?: number;
@@ -215,6 +191,3 @@ export interface ListCampaignsParams {
 	status?: CampaignStatus;
 	type?: CampaignType;
 }
-
-// Re-export shared API types for convenience
-export type { ApiError, Pagination } from "./api.types";

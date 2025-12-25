@@ -1,9 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import type { ApiListUsersResponse } from "@/types/api.types";
-import type { ListUsersParams, ListUsersResponse } from "@/types/users.types";
+import { fetcher, type ApiListUsersResponse, type ApiError, toUiWaitlistUsers } from "@/api";
+import type { WaitlistUser } from "@/types/user";
 import { toApiError } from "@/utils";
-import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
+
+export interface ListUsersParams {
+	page?: number;
+	limit?: number;
+	status?: string;
+	sort?: string;
+	order?: "asc" | "desc";
+}
+
+export interface ListUsersResponse {
+	users: WaitlistUser[];
+	page: number;
+	pageSize: number;
+	totalCount: number;
+	totalPages: number;
+}
 
 async function getCampaignUsers(
 	campaignId: string,
@@ -56,13 +70,14 @@ export const useGetCampaignUsers = (
 				});
 
 				// Transform API response to UI format
-				const transformedUsers = transformApiUsersToWaitlistUsers(
-					response.users,
-				);
+				const transformedUsers = toUiWaitlistUsers(response.users);
 
 				setData({
-					...response,
 					users: transformedUsers,
+					page: response.page,
+					pageSize: response.page_size,
+					totalCount: response.total_count,
+					totalPages: response.total_pages,
 				});
 			} catch (error: unknown) {
 				if (signal?.aborted) return;

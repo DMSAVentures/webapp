@@ -36,7 +36,7 @@ function RouteComponent() {
 		const updated = await updateCampaign(campaignId, {
 			name: data.name,
 			description: data.description,
-			referral_config: data.settings.enableReferrals
+			referral_settings: data.settings.enableReferrals
 				? {
 						enabled: true,
 						points_per_referral: data.referralConfig?.pointsPerReferral || 1,
@@ -52,12 +52,16 @@ function RouteComponent() {
 				: {
 						enabled: false,
 					},
-			email_config: {
+			email_settings: {
 				verification_required: data.settings.emailVerificationRequired,
+				send_welcome_email: data.settings.sendWelcomeEmail,
 			},
-			tracking_config: data.trackingConfig?.integrations?.length
-				? { integrations: data.trackingConfig.integrations }
-				: undefined,
+			tracking_integrations: data.trackingConfig?.integrations?.map((i) => ({
+				integration_type: i.type,
+				enabled: i.enabled,
+				tracking_id: i.id,
+				tracking_label: i.label,
+			})),
 		});
 
 		if (updated) {
@@ -95,18 +99,19 @@ function RouteComponent() {
 		description: campaign.description,
 		settings: {
 			emailVerificationRequired:
-				campaign.email_config?.verification_required ?? true,
+				campaign.emailSettings?.verificationRequired ?? true,
+			sendWelcomeEmail: campaign.emailSettings?.sendWelcomeEmail ?? false,
 			duplicateHandling: "block",
-			enableReferrals: campaign.referral_config?.enabled ?? false,
+			enableReferrals: campaign.referralSettings?.enabled ?? false,
 			enableRewards: false,
 		},
 		referralConfig: {
-			pointsPerReferral: campaign.referral_config?.points_per_referral ?? 1,
-			verifiedOnly: campaign.referral_config?.verified_only ?? true,
-			positionsToJump: campaign.referral_config?.positions_to_jump ?? 0,
+			pointsPerReferral: campaign.referralSettings?.pointsPerReferral ?? 1,
+			verifiedOnly: campaign.referralSettings?.verifiedOnly ?? true,
+			positionsToJump: campaign.referralSettings?.positionsToJump ?? 0,
 			referrerPositionsToJump:
-				campaign.referral_config?.referrer_positions_to_jump ?? 1,
-			sharingChannels: campaign.referral_config?.sharing_channels ?? [
+				campaign.referralSettings?.referrerPositionsToJump ?? 1,
+			sharingChannels: campaign.referralSettings?.sharingChannels ?? [
 				"email",
 				"twitter",
 				"facebook",
@@ -114,7 +119,13 @@ function RouteComponent() {
 			],
 		},
 		trackingConfig: {
-			integrations: campaign.tracking_config?.integrations ?? [],
+			integrations:
+				campaign.trackingIntegrations?.map((i) => ({
+					type: i.integrationType,
+					enabled: i.enabled,
+					id: i.trackingId,
+					label: i.trackingLabel,
+				})) ?? [],
 		},
 	};
 
@@ -165,6 +176,7 @@ function RouteComponent() {
 
 			<div className={styles.pageContent}>
 				<CampaignForm
+					campaignId={campaignId}
 					initialData={initialData}
 					onSubmit={handleSubmit}
 					onCancel={handleCancel}

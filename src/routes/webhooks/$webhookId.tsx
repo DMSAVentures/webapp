@@ -110,8 +110,8 @@ function RouteComponent() {
 							<>
 								<p className={styles.pageDescription}>{webhook.url}</p>
 								<p className={styles.retryInfo}>
-									{webhook.retry_enabled
-										? `Retries enabled (max ${webhook.max_retries} attempts)`
+									{webhook.retryEnabled
+										? `Retries enabled (max ${webhook.maxRetries} attempts)`
 										: "Retries disabled"}
 								</p>
 							</>
@@ -145,7 +145,7 @@ function RouteComponent() {
 					currentPage={page}
 					totalPages={totalPages}
 					pageSize={DEFAULT_PAGE_SIZE}
-					maxRetries={webhook?.max_retries}
+					maxRetries={webhook?.maxRetries}
 					onPageChange={handlePageChange}
 					onRefresh={refetch}
 				/>

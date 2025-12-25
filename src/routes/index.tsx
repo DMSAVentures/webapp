@@ -43,7 +43,7 @@ function Index() {
 		>
 			<div className={styles.pageHeader}>
 				<h1 className={styles.pageTitle}>
-					Welcome back, {user?.first_name || "User"}!
+					Welcome back, {user?.firstName || "User"}!
 				</h1>
 				<p className={styles.pageDescription}>{getWelcomeMessage()}</p>
 			</div>

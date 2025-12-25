@@ -1,16 +1,18 @@
 import { useCallback, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
-import type {
-	ApiError,
-	Campaign,
-	CreateCampaignRequest,
-} from "@/types/campaign";
+import {
+	fetcher,
+	type ApiError,
+	type ApiCampaign,
+	type ApiCreateCampaignRequest,
+	toUiCampaign,
+} from "@/api";
+import type { Campaign } from "@/types/campaign";
 import { toApiError } from "@/utils";
 
 async function createCampaign(
-	request: CreateCampaignRequest,
+	request: ApiCreateCampaignRequest,
 ): Promise<Campaign> {
-	const response = await fetcher<Campaign>(
+	const response = await fetcher<ApiCampaign>(
 		`${import.meta.env.VITE_API_URL}/api/v1/campaigns`,
 		{
 			method: "POST",
@@ -18,7 +20,7 @@ async function createCampaign(
 		},
 	);
 
-	return response;
+	return toUiCampaign(response);
 }
 
 export const useCreateCampaign = () => {
@@ -27,7 +29,7 @@ export const useCreateCampaign = () => {
 	const [data, setData] = useState<Campaign | null>(null);
 
 	const operation = useCallback(
-		async (request: CreateCampaignRequest): Promise<Campaign | null> => {
+		async (request: ApiCreateCampaignRequest): Promise<Campaign | null> => {
 			setLoading(true);
 			setError(null);
 			try {

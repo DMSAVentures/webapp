@@ -38,9 +38,9 @@ function Page() {
 				<div className={"plans"}>
 					{prices.map((price) => (
 						<PlanToPay
-							key={price.price_id}
-							product_id={price.product_id}
-							price_id={price.price_id}
+							key={price.priceId}
+							productId={price.productId}
+							priceId={price.priceId}
 							description={price.description}
 						/>
 					))}

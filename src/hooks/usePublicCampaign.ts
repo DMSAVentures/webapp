@@ -4,8 +4,8 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { publicFetcher, type ApiError, type ApiCampaign, toUiCampaign } from "@/api";
 import type { Campaign } from "@/types/campaign";
-import { type ApiError, publicFetcher } from "./fetcher";
 
 interface UsePublicCampaignResult {
 	campaign: Campaign | null;
@@ -42,11 +42,11 @@ export const usePublicCampaign = (
 		setLoading(true);
 		setError(null);
 		try {
-			const response = await publicFetcher<Campaign>(
+			const response = await publicFetcher<ApiCampaign>(
 				`${import.meta.env.VITE_API_URL}/api/v1/${campaignId}`,
 				{ method: "GET" },
 			);
-			setCampaign(response);
+			setCampaign(toUiCampaign(response));
 		} catch (err: unknown) {
 			const message =
 				err instanceof Error ? err.message : "Failed to load form";

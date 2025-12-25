@@ -54,54 +54,44 @@ function RouteComponent() {
 	const { campaign, loading, error } = usePublicCampaign(campaignId);
 	const tracking = useTrackingData();
 
-	// Parse design config from custom_css and build FormRendererConfig
+	// Parse design config and build FormRendererConfig
 	const formConfig = useMemo((): FormRendererConfig | null => {
-		if (!campaign?.form_config?.fields) return null;
+		if (!campaign?.formFields?.length) return null;
 
+		// Get design from form_settings or use defaults
 		let design: FormDesign = { ...DEFAULT_DESIGN };
+		const formSettings = campaign.formSettings;
 
-		if (campaign.form_config.custom_css?.startsWith("__DESIGN__:")) {
-			try {
-				const designJson = campaign.form_config.custom_css.substring(
-					"__DESIGN__:".length,
-				);
-				design = JSON.parse(designJson);
-			} catch (e) {
-				console.error("Failed to parse design config:", e);
-			}
+		if (formSettings?.design) {
+			design = { ...DEFAULT_DESIGN, ...formSettings.design } as FormDesign;
 		}
 
-		// Map campaign fields to FormField format (use name as id for API compatibility)
-		const fields: FormField[] = campaign.form_config.fields.map(
-			(field, idx) => ({
-				id: field.name, // Use name as id so formData keys match API expectations
-				type: field.type,
-				name: field.name,
-				label: field.label,
-				placeholder: field.placeholder,
-				required: field.required ?? false, // Ensure boolean
-				options: field.options,
-				order: idx,
-			}),
-		);
+		// Map campaign form_fields to FormField format (use name as id for API compatibility)
+		const fields: FormField[] = campaign.formFields.map((field, idx) => ({
+			id: field.name, // Use name as id so formData keys match API expectations
+			type: field.fieldType,
+			name: field.name,
+			label: field.label,
+			placeholder: field.placeholder,
+			required: field.required ?? false, // Ensure boolean
+			options: field.options,
+			order: field.displayOrder ?? idx,
+		}));
 
-		// Parse captcha config if present
+		// Parse captcha config from form_settings
 		// Site key comes from VITE_TURNSTILE_SITE_KEY env variable
 		let captcha: CaptchaConfig | undefined;
-		const captchaRaw = campaign.form_config.captcha as
-			| { enabled?: boolean; provider?: string }
-			| undefined;
 		const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
 		if (
-			captchaRaw?.enabled &&
-			captchaRaw?.provider === "turnstile" &&
+			formSettings?.captchaEnabled &&
+			formSettings?.captchaProvider === "turnstile" &&
 			turnstileSiteKey
 		) {
 			captcha = {
 				enabled: true,
 				provider: "turnstile",
-				siteKey: turnstileSiteKey,
+				siteKey: formSettings.captchaSiteKey || turnstileSiteKey,
 			};
 		}
 
@@ -111,7 +101,7 @@ function RouteComponent() {
 	// Form submission handler
 	const { submit: submitForm, signupData } = useFormSubmission({
 		campaignId,
-		fields: campaign?.form_config?.fields || [],
+		fields: campaign?.formFields || [],
 		tracking,
 	});
 
@@ -157,12 +147,12 @@ function RouteComponent() {
 				mode="interactive"
 				onSubmit={handleSubmit}
 				submitText={formConfig.design.submitButtonText}
-				successTitle={campaign.form_config?.success_title}
-				successMessage={campaign.form_config?.success_message}
+				successTitle={campaign.formSettings?.successTitle}
+				successMessage={campaign.formSettings?.successMessage}
 				signupData={signupData}
-				enabledChannels={campaign.referral_config?.sharing_channels}
+				enabledChannels={campaign.referralSettings?.sharingChannels}
 				embedUrl={embedUrl}
-				trackingConfig={campaign.tracking_config}
+				trackingIntegrations={campaign.trackingIntegrations}
 				className={styles.form}
 			/>
 		</div>

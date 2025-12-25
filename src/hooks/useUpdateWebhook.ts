@@ -1,13 +1,19 @@
 import { useCallback, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import type { UpdateWebhookRequest, Webhook } from "@/types/webhook";
+import {
+	fetcher,
+	type ApiError,
+	type ApiUpdateWebhookRequest,
+	type ApiWebhook,
+	toUiWebhook,
+} from "@/api";
+import type { Webhook } from "@/types/webhook";
 import { toApiError } from "@/utils";
 
 async function updateWebhook(
 	webhookId: string,
-	request: UpdateWebhookRequest,
+	request: ApiUpdateWebhookRequest,
 ): Promise<Webhook> {
-	const response = await fetcher<Webhook>(
+	const response = await fetcher<ApiWebhook>(
 		`${import.meta.env.VITE_API_URL}/api/protected/webhooks/${webhookId}`,
 		{
 			method: "PUT",
@@ -15,7 +21,7 @@ async function updateWebhook(
 		},
 	);
 
-	return response;
+	return toUiWebhook(response);
 }
 
 export const useUpdateWebhook = () => {
@@ -26,7 +32,7 @@ export const useUpdateWebhook = () => {
 	const operation = useCallback(
 		async (
 			webhookId: string,
-			request: UpdateWebhookRequest,
+			request: ApiUpdateWebhookRequest,
 		): Promise<Webhook | null> => {
 			setLoading(true);
 			setError(null);

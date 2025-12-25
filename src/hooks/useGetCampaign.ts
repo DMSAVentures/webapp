@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
+import { fetcher, type ApiError, type ApiCampaign, toUiCampaign } from "@/api";
 import type { Campaign } from "@/types/campaign";
 import { isAbortError, toApiError } from "@/utils";
 
@@ -15,14 +15,14 @@ export const useGetCampaign = (campaignId: string) => {
 			setLoading(true);
 			setError(null);
 			try {
-				const response = await fetcher<Campaign>(
+				const response = await fetcher<ApiCampaign>(
 					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
 					{
 						method: "GET",
 						signal,
 					},
 				);
-				setData(response);
+				setData(toUiCampaign(response));
 			} catch (error: unknown) {
 				if (isAbortError(error)) {
 					return; // Request was cancelled, don't update state

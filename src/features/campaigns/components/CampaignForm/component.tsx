@@ -11,12 +11,18 @@ import ContentDivider from "@/proto-design-system/contentdivider/contentdivider"
 import Dropdown from "@/proto-design-system/dropdown/dropdown";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
-import type {
-	TrackingIntegration,
-	TrackingIntegrationType,
-} from "@/types/campaign";
+import type { TrackingIntegrationType } from "@/types/campaign";
 import type { CampaignSettings } from "@/types/common.types";
+
+/** Internal form representation of a tracking integration (not the API type) */
+interface FormTrackingIntegration {
+	type: TrackingIntegrationType;
+	enabled: boolean;
+	id: string;
+	label?: string;
+}
 import { validateLength, validateRequired } from "@/utils/validation";
+import { EmailSettingsSection } from "@/features/campaigns/components/EmailSettingsSection/component";
 import styles from "./component.module.scss";
 
 export interface CampaignFormData {
@@ -24,6 +30,7 @@ export interface CampaignFormData {
 	description?: string;
 	settings: {
 		emailVerificationRequired: boolean;
+		sendWelcomeEmail: boolean;
 		duplicateHandling: "block" | "update" | "allow";
 		enableReferrals: boolean;
 		enableRewards: boolean;
@@ -39,7 +46,7 @@ export interface CampaignFormData {
 		captchaEnabled: boolean;
 	};
 	trackingConfig?: {
-		integrations: TrackingIntegration[];
+		integrations: FormTrackingIntegration[];
 	};
 }
 
@@ -98,6 +105,8 @@ const TRACKING_INTEGRATIONS: {
 
 export interface CampaignFormProps
 	extends Omit<HTMLAttributes<HTMLFormElement>, "onSubmit"> {
+	/** Campaign ID (for editing existing campaigns) */
+	campaignId?: string;
 	/** Initial form data for editing */
 	initialData?: Partial<CampaignFormData>;
 	/** Submit handler */
@@ -125,6 +134,7 @@ interface TrackingErrors {
  * CampaignForm for creating/editing campaigns
  */
 export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
+	campaignId,
 	initialData,
 	onSubmit,
 	onCancel,
@@ -140,6 +150,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		settings: {
 			emailVerificationRequired:
 				initialData?.settings?.emailVerificationRequired ?? false,
+			sendWelcomeEmail: initialData?.settings?.sendWelcomeEmail ?? false,
 			duplicateHandling: initialData?.settings?.duplicateHandling || "block",
 			enableReferrals: initialData?.settings?.enableReferrals ?? false,
 			enableRewards: initialData?.settings?.enableRewards ?? false,
@@ -539,6 +550,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					description="Protect your waitlist from bots and spam submissions"
 				/>
 			</div>
+
+			{/* Email Settings Section */}
+			<EmailSettingsSection
+				campaignId={campaignId}
+				verificationRequired={formData.settings.emailVerificationRequired}
+				sendWelcomeEmail={formData.settings.sendWelcomeEmail}
+				onSendWelcomeEmailChange={(value) =>
+					handleSettingChange("sendWelcomeEmail", value)
+				}
+				disabled={loading}
+			/>
 
 			{/* Referral Configuration Section - Only show if referrals are enabled */}
 			{formData.settings.enableReferrals && (

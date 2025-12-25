@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError } from "@/hooks/fetcher";
+import type { ApiError } from "@/api";
 import type { TeamMember } from "@/types/common.types";
 import { teamService } from "../services/team.service";
 

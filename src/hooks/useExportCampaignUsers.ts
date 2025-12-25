@@ -1,9 +1,7 @@
 import { useCallback, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import type { ApiListUsersResponse } from "@/types/api.types";
-import type { WaitlistUser } from "@/types/users.types";
+import { fetcher, type ApiListUsersResponse, type ApiError, toUiWaitlistUsers } from "@/api";
+import type { WaitlistUser } from "@/types/user";
 import { toApiError } from "@/utils";
-import { transformApiUsersToWaitlistUsers } from "@/utils/userDataTransform";
 
 export const useExportCampaignUsers = (campaignId: string) => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -17,7 +15,7 @@ export const useExportCampaignUsers = (campaignId: string) => {
 			const response = await fetcher<ApiListUsersResponse>(url, {
 				method: "GET",
 			});
-			const allUsers = transformApiUsersToWaitlistUsers(response.users);
+			const allUsers = toUiWaitlistUsers(response.users);
 			return allUsers;
 		} catch (error: unknown) {
 			setError(toApiError(error));

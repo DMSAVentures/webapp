@@ -39,71 +39,54 @@ const DEFAULT_BEHAVIOR = {
 } as const satisfies FormBehavior;
 
 /**
- * Transform campaign form_config to FormConfig for preview/editing
+ * Transform campaign formSettings and formFields to FormConfig for preview/editing
  */
 export const useFormConfigFromCampaign = (
 	campaign: Campaign | null,
 ): FormConfig | null => {
 	return useMemo(() => {
-		if (
-			!campaign?.form_config ||
-			!campaign.form_config.fields ||
-			campaign.form_config.fields.length === 0
-		) {
+		if (!campaign?.formFields || campaign.formFields.length === 0) {
 			return null;
 		}
 
 		// Map API fields to UI fields
-		const uiFields = campaign.form_config.fields.map((apiField, index) => ({
+		const uiFields = campaign.formFields.map((apiField, index) => ({
 			id: apiField.name || `field-${index}`,
-			type: apiField.type,
+			type: apiField.fieldType,
 			label: apiField.label,
 			placeholder: apiField.placeholder || "",
 			helpText: "",
 			required: apiField.required || false,
-			order: index,
+			order: apiField.displayOrder ?? index,
 			options: apiField.options,
-			validation: apiField.validation
-				? JSON.parse(apiField.validation)
+			validation: apiField.validationPattern
+				? { pattern: apiField.validationPattern }
 				: undefined,
 		}));
 
 		// Default design config
 		const defaultDesign: FormDesign = { ...DEFAULT_DESIGN };
 
-		// Try to parse design from custom_css
+		// Try to get design from formSettings
 		let design = defaultDesign;
-		if (campaign.form_config.custom_css) {
-			try {
-				if (campaign.form_config.custom_css.startsWith("__DESIGN__:")) {
-					const designJson = campaign.form_config.custom_css.substring(
-						"__DESIGN__:".length,
-					);
-					design = JSON.parse(designJson);
-				} else {
-					// Legacy: just custom CSS without design config
-					design = {
-						...defaultDesign,
-						customCss: campaign.form_config.custom_css,
-					};
-				}
-			} catch (_e) {
-				// If parsing fails, use default with the CSS as-is
-				design = {
-					...defaultDesign,
-					customCss: campaign.form_config.custom_css,
-				};
-			}
+		const formSettings = campaign.formSettings;
+		if (formSettings?.design) {
+			// Design is now stored as a JSONB object
+			// Spread defaults first, then override with API values
+			design = {
+				...defaultDesign,
+				...formSettings.design,
+			} as FormDesign;
 		}
 
 		// Build behavior config with custom success messages if available
 		const behavior: FormBehavior = {
 			...DEFAULT_BEHAVIOR,
-			...(campaign.form_config.success_title && {
-				successTitle: campaign.form_config.success_title,
+			...(formSettings?.successTitle && {
+				successTitle: formSettings.successTitle,
 			}),
-			...(campaign.form_config.success_message && {
-				successMessage: campaign.form_config.success_message,
+			...(formSettings?.successMessage && {
+				successMessage: formSettings.successMessage,
 			}),
 		};
 

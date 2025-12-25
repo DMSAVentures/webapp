@@ -202,14 +202,14 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			)}
 
 			{/* Stats */}
-			{showStats && campaign.total_signups !== undefined && (
+			{showStats && campaign.totalSignups !== undefined && (
 				<>
 					<div className={styles.stats}>
 						<div className={styles.statItem}>
 							<i className="ri-user-add-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.total_signups.toLocaleString()}
+									{campaign.totalSignups.toLocaleString()}
 								</span>
 								<span className={styles.statLabel}>Signups</span>
 							</div>
@@ -218,7 +218,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<i className="ri-share-forward-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.total_referrals.toLocaleString()}
+									{campaign.totalReferrals.toLocaleString()}
 								</span>
 								<span className={styles.statLabel}>Referrals</span>
 							</div>
@@ -227,9 +227,9 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<i className="ri-line-chart-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.total_signups > 0
+									{campaign.totalSignups > 0
 										? (
-												campaign.total_referrals / campaign.total_signups
+												campaign.totalReferrals / campaign.totalSignups
 											).toFixed(1)
 										: "0.0"}
 								</span>
@@ -244,20 +244,20 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			<div className={styles.footer}>
 				<span className={styles.date}>
 					<i className="ri-calendar-line" aria-hidden="true" />
-					{campaign.status === "completed" && campaign.end_date ? (
+					{campaign.status === "completed" && campaign.endDate ? (
 						<>
 							Completed{" "}
-							{new Date(campaign.end_date).toLocaleDateString("en-US", {
+							{new Date(campaign.endDate).toLocaleDateString("en-US", {
 								month: "short",
 								day: "numeric",
 								year: "numeric",
 							})}
 						</>
-					) : campaign.created_at &&
-						!isNaN(new Date(campaign.created_at).getTime()) ? (
+					) : campaign.createdAt &&
+						!isNaN(new Date(campaign.createdAt).getTime()) ? (
 						<>
 							Created{" "}
-							{new Date(campaign.created_at).toLocaleDateString("en-US", {
+							{new Date(campaign.createdAt).toLocaleDateString("en-US", {
 								month: "short",
 								day: "numeric",
 								year: "numeric",

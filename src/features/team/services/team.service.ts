@@ -3,7 +3,7 @@
  * API calls for team member management using the centralized fetcher
  */
 
-import { fetcher } from "@/hooks/fetcher";
+import { fetcher } from "@/api";
 import type { TeamMember } from "@/types/common.types";
 
 const API_BASE = import.meta.env.VITE_API_URL;

@@ -29,7 +29,7 @@ export default function PlanCard(props: PlanCardProps) {
 		);
 	}
 
-	const price = prices?.find((price) => price.price_id === props.priceId);
+	const price = prices?.find((price) => price.priceId === props.priceId);
 
 	if (!price) {
 		return (

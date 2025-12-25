@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
+import { fetcher } from "@/api";
 import { getErrorMessage } from "@/utils";
 
 interface EphermalAPIKeyResponse {

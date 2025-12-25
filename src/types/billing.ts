@@ -1,28 +1,48 @@
+/**
+ * Billing UI Type Definitions
+ *
+ * UI types (camelCase) for billing and subscriptions
+ */
+
+// ============================================================================
+// Price/Product Types (UI - camelCase)
+// ============================================================================
+
 export interface Price {
-	product_id: string;
-	price_id: string;
+	productId: string;
+	priceId: string;
 	description: string;
 }
 
-export type PriceResponse = Price[];
+// ============================================================================
+// Subscription Types (UI - camelCase)
+// ============================================================================
 
-export interface GetCurrentSubscriptionResponse {
+export interface Subscription {
 	id: string;
 	status: string;
-	price_id: string;
-	start_date: Date;
-	end_date: Date;
-	next_billing_date: Date;
+	priceId: string;
+	startDate: Date;
+	endDate: Date;
+	nextBillingDate: Date;
 }
+
+// ============================================================================
+// Response Types (for convenience)
+// ============================================================================
 
 export interface CancelSubscriptionResponse {
 	message: string;
 }
 
 export interface PaymentMethodUpdateIntentResponse {
-	client_secret: string;
+	clientSecret: string;
 }
 
 export interface CustomerPortalResponse {
 	url: string;
+}
+
+export interface CheckoutSessionResponse {
+	clientSecret: string;
 }

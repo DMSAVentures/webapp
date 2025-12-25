@@ -1,17 +1,19 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useCallback, useEffect, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
-import { PaymentMethodUpdateIntentResponse } from "@/types/billing";
+import { fetcher, type ApiPaymentMethodUpdateIntentResponse } from "@/api";
+import type { PaymentMethodUpdateIntentResponse } from "@/types/billing";
 import { getErrorMessage } from "@/utils";
 
 async function createPaymentMethodUpdateIntent(): Promise<PaymentMethodUpdateIntentResponse> {
-	const response = await fetcher<PaymentMethodUpdateIntentResponse>(
+	const response = await fetcher<ApiPaymentMethodUpdateIntentResponse>(
 		`${import.meta.env.VITE_API_URL}/api/protected/billing/payment-method-update-intent`,
 		{
 			method: "POST",
 		},
 	);
-	return response;
+	return {
+		clientSecret: response.client_secret,
+	};
 }
 
 export const useCreatePaymentMethodUpdateIntent = () => {
@@ -27,12 +29,12 @@ export const useCreatePaymentMethodUpdateIntent = () => {
 			return;
 		}
 
-		if (!data?.client_secret) {
+		if (!data?.clientSecret) {
 			setError("Client secret is missing");
 			return;
 		}
 
-		const result = await stripe.confirmCardSetup(data.client_secret, {
+		const result = await stripe.confirmCardSetup(data.clientSecret, {
 			payment_method: {
 				card: elements.getElement(CardElement)!,
 			},

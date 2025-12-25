@@ -1,17 +1,19 @@
 import { useCallback, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
-import type {
-	ApiError,
-	Campaign,
-	UpdateCampaignRequest,
-} from "@/types/campaign";
+import {
+	fetcher,
+	type ApiError,
+	type ApiCampaign,
+	type ApiUpdateCampaignRequest,
+	toUiCampaign,
+} from "@/api";
+import type { Campaign } from "@/types/campaign";
 import { toApiError } from "@/utils";
 
 async function updateCampaign(
 	campaignId: string,
-	request: UpdateCampaignRequest,
+	request: ApiUpdateCampaignRequest,
 ): Promise<Campaign> {
-	const response = await fetcher<Campaign>(
+	const response = await fetcher<ApiCampaign>(
 		`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
 		{
 			method: "PUT",
@@ -19,7 +21,7 @@ async function updateCampaign(
 		},
 	);
 
-	return response;
+	return toUiCampaign(response);
 }
 
 export const useUpdateCampaign = () => {
@@ -30,7 +32,7 @@ export const useUpdateCampaign = () => {
 	const operation = useCallback(
 		async (
 			campaignId: string,
-			request: UpdateCampaignRequest,
+			request: ApiUpdateCampaignRequest,
 		): Promise<Campaign | null> => {
 			setLoading(true);
 			setError(null);

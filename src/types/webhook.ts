@@ -1,79 +1,55 @@
 /**
- * Webhook Type Definitions
+ * Webhook UI Type Definitions
+ *
+ * UI types (camelCase) for webhooks
  */
+
+// ============================================================================
+// Webhook Types (UI - camelCase)
+// ============================================================================
+
+export type WebhookStatus = "active" | "paused" | "failed";
+export type DeliveryStatus = "success" | "failed" | "pending";
 
 export interface Webhook {
 	id: string;
-	account_id: string;
-	campaign_id?: string;
+	accountId: string;
+	campaignId?: string;
 	url: string;
 	events: string[];
 	status: WebhookStatus;
-	retry_enabled: boolean;
-	max_retries: number;
-	total_sent: number;
-	total_failed: number;
-	last_success_at?: string;
-	last_failure_at?: string;
-	created_at: string;
-	updated_at: string;
+	retryEnabled: boolean;
+	maxRetries: number;
+	totalSent: number;
+	totalFailed: number;
+	lastSuccessAt?: Date;
+	lastFailureAt?: Date;
+	createdAt: Date;
+	updatedAt: Date;
 }
-
-export type WebhookStatus = "active" | "paused" | "failed";
 
 export interface WebhookDelivery {
 	id: string;
-	webhook_id: string;
-	event_type: string;
+	webhookId: string;
+	eventType: string;
 	payload: Record<string, unknown>;
 	status: DeliveryStatus;
-	request_headers?: Record<string, string>;
-	response_status?: number;
-	response_body?: string;
-	response_headers?: Record<string, string>;
-	duration_ms?: number;
-	attempt_number: number;
-	next_retry_at?: string;
-	error_message?: string;
-	created_at: string;
-	delivered_at?: string;
+	requestHeaders?: Record<string, string>;
+	responseStatus?: number;
+	responseBody?: string;
+	responseHeaders?: Record<string, string>;
+	durationMs?: number;
+	attemptNumber: number;
+	nextRetryAt?: Date;
+	errorMessage?: string;
+	createdAt: Date;
+	deliveredAt?: Date;
 }
 
-export type DeliveryStatus = "success" | "failed" | "pending";
+// ============================================================================
+// Webhook Events
+// ============================================================================
 
-// Request/Response types
-export interface CreateWebhookRequest {
-	url: string;
-	campaign_id?: string;
-	events: string[];
-	retry_enabled?: boolean;
-	max_retries?: number;
-}
-
-export interface CreateWebhookResponse {
-	webhook: Webhook;
-	secret: string;
-}
-
-export interface UpdateWebhookRequest {
-	url?: string;
-	events?: string[];
-	status?: WebhookStatus;
-	retry_enabled?: boolean;
-	max_retries?: number;
-}
-
-export interface ListWebhookDeliveriesResponse {
-	deliveries: WebhookDelivery[];
-	total: number;
-	pagination: {
-		page: number;
-		limit: number;
-		offset: number;
-	};
-}
-
-// Available webhook events
 export const WEBHOOK_EVENTS = {
 	// User events
 	"user.created": "User signed up to waitlist",

@@ -99,22 +99,22 @@ function RouteComponent() {
 
 	// Build stats object for CampaignStats component
 	const stats: CampaignStatsType = {
-		totalSignups: campaign.total_signups,
-		verifiedSignups: campaign.total_verified,
-		totalReferrals: campaign.total_referrals,
+		totalSignups: campaign.totalSignups,
+		verifiedSignups: campaign.totalVerified,
+		totalReferrals: campaign.totalReferrals,
 		conversionRate:
-			campaign.total_signups > 0
-				? (campaign.total_verified / campaign.total_signups) * 100
+			campaign.totalSignups > 0
+				? (campaign.totalVerified / campaign.totalSignups) * 100
 				: 0,
 		viralCoefficient:
-			campaign.total_signups > 0
-				? campaign.total_referrals / campaign.total_signups
+			campaign.totalSignups > 0
+				? campaign.totalReferrals / campaign.totalSignups
 				: 0,
 	};
 
 	// Check if form is configured
 	const hasFormFields =
-		campaign.form_config?.fields && campaign.form_config.fields.length > 0;
+		campaign.formFields && campaign.formFields.length > 0;
 	const canGoLive = campaign.status === "draft" && hasFormFields;
 
 	const handleConfigureForm = () => {
@@ -327,16 +327,16 @@ function RouteComponent() {
 				<CampaignStats
 					stats={stats}
 					verificationEnabled={
-						campaign.email_config?.verification_required ?? false
+						campaign.emailSettings?.verificationRequired ?? false
 					}
-					referralsEnabled={campaign.referral_config?.enabled ?? false}
+					referralsEnabled={campaign.referralSettings?.enabled ?? false}
 					onCardClick={handleStatCardClick}
 				/>
 
 				<div className={styles.detailsCard}>
 					<h3 className={styles.detailsTitle}>Configuration</h3>
 					<div className={styles.detailsContent}>
-						{campaign.referral_config && (
+						{campaign.referralSettings && (
 							<>
 								<div className={styles.detailsSection}>
 									<div className={styles.sectionTitle}>Referral Settings</div>
@@ -344,16 +344,16 @@ function RouteComponent() {
 										<div className={styles.detailItem}>
 											<strong className={styles.detailLabel}>Enabled:</strong>
 											<span className={styles.detailValue}>
-												{campaign.referral_config.enabled ? "Yes" : "No"}
+												{campaign.referralSettings.enabled ? "Yes" : "No"}
 											</span>
 										</div>
-										{campaign.referral_config.points_per_referral && (
+										{campaign.referralSettings.pointsPerReferral && (
 											<div className={styles.detailItem}>
 												<strong className={styles.detailLabel}>
 													Points per Referral:
 												</strong>
 												<span className={styles.detailValue}>
-													{campaign.referral_config.points_per_referral}
+													{campaign.referralSettings.pointsPerReferral}
 												</span>
 											</div>
 										)}
@@ -362,17 +362,17 @@ function RouteComponent() {
 												Verified Only:
 											</strong>
 											<span className={styles.detailValue}>
-												{campaign.referral_config.verified_only ? "Yes" : "No"}
+												{campaign.referralSettings.verifiedOnly ? "Yes" : "No"}
 											</span>
 										</div>
-										{campaign.referral_config.sharing_channels &&
-											campaign.referral_config.sharing_channels.length > 0 && (
+										{campaign.referralSettings.sharingChannels &&
+											campaign.referralSettings.sharingChannels.length > 0 && (
 												<div className={styles.detailItem}>
 													<strong className={styles.detailLabel}>
 														Sharing Channels:
 													</strong>
 													<span className={styles.detailValue}>
-														{campaign.referral_config.sharing_channels.join(
+														{campaign.referralSettings.sharingChannels.join(
 															", ",
 														)}
 													</span>
@@ -384,7 +384,7 @@ function RouteComponent() {
 							</>
 						)}
 
-						{campaign.email_config && (
+						{campaign.emailSettings && (
 							<>
 								<div className={styles.detailsSection}>
 									<div className={styles.sectionTitle}>Email Settings</div>
@@ -394,38 +394,38 @@ function RouteComponent() {
 												Verification Required:
 											</strong>
 											<span className={styles.detailValue}>
-												{campaign.email_config.verification_required
+												{campaign.emailSettings.verificationRequired
 													? "Yes"
 													: "No"}
 											</span>
 										</div>
-										{campaign.email_config.from_name && (
+										{campaign.emailSettings.fromName && (
 											<div className={styles.detailItem}>
 												<strong className={styles.detailLabel}>
 													From Name:
 												</strong>
 												<span className={styles.detailValue}>
-													{campaign.email_config.from_name}
+													{campaign.emailSettings.fromName}
 												</span>
 											</div>
 										)}
-										{campaign.email_config.from_email && (
+										{campaign.emailSettings.fromEmail && (
 											<div className={styles.detailItem}>
 												<strong className={styles.detailLabel}>
 													From Email:
 												</strong>
 												<span className={styles.detailValue}>
-													{campaign.email_config.from_email}
+													{campaign.emailSettings.fromEmail}
 												</span>
 											</div>
 										)}
-										{campaign.email_config.reply_to && (
+										{campaign.emailSettings.replyTo && (
 											<div className={styles.detailItem}>
 												<strong className={styles.detailLabel}>
 													Reply To:
 												</strong>
 												<span className={styles.detailValue}>
-													{campaign.email_config.reply_to}
+													{campaign.emailSettings.replyTo}
 												</span>
 											</div>
 										)}
@@ -440,28 +440,28 @@ function RouteComponent() {
 								<div className={styles.detailItem}>
 									<strong className={styles.detailLabel}>Created:</strong>
 									<span className={styles.detailValue}>
-										{new Date(campaign.created_at).toLocaleString()}
+										{new Date(campaign.createdAt).toLocaleString()}
 									</span>
 								</div>
 								<div className={styles.detailItem}>
 									<strong className={styles.detailLabel}>Last Updated:</strong>
 									<span className={styles.detailValue}>
-										{new Date(campaign.updated_at).toLocaleString()}
+										{new Date(campaign.updatedAt).toLocaleString()}
 									</span>
 								</div>
-								{campaign.launch_date && (
+								{campaign.launchDate && (
 									<div className={styles.detailItem}>
 										<strong className={styles.detailLabel}>Launch Date:</strong>
 										<span className={styles.detailValue}>
-											{new Date(campaign.launch_date).toLocaleString()}
+											{new Date(campaign.launchDate).toLocaleString()}
 										</span>
 									</div>
 								)}
-								{campaign.end_date && (
+								{campaign.endDate && (
 									<div className={styles.detailItem}>
 										<strong className={styles.detailLabel}>End Date:</strong>
 										<span className={styles.detailValue}>
-											{new Date(campaign.end_date).toLocaleString()}
+											{new Date(campaign.endDate).toLocaleString()}
 										</span>
 									</div>
 								)}

@@ -1,29 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import { GetCurrentSubscriptionResponse } from "@/types/billing";
+import { fetcher, type ApiError, type ApiSubscription, toUiSubscription } from "@/api";
+import type { Subscription } from "@/types/billing";
 import { toApiError } from "@/utils";
 
-async function getCurrentSubscription(): Promise<GetCurrentSubscriptionResponse> {
-	const response = await fetcher<GetCurrentSubscriptionResponse>(
+async function getCurrentSubscription(): Promise<Subscription> {
+	const response = await fetcher<ApiSubscription>(
 		`${import.meta.env.VITE_API_URL}/api/protected/billing/subscription`,
 		{
 			method: "GET",
 		},
 	);
-	// Convert date strings to native Date objects
-	return {
-		...response,
-		start_date: new Date(response.start_date),
-		end_date: new Date(response.end_date),
-		next_billing_date: new Date(response.next_billing_date),
-	};
+	return toUiSubscription(response);
 }
 
 export const useGetCurrentSubscription = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ApiError | null>(null);
 	const [currentSubscription, setCurrentSubscription] =
-		useState<GetCurrentSubscriptionResponse>();
+		useState<Subscription>();
 
 	const getCurrentSubscriptionCallback =
 		useCallback(async (): Promise<void> => {

@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
-import { fetcher } from "@/hooks/fetcher";
-import type { ApiError } from "@/types/campaign";
+import { fetcher, type ApiError } from "@/api";
 import { toApiError } from "@/utils";
 
 async function deleteCampaign(campaignId: string): Promise<void> {

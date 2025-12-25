@@ -1,11 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import type { ListWebhookDeliveriesResponse } from "@/types/webhook";
+import {
+	fetcher,
+	type ApiError,
+	type ApiListWebhookDeliveriesResponse,
+	toUiWebhookDelivery,
+} from "@/api";
+import type { WebhookDelivery } from "@/types/webhook";
 import { toApiError } from "@/utils";
 
 interface UseGetWebhookDeliveriesParams {
 	page?: number;
 	limit?: number;
+}
+
+interface ListWebhookDeliveriesResponse {
+	deliveries: WebhookDelivery[];
+	total: number;
+	pagination: {
+		page: number;
+		limit: number;
+		offset: number;
+	};
 }
 
 async function getWebhookDeliveries(
@@ -19,11 +34,15 @@ async function getWebhookDeliveries(
 	const queryString = searchParams.toString();
 	const url = `${import.meta.env.VITE_API_URL}/api/protected/webhooks/${webhookId}/deliveries${queryString ? `?${queryString}` : ""}`;
 
-	const response = await fetcher<ListWebhookDeliveriesResponse>(url, {
+	const response = await fetcher<ApiListWebhookDeliveriesResponse>(url, {
 		method: "GET",
 	});
 
-	return response;
+	return {
+		deliveries: response.deliveries.map(toUiWebhookDelivery),
+		total: response.total,
+		pagination: response.pagination,
+	};
 }
 
 export const useGetWebhookDeliveries = (

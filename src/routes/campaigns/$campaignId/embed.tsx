@@ -45,7 +45,7 @@ function RouteComponent() {
 	}
 
 	const hasFormFields =
-		campaign.form_config?.fields && campaign.form_config.fields.length > 0;
+		campaign.formFields && campaign.formFields.length > 0;
 
 	if (!hasFormFields) {
 		return (

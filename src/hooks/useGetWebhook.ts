@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
+import { fetcher, type ApiError, type ApiWebhook, toUiWebhook } from "@/api";
 import type { Webhook } from "@/types/webhook";
 import { toApiError } from "@/utils";
 
 async function getWebhook(webhookId: string): Promise<Webhook> {
-	const response = await fetcher<Webhook>(
+	const response = await fetcher<ApiWebhook>(
 		`${import.meta.env.VITE_API_URL}/api/protected/webhooks/${webhookId}`,
 		{
 			method: "GET",
 		},
 	);
 
-	return response;
+	return toUiWebhook(response);
 }
 
 export const useGetWebhook = (webhookId: string) => {

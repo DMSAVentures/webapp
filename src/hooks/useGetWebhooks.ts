@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
+import { fetcher, type ApiError, type ApiWebhook, toUiWebhook } from "@/api";
 import type { Webhook } from "@/types/webhook";
 import { toApiError } from "@/utils";
 
@@ -10,11 +10,11 @@ async function getWebhooks(campaignId?: string): Promise<Webhook[]> {
 	const queryString = searchParams.toString();
 	const url = `${import.meta.env.VITE_API_URL}/api/protected/webhooks${queryString ? `?${queryString}` : ""}`;
 
-	const response = await fetcher<Webhook[] | null>(url, {
+	const response = await fetcher<ApiWebhook[] | null>(url, {
 		method: "GET",
 	});
 
-	return response ?? [];
+	return response?.map(toUiWebhook) ?? [];
 }
 
 export const useGetWebhooks = (campaignId?: string) => {

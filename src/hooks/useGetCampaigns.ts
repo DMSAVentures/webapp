@@ -1,10 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetcher } from "@/hooks/fetcher";
-import type {
-	ListCampaignsParams,
-	ListCampaignsResponse,
-} from "@/types/campaign";
+import {
+	fetcher,
+	type ApiError,
+	type ApiListCampaignsResponse,
+	toUiCampaign,
+} from "@/api";
+import type { Campaign, ListCampaignsParams } from "@/types/campaign";
 import { toApiError } from "@/utils";
+
+interface ListCampaignsResponse {
+	campaigns: Campaign[];
+	pagination: {
+		nextCursor?: string;
+		hasMore: boolean;
+		totalCount?: number;
+	};
+}
 
 async function getCampaigns(
 	params?: ListCampaignsParams,
@@ -19,11 +30,18 @@ async function getCampaigns(
 	const queryString = searchParams.toString();
 	const url = `${import.meta.env.VITE_API_URL}/api/v1/campaigns${queryString ? `?${queryString}` : ""}`;
 
-	const response = await fetcher<ListCampaignsResponse>(url, {
+	const apiResponse = await fetcher<ApiListCampaignsResponse>(url, {
 		method: "GET",
 	});
 
-	return response;
+	return {
+		campaigns: apiResponse.campaigns.map(toUiCampaign),
+		pagination: {
+			nextCursor: apiResponse.pagination.next_cursor,
+			hasMore: apiResponse.pagination.has_more,
+			totalCount: apiResponse.pagination.total_count,
+		},
+	};
 }
 
 export const useGetCampaigns = (params?: ListCampaignsParams) => {
