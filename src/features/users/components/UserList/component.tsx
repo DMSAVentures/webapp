@@ -50,6 +50,10 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	onExport?: () => Promise<void>;
 	/** Bulk action handler */
 	onBulkAction?: (action: string, userIds: string[]) => Promise<void>;
+	/** Whether referral feature is enabled for this campaign */
+	referralEnabled?: boolean;
+	/** Whether email verification is enabled for this campaign */
+	emailVerificationEnabled?: boolean;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -69,6 +73,8 @@ export const UserList = memo<UserListProps>(function UserList({
 	onUserClick,
 	onExport,
 	onBulkAction,
+	referralEnabled = true,
+	emailVerificationEnabled = true,
 	className: customClassName,
 	...props
 }) {
@@ -370,39 +376,45 @@ export const UserList = memo<UserListProps>(function UserList({
 								>
 									Email
 								</Table.HeaderCell>
-								<Table.HeaderCell
-									sortable
-									sortDirection={sortField === "status" ? sortDirection : null}
-									onSort={() => handleSort("status")}
-								>
-									Status
-								</Table.HeaderCell>
-								<Table.HeaderCell
-									sortable
-									sortDirection={
-										sortField === "position" ? sortDirection : null
-									}
-									onSort={() => handleSort("position")}
-								>
-									Position
-								</Table.HeaderCell>
-								<Table.HeaderCell
-									sortable
-									sortDirection={
-										sortField === "referralCount" ? sortDirection : null
-									}
-									onSort={() => handleSort("referralCount")}
-								>
-									Referrals
-								</Table.HeaderCell>
-								<Table.HeaderCell
-									sortable
-									sortDirection={sortField === "source" ? sortDirection : null}
-									onSort={() => handleSort("source")}
-								>
-									Source
-								</Table.HeaderCell>
-								<Table.HeaderCell>UTM Source</Table.HeaderCell>
+								{emailVerificationEnabled && (
+									<Table.HeaderCell
+										sortable
+										sortDirection={sortField === "status" ? sortDirection : null}
+										onSort={() => handleSort("status")}
+									>
+										Status
+									</Table.HeaderCell>
+								)}
+								{referralEnabled && (
+									<>
+										<Table.HeaderCell
+											sortable
+											sortDirection={
+												sortField === "position" ? sortDirection : null
+											}
+											onSort={() => handleSort("position")}
+										>
+											Position
+										</Table.HeaderCell>
+										<Table.HeaderCell
+											sortable
+											sortDirection={
+												sortField === "referralCount" ? sortDirection : null
+											}
+											onSort={() => handleSort("referralCount")}
+										>
+											Referrals
+										</Table.HeaderCell>
+										<Table.HeaderCell
+											sortable
+											sortDirection={sortField === "source" ? sortDirection : null}
+											onSort={() => handleSort("source")}
+										>
+											Source
+										</Table.HeaderCell>
+										<Table.HeaderCell>UTM Source</Table.HeaderCell>
+									</>
+								)}
 								<Table.HeaderCell
 									sortable
 									sortDirection={
@@ -435,32 +447,38 @@ export const UserList = memo<UserListProps>(function UserList({
 									<Table.Cell>
 										<span className={styles.email}>{user.email}</span>
 									</Table.Cell>
-									<Table.Cell fitContent>
-										<StatusBadge
-											text={formatStatus(user.status)}
-											variant={getStatusVariant(user.status)}
-											styleType="light"
-										/>
-									</Table.Cell>
-									<Table.Cell>
-										<span className={styles.position}>
-											{formatPosition(user.position)}
-										</span>
-									</Table.Cell>
-									<Table.Cell>
-										<span className={styles.referralCount}>
-											{user.referralCount}
-										</span>
-									</Table.Cell>
-									<Table.Cell>
-										<span className={styles.source}>
-											{user.source.charAt(0).toUpperCase() +
-												user.source.slice(1)}
-										</span>
-									</Table.Cell>
-									<Table.Cell fitContent>
-										<UtmSourceBadge source={user.utmSource} />
-									</Table.Cell>
+									{emailVerificationEnabled && (
+										<Table.Cell fitContent>
+											<StatusBadge
+												text={formatStatus(user.status)}
+												variant={getStatusVariant(user.status)}
+												styleType="light"
+											/>
+										</Table.Cell>
+									)}
+									{referralEnabled && (
+										<>
+											<Table.Cell>
+												<span className={styles.position}>
+													{formatPosition(user.position)}
+												</span>
+											</Table.Cell>
+											<Table.Cell>
+												<span className={styles.referralCount}>
+													{user.referralCount}
+												</span>
+											</Table.Cell>
+											<Table.Cell>
+												<span className={styles.source}>
+													{user.source.charAt(0).toUpperCase() +
+														user.source.slice(1)}
+												</span>
+											</Table.Cell>
+											<Table.Cell fitContent>
+												<UtmSourceBadge source={user.utmSource} />
+											</Table.Cell>
+										</>
+									)}
 									<Table.Cell>
 										<span className={styles.date}>
 											{new Date(user.createdAt).toLocaleDateString("en-US", {
