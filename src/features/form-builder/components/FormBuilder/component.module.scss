@@ -62,6 +62,11 @@
   padding: layout.$spacing-04;
   background-color: var(--color-bg-secondary-default);
   border-radius: border.$border-radius-medium;
+
+  // Preview mode - 2 columns (no left panel)
+  &.previewMode {
+    grid-template-columns: 1fr 320px;
+  }
 }
 
 // Panels - all three share the same container styling
@@ -174,7 +179,7 @@
   height: 100%;
   padding: layout.$spacing-06;
   overflow: auto;
-  background-color: var(--color-bg-secondary-default);
+  background-color: var(--color-surface-primary-default);
   border-radius: border.$border-radius-medium;
 }
 

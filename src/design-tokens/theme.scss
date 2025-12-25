@@ -13,7 +13,7 @@
   --color-bg-primary-default: #{$color-neutral-900};    // 25% - Darkest
   --color-bg-primary-hover: #{$color-neutral-800};      // 35%
   --color-bg-primary-active: #{$color-neutral-700};     // 45%
-  --color-bg-primary-disabled: #{$color-neutral-400};   // 75% - Faded
+  --color-bg-primary-disabled: #{$color-neutral-200};   // 92% - Faded, ensures text contrast
   --color-bg-secondary-default: #{$color-neutral-100};  // 96% - Very light
   --color-bg-secondary-hover: #{$color-neutral-200};    // 92% - Slightly darker on hover
   --color-bg-secondary-active: #{$color-neutral-200};   // 92%
@@ -156,7 +156,7 @@
     --color-bg-primary-default: #{$color-white};              // neutral-900 → white
     --color-bg-primary-hover: #{$color-neutral-50};           // neutral-800 → neutral-50
     --color-bg-primary-active: #{$color-neutral-100};         // neutral-700 → neutral-100
-    --color-bg-primary-disabled: #{$color-neutral-400};       // neutral-400 → neutral-400 (middle)
+    --color-bg-primary-disabled: #{$color-neutral-600};       // neutral-200 → neutral-600 (ensures text contrast)
     --color-bg-secondary-default: #{$color-neutral-700};      // neutral-100 → neutral-700
     --color-bg-secondary-hover: #{$color-neutral-600};        // neutral-200 → neutral-600
     --color-bg-secondary-active: #{$color-neutral-600};       // neutral-200 → neutral-600

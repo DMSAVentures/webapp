@@ -6,6 +6,7 @@
 import { type HTMLAttributes, memo, useState } from "react";
 import type { FormConfig } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
+import { DevicePreview, type DeviceType } from "../DevicePreview/component";
 import { FormField } from "../FormField/component";
 import styles from "./component.module.scss";
 
@@ -13,7 +14,7 @@ export interface FormPreviewProps extends HTMLAttributes<HTMLDivElement> {
 	/** Form configuration to preview */
 	config: FormConfig;
 	/** Device type for responsive preview */
-	device?: "mobile" | "tablet" | "desktop";
+	device?: DeviceType;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -30,10 +31,6 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	const { fields, design } = config;
 	const [currentStep, setCurrentStep] = useState(1);
 	const formStyles = useFormStyles(design);
-
-	const classNames = [styles.root, styles[`device_${device}`], customClassName]
-		.filter(Boolean)
-		.join(" ");
 
 	// Sort fields by order
 	const sortedFields = [...fields].sort((a, b) => a.order - b.order);
@@ -72,137 +69,119 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	const leftColumnFields = currentFields.filter((f) => (f.column || 1) === 1);
 	const rightColumnFields = currentFields.filter((f) => f.column === 2);
 
-	return (
-		<div className={classNames} {...props}>
-			<div className={styles.deviceFrame}>
-				<div className={styles.deviceHeader}>
-					<div className={styles.deviceControls}>
-						<span className={styles.deviceDot} />
-						<span className={styles.deviceDot} />
-						<span className={styles.deviceDot} />
-					</div>
-					<span className={styles.deviceTitle}>{device} Preview</span>
-				</div>
-
-				<div className={styles.previewContent}>
-					{fields.length === 0 ? (
-						<div className={styles.emptyState}>
-							<i className="ri-eye-off-line" aria-hidden="true" />
-							<p>Add fields to see preview</p>
-						</div>
-					) : (
-						<form
-							className={styles.form}
-							style={formStyles}
-							onSubmit={(e) => e.preventDefault()}
-						>
-							{/* Multi-step progress indicator */}
-							{isMultiStep && totalSteps > 1 && (
-								<div className={styles.progressContainer}>
-									<div className={styles.progressHeader}>
-										<span className={styles.progressStep}>
-											Step {currentStep} of {totalSteps}
-										</span>
-										<span className={styles.progressPercent}>
-											{Math.round((currentStep / totalSteps) * 100)}%
-										</span>
-									</div>
-									<div className={styles.progressBar}>
-										<div
-											className={styles.progressFill}
-											style={{
-												width: `${(currentStep / totalSteps) * 100}%`,
-											}}
-										/>
-									</div>
-								</div>
-							)}
-
-							{/* Form fields */}
-							{isTwoColumn ? (
-								<div className={styles.fieldsGrid}>
-									<div className={styles.column}>
-										{leftColumnFields.map((field) => (
-											<FormField
-												key={field.id}
-												field={field}
-												value=""
-												disabled
-											/>
-										))}
-									</div>
-									<div className={styles.column}>
-										{rightColumnFields.map((field) => (
-											<FormField
-												key={field.id}
-												field={field}
-												value=""
-												disabled
-											/>
-										))}
-									</div>
-								</div>
-							) : (
-								<div className={styles.fieldsColumn}>
-									{currentFields.map((field) => (
-										<FormField key={field.id} field={field} value="" disabled />
-									))}
-								</div>
-							)}
-
-							{/* Multi-step navigation buttons */}
-							{isMultiStep && totalSteps > 1 ? (
-								<div className={styles.navButtons}>
-									<button
-										type="button"
-										className={styles.navButton}
-										style={{
-											visibility: currentStep === 1 ? "hidden" : "visible",
-										}}
-										onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-									>
-										← Previous
-									</button>
-									{currentStep === totalSteps ? (
-										<button
-											type="submit"
-											className={`${styles.submitButton} ${isFullWidthButton ? styles.submitButtonFullWidth : ""}`}
-											disabled
-										>
-											{design.submitButtonText || "Submit"}
-										</button>
-									) : (
-										<button
-											type="button"
-											className={styles.submitButton}
-											onClick={() =>
-												setCurrentStep(Math.min(totalSteps, currentStep + 1))
-											}
-										>
-											Next →
-										</button>
-									)}
-								</div>
-							) : (
-								<button
-									type="submit"
-									className={`${styles.submitButton} ${isFullWidthButton ? styles.submitButtonFullWidth : ""}`}
-									disabled
-								>
-									{design.submitButtonText || "Submit"}
-								</button>
-							)}
-
-							{/* Apply custom CSS if provided */}
-							{design.customCss &&
-								!design.customCss.startsWith("__DESIGN__:") && (
-									<style>{design.customCss}</style>
-								)}
-						</form>
-					)}
-				</div>
-			</div>
+	const emptyState = (
+		<div className={styles.emptyState}>
+			<i className="ri-eye-off-line" aria-hidden="true" />
+			<p>Add fields to see preview</p>
 		</div>
+	);
+
+	return (
+		<DevicePreview
+			device={device}
+			isEmpty={fields.length === 0}
+			emptyState={emptyState}
+			className={customClassName}
+			{...props}
+		>
+			<form
+				className={styles.form}
+				style={formStyles}
+				onSubmit={(e) => e.preventDefault()}
+			>
+				{/* Multi-step progress indicator */}
+				{isMultiStep && totalSteps > 1 && (
+					<div className={styles.progressContainer}>
+						<div className={styles.progressHeader}>
+							<span className={styles.progressStep}>
+								Step {currentStep} of {totalSteps}
+							</span>
+							<span className={styles.progressPercent}>
+								{Math.round((currentStep / totalSteps) * 100)}%
+							</span>
+						</div>
+						<div className={styles.progressBar}>
+							<div
+								className={styles.progressFill}
+								style={{
+									width: `${(currentStep / totalSteps) * 100}%`,
+								}}
+							/>
+						</div>
+					</div>
+				)}
+
+				{/* Form fields */}
+				{isTwoColumn ? (
+					<div className={styles.fieldsGrid}>
+						<div className={styles.column}>
+							{leftColumnFields.map((field) => (
+								<FormField key={field.id} field={field} value="" disabled />
+							))}
+						</div>
+						<div className={styles.column}>
+							{rightColumnFields.map((field) => (
+								<FormField key={field.id} field={field} value="" disabled />
+							))}
+						</div>
+					</div>
+				) : (
+					<div className={styles.fieldsColumn}>
+						{currentFields.map((field) => (
+							<FormField key={field.id} field={field} value="" disabled />
+						))}
+					</div>
+				)}
+
+				{/* Multi-step navigation buttons */}
+				{isMultiStep && totalSteps > 1 ? (
+					<div className={styles.navButtons}>
+						<button
+							type="button"
+							className={styles.navButton}
+							style={{
+								visibility: currentStep === 1 ? "hidden" : "visible",
+							}}
+							onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
+						>
+							← Previous
+						</button>
+						{currentStep === totalSteps ? (
+							<button
+								type="submit"
+								className={`${styles.submitButton} ${isFullWidthButton ? styles.submitButtonFullWidth : ""}`}
+								disabled
+							>
+								{design.submitButtonText || "Submit"}
+							</button>
+						) : (
+							<button
+								type="button"
+								className={styles.submitButton}
+								onClick={() =>
+									setCurrentStep(Math.min(totalSteps, currentStep + 1))
+								}
+							>
+								Next →
+							</button>
+						)}
+					</div>
+				) : (
+					<button
+						type="submit"
+						className={`${styles.submitButton} ${isFullWidthButton ? styles.submitButtonFullWidth : ""}`}
+						disabled
+					>
+						{design.submitButtonText || "Submit"}
+					</button>
+				)}
+
+				{/* Apply custom CSS if provided */}
+				{design.customCss && !design.customCss.startsWith("__DESIGN__:") && (
+					<style>{design.customCss}</style>
+				)}
+			</form>
+		</DevicePreview>
 	);
 });
 

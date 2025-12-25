@@ -3,78 +3,6 @@
 @use "@/design-tokens/motion" as motion;
 @use "@/design-tokens/border" as border;
 
-.root {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0;
-	min-height: 600px;
-	overflow: auto;
-}
-
-// Device frame (matches FormPreview)
-.deviceFrame {
-	display: flex;
-	flex-direction: column;
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-large;
-	box-shadow:
-		0 4px 6px -1px rgb(0, 0, 0, 0.1),
-		0 2px 4px -2px rgb(0, 0, 0, 0.1),
-		0 10px 25px -5px rgb(0, 0, 0, 0.15);
-	overflow: hidden;
-	transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
-}
-
-// Device header (browser chrome)
-.deviceHeader {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	background-color: var(--color-bg-secondary-default);
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-}
-
-.deviceControls {
-	display: flex;
-	gap: layout.$spacing-02;
-}
-
-.deviceDot {
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background-color: var(--color-border-secondary-default);
-
-	&:first-child {
-		background-color: var(--color-error-default);
-	}
-
-	&:nth-child(2) {
-		background-color: var(--color-warning-default);
-	}
-
-	&:nth-child(3) {
-		background-color: var(--color-success-default);
-	}
-}
-
-.deviceTitle {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
-	text-transform: capitalize;
-	font-weight: typography.$font-weight-medium;
-}
-
-// Preview content area
-.previewContent {
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	overflow-y: auto;
-}
-
 // Success screen container
 .successScreen {
 	display: flex;
@@ -84,6 +12,8 @@
 	background-color: var(--form-bg-color, var(--color-surface-primary-default));
 	padding: calc(var(--form-padding, layout.$spacing-04) * 2);
 	border-radius: var(--form-border-radius, border.$border-radius-medium);
+	max-width: 600px;
+	margin: 0 auto;
 }
 
 // Success icon
@@ -259,65 +189,8 @@
 	}
 }
 
-// Device size variants (matches FormPreview)
-.device_desktop {
-	.deviceFrame {
-		width: 100%;
-		max-width: 1200px;
-		min-height: 600px;
-	}
-}
-
-.device_tablet {
-	.deviceFrame {
-		width: 768px;
-		min-height: 600px;
-	}
-}
-
-.device_mobile {
-	.deviceFrame {
-		width: 375px;
-		min-height: 667px;
-	}
-}
-
 // Responsive adjustments
-@media (width <= 1280px) {
-	.device_desktop .deviceFrame {
-		max-width: 960px;
-	}
-}
-
-@media (width <= 1024px) {
-	.device_desktop .deviceFrame,
-	.device_tablet .deviceFrame {
-		width: 100%;
-		max-width: 100%;
-	}
-}
-
 @media (width <= 768px) {
-	.root {
-		min-height: 400px;
-	}
-
-	.device_mobile .deviceFrame,
-	.device_tablet .deviceFrame,
-	.device_desktop .deviceFrame {
-		width: 100%;
-		min-height: 400px;
-	}
-
-	.deviceHeader {
-		padding: layout.$spacing-02 layout.$spacing-03;
-	}
-
-	.deviceDot {
-		width: 10px;
-		height: 10px;
-	}
-
 	.successIcon {
 		width: 56px;
 		height: 56px;

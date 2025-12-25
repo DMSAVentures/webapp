@@ -348,11 +348,15 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 			{/* Main content based on builder mode */}
 			{builderMode === "form" ? (
 				// FORM MODE
-				<div className={styles.builder}>
-					{/* Left panel - Field Palette */}
-					<aside className={styles.leftPanel}>
-						<FieldPalette onFieldSelect={handleFieldSelect} />
-					</aside>
+				<div
+					className={`${styles.builder} ${showPreview ? styles.previewMode : ""}`}
+				>
+					{/* Left panel - Field Palette (hidden in preview mode) */}
+					{!showPreview && (
+						<aside className={styles.leftPanel}>
+							<FieldPalette onFieldSelect={handleFieldSelect} />
+						</aside>
+					)}
 
 					{/* Center panel - Form Canvas or Preview */}
 					<main className={styles.centerPanel}>

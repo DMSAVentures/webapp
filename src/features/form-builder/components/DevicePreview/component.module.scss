@@ -1,0 +1,133 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: layout.$spacing-06;
+	min-height: 600px;
+	overflow: auto;
+	height: 100%;
+	background-color: var(--color-surface-primary-default);
+}
+
+// Device frame
+.deviceFrame {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-surface-primary-default);
+	border-radius: border.$border-radius-large;
+	box-shadow:
+		0 0 0 1px rgba(0, 0, 0, 0.05),
+		0 4px 8px rgba(0, 0, 0, 0.06),
+		0 12px 24px rgba(0, 0, 0, 0.08),
+		0 24px 48px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+}
+
+// Device header (browser chrome)
+.deviceHeader {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-03 layout.$spacing-04;
+	background-color: var(--color-bg-secondary-default);
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.deviceControls {
+	display: flex;
+	gap: layout.$spacing-02;
+}
+
+.deviceDot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color: var(--color-border-secondary-default);
+
+	&:first-child {
+		background-color: var(--color-error-default);
+	}
+
+	&:nth-child(2) {
+		background-color: var(--color-warning-default);
+	}
+
+	&:nth-child(3) {
+		background-color: var(--color-success-default);
+	}
+}
+
+.deviceTitle {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	text-transform: capitalize;
+	font-weight: typography.$font-weight-medium;
+}
+
+// Preview content area
+.previewContent {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	overflow-y: auto;
+}
+
+// Device size variants
+.device_desktop {
+	width: 100%;
+
+	.deviceFrame {
+		width: 100%;
+		max-width: 100%;
+		min-height: 600px;
+	}
+}
+
+.device_tablet {
+	.deviceFrame {
+		width: 768px;
+		min-height: 600px;
+	}
+}
+
+.device_mobile {
+	.deviceFrame {
+		width: 375px;
+		min-height: 667px;
+	}
+}
+
+// Responsive adjustments
+@media (width <= 1024px) {
+	.device_tablet .deviceFrame {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+@media (width <= 768px) {
+	.root {
+		min-height: 400px;
+	}
+
+	.device_mobile .deviceFrame,
+	.device_tablet .deviceFrame,
+	.device_desktop .deviceFrame {
+		width: 100%;
+		min-height: 400px;
+	}
+
+	.deviceHeader {
+		padding: layout.$spacing-02 layout.$spacing-03;
+	}
+
+	.deviceDot {
+		width: 10px;
+		height: 10px;
+	}
+}
