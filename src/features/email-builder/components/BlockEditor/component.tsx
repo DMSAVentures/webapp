@@ -4,8 +4,6 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { TEMPLATE_VARIABLES } from "@/features/campaigns/constants/defaultEmailTemplates";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import Dropdown from "@/proto-design-system/dropdown/dropdown";
 import { Toggle } from "@/proto-design-system/Toggle/toggle";
@@ -17,7 +15,8 @@ import type {
 	ParagraphBlock,
 	SpacerBlock,
 } from "../../types/emailBlocks";
-import { VariableChip } from "../VariableChip/component";
+import { VariableTextArea } from "../VariableTextArea/component";
+import { VariableTextInput } from "../VariableTextInput/component";
 import styles from "./component.module.scss";
 
 export interface BlockEditorProps extends HTMLAttributes<HTMLDivElement> {
@@ -56,11 +55,6 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 	className: customClassName,
 	...props
 }) {
-	// Filter variables based on email type
-	const availableVariables = TEMPLATE_VARIABLES.filter(
-		(v) => emailType === "verification" || v.name !== "verification_link",
-	);
-
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 	// Helper to update block properties
@@ -71,45 +65,16 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 		[block, onUpdate],
 	);
 
-	// Insert variable at the end of text content
-	const insertVariable = useCallback(
-		(varName: string, field: "content" | "text" | "url") => {
-			const currentValue = (block as unknown as Record<string, string>)[field] || "";
-			onUpdate({ ...block, [field]: currentValue + `{{${varName}}}` } as EmailBlock);
-		},
-		[block, onUpdate],
-	);
-
-	// Render variable insertion helper
-	const renderVariableHelper = (field: "content" | "text" | "url") => (
-		<div className={styles.variableHelper}>
-			<span className={styles.variableHelperLabel}>Insert variable:</span>
-			<div className={styles.variableChips}>
-				{availableVariables.map((v) => (
-					<VariableChip
-						key={v.name}
-						name={v.name}
-						size="small"
-						interactive
-						onChipClick={() => insertVariable(v.name, field)}
-					/>
-				))}
-			</div>
-		</div>
-	);
-
 	// Render heading editor
 	const renderHeadingEditor = (b: HeadingBlock) => (
 		<>
-			<TextArea
-				id="heading-content"
-				label="Heading Text"
+			<VariableTextInput
 				value={b.content}
-				onChange={(e) => updateBlock<HeadingBlock>("content", e.target.value)}
+				onChange={(val) => updateBlock<HeadingBlock>("content", val)}
+				label="Heading Text"
 				placeholder="Enter heading..."
-				rows={2}
+				emailType={emailType}
 			/>
-			{renderVariableHelper("content")}
 
 			<Dropdown
 				label="Heading Level"
@@ -164,15 +129,14 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 	// Render paragraph editor
 	const renderParagraphEditor = (b: ParagraphBlock) => (
 		<>
-			<TextArea
-				id="paragraph-content"
-				label="Text Content"
+			<VariableTextArea
 				value={b.content}
-				onChange={(e) => updateBlock<ParagraphBlock>("content", e.target.value)}
+				onChange={(val) => updateBlock<ParagraphBlock>("content", val)}
+				label="Text Content"
 				placeholder="Enter text..."
 				rows={5}
+				emailType={emailType}
 			/>
-			{renderVariableHelper("content")}
 
 			<Dropdown
 				label="Font Size"
@@ -227,26 +191,22 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 	// Render button editor
 	const renderButtonEditor = (b: ButtonBlock) => (
 		<>
-			<TextInput
-				id="button-text"
-				label="Button Text"
-				type="text"
+			<VariableTextInput
 				value={b.text}
-				onChange={(e) => updateBlock<ButtonBlock>("text", e.target.value)}
+				onChange={(val) => updateBlock<ButtonBlock>("text", val)}
+				label="Button Text"
 				placeholder="Click Here"
+				emailType={emailType}
 			/>
-			{renderVariableHelper("text")}
 
-			<TextInput
-				id="button-url"
-				label="Button URL"
-				type="text"
+			<VariableTextInput
 				value={b.url}
-				onChange={(e) => updateBlock<ButtonBlock>("url", e.target.value)}
-				placeholder="https://example.com"
-				hint="Use {{referral_link}} or {{verification_link}} for dynamic URLs"
+				onChange={(val) => updateBlock<ButtonBlock>("url", val)}
+				label="Button URL"
+				placeholder="https://example.com or @referral_link"
+				hint="Type @ to insert dynamic URLs like @referral_link"
+				emailType={emailType}
 			/>
-			{renderVariableHelper("url")}
 
 			<Dropdown
 				label="Alignment"

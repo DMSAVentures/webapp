@@ -21,6 +21,10 @@
         background-color: var(--color-bg-secondary-active);
     }
 
+    &--highlighted {
+        background-color: var(--color-bg-secondary-hover);
+    }
+
     &__img {
         height: layout.$spacing-08;
         width: layout.$spacing-08;
@@ -38,6 +42,9 @@
         display: flex;
         flex-direction: column;
         gap: layout.$spacing-02;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
 
         &__label {
             display: flex;
@@ -45,6 +52,9 @@
             gap: layout.$spacing-03;
             color: var(--color-text-primary-default);
             font-size: var(--font-size-label);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         &__sublabel {
@@ -55,6 +65,9 @@
         &__description {
             color: var(--color-text-tertiary-default);
             font-size: var(--font-size-sublabel);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 

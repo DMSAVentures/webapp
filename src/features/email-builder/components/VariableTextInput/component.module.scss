@@ -6,14 +6,14 @@
 .root {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: layout.$spacing-03;
 }
 
 .label {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: layout.$spacing-02;
+	gap: layout.$spacing-03;
 	font-size: typography.$font-size-sm;
 	font-weight: typography.$font-weight-medium;
 	color: var(--color-text-primary-default);
@@ -55,31 +55,31 @@
 .editor {
 	min-height: 42px;
 	padding: layout.$spacing-03;
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
+	background-color: var(--color-surface-input-default);
+	border: 1px solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-medium;
 	font-size: typography.$font-size-md;
 	font-family: typography.$font-family-sans;
 	line-height: typography.$line-height-normal;
 	color: var(--color-text-primary-default);
 	outline: none;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: border-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
 	white-space: pre-wrap;
 	word-wrap: break-word;
+	cursor: text;
 
 	&.empty::before {
 		content: attr(data-placeholder);
-		color: var(--color-text-tertiary-default);
+		color: var(--color-text-secondary-default);
 		pointer-events: none;
 	}
 
-	&.focused {
+	&:hover:not(.focused) {
 		border-color: var(--color-border-focus-default);
-		box-shadow: 0 0 0 3px var(--color-alpha-focus);
 	}
 
-	&:hover:not(.focused) {
-		border-color: var(--color-border-primary-hover);
+	&.focused {
+		outline: 1px solid var(--color-focus-ring-default);
 	}
 }
 
@@ -240,6 +240,88 @@
 	.variableButton {
 		display: none;
 	}
+}
+
+// Label hint
+.labelHint {
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-regular;
+	color: var(--color-text-tertiary-default);
+}
+
+// @ Mention dropdown
+.mentionMenu {
+	position: absolute;
+	left: 0;
+	right: 0;
+	max-height: 200px;
+	margin-top: layout.$spacing-02;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+	overflow: hidden;
+	overflow-y: auto;
+	z-index: 1000;
+	animation: mentionSlideIn motion.$duration-fast-01 motion.$easing-expressive-standard;
+}
+
+@keyframes mentionSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.mentionMenuItem {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	width: 100%;
+	padding: layout.$spacing-02 layout.$spacing-03;
+	background: none;
+	border: none;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover,
+	&.selected {
+		background-color: var(--color-bg-info-alpha);
+	}
+
+	&:focus-visible {
+		background-color: var(--color-bg-info-alpha);
+		outline: none;
+	}
+
+	& + & {
+		border-top: border.$border-width-small solid var(--color-border-primary-default);
+	}
+}
+
+.mentionItemName {
+	font-family: typography.$font-family-mono;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-info-default);
+}
+
+.mentionItemDesc {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+}
+
+.mentionNoResults {
+	padding: layout.$spacing-03;
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-tertiary-default);
+	text-align: center;
 }
 
 .hint {

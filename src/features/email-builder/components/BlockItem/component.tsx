@@ -7,7 +7,6 @@ import { type HTMLAttributes, memo } from "react";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import { Badge } from "@/proto-design-system/badge/badge";
 import type { EmailBlock } from "../../types/emailBlocks";
-import { VariableChip } from "../VariableChip/component";
 import styles from "./component.module.scss";
 
 export interface BlockItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -80,7 +79,17 @@ function renderTextWithVariables(text: string): React.ReactNode[] {
 			);
 		}
 		// Add the variable chip
-		parts.push(<VariableChip key={`var-${key++}`} name={match[1]} size="small" />);
+		parts.push(
+		<Badge
+			key={`var-${key++}`}
+			text={match[1]}
+			variant="blue"
+			styleType="light"
+			size="small"
+			iconClass="braces-line"
+			iconPosition="left"
+		/>,
+	);
 		lastIndex = regex.lastIndex;
 		match = regex.exec(text);
 	}

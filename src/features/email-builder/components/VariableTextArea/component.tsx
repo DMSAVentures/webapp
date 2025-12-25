@@ -1,7 +1,7 @@
 /**
- * VariableTextInput Component
- * A text input that displays {{variables}} as visual chips
- * Supports @ mentions for easy variable insertion
+ * VariableTextArea Component
+ * A multi-line text area that supports @ mentions for variable insertion
+ * Variables are displayed as visual chips
  */
 
 import {
@@ -16,7 +16,7 @@ import DropdownOption from "@/proto-design-system/dropdown/option";
 import { TEMPLATE_VARIABLES } from "@/features/campaigns/constants/defaultEmailTemplates";
 import styles from "./component.module.scss";
 
-export interface VariableTextInputProps
+export interface VariableTextAreaProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
 	/** Current value (plain text with {{variable}} syntax) */
 	value: string;
@@ -26,6 +26,8 @@ export interface VariableTextInputProps
 	label?: string;
 	/** Placeholder text */
 	placeholder?: string;
+	/** Number of rows */
+	rows?: number;
 	/** Hint text below input */
 	hint?: string;
 	/** Error message */
@@ -81,25 +83,23 @@ function parseTextToSegments(text: string): Segment[] {
 /**
  * Get caret coordinates relative to the editor
  */
-function getCaretCoordinates(): { top: number; left: number } | null {
+function getCaretCoordinates(
+	editor: HTMLElement,
+): { top: number; left: number } | null {
 	const selection = window.getSelection();
 	if (!selection || selection.rangeCount === 0) return null;
 
 	const range = selection.getRangeAt(0).cloneRange();
 	range.collapse(true);
 
-	// Create a temporary span to get position
 	const span = document.createElement("span");
-	span.textContent = "\u200B"; // Zero-width space
+	span.textContent = "\u200B";
 	range.insertNode(span);
 
 	const rect = span.getBoundingClientRect();
-	const parent = span.parentElement?.closest("[contenteditable]");
-	const parentRect = parent?.getBoundingClientRect();
+	const parentRect = editor.getBoundingClientRect();
 
 	span.remove();
-
-	if (!parentRect) return null;
 
 	return {
 		top: rect.top - parentRect.top + rect.height,
@@ -108,15 +108,15 @@ function getCaretCoordinates(): { top: number; left: number } | null {
 }
 
 /**
- * VariableTextInput provides a rich editing experience with variable chips
- * Type @ to insert variables via autocomplete
+ * VariableTextArea provides a multi-line editing experience with @ mentions
  */
-export const VariableTextInput = memo<VariableTextInputProps>(
-	function VariableTextInput({
+export const VariableTextArea = memo<VariableTextAreaProps>(
+	function VariableTextArea({
 		value,
 		onChange,
 		label,
 		placeholder,
+		rows = 4,
 		hint,
 		error,
 		disabled = false,
@@ -139,11 +139,12 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 		);
 
 		// Filter variables based on mention query
-		const filteredVariables = mentionQuery !== null
-			? availableVariables.filter((v) =>
-					v.name.toLowerCase().includes(mentionQuery.toLowerCase())
-				)
-			: availableVariables;
+		const filteredVariables =
+			mentionQuery !== null
+				? availableVariables.filter((v) =>
+						v.name.toLowerCase().includes(mentionQuery.toLowerCase()),
+					)
+				: availableVariables;
 
 		// Parse value into segments for rendering
 		const segments = parseTextToSegments(value);
@@ -153,42 +154,33 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 			if (!editorRef.current) return "";
 
 			let text = "";
-			const walker = document.createTreeWalker(
-				editorRef.current,
-				NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
-				{
-					acceptNode: (node) => {
-						if (node.nodeType === Node.TEXT_NODE) {
-							return NodeFilter.FILTER_ACCEPT;
-						}
-						if (
-							node.nodeType === Node.ELEMENT_NODE &&
-							(node as HTMLElement).dataset.variable
-						) {
-							return NodeFilter.FILTER_ACCEPT;
-						}
-						return NodeFilter.FILTER_SKIP;
-					},
-				},
-			);
-
-			let node = walker.nextNode();
-			while (node) {
+			const processNode = (node: Node) => {
 				if (node.nodeType === Node.TEXT_NODE) {
 					text += node.textContent || "";
-				} else if ((node as HTMLElement).dataset.variable) {
-					text += `{{${(node as HTMLElement).dataset.variable}}}`;
+				} else if (node.nodeType === Node.ELEMENT_NODE) {
+					const el = node as HTMLElement;
+					if (el.dataset.variable) {
+						text += `{{${el.dataset.variable}}}`;
+					} else if (el.tagName === "BR") {
+						text += "\n";
+					} else if (el.tagName === "DIV" && text.length > 0 && !text.endsWith("\n")) {
+						// DIV typically creates a new line in contenteditable
+						text += "\n";
+						el.childNodes.forEach(processNode);
+					} else {
+						el.childNodes.forEach(processNode);
+					}
 				}
-				node = walker.nextNode();
-			}
+			};
 
+			editorRef.current.childNodes.forEach(processNode);
 			return text;
 		}, []);
 
 		// Check for @ mention trigger
 		const checkForMention = useCallback(() => {
 			const selection = window.getSelection();
-			if (!selection || selection.rangeCount === 0) {
+			if (!selection || selection.rangeCount === 0 || !editorRef.current) {
 				setMentionQuery(null);
 				return;
 			}
@@ -209,7 +201,6 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 			const cursorPos = range.startOffset;
 			const textBeforeCursor = text.slice(0, cursorPos);
 
-			// Check for @ followed by optional word characters
 			const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
 
 			if (mentionMatch) {
@@ -217,8 +208,7 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				setMentionQuery(query);
 				setSelectedIndex(0);
 
-				// Position dropdown near cursor
-				const coords = getCaretCoordinates();
+				const coords = getCaretCoordinates(editorRef.current);
 				if (coords) {
 					setMentionPosition(coords);
 				}
@@ -246,7 +236,8 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 					return seg.content
 						.replace(/&/g, "&amp;")
 						.replace(/</g, "&lt;")
-						.replace(/>/g, "&gt;");
+						.replace(/>/g, "&gt;")
+						.replace(/\n/g, "<br>");
 				})
 				.join("");
 
@@ -281,7 +272,6 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				const range = selection.getRangeAt(0);
 				const textNode = range.startContainer;
 
-				// If we have a mention query, delete the @query text first
 				if (mentionQuery !== null && textNode.nodeType === Node.TEXT_NODE) {
 					const text = textNode.textContent || "";
 					const cursorPos = range.startOffset;
@@ -289,13 +279,11 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 					const atIndex = textBeforeCursor.lastIndexOf("@");
 
 					if (atIndex !== -1) {
-						// Delete from @ to cursor
 						range.setStart(textNode, atIndex);
 						range.deleteContents();
 					}
 				}
 
-				// Insert the chip
 				const chip = document.createElement("span");
 				chip.className = styles.chip;
 				chip.contentEditable = "false";
@@ -304,7 +292,6 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 
 				range.insertNode(chip);
 
-				// Add a space after and move cursor
 				const space = document.createTextNode("\u00A0");
 				range.setStartAfter(chip);
 				range.insertNode(space);
@@ -313,7 +300,6 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				selection.removeAllRanges();
 				selection.addRange(range);
 
-				// Update value and close menu
 				const newValue = getPlainText();
 				onChange(newValue);
 				setMentionQuery(null);
@@ -322,16 +308,15 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 			[value, onChange, getPlainText, mentionQuery],
 		);
 
-		// Handle keyboard navigation in mention menu
+		// Handle keyboard navigation
 		const handleKeyDown = useCallback(
 			(e: React.KeyboardEvent) => {
-				// Handle mention menu navigation
 				if (mentionQuery !== null && filteredVariables.length > 0) {
 					if (e.key === "ArrowDown") {
 						e.preventDefault();
 						e.stopPropagation();
 						setSelectedIndex((prev) =>
-							prev < filteredVariables.length - 1 ? prev + 1 : 0
+							prev < filteredVariables.length - 1 ? prev + 1 : 0,
 						);
 						return;
 					}
@@ -339,7 +324,7 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 						e.preventDefault();
 						e.stopPropagation();
 						setSelectedIndex((prev) =>
-							prev > 0 ? prev - 1 : filteredVariables.length - 1
+							prev > 0 ? prev - 1 : filteredVariables.length - 1,
 						);
 						return;
 					}
@@ -357,7 +342,6 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 					}
 				}
 
-				// Escape closes menu
 				if (e.key === "Escape") {
 					setMentionQuery(null);
 				}
@@ -379,8 +363,11 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 			};
 
 			document.addEventListener("mousedown", handleClickOutside);
-			return () => document.removeEventListener("mousedown", handleClickOutside);
+			return () =>
+				document.removeEventListener("mousedown", handleClickOutside);
 		}, []);
+
+		const minHeight = rows * 24; // Approximate line height
 
 		const classNames = [
 			styles.root,
@@ -404,7 +391,7 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				{label && (
 					<label className={styles.label}>
 						{label}
-						<span className={styles.labelHint}>Type @ to insert variables</span>
+						<span className={styles.labelHint}>Type @ for variables</span>
 					</label>
 				)}
 
@@ -412,6 +399,7 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 					<div
 						ref={editorRef}
 						className={editorClassNames}
+						style={{ minHeight }}
 						contentEditable={!disabled}
 						onInput={handleInput}
 						onFocus={() => setIsFocused(true)}
@@ -427,7 +415,8 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 											return seg.content
 												.replace(/&/g, "&amp;")
 												.replace(/</g, "&lt;")
-												.replace(/>/g, "&gt;");
+												.replace(/>/g, "&gt;")
+												.replace(/\n/g, "<br>");
 										})
 										.join("");
 									editorRef.current.innerHTML = html || "";
@@ -440,6 +429,7 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 						role="textbox"
 						aria-label={label}
 						aria-invalid={!!error}
+						aria-multiline="true"
 						suppressContentEditableWarning
 					/>
 
@@ -467,7 +457,6 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 						</div>
 					)}
 
-					{/* No results message */}
 					{mentionQuery !== null && filteredVariables.length === 0 && (
 						<div
 							className={styles.mentionMenu}
@@ -490,4 +479,4 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 	},
 );
 
-VariableTextInput.displayName = "VariableTextInput";
+VariableTextArea.displayName = "VariableTextArea";

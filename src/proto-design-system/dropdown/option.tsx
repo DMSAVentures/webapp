@@ -12,14 +12,23 @@ export interface DropdownOptionProps {
 	onClick: (props: DropdownOptionProps) => void;
 	selected?: boolean;
 	disabled?: boolean;
+	/** Whether this option is highlighted via keyboard navigation */
+	highlighted?: boolean;
+	/** ID for accessibility */
+	id?: string;
+	/** Mouse enter handler for keyboard navigation sync */
+	onMouseEnter?: () => void;
 }
 
 const DropdownOption: React.FC<DropdownOptionProps> = (props) => {
-	const optionClass = `
-        ${styles["dropdown-option"]} 
-        ${props.selected ? styles["dropdown-option--selected"] : ""} 
-        ${props.disabled ? styles["dropdown-option--disabled"] : ""}
-    `.trim();
+	const optionClass = [
+		styles["dropdown-option"],
+		props.selected && styles["dropdown-option--selected"],
+		props.disabled && styles["dropdown-option--disabled"],
+		props.highlighted && styles["dropdown-option--highlighted"],
+	]
+		.filter(Boolean)
+		.join(" ");
 
 	const handleClick = () => {
 		if (!props.disabled) {
@@ -29,13 +38,14 @@ const DropdownOption: React.FC<DropdownOptionProps> = (props) => {
 
 	return (
 		<div
-			key={props.value}
+			id={props.id}
 			className={optionClass}
 			onClick={handleClick}
+			onMouseEnter={props.onMouseEnter}
 			role="option"
 			aria-selected={props.selected}
 			aria-disabled={props.disabled}
-			tabIndex={props.disabled ? -1 : 0}
+			tabIndex={-1}
 		>
 			{props.imgSrc && (
 				<img
