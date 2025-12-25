@@ -23,10 +23,11 @@ interface TtqFunction {
 	page: () => void;
 	load: (pixelId: string) => void;
 	methods?: string[];
-	setAndDefer?: (t: TtqFunction, e: string) => void;
+	setAndDefer?: (t: Record<string, unknown>, e: string) => void;
 	instance?: (t: string) => unknown[];
 	_i?: Record<string, unknown[] & { _u?: string }>;
 	push?: (...args: unknown[]) => void;
+	[key: string]: unknown;
 }
 
 declare global {
@@ -205,26 +206,20 @@ async function fireTikTokPixel(
 				"disableCookie",
 			];
 
-			ttq.setAndDefer = function (
-				t: TtqFunction & Record<string, unknown>,
-				e: string,
-			) {
+			ttq.setAndDefer = function (t: Record<string, unknown>, e: string) {
 				t[e] = function (...args: unknown[]) {
 					ttqArray.push([e, ...args]);
 				};
 			};
 
 			for (const method of ttq.methods) {
-				ttq.setAndDefer(ttq as TtqFunction & Record<string, unknown>, method);
+				ttq.setAndDefer(ttq, method);
 			}
 
 			ttq.instance = function (t: string) {
 				const e = ttq._i?.[t] || [];
 				for (const method of ttq.methods || []) {
-					ttq.setAndDefer?.(
-						e as unknown as TtqFunction & Record<string, unknown>,
-						method,
-					);
+					ttq.setAndDefer?.(e as unknown as Record<string, unknown>, method);
 				}
 				return e;
 			};
