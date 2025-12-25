@@ -39,6 +39,7 @@ export interface Campaign {
 export interface CampaignSettings {
 	redirectUrl?: string;
 	emailVerificationRequired: boolean;
+	sendWelcomeEmail: boolean;
 	duplicateHandling: "block" | "update" | "allow";
 	enableReferrals: boolean;
 	enableRewards: boolean;

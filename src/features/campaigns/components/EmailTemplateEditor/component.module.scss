@@ -1,0 +1,200 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.dialog {
+	padding: 0;
+	border: none;
+	border-radius: border.$border-radius-large;
+	width: 90vw;
+	max-width: 1400px;
+	height: 85vh;
+	max-height: 900px;
+	overflow: hidden;
+	background-color: var(--color-surface-primary-default);
+	box-shadow: var(--color-shadow-elevated);
+
+	&::backdrop {
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+// Header
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: layout.$spacing-04 layout.$spacing-05;
+	border-bottom: 1px solid var(--color-border-primary-default);
+	background-color: var(--color-surface-secondary-default);
+}
+
+.headerTitle {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+
+	i {
+		font-size: 20px;
+		color: var(--color-icon-primary-default);
+	}
+}
+
+// Content - Two column layout
+.content {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	flex: 1;
+	overflow: hidden;
+}
+
+// Editor Pane (left)
+.editorPane {
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid var(--color-border-primary-default);
+	overflow: hidden;
+}
+
+.editorContent {
+	flex: 1;
+	overflow-y: auto;
+	padding: layout.$spacing-05;
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+// Variables Section
+.variablesSection {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.variablesLabel {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+}
+
+.variablesList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: layout.$spacing-02;
+}
+
+.variableButton {
+	padding: layout.$spacing-01 layout.$spacing-02;
+	font-size: typography.$font-size-xs;
+	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+	color: var(--color-text-info-default);
+	background-color: var(--color-bg-info-alpha);
+	border: 1px solid var(--color-border-info-default);
+	border-radius: border.$border-radius-small;
+	cursor: pointer;
+	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		background-color: var(--color-bg-info-default);
+		color: var(--color-text-inverse-default);
+	}
+}
+
+// Preview Pane (right)
+.previewPane {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background-color: var(--color-surface-secondary-default);
+}
+
+.previewHeader {
+	display: flex;
+	align-items: center;
+	padding: layout.$spacing-03 layout.$spacing-04;
+	border-bottom: 1px solid var(--color-border-primary-default);
+}
+
+.previewTitle {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+}
+
+.previewContent {
+	flex: 1;
+	padding: layout.$spacing-04;
+	overflow: hidden;
+
+	> div {
+		height: 100%;
+	}
+}
+
+// Footer
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: layout.$spacing-04 layout.$spacing-05;
+	border-top: 1px solid var(--color-border-primary-default);
+	background-color: var(--color-surface-secondary-default);
+}
+
+.footerLeft {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+}
+
+.footerRight {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+}
+
+// Test Email Section
+.testEmailSection {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+}
+
+.testEmailForm {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}
+
+.testEmailInput {
+	width: 250px;
+}
+
+.testSuccess {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-success-default);
+}
+
+.testError {
+	font-size: typography.$font-size-sm;
+	color: var(--color-error-text);
+}
+
+.errorMessage {
+	font-size: typography.$font-size-sm;
+	color: var(--color-error-text);
+	padding: layout.$spacing-02 layout.$spacing-03;
+	background-color: var(--color-bg-danger-alpha);
+	border-radius: border.$border-radius-small;
+}

@@ -1,0 +1,165 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+.sectionTitle {
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.sectionDescription {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	margin: 0;
+}
+
+.toggleSection {
+	padding: layout.$spacing-03 0;
+}
+
+// Template Cards
+.templateCards {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-03;
+}
+
+.templateCard {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-04;
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	background-color: var(--color-surface-primary-default);
+	transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		border-color: var(--color-border-primary-hover);
+	}
+}
+
+.templateCardHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.templateCardInfo {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+
+	> i {
+		font-size: 20px;
+		color: var(--color-icon-secondary-default);
+	}
+}
+
+.templateCardTitle {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}
+
+.templateCardName {
+	font-size: typography.$font-size-md;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+}
+
+.templateCardContent {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding-left: 32px; // Align with icon
+}
+
+.templateCardDescription {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	margin: 0;
+}
+
+.templateCardSubject {
+	display: flex;
+	align-items: baseline;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-02 layout.$spacing-03;
+	background-color: var(--color-surface-secondary-default);
+	border-radius: border.$border-radius-small;
+}
+
+.subjectLabel {
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-tertiary-default);
+}
+
+.subjectValue {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-primary-default);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.templateCardActions {
+	display: flex;
+	justify-content: flex-end;
+	padding-top: layout.$spacing-02;
+}
+
+// No Emails Message
+.noEmailsMessage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-06;
+	text-align: center;
+	color: var(--color-text-secondary-default);
+	background-color: var(--color-surface-secondary-default);
+	border-radius: border.$border-radius-medium;
+
+	> i {
+		font-size: 32px;
+		color: var(--color-icon-secondary-default);
+	}
+
+	> p {
+		margin: 0;
+		font-size: typography.$font-size-sm;
+	}
+}
+
+.noEmailsHint {
+	font-size: typography.$font-size-xs !important;
+	color: var(--color-text-tertiary-default) !important;
+}
+
+// Save Note
+.saveNote {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-info-default);
+	margin: 0;
+	padding: layout.$spacing-03;
+	background-color: var(--color-bg-info-alpha);
+	border-radius: border.$border-radius-small;
+
+	> i {
+		font-size: 16px;
+	}
+}

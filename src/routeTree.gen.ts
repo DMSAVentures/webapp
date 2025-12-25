@@ -38,6 +38,7 @@ import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns
 import { Route as CampaignsCampaignIdUsersRouteImport } from './routes/campaigns/$campaignId/users'
 import { Route as CampaignsCampaignIdFormBuilderRouteImport } from './routes/campaigns/$campaignId/form-builder'
 import { Route as CampaignsCampaignIdEmbedRouteImport } from './routes/campaigns/$campaignId/embed'
+import { Route as CampaignsCampaignIdEmailBuilderRouteImport } from './routes/campaigns/$campaignId/email-builder'
 import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
 
 const WebhooksRoute = WebhooksRouteImport.update({
@@ -189,6 +190,12 @@ const CampaignsCampaignIdEmbedRoute =
     path: '/campaigns/$campaignId/embed',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CampaignsCampaignIdEmailBuilderRoute =
+  CampaignsCampaignIdEmailBuilderRouteImport.update({
+    id: '/campaigns/$campaignId/email-builder',
+    path: '/campaigns/$campaignId/email-builder',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CampaignsCampaignIdEditRoute = CampaignsCampaignIdEditRouteImport.update({
   id: '/campaigns/$campaignId/edit',
   path: '/campaigns/$campaignId/edit',
@@ -222,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/campaigns': typeof CampaignsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
@@ -253,6 +261,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsIndexRoute
   '/webhooks': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
@@ -286,6 +295,7 @@ export interface FileRoutesById {
   '/campaigns/': typeof CampaignsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
+  '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
@@ -320,6 +330,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/webhooks/'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/users'
@@ -351,6 +362,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/webhooks'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/users'
@@ -383,6 +395,7 @@ export interface FileRouteTypes {
     | '/campaigns/'
     | '/webhooks/'
     | '/campaigns/$campaignId/edit'
+    | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/users'
@@ -413,6 +426,7 @@ export interface RootRouteChildren {
   BillingIndexRoute: typeof BillingIndexRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
   CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
+  CampaignsCampaignIdEmailBuilderRoute: typeof CampaignsCampaignIdEmailBuilderRoute
   CampaignsCampaignIdEmbedRoute: typeof CampaignsCampaignIdEmbedRoute
   CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
   CampaignsCampaignIdUsersRoute: typeof CampaignsCampaignIdUsersRoute
@@ -624,6 +638,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsCampaignIdEmbedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/$campaignId/email-builder': {
+      id: '/campaigns/$campaignId/email-builder'
+      path: '/campaigns/$campaignId/email-builder'
+      fullPath: '/campaigns/$campaignId/email-builder'
+      preLoaderRoute: typeof CampaignsCampaignIdEmailBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campaigns/$campaignId/edit': {
       id: '/campaigns/$campaignId/edit'
       path: '/campaigns/$campaignId/edit'
@@ -674,6 +695,7 @@ const rootRouteChildren: RootRouteChildren = {
   BillingIndexRoute: BillingIndexRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
   CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
+  CampaignsCampaignIdEmailBuilderRoute: CampaignsCampaignIdEmailBuilderRoute,
   CampaignsCampaignIdEmbedRoute: CampaignsCampaignIdEmbedRoute,
   CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
   CampaignsCampaignIdUsersRoute: CampaignsCampaignIdUsersRoute,

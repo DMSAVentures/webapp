@@ -1,0 +1,403 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: var(--color-surface-primary-default);
+	border-radius: border.$border-radius-medium;
+	overflow: hidden;
+}
+
+// Header
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: layout.$spacing-04;
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.headerContent {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-04;
+	flex: 1;
+}
+
+.title {
+	margin: 0;
+	font-size: typography.$font-size-xl;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+}
+
+.headerActions {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+}
+
+.deviceSelector {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-02;
+	background-color: var(--color-bg-secondary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.testEmailForm {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}
+
+.testEmailInput {
+	width: 200px;
+}
+
+.successBanner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03;
+	background-color: var(--color-bg-success-default);
+	color: var(--color-text-inverse-default);
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+
+	i {
+		font-size: typography.$font-size-md;
+	}
+}
+
+// Mode Tabs
+.modeTabs {
+	flex-shrink: 0;
+	padding: 0 layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+// Builder layout (3-column)
+.builder {
+	display: grid;
+	grid-template-columns: 280px 1fr 360px;
+	gap: layout.$spacing-04;
+	flex: 1;
+	overflow: hidden;
+	padding: layout.$spacing-04;
+	background-color: var(--color-bg-secondary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+// Panels
+.leftPanel,
+.centerPanel,
+.rightPanel {
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	overflow-y: auto;
+}
+
+.centerPanel {
+	padding: 0;
+	overflow: visible;
+}
+
+.rightPanel {
+	display: flex;
+	flex-direction: column;
+}
+
+// Variables Panel (left)
+.variablesPanel {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.variablesPanelHeader {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-05;
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+
+	i {
+		font-size: typography.$font-size-xl;
+		color: var(--color-info-default);
+	}
+
+	h3 {
+		margin: 0;
+		font-size: typography.$font-size-lg;
+		font-weight: typography.$font-weight-semibold;
+		color: var(--color-text-primary-default);
+	}
+}
+
+.variablesPanelContent {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	padding: layout.$spacing-05;
+	flex: 1;
+	overflow-y: auto;
+
+	> p {
+		margin: 0;
+		font-size: typography.$font-size-sm;
+		color: var(--color-text-secondary-default);
+		line-height: typography.$line-height-normal;
+	}
+}
+
+.variablesList {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.variableButton {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-01;
+	padding: layout.$spacing-03;
+	text-align: left;
+	background-color: var(--color-surface-secondary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-small;
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		background-color: var(--color-bg-info-alpha);
+		border-color: var(--color-border-info-default);
+	}
+}
+
+.variableName {
+	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-info-default);
+}
+
+.variableDesc {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+}
+
+// Preview Wrapper (center)
+.previewWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	padding: layout.$spacing-06;
+	overflow: auto;
+	background-color: var(--color-bg-secondary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.emailPreview {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-surface-primary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	overflow: hidden;
+	box-shadow: var(--color-shadow-elevated);
+	transition: width motion.$duration-moderate-01 motion.$easing-productive-standard;
+
+	&.device_desktop {
+		width: 100%;
+		max-width: 600px;
+	}
+
+	&.device_tablet {
+		width: 480px;
+	}
+
+	&.device_mobile {
+		width: 360px;
+	}
+}
+
+.emailHeader {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03 layout.$spacing-04;
+	border-bottom: 1px solid var(--color-border-primary-default);
+	background-color: var(--color-surface-secondary-default);
+}
+
+.emailHeaderRow {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}
+
+.emailLabel {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+	min-width: 60px;
+}
+
+.emailValue {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-primary-default);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.emailBody {
+	flex: 1;
+	min-height: 400px;
+	background-color: #f5f5f5;
+}
+
+.emailIframe {
+	width: 100%;
+	height: 100%;
+	min-height: 400px;
+	border: none;
+	background-color: #ffffff;
+}
+
+// Editor Panel (right)
+.editorPanel {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.editorPanelHeader {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-05;
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+
+	i {
+		font-size: typography.$font-size-xl;
+		color: var(--color-icon-primary-default);
+	}
+
+	h3 {
+		margin: 0;
+		font-size: typography.$font-size-lg;
+		font-weight: typography.$font-weight-semibold;
+		color: var(--color-text-primary-default);
+	}
+}
+
+.editorPanelContent {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	padding: layout.$spacing-05;
+	flex: 1;
+	overflow-y: auto;
+}
+
+// Responsive adjustments
+@media (width <= 1440px) {
+	.builder {
+		grid-template-columns: 260px 1fr 320px;
+	}
+}
+
+@media (width <= 1280px) {
+	.builder {
+		grid-template-columns: 240px 1fr 300px;
+	}
+}
+
+@media (width <= 1024px) {
+	.builder {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto 1fr auto;
+	}
+
+	.leftPanel,
+	.rightPanel {
+		max-height: 400px;
+	}
+
+	.header {
+		flex-direction: column;
+		align-items: stretch;
+		gap: layout.$spacing-03;
+	}
+
+	.headerContent {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.headerActions {
+		justify-content: space-between;
+		width: 100%;
+		flex-wrap: wrap;
+	}
+}
+
+@media (width <= 768px) {
+	.header {
+		padding: layout.$spacing-04;
+	}
+
+	.modeTabs {
+		padding: 0 layout.$spacing-04;
+	}
+
+	.title {
+		font-size: typography.$font-size-lg;
+	}
+
+	.headerActions {
+		flex-direction: column;
+		gap: layout.$spacing-02;
+
+		button {
+			width: 100%;
+		}
+	}
+
+	.deviceSelector {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.builder {
+		padding: layout.$spacing-03;
+		gap: layout.$spacing-03;
+	}
+
+	.leftPanel,
+	.rightPanel {
+		max-height: 300px;
+	}
+
+	.testEmailForm {
+		flex-direction: column;
+		width: 100%;
+
+		.testEmailInput {
+			width: 100%;
+		}
+	}
+}
