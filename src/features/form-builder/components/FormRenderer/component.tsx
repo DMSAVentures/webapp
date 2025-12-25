@@ -5,12 +5,13 @@
 
 import { memo, useCallback, useRef, useState } from "react";
 import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
+import { useConversionTracking } from "@/hooks/useConversionTracking";
 import type { SignupResponse } from "@/hooks/useFormSubmission";
 import {
 	Turnstile,
 	type TurnstileRef,
 } from "@/proto-design-system/Turnstile/component";
-import type { SharingChannel } from "@/types/campaign";
+import type { SharingChannel, TrackingConfig } from "@/types/campaign";
 import type {
 	FormDesign,
 	FormField as FormFieldType,
@@ -66,6 +67,8 @@ export interface FormRendererProps {
 	enabledChannels?: SharingChannel[];
 	/** Base URL for referral links (the URL where the form is embedded) */
 	embedUrl?: string;
+	/** Tracking configuration for conversion pixels */
+	trackingConfig?: TrackingConfig;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -83,6 +86,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	signupData,
 	enabledChannels = [],
 	embedUrl,
+	trackingConfig,
 	className,
 }) {
 	const { fields, design, captcha } = config;
@@ -96,6 +100,9 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 	const [captchaError, setCaptchaError] = useState(false);
 	const turnstileRef = useRef<TurnstileRef>(null);
+
+	// Fire conversion tracking when form is submitted (only in interactive mode)
+	useConversionTracking(trackingConfig, submitted && mode === "interactive");
 
 	// Check if captcha is required and configured
 	const isCaptchaEnabled =

@@ -55,6 +55,9 @@ function RouteComponent() {
 			email_config: {
 				verification_required: data.settings.emailVerificationRequired,
 			},
+			tracking_config: data.trackingConfig?.integrations?.length
+				? { integrations: data.trackingConfig.integrations }
+				: undefined,
 		});
 
 		if (updated) {
@@ -109,6 +112,9 @@ function RouteComponent() {
 				"facebook",
 				"linkedin",
 			],
+		},
+		trackingConfig: {
+			integrations: campaign.tracking_config?.integrations ?? [],
 		},
 	};
 

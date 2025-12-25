@@ -23,6 +23,7 @@ export interface Campaign {
 	referral_config?: ReferralConfig;
 	email_config?: EmailConfig;
 	branding_config?: BrandingConfig;
+	tracking_config?: TrackingConfig;
 	privacy_policy_url?: string;
 	terms_url?: string;
 	max_signups?: number;
@@ -138,6 +139,36 @@ export interface BrandingConfig {
 }
 
 // ============================================================================
+// Tracking Configuration Types
+// ============================================================================
+
+/** Supported tracking integration types */
+export type TrackingIntegrationType =
+	| "google_analytics"
+	| "meta_pixel"
+	| "google_ads"
+	| "tiktok_pixel"
+	| "linkedin_insight";
+
+/** Individual tracking integration configuration */
+export interface TrackingIntegration {
+	/** Type of tracking integration */
+	type: TrackingIntegrationType;
+	/** Whether this integration is enabled */
+	enabled: boolean;
+	/** Integration ID (Measurement ID, Pixel ID, Partner ID, etc.) */
+	id: string;
+	/** Additional label (used for Google Ads conversion label) */
+	label?: string;
+}
+
+/** Campaign tracking configuration */
+export interface TrackingConfig {
+	/** List of configured tracking integrations */
+	integrations: TrackingIntegration[];
+}
+
+// ============================================================================
 // Campaign Request/Response Types
 // ============================================================================
 
@@ -161,6 +192,7 @@ export interface UpdateCampaignRequest {
 	referral_config?: ReferralConfig;
 	email_config?: EmailConfig;
 	branding_config?: BrandingConfig;
+	tracking_config?: TrackingConfig;
 	max_signups?: number;
 }
 

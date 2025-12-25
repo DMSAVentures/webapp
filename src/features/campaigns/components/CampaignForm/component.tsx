@@ -5,11 +5,16 @@
 
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
 import { Button } from "@/proto-design-system/Button/button";
+import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import Dropdown from "@/proto-design-system/dropdown/dropdown";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import type {
+	TrackingIntegration,
+	TrackingIntegrationType,
+} from "@/types/campaign";
 import type { CampaignSettings } from "@/types/common.types";
 import { validateLength, validateRequired } from "@/utils/validation";
 import styles from "./component.module.scss";
@@ -33,7 +38,63 @@ export interface CampaignFormData {
 	formConfig?: {
 		captchaEnabled: boolean;
 	};
+	trackingConfig?: {
+		integrations: TrackingIntegration[];
+	};
 }
+
+/** Available tracking integration options with validation */
+const TRACKING_INTEGRATIONS: {
+	type: TrackingIntegrationType;
+	label: string;
+	icon: string;
+	placeholder: string;
+	hasLabel?: boolean;
+	pattern: RegExp;
+	errorMessage: string;
+}[] = [
+	{
+		type: "google_analytics",
+		label: "Google Analytics (GA4)",
+		icon: "ri-google-line",
+		placeholder: "G-XXXXXXXXXX",
+		pattern: /^G-[A-Z0-9]{10,}$/i,
+		errorMessage: "Must start with G- followed by at least 10 characters",
+	},
+	{
+		type: "meta_pixel",
+		label: "Meta Pixel",
+		icon: "ri-facebook-line",
+		placeholder: "1234567890123456",
+		pattern: /^\d{15,16}$/,
+		errorMessage: "Must be a 15-16 digit number",
+	},
+	{
+		type: "google_ads",
+		label: "Google Ads",
+		icon: "ri-advertisement-line",
+		placeholder: "AW-XXXXXXXXX",
+		hasLabel: true,
+		pattern: /^AW-\d{9,11}$/,
+		errorMessage: "Must start with AW- followed by 9-11 digits",
+	},
+	{
+		type: "tiktok_pixel",
+		label: "TikTok Pixel",
+		icon: "ri-tiktok-line",
+		placeholder: "XXXXXXXXXXXXXXXXXX",
+		pattern: /^[A-Z0-9]{10,25}$/i,
+		errorMessage: "Must be 10-25 alphanumeric characters",
+	},
+	{
+		type: "linkedin_insight",
+		label: "LinkedIn Insight",
+		icon: "ri-linkedin-line",
+		placeholder: "1234567",
+		pattern: /^\d{5,10}$/,
+		errorMessage: "Must be a 5-10 digit number",
+	},
+];
 
 export interface CampaignFormProps
 	extends Omit<HTMLAttributes<HTMLFormElement>, "onSubmit"> {
@@ -54,6 +115,10 @@ export interface CampaignFormProps
 interface FormErrors {
 	name?: string;
 	description?: string;
+}
+
+interface TrackingErrors {
+	[key: string]: string | undefined;
 }
 
 /**
@@ -95,10 +160,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		formConfig: {
 			captchaEnabled: initialData?.formConfig?.captchaEnabled ?? false,
 		},
+		trackingConfig: {
+			integrations: initialData?.trackingConfig?.integrations ?? [],
+		},
 	});
 
 	const [errors, setErrors] = useState<FormErrors>({});
 	const [touched, setTouched] = useState<Record<string, boolean>>({});
+	const [trackingErrors, setTrackingErrors] = useState<TrackingErrors>({});
+	const [trackingTouched, setTrackingTouched] = useState<
+		Record<string, boolean>
+	>({});
 
 	// Validation
 	const validateField = (
@@ -194,6 +266,129 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		}));
 	};
 
+	// Tracking validation
+	const validateTrackingId = (
+		type: TrackingIntegrationType,
+		value: string,
+	): string | null => {
+		if (!value.trim()) {
+			return "Tracking ID is required";
+		}
+		const integrationInfo = TRACKING_INTEGRATIONS.find((i) => i.type === type);
+		if (integrationInfo && !integrationInfo.pattern.test(value)) {
+			return integrationInfo.errorMessage;
+		}
+		return null;
+	};
+
+	const validateAllTrackingIntegrations = (): boolean => {
+		const integrations = formData.trackingConfig?.integrations ?? [];
+		const newErrors: TrackingErrors = {};
+		let isValid = true;
+
+		for (const integration of integrations) {
+			const error = validateTrackingId(integration.type, integration.id);
+			if (error) {
+				newErrors[integration.type] = error;
+				isValid = false;
+			}
+		}
+
+		setTrackingErrors(newErrors);
+		// Mark all as touched
+		const allTouched: Record<string, boolean> = {};
+		for (const integration of integrations) {
+			allTouched[integration.type] = true;
+		}
+		setTrackingTouched(allTouched);
+
+		return isValid;
+	};
+
+	// Tracking config handlers
+	const handleAddTrackingIntegration = (type: TrackingIntegrationType) => {
+		// Don't add if already exists
+		if (formData.trackingConfig?.integrations.some((i) => i.type === type)) {
+			return;
+		}
+		setFormData((prev) => ({
+			...prev,
+			trackingConfig: {
+				integrations: [
+					...(prev.trackingConfig?.integrations ?? []),
+					{ type, enabled: true, id: "" },
+				],
+			},
+		}));
+	};
+
+	const handleRemoveTrackingIntegration = (type: TrackingIntegrationType) => {
+		setFormData((prev) => ({
+			...prev,
+			trackingConfig: {
+				integrations:
+					prev.trackingConfig?.integrations.filter((i) => i.type !== type) ??
+					[],
+			},
+		}));
+		// Clear errors for removed integration
+		setTrackingErrors((prev) => {
+			const newErrors = { ...prev };
+			delete newErrors[type];
+			return newErrors;
+		});
+		setTrackingTouched((prev) => {
+			const newTouched = { ...prev };
+			delete newTouched[type];
+			return newTouched;
+		});
+	};
+
+	const handleTrackingIntegrationChange = (
+		type: TrackingIntegrationType,
+		field: "id" | "label",
+		value: string,
+	) => {
+		setFormData((prev) => ({
+			...prev,
+			trackingConfig: {
+				integrations:
+					prev.trackingConfig?.integrations.map((i) =>
+						i.type === type ? { ...i, [field]: value } : i,
+					) ?? [],
+			},
+		}));
+
+		// Validate on change if already touched
+		if (field === "id" && trackingTouched[type]) {
+			const error = validateTrackingId(type, value);
+			setTrackingErrors((prev) => ({
+				...prev,
+				[type]: error || undefined,
+			}));
+		}
+	};
+
+	const handleTrackingIdBlur = (
+		type: TrackingIntegrationType,
+		value: string,
+	) => {
+		setTrackingTouched((prev) => ({ ...prev, [type]: true }));
+		const error = validateTrackingId(type, value);
+		setTrackingErrors((prev) => ({
+			...prev,
+			[type]: error || undefined,
+		}));
+	};
+
+	// Get available integrations that haven't been added yet
+	const availableIntegrations = TRACKING_INTEGRATIONS.filter(
+		(integration) =>
+			!formData.trackingConfig?.integrations.some(
+				(i) => i.type === integration.type,
+			),
+	);
+
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
@@ -204,12 +399,19 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			formData.description || "",
 		);
 
+		// Validate tracking integrations
+		const trackingValid = validateAllTrackingIntegrations();
+
 		if (nameError || descriptionError) {
 			setErrors({
 				name: nameError || undefined,
 				description: descriptionError || undefined,
 			});
 			setTouched({ name: true, description: true });
+			return;
+		}
+
+		if (!trackingValid) {
 			return;
 		}
 
@@ -455,6 +657,127 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					</div>
 				</div>
 			)}
+
+			{/* Conversion Tracking Section */}
+			<div className={styles.section}>
+				<h3 className={styles.sectionTitle}>Conversion Tracking</h3>
+				<p className={styles.sectionDescription}>
+					Add tracking pixels to fire when users complete signup
+				</p>
+
+				{/* Add Integration Dropdown */}
+				{availableIntegrations.length > 0 && (
+					<Dropdown
+						label="Add Tracking Integration"
+						placeholderText="Select a tracking platform..."
+						size="medium"
+						options={availableIntegrations.map((integration) => ({
+							label: integration.label,
+							value: integration.type,
+							description: `ID format: ${integration.placeholder}`,
+							selected: false,
+						}))}
+						disabled={loading}
+						onChange={(option) =>
+							handleAddTrackingIntegration(
+								option.value as TrackingIntegrationType,
+							)
+						}
+					/>
+				)}
+
+				{/* Configured Integrations List */}
+				{formData.trackingConfig?.integrations &&
+					formData.trackingConfig.integrations.length > 0 && (
+						<div className={styles.trackingIntegrations}>
+							{formData.trackingConfig.integrations.map((integration) => {
+								const integrationInfo = TRACKING_INTEGRATIONS.find(
+									(i) => i.type === integration.type,
+								);
+								if (!integrationInfo) return null;
+
+								return (
+									<div
+										key={integration.type}
+										className={styles.trackingIntegration}
+									>
+										<div className={styles.trackingIntegrationHeader}>
+											<div className={styles.trackingIntegrationInfo}>
+												<i
+													className={`${integrationInfo.icon} ${styles.trackingIntegrationIcon}`}
+													aria-hidden="true"
+												/>
+												<span className={styles.trackingIntegrationName}>
+													{integrationInfo.label}
+												</span>
+											</div>
+											<IconOnlyButton
+												iconClass="delete-bin-line"
+												variant="secondary"
+												ariaLabel={`Remove ${integrationInfo.label}`}
+												onClick={() =>
+													handleRemoveTrackingIntegration(integration.type)
+												}
+												disabled={loading}
+											/>
+										</div>
+										<div className={styles.trackingIntegrationFields}>
+											<TextInput
+												id={`tracking-${integration.type}-id`}
+												label="Tracking ID"
+												type="text"
+												value={integration.id}
+												onChange={(e) =>
+													handleTrackingIntegrationChange(
+														integration.type,
+														"id",
+														e.target.value,
+													)
+												}
+												onBlur={() =>
+													handleTrackingIdBlur(integration.type, integration.id)
+												}
+												placeholder={integrationInfo.placeholder}
+												disabled={loading}
+												required
+												error={
+													trackingTouched[integration.type]
+														? trackingErrors[integration.type]
+														: undefined
+												}
+												hint={`Format: ${integrationInfo.placeholder}`}
+											/>
+											{integrationInfo.hasLabel && (
+												<TextInput
+													id={`tracking-${integration.type}-label`}
+													label="Conversion Label"
+													type="text"
+													value={integration.label || ""}
+													onChange={(e) =>
+														handleTrackingIntegrationChange(
+															integration.type,
+															"label",
+															e.target.value,
+														)
+													}
+													placeholder="Enter conversion label"
+													disabled={loading}
+												/>
+											)}
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					)}
+
+				{formData.trackingConfig?.integrations.length === 0 && (
+					<p className={styles.trackingEmptyState}>
+						No tracking integrations configured. Add one above to track
+						conversions.
+					</p>
+				)}
+			</div>
 
 			{/* Divider */}
 			<ContentDivider size="thin" />

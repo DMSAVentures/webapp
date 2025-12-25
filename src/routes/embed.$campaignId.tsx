@@ -160,6 +160,7 @@ function RouteComponent() {
 				signupData={signupData}
 				enabledChannels={campaign.referral_config?.sharing_channels}
 				embedUrl={embedUrl}
+				trackingConfig={campaign.tracking_config}
 				className={styles.form}
 			/>
 		</div>

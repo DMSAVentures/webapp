@@ -63,6 +63,69 @@
   gap: layout.$spacing-02;
 }
 
+// Tracking Integrations
+.trackingIntegrations {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+}
+
+.trackingIntegration {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-04;
+  background-color: var(--color-surface-secondary-default);
+  border: border.$border-width-small solid var(--color-border-secondary-default);
+  border-radius: border.$border-radius-medium;
+}
+
+.trackingIntegrationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: layout.$spacing-03;
+}
+
+.trackingIntegrationInfo {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+}
+
+.trackingIntegrationIcon {
+  font-size: typography.$font-size-h5;
+  color: var(--color-icon-secondary-default);
+}
+
+.trackingIntegrationName {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-medium;
+  color: var(--color-text-primary-default);
+}
+
+.trackingIntegrationActions {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+}
+
+.trackingIntegrationFields {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-03;
+}
+
+.trackingEmptyState {
+  margin: 0;
+  padding: layout.$spacing-04;
+  text-align: center;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-tertiary-default);
+  background-color: var(--color-surface-secondary-default);
+  border-radius: border.$border-radius-medium;
+}
+
 // Form actions
 .actions {
   display: flex;
