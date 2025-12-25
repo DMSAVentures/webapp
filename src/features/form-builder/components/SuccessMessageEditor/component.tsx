@@ -123,7 +123,10 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 												className={styles.channelIcon}
 												title={channel}
 											>
-												<i className={channelIcons[channel]} aria-hidden="true" />
+												<i
+													className={channelIcons[channel]}
+													aria-hidden="true"
+												/>
 											</span>
 										))}
 									</div>

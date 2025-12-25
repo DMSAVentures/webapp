@@ -129,7 +129,9 @@ function RouteComponent() {
 							console.log("Bulk action:", action, userIds);
 						}}
 						referralEnabled={campaign.referral_config?.enabled ?? false}
-						emailVerificationEnabled={campaign.email_config?.verification_required ?? false}
+						emailVerificationEnabled={
+							campaign.email_config?.verification_required ?? false
+						}
 					/>
 				)}
 			</div>

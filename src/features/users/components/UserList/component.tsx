@@ -379,7 +379,9 @@ export const UserList = memo<UserListProps>(function UserList({
 								{emailVerificationEnabled && (
 									<Table.HeaderCell
 										sortable
-										sortDirection={sortField === "status" ? sortDirection : null}
+										sortDirection={
+											sortField === "status" ? sortDirection : null
+										}
 										onSort={() => handleSort("status")}
 									>
 										Status
@@ -407,7 +409,9 @@ export const UserList = memo<UserListProps>(function UserList({
 										</Table.HeaderCell>
 										<Table.HeaderCell
 											sortable
-											sortDirection={sortField === "source" ? sortDirection : null}
+											sortDirection={
+												sortField === "source" ? sortDirection : null
+											}
 											onSort={() => handleSort("source")}
 										>
 											Source

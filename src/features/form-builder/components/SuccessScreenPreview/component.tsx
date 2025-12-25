@@ -3,13 +3,14 @@
  * Live preview of the success screen with device frame (matches FormPreview style)
  */
 
-import { type HTMLAttributes, memo, useState, useCallback } from "react";
+import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
 import styles from "./component.module.scss";
 
-export interface SuccessScreenPreviewProps extends HTMLAttributes<HTMLDivElement> {
+export interface SuccessScreenPreviewProps
+	extends HTMLAttributes<HTMLDivElement> {
 	/** Form design settings */
 	design: FormDesign;
 	/** Form behavior settings (contains success messages) */
@@ -27,13 +28,14 @@ export interface SuccessScreenPreviewProps extends HTMLAttributes<HTMLDivElement
 }
 
 /** Channel display configuration */
-const channelConfigs: Record<SharingChannel, { label: string; icon: string }> = {
-	twitter: { label: "Twitter", icon: "ri-twitter-x-fill" },
-	facebook: { label: "Facebook", icon: "ri-facebook-fill" },
-	linkedin: { label: "LinkedIn", icon: "ri-linkedin-fill" },
-	whatsapp: { label: "WhatsApp", icon: "ri-whatsapp-fill" },
-	email: { label: "Email", icon: "ri-mail-fill" },
-};
+const channelConfigs: Record<SharingChannel, { label: string; icon: string }> =
+	{
+		twitter: { label: "Twitter", icon: "ri-twitter-x-fill" },
+		facebook: { label: "Facebook", icon: "ri-facebook-fill" },
+		linkedin: { label: "LinkedIn", icon: "ri-linkedin-fill" },
+		whatsapp: { label: "WhatsApp", icon: "ri-whatsapp-fill" },
+		email: { label: "Email", icon: "ri-mail-fill" },
+	};
 
 /**
  * SuccessScreenPreview renders a live preview of the success screen
@@ -50,26 +52,31 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 		...props
 	}) {
 		const formStyles = useFormStyles(design);
-		const [copiedChannel, setCopiedChannel] = useState<SharingChannel | null>(null);
+		const [copiedChannel, setCopiedChannel] = useState<SharingChannel | null>(
+			null,
+		);
 
 		// Use provided links or fall back to mock links for preview
 		const links = referralLinks;
 
-		const handleCopyLink = useCallback(async (channel: SharingChannel) => {
-			const link = links![channel]!;
-			try {
-				await navigator.clipboard.writeText(link);
-				setCopiedChannel(channel);
-				setTimeout(() => setCopiedChannel(null), 2000);
-			} catch (err) {
-				console.error("Failed to copy:", err);
-			}
-		}, [links]);
+		const handleCopyLink = useCallback(
+			async (channel: SharingChannel) => {
+				const link = links![channel]!;
+				try {
+					await navigator.clipboard.writeText(link);
+					setCopiedChannel(channel);
+					setTimeout(() => setCopiedChannel(null), 2000);
+				} catch (err) {
+					console.error("Failed to copy:", err);
+				}
+			},
+			[links],
+		);
 
 		const handleNativeShare = useCallback(async () => {
 			// Use email channel link for native share
-			const shareLink = links.email;
-			if (navigator.share) {
+			const shareLink = links?.email;
+			if (navigator.share && shareLink) {
 				try {
 					await navigator.share({
 						title: "Join me!",
@@ -83,7 +90,11 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 			}
 		}, [links]);
 
-		const classNames = [styles.root, styles[`device_${device}`], customClassName]
+		const classNames = [
+			styles.root,
+			styles[`device_${device}`],
+			customClassName,
+		]
 			.filter(Boolean)
 			.join(" ");
 
@@ -147,16 +158,24 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 													<div className={styles.channelIcon}>
 														<i className={config.icon} aria-hidden="true" />
 													</div>
-													<span className={styles.channelName}>{config.label}</span>
+													<span className={styles.channelName}>
+														{config.label}
+													</span>
 													<span className={styles.copyLabel}>
 														{isCopied ? (
 															<>
-																<i className="ri-check-line" aria-hidden="true" />
+																<i
+																	className="ri-check-line"
+																	aria-hidden="true"
+																/>
 																<span>Copied!</span>
 															</>
 														) : (
 															<>
-																<i className="ri-file-copy-line" aria-hidden="true" />
+																<i
+																	className="ri-file-copy-line"
+																	aria-hidden="true"
+																/>
 																<span>Copy link</span>
 															</>
 														)}

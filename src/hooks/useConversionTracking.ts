@@ -6,10 +6,7 @@
  */
 
 import { useEffect, useRef } from "react";
-import type {
-	TrackingConfig,
-	TrackingIntegration,
-} from "@/types/campaign";
+import type { TrackingConfig, TrackingIntegration } from "@/types/campaign";
 
 declare global {
 	interface Window {
@@ -46,7 +43,9 @@ function loadScript(src: string, id: string): Promise<void> {
 /**
  * Initialize and fire Google Analytics conversion
  */
-async function fireGoogleAnalytics(integration: TrackingIntegration): Promise<void> {
+async function fireGoogleAnalytics(
+	integration: TrackingIntegration,
+): Promise<void> {
 	const { id } = integration;
 	if (!id) return;
 
@@ -61,7 +60,9 @@ async function fireGoogleAnalytics(integration: TrackingIntegration): Promise<vo
 			// Initialize gtag
 			window.gtag = function gtag(...args: unknown[]) {
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				((window as any).dataLayer = (window as any).dataLayer || []).push(args);
+				((window as any).dataLayer = (window as any).dataLayer || []).push(
+					args,
+				);
 			};
 			window.gtag("js", new Date());
 			window.gtag("config", id);
@@ -135,7 +136,9 @@ async function fireGoogleAds(integration: TrackingIntegration): Promise<void> {
 
 			window.gtag = function gtag(...args: unknown[]) {
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				((window as any).dataLayer = (window as any).dataLayer || []).push(args);
+				((window as any).dataLayer = (window as any).dataLayer || []).push(
+					args,
+				);
 			};
 			window.gtag("js", new Date());
 			window.gtag("config", id);
@@ -153,7 +156,9 @@ async function fireGoogleAds(integration: TrackingIntegration): Promise<void> {
 /**
  * Initialize and fire TikTok Pixel conversion
  */
-async function fireTikTokPixel(integration: TrackingIntegration): Promise<void> {
+async function fireTikTokPixel(
+	integration: TrackingIntegration,
+): Promise<void> {
 	const { id } = integration;
 	if (!id) return;
 
@@ -232,7 +237,9 @@ async function fireTikTokPixel(integration: TrackingIntegration): Promise<void> 
 /**
  * Initialize and fire LinkedIn Insight Tag conversion
  */
-async function fireLinkedInInsight(integration: TrackingIntegration): Promise<void> {
+async function fireLinkedInInsight(
+	integration: TrackingIntegration,
+): Promise<void> {
 	const { id } = integration;
 	if (!id) return;
 
@@ -263,7 +270,9 @@ async function fireLinkedInInsight(integration: TrackingIntegration): Promise<vo
 /**
  * Fire a tracking event for a specific integration
  */
-async function fireTrackingEvent(integration: TrackingIntegration): Promise<void> {
+async function fireTrackingEvent(
+	integration: TrackingIntegration,
+): Promise<void> {
 	if (!integration.enabled || !integration.id) return;
 
 	switch (integration.type) {

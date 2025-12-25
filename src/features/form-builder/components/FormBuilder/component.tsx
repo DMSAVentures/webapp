@@ -12,9 +12,9 @@ import {
 } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import { Badge } from "@/proto-design-system/badge/badge";
 import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
 import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
-import { Badge } from "@/proto-design-system/badge/badge";
 import type { SharingChannel } from "@/types/campaign";
 import type {
 	FormBehavior,
@@ -403,8 +403,8 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 							</div>
 							<div className={styles.successInfoContent}>
 								<p>
-									The success screen is shown to users after they sign up.
-									Make it memorable!
+									The success screen is shown to users after they sign up. Make
+									it memorable!
 								</p>
 								<ul>
 									<li>Keep your title concise and welcoming</li>

@@ -129,7 +129,7 @@
     margin: 0;
     font-size: typography.$font-size-sm;
     color: var(--color-text-secondary-default);
-    line-height: 1.5;
+    line-height: typography.$line-height-normal;
   }
 
   ul {
@@ -140,7 +140,7 @@
 
     li {
       margin-bottom: layout.$spacing-02;
-      line-height: 1.5;
+      line-height: typography.$line-height-normal;
 
       &:last-child {
         margin-bottom: 0;
