@@ -1,0 +1,59 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: inline-flex;
+	align-items: center;
+	gap: layout.$spacing-01;
+	padding: layout.$spacing-01 layout.$spacing-02;
+	background-color: var(--color-bg-info-alpha);
+	color: var(--color-text-info-default);
+	border-radius: border.$border-radius-round;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	font-family: typography.$font-family-mono;
+	white-space: nowrap;
+	user-select: none;
+	vertical-align: middle;
+
+	i {
+		font-size: typography.$font-size-xs;
+		opacity: 0.8;
+	}
+}
+
+.name {
+	line-height: 1;
+}
+
+.interactive {
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		background-color: var(--color-info-default);
+		color: var(--color-text-inverse-default);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-focus-ring-default);
+		outline-offset: 2px;
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+}
+
+// Size variants
+.size_small {
+	padding: 2px layout.$spacing-01;
+	font-size: typography.$font-size-xs;
+	gap: 2px;
+
+	i {
+		font-size: 10px;
+	}
+}

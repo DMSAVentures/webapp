@@ -1,14 +1,12 @@
 /**
  * EmailBuilder Component
- * Three-pane email template editor with live preview
+ * Block-based email template editor with live preview
  */
 
-import { type HTMLAttributes, memo, useCallback, useState } from "react";
+import { type HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
 import {
-	DEFAULT_EMAIL_TEMPLATES,
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
-	TEMPLATE_VARIABLES,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
 	useCreateEmailTemplate,
@@ -21,8 +19,14 @@ import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import { Badge } from "@/proto-design-system/badge/badge";
 import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
 import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import type { EmailBlock } from "../../types/emailBlocks";
+import { createBlock, getDefaultBlocks } from "../../types/emailBlocks";
+import { blocksToHtml, blocksToText } from "../../utils/blocksToHtml";
+import { BlockEditor } from "../BlockEditor/component";
+import { BlockItem } from "../BlockItem/component";
+import { BlockPalette } from "../BlockPalette/component";
+import { VariableTextInput } from "../VariableTextInput/component";
 import styles from "./component.module.scss";
 
 export interface EmailBuilderProps
@@ -36,7 +40,7 @@ export interface EmailBuilderProps
 }
 
 /**
- * EmailBuilder provides a three-pane interface for editing email templates
+ * EmailBuilder provides a block-based interface for editing email templates
  */
 export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	campaignId,
@@ -49,11 +53,19 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		initialType,
 	);
 
-	// Form state
-	const defaultTemplate = DEFAULT_EMAIL_TEMPLATES[emailType];
-	const [subject, setSubject] = useState(defaultTemplate.subject);
-	const [htmlBody, setHtmlBody] = useState(defaultTemplate.htmlBody);
-	const [textBody, setTextBody] = useState(defaultTemplate.textBody);
+	// Block-based content state
+	const [blocks, setBlocks] = useState<EmailBlock[]>(() =>
+		getDefaultBlocks(emailType),
+	);
+	const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+
+	// Subject line state
+	const [subject, setSubject] = useState(
+		emailType === "verification"
+			? "Verify your email - You're #{{position}} on the {{campaign_name}} waitlist"
+			: "Welcome to the {{campaign_name}} waitlist!",
+	);
+
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
 	// Preview state
@@ -81,19 +93,32 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 	const saving = creating || updating;
 
+	// Get selected block
+	const selectedBlock = blocks.find((b) => b.id === selectedBlockId) || null;
+
 	// Handle tab change
 	const handleTabChange = useCallback(
 		(index: number) => {
 			const newType = index === 0 ? "verification" : "welcome";
 			setEmailType(newType);
+			setSelectedBlockId(null);
 
 			// Load existing template or default
 			const existing = templates.find((t) => t.type === newType);
-			const defaultTpl = DEFAULT_EMAIL_TEMPLATES[newType];
 
-			setSubject(existing?.subject || defaultTpl.subject);
-			setHtmlBody(existing?.html_body || defaultTpl.htmlBody);
-			setTextBody(existing?.text_body || defaultTpl.textBody);
+			if (existing) {
+				setSubject(existing.subject);
+				// For existing templates, we need to use defaults for now
+				// A more sophisticated HTML-to-blocks parser could be added
+				setBlocks(getDefaultBlocks(newType));
+			} else {
+				setSubject(
+					newType === "verification"
+						? "Verify your email - You're #{{position}} on the {{campaign_name}} waitlist"
+						: "Welcome to the {{campaign_name}} waitlist!",
+				);
+				setBlocks(getDefaultBlocks(newType));
+			}
 			setHasUnsavedChanges(false);
 		},
 		[templates],
@@ -103,6 +128,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	const handleSave = useCallback(async () => {
 		const templateName =
 			emailType === "verification" ? "Verification Email" : "Welcome Email";
+
+		const htmlBody = blocksToHtml(blocks);
+		const textBody = blocksToText(blocks);
 
 		if (existingTemplate) {
 			await updateTemplate(campaignId, existingTemplate.id, {
@@ -129,8 +157,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		emailType,
 		existingTemplate,
 		subject,
-		htmlBody,
-		textBody,
+		blocks,
 		createTemplate,
 		updateTemplate,
 		refetch,
@@ -149,14 +176,70 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		resetTestState,
 	]);
 
-	// Insert variable
-	const insertVariable = useCallback((variable: string) => {
-		setHtmlBody((prev) => prev + `{{${variable}}}`);
+	// Block operations
+	const handleAddBlock = useCallback(
+		(type: EmailBlock["type"]) => {
+			const newBlock = createBlock(type);
+			setBlocks((prev) => [...prev, newBlock]);
+			setSelectedBlockId(newBlock.id);
+			setHasUnsavedChanges(true);
+		},
+		[],
+	);
+
+	const handleUpdateBlock = useCallback((updatedBlock: EmailBlock) => {
+		setBlocks((prev) =>
+			prev.map((b) => (b.id === updatedBlock.id ? updatedBlock : b)),
+		);
 		setHasUnsavedChanges(true);
 	}, []);
 
+	const handleDeleteBlock = useCallback(
+		(blockId: string) => {
+			setBlocks((prev) => prev.filter((b) => b.id !== blockId));
+			if (selectedBlockId === blockId) {
+				setSelectedBlockId(null);
+			}
+			setHasUnsavedChanges(true);
+		},
+		[selectedBlockId],
+	);
+
+	const handleMoveBlock = useCallback((blockId: string, direction: "up" | "down") => {
+		setBlocks((prev) => {
+			const index = prev.findIndex((b) => b.id === blockId);
+			if (index === -1) return prev;
+
+			const newIndex = direction === "up" ? index - 1 : index + 1;
+			if (newIndex < 0 || newIndex >= prev.length) return prev;
+
+			const newBlocks = [...prev];
+			[newBlocks[index], newBlocks[newIndex]] = [
+				newBlocks[newIndex],
+				newBlocks[index],
+			];
+			return newBlocks;
+		});
+		setHasUnsavedChanges(true);
+	}, []);
+
+	// Mark as changed when subject changes
+	const handleSubjectChange = useCallback((value: string) => {
+		setSubject(value);
+		setHasUnsavedChanges(true);
+	}, []);
+
+	// Load existing template on mount
+	useEffect(() => {
+		if (existingTemplate && !hasUnsavedChanges) {
+			setSubject(existingTemplate.subject);
+			// Use defaults for blocks - a parser could be added for existing HTML
+		}
+	}, [existingTemplate, hasUnsavedChanges]);
+
 	// Rendered preview
 	const renderedSubject = renderTemplate(subject, SAMPLE_TEMPLATE_DATA);
+	const htmlBody = blocksToHtml(blocks);
 	const renderedBody = renderTemplate(htmlBody, SAMPLE_TEMPLATE_DATA);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -290,43 +373,61 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 			{/* Three-pane layout */}
 			<div className={styles.builder}>
-				{/* Left panel - Variables */}
+				{/* Left panel - Block Palette */}
 				<aside className={styles.leftPanel}>
-					<div className={styles.variablesPanel}>
-						<div className={styles.variablesPanelHeader}>
-							<i className="ri-braces-line" aria-hidden="true" />
-							<h3>Template Variables</h3>
-						</div>
-						<div className={styles.variablesPanelContent}>
-							<p>Click a variable to insert it into your email template.</p>
-							<div className={styles.variablesList}>
-								{TEMPLATE_VARIABLES.filter(
-									(v) =>
-										emailType === "verification" ||
-										v.name !== "verification_link",
-								).map((variable) => (
-									<button
-										key={variable.name}
-										type="button"
-										className={styles.variableButton}
-										onClick={() => insertVariable(variable.name)}
-									>
-										<span
-											className={styles.variableName}
-										>{`{{${variable.name}}}`}</span>
-										<span className={styles.variableDesc}>
-											{variable.description}
-										</span>
-									</button>
-								))}
-							</div>
-						</div>
-					</div>
+					<BlockPalette onBlockSelect={handleAddBlock} />
 				</aside>
 
-				{/* Center panel - Live Preview */}
+				{/* Center panel - Canvas + Preview */}
 				<main className={styles.centerPanel}>
+					{/* Subject line editor */}
+					<div className={styles.subjectEditor}>
+						<VariableTextInput
+							value={subject}
+							onChange={handleSubjectChange}
+							label="Subject Line"
+							placeholder="Enter email subject..."
+							emailType={emailType}
+						/>
+					</div>
+
+					{/* Block canvas */}
+					<div className={styles.canvasWrapper}>
+						<div className={styles.canvasHeader}>
+							<i className="ri-layout-4-line" aria-hidden="true" />
+							<span>Email Content</span>
+							<span className={styles.blockCount}>{blocks.length} blocks</span>
+						</div>
+						<div className={styles.canvas}>
+							{blocks.length === 0 ? (
+								<div className={styles.emptyCanvas}>
+									<i className="ri-add-box-line" aria-hidden="true" />
+									<p>Add content blocks from the left panel</p>
+								</div>
+							) : (
+								blocks.map((block, index) => (
+									<BlockItem
+										key={block.id}
+										block={block}
+										isSelected={block.id === selectedBlockId}
+										onSelect={() => setSelectedBlockId(block.id)}
+										onDelete={() => handleDeleteBlock(block.id)}
+										onMoveUp={() => handleMoveBlock(block.id, "up")}
+										onMoveDown={() => handleMoveBlock(block.id, "down")}
+										canMoveUp={index > 0}
+										canMoveDown={index < blocks.length - 1}
+									/>
+								))
+							)}
+						</div>
+					</div>
+
+					{/* Live Preview */}
 					<div className={styles.previewWrapper}>
+						<div className={styles.previewHeader}>
+							<i className="ri-eye-line" aria-hidden="true" />
+							<span>Live Preview</span>
+						</div>
 						<div
 							className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
 						>
@@ -356,52 +457,21 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 					</div>
 				</main>
 
-				{/* Right panel - Editor */}
+				{/* Right panel - Block Editor */}
 				<aside className={styles.rightPanel}>
-					<div className={styles.editorPanel}>
-						<div className={styles.editorPanelHeader}>
-							<i className="ri-edit-line" aria-hidden="true" />
-							<h3>Edit Email</h3>
+					{selectedBlock ? (
+						<BlockEditor
+							block={selectedBlock}
+							onUpdate={handleUpdateBlock}
+							emailType={emailType}
+						/>
+					) : (
+						<div className={styles.noSelection}>
+							<i className="ri-cursor-line" aria-hidden="true" />
+							<h3>No Block Selected</h3>
+							<p>Select a content block from the canvas to edit its properties.</p>
 						</div>
-						<div className={styles.editorPanelContent}>
-							<TextInput
-								id="email-subject"
-								label="Subject Line"
-								type="text"
-								value={subject}
-								onChange={(e) => {
-									setSubject(e.target.value);
-									setHasUnsavedChanges(true);
-								}}
-								placeholder="Enter subject..."
-								hint="Use {{variable}} for dynamic content"
-							/>
-
-							<TextArea
-								id="email-html-body"
-								label="Email Body (HTML)"
-								value={htmlBody}
-								onChange={(e) => {
-									setHtmlBody(e.target.value);
-									setHasUnsavedChanges(true);
-								}}
-								placeholder="Enter HTML content..."
-								rows={20}
-							/>
-
-							<TextArea
-								id="email-text-body"
-								label="Plain Text (optional)"
-								value={textBody}
-								onChange={(e) => {
-									setTextBody(e.target.value);
-									setHasUnsavedChanges(true);
-								}}
-								placeholder="Plain text for non-HTML clients..."
-								rows={6}
-							/>
-						</div>
-					</div>
+					)}
 				</aside>
 			</div>
 		</div>

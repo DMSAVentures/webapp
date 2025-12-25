@@ -1,0 +1,110 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-03;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		border-color: var(--color-border-primary-hover);
+		background-color: var(--color-surface-secondary-default);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-focus-ring-default);
+		outline-offset: 2px;
+	}
+}
+
+.selected {
+	border-color: var(--color-info-default);
+	background-color: var(--color-bg-info-alpha);
+
+	&:hover {
+		border-color: var(--color-info-default);
+	}
+}
+
+.typeInfo {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	flex-shrink: 0;
+
+	> i {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		font-size: typography.$font-size-md;
+		color: var(--color-icon-primary-default);
+		background-color: var(--color-bg-secondary-default);
+		border-radius: border.$border-radius-small;
+	}
+}
+
+.content {
+	flex: 1;
+	min-width: 0;
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.4;
+
+	// Allow variable chips to show
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 2px;
+}
+
+.buttonPreview {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: layout.$spacing-01 layout.$spacing-02;
+	background-color: var(--color-bg-secondary-default);
+	border-radius: border.$border-radius-small;
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-medium;
+}
+
+.dividerPreview {
+	display: block;
+	width: 100%;
+	height: 1px;
+	background-color: var(--color-border-primary-default);
+}
+
+.spacerPreview {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+	font-style: italic;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-01;
+	flex-shrink: 0;
+	opacity: 0;
+	transition: opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	.root:hover &,
+	.root:focus-within &,
+	.selected & {
+		opacity: 1;
+	}
+}

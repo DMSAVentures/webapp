@@ -89,18 +89,16 @@
 // Builder layout (3-column)
 .builder {
 	display: grid;
-	grid-template-columns: 280px 1fr 360px;
+	grid-template-columns: 260px 1fr 320px;
 	gap: layout.$spacing-04;
 	flex: 1;
 	overflow: hidden;
 	padding: layout.$spacing-04;
 	background-color: var(--color-bg-secondary-default);
-	border-radius: border.$border-radius-medium;
 }
 
 // Panels
 .leftPanel,
-.centerPanel,
 .rightPanel {
 	background-color: var(--color-surface-primary-default);
 	border: border.$border-width-small solid var(--color-border-primary-default);
@@ -109,8 +107,10 @@
 }
 
 .centerPanel {
-	padding: 0;
-	overflow: visible;
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	overflow: hidden;
 }
 
 .rightPanel {
@@ -118,100 +118,112 @@
 	flex-direction: column;
 }
 
-// Variables Panel (left)
-.variablesPanel {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+// Subject editor
+.subjectEditor {
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	padding: layout.$spacing-04;
 }
 
-.variablesPanelHeader {
+// Canvas wrapper
+.canvasWrapper {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 200px;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	overflow: hidden;
+}
+
+.canvasHeader {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-05;
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-
-	i {
-		font-size: typography.$font-size-xl;
-		color: var(--color-info-default);
-	}
-
-	h3 {
-		margin: 0;
-		font-size: typography.$font-size-lg;
-		font-weight: typography.$font-weight-semibold;
-		color: var(--color-text-primary-default);
-	}
-}
-
-.variablesPanelContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-05;
-	flex: 1;
-	overflow-y: auto;
-
-	> p {
-		margin: 0;
-		font-size: typography.$font-size-sm;
-		color: var(--color-text-secondary-default);
-		line-height: typography.$line-height-normal;
-	}
-}
-
-.variablesList {
-	display: flex;
-	flex-direction: column;
 	gap: layout.$spacing-02;
-}
-
-.variableButton {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-01;
-	padding: layout.$spacing-03;
-	text-align: left;
+	padding: layout.$spacing-03 layout.$spacing-04;
 	background-color: var(--color-surface-secondary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-small;
-	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-	&:hover {
-		background-color: var(--color-bg-info-alpha);
-		border-color: var(--color-border-info-default);
-	}
-}
-
-.variableName {
-	font-family: typography.$font-family-mono;
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
 	font-size: typography.$font-size-sm;
 	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-info-default);
+	color: var(--color-text-secondary-default);
+
+	i {
+		font-size: typography.$font-size-md;
+		color: var(--color-icon-secondary-default);
+	}
 }
 
-.variableDesc {
+.blockCount {
+	margin-left: auto;
 	font-size: typography.$font-size-xs;
 	color: var(--color-text-tertiary-default);
 }
 
-// Preview Wrapper (center)
-.previewWrapper {
+.canvas {
 	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-04;
+	flex: 1;
+	overflow-y: auto;
+}
+
+.emptyCanvas {
+	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
-	padding: layout.$spacing-06;
-	overflow: auto;
-	background-color: var(--color-bg-secondary-default);
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-08;
+	color: var(--color-text-tertiary-default);
+	text-align: center;
+
+	i {
+		font-size: 48px;
+		opacity: 0.5;
+	}
+
+	p {
+		margin: 0;
+		font-size: typography.$font-size-sm;
+	}
+}
+
+// Preview section
+.previewWrapper {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 300px;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-medium;
+	overflow: hidden;
+}
+
+.previewHeader {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03 layout.$spacing-04;
+	background-color: var(--color-surface-secondary-default);
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+
+	i {
+		font-size: typography.$font-size-md;
+		color: var(--color-icon-secondary-default);
+	}
 }
 
 .emailPreview {
 	display: flex;
 	flex-direction: column;
+	margin: layout.$spacing-04 auto;
 	background-color: var(--color-surface-primary-default);
 	border: 1px solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-medium;
@@ -265,64 +277,59 @@
 
 .emailBody {
 	flex: 1;
-	min-height: 400px;
+	min-height: 300px;
 	background-color: var(--color-surface-secondary-default);
 }
 
 .emailIframe {
 	width: 100%;
 	height: 100%;
-	min-height: 400px;
+	min-height: 300px;
 	border: none;
 	background-color: var(--color-white);
 }
 
-// Editor Panel (right)
-.editorPanel {
+// No selection state
+.noSelection {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
-}
-
-.editorPanelHeader {
-	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: layout.$spacing-03;
-	padding: layout.$spacing-05;
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	height: 100%;
+	padding: layout.$spacing-08;
+	text-align: center;
+	color: var(--color-text-tertiary-default);
 
 	i {
-		font-size: typography.$font-size-xl;
-		color: var(--color-icon-primary-default);
+		font-size: 48px;
+		opacity: 0.5;
 	}
 
 	h3 {
 		margin: 0;
 		font-size: typography.$font-size-lg;
 		font-weight: typography.$font-weight-semibold;
-		color: var(--color-text-primary-default);
+		color: var(--color-text-secondary-default);
 	}
-}
 
-.editorPanelContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-05;
-	flex: 1;
-	overflow-y: auto;
+	p {
+		margin: 0;
+		font-size: typography.$font-size-sm;
+		max-width: 200px;
+	}
 }
 
 // Responsive adjustments
 @media (width <= 1440px) {
 	.builder {
-		grid-template-columns: 260px 1fr 320px;
+		grid-template-columns: 240px 1fr 300px;
 	}
 }
 
 @media (width <= 1280px) {
 	.builder {
-		grid-template-columns: 240px 1fr 300px;
+		grid-template-columns: 220px 1fr 280px;
 	}
 }
 
@@ -334,7 +341,7 @@
 
 	.leftPanel,
 	.rightPanel {
-		max-height: 400px;
+		max-height: 300px;
 	}
 
 	.header {
@@ -389,7 +396,7 @@
 
 	.leftPanel,
 	.rightPanel {
-		max-height: 300px;
+		max-height: 250px;
 	}
 
 	.testEmailForm {
@@ -397,6 +404,13 @@
 		width: 100%;
 
 		.testEmailInput {
+			width: 100%;
+		}
+	}
+
+	.emailPreview {
+		&.device_desktop,
+		&.device_tablet {
 			width: 100%;
 		}
 	}

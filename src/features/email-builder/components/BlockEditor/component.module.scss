@@ -1,0 +1,116 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.header {
+	padding: layout.$spacing-05;
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.title {
+	margin: 0;
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	padding: layout.$spacing-05;
+	flex: 1;
+	overflow-y: auto;
+}
+
+// Variable insertion helper
+.variableHelper {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03;
+	background-color: var(--color-surface-secondary-default);
+	border-radius: border.$border-radius-medium;
+	margin-top: -(layout.$spacing-02);
+}
+
+.variableHelperLabel {
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+}
+
+.variableChips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: layout.$spacing-02;
+}
+
+// Color picker field
+.colorField {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+
+	> label {
+		font-size: typography.$font-size-sm;
+		font-weight: typography.$font-weight-medium;
+		color: var(--color-text-primary-default);
+	}
+}
+
+.colorInputWrapper {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+
+	input[type="color"] {
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		border: border.$border-width-small solid var(--color-border-primary-default);
+		border-radius: border.$border-radius-medium;
+		cursor: pointer;
+		background: none;
+
+		&::-webkit-color-swatch-wrapper {
+			padding: 4px;
+		}
+
+		&::-webkit-color-swatch {
+			border: none;
+			border-radius: border.$border-radius-small;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-focus-ring-default);
+			outline-offset: 2px;
+		}
+	}
+
+	// Text input takes remaining space
+	> div {
+		flex: 1;
+	}
+}
+
+// Toggle field
+.toggleField {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+
+	> label {
+		font-size: typography.$font-size-sm;
+		font-weight: typography.$font-weight-medium;
+		color: var(--color-text-primary-default);
+		cursor: pointer;
+	}
+}

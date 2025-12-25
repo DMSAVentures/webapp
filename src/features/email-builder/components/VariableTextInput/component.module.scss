@@ -1,0 +1,253 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: layout.$spacing-02;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+}
+
+.variableButton {
+	display: inline-flex;
+	align-items: center;
+	gap: layout.$spacing-01;
+	padding: layout.$spacing-01 layout.$spacing-02;
+	background-color: var(--color-bg-info-alpha);
+	color: var(--color-text-info-default);
+	border: none;
+	border-radius: border.$border-radius-small;
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-medium;
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	i {
+		font-size: typography.$font-size-sm;
+	}
+
+	&:hover {
+		background-color: var(--color-info-default);
+		color: var(--color-text-inverse-default);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-focus-ring-default);
+		outline-offset: 2px;
+	}
+}
+
+.inputWrapper {
+	position: relative;
+}
+
+.editor {
+	min-height: 42px;
+	padding: layout.$spacing-03;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	font-size: typography.$font-size-md;
+	font-family: typography.$font-family-sans;
+	line-height: typography.$line-height-normal;
+	color: var(--color-text-primary-default);
+	outline: none;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+
+	&.empty::before {
+		content: attr(data-placeholder);
+		color: var(--color-text-tertiary-default);
+		pointer-events: none;
+	}
+
+	&.focused {
+		border-color: var(--color-border-focus-default);
+		box-shadow: 0 0 0 3px var(--color-alpha-focus);
+	}
+
+	&:hover:not(.focused) {
+		border-color: var(--color-border-primary-hover);
+	}
+}
+
+// Variable chip inside editor
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	padding: 2px layout.$spacing-02;
+	margin: 0 2px;
+	background-color: var(--color-bg-info-alpha);
+	color: var(--color-text-info-default);
+	border-radius: border.$border-radius-round;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	font-family: typography.$font-family-mono;
+	vertical-align: middle;
+	user-select: none;
+
+	i {
+		font-size: 10px;
+		opacity: 0.8;
+	}
+}
+
+// Variable dropdown menu
+.variableMenu {
+	position: absolute;
+	top: calc(100% + layout.$spacing-02);
+	left: 0;
+	right: 0;
+	max-height: 240px;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	box-shadow: var(--color-shadow-elevated);
+	overflow: hidden;
+	z-index: 100;
+	animation: slideDown motion.$duration-fast-01 motion.$easing-expressive-standard;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.variableMenuHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: layout.$spacing-02 layout.$spacing-03;
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-secondary-default);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 20px;
+		height: 20px;
+		padding: 0;
+		background: none;
+		border: none;
+		color: var(--color-icon-secondary-default);
+		cursor: pointer;
+		border-radius: border.$border-radius-small;
+		transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+		&:hover {
+			background-color: var(--color-bg-secondary-default);
+			color: var(--color-icon-primary-default);
+		}
+	}
+}
+
+.variableMenuList {
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.variableMenuItem {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	width: 100%;
+	padding: layout.$spacing-02 layout.$spacing-03;
+	background: none;
+	border: none;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		background-color: var(--color-bg-info-alpha);
+	}
+
+	&:focus-visible {
+		background-color: var(--color-bg-info-alpha);
+		outline: none;
+	}
+
+	& + & {
+		border-top: border.$border-width-small solid var(--color-border-primary-default);
+	}
+}
+
+.variableMenuItemName {
+	font-family: typography.$font-family-mono;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-info-default);
+
+	&::before {
+		content: "{{";
+		opacity: 0.5;
+	}
+
+	&::after {
+		content: "}}";
+		opacity: 0.5;
+	}
+}
+
+.variableMenuItemDesc {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+}
+
+// States
+.hasError {
+	.editor {
+		border-color: var(--color-error-default);
+
+		&.focused {
+			box-shadow: 0 0 0 3px var(--color-bg-danger-alpha);
+		}
+	}
+}
+
+.disabled {
+	.editor {
+		background-color: var(--color-bg-secondary-default);
+		color: var(--color-text-disabled-default);
+		cursor: not-allowed;
+	}
+
+	.variableButton {
+		display: none;
+	}
+}
+
+.hint {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+}
+
+.error {
+	font-size: typography.$font-size-xs;
+	color: var(--color-error-text);
+}
