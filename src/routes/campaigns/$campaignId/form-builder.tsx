@@ -62,6 +62,8 @@ function RouteComponent() {
 				})),
 				captcha_enabled: false,
 				custom_css: customCssWithDesign,
+				success_title: config.behavior.successTitle,
+				success_message: config.behavior.successMessage,
 			};
 
 			// Update campaign with form_config
@@ -166,6 +168,7 @@ function RouteComponent() {
 					campaignId={campaignId}
 					initialConfig={formConfig || undefined}
 					onSave={handleSave}
+					enabledReferralChannels={campaign.referral_config?.sharing_channels}
 				/>
 			</div>
 		</motion.div>

@@ -12,14 +12,27 @@ import {
 } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
+import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
 import { Badge } from "@/proto-design-system/badge/badge";
-import type { FormConfig, FormDesign, FormField } from "@/types/common.types";
+import type { SharingChannel } from "@/types/campaign";
+import type {
+	FormBehavior,
+	FormConfig,
+	FormDesign,
+	FormField,
+} from "@/types/common.types";
 import { FieldEditor } from "../FieldEditor/component";
 import { FieldPalette } from "../FieldPalette/component";
 import { FormCanvas } from "../FormCanvas/component";
 import { FormPreview } from "../FormPreview/component";
 import { FormStyleEditor } from "../FormStyleEditor/component";
+import { SuccessMessageEditor } from "../SuccessMessageEditor/component";
+import { SuccessScreenPreview } from "../SuccessScreenPreview/component";
 import styles from "./component.module.scss";
+
+/** Top-level builder mode */
+type BuilderMode = "form" | "success-screen";
 
 export interface FormBuilderProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onSave"> {
@@ -29,6 +42,8 @@ export interface FormBuilderProps
 	initialConfig?: FormConfig;
 	/** Callback when form is saved */
 	onSave: (config: FormConfig) => Promise<void>;
+	/** Enabled referral channels for success message preview */
+	enabledReferralChannels?: SharingChannel[];
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -67,6 +82,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	campaignId,
 	initialConfig,
 	onSave,
+	enabledReferralChannels = [],
 	className: customClassName,
 	...props
 }) {
@@ -88,7 +104,8 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 			design: DEFAULT_DESIGN,
 			behavior: {
 				submitAction: "inline-message",
-				successMessage: "Thank you for signing up!",
+				successTitle: "Thank you for signing up!",
+				successMessage: "We'll be in touch soon.",
 				duplicateHandling: "block",
 			},
 		};
@@ -119,6 +136,8 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 		return defaultConfig;
 	});
 
+	// Top-level builder mode (Form vs Success Screen)
+	const [builderMode, setBuilderMode] = useState<BuilderMode>("form");
 	const [selectedFieldId, setSelectedFieldId] = useState<string | undefined>();
 	const [showPreview, setShowPreview] = useState(false);
 	const [previewDevice, setPreviewDevice] = useState<
@@ -206,6 +225,14 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 		setHasUnsavedChanges(true);
 	}, []);
 
+	const handleBehaviorChange = useCallback((behavior: FormBehavior) => {
+		setConfig((prev) => ({
+			...prev,
+			behavior,
+		}));
+		setHasUnsavedChanges(true);
+	}, []);
+
 	const handleSave = async () => {
 		setSaving(true);
 		try {
@@ -221,6 +248,14 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 	const handleTogglePreview = () => {
 		setShowPreview(!showPreview);
+	};
+
+	const handleBuilderModeChange = (index: number) => {
+		setBuilderMode(index === 0 ? "form" : "success-screen");
+		// Clear field selection when switching modes
+		setSelectedFieldId(undefined);
+		// Reset preview when switching modes
+		setShowPreview(false);
 	};
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -270,7 +305,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					<Button
 						variant="secondary"
 						size="medium"
-						leftIcon={showPreview ? "ri-edit-line" : "ri-eye-line"}
+						leftIcon={showPreview ? "edit-line" : "eye-line"}
 						onClick={handleTogglePreview}
 					>
 						{showPreview ? "Edit" : "Preview"}
@@ -279,7 +314,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					<Button
 						variant="primary"
 						size="medium"
-						leftIcon={saving ? "ri-loader-4-line ri-spin" : "ri-save-line"}
+						leftIcon={saving ? "loader-4-line" : "save-line"}
 						onClick={handleSave}
 						disabled={saving || !hasUnsavedChanges}
 					>
@@ -288,49 +323,142 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 				</div>
 			</div>
 
-			{/* Main content */}
-			{showPreview ? (
-				<div className={styles.previewContainer}>
-					<FormPreview config={config} device={previewDevice} />
-				</div>
-			) : (
-				<div className={styles.builder}>
-					{/* Left panel - Field Palette */}
-					<aside className={styles.leftPanel}>
-						<FieldPalette onFieldSelect={handleFieldSelect} />
-					</aside>
+			{/* Top-level Mode Tabs */}
+			<div className={styles.modeTabs}>
+				<TabMenuHorizontal
+					items={[
+						<TabMenuHorizontalItem
+							key="form"
+							active={builderMode === "form"}
+							leftIcon="ri-file-list-3-line"
+							text="Form"
+						/>,
+						<TabMenuHorizontalItem
+							key="success-screen"
+							active={builderMode === "success-screen"}
+							leftIcon="ri-check-double-line"
+							text="Success Screen"
+						/>,
+					]}
+					activeTab={builderMode === "form" ? 0 : 1}
+					onTabClick={handleBuilderModeChange}
+				/>
+			</div>
 
-					{/* Center panel - Form Canvas */}
-					<main className={styles.centerPanel}>
-						<FormCanvas
-							fields={config.fields}
-							onFieldsChange={handleFieldsChange}
-							onFieldSelect={setSelectedFieldId}
-							selectedFieldId={selectedFieldId}
-							layout={config.design.layout}
-						/>
-					</main>
+			{/* Main content based on builder mode */}
+			{builderMode === "form" ? (
+				// FORM MODE
+				showPreview ? (
+					<div className={styles.previewContainer}>
+						<FormPreview config={config} device={previewDevice} />
+					</div>
+				) : (
+					<div className={styles.builder}>
+						{/* Left panel - Field Palette */}
+						<aside className={styles.leftPanel}>
+							<FieldPalette onFieldSelect={handleFieldSelect} />
+						</aside>
 
-					{/* Right panel - Field Editor or Style Editor */}
-					<aside className={styles.rightPanel}>
-						{selectedFieldId ? (
-							<FieldEditor
-								field={
-									config.fields.find((f) => f.id === selectedFieldId) || null
-								}
-								allFields={config.fields}
-								onFieldUpdate={handleFieldUpdate}
-								onClose={() => setSelectedFieldId(undefined)}
-							/>
-						) : (
-							<FormStyleEditor
-								design={config.design}
-								onChange={handleDesignChange}
+						{/* Center panel - Form Canvas */}
+						<main className={styles.centerPanel}>
+							<FormCanvas
+								fields={config.fields}
+								onFieldsChange={handleFieldsChange}
+								onFieldSelect={setSelectedFieldId}
 								selectedFieldId={selectedFieldId}
+								layout={config.design.layout}
 							/>
-						)}
-					</aside>
-				</div>
+						</main>
+
+						{/* Right panel - Field Editor or Style Editor */}
+						<aside className={styles.rightPanel}>
+							{selectedFieldId ? (
+								<FieldEditor
+									field={
+										config.fields.find((f) => f.id === selectedFieldId) || null
+									}
+									allFields={config.fields}
+									onFieldUpdate={handleFieldUpdate}
+									onClose={() => setSelectedFieldId(undefined)}
+								/>
+							) : (
+								<FormStyleEditor
+									design={config.design}
+									onChange={handleDesignChange}
+									selectedFieldId={selectedFieldId}
+								/>
+							)}
+						</aside>
+					</div>
+				)
+			) : (
+				// SUCCESS SCREEN MODE
+				showPreview ? (
+					<div className={styles.previewContainer}>
+						<SuccessScreenPreview
+							design={config.design}
+							behavior={config.behavior}
+							device={previewDevice}
+							showReferralLinks={enabledReferralChannels.length > 0}
+							enabledChannels={enabledReferralChannels}
+						/>
+					</div>
+				) : (
+					<div className={styles.builder}>
+						{/* Left panel - Info/Tips */}
+						<aside className={styles.leftPanel}>
+							<div className={styles.successInfoPanel}>
+								<div className={styles.successInfoHeader}>
+									<i className="ri-lightbulb-line" aria-hidden="true" />
+									<h3>Success Screen Tips</h3>
+								</div>
+								<div className={styles.successInfoContent}>
+									<p>
+										The success screen is shown to users after they sign up.
+										Make it memorable!
+									</p>
+									<ul>
+										<li>Keep your title concise and welcoming</li>
+										<li>Tell users what to expect next</li>
+										<li>Enable referrals to boost viral growth</li>
+									</ul>
+									{enabledReferralChannels.length > 0 && (
+										<div className={styles.referralBadge}>
+											<i className="ri-share-line" aria-hidden="true" />
+											<span>
+												Referrals enabled ({enabledReferralChannels.length}{" "}
+												channels)
+											</span>
+										</div>
+									)}
+								</div>
+							</div>
+						</aside>
+
+						{/* Center panel - Success Screen Preview */}
+						<main className={styles.centerPanel}>
+							<div className={styles.successPreviewWrapper}>
+								<SuccessScreenPreview
+									design={config.design}
+									behavior={config.behavior}
+									device="desktop"
+									showReferralLinks={enabledReferralChannels.length > 0}
+									enabledChannels={enabledReferralChannels}
+								/>
+							</div>
+						</main>
+
+						{/* Right panel - Success Message Editor */}
+						<aside className={styles.rightPanel}>
+							<SuccessMessageEditor
+								behavior={config.behavior}
+								design={config.design}
+								enabledChannels={enabledReferralChannels}
+								onChange={handleBehaviorChange}
+							/>
+						</aside>
+					</div>
+				)
 			)}
 		</div>
 	);

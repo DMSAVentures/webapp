@@ -78,6 +78,101 @@
   padding: 0; // FormCanvas handles its own padding
 }
 
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+// Top-level Mode Tabs
+.modeTabs {
+  flex-shrink: 0;
+  padding: 0 layout.$spacing-05;
+  background-color: var(--color-surface-primary-default);
+  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+// Success Info Panel (left panel in success screen mode)
+.successInfoPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.successInfoHeader {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-05;
+  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+
+  i {
+    font-size: typography.$font-size-xl;
+    color: var(--color-warning-default);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: typography.$font-size-lg;
+    font-weight: typography.$font-weight-semibold;
+    color: var(--color-text-primary-default);
+  }
+}
+
+.successInfoContent {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-05;
+
+  p {
+    margin: 0;
+    font-size: typography.$font-size-sm;
+    color: var(--color-text-secondary-default);
+    line-height: 1.5;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: layout.$spacing-05;
+    font-size: typography.$font-size-sm;
+    color: var(--color-text-secondary-default);
+
+    li {
+      margin-bottom: layout.$spacing-02;
+      line-height: 1.5;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.referralBadge {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
+  padding: layout.$spacing-03;
+  background-color: var(--color-bg-success-alpha);
+  border-radius: border.$border-radius-small;
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-success-default);
+  font-weight: typography.$font-weight-medium;
+
+  i {
+    font-size: typography.$font-size-md;
+  }
+}
+
+// Success Preview Wrapper (centers the preview in center panel)
+.successPreviewWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: layout.$spacing-04;
+}
+
 // Preview container
 .previewContainer {
   flex: 1;
@@ -132,6 +227,10 @@
 @media (width <= 768px) {
   .header {
     padding: layout.$spacing-04;
+  }
+
+  .modeTabs {
+    padding: 0 layout.$spacing-04;
   }
 
   .title {

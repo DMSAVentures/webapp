@@ -59,6 +59,10 @@ export interface FormConfig {
 	captcha?: CaptchaFormConfig;
 	double_opt_in?: boolean;
 	custom_css?: string;
+	/** Custom success title shown after signup */
+	success_title?: string;
+	/** Custom success message shown after signup */
+	success_message?: string;
 }
 
 export interface FormField {

@@ -33,7 +33,8 @@ const DEFAULT_DESIGN = {
 /** Default behavior configuration */
 const DEFAULT_BEHAVIOR = {
 	submitAction: "inline-message",
-	successMessage: "Thank you for signing up!",
+	successTitle: "Thank you for signing up!",
+	successMessage: "We'll be in touch soon.",
 	duplicateHandling: "block",
 } as const satisfies FormBehavior;
 
@@ -95,12 +96,23 @@ export const useFormConfigFromCampaign = (
 			}
 		}
 
+		// Build behavior config with custom success messages if available
+		const behavior: FormBehavior = {
+			...DEFAULT_BEHAVIOR,
+			...(campaign.form_config.success_title && {
+				successTitle: campaign.form_config.success_title,
+			}),
+			...(campaign.form_config.success_message && {
+				successMessage: campaign.form_config.success_message,
+			}),
+		};
+
 		return {
 			id: `form-${campaign.id}`,
 			campaignId: campaign.id,
 			fields: uiFields,
 			design,
-			behavior: { ...DEFAULT_BEHAVIOR },
+			behavior,
 		};
 	}, [campaign]);
 };

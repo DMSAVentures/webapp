@@ -164,6 +164,7 @@ export interface FormDesign {
 export interface FormBehavior {
 	submitAction: "inline-message" | "redirect" | "referral-page";
 	redirectUrl?: string;
+	successTitle?: string;
 	successMessage?: string;
 	duplicateHandling: "block" | "update" | "allow";
 }

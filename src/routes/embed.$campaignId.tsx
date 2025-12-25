@@ -157,6 +157,8 @@ function RouteComponent() {
 				mode="interactive"
 				onSubmit={handleSubmit}
 				submitText={formConfig.design.submitButtonText}
+				successTitle={campaign.form_config?.success_title}
+				successMessage={campaign.form_config?.success_message}
 				signupData={signupData}
 				enabledChannels={campaign.referral_config?.sharing_channels}
 				embedUrl={embedUrl}

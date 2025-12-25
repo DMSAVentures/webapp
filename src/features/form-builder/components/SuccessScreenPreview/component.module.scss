@@ -1,0 +1,274 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/motion" as motion;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	min-height: 600px;
+	overflow: auto;
+}
+
+// Device frame (matches FormPreview)
+.deviceFrame {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-large;
+	box-shadow: 0 8px 24px var(--color-shadow-elevated);
+	overflow: hidden;
+	transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+}
+
+// Device header (browser chrome)
+.deviceHeader {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-03 layout.$spacing-04;
+	background-color: var(--color-bg-secondary-default);
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+}
+
+.deviceControls {
+	display: flex;
+	gap: layout.$spacing-02;
+}
+
+.deviceDot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color: var(--color-border-secondary-default);
+
+	&:first-child {
+		background-color: var(--color-error-default);
+	}
+
+	&:nth-child(2) {
+		background-color: var(--color-warning-default);
+	}
+
+	&:nth-child(3) {
+		background-color: var(--color-success-default);
+	}
+}
+
+.deviceTitle {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	text-transform: capitalize;
+	font-weight: typography.$font-weight-medium;
+}
+
+// Preview content area
+.previewContent {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	overflow-y: auto;
+}
+
+// Success screen container
+.successScreen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	background-color: var(--form-bg-color, var(--color-surface-primary-default));
+	padding: calc(var(--form-padding, layout.$spacing-04) * 2);
+	border-radius: var(--form-border-radius, border.$border-radius-medium);
+}
+
+// Success icon
+.successIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 72px;
+	height: 72px;
+	margin-bottom: var(--form-gap, layout.$spacing-04);
+	border-radius: 50%;
+	background-color: var(--form-success-color, var(--color-success-default));
+	color: #ffffff;
+
+	i {
+		font-size: 36px;
+	}
+}
+
+.successTitle {
+	margin: 0 0 layout.$spacing-02;
+	font-family: var(--form-font-family, inherit);
+	font-size: calc(var(--form-font-size, 16px) * 1.5);
+	font-weight: typography.$font-weight-semibold;
+	color: var(--form-text-color, var(--color-text-primary-default));
+}
+
+.successMessage {
+	margin: 0;
+	font-family: var(--form-font-family, inherit);
+	font-size: var(--form-font-size, 16px);
+	color: var(--form-text-color, var(--color-text-primary-default));
+	opacity: 0.8;
+}
+
+// Referral section
+.referralSection {
+	width: 100%;
+	margin-top: calc(var(--form-gap, layout.$spacing-04) * 1.5);
+	padding-top: calc(var(--form-gap, layout.$spacing-04) * 1.5);
+	border-top: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
+}
+
+.referralHeader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: layout.$spacing-02;
+	margin-bottom: var(--form-gap, layout.$spacing-04);
+	font-family: var(--form-font-family, inherit);
+	font-size: var(--form-font-size, 16px);
+	font-weight: typography.$font-weight-medium;
+	color: var(--form-text-color, var(--color-text-primary-default));
+
+	i {
+		color: var(--form-primary-color, var(--color-primary));
+	}
+}
+
+.channelList {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.channelCard {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-03;
+	background-color: var(--form-bg-color, var(--color-surface-primary-default));
+	border: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
+	border-radius: calc(var(--form-border-radius, border.$border-radius-medium) / 2);
+}
+
+.channelInfo {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	font-family: var(--form-font-family, inherit);
+	font-size: calc(var(--form-font-size, 16px) * 0.875);
+	font-weight: typography.$font-weight-medium;
+	color: var(--form-text-color, var(--color-text-primary-default));
+
+	i {
+		font-size: calc(var(--form-font-size, 16px) * 1.25);
+	}
+}
+
+.channelLink {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	font-family: var(--form-font-family, inherit);
+	font-size: calc(var(--form-font-size, 16px) * 0.75);
+	color: var(--form-text-color, var(--color-text-primary-default));
+	opacity: 0.7;
+
+	span {
+		max-width: 150px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+.copyButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: layout.$spacing-01;
+	background: transparent;
+	border: none;
+	color: var(--form-primary-color, var(--color-primary));
+	cursor: default;
+	pointer-events: none;
+
+	i {
+		font-size: calc(var(--form-font-size, 16px) * 0.875);
+	}
+}
+
+// Device size variants (matches FormPreview)
+.device_desktop {
+	.deviceFrame {
+		width: 100%;
+		max-width: 1200px;
+		min-height: 600px;
+	}
+}
+
+.device_tablet {
+	.deviceFrame {
+		width: 768px;
+		min-height: 600px;
+	}
+}
+
+.device_mobile {
+	.deviceFrame {
+		width: 375px;
+		min-height: 667px;
+	}
+}
+
+// Responsive adjustments
+@media (width <= 1280px) {
+	.device_desktop .deviceFrame {
+		max-width: 960px;
+	}
+}
+
+@media (width <= 1024px) {
+	.device_desktop .deviceFrame,
+	.device_tablet .deviceFrame {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+@media (width <= 768px) {
+	.root {
+		min-height: 400px;
+	}
+
+	.device_mobile .deviceFrame,
+	.device_tablet .deviceFrame,
+	.device_desktop .deviceFrame {
+		width: 100%;
+		min-height: 400px;
+	}
+
+	.deviceHeader {
+		padding: layout.$spacing-02 layout.$spacing-03;
+	}
+
+	.deviceDot {
+		width: 10px;
+		height: 10px;
+	}
+
+	.successIcon {
+		width: 56px;
+		height: 56px;
+
+		i {
+			font-size: 28px;
+		}
+	}
+}
