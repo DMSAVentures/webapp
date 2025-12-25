@@ -348,19 +348,19 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 			{/* Main content based on builder mode */}
 			{builderMode === "form" ? (
 				// FORM MODE
-				showPreview ? (
-					<div className={styles.previewContainer}>
-						<FormPreview config={config} device={previewDevice} />
-					</div>
-				) : (
-					<div className={styles.builder}>
-						{/* Left panel - Field Palette */}
-						<aside className={styles.leftPanel}>
-							<FieldPalette onFieldSelect={handleFieldSelect} />
-						</aside>
+				<div className={styles.builder}>
+					{/* Left panel - Field Palette */}
+					<aside className={styles.leftPanel}>
+						<FieldPalette onFieldSelect={handleFieldSelect} />
+					</aside>
 
-						{/* Center panel - Form Canvas */}
-						<main className={styles.centerPanel}>
+					{/* Center panel - Form Canvas or Preview */}
+					<main className={styles.centerPanel}>
+						{showPreview ? (
+							<div className={styles.formPreviewWrapper}>
+								<FormPreview config={config} device={previewDevice} />
+							</div>
+						) : (
 							<FormCanvas
 								fields={config.fields}
 								onFieldsChange={handleFieldsChange}
@@ -368,97 +368,85 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 								selectedFieldId={selectedFieldId}
 								layout={config.design.layout}
 							/>
-						</main>
+						)}
+					</main>
 
-						{/* Right panel - Field Editor or Style Editor */}
-						<aside className={styles.rightPanel}>
-							{selectedFieldId ? (
-								<FieldEditor
-									field={
-										config.fields.find((f) => f.id === selectedFieldId) || null
-									}
-									allFields={config.fields}
-									onFieldUpdate={handleFieldUpdate}
-									onClose={() => setSelectedFieldId(undefined)}
-								/>
-							) : (
-								<FormStyleEditor
-									design={config.design}
-									onChange={handleDesignChange}
-									selectedFieldId={selectedFieldId}
-								/>
-							)}
-						</aside>
-					</div>
-				)
+					{/* Right panel - Field Editor or Style Editor */}
+					<aside className={styles.rightPanel}>
+						{selectedFieldId ? (
+							<FieldEditor
+								field={
+									config.fields.find((f) => f.id === selectedFieldId) || null
+								}
+								allFields={config.fields}
+								onFieldUpdate={handleFieldUpdate}
+								onClose={() => setSelectedFieldId(undefined)}
+							/>
+						) : (
+							<FormStyleEditor
+								design={config.design}
+								onChange={handleDesignChange}
+								selectedFieldId={selectedFieldId}
+							/>
+						)}
+					</aside>
+				</div>
 			) : (
 				// SUCCESS SCREEN MODE
-				showPreview ? (
-					<div className={styles.previewContainer}>
-						<SuccessScreenPreview
-							design={config.design}
-							behavior={config.behavior}
-							device={previewDevice}
-							showReferralLinks={enabledReferralChannels.length > 0}
-							enabledChannels={enabledReferralChannels}
-						/>
-					</div>
-				) : (
-					<div className={styles.builder}>
-						{/* Left panel - Info/Tips */}
-						<aside className={styles.leftPanel}>
-							<div className={styles.successInfoPanel}>
-								<div className={styles.successInfoHeader}>
-									<i className="ri-lightbulb-line" aria-hidden="true" />
-									<h3>Success Screen Tips</h3>
-								</div>
-								<div className={styles.successInfoContent}>
-									<p>
-										The success screen is shown to users after they sign up.
-										Make it memorable!
-									</p>
-									<ul>
-										<li>Keep your title concise and welcoming</li>
-										<li>Tell users what to expect next</li>
-										<li>Enable referrals to boost viral growth</li>
-									</ul>
-									{enabledReferralChannels.length > 0 && (
-										<div className={styles.referralBadge}>
-											<i className="ri-share-line" aria-hidden="true" />
-											<span>
-												Referrals enabled ({enabledReferralChannels.length}{" "}
-												channels)
-											</span>
-										</div>
-									)}
-								</div>
+				<div className={styles.builder}>
+					{/* Left panel - Info/Tips */}
+					<aside className={styles.leftPanel}>
+						<div className={styles.successInfoPanel}>
+							<div className={styles.successInfoHeader}>
+								<i className="ri-lightbulb-line" aria-hidden="true" />
+								<h3>Success Screen Tips</h3>
 							</div>
-						</aside>
-
-						{/* Center panel - Success Screen Preview */}
-						<main className={styles.centerPanel}>
-							<div className={styles.successPreviewWrapper}>
-								<SuccessScreenPreview
-									design={config.design}
-									behavior={config.behavior}
-									device="desktop"
-									showReferralLinks={enabledReferralChannels.length > 0}
-									enabledChannels={enabledReferralChannels}
-								/>
+							<div className={styles.successInfoContent}>
+								<p>
+									The success screen is shown to users after they sign up.
+									Make it memorable!
+								</p>
+								<ul>
+									<li>Keep your title concise and welcoming</li>
+									<li>Tell users what to expect next</li>
+									<li>Enable referrals to boost viral growth</li>
+								</ul>
+								{enabledReferralChannels.length > 0 && (
+									<div className={styles.referralBadge}>
+										<i className="ri-share-line" aria-hidden="true" />
+										<span>
+											Referrals enabled ({enabledReferralChannels.length}{" "}
+											channels)
+										</span>
+									</div>
+								)}
 							</div>
-						</main>
+						</div>
+					</aside>
 
-						{/* Right panel - Success Message Editor */}
-						<aside className={styles.rightPanel}>
-							<SuccessMessageEditor
-								behavior={config.behavior}
+					{/* Center panel - Success Screen Preview */}
+					<main className={styles.centerPanel}>
+						<div className={styles.successPreviewWrapper}>
+							<SuccessScreenPreview
 								design={config.design}
+								behavior={config.behavior}
+								device={showPreview ? previewDevice : "desktop"}
+								showReferralLinks={enabledReferralChannels.length > 0}
 								enabledChannels={enabledReferralChannels}
-								onChange={handleBehaviorChange}
 							/>
-						</aside>
-					</div>
-				)
+						</div>
+					</main>
+
+					{/* Right panel - Success Message Editor */}
+					<aside className={styles.rightPanel}>
+						<SuccessMessageEditor
+							behavior={config.behavior}
+							design={config.design}
+							enabledChannels={enabledReferralChannels}
+							onChange={handleBehaviorChange}
+						/>
+					</aside>
+				</div>
 			)}
 		</div>
 	);

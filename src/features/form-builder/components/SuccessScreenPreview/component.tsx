@@ -3,7 +3,7 @@
  * Live preview of the success screen with device frame (matches FormPreview style)
  */
 
-import { type HTMLAttributes, memo } from "react";
+import { type HTMLAttributes, memo, useState, useCallback } from "react";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
@@ -23,15 +23,6 @@ export interface SuccessScreenPreviewProps extends HTMLAttributes<HTMLDivElement
 	/** Additional CSS class name */
 	className?: string;
 }
-
-/** Mock referral codes for preview */
-const MOCK_REFERRAL_CODES: Partial<Record<SharingChannel, string>> = {
-	twitter: "ABC123",
-	facebook: "DEF456",
-	linkedin: "GHI789",
-	whatsapp: "JKL012",
-	email: "MNO345",
-};
 
 /** Channel display configuration */
 const channelConfigs: Record<SharingChannel, { label: string; icon: string }> = {
@@ -56,6 +47,19 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 		...props
 	}) {
 		const formStyles = useFormStyles(design);
+		const [copiedChannel, setCopiedChannel] = useState<SharingChannel | null>(null);
+
+		const handleCopyLink = useCallback(async (channel: SharingChannel) => {
+			// Generate a mock referral link for the preview
+			const mockLink = `https://yoursite.com/ref/${channel.toUpperCase()}123`;
+			try {
+				await navigator.clipboard.writeText(mockLink);
+				setCopiedChannel(channel);
+				setTimeout(() => setCopiedChannel(null), 2000);
+			} catch (err) {
+				console.error("Failed to copy:", err);
+			}
+		}, []);
 
 		const classNames = [styles.root, styles[`device_${device}`], customClassName]
 			.filter(Boolean)
@@ -89,31 +93,38 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 							{/* Referral Links Section */}
 							{channelsToShow.length > 0 && (
 								<div className={styles.referralSection}>
-									<div className={styles.referralHeader}>
-										<i className="ri-share-forward-fill" aria-hidden="true" />
-										<span>Share with friends & move up!</span>
-									</div>
+									<p className={styles.referralText}>
+										Share your unique link & move up!
+									</p>
 									<div className={styles.channelList}>
 										{channelsToShow.map((channel) => {
 											const config = channelConfigs[channel];
-											const code = MOCK_REFERRAL_CODES[channel];
+											const isCopied = copiedChannel === channel;
 											return (
-												<div key={channel} className={styles.channelCard}>
-													<div className={styles.channelInfo}>
+												<button
+													key={channel}
+													type="button"
+													className={`${styles.channelRow} ${isCopied ? styles.channelRowCopied : ""}`}
+													onClick={() => handleCopyLink(channel)}
+												>
+													<div className={styles.channelIcon}>
 														<i className={config.icon} aria-hidden="true" />
-														<span>{config.label}</span>
 													</div>
-													<div className={styles.channelLink}>
-														<span>yoursite.com?ref={code}</span>
-														<button
-															type="button"
-															className={styles.copyButton}
-															tabIndex={-1}
-														>
-															<i className="ri-file-copy-line" aria-hidden="true" />
-														</button>
-													</div>
-												</div>
+													<span className={styles.channelName}>{config.label}</span>
+													<span className={styles.copyLabel}>
+														{isCopied ? (
+															<>
+																<i className="ri-check-line" aria-hidden="true" />
+																<span>Copied!</span>
+															</>
+														) : (
+															<>
+																<i className="ri-file-copy-line" aria-hidden="true" />
+																<span>Copy link</span>
+															</>
+														)}
+													</span>
+												</button>
 											);
 										})}
 									</div>

@@ -76,6 +76,7 @@
 
 .centerPanel {
   padding: 0; // FormCanvas handles its own padding
+  overflow: visible; // Allow shadows to show
 }
 
 .rightPanel {
@@ -164,13 +165,17 @@
   }
 }
 
-// Success Preview Wrapper (centers the preview in center panel)
+// Preview Wrappers (centers the preview in center panel)
+.formPreviewWrapper,
 .successPreviewWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: layout.$spacing-04;
+  padding: layout.$spacing-06;
+  overflow: auto;
+  background-color: var(--color-bg-secondary-default);
+  border-radius: border.$border-radius-medium;
 }
 
 // Preview container

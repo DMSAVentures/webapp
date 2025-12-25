@@ -19,7 +19,10 @@
 	background-color: var(--color-surface-primary-default);
 	border: border.$border-width-small solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-large;
-	box-shadow: 0 8px 24px var(--color-shadow-elevated);
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -2px rgba(0, 0, 0, 0.1),
+		0 10px 25px -5px rgba(0, 0, 0, 0.15);
 	overflow: hidden;
 	transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
 }
@@ -124,20 +127,13 @@
 	border-top: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
 }
 
-.referralHeader {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: layout.$spacing-02;
-	margin-bottom: var(--form-gap, layout.$spacing-04);
+.referralText {
+	margin: 0 0 var(--form-gap, layout.$spacing-04);
 	font-family: var(--form-font-family, inherit);
-	font-size: var(--form-font-size, 16px);
+	font-size: calc(var(--form-font-size, 16px) * 0.875);
 	font-weight: typography.$font-weight-medium;
 	color: var(--form-text-color, var(--color-text-primary-default));
-
-	i {
-		color: var(--form-primary-color, var(--color-primary));
-	}
+	opacity: 0.8;
 }
 
 .channelList {
@@ -146,24 +142,40 @@
 	gap: layout.$spacing-02;
 }
 
-.channelCard {
+.channelRow {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	gap: layout.$spacing-03;
 	padding: layout.$spacing-03;
 	background-color: var(--form-bg-color, var(--color-surface-primary-default));
 	border: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
 	border-radius: calc(var(--form-border-radius, border.$border-radius-medium) / 2);
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		border-color: var(--form-primary-color, var(--color-primary));
+	}
+
+	&:active {
+		transform: scale(0.98);
+	}
 }
 
-.channelInfo {
+.channelRowCopied {
+	border-color: var(--form-success-color, var(--color-success-default));
+
+	.copyLabel {
+		color: var(--form-success-color, var(--color-success-default));
+	}
+}
+
+.channelIcon {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	font-family: var(--form-font-family, inherit);
-	font-size: calc(var(--form-font-size, 16px) * 0.875);
-	font-weight: typography.$font-weight-medium;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
 	color: var(--form-text-color, var(--color-text-primary-default));
 
 	i {
@@ -171,33 +183,23 @@
 	}
 }
 
-.channelLink {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-02;
+.channelName {
+	flex: 1;
+	text-align: left;
 	font-family: var(--form-font-family, inherit);
-	font-size: calc(var(--form-font-size, 16px) * 0.75);
+	font-size: calc(var(--form-font-size, 16px) * 0.875);
+	font-weight: typography.$font-weight-medium;
 	color: var(--form-text-color, var(--color-text-primary-default));
-	opacity: 0.7;
-
-	span {
-		max-width: 150px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
 }
 
-.copyButton {
+.copyLabel {
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	padding: layout.$spacing-01;
-	background: transparent;
-	border: none;
+	gap: layout.$spacing-01;
+	font-family: var(--form-font-family, inherit);
+	font-size: calc(var(--form-font-size, 16px) * 0.75);
+	font-weight: typography.$font-weight-medium;
 	color: var(--form-primary-color, var(--color-primary));
-	cursor: default;
-	pointer-events: none;
 
 	i {
 		font-size: calc(var(--form-font-size, 16px) * 0.875);
