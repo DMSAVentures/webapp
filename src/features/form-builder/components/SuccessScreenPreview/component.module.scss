@@ -136,6 +136,59 @@
 	opacity: 0.8;
 }
 
+.nativeShareButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: layout.$spacing-02;
+	width: 100%;
+	padding: layout.$spacing-03 layout.$spacing-04;
+	background-color: var(--form-primary-color, var(--color-primary));
+	border: none;
+	border-radius: var(--form-border-radius, border.$border-radius-medium);
+	color: #ffffff;
+	font-family: var(--form-font-family, inherit);
+	font-size: var(--form-font-size, 16px);
+	font-weight: typography.$font-weight-medium;
+	cursor: pointer;
+	transition: opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		opacity: 0.9;
+	}
+
+	&:active {
+		transform: scale(0.98);
+	}
+
+	i {
+		font-size: calc(var(--form-font-size, 16px) * 1.25);
+	}
+}
+
+.dividerWithText {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	margin: var(--form-gap, layout.$spacing-04) 0;
+
+	&::before,
+	&::after {
+		content: "";
+		flex: 1;
+		height: 1px;
+		background-color: var(--form-border-color, var(--color-border-primary-default));
+	}
+
+	span {
+		font-family: var(--form-font-family, inherit);
+		font-size: calc(var(--form-font-size, 16px) * 0.75);
+		color: var(--form-text-color, var(--color-text-primary-default));
+		opacity: 0.6;
+		white-space: nowrap;
+	}
+}
+
 .channelList {
 	display: flex;
 	flex-direction: column;

@@ -20,6 +20,8 @@ export interface SuccessScreenPreviewProps extends HTMLAttributes<HTMLDivElement
 	showReferralLinks?: boolean;
 	/** Enabled sharing channels */
 	enabledChannels?: SharingChannel[];
+	/** Referral links per channel (from API response) */
+	referralLinks?: Partial<Record<SharingChannel, string>>;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -43,23 +45,43 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 		device = "desktop",
 		showReferralLinks = false,
 		enabledChannels = [],
+		referralLinks,
 		className: customClassName,
 		...props
 	}) {
 		const formStyles = useFormStyles(design);
 		const [copiedChannel, setCopiedChannel] = useState<SharingChannel | null>(null);
 
+		// Use provided links or fall back to mock links for preview
+		const links = referralLinks;
+
 		const handleCopyLink = useCallback(async (channel: SharingChannel) => {
-			// Generate a mock referral link for the preview
-			const mockLink = `https://yoursite.com/ref/${channel.toUpperCase()}123`;
+			const link = links![channel]!;
 			try {
-				await navigator.clipboard.writeText(mockLink);
+				await navigator.clipboard.writeText(link);
 				setCopiedChannel(channel);
 				setTimeout(() => setCopiedChannel(null), 2000);
 			} catch (err) {
 				console.error("Failed to copy:", err);
 			}
-		}, []);
+		}, [links]);
+
+		const handleNativeShare = useCallback(async () => {
+			// Use email channel link for native share
+			const shareLink = links.email;
+			if (navigator.share) {
+				try {
+					await navigator.share({
+						title: "Join me!",
+						text: "Sign up using my referral link",
+						url: shareLink,
+					});
+				} catch (err) {
+					// User cancelled or share failed
+					console.log("Share cancelled or failed:", err);
+				}
+			}
+		}, [links]);
 
 		const classNames = [styles.root, styles[`device_${device}`], customClassName]
 			.filter(Boolean)
@@ -96,6 +118,21 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 									<p className={styles.referralText}>
 										Share your unique link & move up!
 									</p>
+
+									{/* Native Share Button */}
+									<button
+										type="button"
+										className={styles.nativeShareButton}
+										onClick={handleNativeShare}
+									>
+										<i className="ri-share-line" aria-hidden="true" />
+										<span>Share</span>
+									</button>
+
+									<div className={styles.dividerWithText}>
+										<span>or copy link for</span>
+									</div>
+
 									<div className={styles.channelList}>
 										{channelsToShow.map((channel) => {
 											const config = channelConfigs[channel];
