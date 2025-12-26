@@ -3,9 +3,7 @@ import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
 import { CampaignTabNav } from "@/features/campaigns/components/CampaignTabNav/component";
 import { CampaignContext } from "@/features/campaigns/contexts/CampaignContext";
-import { useCampaignHelpers } from "@/hooks/useCampaignStatus";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { Badge } from "@/proto-design-system/badge/badge";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
@@ -18,7 +16,6 @@ export const Route = createFileRoute("/campaigns/$campaignId")({
 
 function CampaignLayout() {
 	const { campaignId } = Route.useParams();
-	const { getStatusVariant, getTypeLabel } = useCampaignHelpers();
 	const {
 		data: campaign,
 		loading,
@@ -53,37 +50,17 @@ function CampaignLayout() {
 				transition={{ duration: 0.6 }}
 			>
 				<header className={styles.header}>
-					<div className={styles.headerTop}>
-						<Breadcrumb
-							items={[
-								<BreadcrumbItem
-									key="campaigns"
-									state="default"
-									path="/campaigns"
-								>
-									Campaigns
-								</BreadcrumbItem>,
-								<BreadcrumbItem key="current" state="active">
-									{campaign.name}
-								</BreadcrumbItem>,
-							]}
-							divider="arrow"
-						/>
-						<div className={styles.badges}>
-							<Badge
-								text={campaign.status}
-								variant={getStatusVariant(campaign.status)}
-								styleType="light"
-								size="medium"
-							/>
-							<Badge
-								text={getTypeLabel(campaign.type)}
-								variant="purple"
-								styleType="light"
-								size="medium"
-							/>
-						</div>
-					</div>
+					<Breadcrumb
+						items={[
+							<BreadcrumbItem key="campaigns" state="default" path="/campaigns">
+								Campaigns
+							</BreadcrumbItem>,
+							<BreadcrumbItem key="current" state="active">
+								{campaign.name}
+							</BreadcrumbItem>,
+						]}
+						divider="arrow"
+					/>
 					<CampaignTabNav campaignId={campaignId} />
 				</header>
 

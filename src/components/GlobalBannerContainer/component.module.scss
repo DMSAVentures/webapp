@@ -1,0 +1,12 @@
+@use "@/design-tokens/layout" as layout;
+
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03 layout.$spacing-05;
+}
+
+.bannerWrapper {
+	width: 100%;
+}

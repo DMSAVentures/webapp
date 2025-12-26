@@ -187,9 +187,7 @@ export function WaitlistForm() {
 						<Button
 							variant="secondary"
 							leftIcon={
-								copiedType === "iFrame"
-									? "ri-check-line"
-									: "ri-file-copy-line"
+								copiedType === "iFrame" ? "ri-check-line" : "ri-file-copy-line"
 							}
 							onClick={() => handleCopy(iframeCode, "iFrame")}
 						>
@@ -205,8 +203,8 @@ export function WaitlistForm() {
 						JavaScript Snippet (Recommended)
 					</h3>
 					<p className={styles.cardDescription}>
-						Automatically detects and passes ref codes from your page URL
-						(e.g., yoursite.com/signup?ref=ABC123)
+						Automatically detects and passes ref codes from your page URL (e.g.,
+						yoursite.com/signup?ref=ABC123)
 					</p>
 					<div className={styles.codeBlock}>
 						<div className={styles.codeContent}>
@@ -262,7 +260,6 @@ export function WaitlistForm() {
 						</Button>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	);

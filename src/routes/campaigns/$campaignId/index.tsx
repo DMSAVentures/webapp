@@ -1,8 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import { CampaignFormPreview } from "@/features/campaigns/components/CampaignFormPreview/component";
 import { CampaignStats } from "@/features/campaigns/components/CampaignStats/component";
 import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
+import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
+import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
+import { Button } from "@/proto-design-system/Button/button";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
+import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
 
@@ -13,7 +19,73 @@ export const Route = createFileRoute("/campaigns/$campaignId/")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
-	const { campaign } = useCampaignContext();
+	const { campaign, refetch } = useCampaignContext();
+	const { templates: emailTemplates, loading: emailTemplatesLoading } =
+		useGetEmailTemplates(campaign?.id ?? "");
+	const {
+		updateStatus,
+		loading: updatingStatus,
+		error: statusError,
+	} = useUpdateCampaignStatus();
+	const { showBanner } = useGlobalBanner();
+
+	// Check setup status
+	const hasFormFields = campaign?.formFields && campaign.formFields.length > 0;
+	const isDraft = campaign?.status === "draft";
+	const isActive = campaign?.status === "active";
+	const isPaused = campaign?.status === "paused";
+
+	// Check email template requirements based on settings
+	const needsVerificationEmail =
+		campaign?.emailSettings?.verificationRequired ?? false;
+	const needsWelcomeEmail = campaign?.emailSettings?.sendWelcomeEmail ?? false;
+	const hasVerificationTemplate = emailTemplates?.some(
+		(t) => t.type === "verification",
+	);
+	const hasWelcomeTemplate = emailTemplates?.some((t) => t.type === "welcome");
+
+	const hasRequiredEmailTemplates =
+		emailTemplatesLoading ||
+		((!needsVerificationEmail || hasVerificationTemplate) &&
+			(!needsWelcomeEmail || hasWelcomeTemplate));
+
+	// Can go live only if form is configured AND required email templates are set up
+	const canGoLive = isDraft && hasFormFields && hasRequiredEmailTemplates;
+
+	// Show error banners when errors occur
+	useEffect(() => {
+		if (statusError) {
+			showBanner({
+				type: "error",
+				title: "Failed to update campaign status",
+				description: statusError.error,
+			});
+		}
+	}, [statusError, showBanner]);
+
+	const handleGoLive = async () => {
+		const updated = await updateStatus(campaignId, { status: "active" });
+		if (updated) {
+			showBanner({ type: "success", title: "Campaign is now live!" });
+			refetch();
+		}
+	};
+
+	const handlePause = async () => {
+		const updated = await updateStatus(campaignId, { status: "paused" });
+		if (updated) {
+			showBanner({ type: "success", title: "Campaign has been paused" });
+			refetch();
+		}
+	};
+
+	const handleResume = async () => {
+		const updated = await updateStatus(campaignId, { status: "active" });
+		if (updated) {
+			showBanner({ type: "success", title: "Campaign has been resumed" });
+			refetch();
+		}
+	};
 
 	if (!campaign) {
 		return null;
@@ -33,9 +105,6 @@ function RouteComponent() {
 				? campaign.totalReferrals / campaign.totalSignups
 				: 0,
 	};
-
-	// Check if form is configured
-	const hasFormFields = campaign.formFields && campaign.formFields.length > 0;
 
 	const handleStatCardClick = (
 		cardType: "totalSignups" | "verified" | "referrals" | "kFactor",
@@ -60,6 +129,144 @@ function RouteComponent() {
 				</p>
 			</div>
 
+			{/* Campaign Status Row */}
+			<div className={styles.statusRow}>
+				<span className={styles.statusLabel}>Status</span>
+				<StatusBadge
+					text={
+						campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)
+					}
+					variant={
+						campaign.status === "active"
+							? "completed"
+							: campaign.status === "paused"
+								? "disabled"
+								: campaign.status === "completed"
+									? "completed"
+									: "pending"
+					}
+				/>
+				{isActive && (
+					<Button
+						variant="secondary"
+						size="small"
+						leftIcon={
+							updatingStatus ? "ri-loader-4-line ri-spin" : "ri-pause-line"
+						}
+						onClick={handlePause}
+						disabled={updatingStatus}
+					>
+						{updatingStatus ? "Pausing..." : "Pause"}
+					</Button>
+				)}
+				{isPaused && (
+					<Button
+						variant="primary"
+						size="small"
+						leftIcon={
+							updatingStatus ? "ri-loader-4-line ri-spin" : "ri-play-line"
+						}
+						onClick={handleResume}
+						disabled={updatingStatus}
+					>
+						{updatingStatus ? "Resuming..." : "Resume"}
+					</Button>
+				)}
+			</div>
+
+			{/* Launch Checklist for draft campaigns */}
+			{isDraft && (
+				<div className={styles.checklistSection}>
+					<h3 className={styles.checklistTitle}>Launch Checklist</h3>
+					<div className={styles.checklistCard}>
+						<ul className={styles.checklistItems}>
+							<li
+								className={`${styles.checklistItem} ${hasFormFields ? styles.checklistItemComplete : ""}`}
+								onClick={() =>
+									navigate({
+										to: "/campaigns/$campaignId/form-builder",
+										params: { campaignId },
+									})
+								}
+							>
+								<i
+									className={`${styles.checklistIcon} ${
+										hasFormFields
+											? "ri-checkbox-circle-fill"
+											: "ri-checkbox-blank-circle-line"
+									}`}
+								/>
+								<div className={styles.checklistItemContent}>
+									<span className={styles.checklistItemText}>
+										Configure signup form
+									</span>
+									<span className={styles.checklistItemDescription}>
+										{hasFormFields
+											? `${campaign.formFields?.length} field${campaign.formFields?.length === 1 ? "" : "s"} configured`
+											: "Add fields to collect user information"}
+									</span>
+								</div>
+								<span className={styles.checklistItemBadge}>Required</span>
+								<i
+									className={`${styles.checklistArrow} ri-arrow-right-s-line`}
+								/>
+							</li>
+							{(needsVerificationEmail || needsWelcomeEmail) && (
+								<li
+									className={`${styles.checklistItem} ${hasRequiredEmailTemplates ? styles.checklistItemComplete : ""}`}
+									onClick={() =>
+										navigate({
+											to: "/campaigns/$campaignId/email-builder",
+											params: { campaignId },
+										})
+									}
+								>
+									<i
+										className={`${styles.checklistIcon} ${
+											hasRequiredEmailTemplates
+												? "ri-checkbox-circle-fill"
+												: "ri-checkbox-blank-circle-line"
+										}`}
+									/>
+									<div className={styles.checklistItemContent}>
+										<span className={styles.checklistItemText}>
+											Set up email templates
+										</span>
+										<span className={styles.checklistItemDescription}>
+											{hasRequiredEmailTemplates
+												? "Email templates configured"
+												: `Configure ${[
+														needsVerificationEmail && "verification",
+														needsWelcomeEmail && "welcome",
+													]
+														.filter(Boolean)
+														.join(
+															" & ",
+														)} email${needsVerificationEmail && needsWelcomeEmail ? "s" : ""}`}
+										</span>
+									</div>
+									<i
+										className={`${styles.checklistArrow} ri-arrow-right-s-line`}
+									/>
+								</li>
+							)}
+						</ul>
+						<div className={styles.checklistFooter}>
+							<Button
+								variant="primary"
+								leftIcon={
+									updatingStatus ? "ri-loader-4-line ri-spin" : "ri-rocket-line"
+								}
+								onClick={handleGoLive}
+								disabled={updatingStatus || !canGoLive}
+							>
+								{updatingStatus ? "Launching..." : "Go Live"}
+							</Button>
+						</div>
+					</div>
+				</div>
+			)}
+
 			<CampaignStats
 				stats={stats}
 				verificationEnabled={
@@ -83,7 +290,7 @@ function RouteComponent() {
 											{campaign.referralSettings.enabled ? "Yes" : "No"}
 										</span>
 									</div>
-									{campaign.referralSettings.pointsPerReferral && (
+									{campaign.referralSettings.pointsPerReferral != null && (
 										<div className={styles.detailItem}>
 											<strong className={styles.detailLabel}>
 												Points per Referral:

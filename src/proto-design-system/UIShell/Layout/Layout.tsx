@@ -2,6 +2,7 @@ import React from "react";
 import "remixicon/fonts/remixicon.css";
 
 import { motion } from "motion/react";
+import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import { SidebarProvider, useSidebar } from "@/contexts/sidebar.tsx";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton.tsx";
 import { Sidebar } from "@/proto-design-system/UIShell/Sidebar/Sidebar.tsx";
@@ -40,6 +41,7 @@ const LayoutContent = ({ children }: LayoutProps) => {
 			<Sidebar />
 			<main className={contentClass}>
 				<Header />
+				<GlobalBannerContainer />
 				<div className={styles.scrollArea}>{children}</div>
 			</main>
 		</motion.div>

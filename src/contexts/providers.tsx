@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useAuth } from "@/contexts/auth";
+import { GlobalBannerProvider } from "@/contexts/globalBanner";
 import { PersonaProvider } from "@/contexts/persona";
 import { SidebarProvider } from "@/contexts/sidebar";
 
@@ -11,8 +12,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	const persona = user?.persona ?? "admin";
 
 	return (
-		<PersonaProvider persona={persona}>
-			<SidebarProvider>{children}</SidebarProvider>
-		</PersonaProvider>
+		<GlobalBannerProvider>
+			<PersonaProvider persona={persona}>
+				<SidebarProvider>{children}</SidebarProvider>
+			</PersonaProvider>
+		</GlobalBannerProvider>
 	);
 }

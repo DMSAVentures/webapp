@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
+import { useEffect } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import {
 	CampaignForm,
 	type CampaignFormData,
 } from "@/features/campaigns/components/CampaignForm/component";
+import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Button } from "@/proto-design-system/Button/button";
@@ -30,49 +31,39 @@ function RouteComponent() {
 		loading: updatingCampaign,
 		error: updateError,
 	} = useUpdateCampaign();
-	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+	const { showBanner } = useGlobalBanner();
+
+	// Show error banners when errors occur
+	useEffect(() => {
+		if (statusError) {
+			showBanner({
+				type: "error",
+				title: "Failed to update campaign status",
+				description: statusError.error,
+			});
+		}
+	}, [statusError, showBanner]);
+
+	useEffect(() => {
+		if (updateError) {
+			showBanner({
+				type: "error",
+				title: "Failed to update campaign",
+				description: updateError.error,
+			});
+		}
+	}, [updateError, showBanner]);
 
 	if (!campaign) {
 		return null;
 	}
 
-	const hasFormFields = campaign.formFields && campaign.formFields.length > 0;
-	const canGoLive = campaign.status === "draft" && hasFormFields;
 	const canEdit = campaign.status === "draft" || campaign.status === "paused";
-
-	const showSuccess = (message: string) => {
-		setSuccessMessage(message);
-		setTimeout(() => setSuccessMessage(null), 3000);
-	};
-
-	const handleGoLive = async () => {
-		const updated = await updateStatus(campaignId, { status: "active" });
-		if (updated) {
-			showSuccess("Campaign is now live!");
-			refetch();
-		}
-	};
-
-	const handlePause = async () => {
-		const updated = await updateStatus(campaignId, { status: "paused" });
-		if (updated) {
-			showSuccess("Campaign has been paused");
-			refetch();
-		}
-	};
-
-	const handleResume = async () => {
-		const updated = await updateStatus(campaignId, { status: "active" });
-		if (updated) {
-			showSuccess("Campaign has been resumed");
-			refetch();
-		}
-	};
 
 	const handleEnd = async () => {
 		const updated = await updateStatus(campaignId, { status: "completed" });
 		if (updated) {
-			showSuccess("Campaign has been ended");
+			showBanner({ type: "success", title: "Campaign has been ended" });
 			refetch();
 		}
 	};
@@ -110,7 +101,7 @@ function RouteComponent() {
 		});
 
 		if (updated) {
-			showSuccess("Campaign settings saved!");
+			showBanner({ type: "success", title: "Campaign settings saved!" });
 			refetch();
 		}
 	};
@@ -160,103 +151,9 @@ function RouteComponent() {
 			<div className={styles.header}>
 				<h2 className={styles.title}>Settings</h2>
 				<p className={styles.description}>
-					Manage campaign status, configuration, and danger zone actions
+					Manage campaign configuration and danger zone actions
 				</p>
 			</div>
-
-			{successMessage && (
-				<Banner
-					bannerType="success"
-					variant="filled"
-					alertTitle={successMessage}
-					alertDescription=""
-				/>
-			)}
-
-			{(statusError || updateError) && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to update campaign"
-					alertDescription={statusError?.error || updateError?.error || ""}
-				/>
-			)}
-
-			{/* Campaign Status Section */}
-			<section className={styles.section}>
-				<h3 className={styles.sectionTitle}>Campaign Status</h3>
-				<div className={styles.card}>
-					<div className={styles.statusRow}>
-						<div className={styles.statusInfo}>
-							<span className={styles.statusLabel}>Current Status</span>
-							<span
-								className={`${styles.statusValue} ${styles[`status_${campaign.status}`]}`}
-							>
-								{campaign.status.charAt(0).toUpperCase() +
-									campaign.status.slice(1)}
-							</span>
-						</div>
-
-						{campaign.status === "draft" && (
-							<div className={styles.statusActions}>
-								{!hasFormFields && (
-									<p className={styles.statusWarning}>
-										Configure your form before going live
-									</p>
-								)}
-								<Button
-									variant="primary"
-									leftIcon={
-										updatingStatus
-											? "ri-loader-4-line ri-spin"
-											: "ri-rocket-line"
-									}
-									onClick={handleGoLive}
-									disabled={updatingStatus || !canGoLive}
-								>
-									{updatingStatus ? "Launching..." : "Go Live"}
-								</Button>
-							</div>
-						)}
-
-						{campaign.status === "active" && (
-							<div className={styles.statusActions}>
-								<Button
-									variant="secondary"
-									leftIcon={
-										updatingStatus
-											? "ri-loader-4-line ri-spin"
-											: "ri-pause-line"
-									}
-									onClick={handlePause}
-									disabled={updatingStatus}
-								>
-									{updatingStatus ? "Pausing..." : "Pause Campaign"}
-								</Button>
-							</div>
-						)}
-
-						{campaign.status === "paused" && (
-							<div className={styles.statusActions}>
-								<Button
-									variant="primary"
-									leftIcon={
-										updatingStatus
-											? "ri-loader-4-line ri-spin"
-											: "ri-play-line"
-									}
-									onClick={handleResume}
-									disabled={updatingStatus}
-								>
-									{updatingStatus ? "Resuming..." : "Resume Campaign"}
-								</Button>
-							</div>
-						)}
-					</div>
-				</div>
-			</section>
-
-			<ContentDivider size="thin" />
 
 			{/* Campaign Settings Form */}
 			{campaign.status !== "completed" && (
@@ -287,7 +184,6 @@ function RouteComponent() {
 					<ContentDivider size="thin" />
 				</>
 			)}
-
 
 			{/* Danger Zone */}
 			{campaign.status !== "completed" && (

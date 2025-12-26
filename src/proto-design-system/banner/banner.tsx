@@ -11,6 +11,7 @@ interface BannerProps extends HTMLAttributes<HTMLElement> {
 	linkTitle?: string;
 	linkHref?: string;
 	dismissible?: boolean;
+	onDismiss?: () => void;
 }
 
 function getIconBasedOnbannerType(bannerType: string) {
@@ -67,7 +68,10 @@ const Banner: React.FC<BannerProps> = (props) => {
 			{(props.dismissible ?? true) && (
 				<i
 					className={`${styles["banner__dismiss"]} ri-close-fill`}
-					onClick={() => setVisible(false)}
+					onClick={() => {
+						setVisible(false);
+						props.onDismiss?.();
+					}}
 				/>
 			)}
 		</div>
