@@ -17,7 +17,8 @@
       "Bash(git rebase:*)",
       "Bash(cat:*)",
       "Bash(xargs -I {} bash -c 'echo \"\"\"\"===== {} =====\"\"\"\" && head -50 {}')",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": [],
     "ask": []
