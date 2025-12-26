@@ -109,14 +109,14 @@ function RouteComponent() {
 	const handleStatCardClick = (
 		cardType: "totalSignups" | "verified" | "referrals" | "kFactor",
 	) => {
-		// K-Factor card leads to analytics tab, others lead to users
+		// K-Factor card leads to analytics tab, others lead to leads
 		if (cardType === "kFactor") {
 			navigate({
 				to: `/campaigns/$campaignId/analytics`,
 				params: { campaignId },
 			});
 		} else {
-			navigate({ to: `/campaigns/$campaignId/users`, params: { campaignId } });
+			navigate({ to: `/campaigns/$campaignId/leads`, params: { campaignId } });
 		}
 	};
 
