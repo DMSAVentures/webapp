@@ -1,18 +1,19 @@
 /**
  * VariableTextInput Component
  * A text input that displays {{variables}} as visual chips
- * Supports @ mentions for easy variable insertion
+ * Uses textarea + highlight overlay approach for native undo/redo support
  */
 
 import {
+	type ChangeEvent,
 	type HTMLAttributes,
+	type KeyboardEvent,
 	memo,
 	useCallback,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
-import DropdownOption from "@/proto-design-system/dropdown/option";
 import { TEMPLATE_VARIABLES } from "@/features/campaigns/constants/defaultEmailTemplates";
 import styles from "./component.module.scss";
 
@@ -79,35 +80,6 @@ function parseTextToSegments(text: string): Segment[] {
 }
 
 /**
- * Get caret coordinates relative to the editor
- */
-function getCaretCoordinates(): { top: number; left: number } | null {
-	const selection = window.getSelection();
-	if (!selection || selection.rangeCount === 0) return null;
-
-	const range = selection.getRangeAt(0).cloneRange();
-	range.collapse(true);
-
-	// Create a temporary span to get position
-	const span = document.createElement("span");
-	span.textContent = "\u200B"; // Zero-width space
-	range.insertNode(span);
-
-	const rect = span.getBoundingClientRect();
-	const parent = span.parentElement?.closest("[contenteditable]");
-	const parentRect = parent?.getBoundingClientRect();
-
-	span.remove();
-
-	if (!parentRect) return null;
-
-	return {
-		top: rect.top - parentRect.top + rect.height,
-		left: rect.left - parentRect.left,
-	};
-}
-
-/**
  * VariableTextInput provides a rich editing experience with variable chips
  * Type @ to insert variables via autocomplete
  */
@@ -124,13 +96,13 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 		className: customClassName,
 		...props
 	}) {
-		const editorRef = useRef<HTMLDivElement>(null);
+		const inputRef = useRef<HTMLInputElement>(null);
 		const menuRef = useRef<HTMLDivElement>(null);
 		const [isFocused, setIsFocused] = useState(false);
 
 		// @ mention state
 		const [mentionQuery, setMentionQuery] = useState<string | null>(null);
-		const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
+		const [mentionStartIndex, setMentionStartIndex] = useState<number>(-1);
 		const [selectedIndex, setSelectedIndex] = useState(0);
 
 		// Filter variables based on email type
@@ -139,231 +111,215 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 		);
 
 		// Filter variables based on mention query
-		const filteredVariables = mentionQuery !== null
-			? availableVariables.filter((v) =>
-					v.name.toLowerCase().includes(mentionQuery.toLowerCase())
-				)
-			: availableVariables;
+		const filteredVariables =
+			mentionQuery !== null
+				? availableVariables.filter((v) =>
+						v.name.toLowerCase().includes(mentionQuery.toLowerCase()),
+					)
+				: availableVariables;
 
-		// Parse value into segments for rendering
+		// Parse value into segments for rendering the highlight layer
 		const segments = parseTextToSegments(value);
 
-		// Convert editor content to plain text with {{variable}} syntax
-		const getPlainText = useCallback(() => {
-			if (!editorRef.current) return "";
+		// Check for @ mention trigger based on current input value and cursor position
+		const checkForMention = useCallback(
+			(text: string, cursorPos: number) => {
+				const textBeforeCursor = text.slice(0, cursorPos);
 
-			let text = "";
-			const walker = document.createTreeWalker(
-				editorRef.current,
-				NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
-				{
-					acceptNode: (node) => {
-						if (node.nodeType === Node.TEXT_NODE) {
-							return NodeFilter.FILTER_ACCEPT;
-						}
-						if (
-							node.nodeType === Node.ELEMENT_NODE &&
-							(node as HTMLElement).dataset.variable
-						) {
-							return NodeFilter.FILTER_ACCEPT;
-						}
-						return NodeFilter.FILTER_SKIP;
-					},
-				},
-			);
+				// Find the last @ that could be a mention trigger
+				// Match @ followed by word characters (the query)
+				const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
 
-			let node = walker.nextNode();
-			while (node) {
-				if (node.nodeType === Node.TEXT_NODE) {
-					text += node.textContent || "";
-				} else if ((node as HTMLElement).dataset.variable) {
-					text += `{{${(node as HTMLElement).dataset.variable}}}`;
+				if (mentionMatch) {
+					const query = mentionMatch[1];
+					const atIndex = cursorPos - mentionMatch[0].length;
+					setMentionQuery(query);
+					setMentionStartIndex(atIndex);
+					setSelectedIndex(0);
+				} else {
+					setMentionQuery(null);
+					setMentionStartIndex(-1);
 				}
-				node = walker.nextNode();
-			}
-
-			return text;
-		}, []);
-
-		// Check for @ mention trigger
-		const checkForMention = useCallback(() => {
-			const selection = window.getSelection();
-			if (!selection || selection.rangeCount === 0) {
-				setMentionQuery(null);
-				return;
-			}
-
-			const range = selection.getRangeAt(0);
-			if (!range.collapsed) {
-				setMentionQuery(null);
-				return;
-			}
-
-			const textNode = range.startContainer;
-			if (textNode.nodeType !== Node.TEXT_NODE) {
-				setMentionQuery(null);
-				return;
-			}
-
-			const text = textNode.textContent || "";
-			const cursorPos = range.startOffset;
-			const textBeforeCursor = text.slice(0, cursorPos);
-
-			// Check for @ followed by optional word characters
-			const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
-
-			if (mentionMatch) {
-				const query = mentionMatch[1];
-				setMentionQuery(query);
-				setSelectedIndex(0);
-
-				// Position dropdown near cursor
-				const coords = getCaretCoordinates();
-				if (coords) {
-					setMentionPosition(coords);
-				}
-			} else {
-				setMentionQuery(null);
-			}
-		}, []);
+			},
+			[],
+		);
 
 		// Handle input changes
-		const handleInput = useCallback(() => {
-			const newValue = getPlainText();
-			onChange(newValue);
-			checkForMention();
-		}, [getPlainText, onChange, checkForMention]);
-
-		// Render the content with chips
-		useEffect(() => {
-			if (!editorRef.current || isFocused) return;
-
-			const html = segments
-				.map((seg) => {
-					if (seg.type === "variable") {
-						return `<span class="${styles.chip}" contenteditable="false" data-variable="${seg.content}"><i class="ri-braces-line"></i>${seg.content}</span>`;
-					}
-					return seg.content
-						.replace(/&/g, "&amp;")
-						.replace(/</g, "&lt;")
-						.replace(/>/g, "&gt;");
-				})
-				.join("");
-
-			if (editorRef.current.innerHTML !== html) {
-				editorRef.current.innerHTML = html || "";
-			}
-		}, [segments, isFocused]);
-
-		// Handle paste - strip formatting
-		const handlePaste = useCallback(
-			(e: React.ClipboardEvent) => {
-				e.preventDefault();
-				const text = e.clipboardData.getData("text/plain");
-				document.execCommand("insertText", false, text);
-				handleInput();
+		const handleChange = useCallback(
+			(e: ChangeEvent<HTMLInputElement>) => {
+				const newValue = e.target.value;
+				const cursorPos = e.target.selectionStart || 0;
+				onChange(newValue);
+				checkForMention(newValue, cursorPos);
 			},
-			[handleInput],
+			[onChange, checkForMention],
 		);
 
-		// Insert variable at cursor, replacing @query if present
+		// Insert variable, replacing @query if present
 		const insertVariable = useCallback(
 			(varName: string) => {
-				if (!editorRef.current) return;
+				if (!inputRef.current) return;
 
-				const selection = window.getSelection();
-				if (!selection || selection.rangeCount === 0) {
-					onChange(value + `{{${varName}}}`);
-					setMentionQuery(null);
-					return;
+				const input = inputRef.current;
+				const cursorPos = input.selectionStart || 0;
+
+				let newValue: string;
+				let newCursorPos: number;
+
+				if (mentionStartIndex >= 0) {
+					// Replace @query with {{variable}}
+					const before = value.slice(0, mentionStartIndex);
+					const after = value.slice(cursorPos);
+					const insertion = `{{${varName}}} `;
+					newValue = before + insertion + after;
+					newCursorPos = mentionStartIndex + insertion.length;
+				} else {
+					// Just insert at cursor
+					const before = value.slice(0, cursorPos);
+					const after = value.slice(cursorPos);
+					const insertion = `{{${varName}}} `;
+					newValue = before + insertion + after;
+					newCursorPos = cursorPos + insertion.length;
 				}
 
-				const range = selection.getRangeAt(0);
-				const textNode = range.startContainer;
-
-				// If we have a mention query, delete the @query text first
-				if (mentionQuery !== null && textNode.nodeType === Node.TEXT_NODE) {
-					const text = textNode.textContent || "";
-					const cursorPos = range.startOffset;
-					const textBeforeCursor = text.slice(0, cursorPos);
-					const atIndex = textBeforeCursor.lastIndexOf("@");
-
-					if (atIndex !== -1) {
-						// Delete from @ to cursor
-						range.setStart(textNode, atIndex);
-						range.deleteContents();
-					}
-				}
-
-				// Insert the chip
-				const chip = document.createElement("span");
-				chip.className = styles.chip;
-				chip.contentEditable = "false";
-				chip.dataset.variable = varName;
-				chip.innerHTML = `<i class="ri-braces-line"></i>${varName}`;
-
-				range.insertNode(chip);
-
-				// Add a space after and move cursor
-				const space = document.createTextNode("\u00A0");
-				range.setStartAfter(chip);
-				range.insertNode(space);
-				range.setStartAfter(space);
-				range.collapse(true);
-				selection.removeAllRanges();
-				selection.addRange(range);
-
-				// Update value and close menu
-				const newValue = getPlainText();
 				onChange(newValue);
 				setMentionQuery(null);
-				editorRef.current.focus();
+				setMentionStartIndex(-1);
+
+				// Restore focus and cursor position
+				requestAnimationFrame(() => {
+					input.focus();
+					input.setSelectionRange(newCursorPos, newCursorPos);
+				});
 			},
-			[value, onChange, getPlainText, mentionQuery],
+			[value, onChange, mentionStartIndex],
 		);
 
-		// Handle keyboard navigation in mention menu
+		// Handle keyboard navigation in mention menu + atomic variable deletion
 		const handleKeyDown = useCallback(
-			(e: React.KeyboardEvent) => {
+			(e: KeyboardEvent<HTMLInputElement>) => {
 				// Handle mention menu navigation
 				if (mentionQuery !== null && filteredVariables.length > 0) {
 					if (e.key === "ArrowDown") {
 						e.preventDefault();
-						e.stopPropagation();
 						setSelectedIndex((prev) =>
-							prev < filteredVariables.length - 1 ? prev + 1 : 0
+							prev < filteredVariables.length - 1 ? prev + 1 : 0,
 						);
 						return;
 					}
 					if (e.key === "ArrowUp") {
 						e.preventDefault();
-						e.stopPropagation();
 						setSelectedIndex((prev) =>
-							prev > 0 ? prev - 1 : filteredVariables.length - 1
+							prev > 0 ? prev - 1 : filteredVariables.length - 1,
 						);
 						return;
 					}
 					if (e.key === "Enter" || e.key === "Tab") {
 						e.preventDefault();
-						e.stopPropagation();
 						insertVariable(filteredVariables[selectedIndex].name);
 						return;
 					}
 					if (e.key === "Escape") {
 						e.preventDefault();
-						e.stopPropagation();
 						setMentionQuery(null);
+						setMentionStartIndex(-1);
 						return;
 					}
 				}
 
-				// Escape closes menu
-				if (e.key === "Escape") {
-					setMentionQuery(null);
+				// Handle atomic variable deletion (Backspace)
+				if (e.key === "Backspace" && inputRef.current) {
+					const cursorPos = inputRef.current.selectionStart || 0;
+					const selectionEnd = inputRef.current.selectionEnd || 0;
+
+					// Only handle if no text is selected (cursor is collapsed)
+					if (cursorPos === selectionEnd && cursorPos > 0) {
+						// Check if cursor is right after }} (with optional trailing space) or inside a variable
+						const textBefore = value.slice(0, cursorPos);
+						// Match variable with optional trailing space
+						const varEndMatch = textBefore.match(/\{\{(\w+)\}\}\s?$/);
+
+						if (varEndMatch) {
+							// Cursor is right after a complete variable (or its trailing space) - delete the whole thing
+							e.preventDefault();
+							const varStart = cursorPos - varEndMatch[0].length;
+							const newValue = value.slice(0, varStart) + value.slice(cursorPos);
+							onChange(newValue);
+							requestAnimationFrame(() => {
+								inputRef.current?.setSelectionRange(varStart, varStart);
+							});
+							return;
+						}
+
+						// Check if cursor is inside a variable
+						const varPattern = /\{\{(\w+)\}\}/g;
+						let match;
+						while ((match = varPattern.exec(value)) !== null) {
+							const varStart = match.index;
+							const varEnd = match.index + match[0].length;
+							if (cursorPos > varStart && cursorPos <= varEnd) {
+								// Cursor is inside this variable - delete the whole thing
+								e.preventDefault();
+								const newValue = value.slice(0, varStart) + value.slice(varEnd);
+								onChange(newValue);
+								requestAnimationFrame(() => {
+									inputRef.current?.setSelectionRange(varStart, varStart);
+								});
+								return;
+							}
+						}
+					}
+				}
+
+				// Handle atomic variable deletion (Delete key)
+				if (e.key === "Delete" && inputRef.current) {
+					const cursorPos = inputRef.current.selectionStart || 0;
+					const selectionEnd = inputRef.current.selectionEnd || 0;
+
+					// Only handle if no text is selected
+					if (cursorPos === selectionEnd && cursorPos < value.length) {
+						// Check if cursor is right before {{ or inside a variable
+						const textAfter = value.slice(cursorPos);
+						const varStartMatch = textAfter.match(/^\{\{(\w+)\}\}/);
+
+						if (varStartMatch) {
+							// Cursor is right before a variable - delete the whole thing
+							e.preventDefault();
+							const varEnd = cursorPos + varStartMatch[0].length;
+							const newValue = value.slice(0, cursorPos) + value.slice(varEnd);
+							onChange(newValue);
+							return;
+						}
+
+						// Check if cursor is inside a variable
+						const varPattern = /\{\{(\w+)\}\}/g;
+						let match;
+						while ((match = varPattern.exec(value)) !== null) {
+							const varStart = match.index;
+							const varEnd = match.index + match[0].length;
+							if (cursorPos >= varStart && cursorPos < varEnd) {
+								// Cursor is inside this variable - delete the whole thing
+								e.preventDefault();
+								const newValue = value.slice(0, varStart) + value.slice(varEnd);
+								onChange(newValue);
+								requestAnimationFrame(() => {
+									inputRef.current?.setSelectionRange(varStart, varStart);
+								});
+								return;
+							}
+						}
+					}
 				}
 			},
-			[mentionQuery, filteredVariables, selectedIndex, insertVariable],
+			[mentionQuery, filteredVariables, selectedIndex, insertVariable, value, onChange],
 		);
+
+		// Also check mention on cursor position change (click, arrow keys)
+		const handleSelect = useCallback(() => {
+			if (!inputRef.current) return;
+			const cursorPos = inputRef.current.selectionStart || 0;
+			checkForMention(value, cursorPos);
+		}, [value, checkForMention]);
 
 		// Close menu when clicking outside
 		useEffect(() => {
@@ -371,16 +327,43 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				if (
 					menuRef.current &&
 					!menuRef.current.contains(e.target as Node) &&
-					editorRef.current &&
-					!editorRef.current.contains(e.target as Node)
+					inputRef.current &&
+					!inputRef.current.contains(e.target as Node)
 				) {
 					setMentionQuery(null);
+					setMentionStartIndex(-1);
 				}
 			};
 
 			document.addEventListener("mousedown", handleClickOutside);
 			return () => document.removeEventListener("mousedown", handleClickOutside);
 		}, []);
+
+		// Scroll selected item into view when navigating with keyboard
+		useEffect(() => {
+			if (menuRef.current && mentionQuery !== null) {
+				const selectedItem = menuRef.current.querySelector('[aria-selected="true"]');
+				if (selectedItem) {
+					selectedItem.scrollIntoView({ block: "nearest" });
+				}
+			}
+		}, [selectedIndex, mentionQuery]);
+
+		// Render the highlight layer content
+		const renderHighlight = () => {
+			return segments.map((seg, index) => {
+				if (seg.type === "variable") {
+					// Render the full {{variable}} text with styling to maintain cursor alignment
+					return (
+						<span key={index} className={styles.variable}>
+							{`{{${seg.content}}}`}
+						</span>
+					);
+				}
+				// Preserve spaces - use non-breaking space for trailing spaces
+				return <span key={index}>{seg.content}</span>;
+			});
+		};
 
 		const classNames = [
 			styles.root,
@@ -391,10 +374,9 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 			.filter(Boolean)
 			.join(" ");
 
-		const editorClassNames = [
-			styles.editor,
+		const containerClassNames = [
+			styles.inputContainer,
 			isFocused && styles.focused,
-			!value && styles.empty,
 		]
 			.filter(Boolean)
 			.join(" ");
@@ -409,70 +391,58 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				)}
 
 				<div className={styles.inputWrapper}>
-					<div
-						ref={editorRef}
-						className={editorClassNames}
-						contentEditable={!disabled}
-						onInput={handleInput}
-						onFocus={() => setIsFocused(true)}
-						onBlur={() => {
-							setIsFocused(false);
-							setTimeout(() => {
-								if (editorRef.current) {
-									const html = parseTextToSegments(value)
-										.map((seg) => {
-											if (seg.type === "variable") {
-												return `<span class="${styles.chip}" contenteditable="false" data-variable="${seg.content}"><i class="ri-braces-line"></i>${seg.content}</span>`;
-											}
-											return seg.content
-												.replace(/&/g, "&amp;")
-												.replace(/</g, "&lt;")
-												.replace(/>/g, "&gt;");
-										})
-										.join("");
-									editorRef.current.innerHTML = html || "";
-								}
-							}, 0);
-						}}
-						onPaste={handlePaste}
-						onKeyDown={handleKeyDown}
-						data-placeholder={placeholder}
-						role="textbox"
-						aria-label={label}
-						aria-invalid={!!error}
-						suppressContentEditableWarning
-					/>
+					<div className={containerClassNames}>
+						{/* Highlight layer - shows styled content */}
+						<div className={styles.highlighter} aria-hidden="true">
+							{renderHighlight()}
+							{/* Add placeholder if empty */}
+							{!value && placeholder && (
+								<span className={styles.placeholder}>{placeholder}</span>
+							)}
+						</div>
+
+						{/* Actual input - transparent text, user types here */}
+						<input
+							ref={inputRef}
+							type="text"
+							className={styles.input}
+							value={value}
+							onChange={handleChange}
+							onKeyDown={handleKeyDown}
+							onFocus={() => setIsFocused(true)}
+							onBlur={() => setIsFocused(false)}
+							onSelect={handleSelect}
+							disabled={disabled}
+							aria-label={label}
+							aria-invalid={!!error}
+							spellCheck={false}
+							autoComplete="off"
+						/>
+					</div>
 
 					{/* @ mention dropdown */}
 					{mentionQuery !== null && filteredVariables.length > 0 && (
-						<div
-							ref={menuRef}
-							className={styles.mentionMenu}
-							style={{ top: mentionPosition.top }}
-							role="listbox"
-						>
+						<div ref={menuRef} className={styles.mentionMenu} role="listbox">
 							{filteredVariables.map((v, index) => (
-								<DropdownOption
+								<button
 									key={v.name}
-									value={v.name}
-									label={`@${v.name}`}
-									description={v.description}
-									size="small"
-									icon="ri-braces-line"
-									highlighted={index === selectedIndex}
+									type="button"
+									className={`${styles.mentionMenuItem} ${index === selectedIndex ? styles.selected : ""}`}
 									onClick={() => insertVariable(v.name)}
 									onMouseEnter={() => setSelectedIndex(index)}
-								/>
+									role="option"
+									aria-selected={index === selectedIndex}
+								>
+									<span className={styles.mentionItemName}>@{v.name}</span>
+									<span className={styles.mentionItemDesc}>{v.description}</span>
+								</button>
 							))}
 						</div>
 					)}
 
 					{/* No results message */}
 					{mentionQuery !== null && filteredVariables.length === 0 && (
-						<div
-							className={styles.mentionMenu}
-							style={{ top: mentionPosition.top }}
-						>
+						<div className={styles.mentionMenu}>
 							<div className={styles.mentionNoResults}>
 								No variables match "{mentionQuery}"
 							</div>

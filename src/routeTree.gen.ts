@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WebhooksRouteImport } from './routes/webhooks'
+import { Route as TestVariableInputRouteImport } from './routes/test-variable-input'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as MainRouteImport } from './routes/main'
@@ -44,6 +45,11 @@ import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/
 const WebhooksRoute = WebhooksRouteImport.update({
   id: '/webhooks',
   path: '/webhooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestVariableInputRoute = TestVariableInputRouteImport.update({
+  id: '/test-variable-input',
+  path: '/test-variable-input',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SigninRoute = SigninRouteImport.update({
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
+  '/test-variable-input': typeof TestVariableInputRoute
   '/webhooks': typeof WebhooksRouteWithChildren
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
@@ -248,6 +255,7 @@ export interface FileRoutesByTo {
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
+  '/test-variable-input': typeof TestVariableInputRoute
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
+  '/test-variable-input': typeof TestVariableInputRoute
   '/webhooks': typeof WebhooksRouteWithChildren
   '/billing/pay': typeof BillingPayRoute
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/main'
     | '/media'
     | '/signin'
+    | '/test-variable-input'
     | '/webhooks'
     | '/billing/pay'
     | '/billing/payment_attempt'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/main'
     | '/media'
     | '/signin'
+    | '/test-variable-input'
     | '/billing/pay'
     | '/billing/payment_attempt'
     | '/billing/payment_method'
@@ -381,6 +392,7 @@ export interface FileRouteTypes {
     | '/main'
     | '/media'
     | '/signin'
+    | '/test-variable-input'
     | '/webhooks'
     | '/billing/pay'
     | '/billing/payment_attempt'
@@ -415,6 +427,7 @@ export interface RootRouteChildren {
   MainRoute: typeof MainRoute
   MediaRoute: typeof MediaRoute
   SigninRoute: typeof SigninRoute
+  TestVariableInputRoute: typeof TestVariableInputRoute
   WebhooksRoute: typeof WebhooksRouteWithChildren
   BillingPayRoute: typeof BillingPayRoute
   BillingPayment_attemptRoute: typeof BillingPayment_attemptRoute
@@ -440,6 +453,13 @@ declare module '@tanstack/react-router' {
       path: '/webhooks'
       fullPath: '/webhooks'
       preLoaderRoute: typeof WebhooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-variable-input': {
+      id: '/test-variable-input'
+      path: '/test-variable-input'
+      fullPath: '/test-variable-input'
+      preLoaderRoute: typeof TestVariableInputRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signin': {
@@ -684,6 +704,7 @@ const rootRouteChildren: RootRouteChildren = {
   MainRoute: MainRoute,
   MediaRoute: MediaRoute,
   SigninRoute: SigninRoute,
+  TestVariableInputRoute: TestVariableInputRoute,
   WebhooksRoute: WebhooksRouteWithChildren,
   BillingPayRoute: BillingPayRoute,
   BillingPayment_attemptRoute: BillingPayment_attemptRoute,

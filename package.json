@@ -29,6 +29,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.10",
+		"@playwright/test": "^1.57.0",
 		"@storybook/addon-links": "^10.1.10",
 		"@storybook/react": "^10.1.10",
 		"@storybook/react-vite": "^10.1.10",

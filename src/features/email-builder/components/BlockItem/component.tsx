@@ -84,7 +84,7 @@ function renderTextWithVariables(text: string): React.ReactNode[] {
 			key={`var-${key++}`}
 			text={match[1]}
 			variant="blue"
-			styleType="light"
+			styleType="filled"
 			size="small"
 			iconClass="braces-line"
 			iconPosition="left"

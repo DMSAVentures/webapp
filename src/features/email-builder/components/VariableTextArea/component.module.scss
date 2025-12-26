@@ -29,27 +29,13 @@
 	position: relative;
 }
 
-.editor {
-	padding: layout.$spacing-03;
+// Container for textarea + highlight overlay
+.textareaContainer {
+	position: relative;
 	background-color: var(--color-surface-input-default);
 	border: 1px solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-medium;
-	font-size: typography.$font-size-md;
-	font-family: typography.$font-family-sans;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-primary-default);
-	outline: none;
 	transition: border-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-	overflow-y: auto;
-	cursor: text;
-
-	&.empty::before {
-		content: attr(data-placeholder);
-		color: var(--color-text-secondary-default);
-		pointer-events: none;
-	}
 
 	&:hover:not(.focused) {
 		border-color: var(--color-border-focus-default);
@@ -60,26 +46,59 @@
 	}
 }
 
-// Variable chip inside editor
-.chip {
-	display: inline-flex;
-	align-items: center;
-	gap: 2px;
-	padding: 2px layout.$spacing-02;
-	margin: 0 2px;
+// Highlight layer - shows styled content with chips
+.highlighter {
+	position: absolute;
+	inset: 0;
+	padding: layout.$spacing-03;
+	font-size: typography.$font-size-md;
+	font-family: typography.$font-family-sans;
+	line-height: typography.$line-height-relaxed;
+	color: var(--color-text-primary-default);
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+// Actual textarea - transparent text, user types here
+.textarea {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: layout.$spacing-03;
+	background: transparent;
+	border: none;
+	font-size: typography.$font-size-md;
+	font-family: typography.$font-family-sans;
+	line-height: typography.$line-height-relaxed;
+	color: transparent;
+	caret-color: var(--color-text-primary-default);
+	outline: none;
+	resize: vertical;
+
+	&::selection {
+		background-color: var(--color-bg-info-alpha);
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		resize: none;
+	}
+}
+
+// Placeholder text
+.placeholder {
+	color: var(--color-text-secondary-default);
+}
+
+// Variable text styling (inline to maintain cursor alignment)
+// IMPORTANT: Do NOT change font-weight or any property that affects text width
+// The overlay text must have identical width to the transparent textarea text
+.variable {
 	background-color: var(--color-bg-info-alpha);
 	color: var(--color-text-info-default);
-	border-radius: border.$border-radius-round;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	font-family: typography.$font-family-mono;
-	vertical-align: middle;
-	user-select: none;
-
-	i {
-		font-size: 10px;
-		opacity: 0.8;
-	}
+	border-radius: border.$border-radius-small;
 }
 
 // @ Mention dropdown
@@ -123,13 +142,16 @@
 	cursor: pointer;
 	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
 
-	&:hover,
+	&:hover:not(.selected) {
+		background-color: var(--color-bg-secondary-hover);
+	}
+
 	&.selected {
-		background-color: var(--color-bg-info-alpha);
+		background-color: var(--color-bg-secondary-default);
 	}
 
 	&:focus-visible {
-		background-color: var(--color-bg-info-alpha);
+		background-color: var(--color-bg-secondary-default);
 		outline: none;
 	}
 
@@ -159,7 +181,7 @@
 
 // States
 .hasError {
-	.editor {
+	.textareaContainer {
 		border-color: var(--color-error-default);
 
 		&.focused {
@@ -169,10 +191,12 @@
 }
 
 .disabled {
-	.editor {
+	.textareaContainer {
 		background-color: var(--color-bg-secondary-default);
+	}
+
+	.highlighter {
 		color: var(--color-text-disabled-default);
-		cursor: not-allowed;
 	}
 }
 

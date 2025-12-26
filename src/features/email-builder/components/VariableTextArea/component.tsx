@@ -1,18 +1,19 @@
 /**
  * VariableTextArea Component
  * A multi-line text area that supports @ mentions for variable insertion
- * Variables are displayed as visual chips
+ * Uses textarea + highlight overlay approach for native undo/redo support
  */
 
 import {
+	type ChangeEvent,
 	type HTMLAttributes,
+	type KeyboardEvent,
 	memo,
 	useCallback,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
-import DropdownOption from "@/proto-design-system/dropdown/option";
 import { TEMPLATE_VARIABLES } from "@/features/campaigns/constants/defaultEmailTemplates";
 import styles from "./component.module.scss";
 
@@ -81,33 +82,6 @@ function parseTextToSegments(text: string): Segment[] {
 }
 
 /**
- * Get caret coordinates relative to the editor
- */
-function getCaretCoordinates(
-	editor: HTMLElement,
-): { top: number; left: number } | null {
-	const selection = window.getSelection();
-	if (!selection || selection.rangeCount === 0) return null;
-
-	const range = selection.getRangeAt(0).cloneRange();
-	range.collapse(true);
-
-	const span = document.createElement("span");
-	span.textContent = "\u200B";
-	range.insertNode(span);
-
-	const rect = span.getBoundingClientRect();
-	const parentRect = editor.getBoundingClientRect();
-
-	span.remove();
-
-	return {
-		top: rect.top - parentRect.top + rect.height,
-		left: rect.left - parentRect.left,
-	};
-}
-
-/**
  * VariableTextArea provides a multi-line editing experience with @ mentions
  */
 export const VariableTextArea = memo<VariableTextAreaProps>(
@@ -124,13 +98,13 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 		className: customClassName,
 		...props
 	}) {
-		const editorRef = useRef<HTMLDivElement>(null);
+		const textareaRef = useRef<HTMLTextAreaElement>(null);
 		const menuRef = useRef<HTMLDivElement>(null);
 		const [isFocused, setIsFocused] = useState(false);
 
 		// @ mention state
 		const [mentionQuery, setMentionQuery] = useState<string | null>(null);
-		const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
+		const [mentionStartIndex, setMentionStartIndex] = useState<number>(-1);
 		const [selectedIndex, setSelectedIndex] = useState(0);
 
 		// Filter variables based on email type
@@ -146,175 +120,90 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 					)
 				: availableVariables;
 
-		// Parse value into segments for rendering
+		// Parse value into segments for rendering the highlight layer
 		const segments = parseTextToSegments(value);
 
-		// Convert editor content to plain text with {{variable}} syntax
-		const getPlainText = useCallback(() => {
-			if (!editorRef.current) return "";
+		// Check for @ mention trigger based on current input value and cursor position
+		const checkForMention = useCallback(
+			(text: string, cursorPos: number) => {
+				const textBeforeCursor = text.slice(0, cursorPos);
 
-			let text = "";
-			const processNode = (node: Node) => {
-				if (node.nodeType === Node.TEXT_NODE) {
-					text += node.textContent || "";
-				} else if (node.nodeType === Node.ELEMENT_NODE) {
-					const el = node as HTMLElement;
-					if (el.dataset.variable) {
-						text += `{{${el.dataset.variable}}}`;
-					} else if (el.tagName === "BR") {
-						text += "\n";
-					} else if (el.tagName === "DIV" && text.length > 0 && !text.endsWith("\n")) {
-						// DIV typically creates a new line in contenteditable
-						text += "\n";
-						el.childNodes.forEach(processNode);
-					} else {
-						el.childNodes.forEach(processNode);
-					}
+				// Find the last @ that could be a mention trigger
+				// Match @ followed by word characters (the query)
+				const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
+
+				if (mentionMatch) {
+					const query = mentionMatch[1];
+					const atIndex = cursorPos - mentionMatch[0].length;
+					setMentionQuery(query);
+					setMentionStartIndex(atIndex);
+					setSelectedIndex(0);
+				} else {
+					setMentionQuery(null);
+					setMentionStartIndex(-1);
 				}
-			};
-
-			editorRef.current.childNodes.forEach(processNode);
-			return text;
-		}, []);
-
-		// Check for @ mention trigger
-		const checkForMention = useCallback(() => {
-			const selection = window.getSelection();
-			if (!selection || selection.rangeCount === 0 || !editorRef.current) {
-				setMentionQuery(null);
-				return;
-			}
-
-			const range = selection.getRangeAt(0);
-			if (!range.collapsed) {
-				setMentionQuery(null);
-				return;
-			}
-
-			const textNode = range.startContainer;
-			if (textNode.nodeType !== Node.TEXT_NODE) {
-				setMentionQuery(null);
-				return;
-			}
-
-			const text = textNode.textContent || "";
-			const cursorPos = range.startOffset;
-			const textBeforeCursor = text.slice(0, cursorPos);
-
-			const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
-
-			if (mentionMatch) {
-				const query = mentionMatch[1];
-				setMentionQuery(query);
-				setSelectedIndex(0);
-
-				const coords = getCaretCoordinates(editorRef.current);
-				if (coords) {
-					setMentionPosition(coords);
-				}
-			} else {
-				setMentionQuery(null);
-			}
-		}, []);
+			},
+			[],
+		);
 
 		// Handle input changes
-		const handleInput = useCallback(() => {
-			const newValue = getPlainText();
-			onChange(newValue);
-			checkForMention();
-		}, [getPlainText, onChange, checkForMention]);
-
-		// Render the content with chips
-		useEffect(() => {
-			if (!editorRef.current || isFocused) return;
-
-			const html = segments
-				.map((seg) => {
-					if (seg.type === "variable") {
-						return `<span class="${styles.chip}" contenteditable="false" data-variable="${seg.content}"><i class="ri-braces-line"></i>${seg.content}</span>`;
-					}
-					return seg.content
-						.replace(/&/g, "&amp;")
-						.replace(/</g, "&lt;")
-						.replace(/>/g, "&gt;")
-						.replace(/\n/g, "<br>");
-				})
-				.join("");
-
-			if (editorRef.current.innerHTML !== html) {
-				editorRef.current.innerHTML = html || "";
-			}
-		}, [segments, isFocused]);
-
-		// Handle paste - strip formatting
-		const handlePaste = useCallback(
-			(e: React.ClipboardEvent) => {
-				e.preventDefault();
-				const text = e.clipboardData.getData("text/plain");
-				document.execCommand("insertText", false, text);
-				handleInput();
+		const handleChange = useCallback(
+			(e: ChangeEvent<HTMLTextAreaElement>) => {
+				const newValue = e.target.value;
+				const cursorPos = e.target.selectionStart || 0;
+				onChange(newValue);
+				checkForMention(newValue, cursorPos);
 			},
-			[handleInput],
+			[onChange, checkForMention],
 		);
 
-		// Insert variable at cursor, replacing @query if present
+		// Insert variable, replacing @query if present
 		const insertVariable = useCallback(
 			(varName: string) => {
-				if (!editorRef.current) return;
+				if (!textareaRef.current) return;
 
-				const selection = window.getSelection();
-				if (!selection || selection.rangeCount === 0) {
-					onChange(value + `{{${varName}}}`);
-					setMentionQuery(null);
-					return;
+				const textarea = textareaRef.current;
+				const cursorPos = textarea.selectionStart || 0;
+
+				let newValue: string;
+				let newCursorPos: number;
+
+				if (mentionStartIndex >= 0) {
+					// Replace @query with {{variable}}
+					const before = value.slice(0, mentionStartIndex);
+					const after = value.slice(cursorPos);
+					const insertion = `{{${varName}}} `;
+					newValue = before + insertion + after;
+					newCursorPos = mentionStartIndex + insertion.length;
+				} else {
+					// Just insert at cursor
+					const before = value.slice(0, cursorPos);
+					const after = value.slice(cursorPos);
+					const insertion = `{{${varName}}} `;
+					newValue = before + insertion + after;
+					newCursorPos = cursorPos + insertion.length;
 				}
 
-				const range = selection.getRangeAt(0);
-				const textNode = range.startContainer;
-
-				if (mentionQuery !== null && textNode.nodeType === Node.TEXT_NODE) {
-					const text = textNode.textContent || "";
-					const cursorPos = range.startOffset;
-					const textBeforeCursor = text.slice(0, cursorPos);
-					const atIndex = textBeforeCursor.lastIndexOf("@");
-
-					if (atIndex !== -1) {
-						range.setStart(textNode, atIndex);
-						range.deleteContents();
-					}
-				}
-
-				const chip = document.createElement("span");
-				chip.className = styles.chip;
-				chip.contentEditable = "false";
-				chip.dataset.variable = varName;
-				chip.innerHTML = `<i class="ri-braces-line"></i>${varName}`;
-
-				range.insertNode(chip);
-
-				const space = document.createTextNode("\u00A0");
-				range.setStartAfter(chip);
-				range.insertNode(space);
-				range.setStartAfter(space);
-				range.collapse(true);
-				selection.removeAllRanges();
-				selection.addRange(range);
-
-				const newValue = getPlainText();
 				onChange(newValue);
 				setMentionQuery(null);
-				editorRef.current.focus();
+				setMentionStartIndex(-1);
+
+				// Restore focus and cursor position
+				requestAnimationFrame(() => {
+					textarea.focus();
+					textarea.setSelectionRange(newCursorPos, newCursorPos);
+				});
 			},
-			[value, onChange, getPlainText, mentionQuery],
+			[value, onChange, mentionStartIndex],
 		);
 
-		// Handle keyboard navigation
+		// Handle keyboard navigation in mention menu + atomic variable deletion
 		const handleKeyDown = useCallback(
-			(e: React.KeyboardEvent) => {
+			(e: KeyboardEvent<HTMLTextAreaElement>) => {
+				// Handle mention menu navigation
 				if (mentionQuery !== null && filteredVariables.length > 0) {
 					if (e.key === "ArrowDown") {
 						e.preventDefault();
-						e.stopPropagation();
 						setSelectedIndex((prev) =>
 							prev < filteredVariables.length - 1 ? prev + 1 : 0,
 						);
@@ -322,7 +211,6 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 					}
 					if (e.key === "ArrowUp") {
 						e.preventDefault();
-						e.stopPropagation();
 						setSelectedIndex((prev) =>
 							prev > 0 ? prev - 1 : filteredVariables.length - 1,
 						);
@@ -330,24 +218,121 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 					}
 					if (e.key === "Enter" || e.key === "Tab") {
 						e.preventDefault();
-						e.stopPropagation();
 						insertVariable(filteredVariables[selectedIndex].name);
 						return;
 					}
 					if (e.key === "Escape") {
 						e.preventDefault();
-						e.stopPropagation();
 						setMentionQuery(null);
+						setMentionStartIndex(-1);
 						return;
 					}
 				}
 
-				if (e.key === "Escape") {
-					setMentionQuery(null);
+				// Handle atomic variable deletion (Backspace)
+				if (e.key === "Backspace" && textareaRef.current) {
+					const cursorPos = textareaRef.current.selectionStart || 0;
+					const selectionEnd = textareaRef.current.selectionEnd || 0;
+
+					// Only handle if no text is selected (cursor is collapsed)
+					if (cursorPos === selectionEnd && cursorPos > 0) {
+						// Check if cursor is right after }} (with optional trailing space) or inside a variable
+						const textBefore = value.slice(0, cursorPos);
+						// Match variable with optional trailing space
+						const varEndMatch = textBefore.match(/\{\{(\w+)\}\}\s?$/);
+
+						if (varEndMatch) {
+							// Cursor is right after a complete variable (or its trailing space) - delete the whole thing
+							e.preventDefault();
+							const varStart = cursorPos - varEndMatch[0].length;
+							const newValue = value.slice(0, varStart) + value.slice(cursorPos);
+							onChange(newValue);
+							requestAnimationFrame(() => {
+								textareaRef.current?.setSelectionRange(varStart, varStart);
+							});
+							return;
+						}
+
+						// Check if cursor is inside a variable
+						const varPattern = /\{\{(\w+)\}\}/g;
+						let match;
+						while ((match = varPattern.exec(value)) !== null) {
+							const varStart = match.index;
+							const varEnd = match.index + match[0].length;
+							if (cursorPos > varStart && cursorPos <= varEnd) {
+								// Cursor is inside this variable - delete the whole thing
+								e.preventDefault();
+								const newValue = value.slice(0, varStart) + value.slice(varEnd);
+								onChange(newValue);
+								requestAnimationFrame(() => {
+									textareaRef.current?.setSelectionRange(varStart, varStart);
+								});
+								return;
+							}
+						}
+					}
+				}
+
+				// Handle atomic variable deletion (Delete key)
+				if (e.key === "Delete" && textareaRef.current) {
+					const cursorPos = textareaRef.current.selectionStart || 0;
+					const selectionEnd = textareaRef.current.selectionEnd || 0;
+
+					// Only handle if no text is selected
+					if (cursorPos === selectionEnd && cursorPos < value.length) {
+						// Check if cursor is right before {{ or inside a variable
+						const textAfter = value.slice(cursorPos);
+						const varStartMatch = textAfter.match(/^\{\{(\w+)\}\}/);
+
+						if (varStartMatch) {
+							// Cursor is right before a variable - delete the whole thing
+							e.preventDefault();
+							const varEnd = cursorPos + varStartMatch[0].length;
+							const newValue = value.slice(0, cursorPos) + value.slice(varEnd);
+							onChange(newValue);
+							return;
+						}
+
+						// Check if cursor is inside a variable
+						const varPattern = /\{\{(\w+)\}\}/g;
+						let match;
+						while ((match = varPattern.exec(value)) !== null) {
+							const varStart = match.index;
+							const varEnd = match.index + match[0].length;
+							if (cursorPos >= varStart && cursorPos < varEnd) {
+								// Cursor is inside this variable - delete the whole thing
+								e.preventDefault();
+								const newValue = value.slice(0, varStart) + value.slice(varEnd);
+								onChange(newValue);
+								requestAnimationFrame(() => {
+									textareaRef.current?.setSelectionRange(varStart, varStart);
+								});
+								return;
+							}
+						}
+					}
 				}
 			},
-			[mentionQuery, filteredVariables, selectedIndex, insertVariable],
+			[mentionQuery, filteredVariables, selectedIndex, insertVariable, value, onChange],
 		);
+
+		// Also check mention on cursor position change (click, arrow keys)
+		const handleSelect = useCallback(() => {
+			if (!textareaRef.current) return;
+			const cursorPos = textareaRef.current.selectionStart || 0;
+			checkForMention(value, cursorPos);
+		}, [value, checkForMention]);
+
+		// Sync scroll between textarea and highlighter
+		const handleScroll = useCallback(() => {
+			const textarea = textareaRef.current;
+			const highlighter = textarea?.parentElement?.querySelector(
+				`.${styles.highlighter}`,
+			) as HTMLElement | null;
+			if (textarea && highlighter) {
+				highlighter.scrollTop = textarea.scrollTop;
+			}
+		}, []);
 
 		// Close menu when clicking outside
 		useEffect(() => {
@@ -355,17 +340,43 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 				if (
 					menuRef.current &&
 					!menuRef.current.contains(e.target as Node) &&
-					editorRef.current &&
-					!editorRef.current.contains(e.target as Node)
+					textareaRef.current &&
+					!textareaRef.current.contains(e.target as Node)
 				) {
 					setMentionQuery(null);
+					setMentionStartIndex(-1);
 				}
 			};
 
 			document.addEventListener("mousedown", handleClickOutside);
-			return () =>
-				document.removeEventListener("mousedown", handleClickOutside);
+			return () => document.removeEventListener("mousedown", handleClickOutside);
 		}, []);
+
+		// Scroll selected item into view when navigating with keyboard
+		useEffect(() => {
+			if (menuRef.current && mentionQuery !== null) {
+				const selectedItem = menuRef.current.querySelector('[aria-selected="true"]');
+				if (selectedItem) {
+					selectedItem.scrollIntoView({ block: "nearest" });
+				}
+			}
+		}, [selectedIndex, mentionQuery]);
+
+		// Render the highlight layer content
+		const renderHighlight = () => {
+			return segments.map((seg, index) => {
+				if (seg.type === "variable") {
+					// Render the full {{variable}} text with styling to maintain cursor alignment
+					return (
+						<span key={index} className={styles.variable}>
+							{`{{${seg.content}}}`}
+						</span>
+					);
+				}
+				// Preserve line breaks and spaces
+				return <span key={index}>{seg.content}</span>;
+			});
+		};
 
 		const minHeight = rows * 24; // Approximate line height
 
@@ -378,10 +389,9 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 			.filter(Boolean)
 			.join(" ");
 
-		const editorClassNames = [
-			styles.editor,
+		const containerClassNames = [
+			styles.textareaContainer,
 			isFocused && styles.focused,
-			!value && styles.empty,
 		]
 			.filter(Boolean)
 			.join(" ");
@@ -396,72 +406,59 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 				)}
 
 				<div className={styles.inputWrapper}>
-					<div
-						ref={editorRef}
-						className={editorClassNames}
-						style={{ minHeight }}
-						contentEditable={!disabled}
-						onInput={handleInput}
-						onFocus={() => setIsFocused(true)}
-						onBlur={() => {
-							setIsFocused(false);
-							setTimeout(() => {
-								if (editorRef.current) {
-									const html = parseTextToSegments(value)
-										.map((seg) => {
-											if (seg.type === "variable") {
-												return `<span class="${styles.chip}" contenteditable="false" data-variable="${seg.content}"><i class="ri-braces-line"></i>${seg.content}</span>`;
-											}
-											return seg.content
-												.replace(/&/g, "&amp;")
-												.replace(/</g, "&lt;")
-												.replace(/>/g, "&gt;")
-												.replace(/\n/g, "<br>");
-										})
-										.join("");
-									editorRef.current.innerHTML = html || "";
-								}
-							}, 0);
-						}}
-						onPaste={handlePaste}
-						onKeyDown={handleKeyDown}
-						data-placeholder={placeholder}
-						role="textbox"
-						aria-label={label}
-						aria-invalid={!!error}
-						aria-multiline="true"
-						suppressContentEditableWarning
-					/>
+					<div className={containerClassNames} style={{ minHeight }}>
+						{/* Highlight layer - shows styled content */}
+						<div className={styles.highlighter} aria-hidden="true">
+							{renderHighlight()}
+							{/* Add placeholder if empty */}
+							{!value && placeholder && (
+								<span className={styles.placeholder}>{placeholder}</span>
+							)}
+						</div>
+
+						{/* Actual textarea - transparent text, user types here */}
+						<textarea
+							ref={textareaRef}
+							className={styles.textarea}
+							value={value}
+							onChange={handleChange}
+							onKeyDown={handleKeyDown}
+							onFocus={() => setIsFocused(true)}
+							onBlur={() => setIsFocused(false)}
+							onSelect={handleSelect}
+							onScroll={handleScroll}
+							disabled={disabled}
+							rows={rows}
+							aria-label={label}
+							aria-invalid={!!error}
+							spellCheck={false}
+							autoComplete="off"
+						/>
+					</div>
 
 					{/* @ mention dropdown */}
 					{mentionQuery !== null && filteredVariables.length > 0 && (
-						<div
-							ref={menuRef}
-							className={styles.mentionMenu}
-							style={{ top: mentionPosition.top }}
-							role="listbox"
-						>
+						<div ref={menuRef} className={styles.mentionMenu} role="listbox">
 							{filteredVariables.map((v, index) => (
-								<DropdownOption
+								<button
 									key={v.name}
-									value={v.name}
-									label={`@${v.name}`}
-									description={v.description}
-									size="small"
-									icon="ri-braces-line"
-									highlighted={index === selectedIndex}
+									type="button"
+									className={`${styles.mentionMenuItem} ${index === selectedIndex ? styles.selected : ""}`}
 									onClick={() => insertVariable(v.name)}
 									onMouseEnter={() => setSelectedIndex(index)}
-								/>
+									role="option"
+									aria-selected={index === selectedIndex}
+								>
+									<span className={styles.mentionItemName}>@{v.name}</span>
+									<span className={styles.mentionItemDesc}>{v.description}</span>
+								</button>
 							))}
 						</div>
 					)}
 
+					{/* No results message */}
 					{mentionQuery !== null && filteredVariables.length === 0 && (
-						<div
-							className={styles.mentionMenu}
-							style={{ top: mentionPosition.top }}
-						>
+						<div className={styles.mentionMenu}>
 							<div className={styles.mentionNoResults}>
 								No variables match "{mentionQuery}"
 							</div>
