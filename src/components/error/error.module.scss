@@ -82,7 +82,7 @@
 	border-radius: border.$border-radius-small;
 	overflow-x: auto;
 	white-space: pre-wrap;
-	word-break: break-word;
+	overflow-wrap: break-word;
 }
 
 .actions {
