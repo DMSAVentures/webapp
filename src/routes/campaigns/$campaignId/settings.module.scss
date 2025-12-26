@@ -1,0 +1,192 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+
+.settings {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-05;
+	max-width: 800px;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.title {
+	font-size: typography.$font-size-xl;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.description {
+	font-size: typography.$font-size-md;
+	color: var(--color-text-secondary-default);
+	margin: 0;
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+.sectionHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.sectionTitle {
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.card {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-secondary-default);
+	border-radius: border.$border-radius-medium;
+	border: 1px solid var(--color-border-primary-default);
+}
+
+// Status Section
+.statusRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: layout.$spacing-04;
+	flex-wrap: wrap;
+}
+
+.statusInfo {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.statusLabel {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+}
+
+.statusValue {
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	text-transform: capitalize;
+}
+
+.status_draft {
+	color: var(--color-text-secondary-default);
+}
+
+.status_active {
+	color: var(--color-text-success-default);
+}
+
+.status_paused {
+	color: var(--color-text-warning-default);
+}
+
+.status_completed {
+	color: var(--color-text-primary-default);
+}
+
+.statusActions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: layout.$spacing-02;
+}
+
+.statusWarning {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-warning-default);
+	margin: 0;
+}
+
+// Details Section
+.detailsList {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+.detailItem {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-01;
+}
+
+.detailLabel {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+}
+
+.detailValue {
+	font-size: typography.$font-size-md;
+	color: var(--color-text-primary-default);
+}
+
+// Embed Section
+.embedDescription {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	margin: 0 0 layout.$spacing-03 0;
+}
+
+.embedCode {
+	display: block;
+	padding: layout.$spacing-03;
+	background-color: var(--color-bg-tertiary-default);
+	border-radius: border.$border-radius-small;
+	font-family: typography.$font-family-mono;
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-primary-default);
+	word-break: break-all;
+	white-space: pre-wrap;
+}
+
+// Form disabled state
+.formDisabled {
+	pointer-events: none;
+	opacity: 0.6;
+}
+
+// Danger Zone
+.dangerTitle {
+	color: var(--color-error-text);
+}
+
+.dangerCard {
+	border-color: var(--color-border-danger-default);
+}
+
+.dangerRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: layout.$spacing-04;
+	flex-wrap: wrap;
+}
+
+.dangerInfo {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-01;
+}
+
+.dangerLabel {
+	font-size: typography.$font-size-md;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+}
+
+.dangerDescription {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+}

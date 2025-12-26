@@ -147,3 +147,28 @@
 	font-family: typography.$font-family-mono;
 	color: var(--color-text-primary-default);
 }
+
+.overviewContent {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-05;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.title {
+	font-size: typography.$font-size-xl;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.description {
+	font-size: typography.$font-size-md;
+	color: var(--color-text-secondary-default);
+	margin: 0;
+}

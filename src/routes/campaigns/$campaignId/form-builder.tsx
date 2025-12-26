@@ -1,17 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { useState } from "react";
-import { ErrorState } from "@/components/error/error";
+import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { FormBuilder } from "@/features/form-builder/components/FormBuilder/component";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
-import { useGetCampaign } from "@/hooks/useGetCampaign";
 import Banner from "@/proto-design-system/banner/banner";
-import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
-import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { FormConfig } from "@/types/common.types";
-import styles from "./campaignDetail.module.scss";
+import styles from "./form-builder.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/form-builder")({
 	component: RouteComponent,
@@ -19,7 +13,7 @@ export const Route = createFileRoute("/campaigns/$campaignId/form-builder")({
 
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
-	const { data: campaign, loading, error } = useGetCampaign(campaignId);
+	const { campaign } = useCampaignContext();
 	const formConfig = useFormConfigFromCampaign(campaign);
 	const [saveError, setSaveError] = useState<string | null>(null);
 	const [saveSuccess, setSaveSuccess] = useState(false);
@@ -94,80 +88,43 @@ function RouteComponent() {
 		}
 	};
 
-	if (loading) {
-		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading campaign..."
-			/>
-		);
-	}
-
-	if (error) {
-		return <ErrorState message={`Failed to load campaign: ${error.error}`} />;
-	}
-
 	if (!campaign) {
-		return <EmptyState title="Campaign not found" icon="megaphone-line" />;
+		return null;
 	}
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerActions}>
-					<Breadcrumb
-						items={[
-							<BreadcrumbItem key="campaigns" state="default" path="/campaigns">
-								Campaigns
-							</BreadcrumbItem>,
-							<BreadcrumbItem
-								key="campaign"
-								state="default"
-								path={`/campaigns/${campaignId}`}
-							>
-								{campaign.name}
-							</BreadcrumbItem>,
-							<BreadcrumbItem key="form-builder" state="active">
-								Form Builder
-							</BreadcrumbItem>,
-						]}
-						divider="arrow"
-					/>
-				</div>
+		<div className={styles.formBuilderTab}>
+			<div className={styles.header}>
+				<h2 className={styles.title}>Form Builder</h2>
+				<p className={styles.description}>
+					Design your signup form and customize the success screen
+				</p>
 			</div>
 
-			<div className={styles.pageContent}>
-				{saveSuccess && (
-					<Banner
-						bannerType="success"
-						variant="filled"
-						alertTitle="Form saved successfully!"
-						alertDescription="Your waitlist form has been updated."
-					/>
-				)}
-
-				{saveError && (
-					<Banner
-						bannerType="error"
-						variant="filled"
-						alertTitle="Failed to save form"
-						alertDescription={saveError}
-					/>
-				)}
-
-				<FormBuilder
-					campaignId={campaignId}
-					initialConfig={formConfig || undefined}
-					onSave={handleSave}
-					enabledReferralChannels={campaign.referralSettings?.sharingChannels}
+			{saveSuccess && (
+				<Banner
+					bannerType="success"
+					variant="filled"
+					alertTitle="Form saved successfully!"
+					alertDescription="Your waitlist form has been updated."
 				/>
-			</div>
-		</motion.div>
+			)}
+
+			{saveError && (
+				<Banner
+					bannerType="error"
+					variant="filled"
+					alertTitle="Failed to save form"
+					alertDescription={saveError}
+				/>
+			)}
+
+			<FormBuilder
+				campaignId={campaignId}
+				initialConfig={formConfig || undefined}
+				onSave={handleSave}
+				enabledReferralChannels={campaign.referralSettings?.sharingChannels}
+			/>
+		</div>
 	);
 }

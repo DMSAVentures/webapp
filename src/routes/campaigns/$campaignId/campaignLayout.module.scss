@@ -1,0 +1,37 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.layout {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	padding: layout.$spacing-05 layout.$spacing-06;
+
+	@media (max-width: breakpoints.$breakpoint-md) {
+		padding: layout.$spacing-04;
+	}
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	margin-bottom: layout.$spacing-05;
+}
+
+.headerTop {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: layout.$spacing-03;
+}
+
+.badges {
+	display: flex;
+	gap: layout.$spacing-02;
+}
+
+.content {
+	flex: 1;
+}

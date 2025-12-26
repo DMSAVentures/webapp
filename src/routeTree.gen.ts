@@ -31,16 +31,20 @@ import { Route as WebhooksWebhookIdRouteImport } from './routes/webhooks/$webhoo
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
 import { Route as EmbedCampaignIdRouteImport } from './routes/embed.$campaignId'
 import { Route as CampaignsNewRouteImport } from './routes/campaigns/new'
+import { Route as CampaignsCampaignIdRouteImport } from './routes/campaigns/$campaignId'
 import { Route as BillingPlansRouteImport } from './routes/billing/plans'
 import { Route as BillingPayment_methodRouteImport } from './routes/billing/payment_method'
 import { Route as BillingPayment_attemptRouteImport } from './routes/billing/payment_attempt'
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
 import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns/$campaignId/index'
 import { Route as CampaignsCampaignIdUsersRouteImport } from './routes/campaigns/$campaignId/users'
+import { Route as CampaignsCampaignIdSettingsRouteImport } from './routes/campaigns/$campaignId/settings'
+import { Route as CampaignsCampaignIdLeadsRouteImport } from './routes/campaigns/$campaignId/leads'
 import { Route as CampaignsCampaignIdFormBuilderRouteImport } from './routes/campaigns/$campaignId/form-builder'
 import { Route as CampaignsCampaignIdEmbedRouteImport } from './routes/campaigns/$campaignId/embed'
 import { Route as CampaignsCampaignIdEmailBuilderRouteImport } from './routes/campaigns/$campaignId/email-builder'
 import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
+import { Route as CampaignsCampaignIdAnalyticsRouteImport } from './routes/campaigns/$campaignId/analytics'
 
 const WebhooksRoute = WebhooksRouteImport.update({
   id: '/webhooks',
@@ -152,6 +156,11 @@ const CampaignsNewRoute = CampaignsNewRouteImport.update({
   path: '/campaigns/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignsCampaignIdRoute = CampaignsCampaignIdRouteImport.update({
+  id: '/campaigns/$campaignId',
+  path: '/campaigns/$campaignId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BillingPlansRoute = BillingPlansRouteImport.update({
   id: '/billing/plans',
   path: '/billing/plans',
@@ -174,39 +183,57 @@ const BillingPayRoute = BillingPayRouteImport.update({
 } as any)
 const CampaignsCampaignIdIndexRoute =
   CampaignsCampaignIdIndexRouteImport.update({
-    id: '/campaigns/$campaignId/',
-    path: '/campaigns/$campaignId/',
-    getParentRoute: () => rootRouteImport,
+    id: '/',
+    path: '/',
+    getParentRoute: () => CampaignsCampaignIdRoute,
   } as any)
 const CampaignsCampaignIdUsersRoute =
   CampaignsCampaignIdUsersRouteImport.update({
-    id: '/campaigns/$campaignId/users',
-    path: '/campaigns/$campaignId/users',
-    getParentRoute: () => rootRouteImport,
+    id: '/users',
+    path: '/users',
+    getParentRoute: () => CampaignsCampaignIdRoute,
+  } as any)
+const CampaignsCampaignIdSettingsRoute =
+  CampaignsCampaignIdSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => CampaignsCampaignIdRoute,
+  } as any)
+const CampaignsCampaignIdLeadsRoute =
+  CampaignsCampaignIdLeadsRouteImport.update({
+    id: '/leads',
+    path: '/leads',
+    getParentRoute: () => CampaignsCampaignIdRoute,
   } as any)
 const CampaignsCampaignIdFormBuilderRoute =
   CampaignsCampaignIdFormBuilderRouteImport.update({
-    id: '/campaigns/$campaignId/form-builder',
-    path: '/campaigns/$campaignId/form-builder',
-    getParentRoute: () => rootRouteImport,
+    id: '/form-builder',
+    path: '/form-builder',
+    getParentRoute: () => CampaignsCampaignIdRoute,
   } as any)
 const CampaignsCampaignIdEmbedRoute =
   CampaignsCampaignIdEmbedRouteImport.update({
-    id: '/campaigns/$campaignId/embed',
-    path: '/campaigns/$campaignId/embed',
-    getParentRoute: () => rootRouteImport,
+    id: '/embed',
+    path: '/embed',
+    getParentRoute: () => CampaignsCampaignIdRoute,
   } as any)
 const CampaignsCampaignIdEmailBuilderRoute =
   CampaignsCampaignIdEmailBuilderRouteImport.update({
-    id: '/campaigns/$campaignId/email-builder',
-    path: '/campaigns/$campaignId/email-builder',
-    getParentRoute: () => rootRouteImport,
+    id: '/email-builder',
+    path: '/email-builder',
+    getParentRoute: () => CampaignsCampaignIdRoute,
   } as any)
 const CampaignsCampaignIdEditRoute = CampaignsCampaignIdEditRouteImport.update({
-  id: '/campaigns/$campaignId/edit',
-  path: '/campaigns/$campaignId/edit',
-  getParentRoute: () => rootRouteImport,
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => CampaignsCampaignIdRoute,
 } as any)
+const CampaignsCampaignIdAnalyticsRoute =
+  CampaignsCampaignIdAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => CampaignsCampaignIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -227,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
+  '/campaigns/$campaignId': typeof CampaignsCampaignIdRouteWithChildren
   '/campaigns/new': typeof CampaignsNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
@@ -235,12 +263,15 @@ export interface FileRoutesByFullPath {
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
+  '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
+  '/campaigns/$campaignId/leads': typeof CampaignsCampaignIdLeadsRoute
+  '/campaigns/$campaignId/settings': typeof CampaignsCampaignIdSettingsRoute
   '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
-  '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
+  '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -268,10 +299,13 @@ export interface FileRoutesByTo {
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/webhooks': typeof WebhooksIndexRoute
+  '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
+  '/campaigns/$campaignId/leads': typeof CampaignsCampaignIdLeadsRoute
+  '/campaigns/$campaignId/settings': typeof CampaignsCampaignIdSettingsRoute
   '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
 }
@@ -295,6 +329,7 @@ export interface FileRoutesById {
   '/billing/payment_attempt': typeof BillingPayment_attemptRoute
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
+  '/campaigns/$campaignId': typeof CampaignsCampaignIdRouteWithChildren
   '/campaigns/new': typeof CampaignsNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
@@ -303,10 +338,13 @@ export interface FileRoutesById {
   '/billing/': typeof BillingIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
+  '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
+  '/campaigns/$campaignId/leads': typeof CampaignsCampaignIdLeadsRoute
+  '/campaigns/$campaignId/settings': typeof CampaignsCampaignIdSettingsRoute
   '/campaigns/$campaignId/users': typeof CampaignsCampaignIdUsersRoute
   '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
 }
@@ -331,6 +369,7 @@ export interface FileRouteTypes {
     | '/billing/payment_attempt'
     | '/billing/payment_method'
     | '/billing/plans'
+    | '/campaigns/$campaignId'
     | '/campaigns/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
@@ -339,12 +378,15 @@ export interface FileRouteTypes {
     | '/billing'
     | '/campaigns'
     | '/webhooks/'
+    | '/campaigns/$campaignId/analytics'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
+    | '/campaigns/$campaignId/leads'
+    | '/campaigns/$campaignId/settings'
     | '/campaigns/$campaignId/users'
-    | '/campaigns/$campaignId'
+    | '/campaigns/$campaignId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -372,10 +414,13 @@ export interface FileRouteTypes {
     | '/billing'
     | '/campaigns'
     | '/webhooks'
+    | '/campaigns/$campaignId/analytics'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
+    | '/campaigns/$campaignId/leads'
+    | '/campaigns/$campaignId/settings'
     | '/campaigns/$campaignId/users'
     | '/campaigns/$campaignId'
   id:
@@ -398,6 +443,7 @@ export interface FileRouteTypes {
     | '/billing/payment_attempt'
     | '/billing/payment_method'
     | '/billing/plans'
+    | '/campaigns/$campaignId'
     | '/campaigns/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
@@ -406,10 +452,13 @@ export interface FileRouteTypes {
     | '/billing/'
     | '/campaigns/'
     | '/webhooks/'
+    | '/campaigns/$campaignId/analytics'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
+    | '/campaigns/$campaignId/leads'
+    | '/campaigns/$campaignId/settings'
     | '/campaigns/$campaignId/users'
     | '/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
@@ -433,17 +482,12 @@ export interface RootRouteChildren {
   BillingPayment_attemptRoute: typeof BillingPayment_attemptRoute
   BillingPayment_methodRoute: typeof BillingPayment_methodRoute
   BillingPlansRoute: typeof BillingPlansRoute
+  CampaignsCampaignIdRoute: typeof CampaignsCampaignIdRouteWithChildren
   CampaignsNewRoute: typeof CampaignsNewRoute
   EmbedCampaignIdRoute: typeof EmbedCampaignIdRoute
   OauthSignedinRoute: typeof OauthSignedinRoute
   BillingIndexRoute: typeof BillingIndexRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
-  CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
-  CampaignsCampaignIdEmailBuilderRoute: typeof CampaignsCampaignIdEmailBuilderRoute
-  CampaignsCampaignIdEmbedRoute: typeof CampaignsCampaignIdEmbedRoute
-  CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
-  CampaignsCampaignIdUsersRoute: typeof CampaignsCampaignIdUsersRoute
-  CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -602,6 +646,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/$campaignId': {
+      id: '/campaigns/$campaignId'
+      path: '/campaigns/$campaignId'
+      fullPath: '/campaigns/$campaignId'
+      preLoaderRoute: typeof CampaignsCampaignIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/billing/plans': {
       id: '/billing/plans'
       path: '/billing/plans'
@@ -632,45 +683,66 @@ declare module '@tanstack/react-router' {
     }
     '/campaigns/$campaignId/': {
       id: '/campaigns/$campaignId/'
-      path: '/campaigns/$campaignId'
-      fullPath: '/campaigns/$campaignId'
+      path: '/'
+      fullPath: '/campaigns/$campaignId/'
       preLoaderRoute: typeof CampaignsCampaignIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
     }
     '/campaigns/$campaignId/users': {
       id: '/campaigns/$campaignId/users'
-      path: '/campaigns/$campaignId/users'
+      path: '/users'
       fullPath: '/campaigns/$campaignId/users'
       preLoaderRoute: typeof CampaignsCampaignIdUsersRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
+    }
+    '/campaigns/$campaignId/settings': {
+      id: '/campaigns/$campaignId/settings'
+      path: '/settings'
+      fullPath: '/campaigns/$campaignId/settings'
+      preLoaderRoute: typeof CampaignsCampaignIdSettingsRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
+    }
+    '/campaigns/$campaignId/leads': {
+      id: '/campaigns/$campaignId/leads'
+      path: '/leads'
+      fullPath: '/campaigns/$campaignId/leads'
+      preLoaderRoute: typeof CampaignsCampaignIdLeadsRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
     }
     '/campaigns/$campaignId/form-builder': {
       id: '/campaigns/$campaignId/form-builder'
-      path: '/campaigns/$campaignId/form-builder'
+      path: '/form-builder'
       fullPath: '/campaigns/$campaignId/form-builder'
       preLoaderRoute: typeof CampaignsCampaignIdFormBuilderRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
     }
     '/campaigns/$campaignId/embed': {
       id: '/campaigns/$campaignId/embed'
-      path: '/campaigns/$campaignId/embed'
+      path: '/embed'
       fullPath: '/campaigns/$campaignId/embed'
       preLoaderRoute: typeof CampaignsCampaignIdEmbedRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
     }
     '/campaigns/$campaignId/email-builder': {
       id: '/campaigns/$campaignId/email-builder'
-      path: '/campaigns/$campaignId/email-builder'
+      path: '/email-builder'
       fullPath: '/campaigns/$campaignId/email-builder'
       preLoaderRoute: typeof CampaignsCampaignIdEmailBuilderRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
     }
     '/campaigns/$campaignId/edit': {
       id: '/campaigns/$campaignId/edit'
-      path: '/campaigns/$campaignId/edit'
+      path: '/edit'
       fullPath: '/campaigns/$campaignId/edit'
       preLoaderRoute: typeof CampaignsCampaignIdEditRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
+    }
+    '/campaigns/$campaignId/analytics': {
+      id: '/campaigns/$campaignId/analytics'
+      path: '/analytics'
+      fullPath: '/campaigns/$campaignId/analytics'
+      preLoaderRoute: typeof CampaignsCampaignIdAnalyticsRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
     }
   }
 }
@@ -691,6 +763,33 @@ const WebhooksRouteWithChildren = WebhooksRoute._addFileChildren(
   WebhooksRouteChildren,
 )
 
+interface CampaignsCampaignIdRouteChildren {
+  CampaignsCampaignIdAnalyticsRoute: typeof CampaignsCampaignIdAnalyticsRoute
+  CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
+  CampaignsCampaignIdEmailBuilderRoute: typeof CampaignsCampaignIdEmailBuilderRoute
+  CampaignsCampaignIdEmbedRoute: typeof CampaignsCampaignIdEmbedRoute
+  CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
+  CampaignsCampaignIdLeadsRoute: typeof CampaignsCampaignIdLeadsRoute
+  CampaignsCampaignIdSettingsRoute: typeof CampaignsCampaignIdSettingsRoute
+  CampaignsCampaignIdUsersRoute: typeof CampaignsCampaignIdUsersRoute
+  CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
+}
+
+const CampaignsCampaignIdRouteChildren: CampaignsCampaignIdRouteChildren = {
+  CampaignsCampaignIdAnalyticsRoute: CampaignsCampaignIdAnalyticsRoute,
+  CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
+  CampaignsCampaignIdEmailBuilderRoute: CampaignsCampaignIdEmailBuilderRoute,
+  CampaignsCampaignIdEmbedRoute: CampaignsCampaignIdEmbedRoute,
+  CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
+  CampaignsCampaignIdLeadsRoute: CampaignsCampaignIdLeadsRoute,
+  CampaignsCampaignIdSettingsRoute: CampaignsCampaignIdSettingsRoute,
+  CampaignsCampaignIdUsersRoute: CampaignsCampaignIdUsersRoute,
+  CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
+}
+
+const CampaignsCampaignIdRouteWithChildren =
+  CampaignsCampaignIdRoute._addFileChildren(CampaignsCampaignIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -710,17 +809,12 @@ const rootRouteChildren: RootRouteChildren = {
   BillingPayment_attemptRoute: BillingPayment_attemptRoute,
   BillingPayment_methodRoute: BillingPayment_methodRoute,
   BillingPlansRoute: BillingPlansRoute,
+  CampaignsCampaignIdRoute: CampaignsCampaignIdRouteWithChildren,
   CampaignsNewRoute: CampaignsNewRoute,
   EmbedCampaignIdRoute: EmbedCampaignIdRoute,
   OauthSignedinRoute: OauthSignedinRoute,
   BillingIndexRoute: BillingIndexRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
-  CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
-  CampaignsCampaignIdEmailBuilderRoute: CampaignsCampaignIdEmailBuilderRoute,
-  CampaignsCampaignIdEmbedRoute: CampaignsCampaignIdEmbedRoute,
-  CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
-  CampaignsCampaignIdUsersRoute: CampaignsCampaignIdUsersRoute,
-  CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
