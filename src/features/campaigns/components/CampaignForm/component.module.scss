@@ -36,6 +36,18 @@
   line-height: typography.$line-height-relaxed;
 }
 
+// Subsection for nested config (e.g., referral settings)
+.subsection {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-04;
+  margin-left: layout.$spacing-05;
+  border-left: 2px solid var(--color-border-secondary-default);
+  background-color: var(--color-surface-secondary-default);
+  border-radius: 0 border.$border-radius-small border.$border-radius-small 0;
+}
+
 // Sharing Channels
 .sharingChannels {
   display: flex;

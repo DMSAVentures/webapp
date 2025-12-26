@@ -9,8 +9,6 @@ import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContex
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Button } from "@/proto-design-system/Button/button";
-import Banner from "@/proto-design-system/banner/banner";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import styles from "./settings.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/settings")({
@@ -57,8 +55,6 @@ function RouteComponent() {
 	if (!campaign) {
 		return null;
 	}
-
-	const canEdit = campaign.status === "draft" || campaign.status === "paused";
 
 	const handleEnd = async () => {
 		const updated = await updateStatus(campaignId, { status: "completed" });
@@ -148,41 +144,16 @@ function RouteComponent() {
 
 	return (
 		<div className={styles.settings}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Settings</h2>
-				<p className={styles.description}>
-					Manage campaign configuration and danger zone actions
-				</p>
-			</div>
-
 			{/* Campaign Settings Form */}
 			{campaign.status !== "completed" && (
-				<>
-					<section className={styles.section}>
-						<h3 className={styles.sectionTitle}>Campaign Settings</h3>
-						{!canEdit && (
-							<Banner
-								bannerType="info"
-								variant="light"
-								alertTitle="Editing disabled"
-								alertDescription="Pause the campaign to edit settings."
-								dismissible={false}
-							/>
-						)}
-						<div className={canEdit ? "" : styles.formDisabled}>
-							<CampaignForm
-								campaignId={campaignId}
-								initialData={initialFormData}
-								onSubmit={handleFormSubmit}
-								onCancel={handleFormCancel}
-								loading={updatingCampaign}
-								submitText="Save Changes"
-							/>
-						</div>
-					</section>
-
-					<ContentDivider size="thin" />
-				</>
+				<CampaignForm
+					campaignId={campaignId}
+					initialData={initialFormData}
+					onSubmit={handleFormSubmit}
+					onCancel={handleFormCancel}
+					loading={updatingCampaign}
+					submitText="Save Changes"
+				/>
 			)}
 
 			{/* Danger Zone */}

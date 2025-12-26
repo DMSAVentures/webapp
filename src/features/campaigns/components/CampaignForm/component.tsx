@@ -9,7 +9,6 @@ import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import Dropdown from "@/proto-design-system/dropdown/dropdown";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type { TrackingIntegrationType } from "@/types/campaign";
 import type { CampaignSettings } from "@/types/common.types";
@@ -434,39 +433,46 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 
 	return (
 		<form className={classNames} onSubmit={handleSubmit} {...props}>
-			{/* Campaign Name */}
-			<TextInput
-				id="campaign-name"
-				label="Campaign Name"
-				type="text"
-				value={formData.name}
-				onChange={(e) => handleChange("name", e.target.value)}
-				onBlur={() => handleBlur("name")}
-				placeholder="e.g., Product Launch 2025"
-				disabled={loading}
-				required
-				error={touched.name ? errors.name : undefined}
-			/>
-
-			{/* Description */}
-			<TextArea
-				id="campaign-description"
-				label="Description"
-				value={formData.description}
-				onChange={(e) => handleChange("description", e.target.value)}
-				onBlur={() => handleBlur("description")}
-				placeholder="Describe your campaign..."
-				rows={5}
-				disabled={loading}
-				maxLength={500}
-				error={touched.description ? errors.description : undefined}
-			/>
-
-			{/* Settings Section */}
+			{/* General Section */}
 			<div className={styles.section}>
-				<h3 className={styles.sectionTitle}>Campaign Settings</h3>
+				<h3 className={styles.sectionTitle}>General</h3>
+				<p className={styles.sectionDescription}>
+					Basic information about your campaign
+				</p>
 
-				{/* Email Verification */}
+				<TextInput
+					id="campaign-name"
+					label="Campaign Name"
+					type="text"
+					value={formData.name}
+					onChange={(e) => handleChange("name", e.target.value)}
+					onBlur={() => handleBlur("name")}
+					placeholder="e.g., Product Launch 2025"
+					disabled={loading}
+					required
+					error={touched.name ? errors.name : undefined}
+				/>
+
+				<TextInput
+					id="campaign-description"
+					label="Description"
+					type="text"
+					value={formData.description}
+					onChange={(e) => handleChange("description", e.target.value)}
+					onBlur={() => handleBlur("description")}
+					placeholder="Describe your campaign..."
+					disabled={loading}
+					error={touched.description ? errors.description : undefined}
+				/>
+			</div>
+
+			{/* Signup Options Section */}
+			<div className={styles.section}>
+				<h3 className={styles.sectionTitle}>Signup Options</h3>
+				<p className={styles.sectionDescription}>
+					Configure how users sign up for your waitlist
+				</p>
+
 				<CheckboxWithLabel
 					checked={
 						formData.settings.emailVerificationRequired
@@ -482,31 +488,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					description="Users must verify their email before being added to waitlist"
 				/>
 
-				{/* Enable Referrals */}
-				<CheckboxWithLabel
-					checked={formData.settings.enableReferrals ? "checked" : "unchecked"}
-					onChange={(e) =>
-						handleSettingChange("enableReferrals", e.target.checked)
-					}
-					disabled={loading}
-					flipCheckboxToRight={false}
-					text="Enable referral system"
-					description="Allow users to refer others and track viral growth"
-				/>
-
-				{/* Enable Rewards */}
-				<CheckboxWithLabel
-					checked={formData.settings.enableRewards ? "checked" : "unchecked"}
-					onChange={(e) =>
-						handleSettingChange("enableRewards", e.target.checked)
-					}
-					disabled={loading}
-					flipCheckboxToRight={false}
-					text="Enable reward system"
-					description="Reward users for reaching referral milestones"
-				/>
-
-				{/* Duplicate Handling */}
 				<Dropdown
 					label="Duplicate Email Handling"
 					placeholderText="Select handling method"
@@ -537,7 +518,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					}
 				/>
 
-				{/* Enable CAPTCHA */}
 				<CheckboxWithLabel
 					checked={
 						formData.formConfig?.captchaEnabled ? "checked" : "unchecked"
@@ -563,123 +543,146 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				disabled={loading}
 			/>
 
-			{/* Referral Configuration Section - Only show if referrals are enabled */}
-			{formData.settings.enableReferrals && (
-				<div className={styles.section}>
-					<h3 className={styles.sectionTitle}>Referral Configuration</h3>
-					<p className={styles.sectionDescription}>
-						Configure how the referral system works for this campaign
-					</p>
+			{/* Growth Features Section */}
+			<div className={styles.section}>
+				<h3 className={styles.sectionTitle}>Growth Features</h3>
+				<p className={styles.sectionDescription}>
+					Enable viral growth and engagement features
+				</p>
 
-					{/* Points Per Referral */}
-					<TextInput
-						id="points-per-referral"
-						label="Points Per Referral"
-						type="number"
-						value={formData.referralConfig?.pointsPerReferral.toString() || "1"}
-						onChange={(e) =>
-							handleReferralConfigChange(
-								"pointsPerReferral",
-								parseInt(e.target.value) || 1,
-							)
-						}
-						placeholder="1"
-						disabled={loading}
-						min={1}
-						max={100}
-						hint="Number of points users earn for each successful referral"
-					/>
+				<CheckboxWithLabel
+					checked={formData.settings.enableReferrals ? "checked" : "unchecked"}
+					onChange={(e) =>
+						handleSettingChange("enableReferrals", e.target.checked)
+					}
+					disabled={loading}
+					flipCheckboxToRight={false}
+					text="Enable referral system"
+					description="Allow users to refer others and track viral growth"
+				/>
 
-					{/* Verified Only */}
-					<CheckboxWithLabel
-						checked={
-							formData.referralConfig?.verifiedOnly ? "checked" : "unchecked"
-						}
-						onChange={(e) =>
-							handleReferralConfigChange("verifiedOnly", e.target.checked)
-						}
-						disabled={loading}
-						flipCheckboxToRight={false}
-						text="Count verified referrals only"
-						description="Only count referrals that have verified their email address"
-					/>
+				{/* Referral Configuration - Only show if referrals are enabled */}
+				{formData.settings.enableReferrals && (
+					<div className={styles.subsection}>
+						<TextInput
+							id="points-per-referral"
+							label="Points Per Referral"
+							type="number"
+							value={
+								formData.referralConfig?.pointsPerReferral.toString() || "1"
+							}
+							onChange={(e) =>
+								handleReferralConfigChange(
+									"pointsPerReferral",
+									parseInt(e.target.value) || 1,
+								)
+							}
+							placeholder="1"
+							disabled={loading}
+							min={1}
+							max={100}
+							hint="Points earned for each successful referral"
+						/>
 
-					{/* Referrer Positions to Jump */}
-					<TextInput
-						id="referrer-positions-to-jump"
-						label="Referrer Positions to Jump"
-						type="number"
-						value={
-							formData.referralConfig?.referrerPositionsToJump.toString() || "1"
-						}
-						onChange={(e) =>
-							handleReferralConfigChange(
-								"referrerPositionsToJump",
-								parseInt(e.target.value) || 1,
-							)
-						}
-						placeholder="1"
-						disabled={loading}
-						min={1}
-						max={1000}
-						hint="Number of positions the referrer jumps ahead for each successful referral"
-					/>
+						<CheckboxWithLabel
+							checked={
+								formData.referralConfig?.verifiedOnly ? "checked" : "unchecked"
+							}
+							onChange={(e) =>
+								handleReferralConfigChange("verifiedOnly", e.target.checked)
+							}
+							disabled={loading}
+							flipCheckboxToRight={false}
+							text="Count verified referrals only"
+							description="Only count referrals that have verified their email"
+						/>
 
-					{/* Referee Positions to Jump */}
-					<TextInput
-						id="positions-to-jump"
-						label="Referee Positions to Jump"
-						type="number"
-						value={formData.referralConfig?.positionsToJump.toString() || "0"}
-						onChange={(e) =>
-							handleReferralConfigChange(
-								"positionsToJump",
-								parseInt(e.target.value) || 0,
-							)
-						}
-						placeholder="0"
-						disabled={loading}
-						min={0}
-						max={1000}
-						hint="Number of positions a new user jumps ahead when they use a referral code (0 = no jump)"
-					/>
+						<TextInput
+							id="referrer-positions-to-jump"
+							label="Referrer Positions to Jump"
+							type="number"
+							value={
+								formData.referralConfig?.referrerPositionsToJump.toString() ||
+								"1"
+							}
+							onChange={(e) =>
+								handleReferralConfigChange(
+									"referrerPositionsToJump",
+									parseInt(e.target.value) || 1,
+								)
+							}
+							placeholder="1"
+							disabled={loading}
+							min={1}
+							max={1000}
+							hint="Positions referrer jumps for each referral"
+						/>
 
-					{/* Sharing Channels */}
-					<div className={styles.sharingChannels}>
-						<label className={styles.sharingChannelsLabel}>
-							Sharing Channels
-						</label>
-						<p className={styles.sharingChannelsHint}>
-							Select which platforms users can share their referral link on
-						</p>
-						<div className={styles.sharingChannelsList}>
-							{[
-								{ value: "email", label: "Email" },
-								{ value: "twitter", label: "Twitter/X" },
-								{ value: "facebook", label: "Facebook" },
-								{ value: "linkedin", label: "LinkedIn" },
-								{ value: "whatsapp", label: "WhatsApp" },
-							].map((channel) => (
-								<CheckboxWithLabel
-									key={channel.value}
-									checked={
-										formData.referralConfig?.sharingChannels.includes(
-											channel.value,
-										)
-											? "checked"
-											: "unchecked"
-									}
-									onChange={() => handleSharingChannelToggle(channel.value)}
-									disabled={loading}
-									flipCheckboxToRight={false}
-									text={channel.label}
-									description=""
-								/>
-							))}
+						<TextInput
+							id="positions-to-jump"
+							label="Referee Positions to Jump"
+							type="number"
+							value={formData.referralConfig?.positionsToJump.toString() || "0"}
+							onChange={(e) =>
+								handleReferralConfigChange(
+									"positionsToJump",
+									parseInt(e.target.value) || 0,
+								)
+							}
+							placeholder="0"
+							disabled={loading}
+							min={0}
+							max={1000}
+							hint="Positions new user jumps when using a referral code"
+						/>
+
+						<div className={styles.sharingChannels}>
+							<label className={styles.sharingChannelsLabel}>
+								Sharing Channels
+							</label>
+							<p className={styles.sharingChannelsHint}>
+								Platforms users can share their referral link on
+							</p>
+							<div className={styles.sharingChannelsList}>
+								{[
+									{ value: "email", label: "Email" },
+									{ value: "twitter", label: "Twitter/X" },
+									{ value: "facebook", label: "Facebook" },
+									{ value: "linkedin", label: "LinkedIn" },
+									{ value: "whatsapp", label: "WhatsApp" },
+								].map((channel) => (
+									<CheckboxWithLabel
+										key={channel.value}
+										checked={
+											formData.referralConfig?.sharingChannels.includes(
+												channel.value,
+											)
+												? "checked"
+												: "unchecked"
+										}
+										onChange={() => handleSharingChannelToggle(channel.value)}
+										disabled={loading}
+										flipCheckboxToRight={false}
+										text={channel.label}
+										description=""
+									/>
+								))}
+							</div>
 						</div>
 					</div>
-				</div>
-			)}
+				)}
+
+				<CheckboxWithLabel
+					checked={formData.settings.enableRewards ? "checked" : "unchecked"}
+					onChange={(e) =>
+						handleSettingChange("enableRewards", e.target.checked)
+					}
+					disabled={loading}
+					flipCheckboxToRight={false}
+					text="Enable reward system"
+					description="Reward users for reaching referral milestones"
+				/>
+			</div>
 
 			{/* Conversion Tracking Section */}
 			<div className={styles.section}>
