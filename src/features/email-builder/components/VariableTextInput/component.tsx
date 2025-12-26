@@ -96,7 +96,7 @@ export const VariableTextInput = memo<VariableTextInputProps>(
 				span.contentEditable = "false";
 				span.dataset.variable = variableName;
 				span.className = styles.variable;
-				span.textContent = `{{${variableName}}}`;
+				span.textContent = `{{.${variableName}}}`;
 				return span;
 			},
 			[],

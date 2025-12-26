@@ -62,10 +62,11 @@ const getBlockLabel = (type: EmailBlock["type"]): string => {
 
 /**
  * Render text with variable chips
+ * Matches Go template syntax: {{.variable_name}}
  */
 function renderTextWithVariables(text: string): React.ReactNode[] {
 	const parts: React.ReactNode[] = [];
-	const regex = /\{\{(\w+)\}\}/g;
+	const regex = /\{\{\.(\w+)\}\}/g;
 	let lastIndex = 0;
 	let match: RegExpExecArray | null = null;
 	let key = 0;

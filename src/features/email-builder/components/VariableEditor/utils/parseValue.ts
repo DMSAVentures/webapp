@@ -21,7 +21,7 @@ export type Segment = TextSegment | VariableSegment;
  */
 export function parseValue(value: string): Segment[] {
 	const segments: Segment[] = [];
-	const regex = /\{\{(\w+)\}\}/g;
+	const regex = /\{\{\.(\w+)\}\}/g;
 	let lastIndex = 0;
 	let match: RegExpExecArray | null = null;
 

@@ -12,6 +12,14 @@ import { isAbortError, toApiError } from "@/utils";
 // Types
 // ============================================================================
 
+/**
+ * Email blocks JSON structure with blocks and design settings
+ */
+export interface EmailBlocksJson {
+	blocks: unknown[];
+	design?: unknown;
+}
+
 export interface EmailTemplate {
 	id: string;
 	campaign_id: string;
@@ -25,7 +33,7 @@ export interface EmailTemplate {
 		| "custom";
 	subject: string;
 	html_body: string;
-	text_body?: string;
+	blocks_json?: EmailBlocksJson;
 	enabled: boolean;
 	send_automatically: boolean;
 	variant_name?: string;
@@ -39,7 +47,7 @@ export interface CreateEmailTemplateRequest {
 	type: EmailTemplate["type"];
 	subject: string;
 	html_body: string;
-	text_body?: string;
+	blocks_json?: EmailBlocksJson;
 	enabled?: boolean;
 	send_automatically?: boolean;
 }
@@ -48,7 +56,7 @@ export interface UpdateEmailTemplateRequest {
 	name?: string;
 	subject?: string;
 	html_body?: string;
-	text_body?: string;
+	blocks_json?: EmailBlocksJson;
 	enabled?: boolean;
 	send_automatically?: boolean;
 }

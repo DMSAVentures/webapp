@@ -7,10 +7,12 @@ import type {
 	ButtonBlock,
 	DividerBlock,
 	EmailBlock,
+	EmailDesign,
 	HeadingBlock,
 	ParagraphBlock,
 	SpacerBlock,
 } from "../types/emailBlocks";
+import { DEFAULT_EMAIL_DESIGN } from "../types/emailBlocks";
 
 /**
  * Escape HTML entities
@@ -96,50 +98,6 @@ function getDividerThickness(thickness: "thin" | "medium" | "thick"): number {
 }
 
 /**
- * Convert a heading block to HTML
- */
-function headingToHtml(block: HeadingBlock): string {
-	const fontSize = getHeadingSize(block.level);
-	const tag = `h${block.level}`;
-	const content = nl2br(escapeHtml(block.content));
-
-	return `<${tag} style="color: ${block.color}; font-size: ${fontSize}px; font-weight: 600; margin: 0 0 16px 0; text-align: ${block.align};">
-      ${content}
-    </${tag}>`;
-}
-
-/**
- * Convert a paragraph block to HTML
- */
-function paragraphToHtml(block: ParagraphBlock): string {
-	const fontSize = getFontSize(block.fontSize);
-	const content = nl2br(escapeHtml(block.content));
-
-	return `<p style="color: ${block.color}; font-size: ${fontSize}px; line-height: 1.6; margin: 0 0 16px 0; text-align: ${block.align};">
-      ${content}
-    </p>`;
-}
-
-/**
- * Convert a button block to HTML
- */
-function buttonToHtml(block: ButtonBlock): string {
-	const width = block.fullWidth ? "width: 100%;" : "";
-	const display = block.fullWidth
-		? "display: block;"
-		: "display: inline-block;";
-
-	return `<div style="text-align: ${block.align}; margin: 24px 0;">
-      <a href="${escapeHtml(block.url)}"
-         style="${display} background-color: ${block.backgroundColor}; color: ${block.textColor};
-                padding: 14px 32px; text-decoration: none; border-radius: 6px;
-                font-size: 16px; font-weight: 600; ${width}">
-        ${escapeHtml(block.text)}
-      </a>
-    </div>`;
-}
-
-/**
  * Convert a divider block to HTML
  */
 function dividerToHtml(block: DividerBlock): string {
@@ -158,22 +116,21 @@ function spacerToHtml(block: SpacerBlock): string {
 }
 
 /**
- * Convert a single block to HTML
+ * Convert a single block to HTML with design styling
  */
-function blockToHtml(block: EmailBlock): string {
+function blockToHtmlWithDesign(block: EmailBlock, design: EmailDesign): string {
 	switch (block.type) {
 		case "heading":
-			return headingToHtml(block);
+			return headingToHtmlWithDesign(block, design);
 		case "paragraph":
-			return paragraphToHtml(block);
+			return paragraphToHtmlWithDesign(block, design);
 		case "button":
-			return buttonToHtml(block);
+			return buttonToHtmlWithDesign(block, design);
 		case "divider":
 			return dividerToHtml(block);
 		case "spacer":
 			return spacerToHtml(block);
 		case "image":
-			// Image handling can be added later
 			return "";
 		default:
 			return "";
@@ -181,10 +138,79 @@ function blockToHtml(block: EmailBlock): string {
 }
 
 /**
+ * Convert heading with design colors
+ */
+function headingToHtmlWithDesign(
+	block: HeadingBlock,
+	design: EmailDesign,
+): string {
+	const fontSize = getHeadingSize(block.level);
+	const tag = `h${block.level}`;
+	const content = nl2br(escapeHtml(block.content));
+	// Use block color if explicitly set, otherwise use design text color
+	const color = block.color !== "#1a1a1a" ? block.color : design.colors.text;
+
+	return `<${tag} style="color: ${color}; font-size: ${fontSize}px; font-weight: ${design.typography.headingWeight}; margin: 0 0 ${design.spacing.blockGap}px 0; text-align: ${block.align};">
+      ${content}
+    </${tag}>`;
+}
+
+/**
+ * Convert paragraph with design colors
+ */
+function paragraphToHtmlWithDesign(
+	block: ParagraphBlock,
+	design: EmailDesign,
+): string {
+	const fontSize = getFontSize(block.fontSize);
+	const content = nl2br(escapeHtml(block.content));
+	// Use block color if explicitly set, otherwise use design text color
+	const color = block.color !== "#4a4a4a" ? block.color : design.colors.text;
+
+	return `<p style="color: ${color}; font-size: ${fontSize}px; line-height: 1.6; margin: 0 0 ${design.spacing.blockGap}px 0; text-align: ${block.align};">
+      ${content}
+    </p>`;
+}
+
+/**
+ * Convert button with design colors
+ */
+function buttonToHtmlWithDesign(
+	block: ButtonBlock,
+	design: EmailDesign,
+): string {
+	const width = block.fullWidth ? "width: 100%;" : "";
+	const display = block.fullWidth
+		? "display: block;"
+		: "display: inline-block;";
+	// Use block colors if explicitly set, otherwise use design primary color
+	const bgColor =
+		block.backgroundColor !== "#2563EB"
+			? block.backgroundColor
+			: design.colors.primary;
+	const textColor = block.textColor !== "#ffffff" ? block.textColor : "#ffffff";
+
+	return `<div style="text-align: ${block.align}; margin: 24px 0;">
+      <a href="${escapeHtml(block.url)}"
+         style="${display} background-color: ${bgColor}; color: ${textColor};
+                padding: 14px 32px; text-decoration: none; border-radius: ${Math.min(design.borderRadius, 12)}px;
+                font-size: 16px; font-weight: 600; ${width}">
+        ${escapeHtml(block.text)}
+      </a>
+    </div>`;
+}
+
+/**
  * Convert an array of blocks to complete HTML email
  */
-export function blocksToHtml(blocks: EmailBlock[]): string {
-	const bodyContent = blocks.map(blockToHtml).join("\n");
+export function blocksToHtml(
+	blocks: EmailBlock[],
+	design?: EmailDesign,
+): string {
+	const d = design ?? DEFAULT_EMAIL_DESIGN;
+	const bodyContent = blocks
+		.map((block) => blockToHtmlWithDesign(block, d))
+		.join("\n");
 
 	return `<!DOCTYPE html>
 <html>
@@ -192,14 +218,18 @@ export function blocksToHtml(blocks: EmailBlock[]): string {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #f5f5f5;">
-  <div style="background-color: #ffffff; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+<body style="font-family: ${d.typography.fontFamily}; font-size: ${d.typography.fontSize}px; max-width: 600px; margin: 0 auto; padding: ${d.spacing.contentPadding}px 20px; background-color: ${d.colors.background};">
+  <div style="background-color: ${d.colors.contentBackground}; border-radius: ${d.borderRadius}px; padding: ${d.spacing.contentPadding}px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
     ${bodyContent}
   </div>
 
-  <p style="color: #9a9a9a; font-size: 12px; text-align: center; margin-top: 24px;">
-    If you didn't sign up for this waitlist, you can safely ignore this email.
-  </p>
+  ${
+		d.footerText
+			? `<p style="color: ${d.colors.secondaryText}; font-size: 12px; text-align: center; margin-top: 24px;">
+    ${escapeHtml(d.footerText)}
+  </p>`
+			: ""
+	}
 </body>
 </html>`;
 }

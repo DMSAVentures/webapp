@@ -58,9 +58,6 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 		const [htmlBody, setHtmlBody] = useState(
 			template?.html_body || defaultTemplate.htmlBody,
 		);
-		const [textBody, setTextBody] = useState(
-			template?.text_body || defaultTemplate.textBody,
-		);
 
 		// Test email state
 		const [testEmailRecipient, setTestEmailRecipient] = useState("");
@@ -113,7 +110,6 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 				const updated = await updateTemplate(campaignId, template.id, {
 					subject,
 					html_body: htmlBody,
-					text_body: textBody,
 				});
 				if (updated) {
 					onSave(updated);
@@ -126,7 +122,6 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 					type,
 					subject,
 					html_body: htmlBody,
-					text_body: textBody,
 					enabled: true,
 					send_automatically: true,
 				});
@@ -141,7 +136,6 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 			type,
 			subject,
 			htmlBody,
-			textBody,
 			createTemplate,
 			updateTemplate,
 			onSave,
@@ -252,16 +246,6 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 									onChange={(e) => setHtmlBody(e.target.value)}
 									placeholder="Enter HTML email content..."
 									rows={15}
-								/>
-
-								{/* Text Body */}
-								<TextArea
-									id="email-text-body"
-									label="Plain Text Version (optional)"
-									value={textBody}
-									onChange={(e) => setTextBody(e.target.value)}
-									placeholder="Enter plain text version for email clients that don't support HTML..."
-									rows={5}
 								/>
 							</div>
 						</div>

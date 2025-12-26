@@ -38,7 +38,7 @@ export const DEFAULT_EMAIL_TEMPLATES: Record<
 > = {
 	verification: {
 		subject:
-			"Verify your email - You're #{{position}} on the {{campaign_name}} waitlist",
+			"Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist",
 		htmlBody: `<!DOCTYPE html>
 <html>
 <head>
@@ -52,12 +52,12 @@ export const DEFAULT_EMAIL_TEMPLATES: Record<
     </h1>
 
     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-      Hi {{first_name}},
+      Hi {{.first_name}},
     </p>
 
     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-      Thank you for joining the <strong>{{campaign_name}}</strong> waitlist!
-      You're currently at position <strong>#{{position}}</strong>.
+      Thank you for joining the <strong>{{.campaign_name}}</strong> waitlist!
+      You're currently at position <strong>#{{.position}}</strong>.
     </p>
 
     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
@@ -65,7 +65,7 @@ export const DEFAULT_EMAIL_TEMPLATES: Record<
     </p>
 
     <div style="text-align: center; margin: 32px 0;">
-      <a href="{{verification_link}}"
+      <a href="{{.verification_link}}"
          style="display: inline-block; background-color: #2563EB; color: #ffffff;
                 padding: 14px 32px; text-decoration: none; border-radius: 6px;
                 font-size: 16px; font-weight: 600;">
@@ -78,7 +78,7 @@ export const DEFAULT_EMAIL_TEMPLATES: Record<
         <strong>Share to move up the waitlist:</strong>
       </p>
       <p style="color: #2563EB; font-size: 14px; margin: 0;">
-        <a href="{{referral_link}}" style="color: #2563EB;">{{referral_link}}</a>
+        <a href="{{.referral_link}}" style="color: #2563EB;">{{.referral_link}}</a>
       </p>
     </div>
   </div>
@@ -88,21 +88,21 @@ export const DEFAULT_EMAIL_TEMPLATES: Record<
   </p>
 </body>
 </html>`,
-		textBody: `Hi {{first_name}},
+		textBody: `Hi {{.first_name}},
 
-Thank you for joining the {{campaign_name}} waitlist! You're currently at position #{{position}}.
+Thank you for joining the {{.campaign_name}} waitlist! You're currently at position #{{.position}}.
 
 Please verify your email address to secure your spot:
-{{verification_link}}
+{{.verification_link}}
 
 Share to move up the waitlist:
-{{referral_link}}
+{{.referral_link}}
 
 If you didn't sign up for this waitlist, you can safely ignore this email.`,
 	},
 
 	welcome: {
-		subject: "Welcome to the {{campaign_name}} waitlist!",
+		subject: "Welcome to the {{.campaign_name}} waitlist!",
 		htmlBody: `<!DOCTYPE html>
 <html>
 <head>
@@ -116,16 +116,16 @@ If you didn't sign up for this waitlist, you can safely ignore this email.`,
     </h1>
 
     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-      Hi {{first_name}},
+      Hi {{.first_name}},
     </p>
 
     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-      You've successfully joined the <strong>{{campaign_name}}</strong> waitlist!
+      You've successfully joined the <strong>{{.campaign_name}}</strong> waitlist!
     </p>
 
     <div style="background-color: #f0f9ff; border-radius: 8px; padding: 20px; margin: 24px 0; text-align: center;">
       <p style="color: #6b6b6b; font-size: 14px; margin: 0 0 8px 0;">Your current position</p>
-      <p style="color: #1a1a1a; font-size: 36px; font-weight: 700; margin: 0;">#{{position}}</p>
+      <p style="color: #1a1a1a; font-size: 36px; font-weight: 700; margin: 0;">#{{.position}}</p>
     </div>
 
     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
@@ -133,7 +133,7 @@ If you didn't sign up for this waitlist, you can safely ignore this email.`,
     </p>
 
     <div style="text-align: center; margin: 32px 0;">
-      <a href="{{referral_link}}"
+      <a href="{{.referral_link}}"
          style="display: inline-block; background-color: #2563EB; color: #ffffff;
                 padding: 14px 32px; text-decoration: none; border-radius: 6px;
                 font-size: 16px; font-weight: 600;">
@@ -144,7 +144,7 @@ If you didn't sign up for this waitlist, you can safely ignore this email.`,
     <div style="background-color: #fafafa; border-radius: 6px; padding: 16px; margin-top: 24px;">
       <p style="color: #6b6b6b; font-size: 14px; margin: 0;">
         Your referral link:<br>
-        <a href="{{referral_link}}" style="color: #2563EB; word-break: break-all;">{{referral_link}}</a>
+        <a href="{{.referral_link}}" style="color: #2563EB; word-break: break-all;">{{.referral_link}}</a>
       </p>
     </div>
   </div>
@@ -154,14 +154,14 @@ If you didn't sign up for this waitlist, you can safely ignore this email.`,
   </p>
 </body>
 </html>`,
-		textBody: `Hi {{first_name}},
+		textBody: `Hi {{.first_name}},
 
-You've successfully joined the {{campaign_name}} waitlist!
+You've successfully joined the {{.campaign_name}} waitlist!
 
-Your current position: #{{position}}
+Your current position: #{{.position}}
 
 Want to move up? Share your unique referral link with friends:
-{{referral_link}}
+{{.referral_link}}
 
 We'll notify you when it's your turn. Stay tuned!`,
 	},
@@ -174,7 +174,7 @@ export function renderTemplate(
 	template: string,
 	data: Record<string, string | number>,
 ): string {
-	return template.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+	return template.replace(/\{\{\.(\w+)\}\}/g, (match, variable) => {
 		return String(data[variable] ?? match);
 	});
 }

@@ -26,14 +26,21 @@ import { Badge } from "@/proto-design-system/badge/badge";
 import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
 import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
-import type { EmailBlock } from "../../types/emailBlocks";
-import { createBlock, getDefaultBlocks } from "../../types/emailBlocks";
-import { blocksToHtml, blocksToText } from "../../utils/blocksToHtml";
+import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
+import {
+	createBlock,
+	DEFAULT_EMAIL_DESIGN,
+	getDefaultBlocks,
+} from "../../types/emailBlocks";
+import { blocksToHtml } from "../../utils/blocksToHtml";
 import { BlockEditor } from "../BlockEditor/component";
 import { BlockItem } from "../BlockItem/component";
 import { BlockPalette } from "../BlockPalette/component";
+import { EmailStyleEditor } from "../EmailStyleEditor/component";
 import { VariableTextInput } from "../VariableTextInput/component";
 import styles from "./component.module.scss";
+
+type RightPanelMode = "block" | "appearance";
 
 export interface EmailBuilderProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onSave"> {
@@ -65,11 +72,19 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	);
 	const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
 
+	// Design/appearance state
+	const [design, setDesign] = useState<EmailDesign>(() => ({
+		...DEFAULT_EMAIL_DESIGN,
+	}));
+
+	// Right panel mode (block editor vs appearance editor)
+	const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>("block");
+
 	// Subject line state
 	const [subject, setSubject] = useState(
 		emailType === "verification"
-			? "Verify your email - You're #{{position}} on the {{campaign_name}} waitlist"
-			: "Welcome to the {{campaign_name}} waitlist!",
+			? "Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist"
+			: "Welcome to the {{.campaign_name}} waitlist!",
 	);
 
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -84,7 +99,11 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	const [showTestEmailInput, setShowTestEmailInput] = useState(false);
 
 	// Fetch existing templates
-	const { templates, refetch } = useGetEmailTemplates(campaignId);
+	const {
+		templates,
+		loading: loadingTemplates,
+		refetch,
+	} = useGetEmailTemplates(campaignId);
 	const existingTemplate = templates.find((t) => t.type === emailType) || null;
 
 	// API hooks
@@ -114,16 +133,30 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 			if (existing) {
 				setSubject(existing.subject);
-				// For existing templates, we need to use defaults for now
-				// A more sophisticated HTML-to-blocks parser could be added
-				setBlocks(getDefaultBlocks(newType));
+				// Load blocks from stored blocks_json if available
+				if (
+					existing.blocks_json?.blocks &&
+					Array.isArray(existing.blocks_json.blocks)
+				) {
+					setBlocks(existing.blocks_json.blocks as EmailBlock[]);
+				} else {
+					// Fall back to defaults if no blocks stored
+					setBlocks(getDefaultBlocks(newType));
+				}
+				// Load design if available
+				if (existing.blocks_json?.design) {
+					setDesign(existing.blocks_json.design as EmailDesign);
+				} else {
+					setDesign({ ...DEFAULT_EMAIL_DESIGN });
+				}
 			} else {
 				setSubject(
 					newType === "verification"
-						? "Verify your email - You're #{{position}} on the {{campaign_name}} waitlist"
-						: "Welcome to the {{campaign_name}} waitlist!",
+						? "Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist"
+						: "Welcome to the {{.campaign_name}} waitlist!",
 				);
 				setBlocks(getDefaultBlocks(newType));
+				setDesign({ ...DEFAULT_EMAIL_DESIGN });
 			}
 			setHasUnsavedChanges(false);
 		},
@@ -135,14 +168,14 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		const templateName =
 			emailType === "verification" ? "Verification Email" : "Welcome Email";
 
-		const htmlBody = blocksToHtml(blocks);
-		const textBody = blocksToText(blocks);
+		const htmlBody = blocksToHtml(blocks, design);
+		const blocksJson = { blocks, design };
 
 		if (existingTemplate) {
 			await updateTemplate(campaignId, existingTemplate.id, {
 				subject,
 				html_body: htmlBody,
-				text_body: textBody,
+				blocks_json: blocksJson,
 			});
 		} else {
 			await createTemplate(campaignId, {
@@ -150,7 +183,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				type: emailType,
 				subject,
 				html_body: htmlBody,
-				text_body: textBody,
+				blocks_json: blocksJson,
 				enabled: true,
 				send_automatically: true,
 			});
@@ -164,6 +197,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		existingTemplate,
 		subject,
 		blocks,
+		design,
 		createTemplate,
 		updateTemplate,
 		refetch,
@@ -187,6 +221,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		const newBlock = createBlock(type);
 		setBlocks((prev) => [...prev, newBlock]);
 		setSelectedBlockId(newBlock.id);
+		setRightPanelMode("block");
 		setHasUnsavedChanges(true);
 	}, []);
 
@@ -235,17 +270,37 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		setHasUnsavedChanges(true);
 	}, []);
 
+	// Handle design changes
+	const handleDesignChange = useCallback((newDesign: EmailDesign) => {
+		setDesign(newDesign);
+		setHasUnsavedChanges(true);
+	}, []);
+
 	// Load existing template on mount
 	useEffect(() => {
 		if (existingTemplate && !hasUnsavedChanges) {
 			setSubject(existingTemplate.subject);
-			// Use defaults for blocks - a parser could be added for existing HTML
+			// Load blocks from stored blocks_json if available
+			if (
+				existingTemplate.blocks_json?.blocks &&
+				Array.isArray(existingTemplate.blocks_json.blocks)
+			) {
+				setBlocks(existingTemplate.blocks_json.blocks as EmailBlock[]);
+			}
+			// Load design if available
+			if (existingTemplate.blocks_json?.design) {
+				setDesign(existingTemplate.blocks_json.design as EmailDesign);
+			}
 		}
 	}, [existingTemplate, hasUnsavedChanges]);
 
 	// Rendered preview
+	// Use existing template HTML when no unsaved changes, otherwise use blocks-generated HTML
 	const renderedSubject = renderTemplate(subject, SAMPLE_TEMPLATE_DATA);
-	const htmlBody = blocksToHtml(blocks);
+	const htmlBody =
+		existingTemplate && !hasUnsavedChanges
+			? existingTemplate.html_body
+			: blocksToHtml(blocks, design);
 	const renderedBody = renderTemplate(htmlBody, SAMPLE_TEMPLATE_DATA);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -386,99 +441,142 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 				{/* Center panel - Canvas + Preview */}
 				<main className={styles.centerPanel}>
-					{/* Subject line editor */}
-					<div className={styles.subjectEditor}>
-						<VariableTextInput
-							value={subject}
-							onChange={handleSubjectChange}
-							label="Subject Line"
-							placeholder="Enter email subject..."
-							emailType={emailType}
-						/>
-					</div>
-
-					{/* Block canvas */}
-					<div className={styles.canvasWrapper}>
-						<div className={styles.canvasHeader}>
-							<i className="ri-layout-4-line" aria-hidden="true" />
-							<span>Email Content</span>
-							<span className={styles.blockCount}>{blocks.length} blocks</span>
+					{loadingTemplates ? (
+						<div className={styles.loadingState}>
+							<i className="ri-loader-4-line" aria-hidden="true" />
+							<p>Loading templates...</p>
 						</div>
-						<div className={styles.canvas}>
-							{blocks.length === 0 ? (
-								<div className={styles.emptyCanvas}>
-									<i className="ri-add-box-line" aria-hidden="true" />
-									<p>Add content blocks from the left panel</p>
-								</div>
-							) : (
-								blocks.map((block, index) => (
-									<BlockItem
-										key={block.id}
-										block={block}
-										isSelected={block.id === selectedBlockId}
-										onSelect={() => setSelectedBlockId(block.id)}
-										onDelete={() => handleDeleteBlock(block.id)}
-										onMoveUp={() => handleMoveBlock(block.id, "up")}
-										onMoveDown={() => handleMoveBlock(block.id, "down")}
-										canMoveUp={index > 0}
-										canMoveDown={index < blocks.length - 1}
-									/>
-								))
-							)}
-						</div>
-					</div>
-
-					{/* Live Preview */}
-					<div className={styles.previewWrapper}>
-						<div className={styles.previewHeader}>
-							<i className="ri-eye-line" aria-hidden="true" />
-							<span>Live Preview</span>
-						</div>
-						<div
-							className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
-						>
-							{/* Email header */}
-							<div className={styles.emailHeader}>
-								<div className={styles.emailHeaderRow}>
-									<span className={styles.emailLabel}>Subject:</span>
-									<span className={styles.emailValue}>{renderedSubject}</span>
-								</div>
-								<div className={styles.emailHeaderRow}>
-									<span className={styles.emailLabel}>To:</span>
-									<span className={styles.emailValue}>
-										{SAMPLE_TEMPLATE_DATA.email}
-									</span>
-								</div>
-							</div>
-							{/* Email body */}
-							<div className={styles.emailBody}>
-								<iframe
-									srcDoc={renderedBody}
-									title="Email Preview"
-									sandbox="allow-same-origin"
-									className={styles.emailIframe}
+					) : (
+						<>
+							{/* Subject line editor */}
+							<div className={styles.subjectEditor}>
+								<VariableTextInput
+									value={subject}
+									onChange={handleSubjectChange}
+									label="Subject Line"
+									placeholder="Enter email subject..."
+									emailType={emailType}
 								/>
 							</div>
-						</div>
-					</div>
+
+							{/* Block canvas */}
+							<div className={styles.canvasWrapper}>
+								<div className={styles.canvasHeader}>
+									<i className="ri-layout-4-line" aria-hidden="true" />
+									<span>Email Content</span>
+									<span className={styles.blockCount}>
+										{blocks.length} blocks
+									</span>
+								</div>
+								<div className={styles.canvas}>
+									{blocks.length === 0 ? (
+										<div className={styles.emptyCanvas}>
+											<i className="ri-add-box-line" aria-hidden="true" />
+											<p>Add content blocks from the left panel</p>
+										</div>
+									) : (
+										blocks.map((block, index) => (
+											<BlockItem
+												key={block.id}
+												block={block}
+												isSelected={block.id === selectedBlockId}
+												onSelect={() => {
+													setSelectedBlockId(block.id);
+													setRightPanelMode("block");
+												}}
+												onDelete={() => handleDeleteBlock(block.id)}
+												onMoveUp={() => handleMoveBlock(block.id, "up")}
+												onMoveDown={() => handleMoveBlock(block.id, "down")}
+												canMoveUp={index > 0}
+												canMoveDown={index < blocks.length - 1}
+											/>
+										))
+									)}
+								</div>
+							</div>
+
+							{/* Live Preview */}
+							<div className={styles.previewWrapper}>
+								<div className={styles.previewHeader}>
+									<i className="ri-eye-line" aria-hidden="true" />
+									<span>Live Preview</span>
+								</div>
+								<div
+									className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
+								>
+									{/* Email header */}
+									<div className={styles.emailHeader}>
+										<div className={styles.emailHeaderRow}>
+											<span className={styles.emailLabel}>Subject:</span>
+											<span className={styles.emailValue}>
+												{renderedSubject}
+											</span>
+										</div>
+										<div className={styles.emailHeaderRow}>
+											<span className={styles.emailLabel}>To:</span>
+											<span className={styles.emailValue}>
+												{SAMPLE_TEMPLATE_DATA.email}
+											</span>
+										</div>
+									</div>
+									{/* Email body */}
+									<div className={styles.emailBody}>
+										<iframe
+											srcDoc={renderedBody}
+											title="Email Preview"
+											sandbox="allow-same-origin"
+											className={styles.emailIframe}
+										/>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
 				</main>
 
-				{/* Right panel - Block Editor */}
+				{/* Right panel - Block Editor or Appearance Editor */}
 				<aside className={styles.rightPanel}>
-					{selectedBlock ? (
-						<BlockEditor
-							block={selectedBlock}
-							onUpdate={handleUpdateBlock}
-							emailType={emailType}
-						/>
+					{/* Panel mode toggle */}
+					<div className={styles.panelModeToggle}>
+						<button
+							type="button"
+							className={`${styles.panelModeButton} ${rightPanelMode === "block" ? styles.active : ""}`}
+							onClick={() => setRightPanelMode("block")}
+							aria-pressed={rightPanelMode === "block"}
+						>
+							<i className="ri-layout-4-line" aria-hidden="true" />
+							Content
+						</button>
+						<button
+							type="button"
+							className={`${styles.panelModeButton} ${rightPanelMode === "appearance" ? styles.active : ""}`}
+							onClick={() => setRightPanelMode("appearance")}
+							aria-pressed={rightPanelMode === "appearance"}
+						>
+							<i className="ri-palette-line" aria-hidden="true" />
+							Appearance
+						</button>
+					</div>
+
+					{/* Panel content */}
+					{rightPanelMode === "block" ? (
+						selectedBlock ? (
+							<BlockEditor
+								block={selectedBlock}
+								onUpdate={handleUpdateBlock}
+								emailType={emailType}
+							/>
+						) : (
+							<div className={styles.noSelection}>
+								<i className="ri-cursor-line" aria-hidden="true" />
+								<h3>No Block Selected</h3>
+								<p>
+									Select a content block from the canvas to edit its properties.
+								</p>
+							</div>
+						)
 					) : (
-						<div className={styles.noSelection}>
-							<i className="ri-cursor-line" aria-hidden="true" />
-							<h3>No Block Selected</h3>
-							<p>
-								Select a content block from the canvas to edit its properties.
-							</p>
-						</div>
+						<EmailStyleEditor design={design} onChange={handleDesignChange} />
 					)}
 				</aside>
 			</div>

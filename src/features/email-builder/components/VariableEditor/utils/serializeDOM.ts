@@ -22,7 +22,7 @@ export function serializeDOM(element: HTMLElement | null): string {
 
 			// Check if this is a variable span
 			if (el.dataset.variable) {
-				result += `{{${el.dataset.variable}}}`;
+				result += `{{.${el.dataset.variable}}}`;
 			} else if (el.tagName === "BR") {
 				// Line break
 				result += "\n";

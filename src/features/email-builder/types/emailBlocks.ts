@@ -3,6 +3,84 @@
  * Defines the structure and types for email content blocks
  */
 
+// ============================================================================
+// Email Design Types (similar to FormDesign for form builder)
+// ============================================================================
+
+/**
+ * Email design configuration for appearance customization
+ */
+export interface EmailDesign {
+	/** Color configuration */
+	colors: {
+		/** Primary/accent color (buttons, links) */
+		primary: string;
+		/** Email body background */
+		background: string;
+		/** Container/card background */
+		contentBackground: string;
+		/** Primary text color */
+		text: string;
+		/** Secondary/muted text color */
+		secondaryText: string;
+		/** Link color */
+		link: string;
+	};
+	/** Typography configuration */
+	typography: {
+		/** Font family stack */
+		fontFamily: string;
+		/** Base font size in pixels */
+		fontSize: number;
+		/** Heading font weight */
+		headingWeight: number;
+	};
+	/** Spacing configuration */
+	spacing: {
+		/** Content padding in pixels */
+		contentPadding: number;
+		/** Gap between blocks in pixels */
+		blockGap: number;
+	};
+	/** Container border radius in pixels */
+	borderRadius: number;
+	/** Optional footer text */
+	footerText?: string;
+	/** Custom CSS (future use) */
+	customCss?: string;
+}
+
+/**
+ * Default email design values
+ */
+export const DEFAULT_EMAIL_DESIGN: EmailDesign = {
+	colors: {
+		primary: "#2563EB",
+		background: "#f5f5f5",
+		contentBackground: "#ffffff",
+		text: "#1a1a1a",
+		secondaryText: "#6b6b6b",
+		link: "#2563EB",
+	},
+	typography: {
+		fontFamily:
+			"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+		fontSize: 16,
+		headingWeight: 600,
+	},
+	spacing: {
+		contentPadding: 40,
+		blockGap: 16,
+	},
+	borderRadius: 8,
+	footerText:
+		"If you didn't sign up for this waitlist, you can safely ignore this email.",
+};
+
+// ============================================================================
+// Email Block Types
+// ============================================================================
+
 export type EmailBlockType =
 	| "heading"
 	| "paragraph"
@@ -134,7 +212,7 @@ export function createBlock(type: EmailBlockType): EmailBlock {
 				id,
 				type: "paragraph",
 				content:
-					"Enter your text here. You can use {{variables}} to personalize the content.",
+					"Enter your text here. You can use {{.variables}} to personalize the content.",
 				align: "left",
 				color: "#4a4a4a",
 				fontSize: "medium",
@@ -144,7 +222,7 @@ export function createBlock(type: EmailBlockType): EmailBlock {
 				id,
 				type: "button",
 				text: "Click Here",
-				url: "{{referral_link}}",
+				url: "{{.referral_link}}",
 				align: "center",
 				backgroundColor: "#2563EB",
 				textColor: "#ffffff",
@@ -198,7 +276,7 @@ export function getDefaultBlocks(
 				id: "block-2",
 				type: "paragraph",
 				content:
-					"Hi {{first_name}},\n\nThank you for joining the {{campaign_name}} waitlist! You're currently at position #{{position}}.",
+					"Hi {{.first_name}},\n\nThank you for joining the {{.campaign_name}} waitlist! You're currently at position #{{.position}}.",
 				align: "left",
 				color: "#4a4a4a",
 				fontSize: "medium",
@@ -215,7 +293,7 @@ export function getDefaultBlocks(
 				id: "block-4",
 				type: "button",
 				text: "Verify Email",
-				url: "{{verification_link}}",
+				url: "{{.verification_link}}",
 				align: "center",
 				backgroundColor: "#2563EB",
 				textColor: "#ffffff",
@@ -231,7 +309,7 @@ export function getDefaultBlocks(
 			{
 				id: "block-6",
 				type: "paragraph",
-				content: "Share to move up the waitlist:\n{{referral_link}}",
+				content: "Share to move up the waitlist:\n{{.referral_link}}",
 				align: "left",
 				color: "#6b6b6b",
 				fontSize: "small",
@@ -253,7 +331,7 @@ export function getDefaultBlocks(
 			id: "block-2",
 			type: "paragraph",
 			content:
-				"Hi {{first_name}},\n\nYou've successfully joined the {{campaign_name}} waitlist!",
+				"Hi {{.first_name}},\n\nYou've successfully joined the {{.campaign_name}} waitlist!",
 			align: "left",
 			color: "#4a4a4a",
 			fontSize: "medium",
@@ -261,7 +339,7 @@ export function getDefaultBlocks(
 		{
 			id: "block-3",
 			type: "heading",
-			content: "#{{position}}",
+			content: "#{{.position}}",
 			level: 2,
 			align: "center",
 			color: "#1a1a1a",
@@ -291,7 +369,7 @@ export function getDefaultBlocks(
 			id: "block-7",
 			type: "button",
 			text: "Share Your Link",
-			url: "{{referral_link}}",
+			url: "{{.referral_link}}",
 			align: "center",
 			backgroundColor: "#2563EB",
 			textColor: "#ffffff",

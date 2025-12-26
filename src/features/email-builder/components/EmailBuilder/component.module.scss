@@ -90,8 +90,10 @@
 .builder {
 	display: grid;
 	grid-template-columns: 260px 1fr 320px;
+	grid-template-rows: 1fr;
 	gap: layout.$spacing-04;
 	flex: 1;
+	min-height: 0; // Important for flex child with overflow
 	overflow: hidden;
 	padding: layout.$spacing-04;
 	background-color: var(--color-bg-secondary-default);
@@ -104,18 +106,72 @@
 	border: border.$border-width-small solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-medium;
 	overflow-y: auto;
+	min-height: 0; // Allow shrinking in grid
 }
 
 .centerPanel {
 	display: flex;
 	flex-direction: column;
 	gap: layout.$spacing-04;
-	overflow: hidden;
+	overflow-y: auto;
+	min-height: 0; // Allow shrinking in grid
 }
 
 .rightPanel {
 	display: flex;
 	flex-direction: column;
+	overflow: hidden; // Contain content, child will scroll
+}
+
+// Panel mode toggle (Content vs Appearance)
+.panelModeToggle {
+	display: flex;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-04;
+	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	flex-shrink: 0;
+}
+
+.panelModeButton {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03 layout.$spacing-03;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+	background-color: var(--color-surface-primary-default);
+	border: border.$border-width-small solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	i {
+		font-size: typography.$font-size-md;
+	}
+
+	&:hover {
+		background-color: var(--color-bg-secondary-hover);
+		border-color: var(--color-border-primary-hover);
+		color: var(--color-text-primary-default);
+	}
+
+	&.active {
+		background-color: var(--color-bg-info-alpha);
+		border-color: var(--color-border-focus-default);
+		color: var(--color-text-primary-default);
+
+		i {
+			color: var(--color-info-default);
+		}
+	}
+
+	&:focus-visible {
+		outline: border.$border-width-medium solid var(--color-focus-ring-default);
+		outline-offset: layout.$spacing-01;
+	}
 }
 
 // Subject editor
@@ -130,8 +186,7 @@
 .canvasWrapper {
 	display: flex;
 	flex-direction: column;
-	flex: 1;
-	min-height: 200px;
+	flex-shrink: 0; // Don't shrink - height based on content
 	background-color: var(--color-surface-primary-default);
 	border: border.$border-width-small solid var(--color-border-primary-default);
 	border-radius: border.$border-radius-medium;
@@ -166,8 +221,6 @@
 	flex-direction: column;
 	gap: layout.$spacing-02;
 	padding: layout.$spacing-04;
-	flex: 1;
-	overflow-y: auto;
 }
 
 .emptyCanvas {
@@ -191,11 +244,43 @@
 	}
 }
 
+.loadingState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-08;
+	color: var(--color-text-tertiary-default);
+	text-align: center;
+	flex: 1;
+
+	i {
+		font-size: typography.$font-size-h1;
+		animation: spin 1s linear infinite;
+	}
+
+	p {
+		margin: 0;
+		font-size: typography.$font-size-sm;
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+    
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 // Preview section
 .previewWrapper {
 	display: flex;
 	flex-direction: column;
-	flex: 1;
+	flex: 1; // Take remaining space to show full email preview
 	min-height: 300px;
 	background-color: var(--color-surface-primary-default);
 	border: border.$border-width-small solid var(--color-border-primary-default);
