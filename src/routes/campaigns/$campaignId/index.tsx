@@ -6,8 +6,8 @@ import { CampaignStats } from "@/features/campaigns/components/CampaignStats/com
 import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
+import { Badge } from "@/proto-design-system/badge/badge";
 import { Button } from "@/proto-design-system/Button/button";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
@@ -276,131 +276,159 @@ function RouteComponent() {
 				onCardClick={handleStatCardClick}
 			/>
 
-			<div className={styles.detailsCard}>
+			<div className={styles.configSection}>
 				<h3 className={styles.detailsTitle}>Configuration</h3>
-				<div className={styles.detailsContent}>
-					{campaign.referralSettings && (
-						<>
-							<div className={styles.detailsSection}>
-								<div className={styles.sectionTitle}>Referral Settings</div>
-								<div className={styles.detailsList}>
-									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>Enabled:</strong>
-										<span className={styles.detailValue}>
-											{campaign.referralSettings.enabled ? "Yes" : "No"}
-										</span>
-									</div>
-									{campaign.referralSettings.pointsPerReferral != null && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												Points per Referral:
-											</strong>
-											<span className={styles.detailValue}>
-												{campaign.referralSettings.pointsPerReferral}
-											</span>
-										</div>
-									)}
-									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>
-											Verified Only:
-										</strong>
-										<span className={styles.detailValue}>
-											{campaign.referralSettings.verifiedOnly ? "Yes" : "No"}
-										</span>
-									</div>
-									{campaign.referralSettings.sharingChannels &&
-										campaign.referralSettings.sharingChannels.length > 0 && (
-											<div className={styles.detailItem}>
-												<strong className={styles.detailLabel}>
-													Sharing Channels:
-												</strong>
-												<span className={styles.detailValue}>
-													{campaign.referralSettings.sharingChannels.join(", ")}
-												</span>
-											</div>
-										)}
-								</div>
-							</div>
-							<ContentDivider size="thin" />
-						</>
-					)}
-
-					{campaign.emailSettings && (
-						<>
-							<div className={styles.detailsSection}>
-								<div className={styles.sectionTitle}>Email Settings</div>
-								<div className={styles.detailsList}>
-									<div className={styles.detailItem}>
-										<strong className={styles.detailLabel}>
-											Verification Required:
-										</strong>
-										<span className={styles.detailValue}>
-											{campaign.emailSettings.verificationRequired
-												? "Yes"
-												: "No"}
-										</span>
-									</div>
-									{campaign.emailSettings.fromName && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>From Name:</strong>
-											<span className={styles.detailValue}>
-												{campaign.emailSettings.fromName}
-											</span>
-										</div>
-									)}
-									{campaign.emailSettings.fromEmail && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>
-												From Email:
-											</strong>
-											<span className={styles.detailValue}>
-												{campaign.emailSettings.fromEmail}
-											</span>
-										</div>
-									)}
-									{campaign.emailSettings.replyTo && (
-										<div className={styles.detailItem}>
-											<strong className={styles.detailLabel}>Reply To:</strong>
-											<span className={styles.detailValue}>
-												{campaign.emailSettings.replyTo}
-											</span>
-										</div>
-									)}
-								</div>
-							</div>
-							<ContentDivider size="thin" />
-						</>
-					)}
-
-					<div className={styles.detailsSection}>
-						<div className={styles.detailsList}>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Created:</strong>
-								<span className={styles.detailValue}>
-									{new Date(campaign.createdAt).toLocaleString()}
-								</span>
-							</div>
-							<div className={styles.detailItem}>
-								<strong className={styles.detailLabel}>Last Updated:</strong>
-								<span className={styles.detailValue}>
-									{new Date(campaign.updatedAt).toLocaleString()}
-								</span>
-							</div>
-							{campaign.launchDate && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>Launch Date:</strong>
-									<span className={styles.detailValue}>
-										{new Date(campaign.launchDate).toLocaleString()}
+				<div className={styles.configGrid}>
+					<div className={styles.configCard}>
+						<div className={styles.configCardHeader}>
+							<i
+								className={`ri-mail-line ${styles.configCardIcon}`}
+								aria-hidden="true"
+							/>
+							<span className={styles.configCardTitle}>Email</span>
+							<Badge
+								text={
+									campaign.emailSettings?.verificationRequired
+										? "Verification On"
+										: "Verification Off"
+								}
+								variant={
+									campaign.emailSettings?.verificationRequired ? "blue" : "gray"
+								}
+								styleType="light"
+								size="small"
+							/>
+						</div>
+						{(campaign.emailSettings?.fromName ||
+							campaign.emailSettings?.fromEmail) && (
+							<div className={styles.configCardDetails}>
+								{campaign.emailSettings.fromName && (
+									<span className={styles.configDetail}>
+										From: {campaign.emailSettings.fromName}
 									</span>
-								</div>
+								)}
+								{campaign.emailSettings.fromEmail && (
+									<span className={styles.configDetail}>
+										{campaign.emailSettings.fromEmail}
+									</span>
+								)}
+								{campaign.emailSettings.replyTo && (
+									<span className={styles.configDetail}>
+										Reply to: {campaign.emailSettings.replyTo}
+									</span>
+								)}
+							</div>
+						)}
+					</div>
+
+					<div className={styles.configCard}>
+						<div className={styles.configCardHeader}>
+							<i
+								className={`ri-share-line ${styles.configCardIcon}`}
+								aria-hidden="true"
+							/>
+							<span className={styles.configCardTitle}>Referrals</span>
+							<Badge
+								text={
+									campaign.referralSettings?.enabled ? "Enabled" : "Disabled"
+								}
+								variant={campaign.referralSettings?.enabled ? "green" : "gray"}
+								styleType="light"
+								size="small"
+							/>
+						</div>
+						{campaign.referralSettings?.enabled && (
+							<div className={styles.configCardDetails}>
+								{campaign.referralSettings.pointsPerReferral != null &&
+									campaign.referralSettings.pointsPerReferral > 0 && (
+										<span className={styles.configDetail}>
+											<strong>
+												{campaign.referralSettings.pointsPerReferral}
+											</strong>{" "}
+											points per referral
+										</span>
+									)}
+								{campaign.referralSettings.verifiedOnly && (
+									<span className={styles.configDetail}>
+										Verified referrals only
+									</span>
+								)}
+								{campaign.referralSettings.sharingChannels &&
+									campaign.referralSettings.sharingChannels.length > 0 && (
+										<div className={styles.configChannels}>
+											{campaign.referralSettings.sharingChannels.map(
+												(channel) => (
+													<Badge
+														key={channel}
+														text={channel}
+														variant="gray"
+														styleType="lighter"
+														size="small"
+														iconClass={
+															channel === "twitter"
+																? "twitter-x-line"
+																: channel === "facebook"
+																	? "facebook-line"
+																	: channel === "linkedin"
+																		? "linkedin-line"
+																		: channel === "email"
+																			? "mail-line"
+																			: "link"
+														}
+														iconPosition="left"
+													/>
+												),
+											)}
+										</div>
+									)}
+							</div>
+						)}
+					</div>
+
+					<div className={styles.configCard}>
+						<div className={styles.configCardHeader}>
+							<i
+								className={`ri-calendar-line ${styles.configCardIcon}`}
+								aria-hidden="true"
+							/>
+							<span className={styles.configCardTitle}>Timeline</span>
+						</div>
+						<div className={styles.configCardDetails}>
+							<span className={styles.configDetail}>
+								Created:{" "}
+								{new Date(campaign.createdAt).toLocaleDateString(undefined, {
+									month: "short",
+									day: "numeric",
+									year: "numeric",
+								})}
+							</span>
+							<span className={styles.configDetail}>
+								Updated:{" "}
+								{new Date(campaign.updatedAt).toLocaleDateString(undefined, {
+									month: "short",
+									day: "numeric",
+									year: "numeric",
+								})}
+							</span>
+							{campaign.launchDate && (
+								<span className={styles.configDetail}>
+									Launch:{" "}
+									{new Date(campaign.launchDate).toLocaleDateString(undefined, {
+										month: "short",
+										day: "numeric",
+										year: "numeric",
+									})}
+								</span>
 							)}
 							{campaign.endDate && (
-								<div className={styles.detailItem}>
-									<strong className={styles.detailLabel}>End Date:</strong>
-									<span className={styles.detailValue}>
-										{new Date(campaign.endDate).toLocaleString()}
-									</span>
-								</div>
+								<span className={styles.configDetail}>
+									End:{" "}
+									{new Date(campaign.endDate).toLocaleDateString(undefined, {
+										month: "short",
+										day: "numeric",
+										year: "numeric",
+									})}
+								</span>
 							)}
 						</div>
 					</div>
