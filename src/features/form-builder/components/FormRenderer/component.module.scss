@@ -123,6 +123,28 @@
   text-align: center;
 }
 
+.statusBanner {
+  text-align: center;
+  padding: var(--form-padding, layout.$spacing-05);
+  margin-bottom: var(--form-gap, layout.$spacing-04);
+  background-color: var(--color-bg-info-alpha);
+  border: 1px solid var(--color-border-info-default);
+  border-radius: var(--form-border-radius, border.$border-radius-medium);
+}
+
+.statusTitle {
+  font-size: calc(var(--form-font-size, 14px) + 2px);
+  font-weight: typography.$font-weight-semibold;
+  color: var(--form-text-color, var(--color-text-primary-default));
+  margin: 0 0 layout.$spacing-02 0;
+}
+
+.statusMessage {
+  font-size: var(--form-font-size, 14px);
+  color: var(--form-text-color, var(--color-text-secondary-default));
+  margin: 0;
+}
+
 // Responsive adjustments
 @media (width <= 768px) {
   .fieldsGrid {

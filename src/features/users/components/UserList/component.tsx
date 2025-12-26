@@ -3,13 +3,7 @@
  * Display waitlist users with filters and sorting
  */
 
-import {
-	type HTMLAttributes,
-	memo,
-	useCallback,
-	useMemo,
-	useState,
-} from "react";
+import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
 import { Button } from "@/proto-design-system/Button/button";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
@@ -17,7 +11,7 @@ import Modal from "@/proto-design-system/modal/modal";
 import Pagination from "@/proto-design-system/pagination/pagination";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { Table } from "@/proto-design-system/Table";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import type { FormField } from "@/types/campaign";
 import type {
 	SortDirection,
 	UserSortField,
@@ -54,6 +48,14 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	referralEnabled?: boolean;
 	/** Whether email verification is enabled for this campaign */
 	emailVerificationEnabled?: boolean;
+	/** Custom form fields for dynamic columns */
+	formFields?: FormField[];
+	/** Current sort field */
+	sortField?: UserSortField;
+	/** Current sort direction */
+	sortDirection?: SortDirection;
+	/** Sort change handler for server-side sorting */
+	onSortChange?: (field: UserSortField, direction: SortDirection) => void;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -75,13 +77,14 @@ export const UserList = memo<UserListProps>(function UserList({
 	onBulkAction,
 	referralEnabled = true,
 	emailVerificationEnabled = true,
+	formFields,
+	sortField = "position",
+	sortDirection = "asc",
+	onSortChange,
 	className: customClassName,
 	...props
 }) {
 	const { getStatusVariant, formatStatus } = useUserHelpers();
-	const [searchQuery, setSearchQuery] = useState("");
-	const [sortField, setSortField] = useState<UserSortField>("position");
-	const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [isBulkLoading, setIsBulkLoading] = useState(false);
@@ -89,89 +92,28 @@ export const UserList = memo<UserListProps>(function UserList({
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 	const hasSelection = selectedUserIds.length > 0;
 
-	// Handle sort
+	// Handle sort - trigger server-side sorting via callback
 	const handleSort = useCallback(
 		(field: UserSortField) => {
+			if (!onSortChange) return;
+
 			if (sortField === field) {
-				setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+				onSortChange(field, sortDirection === "asc" ? "desc" : "asc");
 			} else {
-				setSortField(field);
-				setSortDirection("asc");
+				onSortChange(field, "asc");
 			}
 		},
-		[sortField, sortDirection],
+		[sortField, sortDirection, onSortChange],
 	);
-
-	// Filter and sort users (client-side search and sort only)
-	const filteredAndSortedUsers = useMemo(() => {
-		let filtered = users;
-
-		// Apply search
-		if (searchQuery.trim()) {
-			const query = searchQuery.toLowerCase();
-			filtered = filtered.filter((user) =>
-				user.email.toLowerCase().includes(query),
-			);
-		}
-
-		// Sort
-		const sorted = [...filtered].sort((a, b) => {
-			let aValue: string | number;
-			let bValue: string | number;
-
-			switch (sortField) {
-				case "email":
-					aValue = a.email;
-					bValue = b.email;
-					break;
-				case "status":
-					aValue = a.status;
-					bValue = b.status;
-					break;
-				case "position":
-					aValue = a.position;
-					bValue = b.position;
-					break;
-				case "referralCount":
-					aValue = a.referralCount;
-					bValue = b.referralCount;
-					break;
-				case "source":
-					aValue = a.source;
-					bValue = b.source;
-					break;
-				case "createdAt":
-					aValue = new Date(a.createdAt).getTime();
-					bValue = new Date(b.createdAt).getTime();
-					break;
-				default:
-					return 0;
-			}
-
-			if (typeof aValue === "string" && typeof bValue === "string") {
-				return sortDirection === "asc"
-					? aValue.localeCompare(bValue)
-					: bValue.localeCompare(aValue);
-			}
-
-			if (typeof aValue === "number" && typeof bValue === "number") {
-				return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
-			}
-
-			return 0;
-		});
-
-		return sorted;
-	}, [users, searchQuery, sortField, sortDirection]);
 
 	// Handle select all
 	const handleSelectAll = useCallback(() => {
-		if (selectedUserIds.length === filteredAndSortedUsers.length) {
+		if (selectedUserIds.length === users.length) {
 			setSelectedUserIds([]);
 		} else {
-			setSelectedUserIds(filteredAndSortedUsers.map((u) => u.id));
+			setSelectedUserIds(users.map((u) => u.id));
 		}
-	}, [selectedUserIds, filteredAndSortedUsers]);
+	}, [selectedUserIds, users]);
 
 	// Handle select user
 	const handleSelectUser = useCallback((userId: string) => {
@@ -246,29 +188,8 @@ export const UserList = memo<UserListProps>(function UserList({
 
 	return (
 		<div className={classNames} {...props}>
-			{/* Header with search and actions */}
+			{/* Header with actions */}
 			<div className={styles.header}>
-				{/* Search */}
-				<div className={styles.searchBox}>
-					<TextInput
-						label="Search"
-						placeholder="Search by email..."
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-						leftIcon="ri-search-line"
-						showLeftIcon={true}
-					/>
-					{searchQuery && (
-						<button
-							className={styles.searchClear}
-							onClick={() => setSearchQuery("")}
-							aria-label="Clear search"
-						>
-							<i className="ri-close-line" aria-hidden="true" />
-						</button>
-					)}
-				</div>
-
 				{/* Actions */}
 				<div className={styles.headerActions}>
 					<Button
@@ -328,29 +249,14 @@ export const UserList = memo<UserListProps>(function UserList({
 							<span className={styles.resultsDivider}>/</span>
 						</>
 					) : null}
-					{searchQuery ? (
-						<>
-							{filteredAndSortedUsers.length} user
-							{filteredAndSortedUsers.length !== 1 ? "s" : ""} matching "
-							{searchQuery}"
-						</>
-					) : (
-						<>
-							{totalUsers} user{totalUsers !== 1 ? "s" : ""} total
-						</>
-					)}
+					{totalUsers} user{totalUsers !== 1 ? "s" : ""} total
 				</div>
 
 				{/* User table */}
-				{!loading && filteredAndSortedUsers.length === 0 ? (
+				{!loading && users.length === 0 ? (
 					<div className={styles.noResults}>
 						<i className="ri-search-line" aria-hidden="true" />
 						<p>No users found</p>
-						{searchQuery && (
-							<Button onClick={() => setSearchQuery("")} variant="secondary">
-								Clear search
-							</Button>
-						)}
 					</div>
 				) : (
 					<Table loading={loading} loadingMessage="Loading users...">
@@ -359,9 +265,8 @@ export const UserList = memo<UserListProps>(function UserList({
 								<Table.HeaderCell narrow>
 									<Checkbox
 										checked={
-											selectedUserIds.length ===
-												filteredAndSortedUsers.length &&
-											filteredAndSortedUsers.length > 0
+											selectedUserIds.length === users.length &&
+											users.length > 0
 												? "checked"
 												: "unchecked"
 										}
@@ -419,6 +324,12 @@ export const UserList = memo<UserListProps>(function UserList({
 										<Table.HeaderCell>UTM Source</Table.HeaderCell>
 									</>
 								)}
+								{/* Dynamic columns for custom form fields */}
+								{formFields?.map((field) => (
+									<Table.HeaderCell key={field.id}>
+										{field.label}
+									</Table.HeaderCell>
+								))}
 								<Table.HeaderCell
 									sortable
 									sortDirection={
@@ -431,7 +342,7 @@ export const UserList = memo<UserListProps>(function UserList({
 							</Table.Row>
 						</Table.Header>
 						<Table.Body>
-							{filteredAndSortedUsers.map((user) => (
+							{users.map((user) => (
 								<Table.Row
 									key={user.id}
 									selected={selectedUserIds.includes(user.id)}
@@ -483,6 +394,14 @@ export const UserList = memo<UserListProps>(function UserList({
 											</Table.Cell>
 										</>
 									)}
+									{/* Dynamic cells for custom form fields */}
+									{formFields?.map((field) => (
+										<Table.Cell key={field.id}>
+											<span className={styles.customField}>
+												{user.customFields?.[field.id] ?? "-"}
+											</span>
+										</Table.Cell>
+									))}
 									<Table.Cell>
 										<span className={styles.date}>
 											{new Date(user.createdAt).toLocaleDateString("en-US", {

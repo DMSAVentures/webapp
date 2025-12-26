@@ -45,6 +45,14 @@ export interface FormSubmitOptions {
 	captchaToken?: string;
 }
 
+/** Status message configuration for non-active campaigns */
+export interface StatusMessage {
+	/** Title of the status message */
+	title: string;
+	/** Description of why the form is not accepting submissions */
+	message: string;
+}
+
 export interface FormRendererProps {
 	/** Form configuration (only fields and design are required) */
 	config: FormRendererConfig;
@@ -69,6 +77,8 @@ export interface FormRendererProps {
 	embedUrl?: string;
 	/** Tracking integrations for conversion pixels */
 	trackingIntegrations?: TrackingIntegration[];
+	/** Status message to display when form is not accepting submissions */
+	statusMessage?: StatusMessage | null;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -87,6 +97,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	enabledChannels = [],
 	embedUrl,
 	trackingIntegrations,
+	statusMessage,
 	className,
 }) {
 	const { fields, design, captcha } = config;
@@ -273,6 +284,14 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 			onSubmit={handleSubmit}
 			noValidate
 		>
+			{/* Status message banner for non-active campaigns */}
+			{statusMessage && (
+				<div className={styles.statusBanner}>
+					<h3 className={styles.statusTitle}>{statusMessage.title}</h3>
+					<p className={styles.statusMessage}>{statusMessage.message}</p>
+				</div>
+			)}
+
 			{/* Submit error */}
 			{submitError && (
 				<div className={styles.error} role="alert">

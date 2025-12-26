@@ -1,0 +1,16 @@
+@use "@/design-tokens/layout" as layout;
+
+.root {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-03;
+	flex-wrap: wrap;
+	padding: layout.$spacing-03 0;
+}
+
+.chips {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	flex-wrap: wrap;
+}

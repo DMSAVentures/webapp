@@ -64,8 +64,23 @@ export interface UserMetadata {
 export interface ListUsersParams {
 	page?: number;
 	limit?: number;
-	status?: WaitlistUserStatus | "removed" | "blocked";
-	sort?: "position" | "created_at" | "referral_count";
+	// Filters
+	status?: string[];
+	source?: string[];
+	hasReferrals?: boolean;
+	minPosition?: number;
+	maxPosition?: number;
+	dateFrom?: string;
+	dateTo?: string;
+	customFields?: Record<string, string>;
+	// Sorting
+	sort?:
+		| "position"
+		| "created_at"
+		| "referral_count"
+		| "email"
+		| "status"
+		| "source";
 	order?: "asc" | "desc";
 }
 
@@ -91,6 +106,27 @@ export interface UserFilters {
 		start: Date;
 		end: Date;
 	};
+	customFields?: Record<string, string | string[]>;
+}
+
+// ============================================================================
+// Active Filter Types (for dismissible chips)
+// ============================================================================
+
+export type ActiveFilterType =
+	| "status"
+	| "source"
+	| "dateRange"
+	| "position"
+	| "hasReferrals"
+	| "customField";
+
+export interface ActiveFilter {
+	id: string;
+	type: ActiveFilterType;
+	label: string;
+	value: string;
+	fieldName?: string; // For custom fields
 }
 
 // ============================================================================

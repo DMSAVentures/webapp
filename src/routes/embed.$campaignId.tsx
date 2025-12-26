@@ -10,13 +10,40 @@ import {
 	type CaptchaConfig,
 	FormRenderer,
 	type FormRendererConfig,
+	type StatusMessage,
 } from "@/features/form-builder/components/FormRenderer/component";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { usePublicCampaign } from "@/hooks/usePublicCampaign";
 import { useTrackingData } from "@/hooks/useTrackingData";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import type { CampaignStatus } from "@/types/campaign";
 import type { FormDesign, FormField } from "@/types/common.types";
 import styles from "./embed.module.scss";
+
+/**
+ * Get status message for non-active campaigns
+ */
+const getStatusMessage = (status: CampaignStatus): StatusMessage | null => {
+	switch (status) {
+		case "draft":
+			return {
+				title: "Coming Soon",
+				message: "This campaign is not yet live.",
+			};
+		case "paused":
+			return {
+				title: "Temporarily Paused",
+				message: "This campaign is currently paused. Please check back later.",
+			};
+		case "completed":
+			return {
+				title: "Campaign Ended",
+				message: "This campaign has ended and is no longer accepting sign-ups.",
+			};
+		default:
+			return null;
+	}
+};
 
 export const Route = createFileRoute("/embed/$campaignId")({
 	component: RouteComponent,
@@ -140,12 +167,16 @@ function RouteComponent() {
 		return <ErrorState message="This form is not yet configured" />;
 	}
 
+	// Determine if campaign is accepting signups and get status message
+	const isAcceptingSignups = campaign.status === "active";
+	const statusMessage = getStatusMessage(campaign.status);
+
 	return (
 		<div className={styles.root}>
 			<FormRenderer
 				config={formConfig}
-				mode="interactive"
-				onSubmit={handleSubmit}
+				mode={isAcceptingSignups ? "interactive" : "preview"}
+				onSubmit={isAcceptingSignups ? handleSubmit : undefined}
 				submitText={formConfig.design.submitButtonText}
 				successTitle={campaign.formSettings?.successTitle}
 				successMessage={campaign.formSettings?.successMessage}
@@ -153,6 +184,7 @@ function RouteComponent() {
 				enabledChannels={campaign.referralSettings?.sharingChannels}
 				embedUrl={embedUrl}
 				trackingIntegrations={campaign.trackingIntegrations}
+				statusMessage={statusMessage}
 				className={styles.form}
 			/>
 		</div>

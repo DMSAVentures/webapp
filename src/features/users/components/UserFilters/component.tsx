@@ -7,6 +7,8 @@ import { memo, useCallback } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
 import { SelectDropdown } from "@/proto-design-system/SelectDropdown/selectDropdown";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import type { FormField } from "@/types/campaign";
 import type {
 	UserFilters as UserFiltersType,
 	WaitlistUserStatus,
@@ -20,6 +22,8 @@ export interface UserFiltersProps {
 	onChange: (filters: UserFiltersType) => void;
 	/** Reset handler */
 	onReset: () => void;
+	/** Custom form fields for dynamic filters */
+	formFields?: FormField[];
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -50,6 +54,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	filters,
 	onChange,
 	onReset,
+	formFields,
 	className: customClassName,
 }) {
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -61,7 +66,17 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 		filters.hasReferrals ||
 		filters.minPosition !== undefined ||
 		filters.maxPosition !== undefined ||
-		filters.dateRange !== undefined;
+		filters.dateRange !== undefined ||
+		(filters.customFields && Object.keys(filters.customFields).length > 0);
+
+	// Get filterable custom fields (select, radio types have predefined options)
+	const filterableFields =
+		formFields?.filter(
+			(field) =>
+				field.fieldType === "select" ||
+				field.fieldType === "radio" ||
+				field.fieldType === "text",
+		) || [];
 
 	// Handle status change
 	const handleStatusChange = useCallback(
@@ -142,6 +157,52 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 			hasReferrals: !filters.hasReferrals || undefined,
 		});
 	};
+
+	// Handle custom field change (for select/radio fields)
+	const handleCustomFieldSelect = useCallback(
+		(fieldId: string, selected: string[]) => {
+			const currentCustomFields = filters.customFields || {};
+			if (selected.length > 0) {
+				onChange({
+					...filters,
+					customFields: {
+						...currentCustomFields,
+						[fieldId]: selected.length === 1 ? selected[0] : selected,
+					},
+				});
+			} else {
+				const { [fieldId]: _, ...rest } = currentCustomFields;
+				onChange({
+					...filters,
+					customFields: Object.keys(rest).length > 0 ? rest : undefined,
+				});
+			}
+		},
+		[filters, onChange],
+	);
+
+	// Handle custom field text input
+	const handleCustomFieldText = useCallback(
+		(fieldId: string, value: string) => {
+			const currentCustomFields = filters.customFields || {};
+			if (value) {
+				onChange({
+					...filters,
+					customFields: {
+						...currentCustomFields,
+						[fieldId]: value,
+					},
+				});
+			} else {
+				const { [fieldId]: _, ...rest } = currentCustomFields;
+				onChange({
+					...filters,
+					customFields: Object.keys(rest).length > 0 ? rest : undefined,
+				});
+			}
+		},
+		[filters, onChange],
+	);
 
 	return (
 		<div className={classNames}>
@@ -234,6 +295,72 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 					/>
 				</div>
 			</div>
+
+			{/* Custom Form Field Filters */}
+			{filterableFields.map((field) => {
+				const fieldValue = filters.customFields?.[field.id];
+				const selectedValues = Array.isArray(fieldValue)
+					? fieldValue
+					: fieldValue
+						? [fieldValue]
+						: [];
+
+				if (field.fieldType === "select" || field.fieldType === "radio") {
+					const options =
+						field.options?.map((opt) => ({
+							value: opt,
+							label: opt,
+						})) || [];
+
+					return (
+						<div key={field.id} className={styles.filterGroup}>
+							<label className={styles.filterLabel}>{field.label}</label>
+							{field.fieldType === "select" ? (
+								<SelectDropdown
+									mode="multi"
+									options={options}
+									value={selectedValues}
+									onChange={(selected: string[]) =>
+										handleCustomFieldSelect(field.id, selected)
+									}
+									placeholder={`All ${field.label}`}
+								/>
+							) : (
+								<SelectDropdown
+									mode="single"
+									options={options}
+									value={selectedValues[0] || ""}
+									onChange={(selected: string | undefined) =>
+										handleCustomFieldSelect(
+											field.id,
+											selected ? [selected] : [],
+										)
+									}
+									placeholder={`All ${field.label}`}
+								/>
+							)}
+						</div>
+					);
+				}
+
+				if (field.fieldType === "text") {
+					return (
+						<div key={field.id} className={styles.filterGroup}>
+							<label className={styles.filterLabel}>{field.label}</label>
+							<TextInput
+								label=""
+								placeholder={`Filter by ${field.label.toLowerCase()}`}
+								value={(fieldValue as string) || ""}
+								onChange={(e) =>
+									handleCustomFieldText(field.id, e.target.value)
+								}
+							/>
+						</div>
+					);
+				}
+
+				return null;
+			})}
 
 			{/* Actions */}
 			<div className={styles.actions}>
