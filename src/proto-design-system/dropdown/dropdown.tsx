@@ -52,22 +52,25 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 		}
 	};
 
-	const handleOptionClick = (option: DropdownOptionProps) => {
-		// Convert back to DropdownOptionInput for external callback
-		const inputOption: DropdownOptionInput = {
-			value: option.value,
-			label: option.label,
-			sublabel: option.sublabel,
-			imgSrc: option.imgSrc,
-			icon: option.icon,
-			description: option.description,
-			selected: option.selected,
-			disabled: option.disabled,
-		};
-		setSelectedOption(inputOption);
-		setIsOpen(false);
-		props.onChange?.(inputOption);
-	};
+	const handleOptionClick = useCallback(
+		(option: DropdownOptionProps) => {
+			// Convert back to DropdownOptionInput for external callback
+			const inputOption: DropdownOptionInput = {
+				value: option.value,
+				label: option.label,
+				sublabel: option.sublabel,
+				imgSrc: option.imgSrc,
+				icon: option.icon,
+				description: option.description,
+				selected: option.selected,
+				disabled: option.disabled,
+			};
+			setSelectedOption(inputOption);
+			setIsOpen(false);
+			props.onChange?.(inputOption);
+		},
+		[props.onChange],
+	);
 
 	// Keyboard navigation handler
 	const handleKeyDown = useCallback(
@@ -134,7 +137,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 							handleOptionClick({
 								...option,
 								size: "small",
-								onClick: () => {},
+								onClick: () => undefined,
 							});
 						}
 					}

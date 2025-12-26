@@ -21,10 +21,10 @@
 	background-color: var(--color-surface-primary-default);
 	border-radius: border.$border-radius-large;
 	box-shadow:
-		0 0 0 1px rgba(0, 0, 0, 0.05),
-		0 4px 8px rgba(0, 0, 0, 0.06),
-		0 12px 24px rgba(0, 0, 0, 0.08),
-		0 24px 48px rgba(0, 0, 0, 0.1);
+		0 0 0 1px rgb(0, 0, 0, 0.05),
+		0 4px 8px rgb(0, 0, 0, 0.06),
+		0 12px 24px rgb(0, 0, 0, 0.08),
+		0 24px 48px rgb(0, 0, 0, 0.1);
 	overflow: hidden;
 	transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
 }

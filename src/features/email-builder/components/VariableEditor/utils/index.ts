@@ -1,11 +1,16 @@
-export { parseValue, type Segment, type TextSegment, type VariableSegment } from "./parseValue";
-export { serializeDOM, serializeDOMSingleLine } from "./serializeDOM";
+export {
+	parseValue,
+	type Segment,
+	type TextSegment,
+	type VariableSegment,
+} from "./parseValue";
 export {
 	getCursorPosition,
-	setCursorAtEnd,
-	setCursorAfterNode,
-	insertNodeAtCursor,
 	getTextBeforeCursor,
-	isCursorAtStart,
+	insertNodeAtCursor,
 	isCursorAtEnd,
+	isCursorAtStart,
+	setCursorAfterNode,
+	setCursorAtEnd,
 } from "./selection";
+export { serializeDOM, serializeDOMSingleLine } from "./serializeDOM";

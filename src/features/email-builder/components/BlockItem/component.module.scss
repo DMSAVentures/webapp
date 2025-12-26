@@ -61,19 +61,19 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-height: 1.4;
+	line-height: typography.$line-height-normal;
 
 	// Allow variable chips to show
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: 2px;
+	gap: layout.$spacing-01;
 }
 
 .buttonPreview {
 	display: inline-flex;
 	align-items: center;
-	gap: 4px;
+	gap: layout.$spacing-01;
 	padding: layout.$spacing-01 layout.$spacing-02;
 	background-color: var(--color-bg-secondary-default);
 	border-radius: border.$border-radius-small;

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 test.describe("VariableTextInput", () => {
 	test.beforeEach(async ({ page }) => {
@@ -8,7 +8,7 @@ test.describe("VariableTextInput", () => {
 	});
 
 	// Helper to get the contentEditable editor
-	const getEditor = (page: any) =>
+	const getEditor = (page: Page) =>
 		page.locator('[data-testid="variable-text-input"]');
 
 	test.describe("Basic typing", () => {
@@ -181,9 +181,7 @@ test.describe("VariableTextInput", () => {
 	});
 
 	test.describe("Variable display", () => {
-		test("should display variable with styling in editor", async ({
-			page,
-		}) => {
+		test("should display variable with styling in editor", async ({ page }) => {
 			const editor = getEditor(page);
 			await editor.click();
 			await page.keyboard.type("Hello @");
@@ -341,7 +339,7 @@ test.describe("VariableTextArea", () => {
 		await page.waitForSelector('[data-testid="variable-text-area"]');
 	});
 
-	const getEditor = (page: any) =>
+	const getEditor = (page: Page) =>
 		page.locator('[data-testid="variable-text-area"]');
 
 	test("should allow typing and inserting variables", async ({ page }) => {
@@ -372,9 +370,7 @@ test.describe("VariableTextArea", () => {
 		await expect(rawValue).toContainText("Line 2");
 	});
 
-	test("should delete variable atomically with Backspace", async ({
-		page,
-	}) => {
+	test("should delete variable atomically with Backspace", async ({ page }) => {
 		const editor = getEditor(page);
 		await editor.click();
 		await page.keyboard.type("Hello @");

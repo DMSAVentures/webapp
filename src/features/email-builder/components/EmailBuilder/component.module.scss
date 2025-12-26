@@ -181,7 +181,7 @@
 	text-align: center;
 
 	i {
-		font-size: 48px;
+		font-size: typography.$font-size-h1;
 		opacity: 0.5;
 	}
 
@@ -302,7 +302,7 @@
 	color: var(--color-text-tertiary-default);
 
 	i {
-		font-size: 48px;
+		font-size: typography.$font-size-h1;
 		opacity: 0.5;
 	}
 

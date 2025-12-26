@@ -15,9 +15,9 @@ import {
 } from "react";
 import { TEMPLATE_VARIABLES } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
+	getTextBeforeCursor,
 	parseValue,
 	serializeDOM,
-	getTextBeforeCursor,
 } from "../VariableEditor/utils";
 import styles from "./component.module.scss";
 
@@ -69,7 +69,8 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 
 		// @ mention state
 		const [mentionQuery, setMentionQuery] = useState<string | null>(null);
-		const [mentionStartPosition, setMentionStartPosition] = useState<number>(-1);
+		const [mentionStartPosition, setMentionStartPosition] =
+			useState<number>(-1);
 		const [selectedIndex, setSelectedIndex] = useState(0);
 
 		// Track if we're programmatically updating content
@@ -260,7 +261,13 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 					}
 				}
 			},
-			[mentionQuery, filteredVariables, selectedIndex, insertVariable, onChange],
+			[
+				mentionQuery,
+				filteredVariables,
+				selectedIndex,
+				insertVariable,
+				onChange,
+			],
 		);
 
 		// Handle paste - strip formatting, keep only text
@@ -334,7 +341,8 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 			};
 
 			document.addEventListener("mousedown", handleClickOutside);
-			return () => document.removeEventListener("mousedown", handleClickOutside);
+			return () =>
+				document.removeEventListener("mousedown", handleClickOutside);
 		}, []);
 
 		// Scroll selected item into view
@@ -347,9 +355,10 @@ export const VariableTextArea = memo<VariableTextAreaProps>(
 					selectedItem.scrollIntoView({ block: "nearest" });
 				}
 			}
-		}, [selectedIndex, mentionQuery]);
+		}, [mentionQuery]);
 
 		// Initial render of content
+		// biome-ignore lint/correctness/useExhaustiveDependencies: Initial render only - intentionally empty deps
 		useEffect(() => {
 			if (!editorRef.current || editorRef.current.childNodes.length > 0) return;
 

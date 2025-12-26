@@ -28,8 +28,7 @@
 	gap: layout.$spacing-04;
 	padding: layout.$spacing-05;
 	flex: 1;
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden auto;
 }
 
 // Variable insertion helper
@@ -83,7 +82,7 @@
 		background: none;
 
 		&::-webkit-color-swatch-wrapper {
-			padding: 4px;
+			padding: layout.$spacing-01;
 		}
 
 		&::-webkit-color-swatch {
