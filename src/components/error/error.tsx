@@ -1,7 +1,7 @@
-import React from "react";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
-import { Button } from "@/proto-design-system/Button/button";
 import { ErrorComponentProps } from "@tanstack/react-router";
+import React from "react";
+import { Button } from "@/proto-design-system/Button/button";
+import { Column } from "@/proto-design-system/UIShell/Column/Column";
 import styles from "./error.module.scss";
 
 interface ErrorStateProps {
@@ -69,7 +69,11 @@ export const ErrorBoundary: React.FC<ErrorComponentProps> = ({
 							Try again
 						</Button>
 					)}
-					<Button variant="secondary" onClick={handleGoHome} leftIcon="home-line">
+					<Button
+						variant="secondary"
+						onClick={handleGoHome}
+						leftIcon="home-line"
+					>
 						Go to home
 					</Button>
 				</div>

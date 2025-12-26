@@ -6,8 +6,8 @@ import { CampaignStats } from "@/features/campaigns/components/CampaignStats/com
 import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
-import { Badge } from "@/proto-design-system/badge/badge";
 import { Button } from "@/proto-design-system/Button/button";
+import { Badge } from "@/proto-design-system/badge/badge";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./campaignDetail.module.scss";
