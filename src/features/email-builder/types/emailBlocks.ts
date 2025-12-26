@@ -133,7 +133,8 @@ export function createBlock(type: EmailBlockType): EmailBlock {
 			return {
 				id,
 				type: "paragraph",
-				content: "Enter your text here. You can use {{variables}} to personalize the content.",
+				content:
+					"Enter your text here. You can use {{variables}} to personalize the content.",
 				align: "left",
 				color: "#4a4a4a",
 				fontSize: "medium",
@@ -230,8 +231,7 @@ export function getDefaultBlocks(
 			{
 				id: "block-6",
 				type: "paragraph",
-				content:
-					"Share to move up the waitlist:\n{{referral_link}}",
+				content: "Share to move up the waitlist:\n{{referral_link}}",
 				align: "left",
 				color: "#6b6b6b",
 				fontSize: "small",

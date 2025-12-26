@@ -4,8 +4,8 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import Dropdown from "@/proto-design-system/dropdown/dropdown";
+import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import { Toggle } from "@/proto-design-system/Toggle/toggle";
 import type {
 	ButtonBlock,
@@ -100,7 +100,10 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				placeholderText="Select alignment"
 				size="medium"
 				onChange={(option) =>
-					updateBlock<HeadingBlock>("align", option.value as "left" | "center" | "right")
+					updateBlock<HeadingBlock>(
+						"align",
+						option.value as "left" | "center" | "right",
+					)
 				}
 			/>
 
@@ -141,14 +144,29 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 			<Dropdown
 				label="Font Size"
 				options={[
-					{ value: "small", label: "Small (14px)", selected: b.fontSize === "small" },
-					{ value: "medium", label: "Medium (16px)", selected: b.fontSize === "medium" },
-					{ value: "large", label: "Large (18px)", selected: b.fontSize === "large" },
+					{
+						value: "small",
+						label: "Small (14px)",
+						selected: b.fontSize === "small",
+					},
+					{
+						value: "medium",
+						label: "Medium (16px)",
+						selected: b.fontSize === "medium",
+					},
+					{
+						value: "large",
+						label: "Large (18px)",
+						selected: b.fontSize === "large",
+					},
 				]}
 				placeholderText="Select size"
 				size="medium"
 				onChange={(option) =>
-					updateBlock<ParagraphBlock>("fontSize", option.value as "small" | "medium" | "large")
+					updateBlock<ParagraphBlock>(
+						"fontSize",
+						option.value as "small" | "medium" | "large",
+					)
 				}
 			/>
 
@@ -162,7 +180,10 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				placeholderText="Select alignment"
 				size="medium"
 				onChange={(option) =>
-					updateBlock<ParagraphBlock>("align", option.value as "left" | "center" | "right")
+					updateBlock<ParagraphBlock>(
+						"align",
+						option.value as "left" | "center" | "right",
+					)
 				}
 			/>
 
@@ -173,14 +194,18 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						type="color"
 						id="paragraph-color"
 						value={b.color}
-						onChange={(e) => updateBlock<ParagraphBlock>("color", e.target.value)}
+						onChange={(e) =>
+							updateBlock<ParagraphBlock>("color", e.target.value)
+						}
 					/>
 					<TextInput
 						id="paragraph-color-hex"
 						label=""
 						type="text"
 						value={b.color}
-						onChange={(e) => updateBlock<ParagraphBlock>("color", e.target.value)}
+						onChange={(e) =>
+							updateBlock<ParagraphBlock>("color", e.target.value)
+						}
 						placeholder="#000000"
 					/>
 				</div>
@@ -218,7 +243,10 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				placeholderText="Select alignment"
 				size="medium"
 				onChange={(option) =>
-					updateBlock<ButtonBlock>("align", option.value as "left" | "center" | "right")
+					updateBlock<ButtonBlock>(
+						"align",
+						option.value as "left" | "center" | "right",
+					)
 				}
 			/>
 
@@ -229,14 +257,18 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						type="color"
 						id="button-bg-color"
 						value={b.backgroundColor}
-						onChange={(e) => updateBlock<ButtonBlock>("backgroundColor", e.target.value)}
+						onChange={(e) =>
+							updateBlock<ButtonBlock>("backgroundColor", e.target.value)
+						}
 					/>
 					<TextInput
 						id="button-bg-color-hex"
 						label=""
 						type="text"
 						value={b.backgroundColor}
-						onChange={(e) => updateBlock<ButtonBlock>("backgroundColor", e.target.value)}
+						onChange={(e) =>
+							updateBlock<ButtonBlock>("backgroundColor", e.target.value)
+						}
 						placeholder="#2563EB"
 					/>
 				</div>
@@ -249,14 +281,18 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						type="color"
 						id="button-text-color"
 						value={b.textColor}
-						onChange={(e) => updateBlock<ButtonBlock>("textColor", e.target.value)}
+						onChange={(e) =>
+							updateBlock<ButtonBlock>("textColor", e.target.value)
+						}
 					/>
 					<TextInput
 						id="button-text-color-hex"
 						label=""
 						type="text"
 						value={b.textColor}
-						onChange={(e) => updateBlock<ButtonBlock>("textColor", e.target.value)}
+						onChange={(e) =>
+							updateBlock<ButtonBlock>("textColor", e.target.value)
+						}
 						placeholder="#ffffff"
 					/>
 				</div>
@@ -266,7 +302,9 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				<Toggle
 					id="button-full-width"
 					checked={b.fullWidth}
-					onChange={(e) => updateBlock<ButtonBlock>("fullWidth", e.target.checked)}
+					onChange={(e) =>
+						updateBlock<ButtonBlock>("fullWidth", e.target.checked)
+					}
 				/>
 				<label htmlFor="button-full-width">Full Width</label>
 			</div>
@@ -279,14 +317,29 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 			<Dropdown
 				label="Thickness"
 				options={[
-					{ value: "thin", label: "Thin (1px)", selected: b.thickness === "thin" },
-					{ value: "medium", label: "Medium (2px)", selected: b.thickness === "medium" },
-					{ value: "thick", label: "Thick (4px)", selected: b.thickness === "thick" },
+					{
+						value: "thin",
+						label: "Thin (1px)",
+						selected: b.thickness === "thin",
+					},
+					{
+						value: "medium",
+						label: "Medium (2px)",
+						selected: b.thickness === "medium",
+					},
+					{
+						value: "thick",
+						label: "Thick (4px)",
+						selected: b.thickness === "thick",
+					},
 				]}
 				placeholderText="Select thickness"
 				size="medium"
 				onChange={(option) =>
-					updateBlock<DividerBlock>("thickness", option.value as "thin" | "medium" | "thick")
+					updateBlock<DividerBlock>(
+						"thickness",
+						option.value as "thin" | "medium" | "thick",
+					)
 				}
 			/>
 
@@ -300,7 +353,10 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				placeholderText="Select style"
 				size="medium"
 				onChange={(option) =>
-					updateBlock<DividerBlock>("style", option.value as "solid" | "dashed" | "dotted")
+					updateBlock<DividerBlock>(
+						"style",
+						option.value as "solid" | "dashed" | "dotted",
+					)
 				}
 			/>
 
@@ -331,14 +387,29 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 		<Dropdown
 			label="Height"
 			options={[
-				{ value: "small", label: "Small (16px)", selected: b.height === "small" },
-				{ value: "medium", label: "Medium (32px)", selected: b.height === "medium" },
-				{ value: "large", label: "Large (48px)", selected: b.height === "large" },
+				{
+					value: "small",
+					label: "Small (16px)",
+					selected: b.height === "small",
+				},
+				{
+					value: "medium",
+					label: "Medium (32px)",
+					selected: b.height === "medium",
+				},
+				{
+					value: "large",
+					label: "Large (48px)",
+					selected: b.height === "large",
+				},
 			]}
 			placeholderText="Select height"
 			size="medium"
 			onChange={(option) =>
-				updateBlock<SpacerBlock>("height", option.value as "small" | "medium" | "large")
+				updateBlock<SpacerBlock>(
+					"height",
+					option.value as "small" | "medium" | "large",
+				)
 			}
 		/>
 	);

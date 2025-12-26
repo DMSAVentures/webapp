@@ -80,16 +80,16 @@ function renderTextWithVariables(text: string): React.ReactNode[] {
 		}
 		// Add the variable chip
 		parts.push(
-		<Badge
-			key={`var-${key++}`}
-			text={match[1]}
-			variant="blue"
-			styleType="filled"
-			size="small"
-			iconClass="braces-line"
-			iconPosition="left"
-		/>,
-	);
+			<Badge
+				key={`var-${key++}`}
+				text={match[1]}
+				variant="blue"
+				styleType="filled"
+				size="small"
+				iconClass="braces-line"
+				iconPosition="left"
+			/>,
+		);
 		lastIndex = regex.lastIndex;
 		match = regex.exec(text);
 	}
@@ -124,7 +124,9 @@ function getBlockPreview(block: EmailBlock): React.ReactNode {
 		case "divider":
 			return <span className={styles.dividerPreview} />;
 		case "spacer":
-			return <span className={styles.spacerPreview}>{block.height} spacing</span>;
+			return (
+				<span className={styles.spacerPreview}>{block.height} spacing</span>
+			);
 		case "image":
 			return block.src ? "Image added" : "No image";
 		default:

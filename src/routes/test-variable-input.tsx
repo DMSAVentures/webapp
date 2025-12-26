@@ -5,8 +5,8 @@
 
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { VariableTextInput } from "@/features/email-builder/components/VariableTextInput/component";
 import { VariableTextArea } from "@/features/email-builder/components/VariableTextArea/component";
+import { VariableTextInput } from "@/features/email-builder/components/VariableTextInput/component";
 
 export const Route = createFileRoute("/test-variable-input")({
 	component: VariableInputTestPage,
@@ -73,5 +73,5 @@ function VariableInputTestPage() {
 				</div>
 			</section>
 		</div>
-	)
+	);
 }

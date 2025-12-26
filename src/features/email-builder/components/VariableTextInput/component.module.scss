@@ -19,40 +19,17 @@
 	color: var(--color-text-primary-default);
 }
 
-.variableButton {
-	display: inline-flex;
-	align-items: center;
-	gap: layout.$spacing-01;
-	padding: layout.$spacing-01 layout.$spacing-02;
-	background-color: var(--color-bg-info-alpha);
-	color: var(--color-text-info-default);
-	border: none;
-	border-radius: border.$border-radius-small;
+.labelHint {
 	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-medium;
-	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-	i {
-		font-size: typography.$font-size-sm;
-	}
-
-	&:hover {
-		background-color: var(--color-info-default);
-		color: var(--color-text-inverse-default);
-	}
-
-	&:focus-visible {
-		outline: 2px solid var(--color-focus-ring-default);
-		outline-offset: 2px;
-	}
+	font-weight: typography.$font-weight-regular;
+	color: var(--color-text-tertiary-default);
 }
 
 .inputWrapper {
 	position: relative;
 }
 
-// Container for input + highlight overlay
+// Container for the editor
 .inputContainer {
 	position: relative;
 	min-height: 42px;
@@ -70,203 +47,67 @@
 	}
 }
 
-// Highlight layer - shows styled content with chips
-.highlighter {
+// Placeholder text (shown when empty)
+.placeholder {
 	position: absolute;
 	inset: 0;
+	display: flex;
+	align-items: center;
+	padding: layout.$spacing-03;
+	font-size: typography.$font-size-md;
+	font-family: typography.$font-family-sans;
+	line-height: typography.$line-height-normal;
+	color: var(--color-text-secondary-default);
+	pointer-events: none;
+}
+
+// ContentEditable editor
+.editor {
+	width: 100%;
+	min-height: 42px;
 	padding: layout.$spacing-03;
 	font-size: typography.$font-size-md;
 	font-family: typography.$font-family-sans;
 	line-height: typography.$line-height-normal;
 	color: var(--color-text-primary-default);
-	white-space: pre;
-	overflow: hidden;
-	pointer-events: none;
-}
-
-// Actual input - transparent text, user types here
-.input {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	min-height: 42px;
-	padding: layout.$spacing-03;
-	background: transparent;
-	border: none;
-	font-size: typography.$font-size-md;
-	font-family: typography.$font-family-sans;
-	line-height: typography.$line-height-normal;
-	color: transparent;
-	caret-color: var(--color-text-primary-default);
 	outline: none;
+	white-space: nowrap;
+	overflow: hidden;
 
-	&::selection {
-		background-color: var(--color-bg-info-alpha);
+	// Prevent line breaks
+	br {
+		display: none;
 	}
 
-	&:disabled {
+	&:empty::before {
+		content: "";
+	}
+
+	&[contenteditable="false"] {
 		cursor: not-allowed;
+		color: var(--color-text-disabled-default);
 	}
 }
 
-// Placeholder text
-.placeholder {
-	color: var(--color-text-secondary-default);
-}
-
-// Variable text styling (inline to maintain cursor alignment)
-// IMPORTANT: Do NOT change font-weight or any property that affects text width
-// The overlay text must have identical width to the transparent input text
+// Variable chip - atomic, non-editable
 .variable {
+	display: inline;
+	padding: 2px 6px;
+	margin: 0 1px;
 	background-color: var(--color-bg-info-alpha);
 	color: var(--color-text-info-default);
 	border-radius: border.$border-radius-small;
-}
-
-// Variable dropdown menu
-.variableMenu {
-	position: absolute;
-	top: calc(100% + layout.$spacing-02);
-	left: 0;
-	right: 0;
-	max-height: 240px;
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
-	box-shadow: var(--color-shadow-elevated);
-	overflow: hidden;
-	z-index: 100;
-	animation: slideDown motion.$duration-fast-01 motion.$easing-expressive-standard;
-}
-
-@keyframes slideDown {
-	from {
-		opacity: 0;
-		transform: translateY(-8px);
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.variableMenuHeader {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: layout.$spacing-02 layout.$spacing-03;
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-secondary-default);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-
-	button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 20px;
-		height: 20px;
-		padding: 0;
-		background: none;
-		border: none;
-		color: var(--color-icon-secondary-default);
-		cursor: pointer;
-		border-radius: border.$border-radius-small;
-		transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-
-		&:hover {
-			background-color: var(--color-bg-secondary-default);
-			color: var(--color-icon-primary-default);
-		}
-	}
-}
-
-.variableMenuList {
-	max-height: 200px;
-	overflow-y: auto;
-}
-
-.variableMenuItem {
-	display: flex;
-	flex-direction: column;
-	gap: 2px;
-	width: 100%;
-	padding: layout.$spacing-02 layout.$spacing-03;
-	background: none;
-	border: none;
-	text-align: left;
-	cursor: pointer;
-	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-	&:hover {
-		background-color: var(--color-bg-info-alpha);
-	}
-
-	&:focus-visible {
-		background-color: var(--color-bg-info-alpha);
-		outline: none;
-	}
-
-	& + & {
-		border-top: border.$border-width-small solid var(--color-border-primary-default);
-	}
-}
-
-.variableMenuItemName {
 	font-family: typography.$font-family-mono;
 	font-size: typography.$font-size-sm;
 	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-info-default);
+	user-select: all; // Select entire chip on click
+	cursor: default;
 
-	&::before {
-		content: "{{";
-		opacity: 0.5;
+	// Visual feedback when selected
+	&::selection {
+		background-color: var(--color-info-default);
+		color: var(--color-white);
 	}
-
-	&::after {
-		content: "}}";
-		opacity: 0.5;
-	}
-}
-
-.variableMenuItemDesc {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
-}
-
-// States
-.hasError {
-	.inputContainer {
-		border-color: var(--color-error-default);
-
-		&.focused {
-			box-shadow: 0 0 0 3px var(--color-bg-danger-alpha);
-		}
-	}
-}
-
-.disabled {
-	.inputContainer {
-		background-color: var(--color-bg-secondary-default);
-	}
-
-	.highlighter {
-		color: var(--color-text-disabled-default);
-	}
-
-	.variableButton {
-		display: none;
-	}
-}
-
-// Label hint
-.labelHint {
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-regular;
-	color: var(--color-text-tertiary-default);
 }
 
 // @ Mention dropdown
@@ -345,6 +186,27 @@
 	font-size: typography.$font-size-sm;
 	color: var(--color-text-tertiary-default);
 	text-align: center;
+}
+
+// States
+.hasError {
+	.inputContainer {
+		border-color: var(--color-error-default);
+
+		&.focused {
+			box-shadow: 0 0 0 3px var(--color-bg-danger-alpha);
+		}
+	}
+}
+
+.disabled {
+	.inputContainer {
+		background-color: var(--color-bg-secondary-default);
+	}
+
+	.editor {
+		color: var(--color-text-disabled-default);
+	}
 }
 
 .hint {

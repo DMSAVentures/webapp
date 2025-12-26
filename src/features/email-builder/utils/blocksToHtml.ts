@@ -125,7 +125,9 @@ function paragraphToHtml(block: ParagraphBlock): string {
  */
 function buttonToHtml(block: ButtonBlock): string {
 	const width = block.fullWidth ? "width: 100%;" : "";
-	const display = block.fullWidth ? "display: block;" : "display: inline-block;";
+	const display = block.fullWidth
+		? "display: block;"
+		: "display: inline-block;";
 
 	return `<div style="text-align: ${block.align}; margin: 24px 0;">
       <a href="${escapeHtml(block.url)}"

@@ -4,10 +4,7 @@
  */
 
 import { type HTMLAttributes, memo } from "react";
-import {
-	BLOCK_TYPES,
-	type EmailBlockType,
-} from "../../types/emailBlocks";
+import { BLOCK_TYPES, type EmailBlockType } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
 
 export interface BlockPaletteProps extends HTMLAttributes<HTMLDivElement> {

@@ -3,7 +3,13 @@
  * Block-based email template editor with live preview
  */
 
-import { type HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
+import {
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
@@ -177,15 +183,12 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	]);
 
 	// Block operations
-	const handleAddBlock = useCallback(
-		(type: EmailBlock["type"]) => {
-			const newBlock = createBlock(type);
-			setBlocks((prev) => [...prev, newBlock]);
-			setSelectedBlockId(newBlock.id);
-			setHasUnsavedChanges(true);
-		},
-		[],
-	);
+	const handleAddBlock = useCallback((type: EmailBlock["type"]) => {
+		const newBlock = createBlock(type);
+		setBlocks((prev) => [...prev, newBlock]);
+		setSelectedBlockId(newBlock.id);
+		setHasUnsavedChanges(true);
+	}, []);
 
 	const handleUpdateBlock = useCallback((updatedBlock: EmailBlock) => {
 		setBlocks((prev) =>
@@ -205,23 +208,26 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		[selectedBlockId],
 	);
 
-	const handleMoveBlock = useCallback((blockId: string, direction: "up" | "down") => {
-		setBlocks((prev) => {
-			const index = prev.findIndex((b) => b.id === blockId);
-			if (index === -1) return prev;
+	const handleMoveBlock = useCallback(
+		(blockId: string, direction: "up" | "down") => {
+			setBlocks((prev) => {
+				const index = prev.findIndex((b) => b.id === blockId);
+				if (index === -1) return prev;
 
-			const newIndex = direction === "up" ? index - 1 : index + 1;
-			if (newIndex < 0 || newIndex >= prev.length) return prev;
+				const newIndex = direction === "up" ? index - 1 : index + 1;
+				if (newIndex < 0 || newIndex >= prev.length) return prev;
 
-			const newBlocks = [...prev];
-			[newBlocks[index], newBlocks[newIndex]] = [
-				newBlocks[newIndex],
-				newBlocks[index],
-			];
-			return newBlocks;
-		});
-		setHasUnsavedChanges(true);
-	}, []);
+				const newBlocks = [...prev];
+				[newBlocks[index], newBlocks[newIndex]] = [
+					newBlocks[newIndex],
+					newBlocks[index],
+				];
+				return newBlocks;
+			});
+			setHasUnsavedChanges(true);
+		},
+		[],
+	);
 
 	// Mark as changed when subject changes
 	const handleSubjectChange = useCallback((value: string) => {
@@ -469,7 +475,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 						<div className={styles.noSelection}>
 							<i className="ri-cursor-line" aria-hidden="true" />
 							<h3>No Block Selected</h3>
-							<p>Select a content block from the canvas to edit its properties.</p>
+							<p>
+								Select a content block from the canvas to edit its properties.
+							</p>
 						</div>
 					)}
 				</aside>

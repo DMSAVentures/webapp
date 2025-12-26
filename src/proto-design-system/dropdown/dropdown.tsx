@@ -45,7 +45,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 			if (!isOpen) {
 				// Reset highlighted index when opening
 				const selectedIdx = props.options.findIndex(
-					(opt) => opt.value === selectedOption?.value
+					(opt) => opt.value === selectedOption?.value,
 				);
 				setHighlightedIndex(selectedIdx >= 0 ? selectedIdx : 0);
 			}
@@ -85,7 +85,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 					e.preventDefault();
 					setIsOpen(true);
 					const selectedIdx = props.options.findIndex(
-						(opt) => opt.value === selectedOption?.value
+						(opt) => opt.value === selectedOption?.value,
 					);
 					setHighlightedIndex(selectedIdx >= 0 ? selectedIdx : 0);
 				}
@@ -100,7 +100,10 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 					setHighlightedIndex((prev) => {
 						let next = prev + 1;
 						// Skip disabled options
-						while (next < props.options.length && props.options[next]?.disabled) {
+						while (
+							next < props.options.length &&
+							props.options[next]?.disabled
+						) {
 							next++;
 						}
 						return next < props.options.length ? next : prev;
@@ -122,7 +125,10 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 				case " ":
 					e.preventDefault();
 					e.stopPropagation();
-					if (highlightedIndex >= 0 && highlightedIndex < props.options.length) {
+					if (
+						highlightedIndex >= 0 &&
+						highlightedIndex < props.options.length
+					) {
 						const option = props.options[highlightedIndex];
 						if (!option.disabled) {
 							handleOptionClick({
@@ -164,7 +170,14 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 					break;
 			}
 		},
-		[isOpen, props.disabled, props.options, highlightedIndex, selectedOption, handleOptionClick]
+		[
+			isOpen,
+			props.disabled,
+			props.options,
+			highlightedIndex,
+			selectedOption,
+			handleOptionClick,
+		],
 	);
 
 	const handleClickOutside = useCallback((event: Event) => {
