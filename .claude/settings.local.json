@@ -18,7 +18,12 @@
       "Bash(cat:*)",
       "Bash(xargs -I {} bash -c 'echo \"\"\"\"===== {} =====\"\"\"\" && head -50 {}')",
       "Bash(grep:*)",
-      "Bash(npx playwright test:*)"
+      "Bash(npx playwright test:*)",
+      "Bash(git checkout:*)",
+      "Bash(source ~/.nvm/nvm.sh)",
+      "Bash(nvm use:*)",
+      "Bash(du:*)",
+      "Bash(npm ls:*)"
     ],
     "deny": [],
     "ask": []
