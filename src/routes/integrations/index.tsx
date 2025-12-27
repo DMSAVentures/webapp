@@ -37,8 +37,8 @@ function IntegrationsPage() {
 
 	const handleConnect = () => {
 		// Zapier uses API key authentication - users connect from the Zapier app
-		// Direct users to the API keys settings page to create a key with 'zapier' scope
-		window.location.href = "/settings/api-keys";
+		// Direct users to the API keys page to create a key with 'zapier' scope
+		window.location.href = "/api-keys";
 	};
 
 	const handleDisconnect = async () => {

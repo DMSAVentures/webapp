@@ -1,0 +1,195 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-05;
+}
+
+.title {
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.steps {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-04 0;
+}
+
+.step {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	opacity: 0.5;
+
+	&.active {
+		opacity: 1;
+	}
+}
+
+.stepNumber {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background-color: var(--color-bg-secondary-default);
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+
+	.active & {
+		background-color: var(--color-bg-info-default);
+		color: var(--color-white);
+	}
+}
+
+.stepLabel {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+
+	.active & {
+		color: var(--color-text-primary-default);
+		font-weight: typography.$font-weight-medium;
+	}
+}
+
+.stepConnector {
+	flex: 1;
+	height: 1px;
+	background-color: var(--color-border-primary-default);
+	max-width: 100px;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+}
+
+.stepContent {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.sectionTitle {
+	font-size: typography.$font-size-md;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0 0 layout.$spacing-04;
+}
+
+.fields {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	max-width: layout.$spacing-13 * 2.5;
+}
+
+.scheduleOptions {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-03;
+}
+
+.radioOption {
+	display: flex;
+	align-items: flex-start;
+	gap: layout.$spacing-03;
+	padding: layout.$spacing-03;
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+	cursor: pointer;
+
+	&:hover {
+		border-color: var(--color-border-primary-hover);
+	}
+
+	input[type="radio"]:checked + .radioContent {
+		.radioLabel {
+			color: var(--color-text-primary-default);
+		}
+	}
+}
+
+.radioContent {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-01;
+}
+
+.radioLabel {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+}
+
+.radioDescription {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+}
+
+.scheduleFields {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: layout.$spacing-04;
+	margin-top: layout.$spacing-04;
+}
+
+.reviewDetails {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-03;
+}
+
+.reviewItem {
+	display: flex;
+	justify-content: space-between;
+	padding: layout.$spacing-03 0;
+	border-bottom: 1px solid var(--color-border-primary-default);
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.reviewLabel {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+}
+
+.reviewValue {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+}
+
+.error {
+	padding: layout.$spacing-03;
+	background-color: var(--color-bg-danger-alpha);
+	border: 1px solid var(--color-border-danger-default);
+	border-radius: border.$border-radius-small;
+	color: var(--color-error-text);
+	font-size: typography.$font-size-sm;
+}
+
+.actions {
+	display: flex;
+	justify-content: space-between;
+	gap: layout.$spacing-03;
+	padding-top: layout.$spacing-04;
+	border-top: 1px solid var(--color-border-primary-default);
+}
+
+.actionsRight {
+	display: flex;
+	gap: layout.$spacing-03;
+}

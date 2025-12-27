@@ -40,12 +40,17 @@ import { Route as BillingPayment_attemptRouteImport } from './routes/billing/pay
 import { Route as BillingPayRouteImport } from './routes/billing/pay'
 import { Route as CampaignsCampaignIdIndexRouteImport } from './routes/campaigns/$campaignId/index'
 import { Route as CampaignsCampaignIdSettingsRouteImport } from './routes/campaigns/$campaignId/settings'
+import { Route as CampaignsCampaignIdSegmentsRouteImport } from './routes/campaigns/$campaignId/segments'
 import { Route as CampaignsCampaignIdLeadsRouteImport } from './routes/campaigns/$campaignId/leads'
 import { Route as CampaignsCampaignIdFormBuilderRouteImport } from './routes/campaigns/$campaignId/form-builder'
 import { Route as CampaignsCampaignIdEmbedRouteImport } from './routes/campaigns/$campaignId/embed'
 import { Route as CampaignsCampaignIdEmailBuilderRouteImport } from './routes/campaigns/$campaignId/email-builder'
 import { Route as CampaignsCampaignIdEditRouteImport } from './routes/campaigns/$campaignId/edit'
+import { Route as CampaignsCampaignIdBlastsRouteImport } from './routes/campaigns/$campaignId/blasts'
 import { Route as CampaignsCampaignIdAnalyticsRouteImport } from './routes/campaigns/$campaignId/analytics'
+import { Route as CampaignsCampaignIdBlastsIndexRouteImport } from './routes/campaigns/$campaignId/blasts/index'
+import { Route as CampaignsCampaignIdBlastsNewRouteImport } from './routes/campaigns/$campaignId/blasts/new'
+import { Route as CampaignsCampaignIdBlastsBlastIdRouteImport } from './routes/campaigns/$campaignId/blasts/$blastId'
 
 const WebhooksRoute = WebhooksRouteImport.update({
   id: '/webhooks',
@@ -204,6 +209,12 @@ const CampaignsCampaignIdSettingsRoute =
     path: '/settings',
     getParentRoute: () => CampaignsCampaignIdRoute,
   } as any)
+const CampaignsCampaignIdSegmentsRoute =
+  CampaignsCampaignIdSegmentsRouteImport.update({
+    id: '/segments',
+    path: '/segments',
+    getParentRoute: () => CampaignsCampaignIdRoute,
+  } as any)
 const CampaignsCampaignIdLeadsRoute =
   CampaignsCampaignIdLeadsRouteImport.update({
     id: '/leads',
@@ -233,11 +244,35 @@ const CampaignsCampaignIdEditRoute = CampaignsCampaignIdEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => CampaignsCampaignIdRoute,
 } as any)
+const CampaignsCampaignIdBlastsRoute =
+  CampaignsCampaignIdBlastsRouteImport.update({
+    id: '/blasts',
+    path: '/blasts',
+    getParentRoute: () => CampaignsCampaignIdRoute,
+  } as any)
 const CampaignsCampaignIdAnalyticsRoute =
   CampaignsCampaignIdAnalyticsRouteImport.update({
     id: '/analytics',
     path: '/analytics',
     getParentRoute: () => CampaignsCampaignIdRoute,
+  } as any)
+const CampaignsCampaignIdBlastsIndexRoute =
+  CampaignsCampaignIdBlastsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => CampaignsCampaignIdBlastsRoute,
+  } as any)
+const CampaignsCampaignIdBlastsNewRoute =
+  CampaignsCampaignIdBlastsNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => CampaignsCampaignIdBlastsRoute,
+  } as any)
+const CampaignsCampaignIdBlastsBlastIdRoute =
+  CampaignsCampaignIdBlastsBlastIdRouteImport.update({
+    id: '/$blastId',
+    path: '/$blastId',
+    getParentRoute: () => CampaignsCampaignIdBlastsRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -271,13 +306,18 @@ export interface FileRoutesByFullPath {
   '/integrations/': typeof IntegrationsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
+  '/campaigns/$campaignId/blasts': typeof CampaignsCampaignIdBlastsRouteWithChildren
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/leads': typeof CampaignsCampaignIdLeadsRoute
+  '/campaigns/$campaignId/segments': typeof CampaignsCampaignIdSegmentsRoute
   '/campaigns/$campaignId/settings': typeof CampaignsCampaignIdSettingsRoute
   '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
+  '/campaigns/$campaignId/blasts/$blastId': typeof CampaignsCampaignIdBlastsBlastIdRoute
+  '/campaigns/$campaignId/blasts/new': typeof CampaignsCampaignIdBlastsNewRoute
+  '/campaigns/$campaignId/blasts/': typeof CampaignsCampaignIdBlastsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -312,8 +352,12 @@ export interface FileRoutesByTo {
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/leads': typeof CampaignsCampaignIdLeadsRoute
+  '/campaigns/$campaignId/segments': typeof CampaignsCampaignIdSegmentsRoute
   '/campaigns/$campaignId/settings': typeof CampaignsCampaignIdSettingsRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdIndexRoute
+  '/campaigns/$campaignId/blasts/$blastId': typeof CampaignsCampaignIdBlastsBlastIdRoute
+  '/campaigns/$campaignId/blasts/new': typeof CampaignsCampaignIdBlastsNewRoute
+  '/campaigns/$campaignId/blasts': typeof CampaignsCampaignIdBlastsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -347,13 +391,18 @@ export interface FileRoutesById {
   '/integrations/': typeof IntegrationsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
+  '/campaigns/$campaignId/blasts': typeof CampaignsCampaignIdBlastsRouteWithChildren
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
   '/campaigns/$campaignId/email-builder': typeof CampaignsCampaignIdEmailBuilderRoute
   '/campaigns/$campaignId/embed': typeof CampaignsCampaignIdEmbedRoute
   '/campaigns/$campaignId/form-builder': typeof CampaignsCampaignIdFormBuilderRoute
   '/campaigns/$campaignId/leads': typeof CampaignsCampaignIdLeadsRoute
+  '/campaigns/$campaignId/segments': typeof CampaignsCampaignIdSegmentsRoute
   '/campaigns/$campaignId/settings': typeof CampaignsCampaignIdSettingsRoute
   '/campaigns/$campaignId/': typeof CampaignsCampaignIdIndexRoute
+  '/campaigns/$campaignId/blasts/$blastId': typeof CampaignsCampaignIdBlastsBlastIdRoute
+  '/campaigns/$campaignId/blasts/new': typeof CampaignsCampaignIdBlastsNewRoute
+  '/campaigns/$campaignId/blasts/': typeof CampaignsCampaignIdBlastsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -388,13 +437,18 @@ export interface FileRouteTypes {
     | '/integrations/'
     | '/webhooks/'
     | '/campaigns/$campaignId/analytics'
+    | '/campaigns/$campaignId/blasts'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/leads'
+    | '/campaigns/$campaignId/segments'
     | '/campaigns/$campaignId/settings'
     | '/campaigns/$campaignId/'
+    | '/campaigns/$campaignId/blasts/$blastId'
+    | '/campaigns/$campaignId/blasts/new'
+    | '/campaigns/$campaignId/blasts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -429,8 +483,12 @@ export interface FileRouteTypes {
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/leads'
+    | '/campaigns/$campaignId/segments'
     | '/campaigns/$campaignId/settings'
     | '/campaigns/$campaignId'
+    | '/campaigns/$campaignId/blasts/$blastId'
+    | '/campaigns/$campaignId/blasts/new'
+    | '/campaigns/$campaignId/blasts'
   id:
     | '__root__'
     | '/'
@@ -463,13 +521,18 @@ export interface FileRouteTypes {
     | '/integrations/'
     | '/webhooks/'
     | '/campaigns/$campaignId/analytics'
+    | '/campaigns/$campaignId/blasts'
     | '/campaigns/$campaignId/edit'
     | '/campaigns/$campaignId/email-builder'
     | '/campaigns/$campaignId/embed'
     | '/campaigns/$campaignId/form-builder'
     | '/campaigns/$campaignId/leads'
+    | '/campaigns/$campaignId/segments'
     | '/campaigns/$campaignId/settings'
     | '/campaigns/$campaignId/'
+    | '/campaigns/$campaignId/blasts/$blastId'
+    | '/campaigns/$campaignId/blasts/new'
+    | '/campaigns/$campaignId/blasts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -719,6 +782,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsCampaignIdSettingsRouteImport
       parentRoute: typeof CampaignsCampaignIdRoute
     }
+    '/campaigns/$campaignId/segments': {
+      id: '/campaigns/$campaignId/segments'
+      path: '/segments'
+      fullPath: '/campaigns/$campaignId/segments'
+      preLoaderRoute: typeof CampaignsCampaignIdSegmentsRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
+    }
     '/campaigns/$campaignId/leads': {
       id: '/campaigns/$campaignId/leads'
       path: '/leads'
@@ -754,12 +824,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsCampaignIdEditRouteImport
       parentRoute: typeof CampaignsCampaignIdRoute
     }
+    '/campaigns/$campaignId/blasts': {
+      id: '/campaigns/$campaignId/blasts'
+      path: '/blasts'
+      fullPath: '/campaigns/$campaignId/blasts'
+      preLoaderRoute: typeof CampaignsCampaignIdBlastsRouteImport
+      parentRoute: typeof CampaignsCampaignIdRoute
+    }
     '/campaigns/$campaignId/analytics': {
       id: '/campaigns/$campaignId/analytics'
       path: '/analytics'
       fullPath: '/campaigns/$campaignId/analytics'
       preLoaderRoute: typeof CampaignsCampaignIdAnalyticsRouteImport
       parentRoute: typeof CampaignsCampaignIdRoute
+    }
+    '/campaigns/$campaignId/blasts/': {
+      id: '/campaigns/$campaignId/blasts/'
+      path: '/'
+      fullPath: '/campaigns/$campaignId/blasts/'
+      preLoaderRoute: typeof CampaignsCampaignIdBlastsIndexRouteImport
+      parentRoute: typeof CampaignsCampaignIdBlastsRoute
+    }
+    '/campaigns/$campaignId/blasts/new': {
+      id: '/campaigns/$campaignId/blasts/new'
+      path: '/new'
+      fullPath: '/campaigns/$campaignId/blasts/new'
+      preLoaderRoute: typeof CampaignsCampaignIdBlastsNewRouteImport
+      parentRoute: typeof CampaignsCampaignIdBlastsRoute
+    }
+    '/campaigns/$campaignId/blasts/$blastId': {
+      id: '/campaigns/$campaignId/blasts/$blastId'
+      path: '/$blastId'
+      fullPath: '/campaigns/$campaignId/blasts/$blastId'
+      preLoaderRoute: typeof CampaignsCampaignIdBlastsBlastIdRouteImport
+      parentRoute: typeof CampaignsCampaignIdBlastsRoute
     }
   }
 }
@@ -792,24 +890,47 @@ const WebhooksRouteWithChildren = WebhooksRoute._addFileChildren(
   WebhooksRouteChildren,
 )
 
+interface CampaignsCampaignIdBlastsRouteChildren {
+  CampaignsCampaignIdBlastsBlastIdRoute: typeof CampaignsCampaignIdBlastsBlastIdRoute
+  CampaignsCampaignIdBlastsNewRoute: typeof CampaignsCampaignIdBlastsNewRoute
+  CampaignsCampaignIdBlastsIndexRoute: typeof CampaignsCampaignIdBlastsIndexRoute
+}
+
+const CampaignsCampaignIdBlastsRouteChildren: CampaignsCampaignIdBlastsRouteChildren =
+  {
+    CampaignsCampaignIdBlastsBlastIdRoute:
+      CampaignsCampaignIdBlastsBlastIdRoute,
+    CampaignsCampaignIdBlastsNewRoute: CampaignsCampaignIdBlastsNewRoute,
+    CampaignsCampaignIdBlastsIndexRoute: CampaignsCampaignIdBlastsIndexRoute,
+  }
+
+const CampaignsCampaignIdBlastsRouteWithChildren =
+  CampaignsCampaignIdBlastsRoute._addFileChildren(
+    CampaignsCampaignIdBlastsRouteChildren,
+  )
+
 interface CampaignsCampaignIdRouteChildren {
   CampaignsCampaignIdAnalyticsRoute: typeof CampaignsCampaignIdAnalyticsRoute
+  CampaignsCampaignIdBlastsRoute: typeof CampaignsCampaignIdBlastsRouteWithChildren
   CampaignsCampaignIdEditRoute: typeof CampaignsCampaignIdEditRoute
   CampaignsCampaignIdEmailBuilderRoute: typeof CampaignsCampaignIdEmailBuilderRoute
   CampaignsCampaignIdEmbedRoute: typeof CampaignsCampaignIdEmbedRoute
   CampaignsCampaignIdFormBuilderRoute: typeof CampaignsCampaignIdFormBuilderRoute
   CampaignsCampaignIdLeadsRoute: typeof CampaignsCampaignIdLeadsRoute
+  CampaignsCampaignIdSegmentsRoute: typeof CampaignsCampaignIdSegmentsRoute
   CampaignsCampaignIdSettingsRoute: typeof CampaignsCampaignIdSettingsRoute
   CampaignsCampaignIdIndexRoute: typeof CampaignsCampaignIdIndexRoute
 }
 
 const CampaignsCampaignIdRouteChildren: CampaignsCampaignIdRouteChildren = {
   CampaignsCampaignIdAnalyticsRoute: CampaignsCampaignIdAnalyticsRoute,
+  CampaignsCampaignIdBlastsRoute: CampaignsCampaignIdBlastsRouteWithChildren,
   CampaignsCampaignIdEditRoute: CampaignsCampaignIdEditRoute,
   CampaignsCampaignIdEmailBuilderRoute: CampaignsCampaignIdEmailBuilderRoute,
   CampaignsCampaignIdEmbedRoute: CampaignsCampaignIdEmbedRoute,
   CampaignsCampaignIdFormBuilderRoute: CampaignsCampaignIdFormBuilderRoute,
   CampaignsCampaignIdLeadsRoute: CampaignsCampaignIdLeadsRoute,
+  CampaignsCampaignIdSegmentsRoute: CampaignsCampaignIdSegmentsRoute,
   CampaignsCampaignIdSettingsRoute: CampaignsCampaignIdSettingsRoute,
   CampaignsCampaignIdIndexRoute: CampaignsCampaignIdIndexRoute,
 }

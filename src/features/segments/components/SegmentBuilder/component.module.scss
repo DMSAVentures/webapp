@@ -1,0 +1,174 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-05;
+}
+
+.title {
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: 1fr 350px;
+	gap: layout.$spacing-05;
+
+	@media (max-width: breakpoints.$breakpoint-lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+.section {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.sectionTitle {
+	font-size: typography.$font-size-md;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0 0 layout.$spacing-04;
+}
+
+.fields {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+	max-width: layout.$spacing-13 * 2.5;
+}
+
+.filterGroup {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+	padding-bottom: layout.$spacing-04;
+	border-bottom: 1px solid var(--color-border-primary-default);
+
+	&:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+}
+
+.filterLabel {
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+	margin: 0;
+}
+
+.checkboxGroup {
+	display: flex;
+	flex-wrap: wrap;
+	gap: layout.$spacing-03;
+}
+
+.checkboxLabel {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-primary-default);
+	cursor: pointer;
+}
+
+.preview {
+	position: sticky;
+	top: layout.$spacing-05;
+	height: fit-content;
+}
+
+.previewCard {
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-primary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.previewContent {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-04;
+}
+
+.previewCount {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: layout.$spacing-05;
+	background-color: var(--color-surface-secondary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.previewNumber {
+	font-size: typography.$font-size-h2;
+	font-weight: typography.$font-weight-bold;
+	color: var(--color-text-primary-default);
+}
+
+.previewLabel {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+}
+
+.previewLoading,
+.previewEmpty {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-tertiary-default);
+	text-align: center;
+	padding: layout.$spacing-05;
+}
+
+.sampleUsers {
+	h4 {
+		font-size: typography.$font-size-sm;
+		font-weight: typography.$font-weight-medium;
+		color: var(--color-text-secondary-default);
+		margin: 0 0 layout.$spacing-02;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		font-size: typography.$font-size-sm;
+		color: var(--color-text-primary-default);
+		padding: layout.$spacing-01 0;
+	}
+}
+
+.error {
+	padding: layout.$spacing-03;
+	background-color: var(--color-bg-danger-alpha);
+	border: 1px solid var(--color-border-danger-default);
+	border-radius: border.$border-radius-small;
+	color: var(--color-error-text);
+	font-size: typography.$font-size-sm;
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: layout.$spacing-03;
+	padding-top: layout.$spacing-04;
+	border-top: 1px solid var(--color-border-primary-default);
+}

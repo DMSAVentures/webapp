@@ -1,0 +1,98 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-05;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: layout.$spacing-04;
+}
+
+.headerText {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.title {
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+	margin: 0;
+}
+
+.subtitle {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	margin: 0;
+}
+
+.error {
+	padding: layout.$spacing-05;
+	text-align: center;
+	color: var(--color-error-text);
+}
+
+.emptyState {
+	padding: layout.$spacing-08;
+	background-color: var(--color-surface-secondary-default);
+	border: 1px dashed var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.emptyContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: layout.$spacing-03;
+
+	i {
+		font-size: typography.$font-size-h1;
+		color: var(--color-icon-secondary-default);
+	}
+
+	h3 {
+		font-size: typography.$font-size-lg;
+		font-weight: typography.$font-weight-semibold;
+		color: var(--color-text-primary-default);
+		margin: 0;
+	}
+
+	p {
+		font-size: typography.$font-size-sm;
+		color: var(--color-text-secondary-default);
+		margin: 0;
+		max-width: 300px;
+	}
+}
+
+// Table cell styles
+.nameCell {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-01;
+}
+
+.segmentName {
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-primary-default);
+}
+
+.segmentDescription {
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+}

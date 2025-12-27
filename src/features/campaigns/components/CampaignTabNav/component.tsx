@@ -15,6 +15,8 @@ const TABS: Tab[] = [
 	{ path: "/leads", label: "Leads", icon: "ri-user-line" },
 	{ path: "/analytics", label: "Analytics", icon: "ri-bar-chart-2-line" },
 	{ path: "/email-builder", label: "Email", icon: "ri-mail-line" },
+	{ path: "/segments", label: "Segments", icon: "ri-group-line" },
+	{ path: "/blasts", label: "Blasts", icon: "ri-mail-send-line" },
 	{ path: "/form-builder", label: "Form", icon: "ri-survey-line" },
 	{ path: "/embed", label: "Embed", icon: "ri-code-s-slash-line" },
 	{ path: "/settings", label: "Settings", icon: "ri-settings-3-line" },
