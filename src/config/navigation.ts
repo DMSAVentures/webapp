@@ -33,6 +33,12 @@ export const navigationConfig: NavGroup[] = [
 				iconClass: "webhook-line",
 				allowedPersonas: ["admin", "developer"],
 			},
+			{
+				label: "Integrations",
+				href: "/integrations",
+				iconClass: "plug-line",
+				allowedPersonas: ["admin", "developer"],
+			},
 		],
 	},
 ];

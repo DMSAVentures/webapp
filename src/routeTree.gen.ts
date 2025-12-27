@@ -14,6 +14,7 @@ import { Route as TestVariableInputRouteImport } from './routes/test-variable-in
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as MainRouteImport } from './routes/main'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as DealsRouteImport } from './routes/deals'
 import { Route as ContactsRouteImport } from './routes/contacts'
@@ -24,6 +25,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WebhooksIndexRouteImport } from './routes/webhooks/index'
+import { Route as IntegrationsIndexRouteImport } from './routes/integrations/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
 import { Route as WebhooksNewRouteImport } from './routes/webhooks/new'
@@ -68,6 +70,11 @@ const MediaRoute = MediaRouteImport.update({
 const MainRoute = MainRouteImport.update({
   id: '/main',
   path: '/main',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailRoute = EmailRouteImport.update({
@@ -119,6 +126,11 @@ const WebhooksIndexRoute = WebhooksIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => WebhooksRoute,
+} as any)
+const IntegrationsIndexRoute = IntegrationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => IntegrationsRoute,
 } as any)
 const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
   id: '/campaigns/',
@@ -238,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
   '/email': typeof EmailRoute
+  '/integrations': typeof IntegrationsRouteWithChildren
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
@@ -255,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/webhooks/new': typeof WebhooksNewRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/integrations/': typeof IntegrationsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
@@ -290,6 +304,7 @@ export interface FileRoutesByTo {
   '/webhooks/new': typeof WebhooksNewRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/integrations': typeof IntegrationsIndexRoute
   '/webhooks': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
@@ -311,6 +326,7 @@ export interface FileRoutesById {
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
   '/email': typeof EmailRoute
+  '/integrations': typeof IntegrationsRouteWithChildren
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
@@ -328,6 +344,7 @@ export interface FileRoutesById {
   '/webhooks/new': typeof WebhooksNewRoute
   '/billing/': typeof BillingIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/integrations/': typeof IntegrationsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
   '/campaigns/$campaignId/edit': typeof CampaignsCampaignIdEditRoute
@@ -350,6 +367,7 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/deals'
     | '/email'
+    | '/integrations'
     | '/main'
     | '/media'
     | '/signin'
@@ -367,6 +385,7 @@ export interface FileRouteTypes {
     | '/webhooks/new'
     | '/billing'
     | '/campaigns'
+    | '/integrations/'
     | '/webhooks/'
     | '/campaigns/$campaignId/analytics'
     | '/campaigns/$campaignId/edit'
@@ -402,6 +421,7 @@ export interface FileRouteTypes {
     | '/webhooks/new'
     | '/billing'
     | '/campaigns'
+    | '/integrations'
     | '/webhooks'
     | '/campaigns/$campaignId/analytics'
     | '/campaigns/$campaignId/edit'
@@ -422,6 +442,7 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/deals'
     | '/email'
+    | '/integrations'
     | '/main'
     | '/media'
     | '/signin'
@@ -439,6 +460,7 @@ export interface FileRouteTypes {
     | '/webhooks/new'
     | '/billing/'
     | '/campaigns/'
+    | '/integrations/'
     | '/webhooks/'
     | '/campaigns/$campaignId/analytics'
     | '/campaigns/$campaignId/edit'
@@ -460,6 +482,7 @@ export interface RootRouteChildren {
   ContactsRoute: typeof ContactsRoute
   DealsRoute: typeof DealsRoute
   EmailRoute: typeof EmailRoute
+  IntegrationsRoute: typeof IntegrationsRouteWithChildren
   MainRoute: typeof MainRoute
   MediaRoute: typeof MediaRoute
   SigninRoute: typeof SigninRoute
@@ -512,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/main'
       fullPath: '/main'
       preLoaderRoute: typeof MainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -583,6 +613,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/webhooks/'
       preLoaderRoute: typeof WebhooksIndexRouteImport
       parentRoute: typeof WebhooksRoute
+    }
+    '/integrations/': {
+      id: '/integrations/'
+      path: '/'
+      fullPath: '/integrations/'
+      preLoaderRoute: typeof IntegrationsIndexRouteImport
+      parentRoute: typeof IntegrationsRoute
     }
     '/campaigns/': {
       id: '/campaigns/'
@@ -727,6 +764,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface IntegrationsRouteChildren {
+  IntegrationsIndexRoute: typeof IntegrationsIndexRoute
+}
+
+const IntegrationsRouteChildren: IntegrationsRouteChildren = {
+  IntegrationsIndexRoute: IntegrationsIndexRoute,
+}
+
+const IntegrationsRouteWithChildren = IntegrationsRoute._addFileChildren(
+  IntegrationsRouteChildren,
+)
+
 interface WebhooksRouteChildren {
   WebhooksWebhookIdRoute: typeof WebhooksWebhookIdRoute
   WebhooksNewRoute: typeof WebhooksNewRoute
@@ -778,6 +827,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactsRoute: ContactsRoute,
   DealsRoute: DealsRoute,
   EmailRoute: EmailRoute,
+  IntegrationsRoute: IntegrationsRouteWithChildren,
   MainRoute: MainRoute,
   MediaRoute: MediaRoute,
   SigninRoute: SigninRoute,
