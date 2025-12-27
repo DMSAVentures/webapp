@@ -1,7 +1,6 @@
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/design-tokens/breakpoints" as breakpoints;
 
 .root {
   display: flex;
@@ -10,99 +9,40 @@
   gap: layout.$spacing-04;
 }
 
-// Filter group
+// Filter group - layout container for label + control
 .filterGroup {
   display: flex;
   flex-direction: column;
   gap: layout.$spacing-02;
-  min-width: 140px;
 }
 
-.filterLabel {
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-secondary-default);
-  text-transform: uppercase;
-  letter-spacing: typography.$letter-spacing-wide;
-}
-
-// Date inputs
-.dateInputs {
+// Row of inputs (for date range and position range)
+.inputRow {
   display: flex;
   align-items: center;
   gap: layout.$spacing-02;
 }
 
-.dateInput {
-  width: 130px;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-primary-default);
-  background-color: var(--color-surface-input-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
-  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    border-color: var(--color-border-focus-default);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-  }
-}
-
-.dateSeparator {
+// Separator text between inputs
+.separator {
   color: var(--color-text-tertiary-default);
   font-size: typography.$font-size-sm;
 }
 
-// Position inputs
-.positionInputs {
+// Checkbox wrapper to match input height
+.checkboxWrapper {
   display: flex;
   align-items: center;
   gap: layout.$spacing-02;
+  height: 42px; // Match TextInput/SelectDropdown height
 }
 
-.positionInput {
-  width: 70px;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  font-size: typography.$font-size-sm;
+.checkboxLabel {
   color: var(--color-text-primary-default);
-  background-color: var(--color-surface-input-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
-  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
-
-  &:hover {
-    border-color: var(--color-border-focus-default);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-focus-ring-default);
-  }
-
-  // Hide number input spinners
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    margin: 0;
-    appearance: none;
-  }
-
-  &[type="number"] {
-    appearance: textfield;
-  }
+  font-size: typography.$font-size-sm;
 }
 
-// Checkbox filter
-.checkboxFilter {
-  display: flex;
-  align-items: center;
-}
-
-// Actions
+// Actions container
 .actions {
   display: flex;
   align-items: flex-end;
@@ -110,20 +50,8 @@
   margin-left: auto;
 }
 
-// Active filter indicator
-.activeFilters {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-02 layout.$spacing-03;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-info-default);
-  background-color: var(--color-bg-info-default);
-  border-radius: border.$border-radius-small;
-}
-
 // Responsive
-@media (width <= 768px) {
+@media (max-width: breakpoints.$breakpoint-md) {
   .root {
     flex-direction: column;
     align-items: stretch;
@@ -133,13 +61,8 @@
     width: 100%;
   }
 
-  .dateInputs {
+  .inputRow {
     flex-wrap: wrap;
-  }
-
-  .dateInput {
-    flex: 1;
-    min-width: 100px;
   }
 
   .actions {

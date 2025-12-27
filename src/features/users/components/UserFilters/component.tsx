@@ -5,7 +5,8 @@
 
 import { memo, useCallback } from "react";
 import { Button } from "@/proto-design-system/Button/button";
-import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
+import Checkbox from "@/proto-design-system/checkbox/checkbox";
+import Label from "@/proto-design-system/label/label";
 import { SelectDropdown } from "@/proto-design-system/SelectDropdown/selectDropdown";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type { FormField } from "@/types/campaign";
@@ -208,7 +209,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 		<div className={classNames}>
 			{/* Status Filter */}
 			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>Status</label>
+				<Label text="Status" />
 				<SelectDropdown
 					mode="multi"
 					options={STATUS_OPTIONS}
@@ -220,7 +221,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Source Filter */}
 			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>Source</label>
+				<Label text="Source" />
 				<SelectDropdown
 					mode="multi"
 					options={SOURCE_OPTIONS}
@@ -232,11 +233,11 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Date Range Filter */}
 			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>Date Range</label>
-				<div className={styles.dateInputs}>
-					<input
+				<Label text="Date Range" />
+				<div className={styles.inputRow}>
+					<TextInput
+						label=""
 						type="date"
-						className={styles.dateInput}
 						value={
 							filters.dateRange?.start
 								? filters.dateRange.start.toISOString().split("T")[0]
@@ -244,10 +245,10 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						}
 						onChange={(e) => handleDateChange("start", e.target.value)}
 					/>
-					<span className={styles.dateSeparator}>to</span>
-					<input
+					<span className={styles.separator}>to</span>
+					<TextInput
+						label=""
 						type="date"
-						className={styles.dateInput}
 						value={
 							filters.dateRange?.end
 								? filters.dateRange.end.toISOString().split("T")[0]
@@ -260,20 +261,20 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Position Range Filter */}
 			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>Position</label>
-				<div className={styles.positionInputs}>
-					<input
+				<Label text="Position" />
+				<div className={styles.inputRow}>
+					<TextInput
+						label=""
 						type="number"
-						className={styles.positionInput}
 						placeholder="Min"
 						min={1}
 						value={filters.minPosition ?? ""}
 						onChange={(e) => handlePositionChange("min", e.target.value)}
 					/>
-					<span className={styles.dateSeparator}>-</span>
-					<input
+					<span className={styles.separator}>-</span>
+					<TextInput
+						label=""
 						type="number"
-						className={styles.positionInput}
 						placeholder="Max"
 						min={1}
 						value={filters.maxPosition ?? ""}
@@ -284,15 +285,13 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Has Referrals Filter */}
 			<div className={styles.filterGroup}>
-				<label className={styles.filterLabel}>Referrals</label>
-				<div className={styles.checkboxFilter}>
-					<CheckboxWithLabel
+				<Label text="Referrals" />
+				<div className={styles.checkboxWrapper}>
+					<Checkbox
 						checked={filters.hasReferrals ? "checked" : "unchecked"}
 						onChange={handleReferralsToggle}
-						text="Has referrals"
-						description=""
-						flipCheckboxToRight={false}
 					/>
+					<span className={styles.checkboxLabel}>Has referrals</span>
 				</div>
 			</div>
 
@@ -314,7 +313,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 					return (
 						<div key={field.id} className={styles.filterGroup}>
-							<label className={styles.filterLabel}>{field.label}</label>
+							<Label text={field.label} />
 							{field.fieldType === "select" ? (
 								<SelectDropdown
 									mode="multi"
@@ -346,7 +345,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 				if (field.fieldType === "text") {
 					return (
 						<div key={field.id} className={styles.filterGroup}>
-							<label className={styles.filterLabel}>{field.label}</label>
+							<Label text={field.label} />
 							<TextInput
 								label=""
 								placeholder={`Filter by ${field.label.toLowerCase()}`}

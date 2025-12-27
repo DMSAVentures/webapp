@@ -22,26 +22,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: layout.$spacing-02;
+  gap: layout.$spacing-03;
   min-width: 140px;
-  padding: layout.$spacing-02 layout.$spacing-03;
+  padding: layout.$spacing-03;
   font-size: typography.$font-size-sm;
   color: var(--color-text-secondary-default);
   background-color: var(--color-surface-input-default);
   border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
+  border-radius: border.$border-radius-medium;
   cursor: pointer;
   transition:
     border-color motion.$duration-fast-01 motion.$easing-productive-standard,
     background-color motion.$duration-fast-01 motion.$easing-productive-standard;
 
   &:hover:not(:disabled) {
-    border-color: var(--color-border-focus-default);
+    background-color: var(--color-bg-secondary-hover);
   }
 
-  &:focus {
+  &:focus-visible {
     outline: none;
-    border-color: var(--color-focus-ring-default);
+    box-shadow: 0 0 0 2px var(--color-focus-ring-default);
   }
 
   &:disabled {
@@ -80,12 +80,13 @@
   z-index: 100;
   min-width: 100%;
   max-height: 280px;
-  margin-top: layout.$spacing-01;
+  margin-top: layout.$spacing-02;
+  padding: layout.$spacing-02;
   overflow-y: auto;
-  background-color: var(--color-surface-input-default);
+  background-color: var(--color-surface-primary-default);
   border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
-  box-shadow: 0 4px 12px var(--color-shadow-default);
+  border-radius: border.$border-radius-medium;
+  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
 }
 
 // Menu item
@@ -96,6 +97,7 @@
   padding: layout.$spacing-02 layout.$spacing-03;
   font-size: typography.$font-size-sm;
   color: var(--color-text-primary-default);
+  border-radius: border.$border-radius-small;
   cursor: pointer;
   transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
 
@@ -126,12 +128,12 @@
 .size_small {
   .trigger {
     min-width: 100px;
-    padding: layout.$spacing-01 layout.$spacing-02;
+    padding: layout.$spacing-02;
     font-size: typography.$font-size-xs;
   }
 
   .menuItem {
-    padding: layout.$spacing-01 layout.$spacing-02;
+    padding: layout.$spacing-02;
     font-size: typography.$font-size-xs;
   }
 }
@@ -139,7 +141,7 @@
 .size_large {
   .trigger {
     min-width: 180px;
-    padding: layout.$spacing-03 layout.$spacing-04;
+    padding: layout.$spacing-04;
     font-size: typography.$font-size-md;
   }
 

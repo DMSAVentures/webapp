@@ -29,4 +29,5 @@
 .content {
 	display: flex;
 	flex-direction: column;
+    gap: layout.$spacing-05;
 }

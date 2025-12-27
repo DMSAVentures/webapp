@@ -40,7 +40,7 @@ export const TextInput = (props: TextInputProps) => {
 		<div
 			className={`${styles["text-input"]} ${error ? styles["text-input--error"] : ""}`}
 		>
-			<Label text={label} required={inputProps.required} />
+			{label && <Label text={label} required={inputProps.required} />}
 			<div
 				className={`${styles["text-input__input-container"]} ${error ? styles["text-input__input-container--error"] : ""} ${inputProps.disabled ? styles["text-input__input-container--disabled"] : ""}`}
 				onClick={handleFocus}
@@ -57,14 +57,11 @@ export const TextInput = (props: TextInputProps) => {
 					/>
 				)}
 			</div>
-			<div className={styles["text-input__hint"]}>
-				{!error && hint && (
-					<HintText hintText={hint} state={error ? "error" : "default"} />
-				)}
-				{error && (
-					<HintText hintText={error} state={error ? "error" : "default"} />
-				)}
-			</div>
+			{(hint || error) && (
+				<div className={styles["text-input__hint"]}>
+					<HintText hintText={error || hint || ""} state={error ? "error" : "default"} />
+				</div>
+			)}
 		</div>
 	);
 };
