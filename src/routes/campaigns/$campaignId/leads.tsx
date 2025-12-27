@@ -168,12 +168,18 @@ function RouteComponent() {
 						onUserClick={(user) => {
 							console.log("User clicked:", user);
 						}}
-						onExport={async () => {
-							const allUsers = await fetchAllUsers();
-							exportUsersToCSV(allUsers, campaign.name);
-						}}
-						onBulkAction={async (action, userIds) => {
-							console.log("Bulk action:", action, userIds);
+						onExport={async (selectedUserIds) => {
+							if (selectedUserIds.length === 0) {
+								// No selection - fetch and export all users
+								const allUsers = await fetchAllUsers();
+								exportUsersToCSV(allUsers, campaign.name);
+							} else {
+								// Export selected users from current page
+								const selectedUsers = users.filter((u) =>
+									selectedUserIds.includes(u.id),
+								);
+								exportUsersToCSV(selectedUsers, campaign.name);
+							}
 						}}
 						referralEnabled={campaign.referralSettings?.enabled ?? false}
 						emailVerificationEnabled={

@@ -7,7 +7,6 @@ import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
 import { Button } from "@/proto-design-system/Button/button";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
-import Modal from "@/proto-design-system/modal/modal";
 import Pagination from "@/proto-design-system/pagination/pagination";
 import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
 import { Table } from "@/proto-design-system/Table";
@@ -40,10 +39,8 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	onPageChange?: (page: number) => void;
 	/** User click handler */
 	onUserClick?: (user: WaitlistUser) => void;
-	/** Export handler */
-	onExport?: () => Promise<void>;
-	/** Bulk action handler */
-	onBulkAction?: (action: string, userIds: string[]) => Promise<void>;
+	/** Export handler - receives selected user IDs (empty array means export all) */
+	onExport?: (selectedUserIds: string[]) => Promise<void>;
 	/** Whether referral feature is enabled for this campaign */
 	referralEnabled?: boolean;
 	/** Whether email verification is enabled for this campaign */
@@ -74,7 +71,6 @@ export const UserList = memo<UserListProps>(function UserList({
 	onPageChange,
 	onUserClick,
 	onExport,
-	onBulkAction,
 	referralEnabled = true,
 	emailVerificationEnabled = true,
 	formFields,
@@ -86,8 +82,7 @@ export const UserList = memo<UserListProps>(function UserList({
 }) {
 	const { getStatusVariant, formatStatus } = useUserHelpers();
 	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
-	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [isBulkLoading, setIsBulkLoading] = useState(false);
+	const [isExporting, setIsExporting] = useState(false);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 	const hasSelection = selectedUserIds.length > 0;
@@ -129,50 +124,14 @@ export const UserList = memo<UserListProps>(function UserList({
 		);
 	}, []);
 
-	// Handle bulk action
-	const handleBulkAction = async (
-		action: "email" | "status" | "export" | "delete",
-	) => {
-		if (action === "delete") {
-			setIsDeleteModalOpen(true);
-			return;
-		}
-
-		if (action === "export" && onExport) {
-			await onExport();
-			setSelectedUserIds([]);
-			return;
-		}
-
-		setIsBulkLoading(true);
+	// Handle export
+	const handleExport = async () => {
+		if (!onExport) return;
+		setIsExporting(true);
 		try {
-			if (onBulkAction) {
-				await onBulkAction(action, selectedUserIds);
-			}
-			setSelectedUserIds([]);
+			await onExport(selectedUserIds);
 		} finally {
-			setIsBulkLoading(false);
-		}
-	};
-
-	// Handle confirm delete
-	const handleConfirmDelete = async () => {
-		setIsBulkLoading(true);
-		try {
-			if (onBulkAction) {
-				await onBulkAction("delete", selectedUserIds);
-			}
-			setSelectedUserIds([]);
-			setIsDeleteModalOpen(false);
-		} finally {
-			setIsBulkLoading(false);
-		}
-	};
-
-	// Handle export CSV
-	const handleExportAll = async () => {
-		if (onExport) {
-			await onExport();
+			setIsExporting(false);
 		}
 	};
 
@@ -195,49 +154,27 @@ export const UserList = memo<UserListProps>(function UserList({
 		<div className={classNames} {...props}>
 			{/* Header with actions */}
 			<div className={styles.header}>
-				{/* Actions */}
 				<div className={styles.headerActions}>
 					<Button
 						variant="secondary"
 						leftIcon="ri-download-line"
-						onClick={handleExportAll}
+						onClick={handleExport}
+						disabled={isExporting}
 					>
-						Export CSV
+						{isExporting
+							? "Exporting..."
+							: hasSelection
+								? `Export Selected (${selectedUserIds.length})`
+								: "Export All Users"}
 					</Button>
 					{hasSelection && (
-						<>
-							<Button
-								variant="secondary"
-								leftIcon="ri-mail-line"
-								onClick={() => handleBulkAction("email")}
-								disabled={isBulkLoading}
-							>
-								Email
-							</Button>
-							<Button
-								variant="secondary"
-								leftIcon="ri-refresh-line"
-								onClick={() => handleBulkAction("status")}
-								disabled={isBulkLoading}
-							>
-								Update Status
-							</Button>
-							<Button
-								variant="secondary"
-								leftIcon="ri-delete-bin-line"
-								onClick={() => handleBulkAction("delete")}
-								disabled={isBulkLoading}
-							>
-								Delete
-							</Button>
-							<Button
-								variant="secondary"
-								onClick={() => setSelectedUserIds([])}
-								disabled={isBulkLoading}
-							>
-								Clear
-							</Button>
-						</>
+						<Button
+							variant="secondary"
+							size="small"
+							onClick={() => setSelectedUserIds([])}
+						>
+							Clear Selection
+						</Button>
 					)}
 				</div>
 			</div>
@@ -435,20 +372,6 @@ export const UserList = memo<UserListProps>(function UserList({
 					</div>
 				)}
 			</div>
-
-			{/* Delete confirmation modal */}
-			<Modal
-				isOpen={isDeleteModalOpen}
-				onClose={() => setIsDeleteModalOpen(false)}
-				title="Delete Users"
-				description={`Are you sure you want to delete ${selectedUserIds.length} user${selectedUserIds.length !== 1 ? "s" : ""}? This action cannot be undone.`}
-				icon="warning"
-				dismissibleByCloseIcon={true}
-				proceedText={isBulkLoading ? "Deleting..." : "Delete"}
-				cancelText="Cancel"
-				onCancel={() => setIsDeleteModalOpen(false)}
-				onProceed={handleConfirmDelete}
-			/>
 		</div>
 	);
 });
