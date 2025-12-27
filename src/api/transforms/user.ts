@@ -39,7 +39,7 @@ export function toUiWaitlistUser(api: ApiWaitlistUser): WaitlistUser {
 		source: api.source,
 		termsAccepted: api.terms_accepted,
 		marketingConsent: api.marketing_consent,
-		customFields: api.custom_fields,
+		customFields: api.metadata ?? api.custom_fields,
 		utmSource: api.utm_source,
 		utmMedium: api.utm_medium,
 		utmCampaign: api.utm_campaign,

@@ -8,6 +8,7 @@ import { Button } from "@/proto-design-system/Button/button";
 import Checkbox from "@/proto-design-system/checkbox/checkbox";
 import Label from "@/proto-design-system/label/label";
 import { SelectDropdown } from "@/proto-design-system/SelectDropdown/selectDropdown";
+import { DebouncedTextInput } from "@/proto-design-system/TextInput/DebouncedTextInput";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import type { FormField } from "@/types/campaign";
 import type {
@@ -182,20 +183,20 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 		[filters, onChange],
 	);
 
-	// Handle custom field text input
+	// Handle custom field text input (debouncing handled by DebouncedTextInput)
 	const handleCustomFieldText = useCallback(
-		(fieldId: string, value: string) => {
+		(fieldName: string, value: string) => {
 			const currentCustomFields = filters.customFields || {};
 			if (value) {
 				onChange({
 					...filters,
 					customFields: {
 						...currentCustomFields,
-						[fieldId]: value,
+						[fieldName]: value,
 					},
 				});
 			} else {
-				const { [fieldId]: _, ...rest } = currentCustomFields;
+				const { [fieldName]: _, ...rest } = currentCustomFields;
 				onChange({
 					...filters,
 					customFields: Object.keys(rest).length > 0 ? rest : undefined,
@@ -297,7 +298,8 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Custom Form Field Filters */}
 			{filterableFields.map((field) => {
-				const fieldValue = filters.customFields?.[field.id];
+				// Use field.name as key since that's how data is stored in metadata
+				const fieldValue = filters.customFields?.[field.name];
 				const selectedValues = Array.isArray(fieldValue)
 					? fieldValue
 					: fieldValue
@@ -320,7 +322,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 									options={options}
 									value={selectedValues}
 									onChange={(selected: string[]) =>
-										handleCustomFieldSelect(field.id, selected)
+										handleCustomFieldSelect(field.name, selected)
 									}
 									placeholder={`All ${field.label}`}
 								/>
@@ -331,7 +333,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 									value={selectedValues[0] || ""}
 									onChange={(selected: string | undefined) =>
 										handleCustomFieldSelect(
-											field.id,
+											field.name,
 											selected ? [selected] : [],
 										)
 									}
@@ -346,13 +348,11 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 					return (
 						<div key={field.id} className={styles.filterGroup}>
 							<Label text={field.label} />
-							<TextInput
+							<DebouncedTextInput
 								label=""
 								placeholder={`Filter by ${field.label.toLowerCase()}`}
 								value={(fieldValue as string) || ""}
-								onChange={(e) =>
-									handleCustomFieldText(field.id, e.target.value)
-								}
+								onChange={(value) => handleCustomFieldText(field.name, value)}
 							/>
 						</div>
 					);

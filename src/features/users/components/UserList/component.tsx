@@ -403,7 +403,7 @@ export const UserList = memo<UserListProps>(function UserList({
 									{customFormFields?.map((field) => (
 										<Table.Cell key={field.id}>
 											<span className={styles.customField}>
-												{user.customFields?.[field.id] ?? "-"}
+												{user.customFields?.[field.name] ?? "-"}
 											</span>
 										</Table.Cell>
 									))}

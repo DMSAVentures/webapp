@@ -52,6 +52,7 @@ export interface ApiWaitlistUser {
 	terms_accepted: boolean;
 	marketing_consent: boolean;
 	custom_fields?: Record<string, string>;
+	metadata?: Record<string, string>;
 	utm_source?: string;
 	utm_medium?: string;
 	utm_campaign?: string;
