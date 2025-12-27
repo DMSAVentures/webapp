@@ -59,7 +59,10 @@ export const TextInput = (props: TextInputProps) => {
 			</div>
 			{(hint || error) && (
 				<div className={styles["text-input__hint"]}>
-					<HintText hintText={error || hint || ""} state={error ? "error" : "default"} />
+					<HintText
+						hintText={error || hint || ""}
+						state={error ? "error" : "default"}
+					/>
 				</div>
 			)}
 		</div>

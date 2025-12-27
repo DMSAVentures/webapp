@@ -92,6 +92,11 @@ export const UserList = memo<UserListProps>(function UserList({
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 	const hasSelection = selectedUserIds.length > 0;
 
+	// Filter out form fields that match built-in columns
+	const customFormFields = formFields?.filter(
+		(field) => field.label.toLowerCase() !== "email",
+	);
+
 	// Handle sort - trigger server-side sorting via callback
 	const handleSort = useCallback(
 		(field: UserSortField) => {
@@ -325,7 +330,7 @@ export const UserList = memo<UserListProps>(function UserList({
 									</>
 								)}
 								{/* Dynamic columns for custom form fields */}
-								{formFields?.map((field) => (
+								{customFormFields?.map((field) => (
 									<Table.HeaderCell key={field.id}>
 										{field.label}
 									</Table.HeaderCell>
@@ -395,7 +400,7 @@ export const UserList = memo<UserListProps>(function UserList({
 										</>
 									)}
 									{/* Dynamic cells for custom form fields */}
-									{formFields?.map((field) => (
+									{customFormFields?.map((field) => (
 										<Table.Cell key={field.id}>
 											<span className={styles.customField}>
 												{user.customFields?.[field.id] ?? "-"}
