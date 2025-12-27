@@ -1,10 +1,17 @@
 #!/bin/bash
 
 # Seed script to populate campaign with dummy users
-# Usage: ./scripts/seed-users.sh
+# Usage: ./scripts/seed-users.sh <campaign_id> [num_users]
+# Example: ./scripts/seed-users.sh a868642a-690a-458a-9218-f4f54e6ad8cf 100
 
-API_URL="http://localhost:8080/api/v1/campaigns/efd59c40-209e-4f34-a9b1-13abcca608ce/users"
-TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiZjUyMmY0NmMtMjY0ZC00ODgxLWIxODMtMmQ2NWQ4ZTUyZjc2IiwiYXVkIjoiYmFzZS1zZXJ2ZXIiLCJhdXRoX3R5cGUiOiJvYXV0aCIsImV4cCI6MTc2NjM1ODExNywiaWF0IjoxNzY2MjcxNzE3LCJpc3MiOiJiYXNlLXNlcnZlciIsInN1YiI6ImVmZTNkZjdjLTYzZDYtNDY1YS1iMmM5LTExMWVmOWViMDU0ZCJ9.xaoRu_G0pJFU0iAmQHEk6qfakd5omGZ98G4Ad6DpvF4"
+if [ -z "$1" ]; then
+    echo "Usage: ./scripts/seed-users.sh <campaign_id> [num_users]"
+    echo "Example: ./scripts/seed-users.sh a868642a-690a-458a-9218-f4f54e6ad8cf 100"
+    exit 1
+fi
+
+CAMPAIGN_ID="$1"
+API_URL="http://localhost:8080/api/v1/campaigns/${CAMPAIGN_ID}/users"
 
 # Arrays of realistic UTM values
 UTM_SOURCES=("google" "facebook" "twitter" "linkedin" "instagram" "tiktok" "youtube" "reddit" "pinterest" "whatsapp" "email" "newsletter" "bing" "duckduckgo" "referral" "organic" "direct" "producthunt" "hackernews" "betalist")
@@ -50,8 +57,13 @@ random_marketing_consent() {
     fi
 }
 
-# Number of users to create (random between 100-150)
-NUM_USERS=$(rand_range 100 150)
+# Number of users to create (from argument or random between 100-150)
+if [ -n "$2" ]; then
+    NUM_USERS="$2"
+else
+    NUM_USERS=$(rand_range 100 150)
+fi
+echo "Seeding campaign: $CAMPAIGN_ID"
 echo "Creating $NUM_USERS users..."
 echo "================================"
 
@@ -83,9 +95,9 @@ EOF
 
     # Make the API call
     RESPONSE=$(curl -s -w "\n%{http_code}" "$API_URL" \
-        -H 'accept: */*' \
-        -H 'content-type: application/json' \
-        -b "token=${TOKEN}" \
+        -H 'Accept: */*' \
+        -H 'Content-Type: application/json' \
+        -H 'Origin: http://localhost:3000' \
         --data-raw "$PAYLOAD")
 
     HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
