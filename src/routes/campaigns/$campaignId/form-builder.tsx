@@ -1,11 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
-import { FormBuilder } from "@/features/form-builder/components/FormBuilder/component";
-import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
-import Banner from "@/proto-design-system/banner/banner";
-import type { FormConfig } from "@/types/common.types";
-import styles from "./form-builder.module.scss";
+import { FormBuilderPage } from "@/features/form-builder/components/FormBuilderPage/component";
 
 export const Route = createFileRoute("/campaigns/$campaignId/form-builder")({
 	component: RouteComponent,
@@ -14,117 +9,10 @@ export const Route = createFileRoute("/campaigns/$campaignId/form-builder")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const { campaign } = useCampaignContext();
-	const formConfig = useFormConfigFromCampaign(campaign);
-	const [saveError, setSaveError] = useState<string | null>(null);
-	const [saveSuccess, setSaveSuccess] = useState(false);
-
-	const handleSave = async (config: FormConfig) => {
-		setSaveError(null);
-		setSaveSuccess(false);
-
-		try {
-			// Helper function to convert label to valid field name
-			const labelToFieldName = (label: string, type: string): string => {
-				// Email fields must always be named "email"
-				if (type === "email") {
-					return "email";
-				}
-
-				return label
-					.toLowerCase()
-					.trim()
-					.replace(/\s+/g, "_") // Replace spaces with underscores
-					.replace(/[^a-z0-9_]/g, ""); // Remove special characters
-			};
-
-			// Transform UI FormConfig to API structure
-			const formFields = config.fields.map((field, index) => ({
-				name: labelToFieldName(field.label, field.type), // Convert label to field name
-				field_type: field.type,
-				label: field.label,
-				placeholder: field.placeholder || undefined,
-				required: field.required,
-				options: field.options,
-				validation_pattern: field.validation?.pattern || undefined,
-				display_order: index,
-			}));
-
-			const formSettings = {
-				captcha_enabled: false,
-				design: config.design,
-				success_title: config.behavior.successTitle,
-				success_message: config.behavior.successMessage,
-			};
-
-			// Update campaign with form_fields and form_settings
-			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
-				{
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					credentials: "include",
-					body: JSON.stringify({
-						form_fields: formFields,
-						form_settings: formSettings,
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw new Error(errorData.error || "Failed to save form configuration");
-			}
-
-			setSaveSuccess(true);
-			setTimeout(() => setSaveSuccess(false), 3000);
-		} catch (error: unknown) {
-			const errorMessage =
-				error instanceof Error
-					? error.message
-					: "Failed to save form configuration";
-			setSaveError(errorMessage);
-		}
-	};
 
 	if (!campaign) {
 		return null;
 	}
 
-	return (
-		<div className={styles.formBuilderTab}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Form Builder</h2>
-				<p className={styles.description}>
-					Design your signup form and customize the success screen
-				</p>
-			</div>
-
-			{saveSuccess && (
-				<Banner
-					bannerType="success"
-					variant="filled"
-					alertTitle="Form saved successfully!"
-					alertDescription="Your waitlist form has been updated."
-				/>
-			)}
-
-			{saveError && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to save form"
-					alertDescription={saveError}
-				/>
-			)}
-
-			<FormBuilder
-				campaignId={campaignId}
-				initialConfig={formConfig || undefined}
-				onSave={handleSave}
-				enabledReferralChannels={campaign.referralSettings?.sharingChannels}
-			/>
-		</div>
-	);
+	return <FormBuilderPage campaignId={campaignId} campaign={campaign} />;
 }

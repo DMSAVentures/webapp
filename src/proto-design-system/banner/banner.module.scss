@@ -18,7 +18,11 @@
   }
 
   .banner__dismiss {
-    opacity: if($text-color == #fff, 0.72, 0.40);
+    @if $text-color == #fff {
+      opacity: 0.72;
+    } @else {
+      opacity: 0.4;
+    }
   }
 }
 

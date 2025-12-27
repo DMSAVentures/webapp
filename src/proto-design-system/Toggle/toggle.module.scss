@@ -1,3 +1,4 @@
+@use "sass:math";
 @use "@/design-tokens/layout" as layout;
 @use "@/design-tokens/border" as border;
 @use "@/design-tokens/motion" as motion;
@@ -32,8 +33,8 @@
             position: absolute;
             height: layout.$spacing-04;
             width: layout.$spacing-04;
-            left: layout.$spacing-02 / 2;
-            bottom: layout.$spacing-02 / 2;
+            left: math.div(layout.$spacing-02, 2);
+            bottom: math.div(layout.$spacing-02, 2);
             background-color: var(--color-surface-primary-default);
             border-radius: border.$border-radius-round;
             border: 2px solid var(--color-border-primary-default);

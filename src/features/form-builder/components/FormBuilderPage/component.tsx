@@ -1,0 +1,194 @@
+/**
+ * FormBuilderPage Component
+ * Container component for the form builder page
+ */
+
+import { memo, useCallback, useState } from "react";
+import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
+import Banner from "@/proto-design-system/banner/banner";
+import type { Campaign } from "@/types/campaign";
+import type { FormConfig } from "@/types/common.types";
+import { FormBuilder } from "../FormBuilder/component";
+import styles from "./component.module.scss";
+
+export interface FormBuilderPageProps {
+	/** Campaign ID */
+	campaignId: string;
+	/** Campaign data */
+	campaign: Campaign;
+}
+
+// ============================================================================
+// Types
+// ============================================================================
+
+interface FormFieldPayload {
+	name: string;
+	field_type: string;
+	label: string;
+	placeholder?: string;
+	required: boolean;
+	options?: string[];
+	validation_pattern?: string;
+	display_order: number;
+}
+
+interface FormSettingsPayload {
+	captcha_enabled: boolean;
+	design: FormConfig["design"];
+	success_title?: string;
+	success_message?: string;
+}
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Convert label to valid field name */
+function labelToFieldName(label: string, type: string): string {
+	// Email fields must always be named "email"
+	if (type === "email") {
+		return "email";
+	}
+
+	return label
+		.toLowerCase()
+		.trim()
+		.replace(/\s+/g, "_") // Replace spaces with underscores
+		.replace(/[^a-z0-9_]/g, ""); // Remove special characters
+}
+
+/** Transform UI FormConfig to API payload */
+function transformConfigToPayload(config: FormConfig): {
+	formFields: FormFieldPayload[];
+	formSettings: FormSettingsPayload;
+} {
+	const formFields = config.fields.map((field, index) => ({
+		name: labelToFieldName(field.label, field.type),
+		field_type: field.type,
+		label: field.label,
+		placeholder: field.placeholder || undefined,
+		required: field.required,
+		options: field.options,
+		validation_pattern: field.validation?.pattern || undefined,
+		display_order: index,
+	}));
+
+	const formSettings = {
+		captcha_enabled: false,
+		design: config.design,
+		success_title: config.behavior.successTitle,
+		success_message: config.behavior.successMessage,
+	};
+
+	return { formFields, formSettings };
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for saving form configuration */
+function useSaveFormConfig(campaignId: string) {
+	const [saveError, setSaveError] = useState<string | null>(null);
+	const [saveSuccess, setSaveSuccess] = useState(false);
+
+	const handleSave = useCallback(
+		async (config: FormConfig) => {
+			setSaveError(null);
+			setSaveSuccess(false);
+
+			try {
+				const { formFields, formSettings } = transformConfigToPayload(config);
+
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}`,
+					{
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						credentials: "include",
+						body: JSON.stringify({
+							form_fields: formFields,
+							form_settings: formSettings,
+						}),
+					},
+				);
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(
+						errorData.error || "Failed to save form configuration",
+					);
+				}
+
+				setSaveSuccess(true);
+				setTimeout(() => setSaveSuccess(false), 3000);
+			} catch (error: unknown) {
+				const errorMessage =
+					error instanceof Error
+						? error.message
+						: "Failed to save form configuration";
+				setSaveError(errorMessage);
+			}
+		},
+		[campaignId],
+	);
+
+	return { saveError, saveSuccess, handleSave };
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
+/**
+ * FormBuilderPage displays the form builder for a campaign
+ */
+export const FormBuilderPage = memo(function FormBuilderPage({
+	campaignId,
+	campaign,
+}: FormBuilderPageProps) {
+	// Hooks
+	const formConfig = useFormConfigFromCampaign(campaign);
+	const { saveError, saveSuccess, handleSave } = useSaveFormConfig(campaignId);
+
+	return (
+		<div className={styles.formBuilderTab}>
+			<div className={styles.header}>
+				<h2 className={styles.title}>Form Builder</h2>
+				<p className={styles.description}>
+					Design your signup form and customize the success screen
+				</p>
+			</div>
+
+			{saveSuccess && (
+				<Banner
+					bannerType="success"
+					variant="filled"
+					alertTitle="Form saved successfully!"
+					alertDescription="Your waitlist form has been updated."
+				/>
+			)}
+
+			{saveError && (
+				<Banner
+					bannerType="error"
+					variant="filled"
+					alertTitle="Failed to save form"
+					alertDescription={saveError}
+				/>
+			)}
+
+			<FormBuilder
+				campaignId={campaignId}
+				initialConfig={formConfig || undefined}
+				onSave={handleSave}
+				enabledReferralChannels={campaign.referralSettings?.sharingChannels}
+			/>
+		</div>
+	);
+});
+
+FormBuilderPage.displayName = "FormBuilderPage";
