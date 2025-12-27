@@ -49,6 +49,10 @@ export interface SignupsChartProps
 	className?: string;
 }
 
+// ============================================================================
+// Constants
+// ============================================================================
+
 const PERIOD_OPTIONS: { value: AnalyticsPeriod; label: string }[] = [
 	{ value: "hour", label: "Hourly" },
 	{ value: "day", label: "Daily" },
@@ -56,13 +60,20 @@ const PERIOD_OPTIONS: { value: AnalyticsPeriod; label: string }[] = [
 	{ value: "month", label: "Monthly" },
 ];
 
-/**
- * Format date range for display
- */
-const formatDateRange = (
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Format number for display */
+function formatNumber(value: number): string {
+	return value.toLocaleString("en-US");
+}
+
+/** Format date range for display */
+function formatDateRange(
 	dateRange: DateRange | undefined,
 	period: AnalyticsPeriod,
-): string => {
+): string {
 	if (!dateRange) return "";
 
 	const { from, to } = dateRange;
@@ -101,16 +112,16 @@ const formatDateRange = (
 		default:
 			return "";
 	}
-};
+}
 
 /**
  * Format date for display based on period
  * Uses UTC to avoid timezone issues with API dates
  */
-const formatDateForPeriod = (
+function formatDateForPeriod(
 	dateStr: string,
 	period: AnalyticsPeriod,
-): { line1: string; line2?: string } => {
+): { line1: string; line2?: string } {
 	try {
 		const date = new Date(dateStr);
 		switch (period) {
@@ -163,11 +174,28 @@ const formatDateForPeriod = (
 	} catch {
 		return { line1: dateStr };
 	}
-};
+}
 
-/**
- * Custom X-axis tick for multi-line labels
- */
+/** Build period button items for the button group */
+function buildPeriodButtonItems(
+	selectedPeriod: AnalyticsPeriod,
+	onPeriodChange: (period: AnalyticsPeriod) => void,
+) {
+	return PERIOD_OPTIONS.map((option) => ({
+		text: option.label,
+		icon: "",
+		iconPosition: "left" as const,
+		iconOnly: false,
+		onClick: () => onPeriodChange(option.value),
+		selected: selectedPeriod === option.value,
+	}));
+}
+
+// ============================================================================
+// Sub-Components
+// ============================================================================
+
+/** Custom X-axis tick for multi-line labels */
 interface CustomXAxisTickProps {
 	x?: number;
 	y?: number;
@@ -175,7 +203,7 @@ interface CustomXAxisTickProps {
 	period: AnalyticsPeriod;
 }
 
-const CustomXAxisTick = ({ x, y, payload, period }: CustomXAxisTickProps) => {
+function CustomXAxisTick({ x, y, payload, period }: CustomXAxisTickProps) {
 	if (!payload) return null;
 
 	const formatted = formatDateForPeriod(payload.value, period);
@@ -206,18 +234,9 @@ const CustomXAxisTick = ({ x, y, payload, period }: CustomXAxisTickProps) => {
 			)}
 		</g>
 	);
-};
+}
 
-/**
- * Format number for display
- */
-const formatNumber = (value: number): string => {
-	return value.toLocaleString("en-US");
-};
-
-/**
- * Custom tooltip component
- */
+/** Custom tooltip component */
 interface CustomTooltipProps {
 	active?: boolean;
 	payload?: Array<{ value: number }>;
@@ -225,12 +244,7 @@ interface CustomTooltipProps {
 	period: AnalyticsPeriod;
 }
 
-const CustomTooltip = ({
-	active,
-	payload,
-	label,
-	period,
-}: CustomTooltipProps) => {
+function CustomTooltip({ active, payload, label, period }: CustomTooltipProps) {
 	if (!active || !payload || !payload.length) {
 		return null;
 	}
@@ -254,7 +268,11 @@ const CustomTooltip = ({
 			</div>
 		</div>
 	);
-};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
  * SignupsChart displays time-series signup data with period selector
@@ -272,9 +290,10 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 	className: customClassName,
 	...props
 }) {
+	// State
 	const [selectedPeriod, setSelectedPeriod] = useState<AnalyticsPeriod>(period);
-	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
+	// Handlers
 	const handlePeriodChange = useCallback(
 		(newPeriod: AnalyticsPeriod) => {
 			setSelectedPeriod(newPeriod);
@@ -283,21 +302,17 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 		[onPeriodChange],
 	);
 
+	// Derived state
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
 	const periodButtonItems = useMemo(
-		() =>
-			PERIOD_OPTIONS.map((option) => ({
-				text: option.label,
-				icon: "",
-				iconPosition: "left" as const,
-				iconOnly: false,
-				onClick: () => handlePeriodChange(option.value),
-				selected: selectedPeriod === option.value,
-			})),
+		() => buildPeriodButtonItems(selectedPeriod, handlePeriodChange),
 		[selectedPeriod, handlePeriodChange],
 	);
 
+	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
+
+	// Render
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.header}>

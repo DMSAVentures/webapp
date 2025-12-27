@@ -1,4 +1,10 @@
-import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
+import {
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import ProgressBar from "@/proto-design-system/progressbar/progressbar";
 import { PositionTracker } from "../PositionTracker/component";
 import { ReferralLink } from "../ReferralLink/component";
@@ -49,6 +55,87 @@ export interface RewardTier {
 	reward: string;
 }
 
+// ============================================================================
+// Constants
+// ============================================================================
+
+const DEFAULT_REFERRAL_DATA: ReferralData = {
+	referralCode: "LOADING",
+	referralCount: 0,
+	position: 0,
+	totalUsers: 0,
+	percentile: 0,
+};
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Calculate progress percentage to next reward tier */
+function calculateProgress(data: ReferralData): number {
+	if (!data.nextRewardTier) return 100;
+	return (data.referralCount / data.nextRewardTier.requiredReferrals) * 100;
+}
+
+/** Generate referral URL from code */
+function generateReferralUrl(referralCode: string): string {
+	const origin = typeof window !== "undefined" ? window.location.origin : "";
+	return `${origin}?ref=${referralCode}`;
+}
+
+/** Get description text based on referral count */
+function getReferralDescription(referralCount: number): string {
+	if (referralCount === 0) return "Start sharing to earn rewards";
+	if (referralCount === 1) return "You referred 1 person";
+	return `You referred ${referralCount} people`;
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for polling referral data at regular intervals */
+function useReferralPolling(
+	userId: string,
+	campaignId: string,
+	fetchReferralData:
+		| ((userId: string, campaignId: string) => Promise<ReferralData>)
+		| undefined,
+	pollingInterval: number,
+	initialData: ReferralData,
+) {
+	const [referralData, setReferralData] = useState<ReferralData>(initialData);
+
+	const loadReferralData = useCallback(async () => {
+		if (!fetchReferralData) return;
+
+		try {
+			const data = await fetchReferralData(userId, campaignId);
+			setReferralData(data);
+		} catch (error) {
+			console.error("Failed to fetch referral data:", error);
+		}
+	}, [userId, campaignId, fetchReferralData]);
+
+	useEffect(() => {
+		if (!fetchReferralData) return;
+
+		// Initial load
+		loadReferralData();
+
+		// Set up polling interval
+		const interval = setInterval(loadReferralData, pollingInterval);
+
+		return () => clearInterval(interval);
+	}, [loadReferralData, pollingInterval, fetchReferralData]);
+
+	return referralData;
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
 /**
  * ReferralDashboard component - Comprehensive user-facing referral progress display
  *
@@ -65,57 +152,23 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 	userId,
 	campaignId,
 	fetchReferralData,
-	initialData = {
-		referralCode: "LOADING",
-		referralCount: 0,
-		position: 0,
-		totalUsers: 0,
-		percentile: 0,
-	},
+	initialData = DEFAULT_REFERRAL_DATA,
 	pollingInterval = 10000,
 	className: customClassName,
 	...props
 }: ReferralDashboardProps) {
-	const [referralData, setReferralData] = useState<ReferralData>(initialData);
+	// Hooks
+	const referralData = useReferralPolling(
+		userId,
+		campaignId,
+		fetchReferralData,
+		pollingInterval,
+		initialData,
+	);
 
-	// Fetch referral data
-	const loadReferralData = useCallback(async () => {
-		if (!fetchReferralData) return;
-
-		try {
-			const data = await fetchReferralData(userId, campaignId);
-			setReferralData(data);
-		} catch (error) {
-			console.error("Failed to fetch referral data:", error);
-		}
-	}, [userId, campaignId, fetchReferralData]);
-
-	// Set up polling
-	useEffect(() => {
-		if (!fetchReferralData) return;
-
-		// Initial load
-		loadReferralData();
-
-		// Set up polling interval
-		const interval = setInterval(loadReferralData, pollingInterval);
-
-		return () => clearInterval(interval);
-	}, [loadReferralData, pollingInterval, fetchReferralData]);
-
-	// Calculate progress to next reward tier
-	const calculateProgress = (): number => {
-		if (!referralData.nextRewardTier) return 100;
-		return (
-			(referralData.referralCount /
-				referralData.nextRewardTier.requiredReferrals) *
-			100
-		);
-	};
-
-	const progress = calculateProgress();
-	const referralUrl = `${typeof window !== "undefined" ? window.location.origin : ""}?ref=${referralData.referralCode}`;
-
+	// Derived state
+	const progress = calculateProgress(referralData);
+	const referralUrl = generateReferralUrl(referralData.referralCode);
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 	return (
@@ -154,11 +207,7 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 						</div>
 						<div className={styles.statValue}>{referralData.referralCount}</div>
 						<div className={styles.statDescription}>
-							{referralData.referralCount === 0
-								? "Start sharing to earn rewards"
-								: referralData.referralCount === 1
-									? "You referred 1 person"
-									: `You referred ${referralData.referralCount} people`}
+							{getReferralDescription(referralData.referralCount)}
 						</div>
 					</div>
 				</div>

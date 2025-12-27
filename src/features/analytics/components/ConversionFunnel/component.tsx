@@ -38,23 +38,103 @@ export interface ConversionFunnelProps
 	className?: string;
 }
 
-/**
- * Format number for display
- */
-const formatNumber = (value: number): string => {
+interface FunnelStage {
+	name: string;
+	value: number;
+	conversion: number;
+	dropOff: number;
+}
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+const FUNNEL_COLORS = [
+	"var(--color-info-default)",
+	"var(--color-success-default)",
+	"var(--color-warning-default)",
+	"hsl(270, 10%, 60%)",
+	"hsl(330, 10%, 60%)",
+];
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Format number for display */
+function formatNumber(value: number): string {
 	return value.toLocaleString("en-US");
-};
+}
 
-/**
- * Format percentage
- */
-const formatPercentage = (value: number): string => {
+/** Format percentage */
+function formatPercentage(value: number): string {
 	return `${value.toFixed(1)}%`;
-};
+}
 
-/**
- * Custom label component for bars
- */
+/** Get bar color for a stage */
+function getBarColor(index: number): string {
+	return FUNNEL_COLORS[index] || FUNNEL_COLORS[0];
+}
+
+/** Build funnel stages from data */
+function buildFunnelStages(data: ConversionFunnelData): FunnelStage[] {
+	const { impressions, started, submitted, verified, referred } = data;
+
+	return [
+		{
+			name: "Impressions",
+			value: impressions,
+			conversion: 100,
+			dropOff: 0,
+		},
+		{
+			name: "Started",
+			value: started,
+			conversion: impressions > 0 ? (started / impressions) * 100 : 0,
+			dropOff:
+				impressions > 0 ? ((impressions - started) / impressions) * 100 : 0,
+		},
+		{
+			name: "Submitted",
+			value: submitted,
+			conversion: started > 0 ? (submitted / started) * 100 : 0,
+			dropOff: started > 0 ? ((started - submitted) / started) * 100 : 0,
+		},
+		{
+			name: "Verified",
+			value: verified,
+			conversion: submitted > 0 ? (verified / submitted) * 100 : 0,
+			dropOff: submitted > 0 ? ((submitted - verified) / submitted) * 100 : 0,
+		},
+		{
+			name: "Referred",
+			value: referred,
+			conversion: verified > 0 ? (referred / verified) * 100 : 0,
+			dropOff: verified > 0 ? ((verified - referred) / verified) * 100 : 0,
+		},
+	];
+}
+
+/** Calculate the index of the biggest drop-off stage */
+function calculateBiggestDropOffIndex(stages: FunnelStage[]): number {
+	let maxDropOff = 0;
+	let maxIndex = -1;
+
+	stages.forEach((stage, index) => {
+		if (index > 0 && stage.dropOff > maxDropOff) {
+			maxDropOff = stage.dropOff;
+			maxIndex = index;
+		}
+	});
+
+	return maxIndex;
+}
+
+// ============================================================================
+// Sub-Components
+// ============================================================================
+
+/** Custom label component for bars */
 interface CustomLabelProps {
 	x?: number;
 	y?: number;
@@ -64,10 +144,9 @@ interface CustomLabelProps {
 	conversion?: number;
 }
 
-const CustomLabel = (props: CustomLabelProps) => {
+function CustomLabel(props: CustomLabelProps) {
 	const { x, y, width, height, value, conversion } = props;
 
-	// Guard against undefined values
 	if (
 		x === undefined ||
 		y === undefined ||
@@ -103,24 +182,17 @@ const CustomLabel = (props: CustomLabelProps) => {
 			</text>
 		</g>
 	);
-};
+}
 
-/**
- * Custom tooltip component
- */
+/** Custom tooltip component */
 interface CustomTooltipProps {
 	active?: boolean;
 	payload?: Array<{
-		payload: {
-			name: string;
-			value: number;
-			conversion: number;
-			dropOff: number;
-		};
+		payload: FunnelStage;
 	}>;
 }
 
-const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+function CustomTooltip({ active, payload }: CustomTooltipProps) {
 	if (!active || !payload || !payload.length) {
 		return null;
 	}
@@ -156,84 +228,28 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 			</div>
 		</div>
 	);
-};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
  * ConversionFunnel displays funnel visualization with conversion rates
  */
 export const ConversionFunnel = memo<ConversionFunnelProps>(
 	function ConversionFunnel({ data, className: customClassName, ...props }) {
+		// Derived state
+		const chartData = useMemo(() => buildFunnelStages(data), [data]);
+
+		const biggestDropOffIndex = useMemo(
+			() => calculateBiggestDropOffIndex(chartData),
+			[chartData],
+		);
+
 		const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
-		// Transform data for chart
-		const chartData = useMemo(() => {
-			const { impressions, started, submitted, verified, referred } = data;
-
-			const stages = [
-				{
-					name: "Impressions",
-					value: impressions,
-					conversion: 100,
-					dropOff: 0,
-				},
-				{
-					name: "Started",
-					value: started,
-					conversion: impressions > 0 ? (started / impressions) * 100 : 0,
-					dropOff:
-						impressions > 0 ? ((impressions - started) / impressions) * 100 : 0,
-				},
-				{
-					name: "Submitted",
-					value: submitted,
-					conversion: started > 0 ? (submitted / started) * 100 : 0,
-					dropOff: started > 0 ? ((started - submitted) / started) * 100 : 0,
-				},
-				{
-					name: "Verified",
-					value: verified,
-					conversion: submitted > 0 ? (verified / submitted) * 100 : 0,
-					dropOff:
-						submitted > 0 ? ((submitted - verified) / submitted) * 100 : 0,
-				},
-				{
-					name: "Referred",
-					value: referred,
-					conversion: verified > 0 ? (referred / verified) * 100 : 0,
-					dropOff: verified > 0 ? ((verified - referred) / verified) * 100 : 0,
-				},
-			];
-
-			return stages;
-		}, [data]);
-
-		// Find biggest drop-off
-		const biggestDropOffIndex = useMemo(() => {
-			let maxDropOff = 0;
-			let maxIndex = -1;
-
-			chartData.forEach((stage, index) => {
-				if (index > 0 && stage.dropOff > maxDropOff) {
-					maxDropOff = stage.dropOff;
-					maxIndex = index;
-				}
-			});
-
-			return maxIndex;
-		}, [chartData]);
-
-		// Color for each bar using CSS custom properties from design system
-		const getBarColor = (index: number) => {
-			const colors = [
-				"var(--color-info-default)", // Blue
-				"var(--color-success-default)", // Green
-				"var(--color-warning-default)", // Orange
-				"hsl(270, 10%, 60%)", // Purple (from design tokens)
-				"hsl(330, 10%, 60%)", // Pink (from design tokens)
-			];
-			return colors[index] || colors[0];
-		};
-
+		// Render
 		return (
 			<div className={classNames} {...props}>
 				<div className={styles.header}>

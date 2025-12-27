@@ -3,7 +3,13 @@
  * Displays a list or grid of campaign cards with filtering
  */
 
-import { type HTMLAttributes, memo, useMemo, useState } from "react";
+import {
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useMemo,
+	useState,
+} from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
@@ -36,6 +42,124 @@ export interface CampaignListProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
+type StatusFilter = Campaign["status"] | "all";
+type ViewMode = "list" | "grid";
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Filter campaigns by status and search query */
+function filterCampaigns(
+	campaigns: Campaign[],
+	statusFilter: StatusFilter,
+	searchQuery: string,
+): Campaign[] {
+	let filtered = campaigns;
+
+	// Filter by status
+	if (statusFilter !== "all") {
+		filtered = filtered.filter((c) => c.status === statusFilter);
+	}
+
+	// Filter by search query
+	if (searchQuery.trim()) {
+		const query = searchQuery.toLowerCase();
+		filtered = filtered.filter(
+			(c) =>
+				c.name.toLowerCase().includes(query) ||
+				c.description?.toLowerCase().includes(query),
+		);
+	}
+
+	return filtered;
+}
+
+/** Build status filter button group items */
+function buildStatusFilterItems(
+	currentStatus: StatusFilter,
+	onStatusChange: (status: StatusFilter) => void,
+) {
+	const statuses: { value: StatusFilter; label: string }[] = [
+		{ value: "all", label: "All" },
+		{ value: "active", label: "Active" },
+		{ value: "draft", label: "Draft" },
+		{ value: "paused", label: "Paused" },
+		{ value: "completed", label: "Completed" },
+	];
+
+	return statuses.map(({ value, label }) => ({
+		text: label,
+		icon: "",
+		iconPosition: "left" as const,
+		iconOnly: false,
+		onClick: () => onStatusChange(value),
+		selected: currentStatus === value,
+		ariaLabel: `${label} campaigns`,
+	}));
+}
+
+/** Build view toggle button group items */
+function buildViewToggleItems(
+	currentView: ViewMode,
+	onViewChange: (view: ViewMode) => void,
+) {
+	return [
+		{
+			text: "Grid view",
+			icon: "ri-grid-line",
+			iconPosition: "left" as const,
+			iconOnly: true,
+			onClick: () => onViewChange("grid"),
+			selected: currentView === "grid",
+			ariaLabel: "Grid view",
+		},
+		{
+			text: "List view",
+			icon: "ri-list-check",
+			iconPosition: "left" as const,
+			iconOnly: true,
+			onClick: () => onViewChange("list"),
+			selected: currentView === "list",
+			ariaLabel: "List view",
+		},
+	];
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing campaign list filters and view */
+function useCampaignFilters(initialView: ViewMode) {
+	const [view, setView] = useState<ViewMode>(initialView);
+	const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const handleSearchChange = useCallback((value: string) => {
+		setSearchQuery(value);
+	}, []);
+
+	const clearFilters = useCallback(() => {
+		setSearchQuery("");
+		setStatusFilter("all");
+	}, []);
+
+	return {
+		view,
+		setView,
+		statusFilter,
+		setStatusFilter,
+		searchQuery,
+		handleSearchChange,
+		clearFilters,
+	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
 /**
  * CampaignList displays a filterable list or grid of campaigns
  */
@@ -54,33 +178,32 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 	className: customClassName,
 	...props
 }) {
-	const [view, setView] = useState<"list" | "grid">(initialView);
-	const [statusFilter, setStatusFilter] = useState<Campaign["status"] | "all">(
-		"all",
+	// Hooks
+	const {
+		view,
+		setView,
+		statusFilter,
+		setStatusFilter,
+		searchQuery,
+		handleSearchChange,
+		clearFilters,
+	} = useCampaignFilters(initialView);
+
+	// Derived state
+	const filteredCampaigns = useMemo(
+		() => filterCampaigns(campaigns, statusFilter, searchQuery),
+		[campaigns, statusFilter, searchQuery],
 	);
-	const [searchQuery, setSearchQuery] = useState("");
 
-	// Filter campaigns
-	const filteredCampaigns = useMemo(() => {
-		let filtered = campaigns;
+	const statusFilterItems = useMemo(
+		() => buildStatusFilterItems(statusFilter, setStatusFilter),
+		[statusFilter, setStatusFilter],
+	);
 
-		// Filter by status
-		if (statusFilter !== "all") {
-			filtered = filtered.filter((c) => c.status === statusFilter);
-		}
-
-		// Filter by search query
-		if (searchQuery.trim()) {
-			const query = searchQuery.toLowerCase();
-			filtered = filtered.filter(
-				(c) =>
-					c.name.toLowerCase().includes(query) ||
-					c.description?.toLowerCase().includes(query),
-			);
-		}
-
-		return filtered;
-	}, [campaigns, statusFilter, searchQuery]);
+	const viewToggleItems = useMemo(
+		() => buildViewToggleItems(view, setView),
+		[view, setView],
+	);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
@@ -122,7 +245,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 									label=""
 									placeholder="Search campaigns..."
 									value={searchQuery}
-									onChange={(e) => setSearchQuery(e.target.value)}
+									onChange={(e) => handleSearchChange(e.target.value)}
 									leftIcon="ri-search-line"
 									showLeftIcon={true}
 									aria-label="Search campaigns"
@@ -131,53 +254,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 
 							{/* Status filter */}
 							<ButtonGroup
-								items={[
-									{
-										text: "All",
-										icon: "",
-										iconPosition: "left",
-										iconOnly: false,
-										onClick: () => setStatusFilter("all"),
-										selected: statusFilter === "all",
-										ariaLabel: "All campaigns",
-									},
-									{
-										text: "Active",
-										icon: "",
-										iconPosition: "left",
-										iconOnly: false,
-										onClick: () => setStatusFilter("active"),
-										selected: statusFilter === "active",
-										ariaLabel: "Active campaigns",
-									},
-									{
-										text: "Draft",
-										icon: "",
-										iconPosition: "left",
-										iconOnly: false,
-										onClick: () => setStatusFilter("draft"),
-										selected: statusFilter === "draft",
-										ariaLabel: "Draft campaigns",
-									},
-									{
-										text: "Paused",
-										icon: "",
-										iconPosition: "left",
-										iconOnly: false,
-										onClick: () => setStatusFilter("paused"),
-										selected: statusFilter === "paused",
-										ariaLabel: "Paused campaigns",
-									},
-									{
-										text: "Completed",
-										icon: "",
-										iconPosition: "left",
-										iconOnly: false,
-										onClick: () => setStatusFilter("completed"),
-										selected: statusFilter === "completed",
-										ariaLabel: "Completed campaigns",
-									},
-								]}
+								items={statusFilterItems}
 								size="small"
 								ariaLabel="Filter by status"
 							/>
@@ -187,26 +264,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 					{/* Right side - View toggle */}
 					{showViewToggle && (
 						<ButtonGroup
-							items={[
-								{
-									text: "Grid view",
-									icon: "ri-grid-line",
-									iconPosition: "left",
-									iconOnly: true,
-									onClick: () => setView("grid"),
-									selected: view === "grid",
-									ariaLabel: "Grid view",
-								},
-								{
-									text: "List view",
-									icon: "ri-list-check",
-									iconPosition: "left",
-									iconOnly: true,
-									onClick: () => setView("list"),
-									selected: view === "list",
-									ariaLabel: "List view",
-								},
-							]}
+							items={viewToggleItems}
 							size="small"
 							ariaLabel="View options"
 						/>
@@ -235,13 +293,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 					<i className="ri-search-line" aria-hidden="true" />
 					<p>No campaigns found</p>
 					{searchQuery && (
-						<Button
-							onClick={() => {
-								setSearchQuery("");
-								setStatusFilter("all");
-							}}
-							variant="secondary"
-						>
+						<Button onClick={clearFilters} variant="secondary">
 							Clear filters
 						</Button>
 					)}

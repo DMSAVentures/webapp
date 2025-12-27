@@ -6,6 +6,7 @@
 import {
 	type HTMLAttributes,
 	memo,
+	type RefObject,
 	useCallback,
 	useEffect,
 	useRef,
@@ -32,12 +33,20 @@ export interface CampaignCardProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-/**
- * Maps campaign status to StatusBadge variant
- */
-const getStatusVariant = (
+interface MenuAction {
+	onEdit?: () => void;
+	onDuplicate?: () => void;
+	onDelete?: () => void;
+}
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Maps campaign status to StatusBadge variant */
+function getStatusVariant(
 	status: Campaign["status"],
-): "completed" | "pending" | "failed" | "disabled" => {
+): "completed" | "pending" | "failed" | "disabled" {
 	switch (status) {
 		case "active":
 			return "completed";
@@ -50,14 +59,163 @@ const getStatusVariant = (
 		default:
 			return "pending";
 	}
-};
+}
 
-/**
- * Converts status text to title case
- */
-const toTitleCase = (text: string): string => {
+/** Converts status text to title case */
+function toTitleCase(text: string): string {
 	return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-};
+}
+
+/** Creates a standard menu item configuration */
+function createMenuItem(label: string, icon: string, onClick: () => void) {
+	return {
+		state: "default" as const,
+		size: "medium" as const,
+		checkbox: false,
+		label,
+		badge: false,
+		shortcut: false,
+		toggle: false,
+		button: false,
+		icon,
+		iconPosition: "left" as const,
+		onClick,
+	};
+}
+
+/** Creates a divider menu item */
+function createDivider() {
+	return {
+		size: "thin" as const,
+		text: "",
+	};
+}
+
+/** Builds menu items from action handlers */
+function buildMenuItems(
+	actions: MenuAction | undefined,
+	closeMenu: () => void,
+) {
+	const menuItems: ReturnType<typeof createMenuItem | typeof createDivider>[] =
+		[];
+
+	if (actions?.onEdit) {
+		menuItems.push(
+			createMenuItem("Edit", "ri-edit-line", () => {
+				closeMenu();
+				actions.onEdit?.();
+			}),
+		);
+	}
+
+	if (actions?.onDuplicate) {
+		menuItems.push(
+			createMenuItem("Duplicate", "ri-file-copy-line", () => {
+				closeMenu();
+				actions.onDuplicate?.();
+			}),
+		);
+	}
+
+	if (actions?.onDelete) {
+		if (menuItems.length > 0) {
+			menuItems.push(createDivider());
+		}
+		menuItems.push(
+			createMenuItem("Delete", "ri-delete-bin-line", () => {
+				closeMenu();
+				actions.onDelete?.();
+			}),
+		);
+	}
+
+	return menuItems;
+}
+
+/** Formats campaign date for display */
+function formatCampaignDate(campaign: Campaign): string {
+	if (campaign.status === "completed" && campaign.endDate) {
+		const dateStr = new Date(campaign.endDate).toLocaleDateString("en-US", {
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+		return `Completed ${dateStr}`;
+	}
+
+	if (campaign.createdAt && !isNaN(new Date(campaign.createdAt).getTime())) {
+		const dateStr = new Date(campaign.createdAt).toLocaleDateString("en-US", {
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+		return `Created ${dateStr}`;
+	}
+
+	return "Created Unknown";
+}
+
+/** Calculates K-Factor from signups and referrals */
+function calculateKFactor(
+	totalSignups: number,
+	totalReferrals: number,
+): string {
+	if (totalSignups === 0) return "0.0";
+	return (totalReferrals / totalSignups).toFixed(1);
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for handling click outside to close menu */
+function useClickOutside(
+	ref: RefObject<HTMLDivElement | null>,
+	isOpen: boolean,
+	onClose: () => void,
+) {
+	const handleClickOutside = useCallback(
+		(event: MouseEvent) => {
+			if (ref.current && !ref.current.contains(event.target as Node)) {
+				onClose();
+			}
+		},
+		[ref, onClose],
+	);
+
+	useEffect(() => {
+		if (isOpen) {
+			document.addEventListener("mousedown", handleClickOutside);
+			return () => {
+				document.removeEventListener("mousedown", handleClickOutside);
+			};
+		}
+	}, [isOpen, handleClickOutside]);
+}
+
+/** Hook for managing dropdown menu state */
+function useDropdownMenu(actions: MenuAction | undefined) {
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const menuRef = useRef<HTMLDivElement>(null);
+
+	const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+	const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
+
+	useClickOutside(menuRef, isMenuOpen, closeMenu);
+
+	const menuItems = buildMenuItems(actions, closeMenu);
+
+	return {
+		isMenuOpen,
+		menuRef,
+		toggleMenu,
+		menuItems,
+	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
  * CampaignCard displays a summary of a campaign
@@ -70,91 +228,14 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 	onClick,
 	...props
 }) {
+	// Hooks
+	const { isMenuOpen, menuRef, toggleMenu, menuItems } =
+		useDropdownMenu(actions);
+
+	// Derived state
 	const hasActions =
 		actions && (actions.onEdit || actions.onDuplicate || actions.onDelete);
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const menuRef = useRef<HTMLDivElement>(null);
-
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
-
-	// Close menu on click outside
-	const handleClickOutside = useCallback((event: MouseEvent) => {
-		if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-			setIsMenuOpen(false);
-		}
-	}, []);
-
-	useEffect(() => {
-		if (isMenuOpen) {
-			document.addEventListener("mousedown", handleClickOutside);
-			return () => {
-				document.removeEventListener("mousedown", handleClickOutside);
-			};
-		}
-	}, [isMenuOpen, handleClickOutside]);
-
-	// Build menu items
-	const menuItems = [];
-	if (actions?.onEdit) {
-		menuItems.push({
-			state: "default" as const,
-			size: "medium" as const,
-			checkbox: false,
-			label: "Edit",
-			badge: false,
-			shortcut: false,
-			toggle: false,
-			button: false,
-			icon: "ri-edit-line",
-			iconPosition: "left" as const,
-			onClick: () => {
-				setIsMenuOpen(false);
-				actions.onEdit?.();
-			},
-		});
-	}
-	if (actions?.onDuplicate) {
-		menuItems.push({
-			state: "default" as const,
-			size: "medium" as const,
-			checkbox: false,
-			label: "Duplicate",
-			badge: false,
-			shortcut: false,
-			toggle: false,
-			button: false,
-			icon: "ri-file-copy-line",
-			iconPosition: "left" as const,
-			onClick: () => {
-				setIsMenuOpen(false);
-				actions.onDuplicate?.();
-			},
-		});
-	}
-	if (actions?.onDelete) {
-		if (menuItems.length > 0) {
-			menuItems.push({
-				size: "thin" as const,
-				text: "",
-			});
-		}
-		menuItems.push({
-			state: "default" as const,
-			size: "medium" as const,
-			checkbox: false,
-			label: "Delete",
-			badge: false,
-			shortcut: false,
-			toggle: false,
-			button: false,
-			icon: "ri-delete-bin-line",
-			iconPosition: "left" as const,
-			onClick: () => {
-				setIsMenuOpen(false);
-				actions.onDelete?.();
-			},
-		});
-	}
 
 	return (
 		<div
@@ -184,7 +265,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							ariaLabel="More actions"
 							onClick={(e) => {
 								e.stopPropagation();
-								setIsMenuOpen(!isMenuOpen);
+								toggleMenu();
 							}}
 						/>
 						{isMenuOpen && (
@@ -227,11 +308,10 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							<i className="ri-line-chart-line" aria-hidden="true" />
 							<div className={styles.statContent}>
 								<span className={styles.statValue}>
-									{campaign.totalSignups > 0
-										? (campaign.totalReferrals / campaign.totalSignups).toFixed(
-												1,
-											)
-										: "0.0"}
+									{calculateKFactor(
+										campaign.totalSignups,
+										campaign.totalReferrals,
+									)}
 								</span>
 								<span className={styles.statLabel}>K-Factor</span>
 							</div>
@@ -244,28 +324,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			<div className={styles.footer}>
 				<span className={styles.date}>
 					<i className="ri-calendar-line" aria-hidden="true" />
-					{campaign.status === "completed" && campaign.endDate ? (
-						<>
-							Completed{" "}
-							{new Date(campaign.endDate).toLocaleDateString("en-US", {
-								month: "short",
-								day: "numeric",
-								year: "numeric",
-							})}
-						</>
-					) : campaign.createdAt &&
-						!isNaN(new Date(campaign.createdAt).getTime()) ? (
-						<>
-							Created{" "}
-							{new Date(campaign.createdAt).toLocaleDateString("en-US", {
-								month: "short",
-								day: "numeric",
-								year: "numeric",
-							})}
-						</>
-					) : (
-						<>Created Unknown</>
-					)}
+					{formatCampaignDate(campaign)}
 				</span>
 			</div>
 		</div>

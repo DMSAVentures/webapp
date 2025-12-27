@@ -3,7 +3,13 @@
  * Form for creating or editing campaigns
  */
 
-import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
+import {
+	type FormEvent,
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useState,
+} from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
@@ -130,21 +136,62 @@ interface TrackingErrors {
 	[key: string]: string | undefined;
 }
 
-/**
- * CampaignForm for creating/editing campaigns
- */
-export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
-	campaignId,
-	initialData,
-	onSubmit,
-	onCancel,
-	loading = false,
-	submitText = "Create Campaign",
-	className: customClassName,
-	...props
-}) {
-	// Form state
-	const [formData, setFormData] = useState<CampaignFormData>({
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Validates a form field and returns an error message or null */
+function validateFormField(
+	name: keyof FormErrors,
+	value: string,
+): string | null {
+	switch (name) {
+		case "name":
+			return (
+				validateRequired(value, "Campaign name") ||
+				validateLength(value, {
+					min: 3,
+					max: 100,
+					fieldName: "Campaign name",
+				})
+			);
+		case "description":
+			return validateLength(value, { max: 500, fieldName: "Description" });
+		default:
+			return null;
+	}
+}
+
+/** Validates a tracking integration ID and returns an error message or null */
+function validateTrackingId(
+	type: TrackingIntegrationType,
+	value: string,
+): string | null {
+	if (!value.trim()) {
+		return "Tracking ID is required";
+	}
+	const integrationInfo = TRACKING_INTEGRATIONS.find((i) => i.type === type);
+	if (integrationInfo && !integrationInfo.pattern.test(value)) {
+		return integrationInfo.errorMessage;
+	}
+	return null;
+}
+
+/** Gets available integrations that haven't been added yet */
+function getAvailableIntegrations(
+	currentIntegrations: FormTrackingIntegration[],
+) {
+	return TRACKING_INTEGRATIONS.filter(
+		(integration) =>
+			!currentIntegrations.some((i) => i.type === integration.type),
+	);
+}
+
+/** Creates the initial form data from optional initial data */
+function createInitialFormData(
+	initialData?: Partial<CampaignFormData>,
+): CampaignFormData {
+	return {
 		name: initialData?.name || "",
 		description: initialData?.description || "",
 		settings: {
@@ -174,81 +221,160 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		trackingConfig: {
 			integrations: initialData?.trackingConfig?.integrations ?? [],
 		},
-	});
+	};
+}
 
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing form field validation state */
+function useFormValidation() {
 	const [errors, setErrors] = useState<FormErrors>({});
 	const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+	const validateField = useCallback((name: keyof FormErrors, value: string) => {
+		const error = validateFormField(name, value);
+		setErrors((prev) => ({ ...prev, [name]: error || undefined }));
+		return error;
+	}, []);
+
+	const markTouched = useCallback((field: keyof FormErrors) => {
+		setTouched((prev) => ({ ...prev, [field]: true }));
+	}, []);
+
+	const markAllTouched = useCallback(() => {
+		setTouched({ name: true, description: true });
+	}, []);
+
+	const resetValidation = useCallback(() => {
+		setErrors({});
+		setTouched({});
+	}, []);
+
+	return {
+		errors,
+		touched,
+		setErrors,
+		validateField,
+		markTouched,
+		markAllTouched,
+		resetValidation,
+	};
+}
+
+/** Hook for managing tracking integration validation state */
+function useTrackingValidation() {
 	const [trackingErrors, setTrackingErrors] = useState<TrackingErrors>({});
 	const [trackingTouched, setTrackingTouched] = useState<
 		Record<string, boolean>
 	>({});
 
-	// Validation
-	const validateField = (
-		name: keyof FormErrors,
-		value: string,
-	): string | null => {
-		switch (name) {
-			case "name":
-				return (
-					validateRequired(value, "Campaign name") ||
-					validateLength(value, {
-						min: 3,
-						max: 100,
-						fieldName: "Campaign name",
-					})
-				);
-			case "description":
-				return validateLength(value, { max: 500, fieldName: "Description" });
-			default:
-				return null;
-		}
-	};
+	const validateTracking = useCallback(
+		(type: TrackingIntegrationType, value: string) => {
+			const error = validateTrackingId(type, value);
+			setTrackingErrors((prev) => ({ ...prev, [type]: error || undefined }));
+			return error;
+		},
+		[],
+	);
 
-	const handleBlur = (field: keyof FormErrors) => {
-		setTouched((prev) => ({ ...prev, [field]: true }));
-		const error = validateField(field, formData[field] || "");
-		setErrors((prev) => ({ ...prev, [field]: error || undefined }));
-	};
+	const markTrackingTouched = useCallback((type: TrackingIntegrationType) => {
+		setTrackingTouched((prev) => ({ ...prev, [type]: true }));
+	}, []);
 
-	const handleChange = (
-		field: keyof Pick<CampaignFormData, "name" | "description">,
-		value: string,
-	) => {
-		setFormData((prev) => ({ ...prev, [field]: value }));
-		if (touched[field]) {
-			const error = validateField(field, value);
-			setErrors((prev) => ({ ...prev, [field]: error || undefined }));
-		}
-	};
+	const clearTrackingValidation = useCallback(
+		(type: TrackingIntegrationType) => {
+			setTrackingErrors((prev) => {
+				const newErrors = { ...prev };
+				delete newErrors[type];
+				return newErrors;
+			});
+			setTrackingTouched((prev) => {
+				const newTouched = { ...prev };
+				delete newTouched[type];
+				return newTouched;
+			});
+		},
+		[],
+	);
 
-	const handleSettingChange = (
-		setting: keyof CampaignSettings,
-		value: boolean | string,
-	) => {
-		setFormData((prev) => ({
-			...prev,
-			settings: {
-				...prev.settings,
-				[setting]: value,
-			},
-		}));
-	};
+	const validateAllIntegrations = useCallback(
+		(integrations: FormTrackingIntegration[]): boolean => {
+			const newErrors: TrackingErrors = {};
+			let isValid = true;
 
-	const handleReferralConfigChange = (
-		field: keyof NonNullable<CampaignFormData["referralConfig"]>,
-		value: number | boolean | string[],
-	) => {
-		setFormData((prev) => ({
-			...prev,
-			referralConfig: {
-				...prev.referralConfig!,
-				[field]: value,
-			},
-		}));
-	};
+			for (const integration of integrations) {
+				const error = validateTrackingId(integration.type, integration.id);
+				if (error) {
+					newErrors[integration.type] = error;
+					isValid = false;
+				}
+			}
 
-	const handleSharingChannelToggle = (channel: string) => {
+			setTrackingErrors(newErrors);
+
+			const allTouched: Record<string, boolean> = {};
+			for (const integration of integrations) {
+				allTouched[integration.type] = true;
+			}
+			setTrackingTouched(allTouched);
+
+			return isValid;
+		},
+		[],
+	);
+
+	return {
+		trackingErrors,
+		trackingTouched,
+		validateTracking,
+		markTrackingTouched,
+		clearTrackingValidation,
+		validateAllIntegrations,
+	};
+}
+
+/** Hook for managing campaign form data state and handlers */
+function useCampaignFormData(initialData?: Partial<CampaignFormData>) {
+	const [formData, setFormData] = useState<CampaignFormData>(() =>
+		createInitialFormData(initialData),
+	);
+
+	const handleFieldChange = useCallback(
+		(
+			field: keyof Pick<CampaignFormData, "name" | "description">,
+			value: string,
+		) => {
+			setFormData((prev) => ({ ...prev, [field]: value }));
+		},
+		[],
+	);
+
+	const handleSettingChange = useCallback(
+		(setting: keyof CampaignSettings, value: boolean | string) => {
+			setFormData((prev) => ({
+				...prev,
+				settings: { ...prev.settings, [setting]: value },
+			}));
+		},
+		[],
+	);
+
+	const handleReferralConfigChange = useCallback(
+		(
+			field: keyof NonNullable<CampaignFormData["referralConfig"]>,
+			value: number | boolean | string[],
+		) => {
+			setFormData((prev) => ({
+				...prev,
+				referralConfig: { ...prev.referralConfig!, [field]: value },
+			}));
+		},
+		[],
+	);
+
+	const handleSharingChannelToggle = useCallback((channel: string) => {
 		setFormData((prev) => {
 			const currentChannels = prev.referralConfig?.sharingChannels || [];
 			const newChannels = currentChannels.includes(channel)
@@ -262,175 +388,219 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				},
 			};
 		});
-	};
+	}, []);
 
-	const handleFormConfigChange = (
-		field: keyof NonNullable<CampaignFormData["formConfig"]>,
-		value: boolean,
-	) => {
-		setFormData((prev) => ({
-			...prev,
-			formConfig: {
-				...prev.formConfig!,
-				[field]: value,
-			},
-		}));
-	};
-
-	// Tracking validation
-	const validateTrackingId = (
-		type: TrackingIntegrationType,
-		value: string,
-	): string | null => {
-		if (!value.trim()) {
-			return "Tracking ID is required";
-		}
-		const integrationInfo = TRACKING_INTEGRATIONS.find((i) => i.type === type);
-		if (integrationInfo && !integrationInfo.pattern.test(value)) {
-			return integrationInfo.errorMessage;
-		}
-		return null;
-	};
-
-	const validateAllTrackingIntegrations = (): boolean => {
-		const integrations = formData.trackingConfig?.integrations ?? [];
-		const newErrors: TrackingErrors = {};
-		let isValid = true;
-
-		for (const integration of integrations) {
-			const error = validateTrackingId(integration.type, integration.id);
-			if (error) {
-				newErrors[integration.type] = error;
-				isValid = false;
-			}
-		}
-
-		setTrackingErrors(newErrors);
-		// Mark all as touched
-		const allTouched: Record<string, boolean> = {};
-		for (const integration of integrations) {
-			allTouched[integration.type] = true;
-		}
-		setTrackingTouched(allTouched);
-
-		return isValid;
-	};
-
-	// Tracking config handlers
-	const handleAddTrackingIntegration = (type: TrackingIntegrationType) => {
-		// Don't add if already exists
-		if (formData.trackingConfig?.integrations.some((i) => i.type === type)) {
-			return;
-		}
-		setFormData((prev) => ({
-			...prev,
-			trackingConfig: {
-				integrations: [
-					...(prev.trackingConfig?.integrations ?? []),
-					{ type, enabled: true, id: "" },
-				],
-			},
-		}));
-	};
-
-	const handleRemoveTrackingIntegration = (type: TrackingIntegrationType) => {
-		setFormData((prev) => ({
-			...prev,
-			trackingConfig: {
-				integrations:
-					prev.trackingConfig?.integrations.filter((i) => i.type !== type) ??
-					[],
-			},
-		}));
-		// Clear errors for removed integration
-		setTrackingErrors((prev) => {
-			const newErrors = { ...prev };
-			delete newErrors[type];
-			return newErrors;
-		});
-		setTrackingTouched((prev) => {
-			const newTouched = { ...prev };
-			delete newTouched[type];
-			return newTouched;
-		});
-	};
-
-	const handleTrackingIntegrationChange = (
-		type: TrackingIntegrationType,
-		field: "id" | "label",
-		value: string,
-	) => {
-		setFormData((prev) => ({
-			...prev,
-			trackingConfig: {
-				integrations:
-					prev.trackingConfig?.integrations.map((i) =>
-						i.type === type ? { ...i, [field]: value } : i,
-					) ?? [],
-			},
-		}));
-
-		// Validate on change if already touched
-		if (field === "id" && trackingTouched[type]) {
-			const error = validateTrackingId(type, value);
-			setTrackingErrors((prev) => ({
+	const handleFormConfigChange = useCallback(
+		(
+			field: keyof NonNullable<CampaignFormData["formConfig"]>,
+			value: boolean,
+		) => {
+			setFormData((prev) => ({
 				...prev,
-				[type]: error || undefined,
+				formConfig: { ...prev.formConfig!, [field]: value },
 			}));
-		}
-	};
-
-	const handleTrackingIdBlur = (
-		type: TrackingIntegrationType,
-		value: string,
-	) => {
-		setTrackingTouched((prev) => ({ ...prev, [type]: true }));
-		const error = validateTrackingId(type, value);
-		setTrackingErrors((prev) => ({
-			...prev,
-			[type]: error || undefined,
-		}));
-	};
-
-	// Get available integrations that haven't been added yet
-	const availableIntegrations = TRACKING_INTEGRATIONS.filter(
-		(integration) =>
-			!formData.trackingConfig?.integrations.some(
-				(i) => i.type === integration.type,
-			),
+		},
+		[],
 	);
 
-	const handleSubmit = async (e: FormEvent) => {
-		e.preventDefault();
-
-		// Validate all fields
-		const nameError = validateField("name", formData.name);
-		const descriptionError = validateField(
-			"description",
-			formData.description || "",
-		);
-
-		// Validate tracking integrations
-		const trackingValid = validateAllTrackingIntegrations();
-
-		if (nameError || descriptionError) {
-			setErrors({
-				name: nameError || undefined,
-				description: descriptionError || undefined,
+	const handleAddTrackingIntegration = useCallback(
+		(type: TrackingIntegrationType) => {
+			setFormData((prev) => {
+				if (prev.trackingConfig?.integrations.some((i) => i.type === type)) {
+					return prev;
+				}
+				return {
+					...prev,
+					trackingConfig: {
+						integrations: [
+							...(prev.trackingConfig?.integrations ?? []),
+							{ type, enabled: true, id: "" },
+						],
+					},
+				};
 			});
-			setTouched({ name: true, description: true });
-			return;
-		}
+		},
+		[],
+	);
 
-		if (!trackingValid) {
-			return;
-		}
+	const handleRemoveTrackingIntegration = useCallback(
+		(type: TrackingIntegrationType) => {
+			setFormData((prev) => ({
+				...prev,
+				trackingConfig: {
+					integrations:
+						prev.trackingConfig?.integrations.filter((i) => i.type !== type) ??
+						[],
+				},
+			}));
+		},
+		[],
+	);
 
-		await onSubmit(formData);
+	const handleTrackingIntegrationChange = useCallback(
+		(type: TrackingIntegrationType, field: "id" | "label", value: string) => {
+			setFormData((prev) => ({
+				...prev,
+				trackingConfig: {
+					integrations:
+						prev.trackingConfig?.integrations.map((i) =>
+							i.type === type ? { ...i, [field]: value } : i,
+						) ?? [],
+				},
+			}));
+		},
+		[],
+	);
+
+	return {
+		formData,
+		handleFieldChange,
+		handleSettingChange,
+		handleReferralConfigChange,
+		handleSharingChannelToggle,
+		handleFormConfigChange,
+		handleAddTrackingIntegration,
+		handleRemoveTrackingIntegration,
+		handleTrackingIntegrationChange,
 	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
+/**
+ * CampaignForm for creating/editing campaigns
+ */
+export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
+	campaignId,
+	initialData,
+	onSubmit,
+	onCancel,
+	loading = false,
+	submitText = "Create Campaign",
+	className: customClassName,
+	...props
+}) {
+	// Hooks
+	const {
+		formData,
+		handleFieldChange,
+		handleSettingChange,
+		handleReferralConfigChange,
+		handleSharingChannelToggle,
+		handleFormConfigChange,
+		handleAddTrackingIntegration,
+		handleRemoveTrackingIntegration,
+		handleTrackingIntegrationChange,
+	} = useCampaignFormData(initialData);
+
+	const {
+		errors,
+		touched,
+		setErrors,
+		validateField,
+		markTouched,
+		markAllTouched,
+	} = useFormValidation();
+
+	const {
+		trackingErrors,
+		trackingTouched,
+		validateTracking,
+		markTrackingTouched,
+		clearTrackingValidation,
+		validateAllIntegrations,
+	} = useTrackingValidation();
+
+	// Handlers
+	const handleBlur = useCallback(
+		(field: keyof FormErrors) => {
+			markTouched(field);
+			validateField(field, formData[field] || "");
+		},
+		[markTouched, validateField, formData],
+	);
+
+	const handleChange = useCallback(
+		(
+			field: keyof Pick<CampaignFormData, "name" | "description">,
+			value: string,
+		) => {
+			handleFieldChange(field, value);
+			if (touched[field]) {
+				validateField(field, value);
+			}
+		},
+		[handleFieldChange, touched, validateField],
+	);
+
+	const handleTrackingIdBlur = useCallback(
+		(type: TrackingIntegrationType, value: string) => {
+			markTrackingTouched(type);
+			validateTracking(type, value);
+		},
+		[markTrackingTouched, validateTracking],
+	);
+
+	const handleTrackingChange = useCallback(
+		(type: TrackingIntegrationType, field: "id" | "label", value: string) => {
+			handleTrackingIntegrationChange(type, field, value);
+			if (field === "id" && trackingTouched[type]) {
+				validateTracking(type, value);
+			}
+		},
+		[handleTrackingIntegrationChange, trackingTouched, validateTracking],
+	);
+
+	const handleRemoveTracking = useCallback(
+		(type: TrackingIntegrationType) => {
+			handleRemoveTrackingIntegration(type);
+			clearTrackingValidation(type);
+		},
+		[handleRemoveTrackingIntegration, clearTrackingValidation],
+	);
+
+	const handleSubmit = useCallback(
+		async (e: FormEvent) => {
+			e.preventDefault();
+
+			const nameError = validateFormField("name", formData.name);
+			const descriptionError = validateFormField(
+				"description",
+				formData.description || "",
+			);
+
+			const trackingValid = validateAllIntegrations(
+				formData.trackingConfig?.integrations ?? [],
+			);
+
+			if (nameError || descriptionError) {
+				setErrors({
+					name: nameError || undefined,
+					description: descriptionError || undefined,
+				});
+				markAllTouched();
+				return;
+			}
+
+			if (!trackingValid) {
+				return;
+			}
+
+			await onSubmit(formData);
+		},
+		[formData, validateAllIntegrations, setErrors, markAllTouched, onSubmit],
+	);
+
+	// Derived state
+	const availableIntegrations = getAvailableIntegrations(
+		formData.trackingConfig?.integrations ?? [],
+	);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
+	// Render
 	return (
 		<form className={classNames} onSubmit={handleSubmit} {...props}>
 			{/* General Section */}
@@ -741,9 +911,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												iconClass="delete-bin-line"
 												variant="secondary"
 												ariaLabel={`Remove ${integrationInfo.label}`}
-												onClick={() =>
-													handleRemoveTrackingIntegration(integration.type)
-												}
+												onClick={() => handleRemoveTracking(integration.type)}
 												disabled={loading}
 											/>
 										</div>
@@ -754,7 +922,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												type="text"
 												value={integration.id}
 												onChange={(e) =>
-													handleTrackingIntegrationChange(
+													handleTrackingChange(
 														integration.type,
 														"id",
 														e.target.value,
@@ -780,7 +948,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 													type="text"
 													value={integration.label || ""}
 													onChange={(e) =>
-														handleTrackingIntegrationChange(
+														handleTrackingChange(
 															integration.type,
 															"label",
 															e.target.value,

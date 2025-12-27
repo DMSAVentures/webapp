@@ -3,7 +3,7 @@
  * Manages webhooks for a campaign
  */
 
-import { type HTMLAttributes, memo, useState } from "react";
+import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
@@ -32,46 +32,38 @@ export interface WebhookManagerProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-/**
- * Maps webhook status to StatusBadge variant
- */
-const getStatusVariant = (
-	status: Webhook["status"],
-): "completed" | "disabled" => {
+type WebhookHealth = "healthy" | "warning" | "error";
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Maps webhook status to StatusBadge variant */
+function getStatusVariant(status: Webhook["status"]): "completed" | "disabled" {
 	return status === "active" ? "completed" : "disabled";
-};
+}
 
-/**
- * Gets display text for status
- */
-const getStatusText = (status: Webhook["status"]): string => {
+/** Gets display text for status */
+function getStatusText(status: Webhook["status"]): string {
 	return status === "active" ? "Active" : "Inactive";
-};
+}
 
-/**
- * Formats event name for display
- */
-const formatEventName = (event: string): string => {
+/** Formats event name for display (e.g., "user.signup" -> "User Signup") */
+function formatEventName(event: string): string {
 	return event
 		.split(".")
 		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
 		.join(" ");
-};
+}
 
-/**
- * Truncates URL for display
- */
-const truncateUrl = (url: string, maxLength: number = 50): string => {
+/** Truncates URL for display */
+function truncateUrl(url: string, maxLength: number = 50): string {
 	if (url.length <= maxLength) return url;
 	return `${url.slice(0, maxLength)}...`;
-};
+}
 
-/**
- * Calculates webhook health status
- */
-const getWebhookHealth = (
-	webhook: Webhook,
-): "healthy" | "warning" | "error" => {
+/** Calculates webhook health status based on delivery success rate */
+function getWebhookHealth(webhook: Webhook): WebhookHealth {
 	if (webhook.stats.totalAttempts === 0) return "warning";
 
 	const successRate =
@@ -80,12 +72,10 @@ const getWebhookHealth = (
 	if (successRate >= 0.95) return "healthy";
 	if (successRate >= 0.7) return "warning";
 	return "error";
-};
+}
 
-/**
- * Gets health icon class
- */
-const getHealthIcon = (health: "healthy" | "warning" | "error"): string => {
+/** Gets icon class for health status */
+function getHealthIcon(health: WebhookHealth): string {
 	switch (health) {
 		case "healthy":
 			return "ri-check-line";
@@ -94,7 +84,49 @@ const getHealthIcon = (health: "healthy" | "warning" | "error"): string => {
 		case "error":
 			return "ri-close-line";
 	}
-};
+}
+
+/** Formats last delivery date for display */
+function formatLastDelivery(date: string | Date): string {
+	const dateObj = typeof date === "string" ? new Date(date) : date;
+	return dateObj.toLocaleDateString("en-US", {
+		month: "short",
+		day: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+	});
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing webhook expansion state */
+function useWebhookExpansion() {
+	const [expandedWebhookId, setExpandedWebhookId] = useState<string | null>(
+		null,
+	);
+
+	const isExpanded = useCallback(
+		(webhookId: string) => expandedWebhookId === webhookId,
+		[expandedWebhookId],
+	);
+
+	const toggleExpanded = useCallback((webhookId: string) => {
+		setExpandedWebhookId((current) =>
+			current === webhookId ? null : webhookId,
+		);
+	}, []);
+
+	return {
+		isExpanded,
+		toggleExpanded,
+	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
  * WebhookManager displays and manages webhooks for a campaign
@@ -112,10 +144,10 @@ export const WebhookManager = memo<WebhookManagerProps>(
 		className: customClassName,
 		...props
 	}) {
-		const [expandedWebhookId, setExpandedWebhookId] = useState<string | null>(
-			null,
-		);
+		// Hooks
+		const { isExpanded, toggleExpanded } = useWebhookExpansion();
 
+		// Derived state
 		const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 		// Empty state
@@ -165,7 +197,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 				) : (
 					<div className={styles.webhookList}>
 						{webhooks.map((webhook) => {
-							const isExpanded = expandedWebhookId === webhook.id;
+							const webhookIsExpanded = isExpanded(webhook.id);
 							const health = getWebhookHealth(webhook);
 
 							return (
@@ -255,19 +287,19 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											)}
 											<IconOnlyButton
 												iconClass={
-													isExpanded ? "arrow-up-s-line" : "arrow-down-s-line"
+													webhookIsExpanded
+														? "arrow-up-s-line"
+														: "arrow-down-s-line"
 												}
 												variant="secondary"
-												ariaLabel={isExpanded ? "Collapse" : "Expand"}
-												onClick={() =>
-													setExpandedWebhookId(isExpanded ? null : webhook.id)
-												}
+												ariaLabel={webhookIsExpanded ? "Collapse" : "Expand"}
+												onClick={() => toggleExpanded(webhook.id)}
 											/>
 										</div>
 									</div>
 
 									{/* Expanded details */}
-									{isExpanded && (
+									{webhookIsExpanded && (
 										<>
 											<ContentDivider size="thin" />
 											<div className={styles.webhookDetails}>
@@ -319,14 +351,9 @@ export const WebhookManager = memo<WebhookManagerProps>(
 																	Last Delivery
 																</span>
 																<span className={styles.statValue}>
-																	{new Date(
+																	{formatLastDelivery(
 																		webhook.stats.lastDeliveryAt,
-																	).toLocaleDateString("en-US", {
-																		month: "short",
-																		day: "numeric",
-																		hour: "2-digit",
-																		minute: "2-digit",
-																	})}
+																	)}
 																</span>
 															</div>
 														)}

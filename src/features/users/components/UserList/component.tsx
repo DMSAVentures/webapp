@@ -57,6 +57,143 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Filter out form fields that match built-in columns */
+function filterCustomFormFields(
+	formFields: FormField[] | undefined,
+): FormField[] {
+	return (
+		formFields?.filter((field) => field.label.toLowerCase() !== "email") ?? []
+	);
+}
+
+/** Format date for display */
+function formatDate(date: string | Date): string {
+	const dateObj = typeof date === "string" ? new Date(date) : date;
+	return dateObj.toLocaleDateString("en-US", {
+		month: "short",
+		day: "numeric",
+		year: "numeric",
+	});
+}
+
+/** Capitalize first letter of source */
+function formatSource(source: string): string {
+	return source.charAt(0).toUpperCase() + source.slice(1);
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing table row selection */
+function useTableSelection(users: WaitlistUser[]) {
+	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
+
+	const hasSelection = selectedUserIds.length > 0;
+	const isAllSelected =
+		selectedUserIds.length === users.length && users.length > 0;
+
+	const handleSelectAll = useCallback(() => {
+		if (isAllSelected) {
+			setSelectedUserIds([]);
+		} else {
+			setSelectedUserIds(users.map((u) => u.id));
+		}
+	}, [isAllSelected, users]);
+
+	const handleSelectUser = useCallback((userId: string) => {
+		setSelectedUserIds((prev) =>
+			prev.includes(userId)
+				? prev.filter((id) => id !== userId)
+				: [...prev, userId],
+		);
+	}, []);
+
+	const clearSelection = useCallback(() => {
+		setSelectedUserIds([]);
+	}, []);
+
+	const isUserSelected = useCallback(
+		(userId: string) => selectedUserIds.includes(userId),
+		[selectedUserIds],
+	);
+
+	return {
+		selectedUserIds,
+		hasSelection,
+		isAllSelected,
+		handleSelectAll,
+		handleSelectUser,
+		clearSelection,
+		isUserSelected,
+	};
+}
+
+/** Hook for managing table sorting */
+function useTableSort(
+	sortField: UserSortField,
+	sortDirection: SortDirection,
+	onSortChange?: (field: UserSortField, direction: SortDirection) => void,
+) {
+	const handleSort = useCallback(
+		(field: UserSortField) => {
+			if (!onSortChange) return;
+
+			if (sortField === field) {
+				onSortChange(field, sortDirection === "asc" ? "desc" : "asc");
+			} else {
+				onSortChange(field, "asc");
+			}
+		},
+		[sortField, sortDirection, onSortChange],
+	);
+
+	const getSortDirection = useCallback(
+		(field: UserSortField): SortDirection | null => {
+			return sortField === field ? sortDirection : null;
+		},
+		[sortField, sortDirection],
+	);
+
+	return {
+		handleSort,
+		getSortDirection,
+	};
+}
+
+/** Hook for managing export functionality */
+function useExport(
+	onExport: ((selectedUserIds: string[]) => Promise<void>) | undefined,
+) {
+	const [isExporting, setIsExporting] = useState(false);
+
+	const handleExport = useCallback(
+		async (selectedUserIds: string[]) => {
+			if (!onExport) return;
+			setIsExporting(true);
+			try {
+				await onExport(selectedUserIds);
+			} finally {
+				setIsExporting(false);
+			}
+		},
+		[onExport],
+	);
+
+	return {
+		isExporting,
+		handleExport,
+	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
 /**
  * UserList displays a filterable, sortable list of waitlist users
  */
@@ -80,60 +217,35 @@ export const UserList = memo<UserListProps>(function UserList({
 	className: customClassName,
 	...props
 }) {
+	// Hooks
 	const { getStatusVariant, formatStatus } = useUserHelpers();
-	const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
-	const [isExporting, setIsExporting] = useState(false);
 
+	const {
+		selectedUserIds,
+		hasSelection,
+		isAllSelected,
+		handleSelectAll,
+		handleSelectUser,
+		clearSelection,
+		isUserSelected,
+	} = useTableSelection(users);
+
+	const { handleSort, getSortDirection } = useTableSort(
+		sortField,
+		sortDirection,
+		onSortChange,
+	);
+
+	const { isExporting, handleExport } = useExport(onExport);
+
+	// Derived state
+	const customFormFields = filterCustomFormFields(formFields);
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
-	const hasSelection = selectedUserIds.length > 0;
 
-	// Filter out form fields that match built-in columns
-	const customFormFields = formFields?.filter(
-		(field) => field.label.toLowerCase() !== "email",
-	);
-
-	// Handle sort - trigger server-side sorting via callback
-	const handleSort = useCallback(
-		(field: UserSortField) => {
-			if (!onSortChange) return;
-
-			if (sortField === field) {
-				onSortChange(field, sortDirection === "asc" ? "desc" : "asc");
-			} else {
-				onSortChange(field, "asc");
-			}
-		},
-		[sortField, sortDirection, onSortChange],
-	);
-
-	// Handle select all
-	const handleSelectAll = useCallback(() => {
-		if (selectedUserIds.length === users.length) {
-			setSelectedUserIds([]);
-		} else {
-			setSelectedUserIds(users.map((u) => u.id));
-		}
-	}, [selectedUserIds, users]);
-
-	// Handle select user
-	const handleSelectUser = useCallback((userId: string) => {
-		setSelectedUserIds((prev) =>
-			prev.includes(userId)
-				? prev.filter((id) => id !== userId)
-				: [...prev, userId],
-		);
-	}, []);
-
-	// Handle export
-	const handleExport = async () => {
-		if (!onExport) return;
-		setIsExporting(true);
-		try {
-			await onExport(selectedUserIds);
-		} finally {
-			setIsExporting(false);
-		}
-	};
+	// Handlers
+	const onExportClick = useCallback(() => {
+		handleExport(selectedUserIds);
+	}, [handleExport, selectedUserIds]);
 
 	// Empty state
 	if (!loading && users.length === 0) {
@@ -150,6 +262,7 @@ export const UserList = memo<UserListProps>(function UserList({
 		);
 	}
 
+	// Render
 	return (
 		<div className={classNames} {...props}>
 			{/* Header with actions */}
@@ -158,7 +271,7 @@ export const UserList = memo<UserListProps>(function UserList({
 					<Button
 						variant="secondary"
 						leftIcon="ri-download-line"
-						onClick={handleExport}
+						onClick={onExportClick}
 						disabled={isExporting}
 					>
 						{isExporting
@@ -168,11 +281,7 @@ export const UserList = memo<UserListProps>(function UserList({
 								: "Export All Users"}
 					</Button>
 					{hasSelection && (
-						<Button
-							variant="secondary"
-							size="small"
-							onClick={() => setSelectedUserIds([])}
-						>
+						<Button variant="secondary" size="small" onClick={clearSelection}>
 							Clear Selection
 						</Button>
 					)}
@@ -206,19 +315,14 @@ export const UserList = memo<UserListProps>(function UserList({
 							<Table.Row>
 								<Table.HeaderCell narrow>
 									<Checkbox
-										checked={
-											selectedUserIds.length === users.length &&
-											users.length > 0
-												? "checked"
-												: "unchecked"
-										}
+										checked={isAllSelected ? "checked" : "unchecked"}
 										onChange={handleSelectAll}
 										aria-label="Select all users"
 									/>
 								</Table.HeaderCell>
 								<Table.HeaderCell
 									sortable
-									sortDirection={sortField === "email" ? sortDirection : null}
+									sortDirection={getSortDirection("email")}
 									onSort={() => handleSort("email")}
 								>
 									Email
@@ -226,9 +330,7 @@ export const UserList = memo<UserListProps>(function UserList({
 								{emailVerificationEnabled && (
 									<Table.HeaderCell
 										sortable
-										sortDirection={
-											sortField === "status" ? sortDirection : null
-										}
+										sortDirection={getSortDirection("status")}
 										onSort={() => handleSort("status")}
 									>
 										Status
@@ -238,27 +340,21 @@ export const UserList = memo<UserListProps>(function UserList({
 									<>
 										<Table.HeaderCell
 											sortable
-											sortDirection={
-												sortField === "position" ? sortDirection : null
-											}
+											sortDirection={getSortDirection("position")}
 											onSort={() => handleSort("position")}
 										>
 											Position
 										</Table.HeaderCell>
 										<Table.HeaderCell
 											sortable
-											sortDirection={
-												sortField === "referralCount" ? sortDirection : null
-											}
+											sortDirection={getSortDirection("referralCount")}
 											onSort={() => handleSort("referralCount")}
 										>
 											Referrals
 										</Table.HeaderCell>
 										<Table.HeaderCell
 											sortable
-											sortDirection={
-												sortField === "source" ? sortDirection : null
-											}
+											sortDirection={getSortDirection("source")}
 											onSort={() => handleSort("source")}
 										>
 											Source
@@ -267,16 +363,14 @@ export const UserList = memo<UserListProps>(function UserList({
 									</>
 								)}
 								{/* Dynamic columns for custom form fields */}
-								{customFormFields?.map((field) => (
+								{customFormFields.map((field) => (
 									<Table.HeaderCell key={field.id}>
 										{field.label}
 									</Table.HeaderCell>
 								))}
 								<Table.HeaderCell
 									sortable
-									sortDirection={
-										sortField === "createdAt" ? sortDirection : null
-									}
+									sortDirection={getSortDirection("createdAt")}
 									onSort={() => handleSort("createdAt")}
 								>
 									Date
@@ -287,15 +381,13 @@ export const UserList = memo<UserListProps>(function UserList({
 							{users.map((user) => (
 								<Table.Row
 									key={user.id}
-									selected={selectedUserIds.includes(user.id)}
+									selected={isUserSelected(user.id)}
 									onClick={() => onUserClick?.(user)}
 								>
 									<Table.Cell narrow>
 										<Checkbox
 											checked={
-												selectedUserIds.includes(user.id)
-													? "checked"
-													: "unchecked"
+												isUserSelected(user.id) ? "checked" : "unchecked"
 											}
 											onChange={() => handleSelectUser(user.id)}
 											onClick={(e) => e.stopPropagation()}
@@ -327,8 +419,7 @@ export const UserList = memo<UserListProps>(function UserList({
 											</Table.Cell>
 											<Table.Cell>
 												<span className={styles.source}>
-													{user.source.charAt(0).toUpperCase() +
-														user.source.slice(1)}
+													{formatSource(user.source)}
 												</span>
 											</Table.Cell>
 											<Table.Cell fitContent>
@@ -337,7 +428,7 @@ export const UserList = memo<UserListProps>(function UserList({
 										</>
 									)}
 									{/* Dynamic cells for custom form fields */}
-									{customFormFields?.map((field) => (
+									{customFormFields.map((field) => (
 										<Table.Cell key={field.id}>
 											<span className={styles.customField}>
 												{user.customFields?.[field.name] ?? "-"}
@@ -346,11 +437,7 @@ export const UserList = memo<UserListProps>(function UserList({
 									))}
 									<Table.Cell>
 										<span className={styles.date}>
-											{new Date(user.createdAt).toLocaleDateString("en-US", {
-												month: "short",
-												day: "numeric",
-												year: "numeric",
-											})}
+											{formatDate(user.createdAt)}
 										</span>
 									</Table.Cell>
 								</Table.Row>

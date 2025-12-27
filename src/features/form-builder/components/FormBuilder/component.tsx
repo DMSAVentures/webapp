@@ -33,6 +33,7 @@ import styles from "./component.module.scss";
 
 /** Top-level builder mode */
 type BuilderMode = "form" | "success-screen";
+type PreviewDevice = "mobile" | "tablet" | "desktop";
 
 export interface FormBuilderProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onSave"> {
@@ -75,6 +76,194 @@ const DEFAULT_DESIGN: FormDesign = {
 	customCss: "",
 };
 
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Creates a default email field that every form must have */
+function createDefaultEmailField(): FormField {
+	return {
+		id: "field-email-default",
+		type: "email",
+		label: "Email",
+		placeholder: "your@email.com",
+		required: true,
+		order: 0,
+	};
+}
+
+/** Creates the default form configuration */
+function createDefaultConfig(campaignId: string): FormConfig {
+	return {
+		id: `form-${campaignId}`,
+		campaignId,
+		fields: [createDefaultEmailField()],
+		design: DEFAULT_DESIGN,
+		behavior: {
+			submitAction: "inline-message",
+			successTitle: "Thank you for signing up!",
+			successMessage: "We'll be in touch soon.",
+			duplicateHandling: "block",
+		},
+	};
+}
+
+/** Merges initial config with defaults to ensure all required properties exist */
+function mergeWithDefaults(
+	campaignId: string,
+	initialConfig?: FormConfig,
+): FormConfig {
+	const defaultConfig = createDefaultConfig(campaignId);
+
+	if (!initialConfig) {
+		return defaultConfig;
+	}
+
+	const hasEmailField = initialConfig.fields?.some(
+		(field) => field.type === "email",
+	);
+
+	const fields = hasEmailField
+		? initialConfig.fields || []
+		: [createDefaultEmailField(), ...(initialConfig.fields || [])];
+
+	return {
+		...defaultConfig,
+		...initialConfig,
+		fields,
+		design: initialConfig.design || DEFAULT_DESIGN,
+		behavior: {
+			...defaultConfig.behavior,
+			...initialConfig.behavior,
+		},
+	};
+}
+
+/** Creates a new form field of the specified type */
+function createFormField(
+	fieldType: FormField["type"],
+	order: number,
+): FormField {
+	const needsOptions = ["select", "radio", "checkbox"].includes(fieldType);
+
+	return {
+		id: `field-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+		type: fieldType,
+		label: `${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} Field`,
+		placeholder: "",
+		required: false,
+		order,
+		...(needsOptions && { options: ["Option 1", "Option 2", "Option 3"] }),
+	};
+}
+
+/** Gets the localStorage key for a campaign's form config */
+function getStorageKey(campaignId: string): string {
+	return `form-builder-${campaignId}`;
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing form auto-save to localStorage */
+function useFormAutoSave(
+	config: FormConfig,
+	campaignId: string,
+	hasUnsavedChanges: boolean,
+) {
+	useEffect(() => {
+		if (!hasUnsavedChanges) return;
+
+		const timer = setTimeout(() => {
+			localStorage.setItem(getStorageKey(campaignId), JSON.stringify(config));
+			console.log("Auto-saved to localStorage");
+		}, 10000);
+
+		return () => clearTimeout(timer);
+	}, [config, campaignId, hasUnsavedChanges]);
+}
+
+/** Hook for loading form config from localStorage */
+function useLocalStorageFormConfig(
+	campaignId: string,
+	initialConfig?: FormConfig,
+): FormConfig | null {
+	const [savedConfig, setSavedConfig] = useState<FormConfig | null>(null);
+
+	useEffect(() => {
+		const saved = localStorage.getItem(getStorageKey(campaignId));
+		if (saved && !initialConfig) {
+			try {
+				const parsedConfig = JSON.parse(saved);
+				setSavedConfig(parsedConfig);
+			} catch (error) {
+				console.error("Failed to load saved form:", error);
+			}
+		}
+	}, [campaignId, initialConfig]);
+
+	return savedConfig;
+}
+
+/** Hook for managing form configuration state */
+function useFormConfig(campaignId: string, initialConfig?: FormConfig) {
+	const [config, setConfig] = useState<FormConfig>(() =>
+		mergeWithDefaults(campaignId, initialConfig),
+	);
+
+	const updateFields = useCallback((fields: FormField[]) => {
+		setConfig((prev) => ({ ...prev, fields }));
+	}, []);
+
+	const updateField = useCallback((updatedField: FormField) => {
+		setConfig((prev) => ({
+			...prev,
+			fields: prev.fields.map((f) =>
+				f.id === updatedField.id ? updatedField : f,
+			),
+		}));
+	}, []);
+
+	const addField = useCallback(
+		(fieldType: FormField["type"]) => {
+			const newField = createFormField(fieldType, config.fields.length);
+			setConfig((prev) => ({
+				...prev,
+				fields: [...prev.fields, newField],
+			}));
+			return newField.id;
+		},
+		[config.fields.length],
+	);
+
+	const updateDesign = useCallback((design: FormDesign) => {
+		setConfig((prev) => ({ ...prev, design }));
+	}, []);
+
+	const updateBehavior = useCallback((behavior: FormBehavior) => {
+		setConfig((prev) => ({ ...prev, behavior }));
+	}, []);
+
+	const setFullConfig = useCallback((newConfig: FormConfig) => {
+		setConfig(newConfig);
+	}, []);
+
+	return {
+		config,
+		updateFields,
+		updateField,
+		addField,
+		updateDesign,
+		updateBehavior,
+		setFullConfig,
+	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
 /**
  * FormBuilder provides a visual interface for building forms
  */
@@ -86,180 +275,109 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	className: customClassName,
 	...props
 }) {
-	const [config, setConfig] = useState<FormConfig>(() => {
-		// Default email field that every form must have
-		const defaultEmailField: FormField = {
-			id: "field-email-default",
-			type: "email",
-			label: "Email",
-			placeholder: "your@email.com",
-			required: true,
-			order: 0,
-		};
-
-		const defaultConfig: FormConfig = {
-			id: `form-${campaignId}`,
-			campaignId,
-			fields: [defaultEmailField],
-			design: DEFAULT_DESIGN,
-			behavior: {
-				submitAction: "inline-message",
-				successTitle: "Thank you for signing up!",
-				successMessage: "We'll be in touch soon.",
-				duplicateHandling: "block",
-			},
-		};
-
-		// Merge initialConfig with defaults to ensure all required properties exist
-		if (initialConfig) {
-			// Ensure email field exists in initialConfig
-			const hasEmailField = initialConfig.fields?.some(
-				(field) => field.type === "email",
-			);
-
-			const fields = hasEmailField
-				? initialConfig.fields || []
-				: [defaultEmailField, ...(initialConfig.fields || [])];
-
-			return {
-				...defaultConfig,
-				...initialConfig,
-				fields,
-				design: initialConfig.design || DEFAULT_DESIGN,
-				behavior: {
-					...defaultConfig.behavior,
-					...initialConfig.behavior,
-				},
-			};
-		}
-
-		return defaultConfig;
-	});
-
-	// Top-level builder mode (Form vs Success Screen)
+	// State
 	const [builderMode, setBuilderMode] = useState<BuilderMode>("form");
 	const [selectedFieldId, setSelectedFieldId] = useState<string | undefined>();
 	const [showPreview, setShowPreview] = useState(false);
-	const [previewDevice, setPreviewDevice] = useState<
-		"mobile" | "tablet" | "desktop"
-	>("desktop");
+	const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
 	const [saving, setSaving] = useState(false);
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-	// Auto-save to localStorage every 10 seconds
+	// Custom hooks
+	const {
+		config,
+		updateFields,
+		updateField,
+		addField,
+		updateDesign,
+		updateBehavior,
+		setFullConfig,
+	} = useFormConfig(campaignId, initialConfig);
+
+	const savedConfig = useLocalStorageFormConfig(campaignId, initialConfig);
+
+	// Load saved config from localStorage
 	useEffect(() => {
-		if (hasUnsavedChanges) {
-			const timer = setTimeout(() => {
-				localStorage.setItem(
-					`form-builder-${campaignId}`,
-					JSON.stringify(config),
-				);
-				console.log("Auto-saved to localStorage");
-			}, 10000);
-
-			return () => clearTimeout(timer);
+		if (savedConfig) {
+			setFullConfig(savedConfig);
 		}
-	}, [config, campaignId, hasUnsavedChanges]);
+	}, [savedConfig, setFullConfig]);
 
-	// Load from localStorage on mount
-	useEffect(() => {
-		const saved = localStorage.getItem(`form-builder-${campaignId}`);
-		if (saved && !initialConfig) {
-			try {
-				const parsedConfig = JSON.parse(saved);
-				setConfig(parsedConfig);
-			} catch (error) {
-				console.error("Failed to load saved form:", error);
-			}
-		}
-	}, [campaignId, initialConfig]);
+	// Auto-save to localStorage
+	useFormAutoSave(config, campaignId, hasUnsavedChanges);
 
+	// Handlers
 	const handleFieldSelect = useCallback(
 		(fieldType: FormField["type"]) => {
-			// Add default options for select/radio/checkbox fields
-			const needsOptions = ["select", "radio", "checkbox"].includes(fieldType);
-
-			const newField: FormField = {
-				id: `field-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-				type: fieldType,
-				label: `${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} Field`,
-				placeholder: "",
-				required: false,
-				order: config.fields.length,
-				...(needsOptions && { options: ["Option 1", "Option 2", "Option 3"] }),
-			};
-
-			setConfig((prev) => ({
-				...prev,
-				fields: [...prev.fields, newField],
-			}));
-			setSelectedFieldId(newField.id);
+			const newFieldId = addField(fieldType);
+			setSelectedFieldId(newFieldId);
 			setHasUnsavedChanges(true);
 		},
-		[config.fields.length],
+		[addField],
 	);
 
-	const handleFieldsChange = useCallback((fields: FormField[]) => {
-		setConfig((prev) => ({
-			...prev,
-			fields,
-		}));
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleFieldsChange = useCallback(
+		(fields: FormField[]) => {
+			updateFields(fields);
+			setHasUnsavedChanges(true);
+		},
+		[updateFields],
+	);
 
-	const handleFieldUpdate = useCallback((updatedField: FormField) => {
-		setConfig((prev) => ({
-			...prev,
-			fields: prev.fields.map((f) =>
-				f.id === updatedField.id ? updatedField : f,
-			),
-		}));
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleFieldUpdate = useCallback(
+		(updatedField: FormField) => {
+			updateField(updatedField);
+			setHasUnsavedChanges(true);
+		},
+		[updateField],
+	);
 
-	const handleDesignChange = useCallback((design: FormDesign) => {
-		setConfig((prev) => ({
-			...prev,
-			design,
-		}));
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleDesignChange = useCallback(
+		(design: FormDesign) => {
+			updateDesign(design);
+			setHasUnsavedChanges(true);
+		},
+		[updateDesign],
+	);
 
-	const handleBehaviorChange = useCallback((behavior: FormBehavior) => {
-		setConfig((prev) => ({
-			...prev,
-			behavior,
-		}));
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleBehaviorChange = useCallback(
+		(behavior: FormBehavior) => {
+			updateBehavior(behavior);
+			setHasUnsavedChanges(true);
+		},
+		[updateBehavior],
+	);
 
-	const handleSave = async () => {
+	const handleSave = useCallback(async () => {
 		setSaving(true);
 		try {
 			await onSave(config);
 			setHasUnsavedChanges(false);
-			localStorage.removeItem(`form-builder-${campaignId}`);
+			localStorage.removeItem(getStorageKey(campaignId));
 		} catch (error) {
 			console.error("Failed to save form:", error);
 		} finally {
 			setSaving(false);
 		}
-	};
+	}, [config, campaignId, onSave]);
 
-	const handleTogglePreview = () => {
-		setShowPreview(!showPreview);
-	};
+	const handleTogglePreview = useCallback(() => {
+		setShowPreview((prev) => !prev);
+	}, []);
 
-	const handleBuilderModeChange = (index: number) => {
+	const handleBuilderModeChange = useCallback((index: number) => {
 		setBuilderMode(index === 0 ? "form" : "success-screen");
-		// Clear field selection when switching modes
 		setSelectedFieldId(undefined);
-		// Reset preview when switching modes
 		setShowPreview(false);
-	};
+	}, []);
+
+	const handleFieldClose = useCallback(() => {
+		setSelectedFieldId(undefined);
+	}, []);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
+	// Render
 	return (
 		<div className={classNames} {...props}>
 			{/* Header */}
@@ -384,7 +502,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 								}
 								allFields={config.fields}
 								onFieldUpdate={handleFieldUpdate}
-								onClose={() => setSelectedFieldId(undefined)}
+								onClose={handleFieldClose}
 							/>
 						) : (
 							<FormStyleEditor

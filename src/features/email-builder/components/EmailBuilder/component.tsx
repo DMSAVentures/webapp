@@ -41,16 +41,164 @@ import { VariableTextInput } from "../VariableTextInput/component";
 import styles from "./component.module.scss";
 
 type RightPanelMode = "block" | "appearance";
+type EmailType = "verification" | "welcome";
+type PreviewDevice = "mobile" | "tablet" | "desktop";
 
 export interface EmailBuilderProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onSave"> {
 	/** Campaign ID this email belongs to */
 	campaignId: string;
 	/** Initial email type to edit */
-	initialType?: "verification" | "welcome";
+	initialType?: EmailType;
 	/** Additional CSS class name */
 	className?: string;
 }
+
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Gets the default subject line for an email type */
+function getDefaultSubject(emailType: EmailType): string {
+	return emailType === "verification"
+		? "Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist"
+		: "Welcome to the {{.campaign_name}} waitlist!";
+}
+
+/** Gets the template name for an email type */
+function getTemplateName(emailType: EmailType): string {
+	return emailType === "verification" ? "Verification Email" : "Welcome Email";
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing email block operations */
+function useEmailBlocks(initialType: EmailType) {
+	const [blocks, setBlocks] = useState<EmailBlock[]>(() =>
+		getDefaultBlocks(initialType),
+	);
+	const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+
+	const addBlock = useCallback((type: EmailBlock["type"]) => {
+		const newBlock = createBlock(type);
+		setBlocks((prev) => [...prev, newBlock]);
+		setSelectedBlockId(newBlock.id);
+		return newBlock.id;
+	}, []);
+
+	const updateBlock = useCallback((updatedBlock: EmailBlock) => {
+		setBlocks((prev) =>
+			prev.map((b) => (b.id === updatedBlock.id ? updatedBlock : b)),
+		);
+	}, []);
+
+	const deleteBlock = useCallback(
+		(blockId: string) => {
+			setBlocks((prev) => prev.filter((b) => b.id !== blockId));
+			if (selectedBlockId === blockId) {
+				setSelectedBlockId(null);
+			}
+		},
+		[selectedBlockId],
+	);
+
+	const moveBlock = useCallback((blockId: string, direction: "up" | "down") => {
+		setBlocks((prev) => {
+			const index = prev.findIndex((b) => b.id === blockId);
+			if (index === -1) return prev;
+
+			const newIndex = direction === "up" ? index - 1 : index + 1;
+			if (newIndex < 0 || newIndex >= prev.length) return prev;
+
+			const newBlocks = [...prev];
+			[newBlocks[index], newBlocks[newIndex]] = [
+				newBlocks[newIndex],
+				newBlocks[index],
+			];
+			return newBlocks;
+		});
+	}, []);
+
+	const setBlocksFromTemplate = useCallback((newBlocks: EmailBlock[]) => {
+		setBlocks(newBlocks);
+		setSelectedBlockId(null);
+	}, []);
+
+	const resetToDefaults = useCallback((emailType: EmailType) => {
+		setBlocks(getDefaultBlocks(emailType));
+		setSelectedBlockId(null);
+	}, []);
+
+	const selectedBlock = blocks.find((b) => b.id === selectedBlockId) || null;
+
+	return {
+		blocks,
+		selectedBlockId,
+		selectedBlock,
+		setSelectedBlockId,
+		addBlock,
+		updateBlock,
+		deleteBlock,
+		moveBlock,
+		setBlocksFromTemplate,
+		resetToDefaults,
+	};
+}
+
+/** Hook for managing email design state */
+function useEmailDesign() {
+	const [design, setDesign] = useState<EmailDesign>(() => ({
+		...DEFAULT_EMAIL_DESIGN,
+	}));
+
+	const updateDesign = useCallback((newDesign: EmailDesign) => {
+		setDesign(newDesign);
+	}, []);
+
+	const resetDesign = useCallback(() => {
+		setDesign({ ...DEFAULT_EMAIL_DESIGN });
+	}, []);
+
+	const setDesignFromTemplate = useCallback((newDesign: EmailDesign) => {
+		setDesign(newDesign);
+	}, []);
+
+	return {
+		design,
+		updateDesign,
+		resetDesign,
+		setDesignFromTemplate,
+	};
+}
+
+/** Hook for managing test email functionality */
+function useTestEmail() {
+	const [testEmailRecipient, setTestEmailRecipient] = useState("");
+	const [showTestEmailInput, setShowTestEmailInput] = useState(false);
+
+	const openTestEmailInput = useCallback(() => {
+		setShowTestEmailInput(true);
+	}, []);
+
+	const closeTestEmailInput = useCallback(() => {
+		setShowTestEmailInput(false);
+		setTestEmailRecipient("");
+	}, []);
+
+	return {
+		testEmailRecipient,
+		setTestEmailRecipient,
+		showTestEmailInput,
+		openTestEmailInput,
+		closeTestEmailInput,
+	};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
  * EmailBuilder provides a block-based interface for editing email templates
@@ -61,44 +209,39 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	className: customClassName,
 	...props
 }) {
-	// Current email type being edited
-	const [emailType, setEmailType] = useState<"verification" | "welcome">(
-		initialType,
-	);
-
-	// Block-based content state
-	const [blocks, setBlocks] = useState<EmailBlock[]>(() =>
-		getDefaultBlocks(emailType),
-	);
-	const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
-
-	// Design/appearance state
-	const [design, setDesign] = useState<EmailDesign>(() => ({
-		...DEFAULT_EMAIL_DESIGN,
-	}));
-
-	// Right panel mode (block editor vs appearance editor)
+	// State
+	const [emailType, setEmailType] = useState<EmailType>(initialType);
+	const [subject, setSubject] = useState(() => getDefaultSubject(initialType));
+	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+	const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
 	const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>("block");
 
-	// Subject line state
-	const [subject, setSubject] = useState(
-		emailType === "verification"
-			? "Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist"
-			: "Welcome to the {{.campaign_name}} waitlist!",
-	);
+	// Custom hooks
+	const {
+		blocks,
+		selectedBlockId,
+		selectedBlock,
+		setSelectedBlockId,
+		addBlock,
+		updateBlock,
+		deleteBlock,
+		moveBlock,
+		setBlocksFromTemplate,
+		resetToDefaults,
+	} = useEmailBlocks(initialType);
 
-	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+	const { design, updateDesign, resetDesign, setDesignFromTemplate } =
+		useEmailDesign();
 
-	// Preview state
-	const [previewDevice, setPreviewDevice] = useState<
-		"mobile" | "tablet" | "desktop"
-	>("desktop");
+	const {
+		testEmailRecipient,
+		setTestEmailRecipient,
+		showTestEmailInput,
+		openTestEmailInput,
+		closeTestEmailInput,
+	} = useTestEmail();
 
-	// Test email state
-	const [testEmailRecipient, setTestEmailRecipient] = useState("");
-	const [showTestEmailInput, setShowTestEmailInput] = useState(false);
-
-	// Fetch existing templates
+	// API hooks
 	const {
 		templates,
 		loading: loadingTemplates,
@@ -106,7 +249,6 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	} = useGetEmailTemplates(campaignId);
 	const existingTemplate = templates.find((t) => t.type === emailType) || null;
 
-	// API hooks
 	const { createTemplate, loading: creating } = useCreateEmailTemplate();
 	const { updateTemplate, loading: updating } = useUpdateEmailTemplate();
 	const {
@@ -118,56 +260,49 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 	const saving = creating || updating;
 
-	// Get selected block
-	const selectedBlock = blocks.find((b) => b.id === selectedBlockId) || null;
-
-	// Handle tab change
+	// Handlers
 	const handleTabChange = useCallback(
 		(index: number) => {
-			const newType = index === 0 ? "verification" : "welcome";
+			const newType: EmailType = index === 0 ? "verification" : "welcome";
 			setEmailType(newType);
 			setSelectedBlockId(null);
 
-			// Load existing template or default
 			const existing = templates.find((t) => t.type === newType);
 
 			if (existing) {
 				setSubject(existing.subject);
-				// Load blocks from stored blocks_json if available
 				if (
 					existing.blocks_json?.blocks &&
 					Array.isArray(existing.blocks_json.blocks)
 				) {
-					setBlocks(existing.blocks_json.blocks as EmailBlock[]);
+					setBlocksFromTemplate(existing.blocks_json.blocks as EmailBlock[]);
 				} else {
-					// Fall back to defaults if no blocks stored
-					setBlocks(getDefaultBlocks(newType));
+					resetToDefaults(newType);
 				}
-				// Load design if available
 				if (existing.blocks_json?.design) {
-					setDesign(existing.blocks_json.design as EmailDesign);
+					setDesignFromTemplate(existing.blocks_json.design as EmailDesign);
 				} else {
-					setDesign({ ...DEFAULT_EMAIL_DESIGN });
+					resetDesign();
 				}
 			} else {
-				setSubject(
-					newType === "verification"
-						? "Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist"
-						: "Welcome to the {{.campaign_name}} waitlist!",
-				);
-				setBlocks(getDefaultBlocks(newType));
-				setDesign({ ...DEFAULT_EMAIL_DESIGN });
+				setSubject(getDefaultSubject(newType));
+				resetToDefaults(newType);
+				resetDesign();
 			}
 			setHasUnsavedChanges(false);
 		},
-		[templates],
+		[
+			templates,
+			setBlocksFromTemplate,
+			resetToDefaults,
+			setDesignFromTemplate,
+			resetDesign,
+			setSelectedBlockId,
+		],
 	);
 
-	// Handle save
 	const handleSave = useCallback(async () => {
-		const templateName =
-			emailType === "verification" ? "Verification Email" : "Welcome Email";
-
+		const templateName = getTemplateName(emailType);
 		const htmlBody = blocksToHtml(blocks, design);
 		const blocksJson = { blocks, design };
 
@@ -203,7 +338,6 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		refetch,
 	]);
 
-	// Handle test email
 	const handleSendTestEmail = useCallback(async () => {
 		if (!testEmailRecipient || !existingTemplate) return;
 		resetTestState();
@@ -216,86 +350,86 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		resetTestState,
 	]);
 
-	// Block operations
-	const handleAddBlock = useCallback((type: EmailBlock["type"]) => {
-		const newBlock = createBlock(type);
-		setBlocks((prev) => [...prev, newBlock]);
-		setSelectedBlockId(newBlock.id);
-		setRightPanelMode("block");
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleAddBlock = useCallback(
+		(type: EmailBlock["type"]) => {
+			addBlock(type);
+			setRightPanelMode("block");
+			setHasUnsavedChanges(true);
+		},
+		[addBlock],
+	);
 
-	const handleUpdateBlock = useCallback((updatedBlock: EmailBlock) => {
-		setBlocks((prev) =>
-			prev.map((b) => (b.id === updatedBlock.id ? updatedBlock : b)),
-		);
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleUpdateBlock = useCallback(
+		(updatedBlock: EmailBlock) => {
+			updateBlock(updatedBlock);
+			setHasUnsavedChanges(true);
+		},
+		[updateBlock],
+	);
 
 	const handleDeleteBlock = useCallback(
 		(blockId: string) => {
-			setBlocks((prev) => prev.filter((b) => b.id !== blockId));
-			if (selectedBlockId === blockId) {
-				setSelectedBlockId(null);
-			}
+			deleteBlock(blockId);
 			setHasUnsavedChanges(true);
 		},
-		[selectedBlockId],
+		[deleteBlock],
 	);
 
 	const handleMoveBlock = useCallback(
 		(blockId: string, direction: "up" | "down") => {
-			setBlocks((prev) => {
-				const index = prev.findIndex((b) => b.id === blockId);
-				if (index === -1) return prev;
-
-				const newIndex = direction === "up" ? index - 1 : index + 1;
-				if (newIndex < 0 || newIndex >= prev.length) return prev;
-
-				const newBlocks = [...prev];
-				[newBlocks[index], newBlocks[newIndex]] = [
-					newBlocks[newIndex],
-					newBlocks[index],
-				];
-				return newBlocks;
-			});
+			moveBlock(blockId, direction);
 			setHasUnsavedChanges(true);
 		},
-		[],
+		[moveBlock],
 	);
 
-	// Mark as changed when subject changes
 	const handleSubjectChange = useCallback((value: string) => {
 		setSubject(value);
 		setHasUnsavedChanges(true);
 	}, []);
 
-	// Handle design changes
-	const handleDesignChange = useCallback((newDesign: EmailDesign) => {
-		setDesign(newDesign);
-		setHasUnsavedChanges(true);
-	}, []);
+	const handleDesignChange = useCallback(
+		(newDesign: EmailDesign) => {
+			updateDesign(newDesign);
+			setHasUnsavedChanges(true);
+		},
+		[updateDesign],
+	);
+
+	const handleBlockSelect = useCallback(
+		(blockId: string) => {
+			setSelectedBlockId(blockId);
+			setRightPanelMode("block");
+		},
+		[setSelectedBlockId],
+	);
 
 	// Load existing template on mount
 	useEffect(() => {
 		if (existingTemplate && !hasUnsavedChanges) {
 			setSubject(existingTemplate.subject);
-			// Load blocks from stored blocks_json if available
 			if (
 				existingTemplate.blocks_json?.blocks &&
 				Array.isArray(existingTemplate.blocks_json.blocks)
 			) {
-				setBlocks(existingTemplate.blocks_json.blocks as EmailBlock[]);
+				setBlocksFromTemplate(
+					existingTemplate.blocks_json.blocks as EmailBlock[],
+				);
 			}
-			// Load design if available
 			if (existingTemplate.blocks_json?.design) {
-				setDesign(existingTemplate.blocks_json.design as EmailDesign);
+				setDesignFromTemplate(
+					existingTemplate.blocks_json.design as EmailDesign,
+				);
 			}
 		}
-	}, [existingTemplate, hasUnsavedChanges]);
+	}, [
+		existingTemplate,
+		hasUnsavedChanges,
+		setBlocksFromTemplate,
+		setDesignFromTemplate,
+	]);
 
-	// Rendered preview
-	// Use existing template HTML when no unsaved changes, otherwise use blocks-generated HTML
+	// Derived state
 	const renderedSubject = renderTemplate(subject, SAMPLE_TEMPLATE_DATA);
 	const htmlBody =
 		existingTemplate && !hasUnsavedChanges
@@ -305,6 +439,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
+	// Render
 	return (
 		<div className={classNames} {...props}>
 			{/* Header */}
@@ -371,10 +506,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 										iconClass="close-line"
 										variant="secondary"
 										ariaLabel="Cancel"
-										onClick={() => {
-											setShowTestEmailInput(false);
-											setTestEmailRecipient("");
-										}}
+										onClick={closeTestEmailInput}
 									/>
 								</div>
 							) : (
@@ -382,7 +514,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 									variant="secondary"
 									size="medium"
 									leftIcon="send-plane-line"
-									onClick={() => setShowTestEmailInput(true)}
+									onClick={openTestEmailInput}
 								>
 									Send Test
 								</Button>
@@ -480,10 +612,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 												key={block.id}
 												block={block}
 												isSelected={block.id === selectedBlockId}
-												onSelect={() => {
-													setSelectedBlockId(block.id);
-													setRightPanelMode("block");
-												}}
+												onSelect={() => handleBlockSelect(block.id)}
 												onDelete={() => handleDeleteBlock(block.id)}
 												onMoveUp={() => handleMoveBlock(block.id, "up")}
 												onMoveDown={() => handleMoveBlock(block.id, "down")}

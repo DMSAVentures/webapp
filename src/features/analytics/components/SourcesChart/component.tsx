@@ -55,6 +55,10 @@ export interface SourcesChartProps
 	className?: string;
 }
 
+// ============================================================================
+// Constants
+// ============================================================================
+
 const PERIOD_OPTIONS: { value: AnalyticsPeriod; label: string }[] = [
 	{ value: "hour", label: "Hourly" },
 	{ value: "day", label: "Daily" },
@@ -62,7 +66,6 @@ const PERIOD_OPTIONS: { value: AnalyticsPeriod; label: string }[] = [
 	{ value: "month", label: "Monthly" },
 ];
 
-// Colors for different sources
 const SOURCE_COLORS: Record<string, string> = {
 	google: "#4285F4",
 	facebook: "#1877F2",
@@ -79,56 +82,56 @@ const SOURCE_COLORS: Record<string, string> = {
 	slack: "#4A154B",
 	email: "#6B7280",
 	direct: "#9CA3AF",
-	"": "#9CA3AF", // null/direct traffic
+	"": "#9CA3AF",
 };
 
 const DEFAULT_COLORS = [
-	"#3B82F6", // blue
-	"#10B981", // green
-	"#F59E0B", // amber
-	"#EF4444", // red
-	"#8B5CF6", // purple
-	"#EC4899", // pink
-	"#06B6D4", // cyan
-	"#F97316", // orange
-	"#14B8A6", // teal
-	"#6366F1", // indigo
+	"#3B82F6",
+	"#10B981",
+	"#F59E0B",
+	"#EF4444",
+	"#8B5CF6",
+	"#EC4899",
+	"#06B6D4",
+	"#F97316",
+	"#14B8A6",
+	"#6366F1",
 ];
 
-// Max number of sources to show (rest grouped into "Other")
 const MAX_SOURCES = 10;
-
-// Color for "Other" category
 const OTHER_COLOR = "#9CA3AF";
 
-/**
- * Get color for a source
- */
-const getSourceColor = (source: string, index: number): string => {
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Format number for display */
+function formatNumber(value: number): string {
+	return value.toLocaleString("en-US");
+}
+
+/** Get color for a source */
+function getSourceColor(source: string, index: number): string {
 	if (source === "other") return OTHER_COLOR;
 	const normalizedSource = source.toLowerCase();
 	if (SOURCE_COLORS[normalizedSource]) {
 		return SOURCE_COLORS[normalizedSource];
 	}
 	return DEFAULT_COLORS[index % DEFAULT_COLORS.length];
-};
+}
 
-/**
- * Get display name for a source
- */
-const getSourceDisplayName = (source: string): string => {
+/** Get display name for a source */
+function getSourceDisplayName(source: string): string {
 	if (!source || source === "") return "Direct";
 	if (source === "other") return "Other";
 	return source.charAt(0).toUpperCase() + source.slice(1);
-};
+}
 
-/**
- * Format date range for display
- */
-const formatDateRange = (
+/** Format date range for display */
+function formatDateRange(
 	dateRange: DateRange | undefined,
 	period: AnalyticsPeriod,
-): string => {
+): string {
 	if (!dateRange) return "";
 
 	const { from, to } = dateRange;
@@ -167,16 +170,13 @@ const formatDateRange = (
 		default:
 			return "";
 	}
-};
+}
 
-/**
- * Format date for display based on period
- * Uses UTC to avoid timezone issues with API dates
- */
-const formatDateForPeriod = (
+/** Format date for display based on period (UTC to avoid timezone issues) */
+function formatDateForPeriod(
 	dateStr: string,
 	period: AnalyticsPeriod,
-): { line1: string; line2?: string } => {
+): { line1: string; line2?: string } {
 	try {
 		const date = new Date(dateStr);
 		switch (period) {
@@ -194,13 +194,6 @@ const formatDateForPeriod = (
 				return { line1: time, line2: day };
 			}
 			case "day":
-				return {
-					line1: date.toLocaleDateString("en-US", {
-						month: "short",
-						day: "numeric",
-						timeZone: "UTC",
-					}),
-				};
 			case "week":
 				return {
 					line1: date.toLocaleDateString("en-US", {
@@ -229,11 +222,87 @@ const formatDateForPeriod = (
 	} catch {
 		return { line1: dateStr };
 	}
-};
+}
 
-/**
- * Custom X-axis tick for multi-line labels
- */
+/** Build period button items for the button group */
+function buildPeriodButtonItems(
+	selectedPeriod: AnalyticsPeriod,
+	onPeriodChange: (period: AnalyticsPeriod) => void,
+) {
+	return PERIOD_OPTIONS.map((option) => ({
+		text: option.label,
+		icon: "",
+		iconPosition: "left" as const,
+		iconOnly: false,
+		onClick: () => onPeriodChange(option.value),
+		selected: selectedPeriod === option.value,
+	}));
+}
+
+/** Get top sources by total count, grouping rest into "Other" */
+function getTopSources(data: ApiSignupsBySourceDataPoint[]): {
+	topSources: string[];
+	hasOther: boolean;
+} {
+	const sourceTotals = new Map<string, number>();
+	for (const point of data) {
+		const sourceKey = point.utm_source || "direct";
+		sourceTotals.set(
+			sourceKey,
+			(sourceTotals.get(sourceKey) || 0) + point.count,
+		);
+	}
+
+	const sorted = Array.from(sourceTotals.entries()).sort((a, b) => b[1] - a[1]);
+	const topSources = sorted.slice(0, MAX_SOURCES).map(([source]) => source);
+	const hasOther = sorted.length > MAX_SOURCES;
+
+	return { topSources, hasOther };
+}
+
+/** Transform API data for Recharts - groups by date with top sources + "Other" */
+function transformDataForChart(
+	data: ApiSignupsBySourceDataPoint[],
+	topSources: string[],
+	hasOther: boolean,
+): Record<string, string | number>[] {
+	const dateMap = new Map<string, Record<string, string | number>>();
+	const topSourceSet = new Set(topSources);
+
+	for (const point of data) {
+		if (!dateMap.has(point.date)) {
+			const entry: Record<string, string | number> = { date: point.date };
+			for (const source of topSources) {
+				entry[source] = 0;
+			}
+			if (hasOther) {
+				entry.other = 0;
+			}
+			dateMap.set(point.date, entry);
+		}
+
+		const entry = dateMap.get(point.date)!;
+		const sourceKey = point.utm_source || "direct";
+
+		if (topSourceSet.has(sourceKey)) {
+			entry[sourceKey] = point.count;
+		} else if (hasOther) {
+			entry.other = (entry.other as number) + point.count;
+		}
+	}
+
+	return Array.from(dateMap.values()).sort(
+		(a, b) =>
+			new Date(a.date as string).getTime() -
+			new Date(b.date as string).getTime(),
+	);
+}
+
+// ============================================================================
+// Sub-Components
+// ============================================================================
+
+/** Custom X-axis tick for multi-line labels */
 interface CustomXAxisTickProps {
 	x?: number;
 	y?: number;
@@ -241,7 +310,7 @@ interface CustomXAxisTickProps {
 	period: AnalyticsPeriod;
 }
 
-const CustomXAxisTick = ({ x, y, payload, period }: CustomXAxisTickProps) => {
+function CustomXAxisTick({ x, y, payload, period }: CustomXAxisTickProps) {
 	if (!payload) return null;
 
 	const formatted = formatDateForPeriod(payload.value, period);
@@ -272,86 +341,9 @@ const CustomXAxisTick = ({ x, y, payload, period }: CustomXAxisTickProps) => {
 			)}
 		</g>
 	);
-};
+}
 
-/**
- * Format number for display
- */
-const formatNumber = (value: number): string => {
-	return value.toLocaleString("en-US");
-};
-
-/**
- * Get top sources by total count, grouping rest into "Other"
- */
-const getTopSources = (
-	data: ApiSignupsBySourceDataPoint[],
-): { topSources: string[]; hasOther: boolean } => {
-	// Calculate total count per source
-	const sourceTotals = new Map<string, number>();
-	for (const point of data) {
-		const sourceKey = point.utm_source || "direct";
-		sourceTotals.set(
-			sourceKey,
-			(sourceTotals.get(sourceKey) || 0) + point.count,
-		);
-	}
-
-	// Sort by count descending
-	const sorted = Array.from(sourceTotals.entries()).sort((a, b) => b[1] - a[1]);
-
-	// Take top N sources
-	const topSources = sorted.slice(0, MAX_SOURCES).map(([source]) => source);
-	const hasOther = sorted.length > MAX_SOURCES;
-
-	return { topSources, hasOther };
-};
-
-/**
- * Transform API data for Recharts
- * Groups data by date with top sources + "Other"
- */
-const transformDataForChart = (
-	data: ApiSignupsBySourceDataPoint[],
-	topSources: string[],
-	hasOther: boolean,
-): Record<string, string | number>[] => {
-	const dateMap = new Map<string, Record<string, string | number>>();
-	const topSourceSet = new Set(topSources);
-
-	// Initialize all dates with all sources set to 0
-	for (const point of data) {
-		if (!dateMap.has(point.date)) {
-			const entry: Record<string, string | number> = { date: point.date };
-			for (const source of topSources) {
-				entry[source] = 0;
-			}
-			if (hasOther) {
-				entry.other = 0;
-			}
-			dateMap.set(point.date, entry);
-		}
-
-		const entry = dateMap.get(point.date)!;
-		const sourceKey = point.utm_source || "direct";
-
-		if (topSourceSet.has(sourceKey)) {
-			entry[sourceKey] = point.count;
-		} else if (hasOther) {
-			entry.other = (entry.other as number) + point.count;
-		}
-	}
-
-	return Array.from(dateMap.values()).sort(
-		(a, b) =>
-			new Date(a.date as string).getTime() -
-			new Date(b.date as string).getTime(),
-	);
-};
-
-/**
- * Custom tooltip component
- */
+/** Custom tooltip component */
 interface CustomTooltipProps {
 	active?: boolean;
 	payload?: Array<{
@@ -364,12 +356,7 @@ interface CustomTooltipProps {
 	period: AnalyticsPeriod;
 }
 
-const CustomTooltip = ({
-	active,
-	payload,
-	label,
-	period,
-}: CustomTooltipProps) => {
+function CustomTooltip({ active, payload, label, period }: CustomTooltipProps) {
 	if (!active || !payload || !payload.length) {
 		return null;
 	}
@@ -405,7 +392,11 @@ const CustomTooltip = ({
 			</div>
 		</div>
 	);
-};
+}
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
  * SourcesChart displays signups by UTM source over time
@@ -424,9 +415,10 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 	className: customClassName,
 	...props
 }) {
+	// State
 	const [selectedPeriod, setSelectedPeriod] = useState<AnalyticsPeriod>(period);
-	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
+	// Handlers
 	const handlePeriodChange = useCallback(
 		(newPeriod: AnalyticsPeriod) => {
 			setSelectedPeriod(newPeriod);
@@ -435,36 +427,29 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 		[onPeriodChange],
 	);
 
+	// Derived state
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
 	const periodButtonItems = useMemo(
-		() =>
-			PERIOD_OPTIONS.map((option) => ({
-				text: option.label,
-				icon: "",
-				iconPosition: "left" as const,
-				iconOnly: false,
-				onClick: () => handlePeriodChange(option.value),
-				selected: selectedPeriod === option.value,
-			})),
+		() => buildPeriodButtonItems(selectedPeriod, handlePeriodChange),
 		[selectedPeriod, handlePeriodChange],
 	);
 
-	// Get top sources and determine if we need "Other"
 	const { topSources, hasOther } = useMemo(() => getTopSources(data), [data]);
 
-	// Transform data for Recharts (with top sources + Other)
 	const chartData = useMemo(
 		() => transformDataForChart(data, topSources, hasOther),
 		[data, topSources, hasOther],
 	);
 
-	// Sources to display in chart (top sources + "other" if needed)
 	const displaySources = useMemo(
 		() => (hasOther ? [...topSources, "other"] : topSources),
 		[topSources, hasOther],
 	);
 
+	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
+
+	// Render
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.header}>

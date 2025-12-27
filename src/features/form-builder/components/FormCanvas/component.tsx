@@ -25,6 +25,88 @@ export interface FormCanvasProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
+// ============================================================================
+// Pure Functions
+// ============================================================================
+
+/** Check if a field can be deleted (email field cannot be deleted) */
+function canDeleteField(field: FormField): boolean {
+	return field.type !== "email";
+}
+
+/** Delete a field and reorder remaining fields */
+function deleteFieldFromList(
+	fields: FormField[],
+	fieldId: string,
+): FormField[] {
+	return fields
+		.filter((f) => f.id !== fieldId)
+		.map((field, idx) => ({ ...field, order: idx }));
+}
+
+/** Toggle field column between 1 and 2 */
+function toggleFieldColumn(fields: FormField[], fieldId: string): FormField[] {
+	return fields.map((field) => {
+		if (field.id === fieldId) {
+			const currentColumn = field.column || 1;
+			return { ...field, column: currentColumn === 1 ? 2 : 1 } as FormField;
+		}
+		return field;
+	});
+}
+
+// ============================================================================
+// Custom Hooks
+// ============================================================================
+
+/** Hook for managing field deletion */
+function useFieldDeletion(
+	fields: FormField[],
+	selectedFieldId: string | undefined,
+	onFieldsChange: (fields: FormField[]) => void,
+	onFieldSelect: (fieldId: string) => void,
+) {
+	const handleFieldDelete = useCallback(
+		(fieldId: string) => {
+			const fieldToDelete = fields.find((f) => f.id === fieldId);
+
+			if (!fieldToDelete || !canDeleteField(fieldToDelete)) {
+				return;
+			}
+
+			if (selectedFieldId === fieldId) {
+				onFieldSelect("");
+			}
+
+			const newFields = deleteFieldFromList(fields, fieldId);
+			onFieldsChange(newFields);
+		},
+		[fields, selectedFieldId, onFieldsChange, onFieldSelect],
+	);
+
+	return { handleFieldDelete };
+}
+
+/** Hook for managing field column toggle */
+function useColumnToggle(
+	fields: FormField[],
+	onFieldsChange: (fields: FormField[]) => void,
+) {
+	const handleColumnToggle = useCallback(
+		(fieldId: string) => {
+			const newFields = toggleFieldColumn(fields, fieldId);
+			onFieldsChange(newFields);
+		},
+		[fields, onFieldsChange],
+	);
+
+	return { handleColumnToggle };
+}
+
+// ============================================================================
+// Component
+// ============================================================================
+
 /**
  * FormCanvas displays and manages form fields with drag-drop
  */
@@ -37,6 +119,7 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 	className: customClassName,
 	...props
 }) {
+	// Hooks
 	const {
 		dragState,
 		handleFieldDragStart,
@@ -46,6 +129,16 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 		handleDropZoneDrop,
 	} = useDragAndDrop();
 
+	const { handleFieldDelete } = useFieldDeletion(
+		fields,
+		selectedFieldId,
+		onFieldsChange,
+		onFieldSelect,
+	);
+
+	const { handleColumnToggle } = useColumnToggle(fields, onFieldsChange);
+
+	// Derived state
 	const isTwoColumn = layout === "two-column";
 
 	const classNames = [
@@ -56,48 +149,18 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 		.filter(Boolean)
 		.join(" ");
 
-	const handleFieldDelete = (fieldId: string) => {
-		// Find the field to check if it's an email field
-		const fieldToDelete = fields.find((f) => f.id === fieldId);
-
-		// Prevent deletion of email field (required for all forms)
-		if (fieldToDelete?.type === "email") {
-			return;
-		}
-
-		// If deleting the currently selected field, deselect it
-		if (selectedFieldId === fieldId) {
-			onFieldSelect("");
-		}
-
-		const newFields = fields
-			.filter((f) => f.id !== fieldId)
-			.map((field, idx) => ({ ...field, order: idx }));
-		onFieldsChange(newFields);
-	};
-
-	const handleColumnToggle = useCallback(
-		(fieldId: string) => {
-			const newFields = fields.map((field) => {
-				if (field.id === fieldId) {
-					// Toggle between column 1 and 2
-					const currentColumn = field.column || 1;
-					return { ...field, column: currentColumn === 1 ? 2 : 1 } as FormField;
-				}
-				return field;
-			});
-			onFieldsChange(newFields);
+	// Handlers
+	const handleDrop = useCallback(
+		(index: number) => (e: React.DragEvent) => {
+			const newFields = handleDropZoneDrop(index, fields)(e);
+			if (newFields) {
+				onFieldsChange(newFields);
+			}
 		},
-		[fields, onFieldsChange],
+		[handleDropZoneDrop, fields, onFieldsChange],
 	);
 
-	const handleDrop = (index: number) => (e: React.DragEvent) => {
-		const newFields = handleDropZoneDrop(index, fields)(e);
-		if (newFields) {
-			onFieldsChange(newFields);
-		}
-	};
-
+	// Render
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.header}>
