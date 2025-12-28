@@ -7,21 +7,21 @@
 // ==============================
 // Neutral Colors
 // ==============================
-$color-neutral-hue: 200;
-$color-neutral-chroma: 0.005; // Pure neutral grays - no tint
 
-// Neutral color scale with perceptually uniform lightness
-$color-neutral-900: oklch(30% $color-neutral-chroma $color-neutral-hue);   // Darkest, primary text
-$color-neutral-800: oklch(40% $color-neutral-chroma $color-neutral-hue);   // Headings
-$color-neutral-700: oklch(50% $color-neutral-chroma $color-neutral-hue);   // Secondary text
-$color-neutral-600: oklch(60% $color-neutral-chroma $color-neutral-hue);   // Tertiary text
-$color-neutral-500: oklch(70% $color-neutral-chroma $color-neutral-hue);   // Muted text, placeholders
-$color-neutral-400: oklch(75% $color-neutral-chroma $color-neutral-hue);   // Disabled text, subtle icons
-$color-neutral-300: oklch(81% $color-neutral-chroma $color-neutral-hue);   // Borders, dividers
-$color-neutral-200: oklch(90% $color-neutral-chroma $color-neutral-hue);   // Light backgrounds, hover
-$color-neutral-100: oklch(95% $color-neutral-chroma $color-neutral-hue); // Very light backgrounds
-$color-neutral-50: oklch(97.5% $color-neutral-chroma $color-neutral-hue);    // Near white surfaces
-$color-white: oklch(100% 0 $color-neutral-hue);                            // Pure white
+$color-neutral-chroma: 0.005;
+$color-neutral-hue: 30;
+
+$color-neutral-900: oklch(18% 0.015 260);
+$color-neutral-800: oklch(28% 0.012 255);
+$color-neutral-700: oklch(40% 0.010 250);
+$color-neutral-600: oklch(52% 0.008 245);
+$color-neutral-500: oklch(62% 0.006 240);
+$color-neutral-400: oklch(72% 0.005 235);
+$color-neutral-300: oklch(82% 0.004 230);
+$color-neutral-200: oklch(91% 0.003 225);
+$color-neutral-100: oklch(96% 0.002 220);
+$color-neutral-50: oklch(98.5% 0.001 215);
+$color-white: oklch(100% 0 $color-neutral-hue);            // Pure white
 
 
 // Blue
