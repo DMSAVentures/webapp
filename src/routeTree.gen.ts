@@ -15,7 +15,7 @@ import { Route as SigninRouteImport } from './routes/signin'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as MainRouteImport } from './routes/main'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
-import { Route as EmailRouteImport } from './routes/email'
+import { Route as EmailTemplatesRouteImport } from './routes/email-templates'
 import { Route as DealsRouteImport } from './routes/deals'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as ArticlesRouteImport } from './routes/articles'
@@ -82,9 +82,9 @@ const IntegrationsRoute = IntegrationsRouteImport.update({
   path: '/integrations',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EmailRoute = EmailRouteImport.update({
-  id: '/email',
-  path: '/email',
+const EmailTemplatesRoute = EmailTemplatesRouteImport.update({
+  id: '/email-templates',
+  path: '/email-templates',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DealsRoute = DealsRouteImport.update({
@@ -284,7 +284,7 @@ export interface FileRoutesByFullPath {
   '/articles': typeof ArticlesRoute
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
-  '/email': typeof EmailRoute
+  '/email-templates': typeof EmailTemplatesRoute
   '/integrations': typeof IntegrationsRouteWithChildren
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
@@ -328,7 +328,7 @@ export interface FileRoutesByTo {
   '/articles': typeof ArticlesRoute
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
-  '/email': typeof EmailRoute
+  '/email-templates': typeof EmailTemplatesRoute
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
@@ -369,7 +369,7 @@ export interface FileRoutesById {
   '/articles': typeof ArticlesRoute
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
-  '/email': typeof EmailRoute
+  '/email-templates': typeof EmailTemplatesRoute
   '/integrations': typeof IntegrationsRouteWithChildren
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
@@ -415,7 +415,7 @@ export interface FileRouteTypes {
     | '/articles'
     | '/contacts'
     | '/deals'
-    | '/email'
+    | '/email-templates'
     | '/integrations'
     | '/main'
     | '/media'
@@ -459,7 +459,7 @@ export interface FileRouteTypes {
     | '/articles'
     | '/contacts'
     | '/deals'
-    | '/email'
+    | '/email-templates'
     | '/main'
     | '/media'
     | '/signin'
@@ -499,7 +499,7 @@ export interface FileRouteTypes {
     | '/articles'
     | '/contacts'
     | '/deals'
-    | '/email'
+    | '/email-templates'
     | '/integrations'
     | '/main'
     | '/media'
@@ -544,7 +544,7 @@ export interface RootRouteChildren {
   ArticlesRoute: typeof ArticlesRoute
   ContactsRoute: typeof ContactsRoute
   DealsRoute: typeof DealsRoute
-  EmailRoute: typeof EmailRoute
+  EmailTemplatesRoute: typeof EmailTemplatesRoute
   IntegrationsRoute: typeof IntegrationsRouteWithChildren
   MainRoute: typeof MainRoute
   MediaRoute: typeof MediaRoute
@@ -607,11 +607,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/email': {
-      id: '/email'
-      path: '/email'
-      fullPath: '/email'
-      preLoaderRoute: typeof EmailRouteImport
+    '/email-templates': {
+      id: '/email-templates'
+      path: '/email-templates'
+      fullPath: '/email-templates'
+      preLoaderRoute: typeof EmailTemplatesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/deals': {
@@ -947,7 +947,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesRoute: ArticlesRoute,
   ContactsRoute: ContactsRoute,
   DealsRoute: DealsRoute,
-  EmailRoute: EmailRoute,
+  EmailTemplatesRoute: EmailTemplatesRoute,
   IntegrationsRoute: IntegrationsRouteWithChildren,
   MainRoute: MainRoute,
   MediaRoute: MediaRoute,

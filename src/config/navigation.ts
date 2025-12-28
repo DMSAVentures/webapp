@@ -16,6 +16,12 @@ export const navigationConfig: NavGroup[] = [
 				allowedPersonas: ["admin", "marketing"],
 			},
 			{
+				label: "Email Templates",
+				href: "/email-templates",
+				iconClass: "mail-line",
+				allowedPersonas: ["admin", "marketing"],
+			},
+			{
 				label: "Analytics",
 				href: "/analytics",
 				iconClass: "bar-chart-line",

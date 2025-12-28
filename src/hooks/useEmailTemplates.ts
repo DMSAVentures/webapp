@@ -126,6 +126,55 @@ export const useGetEmailTemplates = (
 };
 
 // ============================================================================
+// useGetAllEmailTemplates - Fetch all templates across all campaigns
+// ============================================================================
+
+export const useGetAllEmailTemplates = () => {
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<ApiError | null>(null);
+	const [templates, setTemplates] = useState<EmailTemplate[]>([]);
+
+	const fetchTemplates = useCallback(
+		async (signal?: AbortSignal): Promise<void> => {
+			setLoading(true);
+			setError(null);
+			try {
+				const response = await fetcher<EmailTemplate[]>(
+					`${import.meta.env.VITE_API_URL}/api/v1/email-templates`,
+					{
+						method: "GET",
+						signal,
+					},
+				);
+				setTemplates(response || []);
+			} catch (error: unknown) {
+				if (isAbortError(error)) {
+					return;
+				}
+				setError(toApiError(error));
+				setTemplates([]);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[],
+	);
+
+	useEffect(() => {
+		const controller = new AbortController();
+		fetchTemplates(controller.signal);
+		return () => controller.abort();
+	}, [fetchTemplates]);
+
+	return {
+		templates,
+		loading,
+		error,
+		refetch: fetchTemplates,
+	};
+};
+
+// ============================================================================
 // useGetEmailTemplate - Fetch a single template
 // ============================================================================
 
