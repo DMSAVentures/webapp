@@ -25,15 +25,15 @@ $font-weight-bold: 800;
 // Type Scale - Simplified and more intuitive
 // ==============================
 
-// Base size - 13px
-$font-size-base: 0.875rem;  // 13px
+// Base size - 14px
+$font-size-base: 0.875rem;  // 14px
 
 // Text sizes based on purpose rather than arbitrary scaling
-$font-size-xs: 0.75rem;   // 11px - Tiny text, footnotes
-$font-size-sm: 0.8rem;     // 12px - Small text, captions
-$font-size-md: $font-size-base; // 13px - Body text, default
-$font-size-lg: 0.95rem;    // 14px - Large body text
-$font-size-xl: 1.05rem;        // 16px - Subheadings
+$font-size-xs: 0.75rem;    // 12px - Tiny text, footnotes
+$font-size-sm: 0.8rem;     // 13px - Small text, captions
+$font-size-md: $font-size-base; // 14px - Body text, default
+$font-size-lg: 0.95rem;    // 15px - Large body text
+$font-size-xl: 1.05rem;    // 17px - Subheadings
 
 // Heading sizes with clear progression
 $font-size-h6: 1.25rem;     // 20px
