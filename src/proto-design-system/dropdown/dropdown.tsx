@@ -4,6 +4,7 @@ import "remixicon/fonts/remixicon.css";
 import DropdownOption, {
 	DropdownOptionProps,
 } from "@/proto-design-system/dropdown/option.tsx";
+import Label from "@/proto-design-system/label/label.tsx";
 
 // Simplified option type for external use (without internal props)
 export interface DropdownOptionInput {
@@ -26,6 +27,19 @@ interface DropdownProps {
 	label?: string;
 	hintText?: string;
 	badge?: string;
+	badgeColour?:
+		| "gray"
+		| "blue"
+		| "orange"
+		| "red"
+		| "green"
+		| "purple"
+		| "yellow"
+		| "pink"
+		| "sky"
+		| "teal";
+	linkTitle?: string;
+	linkHref?: string;
 	leftIcon?: string;
 	disabled?: boolean;
 	error?: string;
@@ -223,15 +237,15 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 	return (
 		<div className={dropdownClass} ref={dropdownRef}>
 			<div className={styles["dropdown__label-container"]}>
-				{props.label && (
-					<label className={styles["dropdown__label"]}>{props.label}</label>
-				)}
-				{props.optional && (
-					<label className={styles["dropdown__optional"]}>(Optional)</label>
-				)}
-				{props.tooltip && (
-					<i className={`${styles["dropdown__tooltip"]} ri-information-line`} />
-				)}
+				<Label
+					text={props.label!}
+					required={props.optional}
+					badgeString={props.badge}
+					badgeColour={props.badgeColour}
+					disabled={props.disabled}
+					linkTitle={props.linkTitle}
+					linkHref={props.linkHref}
+				/>
 			</div>
 			<div className={selectContainerClass}>
 				<div

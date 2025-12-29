@@ -10,6 +10,7 @@ import {
 	useCallback,
 	useState,
 } from "react";
+import { useTier } from "@/contexts/tier";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
@@ -513,6 +514,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		validateAllIntegrations,
 	} = useTrackingValidation();
 
+	const { hasFeature } = useTier();
+
+	// Feature access checks
+	const hasAntiSpam = hasFeature("anti_spam_protection");
+	const hasEmail = hasFeature("email_verification");
+	const hasReferrals = hasFeature("referral_system");
+	const hasTracking = hasFeature("tracking_pixels");
+
 	// Handlers
 	const handleBlur = useCallback(
 		(field: keyof FormErrors) => {
@@ -652,10 +661,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleSettingChange("emailVerificationRequired", e.target.checked)
 					}
-					disabled={loading}
+					disabled={loading || !hasEmail}
 					flipCheckboxToRight={false}
 					text="Require email verification"
 					description="Users must verify their email before being added to waitlist"
+					badgeString={!hasEmail ? "Pro" : undefined}
+					badgeColour="green"
+					linkTitle={!hasEmail ? "Upgrade" : undefined}
+					linkHref={!hasEmail ? "/billing/plans" : undefined}
 				/>
 
 				<Dropdown
@@ -695,10 +708,13 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleFormConfigChange("captchaEnabled", e.target.checked)
 					}
-					disabled={loading}
+					disabled={loading || !hasAntiSpam}
 					flipCheckboxToRight={false}
 					text="Enable CAPTCHA"
 					description="Protect your waitlist from bots and spam submissions"
+					badgeString={!hasAntiSpam ? "Pro" : undefined}
+					linkTitle={!hasAntiSpam ? "Upgrade" : undefined}
+					linkHref={!hasAntiSpam ? "/billing/plans" : undefined}
 				/>
 			</div>
 
@@ -711,6 +727,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					handleSettingChange("sendWelcomeEmail", value)
 				}
 				disabled={loading}
+				locked={!hasEmail}
 			/>
 
 			{/* Growth Features Section */}
@@ -725,10 +742,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleSettingChange("enableReferrals", e.target.checked)
 					}
-					disabled={loading}
+					disabled={loading || !hasReferrals}
 					flipCheckboxToRight={false}
 					text="Enable referral system"
 					description="Allow users to refer others and track viral growth"
+					badgeString={!hasReferrals ? "Pro" : undefined}
+					badgeColour="blue"
+					linkTitle={!hasReferrals ? "Upgrade" : undefined}
+					linkHref={!hasReferrals ? "/billing/plans" : undefined}
 				/>
 
 				{/* Referral Configuration - Only show if referrals are enabled */}
@@ -748,7 +769,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								)
 							}
 							placeholder="1"
-							disabled={loading}
+							disabled={loading || !hasReferrals}
 							min={1}
 							max={100}
 							hint="Points earned for each successful referral"
@@ -761,7 +782,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							onChange={(e) =>
 								handleReferralConfigChange("verifiedOnly", e.target.checked)
 							}
-							disabled={loading}
+							disabled={loading || !hasReferrals}
 							flipCheckboxToRight={false}
 							text="Count verified referrals only"
 							description="Only count referrals that have verified their email"
@@ -782,7 +803,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								)
 							}
 							placeholder="1"
-							disabled={loading}
+							disabled={loading || !hasReferrals}
 							min={1}
 							max={1000}
 							hint="Positions referrer jumps for each referral"
@@ -800,7 +821,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								)
 							}
 							placeholder="0"
-							disabled={loading}
+							disabled={loading || !hasReferrals}
 							min={0}
 							max={1000}
 							hint="Positions new user jumps when using a referral code"
@@ -831,7 +852,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												: "unchecked"
 										}
 										onChange={() => handleSharingChannelToggle(channel.value)}
-										disabled={loading}
+										disabled={loading || !hasReferrals}
 										flipCheckboxToRight={false}
 										text={channel.label}
 										description=""
@@ -847,10 +868,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleSettingChange("enableRewards", e.target.checked)
 					}
-					disabled={loading}
+					disabled={loading || !hasReferrals}
 					flipCheckboxToRight={false}
 					text="Enable reward system"
 					description="Reward users for reaching referral milestones"
+					badgeString={!hasReferrals ? "Pro" : undefined}
+					badgeColour="blue"
+					linkTitle={!hasReferrals ? "Upgrade" : undefined}
+					linkHref={!hasReferrals ? "/billing/plans" : undefined}
 				/>
 			</div>
 
@@ -873,7 +898,11 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							description: `ID format: ${integration.placeholder}`,
 							selected: false,
 						}))}
-						disabled={loading}
+						disabled={loading || !hasTracking}
+						badge={!hasTracking ? "Pro" : undefined}
+						badgeColour="blue"
+						linkTitle={!hasTracking ? "Upgrade" : undefined}
+						linkHref={!hasTracking ? "/billing/plans" : undefined}
 						onChange={(option) =>
 							handleAddTrackingIntegration(
 								option.value as TrackingIntegrationType,
@@ -912,7 +941,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												variant="secondary"
 												ariaLabel={`Remove ${integrationInfo.label}`}
 												onClick={() => handleRemoveTracking(integration.type)}
-												disabled={loading}
+												disabled={loading || !hasTracking}
 											/>
 										</div>
 										<div className={styles.trackingIntegrationFields}>
@@ -932,7 +961,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 													handleTrackingIdBlur(integration.type, integration.id)
 												}
 												placeholder={integrationInfo.placeholder}
-												disabled={loading}
+												disabled={loading || !hasTracking}
 												required
 												error={
 													trackingTouched[integration.type]
@@ -955,7 +984,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 														)
 													}
 													placeholder="Enter conversion label"
-													disabled={loading}
+													disabled={loading || !hasTracking}
 												/>
 											)}
 										</div>

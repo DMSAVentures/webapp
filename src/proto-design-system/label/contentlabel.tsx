@@ -37,7 +37,6 @@ const ContentLabel: React.FC<ContentLabelProps> = (props) => {
 						variant={"primary"}
 						styleType={"lighter"}
 						size={"small"}
-						disabled={props.disabled}
 						href={props.linkHref}
 						underline={false}
 					>

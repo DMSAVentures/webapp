@@ -29,6 +29,8 @@ export interface EmailSettingsSectionProps {
 	onSendWelcomeEmailChange: (value: boolean) => void;
 	/** Whether the form is disabled */
 	disabled?: boolean;
+	/** Whether this feature is locked (Pro feature) */
+	locked?: boolean;
 }
 
 interface TemplateCardProps {
@@ -109,8 +111,10 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 		sendWelcomeEmail,
 		onSendWelcomeEmailChange,
 		disabled = false,
+		locked = false,
 	}) {
 		const navigate = useNavigate();
+		const isDisabled = disabled || locked;
 
 		// Fetch templates for this campaign
 		const { templates } = useGetEmailTemplates(campaignId || "");
@@ -147,10 +151,13 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 						<CheckboxWithLabel
 							checked={sendWelcomeEmail ? "checked" : "unchecked"}
 							onChange={(e) => onSendWelcomeEmailChange(e.target.checked)}
-							disabled={disabled}
+							disabled={isDisabled}
 							flipCheckboxToRight={false}
 							text="Send welcome email on signup"
 							description="Send a welcome email immediately when users sign up (no verification required)"
+							badgeString={locked ? "Pro" : undefined}
+							linkTitle={locked ? "Upgrade" : undefined}
+							linkHref={locked ? "/billing/plans" : undefined}
 						/>
 					</div>
 				)}
@@ -163,7 +170,7 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 							template={verificationTemplate}
 							campaignId={campaignId}
 							onEdit={handleCustomize}
-							disabled={disabled || !campaignId}
+							disabled={isDisabled || !campaignId}
 						/>
 					)}
 
@@ -173,7 +180,7 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 							template={welcomeTemplate}
 							campaignId={campaignId}
 							onEdit={handleCustomize}
-							disabled={disabled || !campaignId}
+							disabled={isDisabled || !campaignId}
 						/>
 					)}
 

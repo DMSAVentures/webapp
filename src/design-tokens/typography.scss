@@ -3,7 +3,7 @@
 @use "breakpoints" as *;
 
 // Removed @use of variables.scss to prevent module loop. Import only what is needed below.
-@import 'https://fonts.googleapis.com/css2?family=Geist:wght@300..800&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400..800&&display=swap');
 
 // ==============================
 // Font Family Tokens

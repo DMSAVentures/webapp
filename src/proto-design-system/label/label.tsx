@@ -1,5 +1,6 @@
 import React, { JSX } from "react";
 import { Badge } from "@/proto-design-system/badge/badge.tsx";
+import Linkbutton from "@/proto-design-system/linkbutton/linkbutton.tsx";
 import { Sublabel } from "@/proto-design-system/Sublabel/sublabel.tsx";
 import styles from "./label.module.scss";
 
@@ -20,6 +21,8 @@ export interface LabelProps {
 		| "teal";
 	disabled?: boolean;
 	required?: boolean;
+	linkTitle?: string;
+	linkHref?: string;
 }
 const Label: React.FC<LabelProps> = (props): JSX.Element => {
 	return (
@@ -36,10 +39,22 @@ const Label: React.FC<LabelProps> = (props): JSX.Element => {
 				<Badge
 					text={props.badgeString}
 					variant={props.badgeColour!}
-					styleType={"lighter"}
+					styleType={"filled"}
 					size={"small"}
-					disabled={props.disabled}
+					disabled={false}
 				/>
+			)}
+			{props.linkTitle && props.linkHref && (
+				<Linkbutton
+					className={styles["label__link"]}
+					variant="primary"
+					styleType="lighter"
+					size="small"
+					href={props.linkHref}
+					underline={false}
+				>
+					{props.linkTitle}
+				</Linkbutton>
 			)}
 		</div>
 	);

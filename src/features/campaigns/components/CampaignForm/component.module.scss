@@ -23,6 +23,9 @@
 }
 
 .sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-02;
   margin: 0;
   font-size: typography.$font-size-lg;
   font-weight: typography.$font-weight-semibold;

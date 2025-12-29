@@ -1,0 +1,42 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.root {
+	display: flex;
+	align-items: flex-start;
+	gap: layout.$spacing-03;
+}
+
+.lockedContent {
+	flex: 1;
+	pointer-events: none;
+	user-select: none;
+}
+
+.badge {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: layout.$spacing-01;
+	padding: layout.$spacing-01 layout.$spacing-02;
+	border: none;
+	border-radius: border.$border-radius-small;
+	background-color: var(--color-bg-info-alpha);
+	color: var(--color-info-default);
+	font-family: inherit;
+	font-size: typography.$font-size-xs;
+	font-weight: typography.$font-weight-semibold;
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		background-color: var(--color-bg-info-default);
+		color: var(--color-white);
+	}
+
+	i {
+		font-size: typography.$font-size-xs;
+	}
+}
