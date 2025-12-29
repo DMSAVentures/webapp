@@ -124,6 +124,8 @@ export interface CampaignFormProps
 	loading?: boolean;
 	/** Submit button text */
 	submitText?: string;
+	/** Whether the form is disabled (read-only mode) */
+	disabled?: boolean;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -480,9 +482,11 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 	onCancel,
 	loading = false,
 	submitText = "Create Campaign",
+	disabled = false,
 	className: customClassName,
 	...props
 }) {
+	const isDisabled = disabled || loading;
 	// Hooks
 	const {
 		formData,
@@ -627,7 +631,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) => handleChange("name", e.target.value)}
 					onBlur={() => handleBlur("name")}
 					placeholder="e.g., Product Launch 2025"
-					disabled={loading}
+					disabled={isDisabled}
 					required
 					error={touched.name ? errors.name : undefined}
 				/>
@@ -640,7 +644,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) => handleChange("description", e.target.value)}
 					onBlur={() => handleBlur("description")}
 					placeholder="Describe your campaign..."
-					disabled={loading}
+					disabled={isDisabled}
 					error={touched.description ? errors.description : undefined}
 				/>
 			</div>
@@ -661,7 +665,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleSettingChange("emailVerificationRequired", e.target.checked)
 					}
-					disabled={loading || !hasEmail}
+					disabled={isDisabled || !hasEmail}
 					flipCheckboxToRight={false}
 					text="Require email verification"
 					description="Users must verify their email before being added to waitlist"
@@ -695,7 +699,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							selected: formData.settings.duplicateHandling === "allow",
 						},
 					]}
-					disabled={loading}
+					disabled={isDisabled}
 					onChange={(option) =>
 						handleSettingChange("duplicateHandling", option.value)
 					}
@@ -708,7 +712,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleFormConfigChange("captchaEnabled", e.target.checked)
 					}
-					disabled={loading || !hasAntiSpam}
+					disabled={isDisabled || !hasAntiSpam}
 					flipCheckboxToRight={false}
 					text="Enable CAPTCHA"
 					description="Protect your waitlist from bots and spam submissions"
@@ -726,7 +730,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				onSendWelcomeEmailChange={(value) =>
 					handleSettingChange("sendWelcomeEmail", value)
 				}
-				disabled={loading}
+				disabled={isDisabled}
 				locked={!hasEmail}
 			/>
 
@@ -742,7 +746,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleSettingChange("enableReferrals", e.target.checked)
 					}
-					disabled={loading || !hasReferrals}
+					disabled={isDisabled || !hasReferrals}
 					flipCheckboxToRight={false}
 					text="Enable referral system"
 					description="Allow users to refer others and track viral growth"
@@ -769,7 +773,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								)
 							}
 							placeholder="1"
-							disabled={loading || !hasReferrals}
+							disabled={isDisabled || !hasReferrals}
 							min={1}
 							max={100}
 							hint="Points earned for each successful referral"
@@ -782,7 +786,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							onChange={(e) =>
 								handleReferralConfigChange("verifiedOnly", e.target.checked)
 							}
-							disabled={loading || !hasReferrals}
+							disabled={isDisabled || !hasReferrals}
 							flipCheckboxToRight={false}
 							text="Count verified referrals only"
 							description="Only count referrals that have verified their email"
@@ -803,7 +807,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								)
 							}
 							placeholder="1"
-							disabled={loading || !hasReferrals}
+							disabled={isDisabled || !hasReferrals}
 							min={1}
 							max={1000}
 							hint="Positions referrer jumps for each referral"
@@ -821,7 +825,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								)
 							}
 							placeholder="0"
-							disabled={loading || !hasReferrals}
+							disabled={isDisabled || !hasReferrals}
 							min={0}
 							max={1000}
 							hint="Positions new user jumps when using a referral code"
@@ -852,7 +856,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												: "unchecked"
 										}
 										onChange={() => handleSharingChannelToggle(channel.value)}
-										disabled={loading || !hasReferrals}
+										disabled={isDisabled || !hasReferrals}
 										flipCheckboxToRight={false}
 										text={channel.label}
 										description=""
@@ -868,7 +872,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					onChange={(e) =>
 						handleSettingChange("enableRewards", e.target.checked)
 					}
-					disabled={loading || !hasReferrals}
+					disabled={isDisabled || !hasReferrals}
 					flipCheckboxToRight={false}
 					text="Enable reward system"
 					description="Reward users for reaching referral milestones"
@@ -898,7 +902,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							description: `ID format: ${integration.placeholder}`,
 							selected: false,
 						}))}
-						disabled={loading || !hasTracking}
+						disabled={isDisabled || !hasTracking}
 						badge={!hasTracking ? "Pro" : undefined}
 						badgeColour="blue"
 						linkTitle={!hasTracking ? "Upgrade" : undefined}
@@ -941,7 +945,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												variant="secondary"
 												ariaLabel={`Remove ${integrationInfo.label}`}
 												onClick={() => handleRemoveTracking(integration.type)}
-												disabled={loading || !hasTracking}
+												disabled={isDisabled || !hasTracking}
 											/>
 										</div>
 										<div className={styles.trackingIntegrationFields}>
@@ -961,7 +965,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 													handleTrackingIdBlur(integration.type, integration.id)
 												}
 												placeholder={integrationInfo.placeholder}
-												disabled={loading || !hasTracking}
+												disabled={isDisabled || !hasTracking}
 												required
 												error={
 													trackingTouched[integration.type]
@@ -984,7 +988,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 														)
 													}
 													placeholder="Enter conversion label"
-													disabled={loading || !hasTracking}
+													disabled={isDisabled || !hasTracking}
 												/>
 											)}
 										</div>
@@ -1005,27 +1009,29 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			{/* Divider */}
 			<ContentDivider size="thin" />
 
-			{/* Form Actions */}
-			<div className={styles.actions}>
-				{onCancel && (
+			{/* Form Actions - only show when not disabled */}
+			{!disabled && (
+				<div className={styles.actions}>
+					{onCancel && (
+						<Button
+							type="button"
+							onClick={onCancel}
+							disabled={loading}
+							variant="secondary"
+						>
+							Cancel
+						</Button>
+					)}
 					<Button
-						type="button"
-						onClick={onCancel}
+						type="submit"
 						disabled={loading}
-						variant="secondary"
+						variant="primary"
+						leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
 					>
-						Cancel
+						{loading ? "Saving..." : submitText}
 					</Button>
-				)}
-				<Button
-					type="submit"
-					disabled={loading}
-					variant="primary"
-					leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
-				>
-					{loading ? "Saving..." : submitText}
-				</Button>
-			</div>
+				</div>
+			)}
 		</form>
 	);
 });

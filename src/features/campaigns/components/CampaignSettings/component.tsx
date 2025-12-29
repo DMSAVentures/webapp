@@ -9,6 +9,7 @@ import type { ApiTrackingIntegrationType } from "@/api/types/campaign";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
+import Banner from "@/proto-design-system/banner/banner";
 import { Button } from "@/proto-design-system/Button/button";
 import type { Campaign } from "@/types/campaign";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
@@ -283,19 +284,29 @@ export const CampaignSettings = memo(function CampaignSettings({
 
 	return (
 		<div className={styles.settings}>
-			{/* Campaign Settings Form */}
-			{!isCompleted && (
-				<CampaignForm
-					campaignId={campaignId}
-					initialData={initialFormData}
-					onSubmit={handleSave}
-					onCancel={handleCancel}
-					loading={updatingCampaign}
-					submitText="Save Changes"
+			{/* Ended Campaign Notice */}
+			{isCompleted && (
+				<Banner
+					bannerType="warning"
+					variant="lighter"
+					alertTitle="Campaign Ended"
+					alertDescription="This campaign has ended. Settings are read-only."
+					dismissible={false}
 				/>
 			)}
 
-			{/* Danger Zone */}
+			{/* Campaign Settings Form */}
+			<CampaignForm
+				campaignId={campaignId}
+				initialData={initialFormData}
+				onSubmit={handleSave}
+				onCancel={handleCancel}
+				loading={updatingCampaign}
+				submitText="Save Changes"
+				disabled={isCompleted}
+			/>
+
+			{/* Danger Zone - only show for active campaigns */}
 			{!isCompleted && (
 				<DangerZone onEnd={handleEnd} loading={updatingStatus} />
 			)}
