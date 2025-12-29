@@ -5,6 +5,7 @@
  * Use scenario factories to override for specific test cases.
  */
 
+import { apikeyHandlers, apikeyScenarios } from "./apikey.handlers";
 import { authHandlers, authScenarios } from "./auth.handlers";
 import {
 	billingHandlers,
@@ -12,13 +13,12 @@ import {
 	getBillingHandlersForTier,
 } from "./billing.handlers";
 import { campaignHandlers, campaignScenarios } from "./campaign.handlers";
-import { webhookHandlers, webhookScenarios } from "./webhook.handlers";
-import { apikeyHandlers, apikeyScenarios } from "./apikey.handlers";
-import { segmentHandlers, segmentScenarios } from "./segment.handlers";
 import {
 	integrationHandlers,
 	integrationScenarios,
 } from "./integration.handlers";
+import { segmentHandlers, segmentScenarios } from "./segment.handlers";
+import { webhookHandlers, webhookScenarios } from "./webhook.handlers";
 
 /**
  * Default handlers - Pro tier user with full access

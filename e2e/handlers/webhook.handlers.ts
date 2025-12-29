@@ -1,9 +1,12 @@
 /**
  * Webhook API handlers
  */
-import { http, HttpResponse } from "msw";
+import { HttpResponse, http } from "msw";
+import type {
+	ApiCreateWebhookResponse,
+	ApiWebhook,
+} from "../../src/api/types/webhook";
 import { webhooks } from "../mocks/data";
-import type { ApiWebhook, ApiCreateWebhookResponse } from "../../src/api/types/webhook";
 
 /**
  * Default webhook handlers
@@ -18,10 +21,7 @@ export const webhookHandlers = [
 	http.get("*/api/protected/webhooks/:id", ({ params }) => {
 		const webhook = webhooks.find((w) => w.id === params.id);
 		if (!webhook) {
-			return HttpResponse.json(
-				{ error: "Webhook not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "Webhook not found" }, { status: 404 });
 		}
 		return HttpResponse.json(webhook);
 	}),
@@ -57,10 +57,7 @@ export const webhookHandlers = [
 	http.patch("*/api/protected/webhooks/:id", async ({ params, request }) => {
 		const webhook = webhooks.find((w) => w.id === params.id);
 		if (!webhook) {
-			return HttpResponse.json(
-				{ error: "Webhook not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "Webhook not found" }, { status: 404 });
 		}
 
 		const body = (await request.json()) as Partial<ApiWebhook>;
@@ -77,10 +74,7 @@ export const webhookHandlers = [
 	http.delete("*/api/protected/webhooks/:id", ({ params }) => {
 		const webhook = webhooks.find((w) => w.id === params.id);
 		if (!webhook) {
-			return HttpResponse.json(
-				{ error: "Webhook not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "Webhook not found" }, { status: 404 });
 		}
 		return new HttpResponse(null, { status: 204 });
 	}),
@@ -89,10 +83,7 @@ export const webhookHandlers = [
 	http.post("*/api/protected/webhooks/:id/test", ({ params }) => {
 		const webhook = webhooks.find((w) => w.id === params.id);
 		if (!webhook) {
-			return HttpResponse.json(
-				{ error: "Webhook not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "Webhook not found" }, { status: 404 });
 		}
 		return HttpResponse.json({
 			success: true,
@@ -134,7 +125,7 @@ export const webhookScenarios = {
 		http.get("*/api/protected/webhooks", () => {
 			return HttpResponse.json(
 				{ error: "Webhooks require a Pro or Team subscription" },
-				{ status: 403 }
+				{ status: 403 },
 			);
 		}),
 

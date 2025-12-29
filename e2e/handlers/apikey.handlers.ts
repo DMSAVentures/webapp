@@ -1,9 +1,12 @@
 /**
  * API Key handlers
  */
-import { http, HttpResponse } from "msw";
-import { apiKeys, apiKeyScopes } from "../mocks/data";
-import type { ApiAPIKey, ApiCreateAPIKeyResponse } from "../../src/api/types/apikey";
+import { HttpResponse, http } from "msw";
+import type {
+	ApiAPIKey,
+	ApiCreateAPIKeyResponse,
+} from "../../src/api/types/apikey";
+import { apiKeyScopes, apiKeys } from "../mocks/data";
 
 /**
  * Default API key handlers
@@ -40,10 +43,7 @@ export const apikeyHandlers = [
 	http.patch("*/api/protected/api-keys/:id", async ({ params, request }) => {
 		const apiKey = apiKeys.find((k) => k.id === params.id);
 		if (!apiKey) {
-			return HttpResponse.json(
-				{ error: "API key not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "API key not found" }, { status: 404 });
 		}
 
 		const body = (await request.json()) as { name: string };
@@ -59,10 +59,7 @@ export const apikeyHandlers = [
 	http.delete("*/api/protected/api-keys/:id", ({ params }) => {
 		const apiKey = apiKeys.find((k) => k.id === params.id);
 		if (!apiKey) {
-			return HttpResponse.json(
-				{ error: "API key not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "API key not found" }, { status: 404 });
 		}
 		return new HttpResponse(null, { status: 204 });
 	}),
@@ -83,7 +80,7 @@ export const apikeyScenarios = {
 		http.get("*/api/protected/api-keys", () => {
 			return HttpResponse.json(
 				{ error: "API access requires a Pro or Team subscription" },
-				{ status: 403 }
+				{ status: 403 },
 			);
 		}),
 
@@ -92,7 +89,7 @@ export const apikeyScenarios = {
 		http.post("*/api/protected/api-keys", () => {
 			return HttpResponse.json(
 				{ error: "Maximum API key limit reached" },
-				{ status: 403 }
+				{ status: 403 },
 			);
 		}),
 };

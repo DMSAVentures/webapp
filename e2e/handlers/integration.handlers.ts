@@ -1,7 +1,7 @@
 /**
  * Integration API handlers (Zapier, etc.)
  */
-import { http, HttpResponse } from "msw";
+import { HttpResponse, http } from "msw";
 
 /**
  * Default integration handlers
@@ -55,7 +55,7 @@ export const integrationScenarios = {
 		http.get("*/api/protected/integrations/zapier/status", () => {
 			return HttpResponse.json(
 				{ error: "Integrations require a Team subscription" },
-				{ status: 403 }
+				{ status: 403 },
 			);
 		}),
 };

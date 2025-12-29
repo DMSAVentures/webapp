@@ -4,13 +4,13 @@
  * Uses snake_case to match API response format
  */
 
+import type { ApiAPIKey } from "../../../src/api/types/apikey";
+import type { ApiPrice, ApiSubscription } from "../../../src/api/types/billing";
+import type { ApiCampaign } from "../../../src/api/types/campaign";
+import type { ApiSegment } from "../../../src/api/types/segment";
 import type { ApiTierInfo, ApiTierName } from "../../../src/api/types/tier";
 import type { ApiUser } from "../../../src/api/types/user";
-import type { ApiSubscription, ApiPrice } from "../../../src/api/types/billing";
-import type { ApiCampaign } from "../../../src/api/types/campaign";
 import type { ApiWebhook } from "../../../src/api/types/webhook";
-import type { ApiAPIKey } from "../../../src/api/types/apikey";
-import type { ApiSegment } from "../../../src/api/types/segment";
 
 // ============================================================================
 // Tier Configurations

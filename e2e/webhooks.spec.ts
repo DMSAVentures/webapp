@@ -3,8 +3,8 @@
  *
  * Tests for webhook management with table-driven happy/error scenarios.
  */
-import { http, HttpResponse } from "msw";
-import { test, expect } from "./fixtures/test";
+import { HttpResponse, http } from "msw";
+import { expect, test } from "./fixtures/test";
 import { webhooks } from "./mocks/data";
 
 // ============================================================================
@@ -13,9 +13,17 @@ import { webhooks } from "./mocks/data";
 
 const listErrorScenarios = [
 	{ status: 401, error: "Unauthorized", expectText: /sign in|unauthorized/i },
-	{ status: 403, error: "Webhooks require Pro", expectText: /upgrade|pro|subscription/i },
+	{
+		status: 403,
+		error: "Webhooks require Pro",
+		expectText: /upgrade|pro|subscription/i,
+	},
 	{ status: 500, error: "Internal server error", expectText: /error/i },
-	{ status: 503, error: "Service unavailable", expectText: /unavailable|error/i },
+	{
+		status: 503,
+		error: "Service unavailable",
+		expectText: /unavailable|error/i,
+	},
 ] as const;
 
 const createErrorScenarios = [
@@ -27,8 +35,20 @@ const createErrorScenarios = [
 
 const testWebhookScenarios = [
 	{ success: true, status: 200, time: 156, expectText: /success|200|passed/i },
-	{ success: false, status: 500, time: 2000, error: "Timeout", expectText: /failed|error|timeout/i },
-	{ success: false, status: 0, time: 0, error: "Connection refused", expectText: /failed|error|refused/i },
+	{
+		success: false,
+		status: 500,
+		time: 2000,
+		error: "Timeout",
+		expectText: /failed|error|timeout/i,
+	},
+	{
+		success: false,
+		status: 0,
+		time: 0,
+		error: "Connection refused",
+		expectText: /failed|error|refused/i,
+	},
 ] as const;
 
 // ============================================================================
@@ -51,7 +71,7 @@ test.describe("Webhooks", () => {
 
 		test("200 OK - empty list shows empty state", async ({ network, page }) => {
 			network.use(
-				http.get("*/api/protected/webhooks", () => HttpResponse.json([]))
+				http.get("*/api/protected/webhooks", () => HttpResponse.json([])),
 			);
 
 			await page.goto("/webhooks");
@@ -63,7 +83,7 @@ test.describe("Webhooks", () => {
 
 		test("handles network failure", async ({ network, page }) => {
 			network.use(
-				http.get("*/api/protected/webhooks", () => HttpResponse.error())
+				http.get("*/api/protected/webhooks", () => HttpResponse.error()),
 			);
 
 			await page.goto("/webhooks");
@@ -78,8 +98,8 @@ test.describe("Webhooks", () => {
 			test(`handles ${status} ${error}`, async ({ network, page }) => {
 				network.use(
 					http.get("*/api/protected/webhooks", () =>
-						HttpResponse.json({ error }, { status })
-					)
+						HttpResponse.json({ error }, { status }),
+					),
 				);
 
 				await page.goto("/webhooks");
@@ -107,8 +127,8 @@ test.describe("Webhooks", () => {
 		test("handles 404 Not Found", async ({ network, page }) => {
 			network.use(
 				http.get("*/api/protected/webhooks/:id", () =>
-					HttpResponse.json({ error: "Webhook not found" }, { status: 404 })
-				)
+					HttpResponse.json({ error: "Webhook not found" }, { status: 404 }),
+				),
 			);
 
 			await page.goto("/webhooks/nonexistent");
@@ -121,8 +141,8 @@ test.describe("Webhooks", () => {
 		test("handles 500 Internal Server Error", async ({ network, page }) => {
 			network.use(
 				http.get("*/api/protected/webhooks/:id", () =>
-					HttpResponse.json({ error: "Server error" }, { status: 500 })
-				)
+					HttpResponse.json({ error: "Server error" }, { status: 500 }),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -141,7 +161,10 @@ test.describe("Webhooks", () => {
 		test("201 Created - success", async ({ network, page }) => {
 			network.use(
 				http.post("*/api/protected/webhooks", async ({ request }) => {
-					const body = (await request.json()) as { url: string; events: string[] };
+					const body = (await request.json()) as {
+						url: string;
+						events: string[];
+					};
 					return HttpResponse.json(
 						{
 							webhook: {
@@ -159,9 +182,9 @@ test.describe("Webhooks", () => {
 							},
 							secret: "whsec_test_secret",
 						},
-						{ status: 201 }
+						{ status: 201 },
 					);
-				})
+				}),
 			);
 
 			await page.goto("/webhooks/new");
@@ -180,7 +203,7 @@ test.describe("Webhooks", () => {
 
 		test("handles network failure", async ({ network, page }) => {
 			network.use(
-				http.post("*/api/protected/webhooks", () => HttpResponse.error())
+				http.post("*/api/protected/webhooks", () => HttpResponse.error()),
 			);
 
 			await page.goto("/webhooks/new");
@@ -203,8 +226,8 @@ test.describe("Webhooks", () => {
 			test(`handles ${status} ${error}`, async ({ network, page }) => {
 				network.use(
 					http.post("*/api/protected/webhooks", () =>
-						HttpResponse.json({ error }, { status })
-					)
+						HttpResponse.json({ error }, { status }),
+					),
 				);
 
 				await page.goto("/webhooks/new");
@@ -233,13 +256,13 @@ test.describe("Webhooks", () => {
 		test("200 OK - success", async ({ network, page }) => {
 			network.use(
 				http.patch("*/api/protected/webhooks/:id", async ({ request }) => {
-					const body = (await request.json()) as Partial<typeof webhooks[0]>;
+					const body = (await request.json()) as Partial<(typeof webhooks)[0]>;
 					return HttpResponse.json({
 						...webhooks[0],
 						...body,
 						updated_at: new Date().toISOString(),
 					});
-				})
+				}),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -251,8 +274,8 @@ test.describe("Webhooks", () => {
 		test("handles 404 Not Found", async ({ network, page }) => {
 			network.use(
 				http.patch("*/api/protected/webhooks/:id", () =>
-					HttpResponse.json({ error: "Not found" }, { status: 404 })
-				)
+					HttpResponse.json({ error: "Not found" }, { status: 404 }),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -269,9 +292,10 @@ test.describe("Webhooks", () => {
 	test.describe("Delete Webhook", () => {
 		test("204 No Content - success", async ({ network, page }) => {
 			network.use(
-				http.delete("*/api/protected/webhooks/:id", () =>
-					new HttpResponse(null, { status: 204 })
-				)
+				http.delete(
+					"*/api/protected/webhooks/:id",
+					() => new HttpResponse(null, { status: 204 }),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -280,7 +304,9 @@ test.describe("Webhooks", () => {
 			const deleteBtn = page.getByRole("button", { name: /delete|remove/i });
 			if (await deleteBtn.isVisible()) {
 				await deleteBtn.click();
-				const confirm = page.getByRole("button", { name: /confirm|yes|delete/i });
+				const confirm = page.getByRole("button", {
+					name: /confirm|yes|delete/i,
+				});
 				if (await confirm.isVisible()) {
 					await confirm.click();
 					await page.waitForLoadState("networkidle");
@@ -291,8 +317,8 @@ test.describe("Webhooks", () => {
 		test("handles 404 Not Found", async ({ network, page }) => {
 			network.use(
 				http.delete("*/api/protected/webhooks/:id", () =>
-					HttpResponse.json({ error: "Not found" }, { status: 404 })
-				)
+					HttpResponse.json({ error: "Not found" }, { status: 404 }),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -311,8 +337,8 @@ test.describe("Webhooks", () => {
 		test("handles 500 Internal Server Error", async ({ network, page }) => {
 			network.use(
 				http.delete("*/api/protected/webhooks/:id", () =>
-					HttpResponse.json({ error: "Server error" }, { status: 500 })
-				)
+					HttpResponse.json({ error: "Server error" }, { status: 500 }),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -348,8 +374,8 @@ test.describe("Webhooks", () => {
 							response_status: scenario.status,
 							response_time_ms: scenario.time,
 							error: scenario.error,
-						})
-					)
+						}),
+					),
 				);
 
 				await page.goto("/webhooks/wh_1");
@@ -368,8 +394,8 @@ test.describe("Webhooks", () => {
 		test("handles network failure on test", async ({ network, page }) => {
 			network.use(
 				http.post("*/api/protected/webhooks/:id/test", () =>
-					HttpResponse.error()
-				)
+					HttpResponse.error(),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -407,8 +433,8 @@ test.describe("Webhooks", () => {
 						],
 						total: 1,
 						pagination: { page: 1, limit: 20, offset: 0 },
-					})
-				)
+					}),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");
@@ -424,8 +450,8 @@ test.describe("Webhooks", () => {
 						deliveries: [],
 						total: 0,
 						pagination: { page: 1, limit: 20, offset: 0 },
-					})
-				)
+					}),
+				),
 			);
 
 			await page.goto("/webhooks/wh_1");

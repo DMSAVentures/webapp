@@ -1,9 +1,9 @@
 /**
  * Auth/User API handlers
  */
-import { http, HttpResponse } from "msw";
-import { users } from "../mocks/data";
+import { HttpResponse, http } from "msw";
 import type { ApiTierName } from "../../src/api/types/tier";
+import { users } from "../mocks/data";
 
 /**
  * Creates user handler for a specific tier
@@ -34,18 +34,12 @@ export const authScenarios = {
 	/** Unauthenticated - returns 401 */
 	unauthenticated: () =>
 		http.get("*/api/protected/user", () => {
-			return HttpResponse.json(
-				{ error: "Unauthorized" },
-				{ status: 401 }
-			);
+			return HttpResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}),
 
 	/** Session expired */
 	sessionExpired: () =>
 		http.get("*/api/protected/user", () => {
-			return HttpResponse.json(
-				{ error: "Session expired" },
-				{ status: 401 }
-			);
+			return HttpResponse.json({ error: "Session expired" }, { status: 401 });
 		}),
 };

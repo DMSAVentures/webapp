@@ -1,13 +1,13 @@
 /**
  * Segment API handlers
  */
-import { http, HttpResponse } from "msw";
-import { segments } from "../mocks/data";
+import { HttpResponse, http } from "msw";
 import type {
-	ApiSegment,
 	ApiListSegmentsResponse,
 	ApiPreviewSegmentResponse,
+	ApiSegment,
 } from "../../src/api/types/segment";
+import { segments } from "../mocks/data";
 
 /**
  * Default segment handlers
@@ -34,10 +34,7 @@ export const segmentHandlers = [
 	http.get("*/api/v1/campaigns/:campaignId/segments/:id", ({ params }) => {
 		const segment = segments.find((s) => s.id === params.id);
 		if (!segment) {
-			return HttpResponse.json(
-				{ error: "Segment not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "Segment not found" }, { status: 404 });
 		}
 		return HttpResponse.json(segment);
 	}),
@@ -62,7 +59,7 @@ export const segmentHandlers = [
 			};
 
 			return HttpResponse.json(newSegment, { status: 201 });
-		}
+		},
 	),
 
 	// Preview segment
@@ -81,7 +78,7 @@ export const segmentHandlers = [
 			if (body.filter_criteria.min_referrals) {
 				count = Math.max(
 					10,
-					count - (body.filter_criteria.min_referrals as number) * 10
+					count - (body.filter_criteria.min_referrals as number) * 10,
 				);
 			}
 
@@ -108,7 +105,7 @@ export const segmentHandlers = [
 			};
 
 			return HttpResponse.json(response);
-		}
+		},
 	),
 
 	// Update segment
@@ -119,7 +116,7 @@ export const segmentHandlers = [
 			if (!segment) {
 				return HttpResponse.json(
 					{ error: "Segment not found" },
-					{ status: 404 }
+					{ status: 404 },
 				);
 			}
 
@@ -131,17 +128,14 @@ export const segmentHandlers = [
 			};
 
 			return HttpResponse.json(updatedSegment);
-		}
+		},
 	),
 
 	// Delete segment
 	http.delete("*/api/v1/campaigns/:campaignId/segments/:id", ({ params }) => {
 		const segment = segments.find((s) => s.id === params.id);
 		if (!segment) {
-			return HttpResponse.json(
-				{ error: "Segment not found" },
-				{ status: 404 }
-			);
+			return HttpResponse.json({ error: "Segment not found" }, { status: 404 });
 		}
 		return new HttpResponse(null, { status: 204 });
 	}),
@@ -154,7 +148,7 @@ export const segmentHandlers = [
 			if (!segment) {
 				return HttpResponse.json(
 					{ error: "Segment not found" },
-					{ status: 404 }
+					{ status: 404 },
 				);
 			}
 
@@ -163,7 +157,7 @@ export const segmentHandlers = [
 				cached_user_count: segment.cached_user_count + 5,
 				cached_at: new Date().toISOString(),
 			});
-		}
+		},
 	),
 ];
 

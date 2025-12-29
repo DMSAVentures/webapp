@@ -1,9 +1,9 @@
 /**
  * Billing/Subscription API handlers
  */
-import { http, HttpResponse } from "msw";
-import { subscriptions, prices } from "../mocks/data";
+import { HttpResponse, http } from "msw";
 import type { ApiTierName } from "../../src/api/types/tier";
+import { prices, subscriptions } from "../mocks/data";
 
 /**
  * Default billing handlers - Pro tier with active subscription
@@ -64,7 +64,7 @@ export const billingScenarios = {
 		http.get("*/api/protected/billing/subscription", () => {
 			return HttpResponse.json(
 				{ error: "no active subscription found" },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}),
 
@@ -103,7 +103,7 @@ export const billingScenarios = {
 		http.post("*/api/protected/billing/create-subscription-intent", () => {
 			return HttpResponse.json(
 				{ error: "Payment method declined" },
-				{ status: 402 }
+				{ status: 402 },
 			);
 		}),
 };

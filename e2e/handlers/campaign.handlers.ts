@@ -1,9 +1,12 @@
 /**
  * Campaign API handlers
  */
-import { http, HttpResponse } from "msw";
+import { HttpResponse, http } from "msw";
+import type {
+	ApiCampaign,
+	ApiListCampaignsResponse,
+} from "../../src/api/types/campaign";
 import { campaigns, getCampaignById } from "../mocks/data";
-import type { ApiCampaign, ApiListCampaignsResponse } from "../../src/api/types/campaign";
 
 /**
  * Default campaign handlers
@@ -18,9 +21,7 @@ export const campaignHandlers = [
 		let filteredCampaigns = [...campaigns];
 
 		if (status) {
-			filteredCampaigns = filteredCampaigns.filter(
-				(c) => c.status === status
-			);
+			filteredCampaigns = filteredCampaigns.filter((c) => c.status === status);
 		}
 		if (type) {
 			filteredCampaigns = filteredCampaigns.filter((c) => c.type === type);
@@ -43,7 +44,7 @@ export const campaignHandlers = [
 		if (!campaign) {
 			return HttpResponse.json(
 				{ error: "Campaign not found" },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}
 		return HttpResponse.json(campaign);
@@ -78,7 +79,7 @@ export const campaignHandlers = [
 		if (!campaign) {
 			return HttpResponse.json(
 				{ error: "Campaign not found" },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}
 
@@ -98,7 +99,7 @@ export const campaignHandlers = [
 		if (!campaign) {
 			return HttpResponse.json(
 				{ error: "Campaign not found" },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}
 
@@ -118,7 +119,7 @@ export const campaignHandlers = [
 		if (!campaign) {
 			return HttpResponse.json(
 				{ error: "Campaign not found" },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}
 		return new HttpResponse(null, { status: 204 });
@@ -180,7 +181,7 @@ export const campaignScenarios = {
 		http.post("*/api/v1/campaigns", () => {
 			return HttpResponse.json(
 				{ error: "Campaign limit reached. Please upgrade your plan." },
-				{ status: 403 }
+				{ status: 403 },
 			);
 		}),
 
@@ -189,7 +190,7 @@ export const campaignScenarios = {
 		http.get("*/api/v1/campaigns", () => {
 			return HttpResponse.json(
 				{ error: "Internal server error" },
-				{ status: 500 }
+				{ status: 500 },
 			);
 		}),
 

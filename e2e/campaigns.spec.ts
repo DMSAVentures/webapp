@@ -3,8 +3,8 @@
  *
  * Tests for campaign management with table-driven happy/error scenarios.
  */
-import { http, HttpResponse, delay } from "msw";
-import { test, expect } from "./fixtures/test";
+import { delay, HttpResponse, http } from "msw";
+import { expect, test } from "./fixtures/test";
 import { campaigns } from "./mocks/data";
 
 // ============================================================================
@@ -13,31 +13,67 @@ import { campaigns } from "./mocks/data";
 
 const listErrorScenarios = [
 	{ status: 401, error: "Unauthorized", expectText: /sign in|unauthorized/i },
-	{ status: 403, error: "Forbidden", expectText: /upgrade|subscription|forbidden/i },
-	{ status: 429, error: "Rate limit exceeded", expectText: /rate|limit|error/i },
+	{
+		status: 403,
+		error: "Forbidden",
+		expectText: /upgrade|subscription|forbidden/i,
+	},
+	{
+		status: 429,
+		error: "Rate limit exceeded",
+		expectText: /rate|limit|error/i,
+	},
 	{ status: 500, error: "Internal server error", expectText: /error|failed/i },
 	{ status: 502, error: "Bad gateway", expectText: /error|unavailable/i },
-	{ status: 503, error: "Service unavailable", expectText: /unavailable|error/i },
+	{
+		status: 503,
+		error: "Service unavailable",
+		expectText: /unavailable|error/i,
+	},
 	{ status: 504, error: "Gateway timeout", expectText: /timeout|error/i },
 ] as const;
 
 const getErrorScenarios = [
 	{ status: 404, error: "Campaign not found", expectText: /not found|404/i },
-	{ status: 403, error: "Access denied", expectText: /access|permission|denied/i },
+	{
+		status: 403,
+		error: "Access denied",
+		expectText: /access|permission|denied/i,
+	},
 	{ status: 500, error: "Internal server error", expectText: /error/i },
 ] as const;
 
 const createErrorScenarios = [
-	{ status: 400, error: "Validation failed", expectText: /required|invalid|validation/i },
-	{ status: 403, error: "Campaign limit reached", expectText: /limit|upgrade/i },
-	{ status: 409, error: "Slug already exists", expectText: /exists|conflict|duplicate/i },
-	{ status: 422, error: "Invalid slug format", expectText: /invalid|validation/i },
+	{
+		status: 400,
+		error: "Validation failed",
+		expectText: /required|invalid|validation/i,
+	},
+	{
+		status: 403,
+		error: "Campaign limit reached",
+		expectText: /limit|upgrade/i,
+	},
+	{
+		status: 409,
+		error: "Slug already exists",
+		expectText: /exists|conflict|duplicate/i,
+	},
+	{
+		status: 422,
+		error: "Invalid slug format",
+		expectText: /invalid|validation/i,
+	},
 	{ status: 500, error: "Internal server error", expectText: /error|failed/i },
 ] as const;
 
 const deleteErrorScenarios = [
 	{ status: 404, error: "Campaign not found", expectText: /not found/i },
-	{ status: 403, error: "Cannot delete active campaign", expectText: /cannot|active/i },
+	{
+		status: 403,
+		error: "Cannot delete active campaign",
+		expectText: /cannot|active/i,
+	},
 	{ status: 500, error: "Internal server error", expectText: /error/i },
 ] as const;
 
@@ -65,8 +101,8 @@ test.describe("Campaigns", () => {
 					HttpResponse.json({
 						campaigns: [],
 						pagination: { has_more: false, total_count: 0 },
-					})
-				)
+					}),
+				),
 			);
 
 			await page.goto("/campaigns");
@@ -94,8 +130,8 @@ test.describe("Campaigns", () => {
 							updated_at: new Date().toISOString(),
 						})),
 						pagination: { has_more: true, total_count: 1000 },
-					})
-				)
+					}),
+				),
 			);
 
 			await page.goto("/campaigns");
@@ -124,8 +160,8 @@ test.describe("Campaigns", () => {
 							},
 						],
 						pagination: { has_more: false, total_count: 1 },
-					})
-				)
+					}),
+				),
 			);
 
 			await page.goto("/campaigns");
@@ -142,7 +178,7 @@ test.describe("Campaigns", () => {
 						campaigns,
 						pagination: { has_more: false, total_count: campaigns.length },
 					});
-				})
+				}),
 			);
 
 			await page.goto("/campaigns");
@@ -163,12 +199,14 @@ test.describe("Campaigns", () => {
 
 		test("handles malformed JSON", async ({ network, page }) => {
 			network.use(
-				http.get("*/api/v1/campaigns", () =>
-					new HttpResponse("{ invalid }", {
-						status: 200,
-						headers: { "Content-Type": "application/json" },
-					})
-				)
+				http.get(
+					"*/api/v1/campaigns",
+					() =>
+						new HttpResponse("{ invalid }", {
+							status: 200,
+							headers: { "Content-Type": "application/json" },
+						}),
+				),
 			);
 
 			await page.goto("/campaigns");
@@ -184,8 +222,8 @@ test.describe("Campaigns", () => {
 			test(`handles ${status} ${error}`, async ({ network, page }) => {
 				network.use(
 					http.get("*/api/v1/campaigns", () =>
-						HttpResponse.json({ error }, { status })
-					)
+						HttpResponse.json({ error }, { status }),
+					),
 				);
 
 				await page.goto("/campaigns");
@@ -236,8 +274,8 @@ test.describe("Campaigns", () => {
 			test(`handles ${status} ${error}`, async ({ network, page }) => {
 				network.use(
 					http.get("*/api/v1/campaigns/:id", () =>
-						HttpResponse.json({ error }, { status })
-					)
+						HttpResponse.json({ error }, { status }),
+					),
 				);
 
 				await page.goto("/campaigns/nonexistent");
@@ -272,9 +310,9 @@ test.describe("Campaigns", () => {
 							created_at: new Date().toISOString(),
 							updated_at: new Date().toISOString(),
 						},
-						{ status: 201 }
+						{ status: 201 },
 					);
-				})
+				}),
 			);
 
 			await page.goto("/campaigns/new");
@@ -314,8 +352,8 @@ test.describe("Campaigns", () => {
 			test(`handles ${status} ${error}`, async ({ network, page }) => {
 				network.use(
 					http.post("*/api/v1/campaigns", () =>
-						HttpResponse.json({ error }, { status })
-					)
+						HttpResponse.json({ error }, { status }),
+					),
 				);
 
 				await page.goto("/campaigns/new");
@@ -350,7 +388,7 @@ test.describe("Campaigns", () => {
 						...body,
 						updated_at: new Date().toISOString(),
 					});
-				})
+				}),
 			);
 
 			await page.goto("/campaigns/camp_1/edit");
@@ -362,8 +400,8 @@ test.describe("Campaigns", () => {
 		test("handles 404 Not Found", async ({ network, page }) => {
 			network.use(
 				http.put("*/api/v1/campaigns/:id", () =>
-					HttpResponse.json({ error: "Not found" }, { status: 404 })
-				)
+					HttpResponse.json({ error: "Not found" }, { status: 404 }),
+				),
 			);
 
 			await page.goto("/campaigns/camp_1/edit");
@@ -375,8 +413,8 @@ test.describe("Campaigns", () => {
 		test("handles 409 Conflict", async ({ network, page }) => {
 			network.use(
 				http.put("*/api/v1/campaigns/:id", () =>
-					HttpResponse.json({ error: "Modified by another" }, { status: 409 })
-				)
+					HttpResponse.json({ error: "Modified by another" }, { status: 409 }),
+				),
 			);
 
 			await page.goto("/campaigns/camp_1/edit");
@@ -393,9 +431,10 @@ test.describe("Campaigns", () => {
 	test.describe("Delete Campaign", () => {
 		test("204 No Content - success", async ({ network, page }) => {
 			network.use(
-				http.delete("*/api/v1/campaigns/:id", () =>
-					new HttpResponse(null, { status: 204 })
-				)
+				http.delete(
+					"*/api/v1/campaigns/:id",
+					() => new HttpResponse(null, { status: 204 }),
+				),
 			);
 
 			await page.goto("/campaigns/camp_1");
@@ -404,7 +443,9 @@ test.describe("Campaigns", () => {
 			const deleteBtn = page.getByRole("button", { name: /delete/i });
 			if (await deleteBtn.isVisible()) {
 				await deleteBtn.click();
-				const confirm = page.getByRole("button", { name: /confirm|yes|delete/i });
+				const confirm = page.getByRole("button", {
+					name: /confirm|yes|delete/i,
+				});
 				if (await confirm.isVisible()) {
 					await confirm.click();
 					await page.waitForLoadState("networkidle");
@@ -417,8 +458,8 @@ test.describe("Campaigns", () => {
 			test(`handles ${status} ${error}`, async ({ network, page }) => {
 				network.use(
 					http.delete("*/api/v1/campaigns/:id", () =>
-						HttpResponse.json({ error }, { status })
-					)
+						HttpResponse.json({ error }, { status }),
+					),
 				);
 
 				await page.goto("/campaigns/camp_1");
@@ -450,13 +491,15 @@ test.describe("Campaigns", () => {
 						status: body.status,
 						updated_at: new Date().toISOString(),
 					});
-				})
+				}),
 			);
 
 			await page.goto("/campaigns/camp_2");
 			await page.waitForLoadState("networkidle");
 
-			const btn = page.getByRole("button", { name: /activate|launch|publish/i });
+			const btn = page.getByRole("button", {
+				name: /activate|launch|publish/i,
+			});
 			if (await btn.isVisible()) {
 				await btn.click();
 				await page.waitForLoadState("networkidle");
@@ -472,7 +515,7 @@ test.describe("Campaigns", () => {
 						status: body.status,
 						updated_at: new Date().toISOString(),
 					});
-				})
+				}),
 			);
 
 			await page.goto("/campaigns/camp_1");
@@ -490,9 +533,9 @@ test.describe("Campaigns", () => {
 				http.patch("*/api/v1/campaigns/:id/status", () =>
 					HttpResponse.json(
 						{ error: "Invalid status transition" },
-						{ status: 400 }
-					)
-				)
+						{ status: 400 },
+					),
+				),
 			);
 
 			await page.goto("/campaigns/camp_1");
@@ -519,9 +562,9 @@ test.describe("Campaigns", () => {
 				http.get("*/api/v1/campaigns/:id/analytics/*", () =>
 					HttpResponse.json(
 						{ error: "Analytics unavailable" },
-						{ status: 503 }
-					)
-				)
+						{ status: 503 },
+					),
+				),
 			);
 
 			await page.goto("/campaigns/camp_1/analytics");

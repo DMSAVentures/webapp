@@ -14,11 +14,9 @@
  *     await page.goto('/dashboard');
  *   });
  */
+
+import { createNetworkFixture, type NetworkFixture } from "@msw/playwright";
 import { test as base } from "@playwright/test";
-import {
-	type NetworkFixture,
-	createNetworkFixture,
-} from "@msw/playwright";
 import { handlers } from "../handlers";
 
 interface Fixtures {
