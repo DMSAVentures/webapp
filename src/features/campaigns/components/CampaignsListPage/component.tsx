@@ -7,6 +7,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { memo, useCallback } from "react";
 import { ErrorState } from "@/components/error/error";
+import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useDeleteCampaign } from "@/hooks/useDeleteCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { Button } from "@/proto-design-system/Button/button";
@@ -20,14 +21,23 @@ import styles from "./component.module.scss";
 // Custom Hooks
 // ============================================================================
 
+interface CampaignListActionsOptions {
+	refetch: () => void;
+	checkAndBlock: () => boolean;
+}
+
 /** Hook for campaign list actions (navigation and delete) */
-function useCampaignListActions(refetch: () => void) {
+function useCampaignListActions({
+	refetch,
+	checkAndBlock,
+}: CampaignListActionsOptions) {
 	const navigate = useNavigate();
 	const { deleteCampaign } = useDeleteCampaign();
 
 	const handleCreateCampaign = useCallback(() => {
+		if (checkAndBlock()) return;
 		navigate({ to: "/campaigns/new" });
-	}, [navigate]);
+	}, [navigate, checkAndBlock]);
 
 	const handleCampaignClick = useCallback(
 		(campaign: Campaign) => {
@@ -74,13 +84,22 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 	// Data fetching
 	const { data, loading, error, refetch } = useGetCampaigns();
 
+	// Limit gating
+	const { showModal, closeModal, checkAndBlock } = useLimitGate({
+		limitKey: "campaigns",
+		currentCount: data?.campaigns?.length ?? 0,
+	});
+
 	// Actions
 	const {
 		handleCreateCampaign,
 		handleCampaignClick,
 		handleEdit,
 		handleDelete,
-	} = useCampaignListActions(refetch);
+	} = useCampaignListActions({
+		refetch,
+		checkAndBlock,
+	});
 
 	// Loading state
 	if (loading) {
@@ -140,6 +159,14 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 					onCreateCampaign={handleCreateCampaign}
 				/>
 			</div>
+
+			{/* Upgrade Modal for Campaign Limit */}
+			<LimitUpgradeModal
+				isOpen={showModal}
+				onClose={closeModal}
+				limitKey="campaigns"
+				resourceName="campaign"
+			/>
 		</motion.div>
 	);
 });

@@ -6,8 +6,11 @@
 import { useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { memo, useCallback, useEffect } from "react";
+import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
+import { useGetCampaigns } from "@/hooks/useGetCampaigns";
+import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
 
@@ -129,9 +132,26 @@ function useCreateCampaignHandler() {
  * NewCampaignPage displays the form for creating a new campaign
  */
 export const NewCampaignPage = memo(function NewCampaignPage() {
+	const navigate = useNavigate();
 	const { handleSubmit, handleCancel, loading, error } =
 		useCreateCampaignHandler();
 	const { showBanner } = useGlobalBanner();
+
+	// Check campaign limits
+	const { data: campaignsData, loading: campaignsLoading } = useGetCampaigns();
+
+	// Limit gating with auto-show for direct URL access
+	const { isAtLimit, showModal, closeModal } = useLimitGate({
+		limitKey: "campaigns",
+		currentCount: campaignsData?.campaigns?.length ?? 0,
+		autoShow: !campaignsLoading,
+	});
+
+	// Redirect to campaigns list when modal is closed
+	const handleCloseModal = useCallback(() => {
+		closeModal();
+		navigate({ to: "/campaigns" });
+	}, [closeModal, navigate]);
 
 	useEffect(() => {
 		if (error) {
@@ -142,6 +162,23 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 			});
 		}
 	}, [error, showBanner]);
+
+	// Show loading while checking campaign count
+	if (campaignsLoading) {
+		return <LoadingSpinner size="large" mode="centered" message="Loading..." />;
+	}
+
+	// If at limit, only show the modal (form is hidden)
+	if (isAtLimit) {
+		return (
+			<LimitUpgradeModal
+				isOpen={showModal}
+				onClose={handleCloseModal}
+				limitKey="campaigns"
+				resourceName="campaign"
+			/>
+		);
+	}
 
 	return (
 		<motion.div
