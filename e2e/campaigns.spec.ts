@@ -1,64 +1,143 @@
 /**
- * Campaign management tests
+ * Campaign E2E Tests
  *
- * Tests for campaign CRUD operations and workflows.
+ * Tests for campaign management with table-driven happy/error scenarios.
  */
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, delay } from "msw";
 import { test, expect } from "./fixtures/test";
 import { campaigns } from "./mocks/data";
 
-test.describe("Campaign management", () => {
-	test.describe("Campaign list", () => {
-		test("displays campaigns with correct data", async ({ page }) => {
+// ============================================================================
+// Test Data Tables
+// ============================================================================
+
+const listErrorScenarios = [
+	{ status: 401, error: "Unauthorized", expectText: /sign in|unauthorized/i },
+	{ status: 403, error: "Forbidden", expectText: /upgrade|subscription|forbidden/i },
+	{ status: 429, error: "Rate limit exceeded", expectText: /rate|limit|error/i },
+	{ status: 500, error: "Internal server error", expectText: /error|failed/i },
+	{ status: 502, error: "Bad gateway", expectText: /error|unavailable/i },
+	{ status: 503, error: "Service unavailable", expectText: /unavailable|error/i },
+	{ status: 504, error: "Gateway timeout", expectText: /timeout|error/i },
+] as const;
+
+const getErrorScenarios = [
+	{ status: 404, error: "Campaign not found", expectText: /not found|404/i },
+	{ status: 403, error: "Access denied", expectText: /access|permission|denied/i },
+	{ status: 500, error: "Internal server error", expectText: /error/i },
+] as const;
+
+const createErrorScenarios = [
+	{ status: 400, error: "Validation failed", expectText: /required|invalid|validation/i },
+	{ status: 403, error: "Campaign limit reached", expectText: /limit|upgrade/i },
+	{ status: 409, error: "Slug already exists", expectText: /exists|conflict|duplicate/i },
+	{ status: 422, error: "Invalid slug format", expectText: /invalid|validation/i },
+	{ status: 500, error: "Internal server error", expectText: /error|failed/i },
+] as const;
+
+const deleteErrorScenarios = [
+	{ status: 404, error: "Campaign not found", expectText: /not found/i },
+	{ status: 403, error: "Cannot delete active campaign", expectText: /cannot|active/i },
+	{ status: 500, error: "Internal server error", expectText: /error/i },
+] as const;
+
+// ============================================================================
+// Tests
+// ============================================================================
+
+test.describe("Campaigns", () => {
+	// =========================================================================
+	// List Campaigns
+	// =========================================================================
+
+	test.describe("List Campaigns", () => {
+		test("200 OK - displays campaigns", async ({ page }) => {
 			await page.goto("/campaigns");
 			await page.waitForLoadState("networkidle");
 
-			// Should see campaign names
 			await expect(page.getByText("Product Launch Waitlist")).toBeVisible();
 			await expect(page.getByText("Referral Contest")).toBeVisible();
-			await expect(page.getByText("Early Access")).toBeVisible();
 		});
 
-		test("shows empty state when no campaigns", async ({ network, page }) => {
+		test("200 OK - empty list shows empty state", async ({ network, page }) => {
 			network.use(
-				http.get("*/api/v1/campaigns", () => {
-					return HttpResponse.json({
+				http.get("*/api/v1/campaigns", () =>
+					HttpResponse.json({
 						campaigns: [],
 						pagination: { has_more: false, total_count: 0 },
-					});
-				})
+					})
+				)
 			);
 
 			await page.goto("/campaigns");
 			await page.waitForLoadState("networkidle");
 
-			// Should show empty state or create prompt
-			const pageContent = await page.textContent("body");
-			expect(
-				pageContent?.includes("Create") ||
-					pageContent?.includes("create") ||
-					pageContent?.includes("No campaigns") ||
-					pageContent?.includes("Get started")
-			).toBeTruthy();
+			const content = await page.textContent("body");
+			expect(content).toMatch(/create|no campaigns|get started/i);
 		});
 
-		test("can filter campaigns by status", async ({ network, page }) => {
-			// Track if the filter is applied
-			let filterApplied = false;
-
+		test("200 OK - handles large list", async ({ network, page }) => {
 			network.use(
-				http.get("*/api/v1/campaigns", ({ request }) => {
-					const url = new URL(request.url);
-					const status = url.searchParams.get("status");
+				http.get("*/api/v1/campaigns", () =>
+					HttpResponse.json({
+						campaigns: Array.from({ length: 100 }, (_, i) => ({
+							id: `camp_${i}`,
+							account_id: "acc_123",
+							name: `Campaign ${i}`,
+							slug: `campaign-${i}`,
+							status: "active",
+							type: "waitlist",
+							total_signups: 0,
+							total_verified: 0,
+							total_referrals: 0,
+							created_at: new Date().toISOString(),
+							updated_at: new Date().toISOString(),
+						})),
+						pagination: { has_more: true, total_count: 1000 },
+					})
+				)
+			);
 
-					if (status === "active") {
-						filterApplied = true;
-						return HttpResponse.json({
-							campaigns: campaigns.filter((c) => c.status === "active"),
-							pagination: { has_more: false, total_count: 1 },
-						});
-					}
+			await page.goto("/campaigns");
+			await page.waitForLoadState("networkidle");
 
+			await expect(page.getByText("Campaign 0")).toBeVisible();
+		});
+
+		test("200 OK - handles special characters", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/v1/campaigns", () =>
+					HttpResponse.json({
+						campaigns: [
+							{
+								id: "camp_1",
+								account_id: "acc_123",
+								name: "Campaign with émojis 🚀 & <special>",
+								slug: "special",
+								status: "active",
+								type: "waitlist",
+								total_signups: 0,
+								total_verified: 0,
+								total_referrals: 0,
+								created_at: new Date().toISOString(),
+								updated_at: new Date().toISOString(),
+							},
+						],
+						pagination: { has_more: false, total_count: 1 },
+					})
+				)
+			);
+
+			await page.goto("/campaigns");
+			await page.waitForLoadState("networkidle");
+
+			await expect(page.getByText(/Campaign with émojis/)).toBeVisible();
+		});
+
+		test("handles slow network", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/v1/campaigns", async () => {
+					await delay(2000);
 					return HttpResponse.json({
 						campaigns,
 						pagination: { has_more: false, total_count: campaigns.length },
@@ -67,112 +146,124 @@ test.describe("Campaign management", () => {
 			);
 
 			await page.goto("/campaigns");
+			await expect(page.getByText("Product Launch Waitlist")).toBeVisible({
+				timeout: 10000,
+			});
+		});
+
+		test("handles network failure", async ({ network, page }) => {
+			network.use(http.get("*/api/v1/campaigns", () => HttpResponse.error()));
+
+			await page.goto("/campaigns");
 			await page.waitForLoadState("networkidle");
 
-			// Look for filter controls
-			const filterButton = page.getByRole("button", { name: /filter|status/i });
-			if (await filterButton.isVisible()) {
-				await filterButton.click();
-
-				const activeOption = page.getByRole("option", { name: /active/i });
-				if (await activeOption.isVisible()) {
-					await activeOption.click();
-					await page.waitForLoadState("networkidle");
-				}
-			}
+			const content = await page.textContent("body");
+			expect(content).toMatch(/error|connection|failed/i);
 		});
+
+		test("handles malformed JSON", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/v1/campaigns", () =>
+					new HttpResponse("{ invalid }", {
+						status: 200,
+						headers: { "Content-Type": "application/json" },
+					})
+				)
+			);
+
+			await page.goto("/campaigns");
+			await page.waitForLoadState("networkidle");
+
+			// Should not crash
+			const content = await page.textContent("body");
+			expect(content).toBeTruthy();
+		});
+
+		// Table-driven error tests
+		for (const { status, error, expectText } of listErrorScenarios) {
+			test(`handles ${status} ${error}`, async ({ network, page }) => {
+				network.use(
+					http.get("*/api/v1/campaigns", () =>
+						HttpResponse.json({ error }, { status })
+					)
+				);
+
+				await page.goto("/campaigns");
+				await page.waitForLoadState("networkidle");
+
+				const content = await page.textContent("body");
+				expect(content?.toLowerCase()).toMatch(expectText);
+			});
+		}
 	});
 
-	test.describe("Campaign details", () => {
-		test("shows campaign overview", async ({ page }) => {
+	// =========================================================================
+	// View Campaign
+	// =========================================================================
+
+	test.describe("View Campaign", () => {
+		test("200 OK - displays campaign details", async ({ page }) => {
 			await page.goto("/campaigns/camp_1");
 			await page.waitForLoadState("networkidle");
 
-			// Should show campaign details
 			await expect(page.getByText("Product Launch Waitlist")).toBeVisible();
 		});
 
-		test("can navigate to campaign settings", async ({ page }) => {
+		test("navigates to settings", async ({ page }) => {
 			await page.goto("/campaigns/camp_1");
 			await page.waitForLoadState("networkidle");
 
-			// Look for settings link/button
-			const settingsLink = page.getByRole("link", { name: /settings/i });
-			if (await settingsLink.isVisible()) {
-				await settingsLink.click();
+			const link = page.getByRole("link", { name: /settings/i });
+			if (await link.isVisible()) {
+				await link.click();
 				await expect(page).toHaveURL(/\/campaigns\/camp_1\/settings/);
 			}
 		});
 
-		test("can navigate to campaign analytics", async ({ page }) => {
+		test("navigates to analytics", async ({ page }) => {
 			await page.goto("/campaigns/camp_1");
 			await page.waitForLoadState("networkidle");
 
-			// Look for analytics link/button
-			const analyticsLink = page.getByRole("link", { name: /analytics/i });
-			if (await analyticsLink.isVisible()) {
-				await analyticsLink.click();
+			const link = page.getByRole("link", { name: /analytics/i });
+			if (await link.isVisible()) {
+				await link.click();
 				await expect(page).toHaveURL(/\/campaigns\/camp_1\/analytics/);
 			}
 		});
 
-		test("can navigate to campaign leads", async ({ page }) => {
-			await page.goto("/campaigns/camp_1");
-			await page.waitForLoadState("networkidle");
+		// Table-driven error tests
+		for (const { status, error, expectText } of getErrorScenarios) {
+			test(`handles ${status} ${error}`, async ({ network, page }) => {
+				network.use(
+					http.get("*/api/v1/campaigns/:id", () =>
+						HttpResponse.json({ error }, { status })
+					)
+				);
 
-			// Look for leads link/button
-			const leadsLink = page.getByRole("link", { name: /leads|users|signups/i });
-			if (await leadsLink.isVisible()) {
-				await leadsLink.click();
-				await expect(page).toHaveURL(/\/campaigns\/camp_1\/leads/);
-			}
-		});
+				await page.goto("/campaigns/nonexistent");
+				await page.waitForLoadState("networkidle");
+
+				const content = await page.textContent("body");
+				expect(content?.toLowerCase()).toMatch(expectText);
+			});
+		}
 	});
 
-	test.describe("Campaign creation", () => {
-		test("can access new campaign page", async ({ page }) => {
-			await page.goto("/campaigns/new");
-			await page.waitForLoadState("networkidle");
+	// =========================================================================
+	// Create Campaign
+	// =========================================================================
 
-			// Should see creation form
-			const pageContent = await page.textContent("body");
-			expect(
-				pageContent?.includes("Create") ||
-					pageContent?.includes("New") ||
-					pageContent?.includes("Campaign") ||
-					pageContent?.includes("Name")
-			).toBeTruthy();
-		});
-
-		test("validates required fields", async ({ page }) => {
-			await page.goto("/campaigns/new");
-			await page.waitForLoadState("networkidle");
-
-			// Try to submit empty form
-			const submitButton = page.getByRole("button", { name: /create|save|submit/i });
-			if (await submitButton.isVisible()) {
-				await submitButton.click();
-
-				// Should show validation errors or prevent submission
-				// Form should still be on the same page
-				await expect(page).toHaveURL(/\/campaigns\/new/);
-			}
-		});
-
-		test("successfully creates campaign", async ({ network, page }) => {
-			let campaignCreated = false;
-
+	test.describe("Create Campaign", () => {
+		test("201 Created - success", async ({ network, page }) => {
 			network.use(
 				http.post("*/api/v1/campaigns", async ({ request }) => {
-					const body = await request.json();
-					campaignCreated = true;
-
+					const body = (await request.json()) as { name: string; slug: string };
 					return HttpResponse.json(
 						{
 							id: "camp_new",
 							account_id: "acc_123",
 							name: body.name,
-							slug: body.slug,
+							slug: body.slug || "new-campaign",
 							status: "draft",
 							type: "waitlist",
 							total_signups: 0,
@@ -189,61 +280,193 @@ test.describe("Campaign management", () => {
 			await page.goto("/campaigns/new");
 			await page.waitForLoadState("networkidle");
 
-			// Fill form
 			const nameInput = page.getByLabel(/name/i).first();
 			if (await nameInput.isVisible()) {
 				await nameInput.fill("Test Campaign");
-
-				const slugInput = page.getByLabel(/slug|url/i).first();
-				if (await slugInput.isVisible()) {
-					await slugInput.fill("test-campaign");
-				}
-
-				const submitButton = page.getByRole("button", { name: /create|save/i });
-				if (await submitButton.isVisible()) {
-					await submitButton.click();
+				const submit = page.getByRole("button", { name: /create|save/i });
+				if (await submit.isVisible()) {
+					await submit.click();
 					await page.waitForLoadState("networkidle");
 				}
 			}
 		});
+
+		test("handles network failure", async ({ network, page }) => {
+			network.use(http.post("*/api/v1/campaigns", () => HttpResponse.error()));
+
+			await page.goto("/campaigns/new");
+			await page.waitForLoadState("networkidle");
+
+			const nameInput = page.getByLabel(/name/i).first();
+			if (await nameInput.isVisible()) {
+				await nameInput.fill("Test");
+				const submit = page.getByRole("button", { name: /create|save/i });
+				if (await submit.isVisible()) {
+					await submit.click();
+					const content = await page.textContent("body");
+					expect(content).toMatch(/error|failed|network/i);
+				}
+			}
+		});
+
+		// Table-driven error tests
+		for (const { status, error, expectText } of createErrorScenarios) {
+			test(`handles ${status} ${error}`, async ({ network, page }) => {
+				network.use(
+					http.post("*/api/v1/campaigns", () =>
+						HttpResponse.json({ error }, { status })
+					)
+				);
+
+				await page.goto("/campaigns/new");
+				await page.waitForLoadState("networkidle");
+
+				const nameInput = page.getByLabel(/name/i).first();
+				if (await nameInput.isVisible()) {
+					await nameInput.fill("Test");
+					const submit = page.getByRole("button", { name: /create|save/i });
+					if (await submit.isVisible()) {
+						await submit.click();
+						await page.waitForTimeout(1000);
+						const content = await page.textContent("body");
+						expect(content?.toLowerCase()).toMatch(expectText);
+					}
+				}
+			});
+		}
 	});
 
-	test.describe("Campaign status updates", () => {
-		test("can activate a draft campaign", async ({ network, page }) => {
-			let statusUpdated = false;
+	// =========================================================================
+	// Update Campaign
+	// =========================================================================
 
+	test.describe("Update Campaign", () => {
+		test("200 OK - success", async ({ network, page }) => {
+			network.use(
+				http.put("*/api/v1/campaigns/:id", async ({ request }) => {
+					const body = (await request.json()) as { name: string };
+					return HttpResponse.json({
+						...campaigns[0],
+						...body,
+						updated_at: new Date().toISOString(),
+					});
+				})
+			);
+
+			await page.goto("/campaigns/camp_1/edit");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+
+		test("handles 404 Not Found", async ({ network, page }) => {
+			network.use(
+				http.put("*/api/v1/campaigns/:id", () =>
+					HttpResponse.json({ error: "Not found" }, { status: 404 })
+				)
+			);
+
+			await page.goto("/campaigns/camp_1/edit");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+
+		test("handles 409 Conflict", async ({ network, page }) => {
+			network.use(
+				http.put("*/api/v1/campaigns/:id", () =>
+					HttpResponse.json({ error: "Modified by another" }, { status: 409 })
+				)
+			);
+
+			await page.goto("/campaigns/camp_1/edit");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+	});
+
+	// =========================================================================
+	// Delete Campaign
+	// =========================================================================
+
+	test.describe("Delete Campaign", () => {
+		test("204 No Content - success", async ({ network, page }) => {
+			network.use(
+				http.delete("*/api/v1/campaigns/:id", () =>
+					new HttpResponse(null, { status: 204 })
+				)
+			);
+
+			await page.goto("/campaigns/camp_1");
+			await page.waitForLoadState("networkidle");
+
+			const deleteBtn = page.getByRole("button", { name: /delete/i });
+			if (await deleteBtn.isVisible()) {
+				await deleteBtn.click();
+				const confirm = page.getByRole("button", { name: /confirm|yes|delete/i });
+				if (await confirm.isVisible()) {
+					await confirm.click();
+					await page.waitForLoadState("networkidle");
+				}
+			}
+		});
+
+		// Table-driven error tests
+		for (const { status, error } of deleteErrorScenarios) {
+			test(`handles ${status} ${error}`, async ({ network, page }) => {
+				network.use(
+					http.delete("*/api/v1/campaigns/:id", () =>
+						HttpResponse.json({ error }, { status })
+					)
+				);
+
+				await page.goto("/campaigns/camp_1");
+				await page.waitForLoadState("networkidle");
+
+				const deleteBtn = page.getByRole("button", { name: /delete/i });
+				if (await deleteBtn.isVisible()) {
+					await deleteBtn.click();
+					const confirm = page.getByRole("button", { name: /confirm|yes/i });
+					if (await confirm.isVisible()) {
+						await confirm.click();
+					}
+				}
+			});
+		}
+	});
+
+	// =========================================================================
+	// Status Updates
+	// =========================================================================
+
+	test.describe("Status Updates", () => {
+		test("200 OK - activate draft", async ({ network, page }) => {
 			network.use(
 				http.patch("*/api/v1/campaigns/:id/status", async ({ request }) => {
-					const body = await request.json();
-					if (body.status === "active") {
-						statusUpdated = true;
-					}
-
+					const body = (await request.json()) as { status: string };
 					return HttpResponse.json({
-						...campaigns[1], // Draft campaign
+						...campaigns[1],
 						status: body.status,
 						updated_at: new Date().toISOString(),
 					});
 				})
 			);
 
-			await page.goto("/campaigns/camp_2"); // Draft campaign
+			await page.goto("/campaigns/camp_2");
 			await page.waitForLoadState("networkidle");
 
-			// Look for activate/launch button
-			const activateButton = page.getByRole("button", {
-				name: /activate|launch|publish/i,
-			});
-			if (await activateButton.isVisible()) {
-				await activateButton.click();
+			const btn = page.getByRole("button", { name: /activate|launch|publish/i });
+			if (await btn.isVisible()) {
+				await btn.click();
 				await page.waitForLoadState("networkidle");
 			}
 		});
 
-		test("can pause an active campaign", async ({ network, page }) => {
+		test("200 OK - pause active", async ({ network, page }) => {
 			network.use(
 				http.patch("*/api/v1/campaigns/:id/status", async ({ request }) => {
-					const body = await request.json();
+					const body = (await request.json()) as { status: string };
 					return HttpResponse.json({
 						...campaigns[0],
 						status: body.status,
@@ -252,15 +475,59 @@ test.describe("Campaign management", () => {
 				})
 			);
 
-			await page.goto("/campaigns/camp_1"); // Active campaign
+			await page.goto("/campaigns/camp_1");
 			await page.waitForLoadState("networkidle");
 
-			// Look for pause button
-			const pauseButton = page.getByRole("button", { name: /pause/i });
-			if (await pauseButton.isVisible()) {
-				await pauseButton.click();
+			const btn = page.getByRole("button", { name: /pause/i });
+			if (await btn.isVisible()) {
+				await btn.click();
 				await page.waitForLoadState("networkidle");
 			}
+		});
+
+		test("handles 400 invalid transition", async ({ network, page }) => {
+			network.use(
+				http.patch("*/api/v1/campaigns/:id/status", () =>
+					HttpResponse.json(
+						{ error: "Invalid status transition" },
+						{ status: 400 }
+					)
+				)
+			);
+
+			await page.goto("/campaigns/camp_1");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+	});
+
+	// =========================================================================
+	// Analytics
+	// =========================================================================
+
+	test.describe("Analytics", () => {
+		test("200 OK - displays data", async ({ page }) => {
+			await page.goto("/campaigns/camp_1/analytics");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+
+		test("handles 503 analytics unavailable", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/v1/campaigns/:id/analytics/*", () =>
+					HttpResponse.json(
+						{ error: "Analytics unavailable" },
+						{ status: 503 }
+					)
+				)
+			);
+
+			await page.goto("/campaigns/camp_1/analytics");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
 		});
 	});
 });

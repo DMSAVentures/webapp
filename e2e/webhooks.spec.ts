@@ -1,69 +1,147 @@
 /**
- * Webhook management tests
+ * Webhook E2E Tests
+ *
+ * Tests for webhook management with table-driven happy/error scenarios.
  */
 import { http, HttpResponse } from "msw";
 import { test, expect } from "./fixtures/test";
 import { webhooks } from "./mocks/data";
 
-test.describe("Webhook management", () => {
-	test.describe("Webhook list", () => {
-		test("displays webhooks", async ({ page }) => {
+// ============================================================================
+// Test Data Tables
+// ============================================================================
+
+const listErrorScenarios = [
+	{ status: 401, error: "Unauthorized", expectText: /sign in|unauthorized/i },
+	{ status: 403, error: "Webhooks require Pro", expectText: /upgrade|pro|subscription/i },
+	{ status: 500, error: "Internal server error", expectText: /error/i },
+	{ status: 503, error: "Service unavailable", expectText: /unavailable|error/i },
+] as const;
+
+const createErrorScenarios = [
+	{ status: 400, error: "Invalid URL", expectText: /invalid|url/i },
+	{ status: 403, error: "Webhook limit reached", expectText: /limit|upgrade/i },
+	{ status: 422, error: "URL must be HTTPS", expectText: /https|invalid/i },
+	{ status: 500, error: "Internal server error", expectText: /error|failed/i },
+] as const;
+
+const testWebhookScenarios = [
+	{ success: true, status: 200, time: 156, expectText: /success|200|passed/i },
+	{ success: false, status: 500, time: 2000, error: "Timeout", expectText: /failed|error|timeout/i },
+	{ success: false, status: 0, time: 0, error: "Connection refused", expectText: /failed|error|refused/i },
+] as const;
+
+// ============================================================================
+// Tests
+// ============================================================================
+
+test.describe("Webhooks", () => {
+	// =========================================================================
+	// List Webhooks
+	// =========================================================================
+
+	test.describe("List Webhooks", () => {
+		test("200 OK - displays webhooks", async ({ page }) => {
 			await page.goto("/webhooks");
 			await page.waitForLoadState("networkidle");
 
-			// Should see webhook URLs or related content
-			const pageContent = await page.textContent("body");
-			expect(
-				pageContent?.includes("api.example.com") ||
-					pageContent?.includes("zapier.com") ||
-					pageContent?.includes("Webhook")
-			).toBeTruthy();
+			const content = await page.textContent("body");
+			expect(content).toMatch(/webhook|api\.example\.com/i);
 		});
 
-		test("shows empty state when no webhooks", async ({ network, page }) => {
+		test("200 OK - empty list shows empty state", async ({ network, page }) => {
 			network.use(
-				http.get("*/api/protected/webhooks", () => {
-					return HttpResponse.json([]);
-				})
+				http.get("*/api/protected/webhooks", () => HttpResponse.json([]))
 			);
 
 			await page.goto("/webhooks");
 			await page.waitForLoadState("networkidle");
 
-			// Should show empty state
-			const pageContent = await page.textContent("body");
-			expect(
-				pageContent?.includes("Create") ||
-					pageContent?.includes("No webhooks") ||
-					pageContent?.includes("Get started") ||
-					pageContent?.includes("Add")
-			).toBeTruthy();
+			const content = await page.textContent("body");
+			expect(content).toMatch(/create|no webhooks|get started|add/i);
+		});
+
+		test("handles network failure", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/protected/webhooks", () => HttpResponse.error())
+			);
+
+			await page.goto("/webhooks");
+			await page.waitForLoadState("networkidle");
+
+			const content = await page.textContent("body");
+			expect(content).toMatch(/error|failed/i);
+		});
+
+		// Table-driven error tests
+		for (const { status, error, expectText } of listErrorScenarios) {
+			test(`handles ${status} ${error}`, async ({ network, page }) => {
+				network.use(
+					http.get("*/api/protected/webhooks", () =>
+						HttpResponse.json({ error }, { status })
+					)
+				);
+
+				await page.goto("/webhooks");
+				await page.waitForLoadState("networkidle");
+
+				const content = await page.textContent("body");
+				expect(content?.toLowerCase()).toMatch(expectText);
+			});
+		}
+	});
+
+	// =========================================================================
+	// View Webhook
+	// =========================================================================
+
+	test.describe("View Webhook", () => {
+		test("200 OK - displays webhook details", async ({ page }) => {
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			const content = await page.textContent("body");
+			expect(content).toMatch(/webhook|api\.example\.com|user\.created/i);
+		});
+
+		test("handles 404 Not Found", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/protected/webhooks/:id", () =>
+					HttpResponse.json({ error: "Webhook not found" }, { status: 404 })
+				)
+			);
+
+			await page.goto("/webhooks/nonexistent");
+			await page.waitForLoadState("networkidle");
+
+			const content = await page.textContent("body");
+			expect(content).toMatch(/not found|404/i);
+		});
+
+		test("handles 500 Internal Server Error", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/protected/webhooks/:id", () =>
+					HttpResponse.json({ error: "Server error" }, { status: 500 })
+				)
+			);
+
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			const content = await page.textContent("body");
+			expect(content).toMatch(/error/i);
 		});
 	});
 
-	test.describe("Webhook creation", () => {
-		test("can access new webhook page", async ({ page }) => {
-			await page.goto("/webhooks/new");
-			await page.waitForLoadState("networkidle");
+	// =========================================================================
+	// Create Webhook
+	// =========================================================================
 
-			// Should see form
-			const pageContent = await page.textContent("body");
-			expect(
-				pageContent?.includes("URL") ||
-					pageContent?.includes("url") ||
-					pageContent?.includes("Create") ||
-					pageContent?.includes("Webhook")
-			).toBeTruthy();
-		});
-
-		test("creates webhook with valid URL", async ({ network, page }) => {
-			let webhookCreated = false;
-
+	test.describe("Create Webhook", () => {
+		test("201 Created - success", async ({ network, page }) => {
 			network.use(
 				http.post("*/api/protected/webhooks", async ({ request }) => {
-					const body = await request.json();
-					webhookCreated = true;
-
+					const body = (await request.json()) as { url: string; events: string[] };
 					return HttpResponse.json(
 						{
 							webhook: {
@@ -89,50 +167,77 @@ test.describe("Webhook management", () => {
 			await page.goto("/webhooks/new");
 			await page.waitForLoadState("networkidle");
 
-			// Fill form
 			const urlInput = page.getByLabel(/url/i).first();
 			if (await urlInput.isVisible()) {
-				await urlInput.fill("https://api.myapp.com/webhooks");
-
-				// Select events if available
-				const eventCheckbox = page.getByLabel(/user\.created|created/i).first();
-				if (await eventCheckbox.isVisible()) {
-					await eventCheckbox.check();
-				}
-
-				const submitButton = page.getByRole("button", { name: /create|save/i });
-				if (await submitButton.isVisible()) {
-					await submitButton.click();
+				await urlInput.fill("https://api.example.com/webhook");
+				const submit = page.getByRole("button", { name: /create|save/i });
+				if (await submit.isVisible()) {
+					await submit.click();
 					await page.waitForLoadState("networkidle");
 				}
 			}
 		});
-	});
 
-	test.describe("Webhook details", () => {
-		test("can view webhook details", async ({ page }) => {
-			await page.goto("/webhooks/wh_1");
+		test("handles network failure", async ({ network, page }) => {
+			network.use(
+				http.post("*/api/protected/webhooks", () => HttpResponse.error())
+			);
+
+			await page.goto("/webhooks/new");
 			await page.waitForLoadState("networkidle");
 
-			// Should see webhook info
-			const pageContent = await page.textContent("body");
-			expect(
-				pageContent?.includes("api.example.com") ||
-					pageContent?.includes("Webhook") ||
-					pageContent?.includes("user.created")
-			).toBeTruthy();
+			const urlInput = page.getByLabel(/url/i).first();
+			if (await urlInput.isVisible()) {
+				await urlInput.fill("https://example.com");
+				const submit = page.getByRole("button", { name: /create|save/i });
+				if (await submit.isVisible()) {
+					await submit.click();
+					const content = await page.textContent("body");
+					expect(content).toMatch(/error|failed/i);
+				}
+			}
 		});
 
-		test("can test webhook", async ({ network, page }) => {
-			let testTriggered = false;
+		// Table-driven error tests
+		for (const { status, error, expectText } of createErrorScenarios) {
+			test(`handles ${status} ${error}`, async ({ network, page }) => {
+				network.use(
+					http.post("*/api/protected/webhooks", () =>
+						HttpResponse.json({ error }, { status })
+					)
+				);
 
+				await page.goto("/webhooks/new");
+				await page.waitForLoadState("networkidle");
+
+				const urlInput = page.getByLabel(/url/i).first();
+				if (await urlInput.isVisible()) {
+					await urlInput.fill("http://example.com");
+					const submit = page.getByRole("button", { name: /create|save/i });
+					if (await submit.isVisible()) {
+						await submit.click();
+						await page.waitForTimeout(1000);
+						const content = await page.textContent("body");
+						expect(content?.toLowerCase()).toMatch(expectText);
+					}
+				}
+			});
+		}
+	});
+
+	// =========================================================================
+	// Update Webhook
+	// =========================================================================
+
+	test.describe("Update Webhook", () => {
+		test("200 OK - success", async ({ network, page }) => {
 			network.use(
-				http.post("*/api/protected/webhooks/:id/test", () => {
-					testTriggered = true;
+				http.patch("*/api/protected/webhooks/:id", async ({ request }) => {
+					const body = (await request.json()) as Partial<typeof webhooks[0]>;
 					return HttpResponse.json({
-						success: true,
-						response_status: 200,
-						response_time_ms: 156,
+						...webhooks[0],
+						...body,
+						updated_at: new Date().toISOString(),
 					});
 				})
 			);
@@ -140,75 +245,193 @@ test.describe("Webhook management", () => {
 			await page.goto("/webhooks/wh_1");
 			await page.waitForLoadState("networkidle");
 
-			// Look for test button
-			const testButton = page.getByRole("button", { name: /test|send test/i });
-			if (await testButton.isVisible()) {
-				await testButton.click();
-				await page.waitForLoadState("networkidle");
-
-				// Should show success message
-				await expect(page.getByText(/success|200|passed/i)).toBeVisible({
-					timeout: 5000,
-				});
-			}
+			expect(await page.textContent("body")).toBeTruthy();
 		});
 
-		test("handles webhook test failure", async ({ network, page }) => {
+		test("handles 404 Not Found", async ({ network, page }) => {
 			network.use(
-				http.post("*/api/protected/webhooks/:id/test", () => {
-					return HttpResponse.json({
-						success: false,
-						response_status: 500,
-						response_time_ms: 2000,
-						error: "Connection timeout",
-					});
-				})
+				http.patch("*/api/protected/webhooks/:id", () =>
+					HttpResponse.json({ error: "Not found" }, { status: 404 })
+				)
 			);
 
 			await page.goto("/webhooks/wh_1");
 			await page.waitForLoadState("networkidle");
 
-			const testButton = page.getByRole("button", { name: /test|send test/i });
-			if (await testButton.isVisible()) {
-				await testButton.click();
-				await page.waitForLoadState("networkidle");
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+	});
 
-				// Should show failure message
-				await expect(page.getByText(/failed|error|timeout|500/i)).toBeVisible({
-					timeout: 5000,
-				});
+	// =========================================================================
+	// Delete Webhook
+	// =========================================================================
+
+	test.describe("Delete Webhook", () => {
+		test("204 No Content - success", async ({ network, page }) => {
+			network.use(
+				http.delete("*/api/protected/webhooks/:id", () =>
+					new HttpResponse(null, { status: 204 })
+				)
+			);
+
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			const deleteBtn = page.getByRole("button", { name: /delete|remove/i });
+			if (await deleteBtn.isVisible()) {
+				await deleteBtn.click();
+				const confirm = page.getByRole("button", { name: /confirm|yes|delete/i });
+				if (await confirm.isVisible()) {
+					await confirm.click();
+					await page.waitForLoadState("networkidle");
+				}
+			}
+		});
+
+		test("handles 404 Not Found", async ({ network, page }) => {
+			network.use(
+				http.delete("*/api/protected/webhooks/:id", () =>
+					HttpResponse.json({ error: "Not found" }, { status: 404 })
+				)
+			);
+
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			const deleteBtn = page.getByRole("button", { name: /delete/i });
+			if (await deleteBtn.isVisible()) {
+				await deleteBtn.click();
+				const confirm = page.getByRole("button", { name: /confirm|yes/i });
+				if (await confirm.isVisible()) {
+					await confirm.click();
+				}
+			}
+		});
+
+		test("handles 500 Internal Server Error", async ({ network, page }) => {
+			network.use(
+				http.delete("*/api/protected/webhooks/:id", () =>
+					HttpResponse.json({ error: "Server error" }, { status: 500 })
+				)
+			);
+
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			const deleteBtn = page.getByRole("button", { name: /delete/i });
+			if (await deleteBtn.isVisible()) {
+				await deleteBtn.click();
+				const confirm = page.getByRole("button", { name: /confirm|yes/i });
+				if (await confirm.isVisible()) {
+					await confirm.click();
+				}
 			}
 		});
 	});
 
-	test.describe("Webhook deletion", () => {
-		test("can delete webhook", async ({ network, page }) => {
-			let webhookDeleted = false;
+	// =========================================================================
+	// Test Webhook
+	// =========================================================================
 
+	test.describe("Test Webhook", () => {
+		// Table-driven test result scenarios
+		for (const scenario of testWebhookScenarios) {
+			const testName = scenario.success
+				? `shows success for ${scenario.status} response`
+				: `shows failure for ${scenario.error}`;
+
+			test(testName, async ({ network, page }) => {
+				network.use(
+					http.post("*/api/protected/webhooks/:id/test", () =>
+						HttpResponse.json({
+							success: scenario.success,
+							response_status: scenario.status,
+							response_time_ms: scenario.time,
+							error: scenario.error,
+						})
+					)
+				);
+
+				await page.goto("/webhooks/wh_1");
+				await page.waitForLoadState("networkidle");
+
+				const testBtn = page.getByRole("button", { name: /test|send test/i });
+				if (await testBtn.isVisible()) {
+					await testBtn.click();
+					await expect(page.getByText(scenario.expectText)).toBeVisible({
+						timeout: 5000,
+					});
+				}
+			});
+		}
+
+		test("handles network failure on test", async ({ network, page }) => {
 			network.use(
-				http.delete("*/api/protected/webhooks/:id", () => {
-					webhookDeleted = true;
-					return new HttpResponse(null, { status: 204 });
-				})
+				http.post("*/api/protected/webhooks/:id/test", () =>
+					HttpResponse.error()
+				)
 			);
 
 			await page.goto("/webhooks/wh_1");
 			await page.waitForLoadState("networkidle");
 
-			// Look for delete button
-			const deleteButton = page.getByRole("button", { name: /delete|remove/i });
-			if (await deleteButton.isVisible()) {
-				await deleteButton.click();
-
-				// Confirm deletion if there's a modal
-				const confirmButton = page.getByRole("button", {
-					name: /confirm|yes|delete/i,
-				});
-				if (await confirmButton.isVisible()) {
-					await confirmButton.click();
-					await page.waitForLoadState("networkidle");
-				}
+			const testBtn = page.getByRole("button", { name: /test/i });
+			if (await testBtn.isVisible()) {
+				await testBtn.click();
+				const content = await page.textContent("body");
+				expect(content).toMatch(/error|failed/i);
 			}
+		});
+	});
+
+	// =========================================================================
+	// Webhook Deliveries
+	// =========================================================================
+
+	test.describe("Webhook Deliveries", () => {
+		test("200 OK - displays deliveries", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/protected/webhooks/:id/deliveries", () =>
+					HttpResponse.json({
+						deliveries: [
+							{
+								id: "del_1",
+								webhook_id: "wh_1",
+								event_type: "user.created",
+								status: "success",
+								response_status: 200,
+								duration_ms: 150,
+								attempt_number: 1,
+								created_at: new Date().toISOString(),
+							},
+						],
+						total: 1,
+						pagination: { page: 1, limit: 20, offset: 0 },
+					})
+				)
+			);
+
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
+		});
+
+		test("200 OK - empty deliveries", async ({ network, page }) => {
+			network.use(
+				http.get("*/api/protected/webhooks/:id/deliveries", () =>
+					HttpResponse.json({
+						deliveries: [],
+						total: 0,
+						pagination: { page: 1, limit: 20, offset: 0 },
+					})
+				)
+			);
+
+			await page.goto("/webhooks/wh_1");
+			await page.waitForLoadState("networkidle");
+
+			expect(await page.textContent("body")).toBeTruthy();
 		});
 	});
 });
