@@ -1,7 +1,8 @@
-import { memo, type HTMLAttributes } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { useFeatureAccess } from "@/hooks/useFeatureAccess";
+import { type HTMLAttributes, memo } from "react";
 import { FEATURE_DISPLAY_CONFIGS } from "@/config/tiers";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
+import Button from "@/proto-design-system/Button/button"
 import styles from "./component.module.scss";
 
 // ============================================================================
@@ -66,7 +67,11 @@ export const UpgradePrompt = memo(function UpgradePrompt({
 		description ??
 		`${featureName} is available on the ${requiredTierDisplayName} plan. ${featureDescription}`;
 
-	const classNames = [styles.root, styles[`variant_${variant}`], customClassName]
+	const classNames = [
+		styles.root,
+		styles[`variant_${variant}`],
+		customClassName,
+	]
 		.filter(Boolean)
 		.join(" ");
 
@@ -83,13 +88,13 @@ export const UpgradePrompt = memo(function UpgradePrompt({
 				<h4 className={styles.title}>{displayTitle}</h4>
 				<p className={styles.description}>{displayDescription}</p>
 			</div>
-			<button
+			<Button
 				type="button"
 				className={styles.upgradeButton}
 				onClick={handleUpgradeClick}
 			>
 				Upgrade to {requiredTierDisplayName}
-			</button>
+			</Button>
 			<span className={styles.currentTier}>
 				Current plan: {currentTierDisplayName}
 			</span>

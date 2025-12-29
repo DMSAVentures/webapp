@@ -1,4 +1,4 @@
-import { memo, type HTMLAttributes } from "react";
+import { type HTMLAttributes, memo } from "react";
 import { useTier } from "@/contexts/tier";
 import type { TierName } from "@/types/tier";
 import styles from "./component.module.scss";

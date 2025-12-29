@@ -1,4 +1,4 @@
-import { memo, type ReactNode, type HTMLAttributes } from "react";
+import { type HTMLAttributes, memo, type ReactNode } from "react";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import styles from "./component.module.scss";
 

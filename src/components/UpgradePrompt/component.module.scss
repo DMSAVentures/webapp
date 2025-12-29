@@ -21,7 +21,7 @@
 	justify-content: center;
 	width: 48px;
 	height: 48px;
-	font-size: 24px;
+	font-size: typography.$font-size-h4;
 	color: var(--color-icon-secondary-default);
 	background-color: var(--color-bg-secondary-default);
 	border-radius: border.$border-radius-round;
@@ -44,7 +44,7 @@
 	margin: 0;
 	font-size: typography.$font-size-sm;
 	color: var(--color-text-secondary-default);
-	line-height: typography.$line-height-body;
+	line-height: typography.$line-height-normal;
 }
 
 .upgradeButton {
@@ -92,7 +92,7 @@
 	.icon {
 		width: 36px;
 		height: 36px;
-		font-size: 18px;
+		font-size: typography.$font-size-xl;
 	}
 
 	.currentTier {
@@ -101,8 +101,7 @@
 }
 
 .variant_banner {
-	flex-direction: row;
-	flex-wrap: wrap;
+	flex-flow: row wrap;
 	justify-content: center;
 	padding: layout.$spacing-04 layout.$spacing-05;
 	background-color: var(--color-bg-info-alpha);
@@ -111,7 +110,7 @@
 	.icon {
 		width: 32px;
 		height: 32px;
-		font-size: 16px;
+		font-size: layout.$spacing-05;
 		background-color: transparent;
 		color: var(--color-info-default);
 	}

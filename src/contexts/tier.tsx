@@ -1,9 +1,9 @@
 import React, { createContext, useCallback, useContext, useMemo } from "react";
 import {
-	type TierInfo,
-	type TierFeatures,
-	type TierLimits,
 	DEFAULT_TIER_INFO,
+	type TierFeatures,
+	type TierInfo,
+	type TierLimits,
 } from "@/types/tier";
 import { useAuth } from "./auth";
 

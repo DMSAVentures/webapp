@@ -41,7 +41,11 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 			<UserName />
 			<SidebarGroup label="Settings">
 				<SidebarItem label="Account" href="/account" iconClass="user-line" />
-				<SidebarItem label="Billing" href="/billing" iconClass="bank-card-line" />
+				<SidebarItem
+					label="Billing"
+					href="/billing"
+					iconClass="bank-card-line"
+				/>
 			</SidebarGroup>
 		</SidebarFooter>
 	);

@@ -10,8 +10,8 @@ import { ErrorState } from "@/components/error/error";
 import { useCreateCustomerPortal } from "@/hooks/useCreateCustomerPortal";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
-import { Badge } from "@/proto-design-system/badge/badge";
 import { Button } from "@/proto-design-system/Button/button";
+import { Badge } from "@/proto-design-system/badge/badge";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import type { Price, Subscription } from "@/types/billing";
@@ -65,7 +65,8 @@ function useSubscriptionWithPlan() {
 /** Hook for billing actions */
 function useBillingActions() {
 	const navigate = useNavigate();
-	const { data: portalData, loading: portalLoading } = useCreateCustomerPortal();
+	const { data: portalData, loading: portalLoading } =
+		useCreateCustomerPortal();
 
 	const handleManageSubscription = useCallback(() => {
 		if (portalData?.url) {

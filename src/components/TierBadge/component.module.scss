@@ -16,10 +16,6 @@
 	font-size: inherit;
 }
 
-.label {
-	line-height: 1;
-}
-
 // ============================================================================
 // Sizes
 // ============================================================================
@@ -29,7 +25,7 @@
 	font-size: typography.$font-size-xs;
 
 	.icon {
-		font-size: 10px;
+		font-size: typography.$font-size-xs;
 	}
 }
 
@@ -38,7 +34,7 @@
 	font-size: typography.$font-size-sm;
 
 	.icon {
-		font-size: 12px;
+		font-size: typography.$font-size-sm;
 	}
 }
 

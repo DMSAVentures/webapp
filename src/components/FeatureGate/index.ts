@@ -1,2 +1,2 @@
+export type { FeatureGateDisabledProps, FeatureGateProps } from "./component";
 export { FeatureGate, FeatureGateDisabled } from "./component";
-export type { FeatureGateProps, FeatureGateDisabledProps } from "./component";

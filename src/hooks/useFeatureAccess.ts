@@ -1,10 +1,7 @@
 import { useMemo } from "react";
+import { getRequiredTierForFeature, getTierDisplayName } from "@/config/tiers";
 import { useTier } from "@/contexts/tier";
 import type { TierName } from "@/types/tier";
-import {
-	getRequiredTierForFeature,
-	getTierDisplayName,
-} from "@/config/tiers";
 
 // ============================================================================
 // Hook Return Type
