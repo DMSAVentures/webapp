@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTier } from "@/contexts/tier";
 import {
 	useZapierDisconnect,
 	useZapierStatus,
 	useZapierSubscriptions,
 } from "@/hooks/useZapierIntegration";
 import { Button } from "@/proto-design-system/Button/button";
+import Banner from "@/proto-design-system/banner/banner";
 import Feedback from "@/proto-design-system/feedback/feedback";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import Modal from "@/proto-design-system/modal/modal";
@@ -17,6 +19,9 @@ export const Route = createFileRoute("/integrations/")({
 });
 
 function IntegrationsPage() {
+	const { isAtLeast } = useTier();
+	const isPro = isAtLeast("pro");
+
 	const {
 		data: zapierStatus,
 		loading: statusLoading,
@@ -36,6 +41,7 @@ function IntegrationsPage() {
 	} | null>(null);
 
 	const handleConnect = () => {
+		if (!isPro) return;
 		// Zapier uses API key authentication - users connect from the Zapier app
 		// Direct users to the API keys page to create a key with 'zapier' scope
 		window.location.href = "/api-keys";
@@ -73,6 +79,19 @@ function IntegrationsPage() {
 					Connect your favorite apps to automate your workflow
 				</p>
 			</header>
+
+			{/* Team Feature Banner */}
+			{!isPro && (
+				<Banner
+					bannerType="feature"
+					variant="lighter"
+					alertTitle="Team Feature"
+					alertDescription="Upgrade to Team to connect integrations and automate your workflow."
+					linkTitle="Upgrade"
+					linkHref="/billing/plans"
+					dismissible={false}
+				/>
+			)}
 
 			{/* Feedback */}
 			{feedback && (
@@ -126,6 +145,7 @@ function IntegrationsPage() {
 										variant="secondary"
 										onClick={() => setShowDisconnectModal(true)}
 										leftIcon="ri-uninstall-line"
+										disabled={!isPro}
 									>
 										Disconnect
 									</Button>
@@ -135,6 +155,7 @@ function IntegrationsPage() {
 									variant="primary"
 									onClick={handleConnect}
 									leftIcon="ri-key-2-line"
+									disabled={!isPro}
 								>
 									Get API Key
 								</Button>

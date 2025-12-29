@@ -13,6 +13,7 @@ export interface EmptyStateProps {
 	action?: {
 		label: string;
 		onClick: () => void;
+		disabled?: boolean;
 	};
 	/** Additional CSS class name */
 	className?: string;
@@ -49,7 +50,12 @@ export const EmptyState = memo(function EmptyState({
 			{description && <p className={styles.description}>{description}</p>}
 			{action && (
 				<div className={styles.action}>
-					<Button variant="primary" size="medium" onClick={action.onClick}>
+					<Button
+						variant="primary"
+						size="medium"
+						onClick={action.onClick}
+						disabled={action.disabled}
+					>
 						{action.label}
 					</Button>
 				</div>

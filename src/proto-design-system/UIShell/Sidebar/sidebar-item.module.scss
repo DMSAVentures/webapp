@@ -20,6 +20,23 @@
         background-color: var(--color-bg-secondary-hover);
         border-radius: border.$border-radius-medium;
     }
+
+    &.disabled {
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: transparent;
+        }
+
+        i,
+        .sidebar__item__label {
+            opacity: 0.5;
+        }
+    }
+}
+
+.sidebar__item__label {
+    flex: 1;
 }
 
 .sidebar__item__link {

@@ -2,12 +2,14 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
+import { useTier } from "@/contexts/tier";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
 import { useGetWebhooks } from "@/hooks/useGetWebhooks";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
 import { Button } from "@/proto-design-system/Button/button";
 import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
 import { Badge } from "@/proto-design-system/badge/badge";
+import Banner from "@/proto-design-system/banner/banner";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import Feedback from "@/proto-design-system/feedback/feedback";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
@@ -27,6 +29,9 @@ interface TestFeedback {
 
 function RouteComponent() {
 	const navigate = useNavigate();
+	const { isAtLeast } = useTier();
+	const isPro = isAtLeast("pro");
+
 	const { data: webhooks, loading, error, refetch } = useGetWebhooks();
 	const { deleteWebhook, error: deleteError } = useDeleteWebhook();
 	const { testWebhook } = useTestWebhook();
@@ -41,6 +46,7 @@ function RouteComponent() {
 	} | null>(null);
 
 	const handleCreateWebhook = () => {
+		if (!isPro) return;
 		navigate({ to: "/webhooks/new" });
 	};
 
@@ -175,10 +181,24 @@ function RouteComponent() {
 					variant="primary"
 					leftIcon="ri-add-line"
 					onClick={handleCreateWebhook}
+					disabled={!isPro}
 				>
 					Create Webhook
 				</Button>
 			</div>
+
+			{/* Team Feature Banner */}
+			{!isPro && (
+				<Banner
+					bannerType="feature"
+					variant="lighter"
+					alertTitle="Team Feature"
+					alertDescription="Upgrade to Team to create webhooks and receive real-time notifications."
+					linkTitle="Upgrade"
+					linkHref="/billing/plans"
+					dismissible={false}
+				/>
+			)}
 
 			{deleteFeedback && (
 				<Feedback
@@ -199,6 +219,7 @@ function RouteComponent() {
 						action={{
 							label: "Create Your First Webhook",
 							onClick: handleCreateWebhook,
+							disabled: !isPro,
 						}}
 					/>
 				) : (
