@@ -3,9 +3,9 @@
  * Container component for the form builder page
  */
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
-import Banner from "@/proto-design-system/banner/banner";
 import type { Campaign } from "@/types/campaign";
 import type { FormConfig } from "@/types/common.types";
 import { FormBuilder } from "../FormBuilder/component";
@@ -92,6 +92,27 @@ function transformConfigToPayload(config: FormConfig): {
 function useSaveFormConfig(campaignId: string) {
 	const [saveError, setSaveError] = useState<string | null>(null);
 	const [saveSuccess, setSaveSuccess] = useState(false);
+	const { showBanner } = useGlobalBanner();
+
+	useEffect(() => {
+		if (saveSuccess) {
+			showBanner({
+				type: "success",
+				title: "Form saved successfully!",
+				description: "Your waitlist form has been updated.",
+			});
+		}
+	}, [saveSuccess, showBanner]);
+
+	useEffect(() => {
+		if (saveError) {
+			showBanner({
+				type: "error",
+				title: "Failed to save form",
+				description: saveError,
+			});
+		}
+	}, [saveError, showBanner]);
 
 	const handleSave = useCallback(
 		async (config: FormConfig) => {
@@ -136,7 +157,7 @@ function useSaveFormConfig(campaignId: string) {
 		[campaignId],
 	);
 
-	return { saveError, saveSuccess, handleSave };
+	return { handleSave };
 }
 
 // ============================================================================
@@ -152,7 +173,7 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 }: FormBuilderPageProps) {
 	// Hooks
 	const formConfig = useFormConfigFromCampaign(campaign);
-	const { saveError, saveSuccess, handleSave } = useSaveFormConfig(campaignId);
+	const { handleSave } = useSaveFormConfig(campaignId);
 
 	return (
 		<div className={styles.formBuilderTab}>
@@ -162,24 +183,6 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 					Design your signup form and customize the success screen
 				</p>
 			</div>
-
-			{saveSuccess && (
-				<Banner
-					bannerType="success"
-					variant="filled"
-					alertTitle="Form saved successfully!"
-					alertDescription="Your waitlist form has been updated."
-				/>
-			)}
-
-			{saveError && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to save form"
-					alertDescription={saveError}
-				/>
-			)}
 
 			<FormBuilder
 				campaignId={campaignId}

@@ -23,3 +23,28 @@
 	gap: layout.$spacing-05;
 	align-items: baseline;
 }
+
+.noSubscription {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-05;
+}
+
+.noSubscriptionText {
+	color: var(--color-text-secondary-default);
+	margin-bottom: layout.$spacing-03;
+}
+
+.plansGrid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: layout.$spacing-05;
+
+	@media (min-width: breakpoints.$breakpoint-sm) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (min-width: breakpoints.$breakpoint-lg) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}

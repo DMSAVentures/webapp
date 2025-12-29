@@ -7,6 +7,7 @@
 import type { User, WaitlistUser } from "@/types/user";
 import type { ApiUser, ApiWaitlistUser } from "../types/user";
 import { parseDate } from "./base";
+import { toUiTierInfo } from "./tier";
 
 // ============================================================================
 // API → UI Transformers
@@ -18,6 +19,7 @@ export function toUiUser(api: ApiUser): User {
 		lastName: api.last_name,
 		externalId: api.external_id,
 		persona: api.persona,
+		tier: api.tier ? toUiTierInfo(api.tier) : undefined,
 	};
 }
 

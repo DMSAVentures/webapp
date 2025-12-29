@@ -3,9 +3,9 @@
  * Container component for embed code generation
  */
 
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import { Button } from "@/proto-design-system/Button/button";
-import Banner from "@/proto-design-system/banner/banner";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { TextArea } from "@/proto-design-system/TextArea/textArea";
 import type { Campaign } from "@/types/campaign";
@@ -118,6 +118,17 @@ export function WaitlistForm() {
 /** Hook for clipboard operations with feedback */
 function useCopyToClipboard() {
 	const [copiedType, setCopiedType] = useState<string | null>(null);
+	const { showBanner } = useGlobalBanner();
+
+	useEffect(() => {
+		if (copiedType) {
+			showBanner({
+				type: "success",
+				title: "Copied to clipboard!",
+				description: `${copiedType} code has been copied.`,
+			});
+		}
+	}, [copiedType, showBanner]);
 
 	const handleCopy = useCallback(async (code: string, type: string) => {
 		try {
@@ -224,15 +235,6 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 					website
 				</p>
 			</div>
-
-			{copiedType && (
-				<Banner
-					bannerType="success"
-					variant="filled"
-					alertTitle="Copied to clipboard!"
-					alertDescription={`${copiedType} code has been copied.`}
-				/>
-			)}
 
 			<div className={styles.embedOptions}>
 				<CodeBlock

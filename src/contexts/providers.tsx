@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/auth";
 import { GlobalBannerProvider } from "@/contexts/globalBanner";
 import { PersonaProvider } from "@/contexts/persona";
 import { SidebarProvider } from "@/contexts/sidebar";
+import { TierProvider } from "@/contexts/tier";
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	const { user } = useAuth();
@@ -13,9 +14,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 	return (
 		<GlobalBannerProvider>
-			<PersonaProvider persona={persona}>
-				<SidebarProvider>{children}</SidebarProvider>
-			</PersonaProvider>
+			<TierProvider>
+				<PersonaProvider persona={persona}>
+					<SidebarProvider>{children}</SidebarProvider>
+				</PersonaProvider>
+			</TierProvider>
 		</GlobalBannerProvider>
 	);
 }

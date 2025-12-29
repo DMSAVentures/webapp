@@ -1,13 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { useEffect } from "react";
 import { ErrorState } from "@/components/error/error";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import {
 	CampaignForm,
 	type CampaignFormData,
 } from "@/features/campaigns/components/CampaignForm/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
-import Banner from "@/proto-design-system/banner/banner";
 import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
 import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/campaigns/$campaignId/edit")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
+	const { showBanner } = useGlobalBanner();
 	const {
 		data: campaign,
 		loading: loadingCampaign,
@@ -31,6 +33,16 @@ function RouteComponent() {
 		loading: updating,
 		error: updateError,
 	} = useUpdateCampaign();
+
+	useEffect(() => {
+		if (updateError) {
+			showBanner({
+				type: "error",
+				title: "Failed to update campaign",
+				description: updateError.error,
+			});
+		}
+	}, [updateError, showBanner]);
 
 	const handleSubmit = async (data: CampaignFormData) => {
 		const updated = await updateCampaign(campaignId, {
@@ -164,15 +176,6 @@ function RouteComponent() {
 					</p>
 				</div>
 			</div>
-
-			{updateError && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to update campaign"
-					alertDescription={updateError.error}
-				/>
-			)}
 
 			<div className={styles.pageContent}>
 				<CampaignForm

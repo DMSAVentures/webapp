@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import {
 	WebhookForm,
 	type WebhookFormData,
@@ -18,8 +19,19 @@ export const Route = createFileRoute("/webhooks/new")({
 function RouteComponent() {
 	const navigate = useNavigate();
 	const { createWebhook, loading, error } = useCreateWebhook();
+	const { showBanner } = useGlobalBanner();
 	const [webhookSecret, setWebhookSecret] = useState<string | null>(null);
 	const [copied, setCopied] = useState(false);
+
+	useEffect(() => {
+		if (error) {
+			showBanner({
+				type: "error",
+				title: "Failed to create webhook",
+				description: error.error,
+			});
+		}
+	}, [error, showBanner]);
 
 	const handleCopySecret = async () => {
 		if (webhookSecret) {
@@ -119,15 +131,6 @@ function RouteComponent() {
 					</p>
 				</div>
 			</div>
-
-			{error && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to create webhook"
-					alertDescription={error.error}
-				/>
-			)}
 
 			<div className={styles.pageContent}>
 				<WebhookForm

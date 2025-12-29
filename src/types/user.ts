@@ -4,6 +4,8 @@
  * UI types (camelCase) for users and waitlist participants
  */
 
+import type { TierInfo } from "./tier";
+
 // ============================================================================
 // Auth User Types (UI - camelCase)
 // ============================================================================
@@ -21,6 +23,7 @@ export interface User {
 	lastName: string;
 	externalId: string;
 	persona?: UserPersona;
+	tier?: TierInfo;
 }
 
 // ============================================================================

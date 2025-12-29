@@ -1,0 +1,147 @@
+@use "@/design-tokens/layout" as layout;
+@use "@/design-tokens/typography" as typography;
+@use "@/design-tokens/border" as border;
+@use "@/design-tokens/motion" as motion;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: layout.$spacing-04;
+	padding: layout.$spacing-06;
+	text-align: center;
+	background-color: var(--color-surface-secondary-default);
+	border: 1px solid var(--color-border-primary-default);
+	border-radius: border.$border-radius-medium;
+}
+
+.icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	font-size: 24px;
+	color: var(--color-icon-secondary-default);
+	background-color: var(--color-bg-secondary-default);
+	border-radius: border.$border-radius-round;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: layout.$spacing-02;
+}
+
+.title {
+	margin: 0;
+	font-size: typography.$font-size-lg;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-primary-default);
+}
+
+.description {
+	margin: 0;
+	font-size: typography.$font-size-sm;
+	color: var(--color-text-secondary-default);
+	line-height: typography.$line-height-body;
+}
+
+.upgradeButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: layout.$spacing-03 layout.$spacing-05;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-semibold;
+	color: var(--color-text-inverse-default);
+	background-color: var(--color-bg-primary-default);
+	border: none;
+	border-radius: border.$border-radius-medium;
+	cursor: pointer;
+	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	&:hover {
+		background-color: var(--color-bg-primary-hover);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-focus-ring-default);
+		outline-offset: 2px;
+	}
+}
+
+.currentTier {
+	font-size: typography.$font-size-xs;
+	color: var(--color-text-tertiary-default);
+}
+
+// ============================================================================
+// Variants
+// ============================================================================
+
+.variant_inline {
+	flex-direction: row;
+	padding: layout.$spacing-04;
+	text-align: left;
+
+	.content {
+		flex: 1;
+	}
+
+	.icon {
+		width: 36px;
+		height: 36px;
+		font-size: 18px;
+	}
+
+	.currentTier {
+		display: none;
+	}
+}
+
+.variant_banner {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: layout.$spacing-04 layout.$spacing-05;
+	background-color: var(--color-bg-info-alpha);
+	border-color: var(--color-border-info-default);
+
+	.icon {
+		width: 32px;
+		height: 32px;
+		font-size: 16px;
+		background-color: transparent;
+		color: var(--color-info-default);
+	}
+
+	.content {
+		flex: 1;
+		min-width: 200px;
+		text-align: left;
+	}
+
+	.title {
+		font-size: typography.$font-size-md;
+	}
+
+	.description {
+		font-size: typography.$font-size-xs;
+	}
+
+	.upgradeButton {
+		padding: layout.$spacing-02 layout.$spacing-04;
+		font-size: typography.$font-size-xs;
+	}
+
+	.currentTier {
+		width: 100%;
+		text-align: center;
+		margin-top: layout.$spacing-02;
+	}
+}
+
+.variant_card {
+	max-width: 400px;
+}

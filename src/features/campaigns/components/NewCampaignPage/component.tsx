@@ -5,9 +5,9 @@
 
 import { useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
-import Banner from "@/proto-design-system/banner/banner";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
 
@@ -131,6 +131,17 @@ function useCreateCampaignHandler() {
 export const NewCampaignPage = memo(function NewCampaignPage() {
 	const { handleSubmit, handleCancel, loading, error } =
 		useCreateCampaignHandler();
+	const { showBanner } = useGlobalBanner();
+
+	useEffect(() => {
+		if (error) {
+			showBanner({
+				type: "error",
+				title: "Failed to create campaign",
+				description: error.error,
+			});
+		}
+	}, [error, showBanner]);
 
 	return (
 		<motion.div
@@ -147,15 +158,6 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 					</p>
 				</div>
 			</div>
-
-			{error && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to create campaign"
-					alertDescription={error.error}
-				/>
-			)}
 
 			<div className={styles.pageContent}>
 				<CampaignForm

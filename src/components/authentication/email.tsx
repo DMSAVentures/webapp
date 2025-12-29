@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer } from "react";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useSubmitLogin } from "@/hooks/useSubmitLogin";
+import { Button } from "@/proto-design-system/Button/button";
 import { TextInput } from "@/proto-design-system/TextInput/textInput";
 import "./email.scss";
-import { Button } from "@/proto-design-system/Button/button";
-import Banner from "@/proto-design-system/banner/banner";
 
 type EmailFormErrors = {
 	email?: string;
@@ -67,6 +67,7 @@ function formReducer(state: EmailFormState, action: Action) {
 export default function EmailSignIn() {
 	const [state, dispatch] = useReducer(formReducer, initialState);
 	const { submitLogin, data, error, loading } = useSubmitLogin();
+	const { showBanner } = useGlobalBanner();
 
 	useEffect(() => {
 		if (data) {
@@ -76,6 +77,16 @@ export default function EmailSignIn() {
 			window.location.href = "/";
 		}
 	}, [data]);
+
+	useEffect(() => {
+		if (error) {
+			showBanner({
+				type: "error",
+				title: error.message,
+				description: "Login failed",
+			});
+		}
+	}, [error, showBanner]);
 
 	// Handle form submission
 	async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
@@ -163,14 +174,6 @@ export default function EmailSignIn() {
 			<Button type="submit" disabled={loading}>
 				{loading ? "Signing in..." : "Sign in"}
 			</Button>
-			{error && (
-				<Banner
-					bannerType={"error"}
-					variant={"filled"}
-					alertTitle={error?.message}
-					alertDescription={"Login failed"}
-				/>
-			)}
 		</form>
 	);
 }

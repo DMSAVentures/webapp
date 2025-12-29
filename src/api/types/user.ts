@@ -4,6 +4,8 @@
  * API request/response types for users and waitlist participants (snake_case)
  */
 
+import type { ApiTierInfo } from "./tier";
+
 // ============================================================================
 // Auth User Types (API Response)
 // ============================================================================
@@ -21,6 +23,7 @@ export interface ApiUser {
 	last_name: string;
 	external_id: string;
 	persona?: ApiUserPersona;
+	tier?: ApiTierInfo;
 }
 
 // ============================================================================

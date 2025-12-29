@@ -7,12 +7,14 @@ import { useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { memo, useCallback, useEffect } from "react";
 import PlanCard from "@/components/billing/plans/planCard";
+import PlanToPay from "@/components/billing/plans/planPay";
 import { ErrorState } from "@/components/error/error";
+import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCancelSubscription } from "@/hooks/useCancelSubscription";
+import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
 import { Button } from "@/proto-design-system/Button/button";
 import { Badge } from "@/proto-design-system/badge/badge";
-import Banner from "@/proto-design-system/banner/banner";
 import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
 import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
 import { Column } from "@/proto-design-system/UIShell/Column/Column";
@@ -32,25 +34,10 @@ interface Subscription {
 // Custom Hooks
 // ============================================================================
 
-/** Hook for subscription data with redirect on no subscription */
-function useSubscriptionWithRedirect() {
-	const navigate = useNavigate();
-	const { loading, error, currentSubscription, refetch } =
-		useGetCurrentSubscription();
-
-	// Redirect to billing plans if no subscription
-	useEffect(() => {
-		if (error?.error === "no active subscription found") {
-			navigate({ to: "/billing/plans" });
-		}
-	}, [error, navigate]);
-
-	return { loading, error, currentSubscription, refetch };
-}
-
 /** Hook for subscription actions (cancel, navigate) */
 function useSubscriptionActions(refetch: () => void) {
 	const navigate = useNavigate();
+	const { showBanner } = useGlobalBanner();
 	const {
 		cancelSubscription,
 		error: errorCancelSub,
@@ -64,6 +51,17 @@ function useSubscriptionActions(refetch: () => void) {
 		}
 	}, [data, refetch]);
 
+	// Show error banner if cancel fails
+	useEffect(() => {
+		if (errorCancelSub) {
+			showBanner({
+				type: "error",
+				title: "Failed to cancel subscription",
+				description: errorCancelSub,
+			});
+		}
+	}, [errorCancelSub, showBanner]);
+
 	const handleUpdatePaymentMethod = useCallback(() => {
 		navigate({ to: "/billing/payment_method" });
 	}, [navigate]);
@@ -74,7 +72,6 @@ function useSubscriptionActions(refetch: () => void) {
 
 	return {
 		cancelSubscription,
-		errorCancelSub,
 		handleUpdatePaymentMethod,
 		handleResubscribe,
 	};
@@ -150,6 +147,58 @@ const SubscriptionActions = memo(function SubscriptionActions({
 
 SubscriptionActions.displayName = "SubscriptionActions";
 
+/** No subscription state - shows available plans */
+const NoSubscriptionState = memo(function NoSubscriptionState() {
+	const { loading, prices, error } = useGetAllPrices();
+
+	if (loading) {
+		return <LoadingSpinner />;
+	}
+
+	if (error) {
+		return <ErrorState message={`Failed to load plans: ${error}`} />;
+	}
+
+	if (!prices?.length) {
+		return <EmptyState title="No pricing plans available" />;
+	}
+
+	return (
+		<motion.div
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{ duration: 0.6 }}
+		>
+			<Column
+				sm={{ span: 7, start: 1 }}
+				md={{ start: 1, span: 7 }}
+				lg={{ start: 1, span: 11 }}
+				xlg={{ start: 1, span: 13 }}
+			>
+				<div className={styles.noSubscription}>
+					<h3>Choose a Plan</h3>
+					<p className={styles.noSubscriptionText}>
+						You don't have an active subscription. Select a plan below to get
+						started.
+					</p>
+					<div className={styles.plansGrid}>
+						{prices.map((price) => (
+							<PlanToPay
+								key={price.priceId}
+								productId={price.productId}
+								priceId={price.priceId}
+								description={price.description}
+							/>
+						))}
+					</div>
+				</div>
+			</Column>
+		</motion.div>
+	);
+});
+
+NoSubscriptionState.displayName = "NoSubscriptionState";
+
 // ============================================================================
 // Component
 // ============================================================================
@@ -160,32 +209,23 @@ SubscriptionActions.displayName = "SubscriptionActions";
 export const AccountPage = memo(function AccountPage() {
 	// Hooks
 	const { loading, error, currentSubscription, refetch } =
-		useSubscriptionWithRedirect();
-	const {
-		cancelSubscription,
-		errorCancelSub,
-		handleUpdatePaymentMethod,
-		handleResubscribe,
-	} = useSubscriptionActions(refetch);
+		useGetCurrentSubscription();
+	const { cancelSubscription, handleUpdatePaymentMethod, handleResubscribe } =
+		useSubscriptionActions(refetch);
 
 	// Loading state
 	if (loading) {
 		return <LoadingSpinner />;
 	}
 
-	// Redirect pending (no subscription)
-	if (error?.error === "no active subscription found") {
-		return null;
+	// No subscription - show available plans
+	if (error?.error === "no active subscription found" || !currentSubscription) {
+		return <NoSubscriptionState />;
 	}
 
 	// Error state
 	if (error) {
 		return <ErrorState message={`Something went wrong: ${error.error}`} />;
-	}
-
-	// Empty state
-	if (!currentSubscription) {
-		return <EmptyState title="No subscription found" />;
 	}
 
 	return (
@@ -194,14 +234,6 @@ export const AccountPage = memo(function AccountPage() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			{errorCancelSub && (
-				<Banner
-					bannerType="error"
-					variant="filled"
-					alertTitle="Failed to cancel subscription"
-					alertDescription={errorCancelSub}
-				/>
-			)}
 			<Column
 				sm={{ span: 7, start: 1 }}
 				md={{ start: 1, span: 7 }}

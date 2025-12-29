@@ -1,0 +1,12 @@
+@use "@/design-tokens/motion" as motion;
+
+.root {
+	transition: opacity motion.$duration-moderate-01 motion.$easing-productive-standard;
+}
+
+.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+	user-select: none;
+}
