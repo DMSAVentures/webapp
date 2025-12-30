@@ -1,7 +1,6 @@
 import { ErrorComponentProps } from "@tanstack/react-router";
 import React from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
+import { Button } from "@/proto-design-system";
 import styles from "./error.module.scss";
 
 interface ErrorStateProps {
@@ -12,14 +11,9 @@ export const ErrorState: React.FC<ErrorStateProps> = (
 	props: ErrorStateProps,
 ) => {
 	return (
-		<Column
-			sm={{ span: 7, start: 1 }}
-			md={{ start: 1, span: 7 }}
-			lg={{ start: 1, span: 11 }}
-			xlg={{ start: 1, span: 13 }}
-		>
+		<div style={{ width: "100%" }}>
 			<p>{props.message}</p>
-		</Column>
+		</div>
 	);
 };
 

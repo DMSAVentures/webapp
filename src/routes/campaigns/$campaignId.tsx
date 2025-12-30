@@ -4,10 +4,7 @@ import { ErrorState } from "@/components/error/error";
 import { CampaignTabNav } from "@/features/campaigns/components/CampaignTabNav/component";
 import { CampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
-import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
-import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Breadcrumb, EmptyState, Spinner } from "@/proto-design-system";
 import styles from "./$campaignId/campaignLayout.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId")({
@@ -25,10 +22,9 @@ function CampaignLayout() {
 
 	if (loading) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading campaign..."
+			<Spinner
+				size="lg"
+				label="Loading campaign..."
 			/>
 		);
 	}
@@ -52,14 +48,9 @@ function CampaignLayout() {
 				<header className={styles.header}>
 					<Breadcrumb
 						items={[
-							<BreadcrumbItem key="campaigns" state="default" path="/campaigns">
-								Campaigns
-							</BreadcrumbItem>,
-							<BreadcrumbItem key="current" state="active">
-								{campaign.name}
-							</BreadcrumbItem>,
+							{ label: "Campaigns", href: "/campaigns" },
+							{ label: campaign.name },
 						]}
-						divider="arrow"
 					/>
 					<CampaignTabNav campaignId={campaignId} />
 				</header>

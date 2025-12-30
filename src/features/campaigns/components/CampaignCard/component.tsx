@@ -5,6 +5,7 @@
 
 import {
 	type HTMLAttributes,
+	type ReactNode,
 	memo,
 	type RefObject,
 	useCallback,
@@ -12,9 +13,8 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import DropdownMenu from "@/proto-design-system/dropdownmenu/dropdownmenu";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Copy, Pencil, Trash2 } from "lucide-react";
+import { Badge, Button, DropdownMenu } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 
@@ -43,21 +43,21 @@ interface MenuAction {
 // Pure Functions
 // ============================================================================
 
-/** Maps campaign status to StatusBadge variant */
+/** Maps campaign status to Badge variant */
 function getStatusVariant(
 	status: Campaign["status"],
-): "completed" | "pending" | "failed" | "disabled" {
+): "success" | "warning" | "secondary" | "primary" {
 	switch (status) {
 		case "active":
-			return "completed";
+			return "success";
 		case "draft":
-			return "pending";
+			return "warning";
 		case "paused":
-			return "disabled";
+			return "secondary";
 		case "completed":
-			return "completed";
+			return "primary";
 		default:
-			return "pending";
+			return "secondary";
 	}
 }
 
@@ -67,18 +67,16 @@ function toTitleCase(text: string): string {
 }
 
 /** Creates a standard menu item configuration */
-function createMenuItem(label: string, icon: string, onClick: () => void) {
+function createMenuItem(
+	id: string,
+	label: string,
+	leftIcon: ReactNode,
+	onClick: () => void,
+) {
 	return {
-		state: "default" as const,
-		size: "medium" as const,
-		checkbox: false,
+		id,
 		label,
-		badge: false,
-		shortcut: false,
-		toggle: false,
-		button: false,
-		icon,
-		iconPosition: "left" as const,
+		leftIcon,
 		onClick,
 	};
 }
@@ -86,8 +84,7 @@ function createMenuItem(label: string, icon: string, onClick: () => void) {
 /** Creates a divider menu item */
 function createDivider() {
 	return {
-		size: "thin" as const,
-		text: "",
+		type: "divider" as const,
 	};
 }
 
@@ -101,7 +98,7 @@ function buildMenuItems(
 
 	if (actions?.onEdit) {
 		menuItems.push(
-			createMenuItem("Edit", "ri-edit-line", () => {
+			createMenuItem("edit", "Edit", <Pencil size={16} />, () => {
 				closeMenu();
 				actions.onEdit?.();
 			}),
@@ -110,7 +107,7 @@ function buildMenuItems(
 
 	if (actions?.onDuplicate) {
 		menuItems.push(
-			createMenuItem("Duplicate", "ri-file-copy-line", () => {
+			createMenuItem("duplicate", "Duplicate", <Copy size={16} />, () => {
 				closeMenu();
 				actions.onDuplicate?.();
 			}),
@@ -122,7 +119,7 @@ function buildMenuItems(
 			menuItems.push(createDivider());
 		}
 		menuItems.push(
-			createMenuItem("Delete", "ri-delete-bin-line", () => {
+			createMenuItem("delete", "Delete", <Trash2 size={16} />, () => {
 				closeMenu();
 				actions.onDelete?.();
 			}),
@@ -249,20 +246,18 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			<div className={styles.header}>
 				<div className={styles.headerContent}>
 					<h3 className={styles.title}>{campaign.name}</h3>
-					<StatusBadge
-						text={toTitleCase(campaign.status)}
-						variant={getStatusVariant(campaign.status)}
-						styleType="stroke"
-					/>
+					<Badge variant={getStatusVariant(campaign.status)}>
+						{toTitleCase(campaign.status)}
+					</Badge>
 				</div>
 
 				{/* Action Menu */}
 				{hasActions && (
 					<div className={styles.actions} ref={menuRef}>
-						<IconOnlyButton
-							iconClass="more-2-fill"
+						<Button
+							leftIcon="ri-more-2-fill"
 							variant="secondary"
-							ariaLabel="More actions"
+							aria-label="More actions"
 							onClick={(e) => {
 								e.stopPropagation();
 								toggleMenu();

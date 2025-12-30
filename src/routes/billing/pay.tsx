@@ -2,8 +2,7 @@ import { createFileRoute, useSearch } from "@tanstack/react-router";
 import CustomCheckout from "@/components/billing/checkout/CustomCheckout";
 import { ErrorState } from "@/components/error/error";
 import { useCreateCheckoutSession } from "@/hooks/useCreateCheckoutSession";
-import Banner from "@/proto-design-system/banner/banner";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Banner, Spinner } from "@/proto-design-system";
 
 export const Route = createFileRoute("/billing/pay")({
 	component: RouteComponent,
@@ -19,7 +18,7 @@ function PaymentPage(props: Props) {
 	});
 
 	if (loading) {
-		return <LoadingSpinner />;
+		return <Spinner />;
 	}
 
 	if (error) {
@@ -29,10 +28,10 @@ function PaymentPage(props: Props) {
 	if (!clientSecret) {
 		return (
 			<Banner
-				bannerType="error"
+				type="error"
 				variant="filled"
-				alertTitle="Error"
-				alertDescription="Unable to initiate payment process"
+				title="Error"
+				description="Unable to initiate payment process"
 			/>
 		);
 	}

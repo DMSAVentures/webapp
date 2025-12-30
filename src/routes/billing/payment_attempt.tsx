@@ -1,9 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ErrorState } from "@/components/error/error";
 import { useGetCheckoutSession } from "@/hooks/useGetCheckoutSession";
-import Banner from "@/proto-design-system/banner/banner";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
+import { Banner, Spinner } from "@/proto-design-system";
 
 interface Props {
 	sessionId: string;
@@ -16,7 +14,7 @@ function Page(props: Props) {
 	});
 
 	if (loading) {
-		return <LoadingSpinner />;
+		return <Spinner />;
 	}
 
 	if (error) {
@@ -30,22 +28,16 @@ function Page(props: Props) {
 
 	if (data.status === "complete") {
 		return (
-			<Column
-				sm={{ span: 8, start: 1 }}
-				md={{ start: 1, span: 7 }}
-				lg={{ start: 1, span: 11 }}
-				xlg={{ start: 1, span: 15 }}
-				max={{ start: 1, span: 17 }}
-			>
+			<div>
 				<Banner
-					bannerType={"success"}
+					type={"success"}
 					variant={"filled"}
-					alertTitle={"Joined!"}
-					alertDescription={
+					title={"Joined!"}
+					description={
 						"We appreciate your business! A confirmation email will be sent to your email. "
 					}
 				/>
-			</Column>
+			</div>
 		);
 	}
 

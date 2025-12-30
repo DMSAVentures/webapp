@@ -10,11 +10,10 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { Badge } from "@/proto-design-system/badge/badge";
-import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
-import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
+import {
+	Badge,
+	Button,
+} from "@/proto-design-system";
 import type { SharingChannel } from "@/types/campaign";
 import type {
 	FormBehavior,
@@ -386,35 +385,31 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					<h2 className={styles.title}>Form Builder</h2>
 					{hasUnsavedChanges && (
 						<Badge
-							text="Unsaved changes"
-							variant="yellow"
-							styleType="light"
-							size="small"
-							iconClass="save-line"
-							iconPosition="left"
-						/>
+							variant="warning"
+							size="sm"
+						>Unsaved changes</Badge>
 					)}
 				</div>
 
 				<div className={styles.headerActions}>
 					{showPreview && (
 						<div className={styles.deviceSelector}>
-							<IconOnlyButton
-								iconClass="smartphone-line"
+							<Button
+								leftIcon="ri-smartphone-line"
 								variant={previewDevice === "mobile" ? "primary" : "secondary"}
-								ariaLabel="Mobile preview"
+								aria-label="Mobile preview"
 								onClick={() => setPreviewDevice("mobile")}
 							/>
-							<IconOnlyButton
-								iconClass="tablet-line"
+							<Button
+								leftIcon="ri-tablet-line"
 								variant={previewDevice === "tablet" ? "primary" : "secondary"}
-								ariaLabel="Tablet preview"
+								aria-label="Tablet preview"
 								onClick={() => setPreviewDevice("tablet")}
 							/>
-							<IconOnlyButton
-								iconClass="computer-line"
+							<Button
+								leftIcon="ri-computer-line"
 								variant={previewDevice === "desktop" ? "primary" : "secondary"}
-								ariaLabel="Desktop preview"
+								aria-label="Desktop preview"
 								onClick={() => setPreviewDevice("desktop")}
 							/>
 						</div>
@@ -422,7 +417,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 					<Button
 						variant="secondary"
-						size="medium"
+						size="md"
 						leftIcon={showPreview ? "edit-line" : "eye-line"}
 						onClick={handleTogglePreview}
 					>
@@ -431,7 +426,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 					<Button
 						variant="primary"
-						size="medium"
+						size="md"
 						leftIcon={saving ? "loader-4-line" : "save-line"}
 						onClick={handleSave}
 						disabled={saving || !hasUnsavedChanges}
@@ -443,24 +438,26 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 			{/* Top-level Mode Tabs */}
 			<div className={styles.modeTabs}>
-				<TabMenuHorizontal
-					items={[
-						<TabMenuHorizontalItem
-							key="form"
-							active={builderMode === "form"}
-							leftIcon="ri-file-list-3-line"
-							text="Form"
-						/>,
-						<TabMenuHorizontalItem
-							key="success-screen"
-							active={builderMode === "success-screen"}
-							leftIcon="ri-check-double-line"
-							text="Success Screen"
-						/>,
-					]}
-					activeTab={builderMode === "form" ? 0 : 1}
-					onTabClick={handleBuilderModeChange}
-				/>
+				<div className={styles.tabButtons}>
+					<button
+						type="button"
+						className={`${styles.tabButton} ${builderMode === "form" ? styles.tabButtonActive : ""}`}
+						onClick={() => handleBuilderModeChange(0)}
+						aria-pressed={builderMode === "form"}
+					>
+						<i className="ri-file-list-3-line" aria-hidden="true" />
+						<span>Form</span>
+					</button>
+					<button
+						type="button"
+						className={`${styles.tabButton} ${builderMode === "success-screen" ? styles.tabButtonActive : ""}`}
+						onClick={() => handleBuilderModeChange(1)}
+						aria-pressed={builderMode === "success-screen"}
+					>
+						<i className="ri-check-double-line" aria-hidden="true" />
+						<span>Success Screen</span>
+					</button>
+				</div>
 			</div>
 
 			{/* Main content based on builder mode */}

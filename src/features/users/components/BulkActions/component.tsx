@@ -4,9 +4,8 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import Modal from "@/proto-design-system/modal/modal";
+import { AlertTriangle } from "lucide-react";
+import { Button, Modal } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface BulkActionsProps extends HTMLAttributes<HTMLDivElement> {
@@ -120,10 +119,10 @@ export const BulkActions = memo<BulkActionsProps>(function BulkActions({
 					</div>
 
 					{/* Clear selection */}
-					<IconOnlyButton
-						iconClass="close-line"
+					<Button
+						leftIcon="ri-close-line"
 						variant="secondary"
-						ariaLabel="Clear selection"
+						aria-label="Clear selection"
 						onClick={onClearSelection}
 						disabled={isLoading}
 					/>
@@ -136,14 +135,19 @@ export const BulkActions = memo<BulkActionsProps>(function BulkActions({
 				onClose={() => setIsDeleteModalOpen(false)}
 				title="Delete Users"
 				description={`Are you sure you want to delete ${selectedUserIds.length} user${selectedUserIds.length !== 1 ? "s" : ""}? This action cannot be undone.`}
-				icon="warning"
-				dismissibleByCloseIcon={true}
-				proceedText={isLoading ? "Deleting..." : "Delete"}
-				cancelText="Cancel"
-				onCancel={() => setIsDeleteModalOpen(false)}
-				onProceed={handleConfirmDelete}
+				icon={<AlertTriangle />}
+				footer={
+					<>
+						<Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)} disabled={isLoading}>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={handleConfirmDelete} disabled={isLoading}>
+							{isLoading ? "Deleting..." : "Delete"}
+						</Button>
+					</>
+				}
 			>
-				{/* Modal content is handled by the Modal component itself */}
+				<></>
 			</Modal>
 		</>
 	);

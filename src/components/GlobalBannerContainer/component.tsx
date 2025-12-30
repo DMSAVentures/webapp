@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
-import Banner from "@/proto-design-system/banner/banner";
+import { Banner } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export function GlobalBannerContainer() {
@@ -23,10 +23,10 @@ export function GlobalBannerContainer() {
 						className={styles.bannerWrapper}
 					>
 						<Banner
-							bannerType={banner.type}
+							type={banner.type}
 							variant="filled"
-							alertTitle={banner.title}
-							alertDescription={banner.description || ""}
+							title={banner.title}
+							description={banner.description || ""}
 							dismissible={banner.dismissible}
 							onDismiss={() => dismissBanner(banner.id)}
 						/>

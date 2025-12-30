@@ -1,6 +1,5 @@
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import Modal from "@/proto-design-system/modal/modal";
+import { Button, Modal } from "@/proto-design-system";
 import styles from "./component.module.scss";
 import "remixicon/fonts/remixicon.css";
 
@@ -93,7 +92,7 @@ export const ReferralLink = memo(function ReferralLink({
 						<div className={styles.buttonGroup}>
 							<Button
 								variant="secondary"
-								size="medium"
+								size="md"
 								onClick={handleCopy}
 								aria-label="Copy referral link"
 								className={styles.copyButton}
@@ -104,7 +103,7 @@ export const ReferralLink = memo(function ReferralLink({
 
 							<Button
 								variant="secondary"
-								size="medium"
+								size="md"
 								onClick={handleOpenQRModal}
 								aria-label="Show QR code"
 								className={styles.qrButton}
@@ -123,10 +122,11 @@ export const ReferralLink = memo(function ReferralLink({
 				onClose={handleCloseQRModal}
 				title="Scan QR Code"
 				description="Share your referral link by scanning this QR code"
-				proceedText="Close"
-				onProceed={handleCloseQRModal}
-				dismissibleByCloseIcon={true}
-				centeredHeader={true}
+				footer={
+					<Button variant="primary" onClick={handleCloseQRModal}>
+						Close
+					</Button>
+				}
 			>
 				<div className={styles.qrCodeContainer}>
 					<img

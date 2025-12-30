@@ -4,10 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
-import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
-import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
+import { Badge, Button, Tabs, TabList, Tab } from "@/proto-design-system";
 import type { Integration } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -70,16 +67,16 @@ const getIntegrationCategory = (
  */
 const getStatusVariant = (
 	status: Integration["status"],
-): "completed" | "pending" | "failed" | "disabled" => {
+): "success" | "warning" | "error" | "secondary" => {
 	switch (status) {
 		case "connected":
-			return "completed";
+			return "success";
 		case "disconnected":
-			return "disabled";
+			return "secondary";
 		case "error":
-			return "failed";
+			return "error";
 		default:
-			return "pending";
+			return "warning";
 	}
 };
 
@@ -191,27 +188,22 @@ export const IntegrationList = memo<IntegrationListProps>(
 			);
 		}
 
-		const activeTabIndex = CATEGORY_OPTIONS.findIndex(
-			(opt) => opt.value === categoryFilter,
-		);
-
 		return (
 			<div className={classNames} {...props}>
 				{/* Category filter */}
 				<div className={styles.header}>
-					<TabMenuHorizontal
-						items={CATEGORY_OPTIONS.map((option) => (
-							<TabMenuHorizontalItem
-								key={option.value}
-								text={option.label}
-								active={categoryFilter === option.value}
-							/>
-						))}
-						activeTab={activeTabIndex}
-						onTabClick={(index) =>
-							setCategoryFilter(CATEGORY_OPTIONS[index].value)
-						}
-					/>
+					<Tabs
+						activeTab={categoryFilter}
+						onTabChange={(tabId) => setCategoryFilter(tabId as IntegrationCategory)}
+					>
+						<TabList aria-label="Integration categories">
+							{CATEGORY_OPTIONS.map((option) => (
+								<Tab key={option.value} id={option.value}>
+									{option.label}
+								</Tab>
+							))}
+						</TabList>
+					</Tabs>
 				</div>
 
 				{/* Results info */}
@@ -256,11 +248,11 @@ export const IntegrationList = memo<IntegrationListProps>(
 										<h3 className={styles.integrationTitle}>
 											{integration.name}
 										</h3>
-										<StatusBadge
-											text={getStatusText(integration.status)}
+										<Badge
 											variant={getStatusVariant(integration.status)}
-											styleType="stroke"
-										/>
+										>
+											{getStatusText(integration.status)}
+										</Badge>
 									</div>
 
 									<p className={styles.integrationDescription}>
@@ -324,7 +316,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 											{onConfigure && (
 												<Button
 													variant="primary"
-													size="small"
+													size="sm"
 													onClick={() => onConfigure(integration.id)}
 													leftIcon="ri-error-warning-line"
 												>
@@ -334,7 +326,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 											{onDisconnect && (
 												<Button
 													variant="secondary"
-													size="small"
+													size="sm"
 													onClick={() => onDisconnect(integration.id)}
 												>
 													Disconnect

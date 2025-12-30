@@ -9,8 +9,7 @@ import type { ApiTrackingIntegrationType } from "@/api/types/campaign";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
-import { Button } from "@/proto-design-system/Button/button";
-import Banner from "@/proto-design-system/banner/banner";
+import { Banner, Button } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
@@ -287,10 +286,10 @@ export const CampaignSettings = memo(function CampaignSettings({
 			{/* Ended Campaign Notice */}
 			{isCompleted && (
 				<Banner
-					bannerType="warning"
+					type="warning"
 					variant="lighter"
-					alertTitle="Campaign Ended"
-					alertDescription="This campaign has ended. Settings are read-only."
+					title="Campaign Ended"
+					description="This campaign has ended. Settings are read-only."
 					dismissible={false}
 				/>
 			)}

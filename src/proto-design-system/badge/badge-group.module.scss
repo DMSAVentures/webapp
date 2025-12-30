@@ -1,7 +1,0 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/border" as border;
-
-.badge-group {
-    display: inline-flex;
-    gap: layout.$spacing-03;
-}

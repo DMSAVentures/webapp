@@ -7,9 +7,7 @@ import {
 	type WebhookFormData,
 } from "@/features/webhooks/components/WebhookForm/component";
 import { useCreateWebhook } from "@/hooks/useCreateWebhook";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import Banner from "@/proto-design-system/banner/banner";
+import { Button, Banner } from "@/proto-design-system";
 import styles from "./new.module.scss";
 
 export const Route = createFileRoute("/webhooks/new")({
@@ -83,20 +81,20 @@ function RouteComponent() {
 				<div className={styles.pageContent}>
 					<div className={styles.secretDisplay}>
 						<Banner
-							bannerType="warning"
+							type="warning"
 							variant="filled"
-							alertTitle="Save your webhook secret"
-							alertDescription="This is the only time you'll see this secret. Copy it now and store it securely."
+							title="Save your webhook secret"
+							description="This is the only time you'll see this secret. Copy it now and store it securely."
 						/>
 
 						<div className={styles.secretCard}>
 							<span className={styles.secretLabel}>Webhook Signing Secret</span>
 							<div className={styles.secretValueContainer}>
 								<code className={styles.secretValue}>{webhookSecret}</code>
-								<IconOnlyButton
-									ariaLabel={copied ? "Copied!" : "Copy secret"}
+								<Button
+									aria-label={copied ? "Copied!" : "Copy secret"}
 									variant="secondary"
-									iconClass={copied ? "check-line" : "file-copy-line"}
+									leftIcon={copied ? "ri-check-line" : "ri-file-copy-line"}
 									onClick={handleCopySecret}
 								/>
 							</div>

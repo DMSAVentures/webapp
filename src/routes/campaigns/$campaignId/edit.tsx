@@ -9,10 +9,7 @@ import {
 } from "@/features/campaigns/components/CampaignForm/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
-import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
-import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Breadcrumb, EmptyState, Spinner } from "@/proto-design-system";
 import styles from "./campaignEdit.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/edit")({
@@ -87,10 +84,9 @@ function RouteComponent() {
 
 	if (loadingCampaign) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading campaign..."
+			<Spinner
+				size="lg"
+				label="Loading campaign..."
 			/>
 		);
 	}
@@ -152,21 +148,10 @@ function RouteComponent() {
 				<div className={styles.headerActions}>
 					<Breadcrumb
 						items={[
-							<BreadcrumbItem key="campaigns" state="default" path="/campaigns">
-								Campaigns
-							</BreadcrumbItem>,
-							<BreadcrumbItem
-								key="campaign"
-								state="default"
-								path={`/campaigns/${campaignId}`}
-							>
-								{campaign.name}
-							</BreadcrumbItem>,
-							<BreadcrumbItem key="edit" state="active">
-								Edit
-							</BreadcrumbItem>,
+							{ label: "Campaigns", href: "/campaigns" },
+							{ label: campaign.name, href: `/campaigns/${campaignId}` },
+							{ label: "Edit" },
 						]}
-						divider="arrow"
 					/>
 				</div>
 				<div className={styles.headerContent}>

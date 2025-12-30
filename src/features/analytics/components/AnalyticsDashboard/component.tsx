@@ -4,7 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
+import { Button } from "@/proto-design-system";
 import type { Analytics } from "@/types/common.types";
 import { ConversionFunnel } from "../ConversionFunnel/component";
 import { GrowthChart } from "../GrowthChart/component";
@@ -104,7 +104,7 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 						{onExport && (
 							<Button
 								variant="secondary"
-								size="medium"
+								size="md"
 								leftIcon="download-2-line"
 								onClick={onExport}
 							>

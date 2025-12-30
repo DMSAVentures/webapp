@@ -1,7 +1,7 @@
 "use client";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/auth";
-import { SidebarUsername } from "@/proto-design-system/UIShell/Sidebar/sidebarUsername";
+import { Avatar, Text } from "@/proto-design-system";
 
 export default function UserName() {
 	const auth = useContext(AuthContext);
@@ -9,10 +9,13 @@ export default function UserName() {
 		return null;
 	}
 
+	const initials = `${auth.user.firstName?.charAt(0) || ""}${auth.user.lastName?.charAt(0) || ""}`.toUpperCase();
+	const fullName = `${auth.user.firstName || ""} ${auth.user.lastName || ""}`.trim();
+
 	return (
-		<SidebarUsername
-			firstName={auth.user.firstName}
-			lastName={auth.user.lastName}
-		/>
+		<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+			<Avatar size="sm" fallback={initials} />
+			<Text size="sm" weight="medium">{fullName}</Text>
+		</div>
 	);
 }

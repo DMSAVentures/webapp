@@ -2,7 +2,7 @@ import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { ErrorBoundary } from "@/components/error/error";
 import { useAuth } from "@/contexts/auth";
 import { Providers } from "@/contexts/providers";
-import { Layout } from "@/proto-design-system/UIShell/Layout/Layout";
+import { Layout } from "@/components/Layout/Layout";
 
 // Determines if the current path is a public route (e.g., /signin, /oauth/*, /embed/*, /test-*)
 function isPublicRoute(): boolean {

@@ -4,9 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Divider, Input, TextArea } from "@/proto-design-system";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import styles from "./component.module.scss";
@@ -84,17 +82,17 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 					<section className={styles.section}>
 						<h4 className={styles.sectionTitle}>Message Content</h4>
 						<div className={styles.inputGroup}>
-							<TextInput
+							<label htmlFor="success-title">Title</label>
+							<Input
 								id="success-title"
-								label="Title"
 								type="text"
 								value={successTitle}
 								onChange={(e) => handleTitleChange(e.target.value)}
 								placeholder="Thank you for signing up!"
 							/>
+							<label htmlFor="success-message">Message</label>
 							<TextArea
 								id="success-message"
-								label="Message"
 								value={successMessage}
 								onChange={(e) => handleMessageChange(e.target.value)}
 								placeholder="We'll be in touch soon."
@@ -106,7 +104,7 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 					{/* Referral Links Section */}
 					{enabledChannels.length > 0 && (
 						<>
-							<ContentDivider size="thin" />
+							<Divider />
 							<section className={styles.section}>
 								<h4 className={styles.sectionTitle}>Referral Links</h4>
 								<p className={styles.sectionDescription}>
@@ -137,7 +135,7 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 
 					{enabledChannels.length === 0 && (
 						<>
-							<ContentDivider size="thin" />
+							<Divider />
 							<section className={styles.section}>
 								<div className={styles.hint}>
 									<i className="ri-information-line" aria-hidden="true" />

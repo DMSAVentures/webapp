@@ -7,10 +7,6 @@ import { memo, useCallback, useRef, useState } from "react";
 import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
 import { useConversionTracking } from "@/hooks/useConversionTracking";
 import type { SignupResponse } from "@/hooks/useFormSubmission";
-import {
-	Turnstile,
-	type TurnstileRef,
-} from "@/proto-design-system/Turnstile/component";
 import type { SharingChannel, TrackingIntegration } from "@/types/campaign";
 import type {
 	FormDesign,
@@ -109,8 +105,8 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	const [submitted, setSubmitted] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-	const [captchaError, setCaptchaError] = useState(false);
-	const turnstileRef = useRef<TurnstileRef>(null);
+	const [captchaError] = useState(false);
+	const turnstileRef = useRef<HTMLDivElement>(null);
 
 	// Fire conversion tracking when form is submitted (only in interactive mode)
 	useConversionTracking(
@@ -124,21 +120,6 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 
 	// Sort fields by order
 	const sortedFields = [...fields].sort((a, b) => a.order - b.order);
-
-	// Handle captcha verification
-	const handleCaptchaVerify = useCallback((token: string) => {
-		setCaptchaToken(token);
-		setCaptchaError(false);
-	}, []);
-
-	const handleCaptchaError = useCallback(() => {
-		setCaptchaToken(null);
-		setCaptchaError(true);
-	}, []);
-
-	const handleCaptchaExpire = useCallback(() => {
-		setCaptchaToken(null);
-	}, []);
 
 	// Handle form submission
 	const handleSubmit = useCallback(
@@ -174,7 +155,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 					error instanceof Error ? error.message : "Failed to submit form";
 				setSubmitError(message);
 				// Reset captcha on error so user can try again
-				turnstileRef.current?.reset();
+				// TODO: Implement captcha reset when Turnstile is integrated
 				setCaptchaToken(null);
 			} finally {
 				setSubmitting(false);
@@ -313,16 +294,13 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 				<div className={styles.fields}>{sortedFields.map(renderField)}</div>
 			)}
 
-			{/* Captcha widget */}
+			{/* Captcha widget placeholder - Turnstile integration pending */}
 			{isCaptchaEnabled && captcha && (
-				<div className={styles.captcha}>
-					<Turnstile
-						ref={turnstileRef}
-						siteKey={captcha.siteKey}
-						onVerify={handleCaptchaVerify}
-						onError={handleCaptchaError}
-						onExpire={handleCaptchaExpire}
-					/>
+				<div className={styles.captcha} ref={turnstileRef}>
+					<div className={styles.captchaPlaceholder}>
+						<i className="ri-shield-check-line" aria-hidden="true" />
+						<span>Captcha verification</span>
+					</div>
 					{captchaError && (
 						<div className={styles.captchaError}>
 							Captcha verification failed. Please try again.

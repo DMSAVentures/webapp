@@ -10,9 +10,19 @@ import {
 	useRef,
 	useState,
 } from "react";
-import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
-import DropdownMenu from "@/proto-design-system/dropdownmenu/dropdownmenu";
-import HintText from "@/proto-design-system/hinttext/hinttext";
+import {
+	Bold,
+	Italic,
+	Underline,
+	Link,
+	Image,
+	Code,
+	Monitor,
+	Smartphone,
+	Eye,
+	Pencil,
+} from "lucide-react";
+import { Button, ButtonGroup, DropdownMenu } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface EmailEditorProps
@@ -120,15 +130,8 @@ export const EmailEditor = memo<EmailEditorProps>(function EmailEditor({
 
 	// Build variables menu items
 	const variableMenuItems = variables.map((variable) => ({
-		state: "default" as const,
-		size: "medium" as const,
-		checkbox: false,
+		id: variable,
 		label: variable,
-		badge: false,
-		shortcut: false,
-		toggle: false,
-		button: false,
-		iconPosition: "left" as const,
 		onClick: () => insertVariable(variable),
 	}));
 
@@ -136,79 +139,68 @@ export const EmailEditor = memo<EmailEditorProps>(function EmailEditor({
 		<div className={classNames} {...props}>
 			{/* Toolbar */}
 			<div className={styles.toolbar}>
-				<ButtonGroup
-					size="small"
-					ariaLabel="Text formatting"
-					items={[
-						{
-							text: "",
-							iconPosition: "left",
-							icon: "ri-bold",
-							iconOnly: true,
-							onClick: () => execCommand("bold"),
-							ariaLabel: "Bold",
-						},
-						{
-							text: "",
-							iconPosition: "left",
-							icon: "ri-italic",
-							iconOnly: true,
-							onClick: () => execCommand("italic"),
-							ariaLabel: "Italic",
-						},
-						{
-							text: "",
-							iconPosition: "left",
-							icon: "ri-underline",
-							iconOnly: true,
-							onClick: () => execCommand("underline"),
-							ariaLabel: "Underline",
-						},
-					]}
-				/>
+				<ButtonGroup aria-label="Text formatting">
+					<Button
+						variant="secondary"
+						size="sm"
+						isIconOnly
+						leftIcon={<Bold size={16} />}
+						onClick={() => execCommand("bold")}
+						aria-label="Bold"
+					/>
+					<Button
+						variant="secondary"
+						size="sm"
+						isIconOnly
+						leftIcon={<Italic size={16} />}
+						onClick={() => execCommand("italic")}
+						aria-label="Italic"
+					/>
+					<Button
+						variant="secondary"
+						size="sm"
+						isIconOnly
+						leftIcon={<Underline size={16} />}
+						onClick={() => execCommand("underline")}
+						aria-label="Underline"
+					/>
+				</ButtonGroup>
 
 				<div className={styles.toolbarDivider} />
 
-				<ButtonGroup
-					size="small"
-					ariaLabel="Insert content"
-					items={[
-						{
-							text: "",
-							iconPosition: "left",
-							icon: "ri-link",
-							iconOnly: true,
-							onClick: handleInsertLink,
-							ariaLabel: "Insert link",
-						},
-						{
-							text: "",
-							iconPosition: "left",
-							icon: "ri-image-line",
-							iconOnly: true,
-							onClick: handleInsertImage,
-							ariaLabel: "Insert image",
-						},
-					]}
-				/>
+				<ButtonGroup aria-label="Insert content">
+					<Button
+						variant="secondary"
+						size="sm"
+						isIconOnly
+						leftIcon={<Link size={16} />}
+						onClick={handleInsertLink}
+						aria-label="Insert link"
+					/>
+					<Button
+						variant="secondary"
+						size="sm"
+						isIconOnly
+						leftIcon={<Image size={16} />}
+						onClick={handleInsertImage}
+						aria-label="Insert image"
+					/>
+				</ButtonGroup>
 
 				<div className={styles.toolbarDivider} />
 
 				<div className={styles.toolbarGroup} ref={variablesMenuRef}>
-					<ButtonGroup
-						size="small"
-						ariaLabel="Variable insertion"
-						items={[
-							{
-								text: "Insert Variable",
-								iconPosition: "left",
-								icon: "ri-code-line",
-								iconOnly: false,
-								onClick: () => setShowVariablesMenu(!showVariablesMenu),
-								ariaLabel: "Insert Variable",
-							},
-						]}
-					/>
+					<ButtonGroup aria-label="Variable insertion">
+						<Button
+							variant="secondary"
+							size="sm"
+							leftIcon={<Code size={16} />}
+							onClick={() => setShowVariablesMenu(!showVariablesMenu)}
+							aria-label="Insert Variable"
+						>
+							Insert Variable
+						</Button>
+					</ButtonGroup>
 					{showVariablesMenu && (
 						<div className={styles.variablesMenu}>
 							<DropdownMenu items={variableMenuItems} />
@@ -218,36 +210,37 @@ export const EmailEditor = memo<EmailEditorProps>(function EmailEditor({
 
 				<div className={styles.toolbarSpacer} />
 
-				<ButtonGroup
-					size="small"
-					ariaLabel="Preview and device options"
-					items={[
-						{
-							text: "",
-							iconPosition: "left",
-							icon:
-								previewDevice === "desktop"
-									? "ri-computer-line"
-									: "ri-smartphone-line",
-							iconOnly: true,
-							onClick: () =>
-								setPreviewDevice(
-									previewDevice === "desktop" ? "mobile" : "desktop",
-								),
-							ariaLabel: `Switch to ${previewDevice === "desktop" ? "mobile" : "desktop"} preview`,
-						},
-						{
-							text: showPreview ? "Edit" : "Preview",
-							iconPosition: "left",
-							icon: showPreview ? "ri-edit-line" : "ri-eye-line",
-							iconOnly: false,
-							onClick: () => setShowPreview(!showPreview),
-							ariaLabel: showPreview
-								? "Switch to edit mode"
-								: "Switch to preview mode",
-						},
-					]}
-				/>
+				<ButtonGroup aria-label="Preview and device options">
+					<Button
+						variant="secondary"
+						size="sm"
+						isIconOnly
+						leftIcon={
+							previewDevice === "desktop" ? (
+								<Monitor size={16} />
+							) : (
+								<Smartphone size={16} />
+							)
+						}
+						onClick={() =>
+							setPreviewDevice(
+								previewDevice === "desktop" ? "mobile" : "desktop",
+							)
+						}
+						aria-label={`Switch to ${previewDevice === "desktop" ? "mobile" : "desktop"} preview`}
+					/>
+					<Button
+						variant="secondary"
+						size="sm"
+						leftIcon={showPreview ? <Pencil size={16} /> : <Eye size={16} />}
+						onClick={() => setShowPreview(!showPreview)}
+						aria-label={
+							showPreview ? "Switch to edit mode" : "Switch to preview mode"
+						}
+					>
+						{showPreview ? "Edit" : "Preview"}
+					</Button>
+				</ButtonGroup>
 			</div>
 
 			{/* Editor / Preview */}
@@ -280,10 +273,9 @@ export const EmailEditor = memo<EmailEditorProps>(function EmailEditor({
 			</div>
 
 			{/* Help text */}
-			<HintText
-				hintText="Use the toolbar to format text, insert links, images, and dynamic variables"
-				state="default"
-			/>
+			<p className={styles.helpText}>
+				Use the toolbar to format text, insert links, images, and dynamic variables
+			</p>
 		</div>
 	);
 });

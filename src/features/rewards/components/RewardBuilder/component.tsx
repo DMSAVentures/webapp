@@ -4,11 +4,7 @@
  */
 
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import Dropdown from "@/proto-design-system/dropdown/dropdown";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Divider, Dropdown, TextArea, Input } from "@/proto-design-system";
 import type { Reward } from "@/types/common.types";
 import {
 	validateDate,
@@ -216,257 +212,221 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 	return (
 		<form className={classNames} onSubmit={handleSubmit} {...props}>
 			{/* Reward Name */}
-			<TextInput
-				id="reward-name"
-				label="Reward Name"
-				type="text"
-				value={formData.name}
-				onChange={(e) => handleChange("name", e.target.value)}
-				onBlur={() => handleBlur("name")}
-				placeholder="e.g., VIP Early Access"
-				disabled={loading}
-				required
-				error={touched.name ? errors.name : undefined}
-			/>
+			<div className={styles.fieldGroup}>
+				<label htmlFor="reward-name" className={styles.label}>Reward Name</label>
+				<Input
+					id="reward-name"
+					type="text"
+					value={formData.name}
+					onChange={(e) => handleChange("name", e.target.value)}
+					onBlur={() => handleBlur("name")}
+					placeholder="e.g., VIP Early Access"
+					disabled={loading}
+					required
+					isError={!!(touched.name && errors.name)}
+				/>
+			</div>
 
 			{/* Description */}
-			<TextArea
-				id="reward-description"
-				label="Description"
-				value={formData.description}
-				onChange={(e) => handleChange("description", e.target.value)}
-				onBlur={() => handleBlur("description")}
-				placeholder="Describe what users will receive..."
-				rows={4}
-				disabled={loading}
-				maxLength={500}
-				required
-				error={touched.description ? errors.description : undefined}
-			/>
+			<div className={styles.fieldGroup}>
+				<label htmlFor="reward-description" className={styles.label}>Description</label>
+				<TextArea
+					id="reward-description"
+					value={formData.description}
+					onChange={(e) => handleChange("description", e.target.value)}
+					onBlur={() => handleBlur("description")}
+					placeholder="Describe what users will receive..."
+					rows={4}
+					disabled={loading}
+					maxLength={500}
+					required
+					isError={!!(touched.description && errors.description)}
+				/>
+			</div>
 
 			{/* Reward Type */}
-			<Dropdown
-				label="Reward Type"
-				placeholderText="Select reward type"
-				size="medium"
-				options={[
-					{
-						label: "Early Access",
-						value: "early_access",
-						description: "Priority access to product or service",
-					},
-					{
-						label: "Discount",
-						value: "discount",
-						description: "Percentage or fixed amount discount",
-					},
-					{
-						label: "Premium Feature",
-						value: "premium_feature",
-						description: "Unlock exclusive features",
-					},
-					{
-						label: "Merchandise",
-						value: "merchandise",
-						description: "Physical or digital merchandise",
-					},
-					{
-						label: "Custom",
-						value: "custom",
-						description: "Custom reward type",
-					},
-				]}
-				disabled={loading}
-				onChange={(option) =>
-					handleChange("type", option.value as Reward["type"])
-				}
-			/>
+			<div className={styles.fieldGroup}>
+				<label className={styles.label}>Reward Type</label>
+				<Dropdown
+					placeholder="Select reward type"
+					items={[
+						{ id: "early_access", label: "Early Access" },
+						{ id: "discount", label: "Discount" },
+						{ id: "premium_feature", label: "Premium Feature" },
+						{ id: "merchandise", label: "Merchandise" },
+						{ id: "custom", label: "Custom" },
+					]}
+					disabled={loading}
+					onChange={(id) =>
+						handleChange("type", id as Reward["type"])
+					}
+				/>
+			</div>
 
 			{/* Reward Value */}
-			<TextInput
-				id="reward-value"
-				label="Reward Value"
-				type="text"
-				value={formData.value || ""}
-				onChange={(e) => handleChange("value", e.target.value)}
-				onBlur={() => handleBlur("value")}
-				placeholder='e.g., "20% off", "Free for 6 months"'
-				disabled={loading}
-				error={touched.value ? errors.value : undefined}
-				hint="Optional - Describe the value users receive"
-			/>
+			<div className={styles.fieldGroup}>
+				<label htmlFor="reward-value" className={styles.label}>Reward Value</label>
+				<Input
+					id="reward-value"
+					type="text"
+					value={formData.value || ""}
+					onChange={(e) => handleChange("value", e.target.value)}
+					onBlur={() => handleBlur("value")}
+					placeholder='e.g., "20% off", "Free for 6 months"'
+					disabled={loading}
+					isError={!!(touched.value && errors.value)}
+				/>
+			</div>
 
 			{/* Tier */}
-			<TextInput
-				id="reward-tier"
-				label="Reward Tier"
-				type="number"
-				value={formData.tier.toString()}
-				onChange={(e) => handleChange("tier", parseInt(e.target.value) || 1)}
-				onBlur={() => handleBlur("tier")}
-				placeholder="1"
-				disabled={loading}
-				required
-				min={1}
-				max={10}
-				error={touched.tier ? errors.tier : undefined}
-				hint="Tier 1 is lowest, Tier 10 is highest"
-			/>
+			<div className={styles.fieldGroup}>
+				<label htmlFor="reward-tier" className={styles.label}>Reward Tier</label>
+				<Input
+					id="reward-tier"
+					type="number"
+					value={formData.tier.toString()}
+					onChange={(e) => handleChange("tier", parseInt(e.target.value) || 1)}
+					onBlur={() => handleBlur("tier")}
+					placeholder="1"
+					disabled={loading}
+					required
+					min={1}
+					max={10}
+					isError={!!(touched.tier && errors.tier)}
+				/>
+			</div>
 
 			{/* Divider */}
-			<ContentDivider size="thin" />
+			<Divider />
 
 			{/* Trigger Section */}
 			<div className={styles.section}>
 				<h3 className={styles.sectionTitle}>Unlock Requirements</h3>
 
 				{/* Trigger Type */}
-				<Dropdown
-					label="Trigger Type"
-					placeholderText="Select trigger type"
-					size="medium"
-					options={[
-						{
-							label: "Referral Count",
-							value: "referral_count",
-							description: "Unlock after N successful referrals",
-						},
-						{
-							label: "Waitlist Position",
-							value: "position",
-							description: "Unlock for top N positions",
-						},
-						{
-							label: "Manual",
-							value: "manual",
-							description: "Manually assign to users",
-						},
-					]}
-					disabled={loading}
-					onChange={(option) =>
-						handleChange("triggerType", option.value as Reward["triggerType"])
-					}
-				/>
+				<div className={styles.fieldGroup}>
+					<label className={styles.label}>Trigger Type</label>
+					<Dropdown
+						placeholder="Select trigger type"
+						items={[
+							{ id: "referral_count", label: "Referral Count" },
+							{ id: "position", label: "Waitlist Position" },
+							{ id: "manual", label: "Manual" },
+						]}
+						disabled={loading}
+						onChange={(id) =>
+							handleChange("triggerType", id as Reward["triggerType"])
+						}
+					/>
+				</div>
 
 				{/* Trigger Value (conditional) */}
 				{formData.triggerType !== "manual" && (
-					<TextInput
-						id="reward-trigger-value"
-						label={
-							formData.triggerType === "referral_count"
+					<div className={styles.fieldGroup}>
+						<label htmlFor="reward-trigger-value" className={styles.label}>
+							{formData.triggerType === "referral_count"
 								? "Number of Referrals"
-								: "Position Threshold"
-						}
-						type="number"
-						value={formData.triggerValue?.toString() || ""}
-						onChange={(e) =>
-							handleChange(
-								"triggerValue",
-								parseInt(e.target.value) || undefined,
-							)
-						}
-						onBlur={() => handleBlur("triggerValue")}
-						placeholder={
-							formData.triggerType === "referral_count"
-								? "e.g., 5"
-								: "e.g., 100"
-						}
-						disabled={loading}
-						required
-						min={1}
-						error={touched.triggerValue ? errors.triggerValue : undefined}
-						hint={
-							formData.triggerType === "referral_count"
-								? "Users must refer this many people"
-								: "Users in top N positions receive reward"
-						}
-					/>
+								: "Position Threshold"}
+						</label>
+						<Input
+							id="reward-trigger-value"
+							type="number"
+							value={formData.triggerValue?.toString() || ""}
+							onChange={(e) =>
+								handleChange(
+									"triggerValue",
+									parseInt(e.target.value) || undefined,
+								)
+							}
+							onBlur={() => handleBlur("triggerValue")}
+							placeholder={
+								formData.triggerType === "referral_count"
+									? "e.g., 5"
+									: "e.g., 100"
+							}
+							disabled={loading}
+							required
+							min={1}
+							isError={!!(touched.triggerValue && errors.triggerValue)}
+						/>
+					</div>
 				)}
 			</div>
 
 			{/* Divider */}
-			<ContentDivider size="thin" />
+			<Divider />
 
 			{/* Delivery Settings */}
 			<div className={styles.section}>
 				<h3 className={styles.sectionTitle}>Delivery Settings</h3>
 
 				{/* Delivery Method */}
-				<Dropdown
-					label="Delivery Method"
-					placeholderText="Select delivery method"
-					size="medium"
-					options={[
-						{
-							label: "Email",
-							value: "email",
-							description: "Send reward details via email",
-						},
-						{
-							label: "Dashboard",
-							value: "dashboard",
-							description: "Show in user dashboard",
-						},
-						{
-							label: "API/Webhook",
-							value: "api_webhook",
-							description: "Trigger via API webhook",
-						},
-					]}
-					disabled={loading}
-					onChange={(option) =>
-						handleChange(
-							"deliveryMethod",
-							option.value as Reward["deliveryMethod"],
-						)
-					}
-				/>
+				<div className={styles.fieldGroup}>
+					<label className={styles.label}>Delivery Method</label>
+					<Dropdown
+						placeholder="Select delivery method"
+						items={[
+							{ id: "email", label: "Email" },
+							{ id: "dashboard", label: "Dashboard" },
+							{ id: "api_webhook", label: "API/Webhook" },
+						]}
+						disabled={loading}
+						onChange={(id) =>
+							handleChange(
+								"deliveryMethod",
+								id as Reward["deliveryMethod"],
+							)
+						}
+					/>
+				</div>
 
 				{/* Inventory (optional) */}
-				<TextInput
-					id="reward-inventory"
-					label="Inventory Limit"
-					type="number"
-					value={formData.inventory?.toString() || ""}
-					onChange={(e) =>
-						handleChange(
-							"inventory",
-							e.target.value ? parseInt(e.target.value) : undefined,
-						)
-					}
-					onBlur={() => handleBlur("inventory")}
-					placeholder="Unlimited"
-					disabled={loading}
-					min={1}
-					error={touched.inventory ? errors.inventory : undefined}
-					hint="Optional - Limit total number of rewards available"
-				/>
+				<div className={styles.fieldGroup}>
+					<label htmlFor="reward-inventory" className={styles.label}>Inventory Limit</label>
+					<Input
+						id="reward-inventory"
+						type="number"
+						value={formData.inventory?.toString() || ""}
+						onChange={(e) =>
+							handleChange(
+								"inventory",
+								e.target.value ? parseInt(e.target.value) : undefined,
+							)
+						}
+						onBlur={() => handleBlur("inventory")}
+						placeholder="Unlimited"
+						disabled={loading}
+						min={1}
+						isError={!!(touched.inventory && errors.inventory)}
+					/>
+				</div>
 
 				{/* Expiry Date (optional) */}
-				<TextInput
-					id="reward-expiry"
-					label="Expiry Date"
-					type="date"
-					value={
-						formData.expiryDate
-							? new Date(formData.expiryDate).toISOString().split("T")[0]
-							: ""
-					}
-					onChange={(e) =>
-						handleChange(
-							"expiryDate",
-							e.target.value ? new Date(e.target.value) : undefined,
-						)
-					}
-					onBlur={() => handleBlur("expiryDate")}
-					disabled={loading}
-					error={touched.expiryDate ? errors.expiryDate : undefined}
-					hint="Optional - Reward expires after this date"
-				/>
+				<div className={styles.fieldGroup}>
+					<label htmlFor="reward-expiry" className={styles.label}>Expiry Date</label>
+					<Input
+						id="reward-expiry"
+						type="date"
+						value={
+							formData.expiryDate
+								? new Date(formData.expiryDate).toISOString().split("T")[0]
+								: ""
+						}
+						onChange={(e) =>
+							handleChange(
+								"expiryDate",
+								e.target.value ? new Date(e.target.value) : undefined,
+							)
+						}
+						onBlur={() => handleBlur("expiryDate")}
+						disabled={loading}
+						isError={!!(touched.expiryDate && errors.expiryDate)}
+					/>
+				</div>
 			</div>
 
 			{/* Divider */}
-			<ContentDivider size="thin" />
+			<Divider />
 
 			{/* Preview Card */}
 			<div className={styles.preview}>
@@ -502,7 +462,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 			</div>
 
 			{/* Divider */}
-			<ContentDivider size="thin" />
+			<Divider />
 
 			{/* Form Actions */}
 			<div className={styles.actions}>

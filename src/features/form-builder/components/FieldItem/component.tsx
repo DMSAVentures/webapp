@@ -4,8 +4,7 @@
  */
 
 import { type DragEvent, type HTMLAttributes, memo } from "react";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { Badge } from "@/proto-design-system/badge/badge";
+import { Badge, Button } from "@/proto-design-system";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -104,11 +103,9 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			<div className={styles.typeInfo}>
 				<i className={getFieldIcon(field.type)} aria-hidden="true" />
 				<Badge
-					text={field.type}
-					variant="gray"
-					styleType="light"
-					size="small"
-				/>
+					variant="secondary"
+					size="sm"
+				>{field.type}</Badge>
 			</div>
 
 			{/* Center: Field label and details */}
@@ -133,11 +130,9 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			{showColumnToggle && (
 				<div className={styles.columnIndicator}>
 					<Badge
-						text={currentColumn === 1 ? "Left" : "Right"}
-						variant={currentColumn === 1 ? "blue" : "purple"}
-						styleType="light"
-						size="small"
-					/>
+						variant={currentColumn === 1 ? "primary" : "secondary"}
+						size="sm"
+					>{currentColumn === 1 ? "Left" : "Right"}</Badge>
 				</div>
 			)}
 
@@ -145,22 +140,22 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			<div className={styles.actions}>
 				{/* Column toggle button (only in two-column mode) */}
 				{showColumnToggle && (
-					<IconOnlyButton
-						iconClass={
-							currentColumn === 1 ? "arrow-right-line" : "arrow-left-line"
+					<Button
+						leftIcon={
+							currentColumn === 1 ? "ri-arrow-right-line" : "ri-arrow-left-line"
 						}
 						variant="secondary"
-						ariaLabel={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
+						aria-label={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 						onClick={handleColumnToggleClick}
 						title={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 					/>
 				)}
 				{/* Delete button - always visible, but not for email field */}
 				{field.type !== "email" && (
-					<IconOnlyButton
-						iconClass="delete-bin-line"
+					<Button
+						leftIcon="ri-delete-bin-line"
 						variant="secondary"
-						ariaLabel="Delete field"
+						aria-label="Delete field"
 						onClick={handleDeleteClick}
 					/>
 				)}

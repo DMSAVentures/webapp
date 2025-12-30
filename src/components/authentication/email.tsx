@@ -1,8 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useSubmitLogin } from "@/hooks/useSubmitLogin";
-import { Button } from "@/proto-design-system/Button/button";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Input } from "@/proto-design-system";
 import "./email.scss";
 
 type EmailFormErrors = {
@@ -139,11 +138,11 @@ export default function EmailSignIn() {
 	return (
 		<form className={"email-login-form"} onSubmit={handleLogin}>
 			<div className={"form-item"}>
-				<TextInput
+				<label htmlFor="email">Email</label>
+				<Input
 					id="email"
 					name="email"
 					type="text"
-					label={"Email"}
 					onChange={(e) =>
 						dispatch({
 							type: EmailFormAction.SET_FIELD,
@@ -151,16 +150,16 @@ export default function EmailSignIn() {
 							value: e.target.value,
 						})
 					}
-					error={state.errors.email}
+					isError={!!state.errors.email}
 					formNoValidate={true}
 				/>
 			</div>
 			<div className={"form-item"}>
-				<TextInput
+				<label htmlFor="password">Password</label>
+				<Input
 					id="password"
 					name="password"
 					type="password"
-					label={"Password"}
 					onChange={(e) =>
 						dispatch({
 							type: EmailFormAction.SET_FIELD,
@@ -168,7 +167,7 @@ export default function EmailSignIn() {
 							value: e.target.value,
 						})
 					}
-					error={state.errors.password}
+					isError={!!state.errors.password}
 				/>
 			</div>
 			<Button type="submit" disabled={loading}>

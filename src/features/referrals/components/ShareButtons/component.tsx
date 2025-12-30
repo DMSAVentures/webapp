@@ -1,5 +1,5 @@
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
+import { Button } from "@/proto-design-system";
 import styles from "./component.module.scss";
 import "remixicon/fonts/remixicon.css";
 
@@ -161,7 +161,7 @@ export const ShareButtons = memo(function ShareButtons({
 						<Button
 							key={platform}
 							variant="secondary"
-							size="medium"
+							size="md"
 							leftIcon={config.icon.replace("ri-", "")}
 							onClick={() => handleShare(platform)}
 							aria-label={`Share on ${config.label}`}
@@ -174,7 +174,7 @@ export const ShareButtons = memo(function ShareButtons({
 				{/* Copy Link Button */}
 				<Button
 					variant="secondary"
-					size="medium"
+					size="md"
 					leftIcon={showCopiedFeedback ? "checkbox-circle-fill" : "link"}
 					onClick={handleCopyLink}
 					aria-label="Copy link"

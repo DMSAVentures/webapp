@@ -4,8 +4,8 @@
  */
 
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
+import { Button } from "@/proto-design-system";
+import { CheckCircle, Copy, Share } from "lucide-react";
 import type { SharingChannel } from "@/types/campaign";
 import styles from "./component.module.scss";
 import "remixicon/fonts/remixicon.css";
@@ -186,9 +186,9 @@ export const ChannelReferralLinks = memo<ChannelReferralLinksProps>(
 									<div className={styles.actions}>
 										<Button
 											variant="secondary"
-											size="small"
+											size="sm"
 											leftIcon={
-												isCopied ? "checkbox-circle-fill" : "file-copy-line"
+												isCopied ? <CheckCircle /> : <Copy />
 											}
 											onClick={() => handleCopy(channel)}
 											aria-label={`Copy ${config.label} link`}
@@ -196,11 +196,12 @@ export const ChannelReferralLinks = memo<ChannelReferralLinksProps>(
 											{isCopied ? "Copied!" : "Copy"}
 										</Button>
 
-										<IconOnlyButton
+										<Button
 											variant="secondary"
-											iconClass="share-line"
+											isIconOnly
+											leftIcon={<Share />}
 											onClick={() => handleShare(channel)}
-											ariaLabel={`Share on ${config.label}`}
+											aria-label={`Share on ${config.label}`}
 										/>
 									</div>
 								</div>

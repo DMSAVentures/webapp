@@ -4,12 +4,11 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import Dropdown, {
-	type DropdownOptionInput,
-} from "@/proto-design-system/dropdown/dropdown";
-import Modal from "@/proto-design-system/modal/modal";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Mail } from "lucide-react";
+import { Button, Dropdown, Input, Modal } from "@/proto-design-system";
 import type { TeamMember } from "@/types/common.types";
+
+type RoleOption = { id: string; label: string; description?: string };
 import styles from "./component.module.scss";
 
 export interface TeamInviteModalProps
@@ -30,19 +29,19 @@ export interface TeamInviteModalProps
 /**
  * Role options for the dropdown
  */
-const ROLE_OPTIONS: DropdownOptionInput[] = [
+const ROLE_OPTIONS: RoleOption[] = [
 	{
-		value: "viewer",
+		id: "viewer",
 		label: "Viewer",
 		description: "Can view campaigns and analytics",
 	},
 	{
-		value: "editor",
+		id: "editor",
 		label: "Editor",
 		description: "Can edit campaigns and manage users",
 	},
 	{
-		value: "admin",
+		id: "admin",
 		label: "Admin",
 		description: "Full access except billing",
 	},
@@ -80,8 +79,8 @@ export const TeamInviteModal = memo(function TeamInviteModal({
 	};
 
 	// Handle role change
-	const handleRoleChange = (option: DropdownOptionInput) => {
-		setRole(option.value as TeamMember["role"]);
+	const handleRoleChange = (id: string) => {
+		setRole(id as TeamMember["role"]);
 		setSubmitError(null);
 	};
 
@@ -124,34 +123,40 @@ export const TeamInviteModal = memo(function TeamInviteModal({
 			onClose={handleClose}
 			title="Invite Team Member"
 			description="Send an invitation to join your team"
-			dismissibleByCloseIcon={true}
-			proceedText={loading ? "Sending..." : "Send Invite"}
-			cancelText="Cancel"
-			onProceed={handleSubmit}
-			onCancel={handleClose}
+			footer={
+				<>
+					<Button variant="secondary" onClick={handleClose} disabled={loading}>
+						Cancel
+					</Button>
+					<Button variant="primary" onClick={handleSubmit} disabled={loading}>
+						{loading ? "Sending..." : "Send Invite"}
+					</Button>
+				</>
+			}
 		>
 			<div className={styles.root} {...props}>
 				<div className={styles.formGroup}>
-					<TextInput
-						label="Email Address"
+					<label className={styles.label}>Email Address</label>
+					<Input
 						placeholder="team@example.com"
 						type="email"
 						value={email}
 						onChange={handleEmailChange}
-						error={emailError || undefined}
+						isError={!!emailError}
 						disabled={loading}
 						required
-						showLeftIcon={true}
-						leftIcon="ri-mail-line"
+						leftElement={<Mail />}
 					/>
+					{emailError && <span className={styles.errorText}>{emailError}</span>}
 				</div>
 
 				<div className={styles.formGroup}>
+					<label className={styles.label}>Role</label>
 					<Dropdown
-						label="Role"
-						placeholderText="Select a role"
-						options={ROLE_OPTIONS}
-						size="medium"
+						placeholder="Select a role"
+						items={ROLE_OPTIONS}
+						value={role}
+						size="md"
 						onChange={handleRoleChange}
 						disabled={loading}
 					/>

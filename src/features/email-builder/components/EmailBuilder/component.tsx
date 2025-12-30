@@ -10,6 +10,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
+import { Monitor, Save, Send, Smartphone, Tablet, X } from "lucide-react";
 import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
@@ -20,12 +21,11 @@ import {
 	useSendTestEmail,
 	useUpdateEmailTemplate,
 } from "@/hooks/useEmailTemplates";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { Badge } from "@/proto-design-system/badge/badge";
-import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
-import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import {
+	Badge,
+	Button,
+	Input,
+} from "@/proto-design-system";
 import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
 import {
 	createBlock,
@@ -448,34 +448,35 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 					<h2 className={styles.title}>Email Builder</h2>
 					{hasUnsavedChanges && (
 						<Badge
-							text="Unsaved changes"
-							variant="yellow"
-							styleType="light"
-							size="small"
-							iconClass="save-line"
-							iconPosition="left"
-						/>
+							variant="warning"
+							size="sm"
+						>
+							Unsaved changes
+						</Badge>
 					)}
 				</div>
 
 				<div className={styles.headerActions}>
 					<div className={styles.deviceSelector}>
-						<IconOnlyButton
-							iconClass="smartphone-line"
+						<Button
+							isIconOnly
+							leftIcon={<Smartphone size={16} />}
 							variant={previewDevice === "mobile" ? "primary" : "secondary"}
-							ariaLabel="Mobile preview"
+							aria-label="Mobile preview"
 							onClick={() => setPreviewDevice("mobile")}
 						/>
-						<IconOnlyButton
-							iconClass="tablet-line"
+						<Button
+							isIconOnly
+							leftIcon={<Tablet size={16} />}
 							variant={previewDevice === "tablet" ? "primary" : "secondary"}
-							ariaLabel="Tablet preview"
+							aria-label="Tablet preview"
 							onClick={() => setPreviewDevice("tablet")}
 						/>
-						<IconOnlyButton
-							iconClass="computer-line"
+						<Button
+							isIconOnly
+							leftIcon={<Monitor size={16} />}
 							variant={previewDevice === "desktop" ? "primary" : "secondary"}
-							ariaLabel="Desktop preview"
+							aria-label="Desktop preview"
 							onClick={() => setPreviewDevice("desktop")}
 						/>
 					</div>
@@ -485,9 +486,8 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 						<>
 							{showTestEmailInput ? (
 								<div className={styles.testEmailForm}>
-									<TextInput
+									<Input
 										id="test-email"
-										label=""
 										type="email"
 										value={testEmailRecipient}
 										onChange={(e) => setTestEmailRecipient(e.target.value)}
@@ -496,24 +496,25 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 									/>
 									<Button
 										variant="secondary"
-										size="medium"
+										size="md"
 										onClick={handleSendTestEmail}
 										disabled={sendingTest || !testEmailRecipient}
 									>
 										{sendingTest ? "Sending..." : "Send"}
 									</Button>
-									<IconOnlyButton
-										iconClass="close-line"
+									<Button
+										isIconOnly
+										leftIcon={<X size={16} />}
 										variant="secondary"
-										ariaLabel="Cancel"
+										aria-label="Cancel"
 										onClick={closeTestEmailInput}
 									/>
 								</div>
 							) : (
 								<Button
 									variant="secondary"
-									size="medium"
-									leftIcon="send-plane-line"
+									size="md"
+									leftIcon={<Send size={16} />}
 									onClick={openTestEmailInput}
 								>
 									Send Test
@@ -524,8 +525,8 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 					<Button
 						variant="primary"
-						size="medium"
-						leftIcon={saving ? "loader-4-line" : "save-line"}
+						size="md"
+						leftIcon={<Save size={16} />}
 						onClick={handleSave}
 						disabled={saving || !hasUnsavedChanges}
 					>
@@ -544,24 +545,28 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 			{/* Tabs */}
 			<div className={styles.modeTabs}>
-				<TabMenuHorizontal
-					items={[
-						<TabMenuHorizontalItem
-							key="verification"
-							active={emailType === "verification"}
-							leftIcon="ri-shield-check-line"
-							text="Verification Email"
-						/>,
-						<TabMenuHorizontalItem
-							key="welcome"
-							active={emailType === "welcome"}
-							leftIcon="ri-hand-heart-line"
-							text="Welcome Email"
-						/>,
-					]}
-					activeTab={emailType === "verification" ? 0 : 1}
-					onTabClick={handleTabChange}
-				/>
+				<div className={styles.tabList} role="tablist">
+					<button
+						type="button"
+						role="tab"
+						className={`${styles.tab} ${emailType === "verification" ? styles.tabActive : ""}`}
+						aria-selected={emailType === "verification"}
+						onClick={() => handleTabChange(0)}
+					>
+						<i className="ri-shield-check-line" aria-hidden="true" />
+						<span>Verification Email</span>
+					</button>
+					<button
+						type="button"
+						role="tab"
+						className={`${styles.tab} ${emailType === "welcome" ? styles.tabActive : ""}`}
+						aria-selected={emailType === "welcome"}
+						onClick={() => handleTabChange(1)}
+					>
+						<i className="ri-hand-heart-line" aria-hidden="true" />
+						<span>Welcome Email</span>
+					</button>
+				</div>
 			</div>
 
 			{/* Three-pane layout */}

@@ -5,9 +5,7 @@
 
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
-import { Button } from "@/proto-design-system/Button/button";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
+import { Button, EmptyState, TextArea } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 

@@ -9,9 +9,7 @@ import { useGlobalBanner } from "@/contexts/globalBanner";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Badge, Button } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import { CampaignFormPreview } from "../CampaignFormPreview/component";
@@ -31,18 +29,19 @@ export interface CampaignOverviewProps {
 // Pure Functions
 // ============================================================================
 
-/** Map campaign status to StatusBadge variant */
+/** Map campaign status to Badge variant */
 function getStatusVariant(
 	status: Campaign["status"],
-): "completed" | "pending" | "disabled" {
+): "success" | "warning" | "secondary" | "primary" {
 	switch (status) {
 		case "active":
+			return "success";
 		case "completed":
-			return "completed";
+			return "primary";
 		case "paused":
-			return "disabled";
+			return "secondary";
 		default:
-			return "pending";
+			return "warning";
 	}
 }
 
@@ -105,22 +104,6 @@ function buildEmailRequirementsMessage(
 	].filter(Boolean);
 	const suffix = types.length > 1 ? "s" : "";
 	return `Configure ${types.join(" & ")} email${suffix}`;
-}
-
-/** Get icon class for sharing channel */
-function getChannelIcon(channel: string): string {
-	switch (channel) {
-		case "twitter":
-			return "twitter-x-line";
-		case "facebook":
-			return "facebook-line";
-		case "linkedin":
-			return "linkedin-line";
-		case "email":
-			return "mail-line";
-		default:
-			return "link";
-	}
 }
 
 // ============================================================================
@@ -347,17 +330,15 @@ const ConfigurationSection = memo(function ConfigurationSection({
 						/>
 						<span className={styles.configCardTitle}>Email</span>
 						<Badge
-							text={
-								campaign.emailSettings?.verificationRequired
-									? "Verification On"
-									: "Verification Off"
-							}
 							variant={
-								campaign.emailSettings?.verificationRequired ? "blue" : "gray"
+								campaign.emailSettings?.verificationRequired ? "primary" : "secondary"
 							}
-							styleType="light"
-							size="small"
-						/>
+							size="sm"
+						>
+							{campaign.emailSettings?.verificationRequired
+								? "Verification On"
+								: "Verification Off"}
+						</Badge>
 					</div>
 					{(campaign.emailSettings?.fromName ||
 						campaign.emailSettings?.fromEmail) && (
@@ -390,11 +371,11 @@ const ConfigurationSection = memo(function ConfigurationSection({
 						/>
 						<span className={styles.configCardTitle}>Referrals</span>
 						<Badge
-							text={campaign.referralSettings?.enabled ? "Enabled" : "Disabled"}
-							variant={campaign.referralSettings?.enabled ? "green" : "gray"}
-							styleType="light"
-							size="small"
-						/>
+							variant={campaign.referralSettings?.enabled ? "success" : "secondary"}
+							size="sm"
+						>
+							{campaign.referralSettings?.enabled ? "Enabled" : "Disabled"}
+						</Badge>
 					</div>
 					{campaign.referralSettings?.enabled && (
 						<div className={styles.configCardDetails}>
@@ -419,13 +400,11 @@ const ConfigurationSection = memo(function ConfigurationSection({
 											(channel) => (
 												<Badge
 													key={channel}
-													text={channel}
-													variant="gray"
-													styleType="lighter"
-													size="small"
-													iconClass={getChannelIcon(channel)}
-													iconPosition="left"
-												/>
+													variant="secondary"
+													size="sm"
+												>
+													{channel}
+												</Badge>
 											),
 										)}
 									</div>
@@ -536,14 +515,13 @@ export const CampaignOverview = memo(function CampaignOverview({
 			{/* Campaign Status Row */}
 			<div className={styles.statusRow}>
 				<span className={styles.statusLabel}>Status</span>
-				<StatusBadge
-					text={formatStatusText(campaign.status)}
-					variant={getStatusVariant(campaign.status)}
-				/>
+				<Badge variant={getStatusVariant(campaign.status)}>
+					{formatStatusText(campaign.status)}
+				</Badge>
 				{isActive && (
 					<Button
 						variant="secondary"
-						size="small"
+						size="sm"
 						leftIcon={
 							updatingStatus ? "ri-loader-4-line ri-spin" : "ri-pause-line"
 						}
@@ -556,7 +534,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 				{isPaused && (
 					<Button
 						variant="primary"
-						size="small"
+						size="sm"
 						leftIcon={
 							updatingStatus ? "ri-loader-4-line ri-spin" : "ri-play-line"
 						}

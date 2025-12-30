@@ -9,9 +9,7 @@ import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
 import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
-import Dropdown from "@/proto-design-system/dropdown/dropdown";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Dropdown, EmptyState, Spinner } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { SignupsChart } from "../SignupsChart";
 import { SourcesChart } from "../SourcesChart";
@@ -21,27 +19,24 @@ import styles from "./component.module.scss";
 // Types
 // ============================================================================
 
-interface DropdownOption {
-	value: string;
+interface DropdownItem {
+	id: string;
 	label: string;
-	selected: boolean;
 }
 
 // ============================================================================
 // Pure Functions
 // ============================================================================
 
-/** Build dropdown options from campaigns list */
-function buildCampaignOptions(
+/** Build dropdown items from campaigns list */
+function buildCampaignItems(
 	campaigns: Campaign[] | undefined,
-	selectedId: string,
-): DropdownOption[] {
+): DropdownItem[] {
 	if (!campaigns) return [];
 
 	return campaigns.map((campaign) => ({
-		value: campaign.id,
+		id: campaign.id,
 		label: campaign.name,
-		selected: campaign.id === selectedId,
 	}));
 }
 
@@ -60,15 +55,15 @@ function useCampaignSelection(campaigns: Campaign[] | undefined) {
 		}
 	}, [campaigns, selectedCampaignId]);
 
-	const campaignOptions = useMemo(
-		() => buildCampaignOptions(campaigns, selectedCampaignId),
-		[campaigns, selectedCampaignId],
+	const campaignItems = useMemo(
+		() => buildCampaignItems(campaigns),
+		[campaigns],
 	);
 
 	return {
 		selectedCampaignId,
 		setSelectedCampaignId,
-		campaignOptions,
+		campaignItems,
 	};
 }
 
@@ -108,13 +103,15 @@ function useAnalyticsCharts(campaignId: string) {
 
 interface PageHeaderProps {
 	showSelector: boolean;
-	campaignOptions: DropdownOption[];
-	onCampaignChange?: (value: string) => void;
+	campaignItems: DropdownItem[];
+	selectedCampaignId: string;
+	onCampaignChange?: (id: string) => void;
 }
 
 const PageHeader = memo(function PageHeader({
 	showSelector,
-	campaignOptions,
+	campaignItems,
+	selectedCampaignId,
 	onCampaignChange,
 }: PageHeaderProps) {
 	return (
@@ -128,10 +125,11 @@ const PageHeader = memo(function PageHeader({
 				</div>
 				{showSelector && onCampaignChange && (
 					<Dropdown
-						options={campaignOptions}
-						onChange={(option) => onCampaignChange(option.value)}
-						placeholderText="Select campaign"
-						size="medium"
+						items={campaignItems}
+						value={selectedCampaignId}
+						onChange={(id) => onCampaignChange(id)}
+						placeholder="Select campaign"
+						size="md"
 					/>
 				)}
 			</div>
@@ -154,7 +152,7 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 	const campaigns = campaignsData?.campaigns;
 
 	// Campaign selection
-	const { selectedCampaignId, setSelectedCampaignId, campaignOptions } =
+	const { selectedCampaignId, setSelectedCampaignId, campaignItems } =
 		useCampaignSelection(campaigns);
 
 	// Chart data
@@ -163,10 +161,9 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 	// Loading state
 	if (campaignsLoading) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading analytics..."
+			<Spinner
+				size="lg"
+				label="Loading analytics..."
 			/>
 		);
 	}
@@ -180,7 +177,7 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 				animate={{ opacity: 1 }}
 				transition={{ duration: 0.6 }}
 			>
-				<PageHeader showSelector={false} campaignOptions={[]} />
+				<PageHeader showSelector={false} campaignItems={[]} selectedCampaignId="" />
 				<div className={styles.pageContent}>
 					<EmptyState
 						title="No campaigns yet"
@@ -201,7 +198,8 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 		>
 			<PageHeader
 				showSelector={true}
-				campaignOptions={campaignOptions}
+				campaignItems={campaignItems}
+				selectedCampaignId={selectedCampaignId}
 				onCampaignChange={setSelectedCampaignId}
 			/>
 

@@ -9,6 +9,9 @@
 		"**/*.stories.ts",
 		"**/*.stories.tsx",
 		"**/*.stories.js",
-		"**/*.stories.jsx"
+		"**/*.stories.jsx",
+		"**/*.test.ts",
+		"**/*.test.tsx",
+		"src/proto-design-system-old/**/*"
 	]
 }

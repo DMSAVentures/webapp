@@ -14,9 +14,7 @@ import {
 	useResumeBlast,
 	useSendBlast,
 } from "@/hooks/useBlasts";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import ProgressBar from "@/proto-design-system/progressbar/progressbar";
+import { Badge, Button, Progress } from "@/proto-design-system";
 import type { EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 
@@ -29,16 +27,16 @@ export interface BlastDetailProps {
 
 const STATUS_VARIANTS: Record<
 	EmailBlastStatus,
-	"gray" | "blue" | "orange" | "red" | "green"
+	"secondary" | "primary" | "warning" | "error" | "success"
 > = {
-	draft: "gray",
-	scheduled: "blue",
-	processing: "orange",
-	sending: "orange",
-	completed: "green",
-	paused: "gray",
-	cancelled: "gray",
-	failed: "red",
+	draft: "secondary",
+	scheduled: "primary",
+	processing: "warning",
+	sending: "warning",
+	completed: "success",
+	paused: "secondary",
+	cancelled: "secondary",
+	failed: "error",
 };
 
 const STATUS_LABELS: Record<EmailBlastStatus, string> = {
@@ -156,10 +154,9 @@ export const BlastDetail = memo(function BlastDetail({
 						<h2 className={styles.title}>{blast.name}</h2>
 						<p className={styles.subject}>{blast.subject}</p>
 					</div>
-					<Badge
-						variant={STATUS_VARIANTS[blast.status]}
-						text={STATUS_LABELS[blast.status]}
-					/>
+					<Badge variant={STATUS_VARIANTS[blast.status]}>
+						{STATUS_LABELS[blast.status]}
+					</Badge>
 				</div>
 			</div>
 
@@ -169,11 +166,10 @@ export const BlastDetail = memo(function BlastDetail({
 						<span className={styles.progressTitle}>Sending Progress</span>
 						<span className={styles.progressPercent}>{getProgress()}%</span>
 					</div>
-					<ProgressBar
-						progress={getProgress()}
-						size="medium"
-						variant="info"
-						showPercentage={false}
+					<Progress
+						value={getProgress()}
+						size="md"
+						variant="default"
 					/>
 					<div className={styles.progressStats}>
 						<span>{(blast.sentCount ?? 0).toLocaleString()} sent</span>

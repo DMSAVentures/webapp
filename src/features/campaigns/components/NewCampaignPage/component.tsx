@@ -10,7 +10,7 @@ import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Spinner } from "@/proto-design-system";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
 
@@ -165,7 +165,7 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 
 	// Show loading while checking campaign count
 	if (campaignsLoading) {
-		return <LoadingSpinner size="large" mode="centered" message="Loading..." />;
+		return <Spinner size="lg" label="Loading..." />;
 	}
 
 	// If at limit, only show the modal (form is hidden)

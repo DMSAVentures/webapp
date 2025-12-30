@@ -13,11 +13,7 @@ import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCancelSubscription } from "@/hooks/useCancelSubscription";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
+import { Button, Badge, EmptyState, Spinner } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 // ============================================================================
@@ -96,11 +92,11 @@ const SubscriptionStatus = memo(function SubscriptionStatus({
 			<div className={styles.billingStatus}>
 				<p>Status:</p>
 				<Badge
-					text={subscription.status}
-					variant={subscription.status === "active" ? "green" : "orange"}
-					styleType="light"
-					size="medium"
-				/>
+					variant={subscription.status === "active" ? "success" : "warning"}
+					size="md"
+				>
+					{subscription.status}
+				</Badge>
 			</div>
 			{subscription.status === "active" && (
 				<p>
@@ -152,7 +148,7 @@ const NoSubscriptionState = memo(function NoSubscriptionState() {
 	const { loading, prices, error } = useGetAllPrices();
 
 	if (loading) {
-		return <LoadingSpinner />;
+		return <Spinner size="lg" />;
 	}
 
 	if (error) {
@@ -169,12 +165,7 @@ const NoSubscriptionState = memo(function NoSubscriptionState() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			<Column
-				sm={{ span: 7, start: 1 }}
-				md={{ start: 1, span: 7 }}
-				lg={{ start: 1, span: 11 }}
-				xlg={{ start: 1, span: 13 }}
-			>
+			<div style={{ width: "100%" }}>
 				<div className={styles.noSubscription}>
 					<h3>Choose a Plan</h3>
 					<p className={styles.noSubscriptionText}>
@@ -192,7 +183,7 @@ const NoSubscriptionState = memo(function NoSubscriptionState() {
 						))}
 					</div>
 				</div>
-			</Column>
+			</div>
 		</motion.div>
 	);
 });
@@ -215,7 +206,7 @@ export const AccountPage = memo(function AccountPage() {
 
 	// Loading state
 	if (loading) {
-		return <LoadingSpinner />;
+		return <Spinner size="lg" />;
 	}
 
 	// No subscription - show available plans
@@ -233,28 +224,19 @@ export const AccountPage = memo(function AccountPage() {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
+			style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}
 		>
-			<Column
-				sm={{ span: 7, start: 1 }}
-				md={{ start: 1, span: 7 }}
-				lg={{ start: 1, span: 11 }}
-				xlg={{ start: 1, span: 13 }}
-			>
+			<div style={{ width: "100%" }}>
 				<SubscriptionStatus subscription={currentSubscription} />
-			</Column>
-			<Column
-				sm={{ span: 5, start: 1 }}
-				md={{ start: 1, span: 5 }}
-				lg={{ start: 1, span: 5 }}
-				xlg={{ start: 1, span: 5 }}
-			>
+			</div>
+			<div style={{ width: "100%", maxWidth: "400px" }}>
 				<SubscriptionActions
 					status={currentSubscription.status}
 					onCancel={cancelSubscription}
 					onResubscribe={handleResubscribe}
 					onUpdatePayment={handleUpdatePaymentMethod}
 				/>
-			</Column>
+			</div>
 		</motion.div>
 	);
 });

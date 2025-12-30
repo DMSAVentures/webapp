@@ -5,6 +5,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import type React from "react";
 import { type ChangeEvent, memo, useCallback, useState } from "react";
 import {
 	useCreateBlast,
@@ -13,11 +14,12 @@ import {
 } from "@/hooks/useBlasts";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetSegments } from "@/hooks/useSegments";
-import { Button } from "@/proto-design-system/Button/button";
-import Dropdown, {
-	type DropdownOptionInput,
-} from "@/proto-design-system/dropdown/dropdown";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import {
+	Button,
+	Select,
+	type SelectOption,
+	Input,
+} from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface BlastWizardProps {
@@ -147,24 +149,22 @@ export const BlastWizard = memo(function BlastWizard({
 		navigate,
 	]);
 
-	const segmentOptions: DropdownOptionInput[] = segments.map((s) => ({
+	const segmentOptions: SelectOption[] = segments.map((s) => ({
 		value: s.id,
 		label: `${s.name} (${(s.cachedUserCount ?? 0).toLocaleString()} users)`,
-		selected: s.id === selectedSegmentId,
 	}));
 
-	const templateOptions: DropdownOptionInput[] = templates.map((t) => ({
+	const templateOptions: SelectOption[] = templates.map((t) => ({
 		value: t.id,
 		label: t.name,
-		selected: t.id === selectedTemplateId,
 	}));
 
-	const handleSegmentChange = useCallback((option: DropdownOptionInput) => {
-		setSelectedSegmentId(option.value);
+	const handleSegmentChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectedSegmentId(e.target.value);
 	}, []);
 
-	const handleTemplateChange = useCallback((option: DropdownOptionInput) => {
-		setSelectedTemplateId(option.value);
+	const handleTemplateChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectedTemplateId(e.target.value);
 	}, []);
 
 	const handleNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -224,39 +224,47 @@ export const BlastWizard = memo(function BlastWizard({
 					<div className={styles.stepContent}>
 						<h3 className={styles.sectionTitle}>Blast Details</h3>
 						<div className={styles.fields}>
-							<TextInput
-								label="Blast Name"
-								value={name}
-								onChange={handleNameChange}
-								placeholder="e.g., December Newsletter"
-								required
-							/>
-							<TextInput
-								label="Email Subject"
-								value={subject}
-								onChange={handleSubjectChange}
-								placeholder="e.g., Your December update is here!"
-								required
-							/>
-							<Dropdown
+							<div>
+								<label htmlFor="blast-name">Blast Name</label>
+								<Input
+									id="blast-name"
+									value={name}
+									onChange={handleNameChange}
+									placeholder="e.g., December Newsletter"
+									required
+								/>
+							</div>
+							<div>
+								<label htmlFor="email-subject">Email Subject</label>
+								<Input
+									id="email-subject"
+									value={subject}
+									onChange={handleSubjectChange}
+									placeholder="e.g., Your December update is here!"
+									required
+								/>
+							</div>
+							<Select
 								label="Target Segment"
 								options={segmentOptions}
 								onChange={handleSegmentChange}
-								placeholderText={
+								placeholder={
 									loadingSegments ? "Loading..." : "Select a segment"
 								}
+								value={selectedSegmentId}
 								disabled={loadingSegments}
-								size="medium"
+								size="md"
 							/>
-							<Dropdown
+							<Select
 								label="Email Template"
 								options={templateOptions}
 								onChange={handleTemplateChange}
-								placeholderText={
+								placeholder={
 									loadingTemplates ? "Loading..." : "Select a template"
 								}
+								value={selectedTemplateId}
 								disabled={loadingTemplates}
-								size="medium"
+								size="md"
 							/>
 						</div>
 					</div>
@@ -299,20 +307,26 @@ export const BlastWizard = memo(function BlastWizard({
 						</div>
 						{scheduleType === "later" && (
 							<div className={styles.scheduleFields}>
-								<TextInput
-									label="Date"
-									type="date"
-									value={scheduledDate}
-									onChange={handleScheduledDateChange}
-									required
-								/>
-								<TextInput
-									label="Time"
-									type="time"
-									value={scheduledTime}
-									onChange={handleScheduledTimeChange}
-									required
-								/>
+								<div>
+									<label htmlFor="scheduled-date">Date</label>
+									<Input
+										id="scheduled-date"
+										type="date"
+										value={scheduledDate}
+										onChange={handleScheduledDateChange}
+										required
+									/>
+								</div>
+								<div>
+									<label htmlFor="scheduled-time">Time</label>
+									<Input
+										id="scheduled-time"
+										type="time"
+										value={scheduledTime}
+										onChange={handleScheduledTimeChange}
+										required
+									/>
+								</div>
 							</div>
 						)}
 					</div>

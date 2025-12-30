@@ -1,43 +1,57 @@
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
+import {
+	LayoutGrid,
+	User,
+	BarChart2,
+	Mail,
+	Users,
+	Send,
+	FileText,
+	Code,
+	Settings,
+} from "lucide-react";
 import { useTier } from "@/contexts/tier";
-import { TabMenuHorizontal } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontal";
-import { TabMenuHorizontalItem } from "@/proto-design-system/TabMenu/Horizontal/tabMenuHorizontalItem";
+import { Tabs, TabList, Tab } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
-interface Tab {
+interface TabConfig {
+	id: string;
 	path: string;
 	label: string;
-	icon: string;
+	icon: React.ReactNode;
 	/** If true, requires pro tier or higher */
 	requiresPro?: boolean;
 }
 
-const TABS: Tab[] = [
-	{ path: "", label: "Overview", icon: "ri-layout-grid-line" },
-	{ path: "/leads", label: "Leads", icon: "ri-user-line" },
-	{ path: "/analytics", label: "Analytics", icon: "ri-bar-chart-2-line" },
+const TABS: TabConfig[] = [
+	{ id: "overview", path: "", label: "Overview", icon: <LayoutGrid size={16} /> },
+	{ id: "leads", path: "/leads", label: "Leads", icon: <User size={16} /> },
+	{ id: "analytics", path: "/analytics", label: "Analytics", icon: <BarChart2 size={16} /> },
 	{
+		id: "email-builder",
 		path: "/email-builder",
 		label: "Email",
-		icon: "ri-mail-line",
+		icon: <Mail size={16} />,
 		requiresPro: true,
 	},
 	{
+		id: "segments",
 		path: "/segments",
 		label: "Segments",
-		icon: "ri-group-line",
+		icon: <Users size={16} />,
 		requiresPro: true,
 	},
 	{
+		id: "blasts",
 		path: "/blasts",
 		label: "Blasts",
-		icon: "ri-mail-send-line",
+		icon: <Send size={16} />,
 		requiresPro: true,
 	},
-	{ path: "/form-builder", label: "Form", icon: "ri-survey-line" },
-	{ path: "/embed", label: "Embed", icon: "ri-code-s-slash-line" },
-	{ path: "/settings", label: "Settings", icon: "ri-settings-3-line" },
+	{ id: "form-builder", path: "/form-builder", label: "Form", icon: <FileText size={16} /> },
+	{ id: "embed", path: "/embed", label: "Embed", icon: <Code size={16} /> },
+	{ id: "settings", path: "/settings", label: "Settings", icon: <Settings size={16} /> },
 ];
 
 interface CampaignTabNavProps {
@@ -58,8 +72,8 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 		[isPro],
 	);
 
-	// Determine active tab based on current pathname
-	const activeTabIndex = useMemo(() => {
+	// Determine active tab ID based on current pathname
+	const activeTabId = useMemo(() => {
 		const currentPath = location.pathname;
 
 		// Check each tab in reverse order (most specific first)
@@ -67,42 +81,35 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 			const tab = visibleTabs[i];
 			const fullPath = `${basePath}${tab.path}`;
 			if (currentPath === fullPath || currentPath.startsWith(`${fullPath}/`)) {
-				return i;
+				return tab.id;
 			}
 		}
 		// Default to overview tab
-		return 0;
+		return "overview";
 	}, [location.pathname, basePath, visibleTabs]);
 
-	const handleTabClick = useCallback(
-		(index: number) => {
-			const tab = visibleTabs[index];
-			const targetPath = `${basePath}${tab.path}`;
-			navigate({ to: targetPath });
+	const handleTabChange = useCallback(
+		(tabId: string) => {
+			const tab = visibleTabs.find((t) => t.id === tabId);
+			if (tab) {
+				const targetPath = `${basePath}${tab.path}`;
+				navigate({ to: targetPath });
+			}
 		},
 		[navigate, basePath, visibleTabs],
 	);
 
-	const tabItems = useMemo(
-		() =>
-			visibleTabs.map((tab, index) => (
-				<TabMenuHorizontalItem
-					key={tab.path || "overview"}
-					active={index === activeTabIndex}
-					leftIcon={tab.icon}
-					text={tab.label}
-				/>
-			)),
-		[activeTabIndex, visibleTabs],
-	);
-
 	return (
 		<nav className={styles.tabNav}>
-			<TabMenuHorizontal
-				items={tabItems}
-				activeTab={activeTabIndex}
-				onTabClick={handleTabClick}
-			/>
+			<Tabs activeTab={activeTabId} onTabChange={handleTabChange}>
+				<TabList>
+					{visibleTabs.map((tab) => (
+						<Tab key={tab.id} id={tab.id} icon={tab.icon}>
+							{tab.label}
+						</Tab>
+					))}
+				</TabList>
+			</Tabs>
 		</nav>
 	);
 }

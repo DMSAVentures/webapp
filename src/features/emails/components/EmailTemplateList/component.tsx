@@ -4,9 +4,8 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Pencil, Copy, Eye, Trash2, Plus } from "lucide-react";
+import { Button, Badge } from "@/proto-design-system";
 import type { EmailTemplate } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -61,11 +60,12 @@ const EmailTemplateCard = memo<TemplateCardProps>(function EmailTemplateCard({
 			<div className={styles.cardHeader}>
 				<div className={styles.cardTitle}>
 					<h3 className={styles.templateName}>{template.name}</h3>
-					<StatusBadge
-						text={template.status === "active" ? "Active" : "Draft"}
-						variant={template.status === "active" ? "completed" : "pending"}
-						styleType="stroke"
-					/>
+					<Badge
+						variant={template.status === "active" ? "success" : "secondary"}
+						size="md"
+					>
+						{template.status === "active" ? "Active" : "Draft"}
+					</Badge>
 				</div>
 				<span className={styles.templateType}>
 					<i className="ri-mail-line" aria-hidden="true" />
@@ -97,37 +97,41 @@ const EmailTemplateCard = memo<TemplateCardProps>(function EmailTemplateCard({
 					})}
 				</span>
 				<div className={styles.actions}>
-					<IconOnlyButton
-						iconClass="eye-line"
+					<Button
+						isIconOnly
+						leftIcon={<Eye />}
 						variant="secondary"
-						ariaLabel="Preview template"
+						aria-label="Preview template"
 						onClick={(e) => {
 							e.stopPropagation();
 							onPreview();
 						}}
 					/>
-					<IconOnlyButton
-						iconClass="edit-line"
+					<Button
+						isIconOnly
+						leftIcon={<Pencil />}
 						variant="secondary"
-						ariaLabel="Edit template"
+						aria-label="Edit template"
 						onClick={(e) => {
 							e.stopPropagation();
 							onEdit();
 						}}
 					/>
-					<IconOnlyButton
-						iconClass="file-copy-line"
+					<Button
+						isIconOnly
+						leftIcon={<Copy />}
 						variant="secondary"
-						ariaLabel="Duplicate template"
+						aria-label="Duplicate template"
 						onClick={(e) => {
 							e.stopPropagation();
 							onDuplicate();
 						}}
 					/>
-					<IconOnlyButton
-						iconClass="delete-bin-line"
+					<Button
+						isIconOnly
+						leftIcon={<Trash2 />}
 						variant="secondary"
-						ariaLabel="Delete template"
+						aria-label="Delete template"
 						onClick={(e) => {
 							e.stopPropagation();
 							onDelete();
@@ -197,8 +201,8 @@ export const EmailTemplateList = memo<EmailTemplateListProps>(
 					</div>
 					<Button
 						variant="primary"
-						size="medium"
-						leftIcon="add-line"
+						size="md"
+						leftIcon={<Plus />}
 						onClick={handleCreateNew}
 					>
 						Create Template
@@ -218,8 +222,8 @@ export const EmailTemplateList = memo<EmailTemplateListProps>(
 						</p>
 						<Button
 							variant="primary"
-							size="medium"
-							leftIcon="add-line"
+							size="md"
+							leftIcon={<Plus />}
 							onClick={handleCreateNew}
 						>
 							Create Template

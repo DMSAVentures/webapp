@@ -1,7 +1,6 @@
 "use client";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { EmptyState, Spinner } from "@/proto-design-system";
 
 interface PlanCardProps {
 	priceId: string;
@@ -11,10 +10,9 @@ export default function PlanCard(props: PlanCardProps) {
 
 	if (loading) {
 		return (
-			<LoadingSpinner
-				size="medium"
-				mode="centered"
-				message="Loading plan details..."
+			<Spinner
+				size="md"
+				label="Loading plan details..."
 			/>
 		);
 	}

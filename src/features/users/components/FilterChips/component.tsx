@@ -1,6 +1,5 @@
 import { memo } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { Tag } from "@/proto-design-system/Tag/tag";
+import { Button, Badge } from "@/proto-design-system";
 import type { ActiveFilter } from "@/types/users.types";
 import styles from "./component.module.scss";
 
@@ -23,18 +22,23 @@ export const FilterChips = memo<FilterChipsProps>(function FilterChips({
 		<div className={styles.root}>
 			<div className={styles.chips}>
 				{activeFilters.map((filter) => (
-					<Tag
-						key={filter.id}
-						state="active"
-						removeable
-						onRemove={() => onRemoveFilter(filter.id)}
-					>
-						{`${filter.label}: ${filter.value}`}
-					</Tag>
+					<span key={filter.id} className={styles.chip}>
+						<Badge variant="secondary" size="sm">
+							{`${filter.label}: ${filter.value}`}
+						</Badge>
+						<button
+							type="button"
+							className={styles.chipRemove}
+							onClick={() => onRemoveFilter(filter.id)}
+							aria-label={`Remove ${filter.label} filter`}
+						>
+							<i className="ri-close-line" aria-hidden="true" />
+						</button>
+					</span>
 				))}
 			</div>
 			{activeFilters.length > 1 && (
-				<Button variant="secondary" size="small" onClick={onClearAll}>
+				<Button variant="secondary" size="sm" onClick={onClearAll}>
 					Clear all
 				</Button>
 			)}

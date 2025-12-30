@@ -6,9 +6,7 @@ import {
 } from "@stripe/stripe-js";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCreatePaymentMethodUpdateIntent } from "@/hooks/useCreatePaymentMethodUpdateIntent";
-import Button from "@/proto-design-system/Button/button";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
+import { Button, Spinner } from "@/proto-design-system";
 
 // import "./page.scss"
 
@@ -19,7 +17,7 @@ const UpdatePaymentMethod = () => {
 		useCreatePaymentMethodUpdateIntent();
 
 	if (loading) {
-		return <LoadingSpinner />;
+		return <Spinner />;
 	}
 
 	if (error) {
@@ -46,11 +44,7 @@ const UpdatePaymentMethod = () => {
 	};
 
 	return (
-		<Column
-			sm={{ span: 7, start: 1 }}
-			md={{ start: 1, span: 4 }}
-			lg={{ start: 1, span: 4 }}
-		>
+		<div>
 			<div className={"update-payment-element"}>
 				<h3>Update Payment Method</h3>
 				<div className={"card-element"}>
@@ -59,7 +53,7 @@ const UpdatePaymentMethod = () => {
 				{/*<AddressElement options={CARD_ELEMENT_OPTIONS}/>*/}
 				<Button onClick={handlePaymentUpdate}>Update Card</Button>
 			</div>
-		</Column>
+		</div>
 	);
 };
 

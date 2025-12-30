@@ -10,9 +10,7 @@ import { ErrorState } from "@/components/error/error";
 import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useDeleteCampaign } from "@/hooks/useDeleteCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Button } from "@/proto-design-system/Button/button";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Button, EmptyState, Spinner } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { CampaignList } from "../CampaignList/component";
 import styles from "./component.module.scss";
@@ -104,10 +102,9 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 	// Loading state
 	if (loading) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading campaigns..."
+			<Spinner
+				size="lg"
+				label="Loading campaigns..."
 			/>
 		);
 	}

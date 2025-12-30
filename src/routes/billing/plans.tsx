@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import PlanToPay from "@/components/billing/plans/planPay";
 import { ErrorState } from "@/components/error/error";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
+import { Spinner } from "@/proto-design-system";
 
 export const Route = createFileRoute("/billing/plans")({
 	component: RouteComponent,
@@ -13,7 +12,7 @@ function Page() {
 	const { loading, prices, error } = useGetAllPrices();
 
 	if (loading) {
-		return <LoadingSpinner />;
+		return <Spinner />;
 	}
 
 	if (error) {
@@ -26,15 +25,10 @@ function Page() {
 
 	return (
 		<>
-			<Column sm={{ span: 7, start: 1 }}>
+			<div>
 				<h3>Plans</h3>
-			</Column>
-			<Column
-				sm={{ span: 7, start: 1 }}
-				md={{ start: 1, span: 7 }}
-				lg={{ start: 1, span: 11 }}
-				xlg={{ start: 1, span: 13 }}
-			>
+			</div>
+			<div>
 				<div className={"plans"}>
 					{prices.map((price) => (
 						<PlanToPay
@@ -45,7 +39,7 @@ function Page() {
 						/>
 					))}
 				</div>
-			</Column>
+			</div>
 		</>
 	);
 }

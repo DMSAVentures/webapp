@@ -4,14 +4,13 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import Dropdown, {
-	type DropdownOptionInput,
-} from "@/proto-design-system/dropdown/dropdown";
-import Modal from "@/proto-design-system/modal/modal";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import {
+	Badge,
+	Button,
+	Divider,
+	Dropdown,
+	Modal,
+} from "@/proto-design-system";
 import type { RewardEarned, WaitlistUser } from "@/types/common.types";
 import { formatPosition } from "@/utils/positionFormatter";
 import styles from "./component.module.scss";
@@ -38,23 +37,23 @@ export interface UserProfileProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Maps waitlist user status to StatusBadge variant
+ * Maps waitlist user status to Badge variant
  */
 const getStatusVariant = (
 	status: WaitlistUser["status"],
-): "completed" | "pending" | "failed" | "disabled" => {
+): "success" | "warning" | "error" | "secondary" => {
 	switch (status) {
 		case "verified":
 		case "active":
-			return "completed";
+			return "success";
 		case "pending":
-			return "pending";
+			return "warning";
 		case "rejected":
-			return "failed";
+			return "error";
 		case "invited":
-			return "pending";
+			return "warning";
 		default:
-			return "pending";
+			return "warning";
 	}
 };
 
@@ -68,12 +67,12 @@ const formatStatus = (status: string): string => {
 /**
  * Status options for dropdown
  */
-const STATUS_OPTIONS: DropdownOptionInput[] = [
-	{ value: "pending", label: "Pending" },
-	{ value: "verified", label: "Verified" },
-	{ value: "invited", label: "Invited" },
-	{ value: "active", label: "Active" },
-	{ value: "rejected", label: "Rejected" },
+const STATUS_OPTIONS = [
+	{ id: "pending", label: "Pending" },
+	{ id: "verified", label: "Verified" },
+	{ id: "invited", label: "Invited" },
+	{ id: "active", label: "Active" },
+	{ id: "rejected", label: "Rejected" },
 ];
 
 /**
@@ -104,8 +103,8 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 		}
 	};
 
-	const handleStatusChange = (option: DropdownOptionInput) => {
-		setSelectedStatus(option.value as WaitlistUser["status"]);
+	const handleStatusChange = (id: string) => {
+		setSelectedStatus(id as WaitlistUser["status"]);
 	};
 
 	const handleDelete = () => {
@@ -122,10 +121,9 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 				isOpen={true}
 				onClose={onClose}
 				title="User Profile"
-				dismissibleByCloseIcon={false}
-				proceedText=""
 			>
 				<div className={classNames} {...props}>
+
 					{/* Header */}
 					<div className={styles.header}>
 						<div className={styles.headerContent}>
@@ -138,21 +136,21 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 									{user.emailVerified ? "Verified" : "Not verified"}
 								</p>
 							</div>
-							<StatusBadge
-								text={formatStatus(user.status)}
+							<Badge
 								variant={getStatusVariant(user.status)}
-								styleType="stroke"
-							/>
+							>
+								{formatStatus(user.status)}
+							</Badge>
 						</div>
-						<IconOnlyButton
-							iconClass="close-line"
+						<Button
+							leftIcon="ri-close-line"
 							variant="secondary"
-							ariaLabel="Close"
+							aria-label="Close"
 							onClick={onClose}
 						/>
 					</div>
 
-					<ContentDivider size="thin" />
+					<Divider />
 
 					{/* Stats Grid */}
 					<div className={styles.statsGrid}>
@@ -188,7 +186,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						</div>
 					</div>
 
-					<ContentDivider size="thin" />
+					<Divider />
 
 					{/* Details Section */}
 					<div className={styles.section}>
@@ -228,7 +226,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						user.utmContent ||
 						user.utmTerm) && (
 						<>
-							<ContentDivider size="thin" />
+							<Divider />
 							<div className={styles.section}>
 								<h3 className={styles.sectionTitle}>UTM Parameters</h3>
 								<div className={styles.detailsGrid}>
@@ -278,7 +276,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 					{/* Referral Tree */}
 					{referredUsers.length > 0 && (
 						<>
-							<ContentDivider size="thin" />
+							<Divider />
 							<div className={styles.section}>
 								<h3 className={styles.sectionTitle}>
 									Referred Users ({referredUsers.length})
@@ -294,11 +292,11 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 													</div>
 												</div>
 											</div>
-											<StatusBadge
-												text={formatStatus(referredUser.status)}
+											<Badge
 												variant={getStatusVariant(referredUser.status)}
-												styleType="stroke"
-											/>
+											>
+												{formatStatus(referredUser.status)}
+											</Badge>
 										</div>
 									))}
 								</div>
@@ -309,7 +307,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 					{/* Rewards Earned */}
 					{rewards.length > 0 && (
 						<>
-							<ContentDivider size="thin" />
+							<Divider />
 							<div className={styles.section}>
 								<h3 className={styles.sectionTitle}>
 									Rewards Earned ({rewards.length})
@@ -335,7 +333,7 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						</>
 					)}
 
-					<ContentDivider size="thin" />
+					<Divider />
 
 					{/* Actions Section */}
 					<div className={styles.section}>
@@ -343,14 +341,12 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						<div className={styles.actionsGrid}>
 							{/* Update Status */}
 							<div className={styles.actionItem}>
+								<label className={styles.detailLabel}>Update Status</label>
 								<Dropdown
-									label="Update Status"
-									options={STATUS_OPTIONS.map((opt) => ({
-										...opt,
-										selected: opt.value === selectedStatus,
-									}))}
-									placeholderText="Select status"
-									size="medium"
+									items={STATUS_OPTIONS}
+									value={selectedStatus}
+									placeholder="Select status"
+									size="md"
 									onChange={handleStatusChange}
 								/>
 								<Button
@@ -402,13 +398,18 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 				title="Delete User"
 				description={`Are you sure you want to delete ${user.email}? This action cannot be undone.`}
 				icon="warning"
-				dismissibleByCloseIcon={true}
-				proceedText="Delete"
-				cancelText="Cancel"
-				onCancel={() => setIsDeleteModalOpen(false)}
-				onProceed={handleDelete}
+				footer={
+					<>
+						<Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={handleDelete}>
+							Delete
+						</Button>
+					</>
+				}
 			>
-				{/* Modal content is handled by the Modal component itself */}
+				{null}
 			</Modal>
 		</>
 	);

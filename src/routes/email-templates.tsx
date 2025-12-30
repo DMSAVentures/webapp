@@ -3,10 +3,7 @@ import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
 import { useGetAllEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Button, Badge, EmptyState, Spinner } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import styles from "./email-templates.module.scss";
 
@@ -30,10 +27,9 @@ function RouteComponent() {
 
 	if (loading) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading email templates..."
+			<Spinner
+				size="lg"
+				label="Loading email templates..."
 			/>
 		);
 	}
@@ -56,55 +52,55 @@ function RouteComponent() {
 			case "verification":
 				return (
 					<Badge
-						variant="blue"
-						text="Verification"
-						styleType="light"
-						size="small"
-					/>
+						variant="primary"
+						size="sm"
+					>
+						Verification
+					</Badge>
 				);
 			case "welcome":
 				return (
 					<Badge
-						variant="green"
-						text="Welcome"
-						styleType="light"
-						size="small"
-					/>
+						variant="success"
+						size="sm"
+					>
+						Welcome
+					</Badge>
 				);
 			case "position_update":
 				return (
 					<Badge
-						variant="purple"
-						text="Position Update"
-						styleType="light"
-						size="small"
-					/>
+						variant="secondary"
+						size="sm"
+					>
+						Position Update
+					</Badge>
 				);
 			case "reward_earned":
 				return (
 					<Badge
-						variant="yellow"
-						text="Reward Earned"
-						styleType="light"
-						size="small"
-					/>
+						variant="warning"
+						size="sm"
+					>
+						Reward Earned
+					</Badge>
 				);
 			case "milestone":
 				return (
 					<Badge
-						variant="teal"
-						text="Milestone"
-						styleType="light"
-						size="small"
-					/>
+						variant="primary"
+						size="sm"
+					>
+						Milestone
+					</Badge>
 				);
 			case "custom":
 				return (
-					<Badge variant="gray" text="Custom" styleType="light" size="small" />
+					<Badge variant="secondary" size="sm">Custom</Badge>
 				);
 			default:
 				return (
-					<Badge variant="gray" text={type} styleType="light" size="small" />
+					<Badge variant="secondary" size="sm">{type}</Badge>
 				);
 		}
 	};
@@ -138,10 +134,7 @@ function RouteComponent() {
 						icon="mail-line"
 						title="No email templates yet"
 						description="Create email templates within your campaigns to send automated emails to your users."
-						action={{
-							label: "Go to Campaigns",
-							onClick: handleCreateTemplate,
-						}}
+						action={<Button variant="primary" onClick={handleCreateTemplate}>Go to Campaigns</Button>}
 					/>
 				) : (
 					<div className={styles.templatesList}>
@@ -154,11 +147,11 @@ function RouteComponent() {
 										<div className={styles.templateMeta}>
 											{getTypeBadge(template.type)}
 											<Badge
-												variant={template.enabled ? "green" : "gray"}
-												text={template.enabled ? "Enabled" : "Disabled"}
-												styleType="lighter"
-												size="small"
-											/>
+												variant={template.enabled ? "success" : "secondary"}
+												size="sm"
+											>
+												{template.enabled ? "Enabled" : "Disabled"}
+											</Badge>
 											<span className={styles.campaignName}>
 												{getCampaignName(template.campaign_id)}
 											</span>
@@ -167,7 +160,7 @@ function RouteComponent() {
 									<div className={styles.templateActions}>
 										<Button
 											variant="secondary"
-											size="small"
+											size="sm"
 											onClick={() => handleEditTemplate(template.campaign_id)}
 										>
 											Edit

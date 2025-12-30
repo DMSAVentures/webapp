@@ -11,9 +11,7 @@ import {
 	useCallback,
 	useState,
 } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import Dropdown from "@/proto-design-system/dropdown/dropdown";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Dropdown, Input } from "@/proto-design-system";
 import type { EmailCampaign } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -64,24 +62,24 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 
 		// TODO: Fetch templates and segments from API
 		const templates = [
-			{ id: "1", label: "Welcome Email", value: "1" },
-			{ id: "2", label: "Verification Email", value: "2" },
-			{ id: "3", label: "Position Update", value: "3" },
+			{ id: "1", label: "Welcome Email" },
+			{ id: "2", label: "Verification Email" },
+			{ id: "3", label: "Position Update" },
 		];
 
 		const segments = [
-			{ id: "1", label: "All Users", value: "1" },
-			{ id: "2", label: "Verified Users", value: "2" },
-			{ id: "3", label: "Top Referrers", value: "3" },
+			{ id: "1", label: "All Users" },
+			{ id: "2", label: "Verified Users" },
+			{ id: "3", label: "Top Referrers" },
 		];
 
 		const triggerOptions = [
-			{ id: "manual", label: "Manual (Send now)", value: "manual" },
-			{ id: "signup", label: "On Signup", value: "signup" },
-			{ id: "verified", label: "On Verification", value: "verified" },
-			{ id: "milestone", label: "On Milestone", value: "milestone" },
-			{ id: "scheduled", label: "Scheduled", value: "scheduled" },
-			{ id: "inactive", label: "After Inactivity", value: "inactive" },
+			{ id: "manual", label: "Manual (Send now)" },
+			{ id: "signup", label: "On Signup" },
+			{ id: "verified", label: "On Verification" },
+			{ id: "milestone", label: "On Milestone" },
+			{ id: "scheduled", label: "Scheduled" },
+			{ id: "inactive", label: "After Inactivity" },
 		];
 
 		const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -232,16 +230,22 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 				<div className={styles.formGrid}>
 					{/* Campaign Name */}
 					<div className={styles.formField}>
-						<TextInput
-							label="Campaign Name"
+						<label htmlFor="campaign-name" className={styles.label}>
+							Campaign Name
+							<span className={styles.required}>*</span>
+						</label>
+						<Input
+							id="campaign-name"
 							placeholder="Enter campaign name"
 							value={name}
 							onChange={(e: ChangeEvent<HTMLInputElement>) =>
 								setName(e.target.value)
 							}
-							error={errors.name}
-							required
+							isError={!!errors.name}
 						/>
+						{errors.name && (
+							<span className={styles.error}>{errors.name}</span>
+						)}
 					</div>
 
 					{/* Template Selector */}
@@ -251,22 +255,26 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							<span className={styles.required}>*</span>
 						</label>
 						<Dropdown
-							placeholderText="Select a template"
-							options={templates}
-							size="medium"
-							onChange={(option) => setTemplateId(option.value)}
-							error={errors.templateId}
+							placeholder="Select a template"
+							items={templates}
+							value={templateId}
+							size="md"
+							onChange={(id) => setTemplateId(id)}
 						/>
+						{errors.templateId && (
+							<span className={styles.error}>{errors.templateId}</span>
+						)}
 					</div>
 
 					{/* Segment Selector */}
 					<div className={styles.formField}>
 						<label className={styles.label}>Target Segment (Optional)</label>
 						<Dropdown
-							placeholderText="Select a segment"
-							options={segments}
-							size="medium"
-							onChange={(option) => setSegmentId(option.value)}
+							placeholder="Select a segment"
+							items={segments}
+							value={segmentId}
+							size="md"
+							onChange={(id) => setSegmentId(id)}
 						/>
 					</div>
 
@@ -277,11 +285,12 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							<span className={styles.required}>*</span>
 						</label>
 						<Dropdown
-							placeholderText="Select trigger type"
-							options={triggerOptions}
-							size="medium"
-							onChange={(option) =>
-								setTrigger(option.value as EmailCampaign["trigger"])
+							placeholder="Select trigger type"
+							items={triggerOptions}
+							value={trigger}
+							size="md"
+							onChange={(id) =>
+								setTrigger(id as EmailCampaign["trigger"])
 							}
 						/>
 					</div>
@@ -301,27 +310,33 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 											: "Last Activity"}
 								</label>
 								<div className={styles.delayInputs}>
-									<TextInput
-										type="number"
-										label="Days"
-										placeholder="0"
-										value={triggerDays}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setTriggerDays(e.target.value)
-										}
-										min="0"
-									/>
-									<TextInput
-										type="number"
-										label="Hours"
-										placeholder="0"
-										value={triggerHours}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setTriggerHours(e.target.value)
-										}
-										min="0"
-										max="23"
-									/>
+									<div>
+										<label htmlFor="trigger-days">Days</label>
+										<Input
+											id="trigger-days"
+											type="number"
+											placeholder="0"
+											value={triggerDays}
+											onChange={(e: ChangeEvent<HTMLInputElement>) =>
+												setTriggerDays(e.target.value)
+											}
+											min="0"
+										/>
+									</div>
+									<div>
+										<label htmlFor="trigger-hours">Hours</label>
+										<Input
+											id="trigger-hours"
+											type="number"
+											placeholder="0"
+											value={triggerHours}
+											onChange={(e: ChangeEvent<HTMLInputElement>) =>
+												setTriggerHours(e.target.value)
+											}
+											min="0"
+											max="23"
+										/>
+									</div>
 								</div>
 								{errors.triggerConfig && (
 									<span className={styles.error}>{errors.triggerConfig}</span>
@@ -334,26 +349,38 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 						<div className={styles.formField}>
 							<div className={styles.triggerConfig}>
 								<label className={styles.label}>Milestone Configuration</label>
-								<TextInput
-									label="Milestone Type"
-									placeholder="e.g., referral_count"
-									value={milestoneType}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setMilestoneType(e.target.value)
-									}
-									error={errors.milestoneType}
-								/>
-								<TextInput
-									type="number"
-									label="Milestone Value"
-									placeholder="e.g., 5"
-									value={milestoneValue}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setMilestoneValue(e.target.value)
-									}
-									error={errors.milestoneValue}
-									min="1"
-								/>
+								<div>
+									<label htmlFor="milestone-type">Milestone Type</label>
+									<Input
+										id="milestone-type"
+										placeholder="e.g., referral_count"
+										value={milestoneType}
+										onChange={(e: ChangeEvent<HTMLInputElement>) =>
+											setMilestoneType(e.target.value)
+										}
+										isError={!!errors.milestoneType}
+									/>
+									{errors.milestoneType && (
+										<span className={styles.error}>{errors.milestoneType}</span>
+									)}
+								</div>
+								<div>
+									<label htmlFor="milestone-value">Milestone Value</label>
+									<Input
+										id="milestone-value"
+										type="number"
+										placeholder="e.g., 5"
+										value={milestoneValue}
+										onChange={(e: ChangeEvent<HTMLInputElement>) =>
+											setMilestoneValue(e.target.value)
+										}
+										isError={!!errors.milestoneValue}
+										min="1"
+									/>
+									{errors.milestoneValue && (
+										<span className={styles.error}>{errors.milestoneValue}</span>
+									)}
+								</div>
 							</div>
 						</div>
 					)}
@@ -363,24 +390,36 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							<div className={styles.triggerConfig}>
 								<label className={styles.label}>Schedule</label>
 								<div className={styles.scheduleInputs}>
-									<TextInput
-										type="date"
-										label="Date"
-										value={scheduledDate}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setScheduledDate(e.target.value)
-										}
-										error={errors.scheduledDate}
-									/>
-									<TextInput
-										type="time"
-										label="Time"
-										value={scheduledTime}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setScheduledTime(e.target.value)
-										}
-										error={errors.scheduledTime}
-									/>
+									<div>
+										<label htmlFor="scheduled-date">Date</label>
+										<Input
+											id="scheduled-date"
+											type="date"
+											value={scheduledDate}
+											onChange={(e: ChangeEvent<HTMLInputElement>) =>
+												setScheduledDate(e.target.value)
+											}
+											isError={!!errors.scheduledDate}
+										/>
+										{errors.scheduledDate && (
+											<span className={styles.error}>{errors.scheduledDate}</span>
+										)}
+									</div>
+									<div>
+										<label htmlFor="scheduled-time">Time</label>
+										<Input
+											id="scheduled-time"
+											type="time"
+											value={scheduledTime}
+											onChange={(e: ChangeEvent<HTMLInputElement>) =>
+												setScheduledTime(e.target.value)
+											}
+											isError={!!errors.scheduledTime}
+										/>
+										{errors.scheduledTime && (
+											<span className={styles.error}>{errors.scheduledTime}</span>
+										)}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -393,7 +432,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 						<Button
 							type="button"
 							variant="secondary"
-							size="medium"
+							size="md"
 							leftIcon="eye-line"
 							onClick={handlePreview}
 							disabled={!templateId}
@@ -403,7 +442,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 						<Button
 							type="button"
 							variant="secondary"
-							size="medium"
+							size="md"
 							leftIcon="mail-send-line"
 							onClick={handleSendTest}
 							disabled={!templateId}
@@ -416,7 +455,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							<Button
 								type="button"
 								variant="secondary"
-								size="medium"
+								size="md"
 								onClick={onCancel}
 							>
 								Cancel
@@ -425,7 +464,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 						<Button
 							type="submit"
 							variant="primary"
-							size="medium"
+							size="md"
 							disabled={isSubmitting}
 						>
 							{isSubmitting ? "Creating..." : "Create Campaign"}

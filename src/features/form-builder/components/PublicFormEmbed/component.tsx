@@ -8,7 +8,7 @@ import { ErrorState } from "@/components/error/error";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { usePublicCampaign } from "@/hooks/usePublicCampaign";
 import { useTrackingData } from "@/hooks/useTrackingData";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Spinner } from "@/proto-design-system";
 import type { Campaign, CampaignStatus } from "@/types/campaign";
 import type { FormDesign, FormField } from "@/types/common.types";
 import {
@@ -199,7 +199,7 @@ export const PublicFormEmbed = memo(function PublicFormEmbed({
 	// Loading state
 	if (loading) {
 		return (
-			<LoadingSpinner size="large" mode="centered" message="Loading form..." />
+			<Spinner size="lg" label="Loading form..." />
 		);
 	}
 

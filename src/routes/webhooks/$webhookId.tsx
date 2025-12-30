@@ -6,11 +6,7 @@ import { DeliveryList } from "@/features/webhooks/components/DeliveryList/compon
 import { useGetWebhook } from "@/hooks/useGetWebhook";
 import { useGetWebhookDeliveries } from "@/hooks/useGetWebhookDeliveries";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Button } from "@/proto-design-system/Button/button";
-import Breadcrumb from "@/proto-design-system/breadcrumb/breadcrumb";
-import BreadcrumbItem from "@/proto-design-system/breadcrumb/breadcrumbitem";
-import Feedback from "@/proto-design-system/feedback/feedback";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Button, Breadcrumb, Toast, Spinner } from "@/proto-design-system";
 import styles from "./webhookDetail.module.scss";
 
 export const Route = createFileRoute("/webhooks/$webhookId")({
@@ -67,10 +63,9 @@ function RouteComponent() {
 
 	if (webhookLoading) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading webhook..."
+			<Spinner
+				size="lg"
+				label="Loading webhook..."
 			/>
 		);
 	}
@@ -93,14 +88,9 @@ function RouteComponent() {
 				<div className={styles.headerActions}>
 					<Breadcrumb
 						items={[
-							<BreadcrumbItem key="webhooks" state="default" path="/webhooks">
-								Webhooks
-							</BreadcrumbItem>,
-							<BreadcrumbItem key="detail" state="active">
-								Delivery History
-							</BreadcrumbItem>,
+							{ label: "Webhooks", href: "/webhooks" },
+							{ label: "Delivery History" },
 						]}
-						divider="arrow"
 					/>
 				</div>
 				<div className={styles.headerTop}>
@@ -128,13 +118,13 @@ function RouteComponent() {
 				</div>
 
 				{testFeedback && (
-					<Feedback
-						feedbackType={testFeedback.type}
-						variant="light"
-						size="small"
-						alertTitle={testFeedback.message}
-						dismissable
-					/>
+					<Toast
+						variant={testFeedback.type === "success" ? "success" : "error"}
+						title={testFeedback.message}
+						closable
+					>
+						{testFeedback.message}
+					</Toast>
 				)}
 			</div>
 

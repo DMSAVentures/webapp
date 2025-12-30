@@ -4,12 +4,7 @@
  */
 
 import { Fragment, type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import Pagination from "@/proto-design-system/pagination/pagination";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
-import { Table } from "@/proto-design-system/Table";
+import { Badge, Button, ButtonGroup, EmptyState, Pagination, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system";
 import type { DeliveryStatus, WebhookDelivery } from "@/types/webhook";
 import styles from "./component.module.scss";
 
@@ -36,16 +31,16 @@ export interface DeliveryListProps extends HTMLAttributes<HTMLDivElement> {
 
 const getStatusVariant = (
 	status: DeliveryStatus,
-): "completed" | "failed" | "pending" => {
+): "success" | "error" | "warning" => {
 	switch (status) {
 		case "success":
-			return "completed";
+			return "success";
 		case "failed":
-			return "failed";
+			return "error";
 		case "pending":
-			return "pending";
+			return "warning";
 		default:
-			return "pending";
+			return "warning";
 	}
 };
 
@@ -117,28 +112,22 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 			{/* Header */}
 			<div className={styles.header}>
 				<div className={styles.headerLeft}>
-					<ButtonGroup
-						size="small"
-						ariaLabel="Filter deliveries"
-						items={[
-							{
-								text: "All",
-								icon: "ri-list-check",
-								iconPosition: "left",
-								iconOnly: false,
-								selected: filter === "all",
-								onClick: () => setFilter("all"),
-							},
-							{
-								text: "Failed",
-								icon: "ri-close-circle-line",
-								iconPosition: "left",
-								iconOnly: false,
-								selected: filter === "failed",
-								onClick: () => setFilter("failed"),
-							},
-						]}
-					/>
+					<ButtonGroup aria-label="Filter deliveries">
+						<Button
+							variant={filter === "all" ? "primary" : "secondary"}
+							size="sm"
+							onClick={() => setFilter("all")}
+						>
+							All
+						</Button>
+						<Button
+							variant={filter === "failed" ? "primary" : "secondary"}
+							size="sm"
+							onClick={() => setFilter("failed")}
+						>
+							Failed
+						</Button>
+					</ButtonGroup>
 					<div className={styles.resultsInfo}>
 						{filteredDeliveries.length} deliver
 						{filteredDeliveries.length !== 1 ? "ies" : "y"}
@@ -150,7 +139,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 				{onRefresh && (
 					<Button
 						variant="secondary"
-						size="small"
+						size="sm"
 						leftIcon="ri-refresh-line"
 						onClick={onRefresh}
 					>
@@ -181,39 +170,37 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 					/>
 				) : (
 					<Table loading={loading} loadingMessage="Loading deliveries...">
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell>Status</Table.HeaderCell>
-								<Table.HeaderCell>Event</Table.HeaderCell>
-								<Table.HeaderCell>Response</Table.HeaderCell>
-								<Table.HeaderCell>Duration</Table.HeaderCell>
-								<Table.HeaderCell>Attempt</Table.HeaderCell>
-								<Table.HeaderCell>Next Retry</Table.HeaderCell>
-								<Table.HeaderCell>Created At</Table.HeaderCell>
-								<Table.HeaderCell narrow />
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
+						<TableHeader>
+							<TableRow>
+								<TableHead>Status</TableHead>
+								<TableHead>Event</TableHead>
+								<TableHead>Response</TableHead>
+								<TableHead>Duration</TableHead>
+								<TableHead>Attempt</TableHead>
+								<TableHead>Next Retry</TableHead>
+								<TableHead>Created At</TableHead>
+								<TableHead />
+							</TableRow>
+						</TableHeader>
+						<TableBody>
 							{filteredDeliveries.map((delivery) => (
 								<Fragment key={delivery.id}>
-									<Table.Row
-										expandable
-										expanded={expandedDeliveryId === delivery.id}
+									<TableRow
 										onClick={() => toggleDelivery(delivery.id)}
 									>
-										<Table.Cell fitContent>
-											<StatusBadge
-												text={formatStatus(delivery.status)}
+										<TableCell>
+											<Badge
 												variant={getStatusVariant(delivery.status)}
-												styleType="light"
-											/>
-										</Table.Cell>
-										<Table.Cell>
+											>
+												{formatStatus(delivery.status)}
+											</Badge>
+										</TableCell>
+										<TableCell>
 											<span className={styles.eventType}>
 												{delivery.eventType}
 											</span>
-										</Table.Cell>
-										<Table.Cell>
+										</TableCell>
+										<TableCell>
 											{delivery.responseStatus ? (
 												<span
 													className={`${styles.statusCode} ${delivery.responseStatus >= 200 && delivery.responseStatus < 300 ? styles.statusCodeSuccess : styles.statusCodeError}`}
@@ -223,13 +210,13 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											) : (
 												<span className={styles.noResponse}>-</span>
 											)}
-										</Table.Cell>
-										<Table.Cell>
+										</TableCell>
+										<TableCell>
 											<span className={styles.duration}>
 												{formatDuration(delivery.durationMs)}
 											</span>
-										</Table.Cell>
-										<Table.Cell>
+										</TableCell>
+										<TableCell>
 											<span className={styles.attempt}>
 												{maxRetries
 													? `${delivery.status === "pending" ? delivery.attemptNumber - 1 : delivery.attemptNumber} / ${maxRetries}`
@@ -237,8 +224,8 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 														? delivery.attemptNumber - 1
 														: delivery.attemptNumber}
 											</span>
-										</Table.Cell>
-										<Table.Cell>
+										</TableCell>
+										<TableCell>
 											{delivery.nextRetryAt && delivery.attemptNumber < 5 ? (
 												<span className={styles.nextRetry}>
 													{new Date(delivery.nextRetryAt).toLocaleString()}
@@ -246,60 +233,68 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 											) : (
 												<span className={styles.noRetry}>-</span>
 											)}
-										</Table.Cell>
-										<Table.Cell>
+										</TableCell>
+										<TableCell>
 											<span className={styles.timestamp}>
 												{new Date(delivery.createdAt).toLocaleString()}
 											</span>
-										</Table.Cell>
-										<Table.Cell narrow>
+										</TableCell>
+										<TableCell>
 											<div className={styles.expandIcon}>
 												<i
 													className={`ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`}
 												/>
 											</div>
-										</Table.Cell>
-									</Table.Row>
-									<Table.ExpandedRow
-										colSpan={8}
-										expanded={expandedDeliveryId === delivery.id}
-									>
-										<div className={styles.detailsContent}>
-											{delivery.errorMessage && (
-												<div className={styles.errorMessage}>
-													<strong>Error:</strong> {delivery.errorMessage}
-												</div>
-											)}
+										</TableCell>
+									</TableRow>
+									{expandedDeliveryId === delivery.id && (
+										<TableRow>
+											<TableCell>
+												<div className={styles.detailsContent}>
+													{delivery.errorMessage && (
+														<div className={styles.errorMessage}>
+															<strong>Error:</strong> {delivery.errorMessage}
+														</div>
+													)}
 
-											<div className={styles.detailSection}>
-												<h4 className={styles.detailTitle}>Request Payload</h4>
-												<pre className={styles.codeBlock}>
-													{JSON.stringify(delivery.payload, null, 2)}
-												</pre>
-											</div>
+													<div className={styles.detailSection}>
+														<h4 className={styles.detailTitle}>Request Payload</h4>
+														<pre className={styles.codeBlock}>
+															{JSON.stringify(delivery.payload, null, 2)}
+														</pre>
+													</div>
 
-											{delivery.responseBody && (
-												<div className={styles.detailSection}>
-													<h4 className={styles.detailTitle}>Response Body</h4>
-													<pre className={styles.codeBlock}>
-														{delivery.responseBody}
-													</pre>
-												</div>
-											)}
+													{delivery.responseBody && (
+														<div className={styles.detailSection}>
+															<h4 className={styles.detailTitle}>Response Body</h4>
+															<pre className={styles.codeBlock}>
+																{delivery.responseBody}
+															</pre>
+														</div>
+													)}
 
-											{delivery.deliveredAt && (
-												<div className={styles.detailMeta}>
-													<span className={styles.metaItem}>
-														<strong>Delivered at:</strong>{" "}
-														{new Date(delivery.deliveredAt).toLocaleString()}
-													</span>
+													{delivery.deliveredAt && (
+														<div className={styles.detailMeta}>
+															<span className={styles.metaItem}>
+																<strong>Delivered at:</strong>{" "}
+																{new Date(delivery.deliveredAt).toLocaleString()}
+															</span>
+														</div>
+													)}
 												</div>
-											)}
-										</div>
-									</Table.ExpandedRow>
+											</TableCell>
+											<TableCell />
+											<TableCell />
+											<TableCell />
+											<TableCell />
+											<TableCell />
+											<TableCell />
+											<TableCell />
+										</TableRow>
+									)}
 								</Fragment>
 							))}
-						</Table.Body>
+						</TableBody>
 					</Table>
 				)}
 
@@ -307,10 +302,8 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 				{totalPages > 1 && (
 					<div className={styles.pagination}>
 						<Pagination
-							currentPage={currentPage}
+							page={currentPage}
 							totalPages={totalPages}
-							itemsPerPage={pageSize}
-							style="rounded"
 							onPageChange={onPageChange ?? (() => undefined)}
 						/>
 					</div>

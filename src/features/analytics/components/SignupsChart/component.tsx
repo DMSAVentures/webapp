@@ -7,9 +7,9 @@ import {
 	type HTMLAttributes,
 	memo,
 	useCallback,
-	useMemo,
 	useState,
 } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
 	Area,
 	AreaChart,
@@ -20,8 +20,7 @@ import {
 	YAxis,
 } from "recharts";
 import type { DateRange } from "@/hooks/useChartNavigation";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
+import { Button, ButtonGroup } from "@/proto-design-system";
 import type { AnalyticsPeriod, ApiSignupDataPoint } from "@/types/api.types";
 import styles from "./component.module.scss";
 
@@ -176,20 +175,6 @@ function formatDateForPeriod(
 	}
 }
 
-/** Build period button items for the button group */
-function buildPeriodButtonItems(
-	selectedPeriod: AnalyticsPeriod,
-	onPeriodChange: (period: AnalyticsPeriod) => void,
-) {
-	return PERIOD_OPTIONS.map((option) => ({
-		text: option.label,
-		icon: "",
-		iconPosition: "left" as const,
-		iconOnly: false,
-		onClick: () => onPeriodChange(option.value),
-		selected: selectedPeriod === option.value,
-	}));
-}
 
 // ============================================================================
 // Sub-Components
@@ -305,10 +290,6 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 	// Derived state
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
-	const periodButtonItems = useMemo(
-		() => buildPeriodButtonItems(selectedPeriod, handlePeriodChange),
-		[selectedPeriod, handlePeriodChange],
-	);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
@@ -323,28 +304,35 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 					</span>
 				</div>
 				<div className={styles.headerRight}>
-					<ButtonGroup
-						items={periodButtonItems}
-						size="2x-small"
-						ariaLabel="Select time period"
-					/>
+					<ButtonGroup>
+						{PERIOD_OPTIONS.map((option) => (
+							<Button
+								key={option.value}
+								variant={selectedPeriod === option.value ? "primary" : "secondary"}
+								size="sm"
+								onClick={() => handlePeriodChange(option.value)}
+							>
+								{option.label}
+							</Button>
+						))}
+					</ButtonGroup>
 					{onNavigate && (
 						<div className={styles.navigation}>
-							<IconOnlyButton
-								iconClass="arrow-left-s-line"
+							<Button
+								leftIcon={<ChevronLeft size={16} />}
 								variant="secondary"
 								onClick={() => onNavigate("back")}
-								ariaLabel="Previous period"
+								aria-label="Previous period"
 							/>
 							{dateRangeLabel && (
 								<span className={styles.dateRangeLabel}>{dateRangeLabel}</span>
 							)}
-							<IconOnlyButton
-								iconClass="arrow-right-s-line"
+							<Button
+								leftIcon={<ChevronRight size={16} />}
 								variant="secondary"
 								onClick={() => onNavigate("forward")}
 								disabled={!canGoForward}
-								ariaLabel="Next period"
+								aria-label="Next period"
 							/>
 						</div>
 					)}

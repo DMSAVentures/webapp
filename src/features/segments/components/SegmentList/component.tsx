@@ -5,15 +5,22 @@
  */
 
 import { memo, useCallback, useState } from "react";
+import { AlertTriangle, Loader2, Pencil, RefreshCw, Send, Trash2 } from "lucide-react";
 import {
 	useDeleteSegment,
 	useGetSegments,
 	useRefreshSegment,
 } from "@/hooks/useSegments";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import Modal from "@/proto-design-system/modal/modal";
-import { Table } from "@/proto-design-system/Table";
+import {
+	Button,
+	Modal,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/proto-design-system";
 import type { Segment } from "@/types/segment";
 import styles from "./component.module.scss";
 
@@ -120,18 +127,18 @@ export const SegmentList = memo(function SegmentList({
 					loadingMessage="Loading segments..."
 					minWidth="700px"
 				>
-					<Table.Header>
-						<Table.Row>
-							<Table.HeaderCell>Name</Table.HeaderCell>
-							<Table.HeaderCell>Users</Table.HeaderCell>
-							<Table.HeaderCell>Last Updated</Table.HeaderCell>
-							<Table.HeaderCell>Actions</Table.HeaderCell>
-						</Table.Row>
-					</Table.Header>
-					<Table.Body>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Name</TableHead>
+							<TableHead>Users</TableHead>
+							<TableHead>Last Updated</TableHead>
+							<TableHead>Actions</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
 						{segments.map((segment) => (
-							<Table.Row key={segment.id}>
-								<Table.Cell>
+							<TableRow key={segment.id}>
+								<TableCell>
 									<div className={styles.nameCell}>
 										<span className={styles.segmentName}>{segment.name}</span>
 										{segment.description && (
@@ -140,48 +147,52 @@ export const SegmentList = memo(function SegmentList({
 											</span>
 										)}
 									</div>
-								</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>
 									{(segment.cachedUserCount ?? 0).toLocaleString()}
-								</Table.Cell>
-								<Table.Cell>{formatDate(segment.cachedAt)}</Table.Cell>
-								<Table.Cell fitContent>
+								</TableCell>
+								<TableCell>{formatDate(segment.cachedAt)}</TableCell>
+								<TableCell>
 									<div className={styles.actions}>
-										<IconOnlyButton
-											iconClass={
-												refreshing && refreshingId === segment.id
-													? "loader-4-line"
-													: "refresh-line"
-											}
+										<Button
 											variant="secondary"
-											ariaLabel="Refresh count"
+											isIconOnly
+											leftIcon={
+												refreshing && refreshingId === segment.id
+													? <Loader2 />
+													: <RefreshCw />
+											}
+											aria-label="Refresh count"
 											onClick={() => handleRefresh(segment)}
 											disabled={refreshing && refreshingId === segment.id}
 										/>
-										<IconOnlyButton
-											iconClass="edit-line"
+										<Button
 											variant="secondary"
-											ariaLabel="Edit segment"
+											isIconOnly
+											leftIcon={<Pencil />}
+											aria-label="Edit segment"
 											onClick={() => onEdit?.(segment)}
 										/>
-										<IconOnlyButton
-											iconClass="mail-send-line"
+										<Button
 											variant="secondary"
-											ariaLabel="Create blast"
+											isIconOnly
+											leftIcon={<Send />}
+											aria-label="Create blast"
 											onClick={() => onCreateBlast?.(segment)}
 										/>
-										<IconOnlyButton
-											iconClass="delete-bin-line"
+										<Button
 											variant="secondary"
-											ariaLabel="Delete segment"
+											isIconOnly
+											leftIcon={<Trash2 />}
+											aria-label="Delete segment"
 											onClick={() => handleDeleteClick(segment)}
 											disabled={deleting}
 										/>
 									</div>
-								</Table.Cell>
-							</Table.Row>
+								</TableCell>
+							</TableRow>
 						))}
-					</Table.Body>
+					</TableBody>
 				</Table>
 			)}
 
@@ -189,13 +200,21 @@ export const SegmentList = memo(function SegmentList({
 				isOpen={!!segmentToDelete}
 				title="Delete Segment"
 				description={`Are you sure you want to delete "${segmentToDelete?.name}"? This action cannot be undone.`}
-				icon="warning"
-				proceedText={deleting ? "Deleting..." : "Delete"}
-				cancelText="Cancel"
-				onProceed={handleDeleteConfirm}
-				onCancel={handleDeleteCancel}
+				icon={<AlertTriangle />}
 				onClose={handleDeleteCancel}
-			/>
+				footer={
+					<>
+						<Button variant="secondary" onClick={handleDeleteCancel} disabled={deleting}>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={handleDeleteConfirm} disabled={deleting}>
+							{deleting ? "Deleting..." : "Delete"}
+						</Button>
+					</>
+				}
+			>
+				<></>
+			</Modal>
 		</div>
 	);
 });

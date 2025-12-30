@@ -6,14 +6,7 @@ import { useTier } from "@/contexts/tier";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
 import { useGetWebhooks } from "@/hooks/useGetWebhooks";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { Badge } from "@/proto-design-system/badge/badge";
-import Banner from "@/proto-design-system/banner/banner";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import Feedback from "@/proto-design-system/feedback/feedback";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import Modal from "@/proto-design-system/modal/modal";
+import { Button, Badge, Banner, EmptyState, Toast, Spinner, Modal } from "@/proto-design-system";
 import type { WebhookStatus } from "@/types/webhook";
 import styles from "./webhooks.module.scss";
 
@@ -124,10 +117,9 @@ function RouteComponent() {
 
 	if (loading) {
 		return (
-			<LoadingSpinner
-				size="large"
-				mode="centered"
-				message="Loading webhooks..."
+			<Spinner
+				size="lg"
+				label="Loading webhooks..."
 			/>
 		);
 	}
@@ -140,24 +132,19 @@ function RouteComponent() {
 		switch (status) {
 			case "active":
 				return (
-					<Badge variant="green" text="Active" styleType="light" size="small" />
+					<Badge variant="success" size="sm">Active</Badge>
 				);
 			case "paused":
 				return (
-					<Badge
-						variant="yellow"
-						text="Paused"
-						styleType="light"
-						size="small"
-					/>
+					<Badge variant="warning" size="sm">Paused</Badge>
 				);
 			case "failed":
 				return (
-					<Badge variant="red" text="Failed" styleType="light" size="small" />
+					<Badge variant="error" size="sm">Failed</Badge>
 				);
 			default:
 				return (
-					<Badge variant="gray" text={status} styleType="light" size="small" />
+					<Badge variant="secondary" size="sm">{status}</Badge>
 				);
 		}
 	};
@@ -190,37 +177,39 @@ function RouteComponent() {
 			{/* Team Feature Banner */}
 			{!isPro && (
 				<Banner
-					bannerType="feature"
+					type="feature"
 					variant="lighter"
-					alertTitle="Team Feature"
-					alertDescription="Upgrade to Team to create webhooks and receive real-time notifications."
-					linkTitle="Upgrade"
-					linkHref="/billing/plans"
+					title="Team Feature"
+					description="Upgrade to Team to create webhooks and receive real-time notifications."
+					action={<a href="/billing/plans">Upgrade</a>}
 					dismissible={false}
 				/>
 			)}
 
 			{deleteFeedback && (
-				<Feedback
-					feedbackType={deleteFeedback.type}
-					variant="light"
-					size="small"
-					alertTitle={deleteFeedback.message}
-					dismissable
-				/>
+				<Toast
+					variant={deleteFeedback.type === "success" ? "success" : "error"}
+					title={deleteFeedback.message}
+					closable
+				>
+					{deleteFeedback.message}
+				</Toast>
 			)}
 
 			<div className={styles.pageContent}>
 				{!webhooks || webhooks.length === 0 ? (
 					<EmptyState
-						icon="webhook-line"
 						title="No webhooks configured"
 						description="Create a webhook to receive real-time notifications when users sign up, verify their email, or other events occur."
-						action={{
-							label: "Create Your First Webhook",
-							onClick: handleCreateWebhook,
-							disabled: !isPro,
-						}}
+						action={
+							<Button
+								variant="primary"
+								onClick={handleCreateWebhook}
+								disabled={!isPro}
+							>
+								Create Your First Webhook
+							</Button>
+						}
 					/>
 				) : (
 					<div className={styles.webhooksList}>
@@ -240,7 +229,7 @@ function RouteComponent() {
 									<div className={styles.webhookActions}>
 										<Button
 											variant="secondary"
-											size="small"
+											size="sm"
 											onClick={() => handleTest(webhook.id)}
 											disabled={
 												testingWebhookId === webhook.id ||
@@ -249,40 +238,40 @@ function RouteComponent() {
 										>
 											{testingWebhookId === webhook.id ? "Sending..." : "Test"}
 										</Button>
-										<IconOnlyButton
-											ariaLabel="View deliveries"
+										<Button
+											aria-label="View deliveries"
 											variant="secondary"
-											iconClass="list-check"
+											leftIcon="ri-list-check"
 											onClick={() => handleViewDeliveries(webhook.id)}
 										/>
-										<IconOnlyButton
-											ariaLabel="Delete webhook"
+										<Button
+											aria-label="Delete webhook"
 											variant="secondary"
-											iconClass="delete-bin-line"
+											leftIcon="ri-delete-bin-line"
 											onClick={() => handleDeleteClick(webhook.id)}
 										/>
 									</div>
 								</div>
 
 								{testFeedback?.webhookId === webhook.id && (
-									<Feedback
-										feedbackType={testFeedback.type}
-										variant="light"
-										size="small"
-										alertTitle={testFeedback.message}
-										dismissable
-									/>
+									<Toast
+										variant={testFeedback.type === "success" ? "success" : "error"}
+										title={testFeedback.message}
+										closable
+									>
+										{testFeedback.message}
+									</Toast>
 								)}
 
 								<div className={styles.webhookEvents}>
 									{webhook.events.map((event) => (
 										<Badge
 											key={event}
-											variant="gray"
-											text={event}
-											styleType="lighter"
-											size="small"
-										/>
+											variant="secondary"
+											size="sm"
+										>
+											{event}
+										</Badge>
 									))}
 								</div>
 
@@ -323,13 +312,20 @@ function RouteComponent() {
 				onClose={handleDeleteCancel}
 				title="Delete Webhook"
 				description="Are you sure you want to delete this webhook? This action cannot be undone."
-				icon="warning"
-				dismissibleByCloseIcon={true}
-				proceedText={isDeleting ? "Deleting..." : "Delete"}
-				cancelText="Cancel"
-				onCancel={handleDeleteCancel}
-				onProceed={handleDeleteConfirm}
-			/>
+				iconVariant="warning"
+				footer={
+					<>
+						<Button variant="secondary" onClick={handleDeleteCancel}>
+							Cancel
+						</Button>
+						<Button variant="destructive" onClick={handleDeleteConfirm} isLoading={isDeleting}>
+							{isDeleting ? "Deleting..." : "Delete"}
+						</Button>
+					</>
+				}
+			>
+				{null}
+			</Modal>
 		</motion.div>
 	);
 }

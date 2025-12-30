@@ -3,13 +3,14 @@
  * Horizontal filter bar for waitlist users
  */
 
-import { memo, useCallback } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import Checkbox from "@/proto-design-system/checkbox/checkbox";
-import Label from "@/proto-design-system/label/label";
-import { SelectDropdown } from "@/proto-design-system/SelectDropdown/selectDropdown";
-import { DebouncedTextInput } from "@/proto-design-system/TextInput/DebouncedTextInput";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { memo, useCallback, useState, useEffect } from "react";
+import {
+	Button,
+	Checkbox,
+	Input,
+	Label,
+	Select,
+} from "@/proto-design-system";
 import type { FormField } from "@/types/campaign";
 import type {
 	UserFilters as UserFiltersType,
@@ -49,6 +50,45 @@ const SOURCE_OPTIONS = [
 	{ value: "other", label: "Other" },
 ];
 
+/** Debounced text input component for filter fields */
+interface DebouncedTextInputProps {
+	placeholder?: string;
+	value: string;
+	onChange: (value: string) => void;
+	debounceMs?: number;
+}
+
+function DebouncedTextInput({
+	placeholder,
+	value,
+	onChange,
+	debounceMs = 300,
+}: DebouncedTextInputProps) {
+	const [localValue, setLocalValue] = useState(value);
+
+	useEffect(() => {
+		setLocalValue(value);
+	}, [value]);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (localValue !== value) {
+				onChange(localValue);
+			}
+		}, debounceMs);
+
+		return () => clearTimeout(timer);
+	}, [localValue, value, onChange, debounceMs]);
+
+	return (
+		<Input
+			placeholder={placeholder}
+			value={localValue}
+			onChange={(e) => setLocalValue(e.target.value)}
+		/>
+	);
+}
+
 /**
  * UserFilters displays a horizontal filter bar for waitlist users
  */
@@ -82,11 +122,11 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 	// Handle status change
 	const handleStatusChange = useCallback(
-		(selected: string[]) => {
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			const value = e.target.value;
 			onChange({
 				...filters,
-				status:
-					selected.length > 0 ? (selected as WaitlistUserStatus[]) : undefined,
+				status: value ? ([value] as WaitlistUserStatus[]) : undefined,
 			});
 		},
 		[filters, onChange],
@@ -94,10 +134,11 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 	// Handle source change
 	const handleSourceChange = useCallback(
-		(selected: string[]) => {
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			const value = e.target.value;
 			onChange({
 				...filters,
-				source: selected.length > 0 ? selected : undefined,
+				source: value ? [value] : undefined,
 			});
 		},
 		[filters, onChange],
@@ -162,14 +203,15 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 	// Handle custom field change (for select/radio fields)
 	const handleCustomFieldSelect = useCallback(
-		(fieldId: string, selected: string[]) => {
+		(fieldId: string, e: React.ChangeEvent<HTMLSelectElement>) => {
+			const value = e.target.value;
 			const currentCustomFields = filters.customFields || {};
-			if (selected.length > 0) {
+			if (value) {
 				onChange({
 					...filters,
 					customFields: {
 						...currentCustomFields,
-						[fieldId]: selected.length === 1 ? selected[0] : selected,
+						[fieldId]: value,
 					},
 				});
 			} else {
@@ -210,11 +252,10 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 		<div className={classNames}>
 			{/* Status Filter */}
 			<div className={styles.filterGroup}>
-				<Label text="Status" />
-				<SelectDropdown
-					mode="multi"
+				<Label>Status</Label>
+				<Select
 					options={STATUS_OPTIONS}
-					value={filters.status || []}
+					value={filters.status?.[0] || ""}
 					onChange={handleStatusChange}
 					placeholder="All Statuses"
 				/>
@@ -222,11 +263,10 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Source Filter */}
 			<div className={styles.filterGroup}>
-				<Label text="Source" />
-				<SelectDropdown
-					mode="multi"
+				<Label>Source</Label>
+				<Select
 					options={SOURCE_OPTIONS}
-					value={filters.source || []}
+					value={filters.source?.[0] || ""}
 					onChange={handleSourceChange}
 					placeholder="All Sources"
 				/>
@@ -234,10 +274,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Date Range Filter */}
 			<div className={styles.filterGroup}>
-				<Label text="Date Range" />
+				<Label>Date Range</Label>
 				<div className={styles.inputRow}>
-					<TextInput
-						label=""
+					<Input
 						type="date"
 						value={
 							filters.dateRange?.start
@@ -247,8 +286,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						onChange={(e) => handleDateChange("start", e.target.value)}
 					/>
 					<span className={styles.separator}>to</span>
-					<TextInput
-						label=""
+					<Input
 						type="date"
 						value={
 							filters.dateRange?.end
@@ -262,10 +300,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Position Range Filter */}
 			<div className={styles.filterGroup}>
-				<Label text="Position" />
+				<Label>Position</Label>
 				<div className={styles.inputRow}>
-					<TextInput
-						label=""
+					<Input
 						type="number"
 						placeholder="Min"
 						min={1}
@@ -273,8 +310,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						onChange={(e) => handlePositionChange("min", e.target.value)}
 					/>
 					<span className={styles.separator}>-</span>
-					<TextInput
-						label=""
+					<Input
 						type="number"
 						placeholder="Max"
 						min={1}
@@ -286,10 +322,10 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 			{/* Has Referrals Filter */}
 			<div className={styles.filterGroup}>
-				<Label text="Referrals" />
+				<Label>Referrals</Label>
 				<div className={styles.checkboxWrapper}>
 					<Checkbox
-						checked={filters.hasReferrals ? "checked" : "unchecked"}
+						checked={filters.hasReferrals || false}
 						onChange={handleReferralsToggle}
 					/>
 					<span className={styles.checkboxLabel}>Has referrals</span>
@@ -300,11 +336,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 			{filterableFields.map((field) => {
 				// Use field.name as key since that's how data is stored in metadata
 				const fieldValue = filters.customFields?.[field.name];
-				const selectedValues = Array.isArray(fieldValue)
-					? fieldValue
-					: fieldValue
-						? [fieldValue]
-						: [];
+				const selectedValue = Array.isArray(fieldValue)
+					? fieldValue[0]
+					: fieldValue || "";
 
 				if (field.fieldType === "select" || field.fieldType === "radio") {
 					const options =
@@ -315,31 +349,15 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 					return (
 						<div key={field.id} className={styles.filterGroup}>
-							<Label text={field.label} />
-							{field.fieldType === "select" ? (
-								<SelectDropdown
-									mode="multi"
-									options={options}
-									value={selectedValues}
-									onChange={(selected: string[]) =>
-										handleCustomFieldSelect(field.name, selected)
-									}
-									placeholder={`All ${field.label}`}
-								/>
-							) : (
-								<SelectDropdown
-									mode="single"
-									options={options}
-									value={selectedValues[0] || ""}
-									onChange={(selected: string | undefined) =>
-										handleCustomFieldSelect(
-											field.name,
-											selected ? [selected] : [],
-										)
-									}
-									placeholder={`All ${field.label}`}
-								/>
-							)}
+							<Label>{field.label}</Label>
+							<Select
+								options={options}
+								value={selectedValue}
+								onChange={(e) =>
+									handleCustomFieldSelect(field.name, e)
+								}
+								placeholder={`All ${field.label}`}
+							/>
 						</div>
 					);
 				}
@@ -347,9 +365,8 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 				if (field.fieldType === "text") {
 					return (
 						<div key={field.id} className={styles.filterGroup}>
-							<Label text={field.label} />
+							<Label>{field.label}</Label>
 							<DebouncedTextInput
-								label=""
 								placeholder={`Filter by ${field.label.toLowerCase()}`}
 								value={(fieldValue as string) || ""}
 								onChange={(value) => handleCustomFieldText(field.name, value)}
@@ -366,7 +383,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 				{hasActiveFilters && (
 					<Button
 						variant="secondary"
-						size="small"
+						size="sm"
 						leftIcon="ri-refresh-line"
 						onClick={onReset}
 					>

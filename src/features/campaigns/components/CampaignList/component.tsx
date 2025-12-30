@@ -7,12 +7,10 @@ import {
 	type HTMLAttributes,
 	memo,
 	useCallback,
-	useMemo,
 	useState,
 } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import ButtonGroup from "@/proto-design-system/buttongroup/buttongroup";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Search, LayoutGrid, List } from "lucide-react";
+import { Button, ButtonGroup, Input } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { CampaignCard } from "../CampaignCard/component";
 import styles from "./component.module.scss";
@@ -75,56 +73,13 @@ function filterCampaigns(
 	return filtered;
 }
 
-/** Build status filter button group items */
-function buildStatusFilterItems(
-	currentStatus: StatusFilter,
-	onStatusChange: (status: StatusFilter) => void,
-) {
-	const statuses: { value: StatusFilter; label: string }[] = [
-		{ value: "all", label: "All" },
-		{ value: "active", label: "Active" },
-		{ value: "draft", label: "Draft" },
-		{ value: "paused", label: "Paused" },
-		{ value: "completed", label: "Completed" },
-	];
-
-	return statuses.map(({ value, label }) => ({
-		text: label,
-		icon: "",
-		iconPosition: "left" as const,
-		iconOnly: false,
-		onClick: () => onStatusChange(value),
-		selected: currentStatus === value,
-		ariaLabel: `${label} campaigns`,
-	}));
-}
-
-/** Build view toggle button group items */
-function buildViewToggleItems(
-	currentView: ViewMode,
-	onViewChange: (view: ViewMode) => void,
-) {
-	return [
-		{
-			text: "Grid view",
-			icon: "ri-grid-line",
-			iconPosition: "left" as const,
-			iconOnly: true,
-			onClick: () => onViewChange("grid"),
-			selected: currentView === "grid",
-			ariaLabel: "Grid view",
-		},
-		{
-			text: "List view",
-			icon: "ri-list-check",
-			iconPosition: "left" as const,
-			iconOnly: true,
-			onClick: () => onViewChange("list"),
-			selected: currentView === "list",
-			ariaLabel: "List view",
-		},
-	];
-}
+const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
+	{ value: "all", label: "All" },
+	{ value: "active", label: "Active" },
+	{ value: "draft", label: "Draft" },
+	{ value: "paused", label: "Paused" },
+	{ value: "completed", label: "Completed" },
+];
 
 // ============================================================================
 // Custom Hooks
@@ -190,20 +145,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 	} = useCampaignFilters(initialView);
 
 	// Derived state
-	const filteredCampaigns = useMemo(
-		() => filterCampaigns(campaigns, statusFilter, searchQuery),
-		[campaigns, statusFilter, searchQuery],
-	);
-
-	const statusFilterItems = useMemo(
-		() => buildStatusFilterItems(statusFilter, setStatusFilter),
-		[statusFilter, setStatusFilter],
-	);
-
-	const viewToggleItems = useMemo(
-		() => buildViewToggleItems(view, setView),
-		[view, setView],
-	);
+	const filteredCampaigns = filterCampaigns(campaigns, statusFilter, searchQuery);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
@@ -241,33 +183,50 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 						<div className={styles.filters}>
 							{/* Search */}
 							<div className={styles.searchBox}>
-								<TextInput
-									label=""
+								<Input
 									placeholder="Search campaigns..."
 									value={searchQuery}
 									onChange={(e) => handleSearchChange(e.target.value)}
-									leftIcon="ri-search-line"
-									showLeftIcon={true}
+									leftElement={<Search size={16} />}
 									aria-label="Search campaigns"
 								/>
 							</div>
 
 							{/* Status filter */}
-							<ButtonGroup
-								items={statusFilterItems}
-								size="small"
-								ariaLabel="Filter by status"
-							/>
+							<ButtonGroup>
+								{STATUS_OPTIONS.map((option) => (
+									<Button
+										key={option.value}
+										variant={statusFilter === option.value ? "primary" : "secondary"}
+										size="sm"
+										onClick={() => setStatusFilter(option.value)}
+										aria-label={`${option.label} campaigns`}
+									>
+										{option.label}
+									</Button>
+								))}
+							</ButtonGroup>
 						</div>
 					)}
 
 					{/* Right side - View toggle */}
 					{showViewToggle && (
-						<ButtonGroup
-							items={viewToggleItems}
-							size="small"
-							ariaLabel="View options"
-						/>
+						<ButtonGroup>
+							<Button
+								variant={view === "grid" ? "primary" : "secondary"}
+								size="sm"
+								leftIcon={<LayoutGrid size={16} />}
+								onClick={() => setView("grid")}
+								aria-label="Grid view"
+							/>
+							<Button
+								variant={view === "list" ? "primary" : "secondary"}
+								size="sm"
+								leftIcon={<List size={16} />}
+								onClick={() => setView("list")}
+								aria-label="List view"
+							/>
+						</ButtonGroup>
 					)}
 				</div>
 			)}

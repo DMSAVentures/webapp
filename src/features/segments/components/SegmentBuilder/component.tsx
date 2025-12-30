@@ -16,9 +16,7 @@ import {
 	usePreviewSegment,
 	useUpdateSegment,
 } from "@/hooks/useSegments";
-import { Button } from "@/proto-design-system/Button/button";
-import Checkbox from "@/proto-design-system/checkbox/checkbox";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Checkbox, Input } from "@/proto-design-system";
 import type { Segment, SegmentFilterCriteria } from "@/types/segment";
 import styles from "./component.module.scss";
 
@@ -181,15 +179,15 @@ export const SegmentBuilder = memo(function SegmentBuilder({
 					<div className={styles.section}>
 						<h3 className={styles.sectionTitle}>Basic Information</h3>
 						<div className={styles.fields}>
-							<TextInput
-								label="Segment Name"
+							<label>Segment Name</label>
+							<Input
 								value={name}
 								onChange={handleNameChange}
 								placeholder="e.g., Verified Users, High Referrers"
 								required
 							/>
-							<TextInput
-								label="Description"
+							<label>Description</label>
+							<Input
 								value={description}
 								onChange={handleDescriptionChange}
 								placeholder="Optional description"
@@ -206,11 +204,7 @@ export const SegmentBuilder = memo(function SegmentBuilder({
 								{STATUSES.map(({ value, label }) => (
 									<label key={value} className={styles.checkboxLabel}>
 										<Checkbox
-											checked={
-												filters.statuses?.includes(value)
-													? "checked"
-													: "unchecked"
-											}
+											checked={!!filters.statuses?.includes(value)}
 											onChange={(e: ChangeEvent<HTMLInputElement>) =>
 												handleStatusChange(value, e.target.checked)
 											}
@@ -227,11 +221,7 @@ export const SegmentBuilder = memo(function SegmentBuilder({
 								{SOURCES.map(({ value, label }) => (
 									<label key={value} className={styles.checkboxLabel}>
 										<Checkbox
-											checked={
-												filters.sources?.includes(value)
-													? "checked"
-													: "unchecked"
-											}
+											checked={!!filters.sources?.includes(value)}
 											onChange={(e: ChangeEvent<HTMLInputElement>) =>
 												handleSourceChange(value, e.target.checked)
 											}
@@ -246,7 +236,7 @@ export const SegmentBuilder = memo(function SegmentBuilder({
 							<h4 className={styles.filterLabel}>Email Verification</h4>
 							<label className={styles.checkboxLabel}>
 								<Checkbox
-									checked={filters.emailVerified ? "checked" : "unchecked"}
+									checked={!!filters.emailVerified}
 									onChange={(e: ChangeEvent<HTMLInputElement>) =>
 										handleEmailVerifiedChange(e.target.checked)
 									}
@@ -257,8 +247,8 @@ export const SegmentBuilder = memo(function SegmentBuilder({
 
 						<div className={styles.filterGroup}>
 							<h4 className={styles.filterLabel}>Referrals</h4>
-							<TextInput
-								label="Minimum referrals"
+							<label>Minimum referrals</label>
+							<Input
 								type="number"
 								value={filters.minReferrals?.toString() || ""}
 								onChange={handleMinReferralsInputChange}

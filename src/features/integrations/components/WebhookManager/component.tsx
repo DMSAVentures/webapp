@@ -4,10 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Badge, Button, Divider } from "@/proto-design-system";
 import type { Webhook } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -39,8 +36,8 @@ type WebhookHealth = "healthy" | "warning" | "error";
 // ============================================================================
 
 /** Maps webhook status to StatusBadge variant */
-function getStatusVariant(status: Webhook["status"]): "completed" | "disabled" {
-	return status === "active" ? "completed" : "disabled";
+function getStatusVariant(status: Webhook["status"]): "success" | "secondary" {
+	return status === "active" ? "success" : "secondary";
 }
 
 /** Gets display text for status */
@@ -208,11 +205,11 @@ export const WebhookManager = memo<WebhookManagerProps>(
 										<div className={styles.webhookInfo}>
 											<div className={styles.webhookHeader}>
 												<h3 className={styles.webhookName}>{webhook.name}</h3>
-												<StatusBadge
-													text={getStatusText(webhook.status)}
+												<Badge
 													variant={getStatusVariant(webhook.status)}
-													styleType="stroke"
-												/>
+												>
+													{getStatusText(webhook.status)}
+												</Badge>
 											</div>
 
 											<div className={styles.webhookUrl}>
@@ -252,7 +249,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											{onTest && (
 												<Button
 													variant="secondary"
-													size="small"
+													size="sm"
 													onClick={() => onTest(webhook.id)}
 													leftIcon="ri-send-plane-line"
 												>
@@ -262,7 +259,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											{onViewLogs && (
 												<Button
 													variant="secondary"
-													size="small"
+													size="sm"
 													onClick={() => onViewLogs(webhook.id)}
 													leftIcon="ri-file-list-3-line"
 												>
@@ -270,29 +267,29 @@ export const WebhookManager = memo<WebhookManagerProps>(
 												</Button>
 											)}
 											{onEdit && (
-												<IconOnlyButton
-													iconClass="edit-line"
+												<Button
+													leftIcon="edit-line"
 													variant="secondary"
-													ariaLabel="Edit webhook"
+													aria-label="Edit webhook"
 													onClick={() => onEdit(webhook.id)}
 												/>
 											)}
 											{onDelete && (
-												<IconOnlyButton
-													iconClass="delete-bin-line"
+												<Button
+													leftIcon="delete-bin-line"
 													variant="secondary"
-													ariaLabel="Delete webhook"
+													aria-label="Delete webhook"
 													onClick={() => onDelete(webhook.id)}
 												/>
 											)}
-											<IconOnlyButton
-												iconClass={
+											<Button
+												leftIcon={
 													webhookIsExpanded
 														? "arrow-up-s-line"
 														: "arrow-down-s-line"
 												}
 												variant="secondary"
-												ariaLabel={webhookIsExpanded ? "Collapse" : "Expand"}
+												aria-label={webhookIsExpanded ? "Collapse" : "Expand"}
 												onClick={() => toggleExpanded(webhook.id)}
 											/>
 										</div>
@@ -301,7 +298,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 									{/* Expanded details */}
 									{webhookIsExpanded && (
 										<>
-											<ContentDivider size="thin" />
+											<Divider />
 											<div className={styles.webhookDetails}>
 												{/* Events */}
 												<div className={styles.detailSection}>

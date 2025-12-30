@@ -4,8 +4,7 @@
  */
 
 import { type HTMLAttributes, memo } from "react";
-import { Badge } from "@/proto-design-system/badge/badge";
-import ProgressBar from "@/proto-design-system/progressbar/progressbar";
+import { Badge, Progress } from "@/proto-design-system";
 import type { Reward } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -195,11 +194,10 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 						)}
 					</div>
 					{nextTierReward && (
-						<ProgressBar
-							progress={progressPercent}
-							variant="info"
-							size="medium"
-							showPercentage={false}
+						<Progress
+							value={progressPercent}
+							variant="default"
+							size="md"
 						/>
 					)}
 				</div>
@@ -245,28 +243,26 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 							<div className={styles.content}>
 								<div className={styles.header}>
 									<Badge
-										text={`Tier ${reward.tier}`}
-										variant="blue"
-										styleType="light"
-										size="small"
-									/>
+										variant="primary"
+										size="sm"
+									>
+										Tier {reward.tier}
+									</Badge>
 									{reward.status === "inactive" && (
 										<Badge
-											text="Inactive"
-											variant="gray"
-											styleType="light"
-											size="small"
-										/>
+											variant="secondary"
+											size="sm"
+										>
+											Inactive
+										</Badge>
 									)}
 									{isUnlocked && (
 										<Badge
-											text="Unlocked"
-											variant="green"
-											styleType="light"
-											size="small"
-											iconClass="checkbox-circle-line"
-											iconPosition="left"
-										/>
+											variant="success"
+											size="sm"
+										>
+											Unlocked
+										</Badge>
 									)}
 								</div>
 

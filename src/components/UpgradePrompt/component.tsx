@@ -2,7 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { type HTMLAttributes, memo } from "react";
 import { FEATURE_DISPLAY_CONFIGS } from "@/config/tiers";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";
-import Button from "@/proto-design-system/Button/button";
+import { Button } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 // ============================================================================

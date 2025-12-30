@@ -10,12 +10,14 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import {
+	Badge,
+	Button,
+	CheckboxWithLabel,
+	Divider,
+	Input,
+	TextArea,
+} from "@/proto-design-system";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -318,103 +320,126 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 			<div className={styles.header}>
 				<h3 className={styles.title}>Edit Field</h3>
 				<Badge
-					text={field.type}
-					variant="gray"
-					styleType="light"
-					size="small"
-				/>
+					variant="secondary"
+					size="sm"
+				>{field.type}</Badge>
 			</div>
 
 			<div className={styles.content}>
 				{/* Label */}
-				<TextInput
-					id="field-label"
-					label="Label"
-					type="text"
-					value={formData.label}
-					onChange={(e) => handleLabelChange(e.target.value)}
-					placeholder="Enter field label"
-					required
-					error={errors.label}
-					hint="This is what users will see above the field"
-				/>
+				<div className={styles.fieldGroup}>
+					<label htmlFor="field-label" className={styles.fieldLabel}>
+						Label <span className={styles.required}>*</span>
+					</label>
+					<Input
+						id="field-label"
+						type="text"
+						value={formData.label}
+						onChange={(e) => handleLabelChange(e.target.value)}
+						placeholder="Enter field label"
+						required
+						isError={!!errors.label}
+					/>
+					{errors.label && <span className={styles.errorText}>{errors.label}</span>}
+					<span className={styles.hintText}>This is what users will see above the field</span>
+				</div>
 
 				{/* Placeholder */}
 				{supportsPlaceholder(field.type) && (
-					<TextInput
-						id="field-placeholder"
-						label="Placeholder"
-						type="text"
-						value={formData.placeholder}
-						onChange={(e) => handlePlaceholderChange(e.target.value)}
-						placeholder="Enter placeholder text"
-						hint="Hint text shown inside the field when empty"
-					/>
+					<div className={styles.fieldGroup}>
+						<label htmlFor="field-placeholder" className={styles.fieldLabel}>
+							Placeholder
+						</label>
+						<Input
+							id="field-placeholder"
+							type="text"
+							value={formData.placeholder}
+							onChange={(e) => handlePlaceholderChange(e.target.value)}
+							placeholder="Enter placeholder text"
+						/>
+						<span className={styles.hintText}>Hint text shown inside the field when empty</span>
+					</div>
 				)}
 
 				{/* Help Text */}
-				<TextArea
-					id="field-help-text"
-					label="Help Text"
-					value={formData.helpText || ""}
-					onChange={(e) => handleHelpTextChange(e.target.value)}
-					placeholder="Additional instructions or context"
-					rows={3}
-					hint="Optional help text shown below the field"
-				/>
+				<div className={styles.fieldGroup}>
+					<label htmlFor="field-help-text" className={styles.fieldLabel}>
+						Help Text
+					</label>
+					<TextArea
+						id="field-help-text"
+						value={formData.helpText || ""}
+						onChange={(e) => handleHelpTextChange(e.target.value)}
+						placeholder="Additional instructions or context"
+						rows={3}
+					/>
+					<span className={styles.hintText}>Optional help text shown below the field</span>
+				</div>
 
 				{/* Options */}
 				{supportsOptions(field.type) && (
 					<>
-						<ContentDivider size="thin" />
-						<TextArea
-							id="field-options"
-							label="Options"
-							value={formData.optionsText ?? ""}
-							onChange={(e) => handleOptionsChange(e.target.value)}
-							placeholder="Enter one option per line"
-							rows={6}
-							required
-							hint="Each line will be a separate option"
-						/>
+						<Divider />
+						<div className={styles.fieldGroup}>
+							<label htmlFor="field-options" className={styles.fieldLabel}>
+								Options <span className={styles.required}>*</span>
+							</label>
+							<TextArea
+								id="field-options"
+								value={formData.optionsText ?? ""}
+								onChange={(e) => handleOptionsChange(e.target.value)}
+								placeholder="Enter one option per line"
+								rows={6}
+								required
+							/>
+							<span className={styles.hintText}>Each line will be a separate option</span>
+						</div>
 					</>
 				)}
 
 				{/* Text validation */}
 				{supportsTextValidation(field.type) && (
 					<>
-						<ContentDivider size="thin" />
+						<Divider />
 						<div className={styles.validationSection}>
 							<h4 className={styles.sectionTitle}>Text Validation</h4>
 							<div className={styles.validationRow}>
-								<TextInput
-									id="field-min-length"
-									label="Min Length"
-									type="number"
-									value={formData.validation?.minLength?.toString() || ""}
-									onChange={(e) =>
-										handleValidationChange(
-											"minLength",
-											parseInt(e.target.value) || undefined,
-										)
-									}
-									placeholder="0"
-									min={0}
-								/>
-								<TextInput
-									id="field-max-length"
-									label="Max Length"
-									type="number"
-									value={formData.validation?.maxLength?.toString() || ""}
-									onChange={(e) =>
-										handleValidationChange(
-											"maxLength",
-											parseInt(e.target.value) || undefined,
-										)
-									}
-									placeholder="Unlimited"
-									min={0}
-								/>
+								<div className={styles.fieldGroup}>
+									<label htmlFor="field-min-length" className={styles.fieldLabel}>
+										Min Length
+									</label>
+									<Input
+										id="field-min-length"
+										type="number"
+										value={formData.validation?.minLength?.toString() || ""}
+										onChange={(e) =>
+											handleValidationChange(
+												"minLength",
+												parseInt(e.target.value) || undefined,
+											)
+										}
+										placeholder="0"
+										min={0}
+									/>
+								</div>
+								<div className={styles.fieldGroup}>
+									<label htmlFor="field-max-length" className={styles.fieldLabel}>
+										Max Length
+									</label>
+									<Input
+										id="field-max-length"
+										type="number"
+										value={formData.validation?.maxLength?.toString() || ""}
+										onChange={(e) =>
+											handleValidationChange(
+												"maxLength",
+												parseInt(e.target.value) || undefined,
+											)
+										}
+										placeholder="Unlimited"
+										min={0}
+									/>
+								</div>
 							</div>
 						</div>
 					</>
@@ -423,42 +448,50 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				{/* Number validation */}
 				{field.type === "number" && (
 					<>
-						<ContentDivider size="thin" />
+						<Divider />
 						<div className={styles.validationSection}>
 							<h4 className={styles.sectionTitle}>Number Validation</h4>
 							<div className={styles.validationRow}>
-								<TextInput
-									id="field-min"
-									label="Minimum Value"
-									type="number"
-									value={formData.validation?.min?.toString() || ""}
-									onChange={(e) =>
-										handleValidationChange(
-											"min",
-											parseFloat(e.target.value) || undefined,
-										)
-									}
-									placeholder="No minimum"
-								/>
-								<TextInput
-									id="field-max"
-									label="Maximum Value"
-									type="number"
-									value={formData.validation?.max?.toString() || ""}
-									onChange={(e) =>
-										handleValidationChange(
-											"max",
-											parseFloat(e.target.value) || undefined,
-										)
-									}
-									placeholder="No maximum"
-								/>
+								<div className={styles.fieldGroup}>
+									<label htmlFor="field-min" className={styles.fieldLabel}>
+										Minimum Value
+									</label>
+									<Input
+										id="field-min"
+										type="number"
+										value={formData.validation?.min?.toString() || ""}
+										onChange={(e) =>
+											handleValidationChange(
+												"min",
+												parseFloat(e.target.value) || undefined,
+											)
+										}
+										placeholder="No minimum"
+									/>
+								</div>
+								<div className={styles.fieldGroup}>
+									<label htmlFor="field-max" className={styles.fieldLabel}>
+										Maximum Value
+									</label>
+									<Input
+										id="field-max"
+										type="number"
+										value={formData.validation?.max?.toString() || ""}
+										onChange={(e) =>
+											handleValidationChange(
+												"max",
+												parseFloat(e.target.value) || undefined,
+											)
+										}
+										placeholder="No maximum"
+									/>
+								</div>
 							</div>
 						</div>
 					</>
 				)}
 
-				<ContentDivider size="thin" />
+				<Divider />
 
 				{/* Required */}
 				<CheckboxWithLabel

@@ -4,13 +4,10 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { Badge } from "@/proto-design-system/badge/badge";
-import Dropdown, {
-	type DropdownOptionInput,
-} from "@/proto-design-system/dropdown/dropdown";
+import { Badge, Button, Dropdown } from "@/proto-design-system";
 import type { TeamMember } from "@/types/common.types";
+
+type RoleOption = { id: string; label: string; disabled?: boolean };
 import { useGetTeamMembers } from "../../hooks/useGetTeamMembers";
 import { useInviteTeamMember } from "../../hooks/useInviteTeamMember";
 import { useRemoveTeamMember } from "../../hooks/useRemoveTeamMember";
@@ -28,11 +25,11 @@ export interface TeamMembersProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Role options for the dropdown
  */
-const ROLE_OPTIONS: DropdownOptionInput[] = [
-	{ value: "viewer", label: "Viewer" },
-	{ value: "editor", label: "Editor" },
-	{ value: "admin", label: "Admin" },
-	{ value: "owner", label: "Owner", disabled: true },
+const ROLE_OPTIONS: RoleOption[] = [
+	{ id: "viewer", label: "Viewer" },
+	{ id: "editor", label: "Editor" },
+	{ id: "admin", label: "Admin" },
+	{ id: "owner", label: "Owner", disabled: true },
 ];
 
 /**
@@ -40,18 +37,18 @@ const ROLE_OPTIONS: DropdownOptionInput[] = [
  */
 const getRoleBadgeVariant = (
 	role: TeamMember["role"],
-): "gray" | "blue" | "purple" | "green" => {
+): "secondary" | "primary" | "success" => {
 	switch (role) {
 		case "owner":
-			return "purple";
+			return "secondary";
 		case "admin":
-			return "blue";
+			return "primary";
 		case "editor":
-			return "green";
+			return "success";
 		case "viewer":
-			return "gray";
+			return "secondary";
 		default:
-			return "gray";
+			return "secondary";
 	}
 };
 
@@ -131,9 +128,9 @@ export const TeamMembers = memo(function TeamMembers({
 	// Handle role change
 	const handleRoleChange = async (
 		memberId: string,
-		option: DropdownOptionInput,
+		id: string,
 	) => {
-		const newRole = option.value as TeamMember["role"];
+		const newRole = id as TeamMember["role"];
 		const result = await updateMemberRole(memberId, { role: newRole });
 		if (result) {
 			refetch();
@@ -227,22 +224,21 @@ export const TeamMembers = memo(function TeamMembers({
 										<div className={styles.tableCell}>
 											{member.role === "owner" ? (
 												<Badge
-													text={
-														member.role.charAt(0).toUpperCase() +
-														member.role.slice(1)
-													}
 													variant={getRoleBadgeVariant(member.role)}
-													styleType="light"
-													size="small"
-												/>
+													size="sm"
+												>
+													{member.role.charAt(0).toUpperCase() +
+														member.role.slice(1)}
+												</Badge>
 											) : (
 												<div className={styles.roleDropdown}>
 													<Dropdown
-														placeholderText="Select role"
-														options={ROLE_OPTIONS}
-														size="x-small"
-														onChange={(option) =>
-															handleRoleChange(member.id, option)
+														placeholder="Select role"
+														items={ROLE_OPTIONS}
+														value={member.role}
+														size="sm"
+														onChange={(id) =>
+															handleRoleChange(member.id, id)
 														}
 														disabled={updateLoading}
 													/>
@@ -256,14 +252,14 @@ export const TeamMembers = memo(function TeamMembers({
 										</div>
 										<div className={styles.tableCell}>
 											{member.role !== "owner" && (
-												<IconOnlyButton
-													iconClass={
+												<Button
+													leftIcon={
 														confirmDeleteId === member.id
 															? "check-line"
 															: "delete-bin-line"
 													}
 													variant="secondary"
-													ariaLabel={
+													aria-label={
 														confirmDeleteId === member.id
 															? "Confirm delete"
 															: "Remove member"
@@ -313,14 +309,12 @@ export const TeamMembers = memo(function TeamMembers({
 										</div>
 										<div className={styles.tableCell}>
 											<Badge
-												text={
-													member.role.charAt(0).toUpperCase() +
-													member.role.slice(1)
-												}
 												variant={getRoleBadgeVariant(member.role)}
-												styleType="light"
-												size="small"
-											/>
+												size="sm"
+											>
+												{member.role.charAt(0).toUpperCase() +
+													member.role.slice(1)}
+											</Badge>
 										</div>
 										<div className={styles.tableCell}>
 											<span className={styles.lastActive}>
@@ -335,14 +329,14 @@ export const TeamMembers = memo(function TeamMembers({
 											</span>
 										</div>
 										<div className={styles.tableCell}>
-											<IconOnlyButton
-												iconClass={
+											<Button
+												leftIcon={
 													confirmDeleteId === member.id
 														? "check-line"
 														: "delete-bin-line"
 												}
 												variant="secondary"
-												ariaLabel={
+												aria-label={
 													confirmDeleteId === member.id
 														? "Confirm delete"
 														: "Remove invitation"

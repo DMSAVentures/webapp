@@ -4,9 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Divider, Input, TextArea } from "@/proto-design-system";
 import type { FormDesign } from "@/types/common.types";
 import { TemplateSelector } from "../TemplateSelector";
 import styles from "./component.module.scss";
@@ -194,6 +192,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 							<h4 className={styles.sectionTitle}>Colors</h4>
 							<div className={styles.colorGrid}>
 								<div className={styles.colorItem}>
+									<label htmlFor="color-primary-text" className={styles.colorLabel}>Primary</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-primary"
@@ -205,9 +204,8 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Primary color"
 										/>
-										<TextInput
+										<Input
 											id="color-primary-text"
-											label="Primary"
 											type="text"
 											value={design.colors.primary}
 											onChange={(e) =>
@@ -219,6 +217,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="color-background-text" className={styles.colorLabel}>Background</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-background"
@@ -230,9 +229,8 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Background color"
 										/>
-										<TextInput
+										<Input
 											id="color-background-text"
-											label="Background"
 											type="text"
 											value={design.colors.background}
 											onChange={(e) =>
@@ -244,6 +242,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="color-text-text" className={styles.colorLabel}>Text</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-text"
@@ -255,9 +254,8 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Text color"
 										/>
-										<TextInput
+										<Input
 											id="color-text-text"
-											label="Text"
 											type="text"
 											value={design.colors.text}
 											onChange={(e) =>
@@ -269,6 +267,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="color-border-text" className={styles.colorLabel}>Border</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-border"
@@ -280,9 +279,8 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Border color"
 										/>
-										<TextInput
+										<Input
 											id="color-border-text"
-											label="Border"
 											type="text"
 											value={design.colors.border}
 											onChange={(e) =>
@@ -294,6 +292,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="color-error-text" className={styles.colorLabel}>Error</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-error"
@@ -305,9 +304,8 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Error color"
 										/>
-										<TextInput
+										<Input
 											id="color-error-text"
-											label="Error"
 											type="text"
 											value={design.colors.error}
 											onChange={(e) =>
@@ -319,6 +317,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="color-success-text" className={styles.colorLabel}>Success</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-success"
@@ -330,9 +329,8 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Success color"
 										/>
-										<TextInput
+										<Input
 											id="color-success-text"
-											label="Success"
 											type="text"
 											value={design.colors.success}
 											onChange={(e) =>
@@ -345,129 +343,145 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Typography Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Typography</h4>
 							<div className={styles.inputGrid}>
-								<TextInput
-									id="font-family"
-									label="Font Family"
-									type="text"
-									value={design.typography.fontFamily}
-									onChange={(e) =>
-										handleTypographyChange("fontFamily", e.target.value)
-									}
-									placeholder="Inter, sans-serif"
-								/>
-								<TextInput
-									id="font-size"
-									label="Font Size (px)"
-									type="number"
-									value={design.typography.fontSize.toString()}
-									onChange={(e) =>
-										handleTypographyChange(
-											"fontSize",
-											parseInt(e.target.value) || 16,
-										)
-									}
-									min={12}
-									max={24}
-								/>
-								<TextInput
-									id="font-weight"
-									label="Font Weight"
-									type="number"
-									value={design.typography.fontWeight.toString()}
-									onChange={(e) =>
-										handleTypographyChange(
-											"fontWeight",
-											parseInt(e.target.value) || 400,
-										)
-									}
-									min={100}
-									max={900}
-									step={100}
-								/>
+								<div className={styles.inputItem}>
+									<label htmlFor="font-family" className={styles.inputLabel}>Font Family</label>
+									<Input
+										id="font-family"
+										type="text"
+										value={design.typography.fontFamily}
+										onChange={(e) =>
+											handleTypographyChange("fontFamily", e.target.value)
+										}
+										placeholder="Inter, sans-serif"
+									/>
+								</div>
+								<div className={styles.inputItem}>
+									<label htmlFor="font-size" className={styles.inputLabel}>Font Size (px)</label>
+									<Input
+										id="font-size"
+										type="number"
+										value={design.typography.fontSize.toString()}
+										onChange={(e) =>
+											handleTypographyChange(
+												"fontSize",
+												parseInt(e.target.value) || 16,
+											)
+										}
+										min={12}
+										max={24}
+									/>
+								</div>
+								<div className={styles.inputItem}>
+									<label htmlFor="font-weight" className={styles.inputLabel}>Font Weight</label>
+									<Input
+										id="font-weight"
+										type="number"
+										value={design.typography.fontWeight.toString()}
+										onChange={(e) =>
+											handleTypographyChange(
+												"fontWeight",
+												parseInt(e.target.value) || 400,
+											)
+										}
+										min={100}
+										max={900}
+										step={100}
+									/>
+								</div>
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Spacing Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Spacing</h4>
 							<div className={styles.inputGrid}>
-								<TextInput
-									id="padding"
-									label="Padding (px)"
-									type="number"
-									value={design.spacing.padding.toString()}
-									onChange={(e) =>
-										handleSpacingChange(
-											"padding",
-											parseInt(e.target.value) || 16,
-										)
-									}
-									min={0}
-									max={100}
-								/>
-								<TextInput
-									id="gap"
-									label="Gap (px)"
-									type="number"
-									value={design.spacing.gap.toString()}
-									onChange={(e) =>
-										handleSpacingChange("gap", parseInt(e.target.value) || 16)
-									}
-									min={0}
-									max={100}
-								/>
-								<TextInput
-									id="border-radius"
-									label="Border Radius (px)"
-									type="number"
-									value={design.borderRadius.toString()}
-									onChange={(e) =>
-										handleBorderRadiusChange(parseInt(e.target.value) || 8)
-									}
-									min={0}
-									max={50}
-								/>
+								<div className={styles.inputItem}>
+									<label htmlFor="padding" className={styles.inputLabel}>Padding (px)</label>
+									<Input
+										id="padding"
+										type="number"
+										value={design.spacing.padding.toString()}
+										onChange={(e) =>
+											handleSpacingChange(
+												"padding",
+												parseInt(e.target.value) || 16,
+											)
+										}
+										min={0}
+										max={100}
+									/>
+								</div>
+								<div className={styles.inputItem}>
+									<label htmlFor="gap" className={styles.inputLabel}>Gap (px)</label>
+									<Input
+										id="gap"
+										type="number"
+										value={design.spacing.gap.toString()}
+										onChange={(e) =>
+											handleSpacingChange("gap", parseInt(e.target.value) || 16)
+										}
+										min={0}
+										max={100}
+									/>
+								</div>
+								<div className={styles.inputItem}>
+									<label htmlFor="border-radius" className={styles.inputLabel}>Border Radius (px)</label>
+									<Input
+										id="border-radius"
+										type="number"
+										value={design.borderRadius.toString()}
+										onChange={(e) =>
+											handleBorderRadiusChange(parseInt(e.target.value) || 8)
+										}
+										min={0}
+										max={50}
+									/>
+								</div>
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Submit Button Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Submit Button</h4>
 							<div className={styles.inputGrid}>
-								<TextInput
-									id="submit-button-text"
-									label="Button Text"
-									type="text"
-									value={design.submitButtonText || "Submit"}
-									onChange={(e) => handleSubmitButtonTextChange(e.target.value)}
-									placeholder="Submit"
-								/>
+								<div className={styles.inputItem}>
+									<label htmlFor="submit-button-text" className={styles.inputLabel}>Button Text</label>
+									<Input
+										id="submit-button-text"
+										type="text"
+										value={design.submitButtonText || "Submit"}
+										onChange={(e) => handleSubmitButtonTextChange(e.target.value)}
+										placeholder="Submit"
+									/>
+								</div>
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Custom CSS Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Custom CSS</h4>
-							<TextArea
-								id="custom-css"
-								label="Additional Styles"
-								value={design.customCss || ""}
-								onChange={(e) => handleCustomCssChange(e.target.value)}
-								placeholder="/* Add custom CSS here */"
-								rows={8}
-							/>
+							<div className={styles.inputItem}>
+								<label htmlFor="custom-css" className={styles.inputLabel}>Additional Styles</label>
+								<TextArea
+									id="custom-css"
+									value={design.customCss || ""}
+									onChange={(e) => handleCustomCssChange(e.target.value)}
+									placeholder="/* Add custom CSS here */"
+									rows={8}
+								/>
+							</div>
 						</section>
 					</div>
 				)}

@@ -4,10 +4,7 @@
  */
 
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/Button/button";
-import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Checkbox, Divider, Input } from "@/proto-design-system";
 import { WEBHOOK_EVENTS } from "@/types/webhook";
 import { validateRequired, validateUrl } from "@/utils/validation";
 import styles from "./component.module.scss";
@@ -176,9 +173,8 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 	return (
 		<form className={classNames} onSubmit={handleSubmit} {...props}>
 			{/* Endpoint URL */}
-			<TextInput
+			<Input
 				id="webhook-url"
-				label="Endpoint URL"
 				type="url"
 				value={formData.url}
 				onChange={(e) => handleUrlChange(e.target.value)}
@@ -186,8 +182,7 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 				placeholder="https://your-server.com/webhook"
 				disabled={loading}
 				required
-				error={touched.url ? errors.url : undefined}
-				hint="The URL that will receive webhook POST requests"
+				isError={!!(touched.url && errors.url)}
 			/>
 
 			{/* Events Section */}
@@ -210,28 +205,21 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 						return (
 							<div key={category} className={styles.eventCategory}>
 								<div className={styles.categoryHeader}>
-									<CheckboxWithLabel
-										checked={allSelected ? "checked" : "unchecked"}
+									<Checkbox
+										checked={allSelected}
 										onChange={() => handleSelectAllCategory(events)}
 										disabled={loading}
-										flipCheckboxToRight={false}
-										text={category}
-										description=""
+										label={category}
 									/>
 								</div>
 								<div className={styles.eventsList}>
 									{events.map((event) => (
-										<CheckboxWithLabel
+										<Checkbox
 											key={event}
-											checked={
-												formData.events.includes(event)
-													? "checked"
-													: "unchecked"
-											}
+											checked={formData.events.includes(event)}
 											onChange={() => handleEventToggle(event)}
 											disabled={loading}
-											flipCheckboxToRight={false}
-											text={event}
+											label={event}
 											description={
 												WEBHOOK_EVENTS[event as keyof typeof WEBHOOK_EVENTS]
 											}
@@ -245,7 +233,7 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 			</div>
 
 			{/* Divider */}
-			<ContentDivider size="thin" />
+			<Divider />
 
 			{/* Form Actions */}
 			<div className={styles.actions}>

@@ -1,18 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AlertTriangle, CheckCircle, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { useCreateAPIKey } from "@/hooks/useCreateAPIKey";
 import { useGetAPIKeys } from "@/hooks/useGetAPIKeys";
 import { useRevokeAPIKey } from "@/hooks/useRevokeAPIKey";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import Checkbox from "@/proto-design-system/checkbox/checkbox";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import Modal from "@/proto-design-system/modal/modal";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
-import { Table } from "@/proto-design-system/Table";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Checkbox, EmptyState, Spinner, Modal, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Input } from "@/proto-design-system";
 import type { APIKey, CreateAPIKeyResponse } from "@/types/apikey";
 import { API_KEY_SCOPES } from "@/types/apikey";
 import styles from "./api-keys.module.scss";
@@ -115,23 +108,23 @@ function RouteComponent() {
 
 	const getStatusVariant = (
 		status: string,
-	): "completed" | "pending" | "failed" | "disabled" => {
+	): "success" | "warning" | "error" | "secondary" => {
 		switch (status) {
 			case "active":
-				return "completed";
+				return "success";
 			case "revoked":
-				return "failed";
+				return "error";
 			case "expired":
-				return "disabled";
+				return "secondary";
 			default:
-				return "pending";
+				return "warning";
 		}
 	};
 
 	if (loading) {
 		return (
 			<div className={styles.loadingContainer}>
-				<LoadingSpinner size="large" />
+				<Spinner size="lg" />
 			</div>
 		);
 	}
@@ -177,32 +170,33 @@ function RouteComponent() {
 						icon="key-2-line"
 						title="No API keys yet"
 						description="Create an API key to enable integrations with external services like Zapier."
-						action={{
-							label: "Create API Key",
-							onClick: () => setIsCreateModalOpen(true),
-						}}
+						action={
+							<Button onClick={() => setIsCreateModalOpen(true)}>
+								Create API Key
+							</Button>
+						}
 					/>
 				) : (
 					<Table minWidth="700px">
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell>Name</Table.HeaderCell>
-								<Table.HeaderCell>Key</Table.HeaderCell>
-								<Table.HeaderCell>Scopes</Table.HeaderCell>
-								<Table.HeaderCell>Status</Table.HeaderCell>
-								<Table.HeaderCell>Created</Table.HeaderCell>
-								<Table.HeaderCell>Last Used</Table.HeaderCell>
-								<Table.HeaderCell>Actions</Table.HeaderCell>
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
+						<TableHeader>
+							<TableRow>
+								<TableHead>Name</TableHead>
+								<TableHead>Key</TableHead>
+								<TableHead>Scopes</TableHead>
+								<TableHead>Status</TableHead>
+								<TableHead>Created</TableHead>
+								<TableHead>Last Used</TableHead>
+								<TableHead>Actions</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
 							{apiKeys.map((key) => (
-								<Table.Row key={key.id}>
-									<Table.Cell>{key.name}</Table.Cell>
-									<Table.Cell>
+								<TableRow key={key.id}>
+									<TableCell>{key.name}</TableCell>
+									<TableCell>
 										<code className={styles.keyPrefix}>{key.keyPrefix}</code>
-									</Table.Cell>
-									<Table.Cell>
+									</TableCell>
+									<TableCell>
 										<div className={styles.scopes}>
 											{key.scopes.slice(0, 2).map((scope) => (
 												<span key={scope} className={styles.scopeTag}>
@@ -215,33 +209,33 @@ function RouteComponent() {
 												</span>
 											)}
 										</div>
-									</Table.Cell>
-									<Table.Cell>
-										<StatusBadge
-											text={key.status}
-											variant={getStatusVariant(key.status)}
-										/>
-									</Table.Cell>
-									<Table.Cell>{formatDate(key.createdAt)}</Table.Cell>
-									<Table.Cell>
+									</TableCell>
+									<TableCell>
+										<Badge variant={getStatusVariant(key.status)}>
+											{key.status}
+										</Badge>
+									</TableCell>
+									<TableCell>{formatDate(key.createdAt)}</TableCell>
+									<TableCell>
 										{key.lastUsedAt ? formatDate(key.lastUsedAt) : "Never"}
-									</Table.Cell>
-									<Table.Cell>
+									</TableCell>
+									<TableCell>
 										{key.status === "active" && (
-											<IconOnlyButton
-												ariaLabel="Revoke API key"
+											<Button
+												aria-label="Revoke API key"
 												variant="secondary"
-												iconClass="delete-bin-line"
+												size="sm"
+												leftIcon="delete-bin-line"
 												onClick={() => {
 													setKeyToRevoke(key);
 													setIsRevokeModalOpen(true);
 												}}
 											/>
 										)}
-									</Table.Cell>
-								</Table.Row>
+									</TableCell>
+								</TableRow>
 							))}
-						</Table.Body>
+						</TableBody>
 					</Table>
 				)}
 			</div>
@@ -251,18 +245,24 @@ function RouteComponent() {
 				isOpen={isCreateModalOpen}
 				title="Create API Key"
 				description="Generate a new API key for integrations"
-				icon="feature"
+				icon={<Sparkles />}
+				iconVariant="info"
 				onClose={() => {
 					setIsCreateModalOpen(false);
 					resetForm();
 				}}
-				proceedText={createLoading ? "Creating..." : "Create Key"}
-				cancelText="Cancel"
-				onProceed={handleCreateKey}
+				footer={
+					<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+						<Button variant="ghost" onClick={() => {
+							setIsCreateModalOpen(false);
+							resetForm();
+						}}>Cancel</Button>
+						<Button variant="primary" onClick={handleCreateKey}>{createLoading ? "Creating..." : "Create Key"}</Button>
+					</div>
+				}
 			>
 				<div className={styles.modalForm}>
-					<TextInput
-						label="Name"
+					<Input
 						placeholder="e.g., Zapier Integration"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
@@ -277,9 +277,7 @@ function RouteComponent() {
 							{Object.entries(API_KEY_SCOPES).map(([scope, description]) => (
 								<div key={scope} className={styles.scopeOption}>
 									<Checkbox
-										checked={
-											selectedScopes.includes(scope) ? "checked" : "unchecked"
-										}
+										checked={selectedScopes.includes(scope)}
 										onChange={() => toggleScope(scope)}
 									/>
 									<div className={styles.scopeInfo}>
@@ -291,8 +289,7 @@ function RouteComponent() {
 						</div>
 					</div>
 
-					<TextInput
-						label="Expires in (days)"
+					<Input
 						placeholder="Leave empty for no expiration"
 						type="number"
 						min={1}
@@ -313,18 +310,22 @@ function RouteComponent() {
 				isOpen={isSuccessModalOpen}
 				title="API Key Created"
 				description="Make sure to copy your API key now. You won't be able to see it again!"
-				icon="success"
+				icon={<CheckCircle />}
+				iconVariant="success"
 				onClose={() => {
 					setIsSuccessModalOpen(false);
 					setCreatedKey(null);
 					setKeyCopied(false);
 				}}
-				proceedText="Done"
-				onProceed={() => {
-					setIsSuccessModalOpen(false);
-					setCreatedKey(null);
-					setKeyCopied(false);
-				}}
+				footer={
+					<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+						<Button variant="primary" onClick={() => {
+							setIsSuccessModalOpen(false);
+							setCreatedKey(null);
+							setKeyCopied(false);
+						}}>Done</Button>
+					</div>
+				}
 			>
 				<div className={styles.successContent}>
 					<div className={styles.keyDisplay}>
@@ -349,15 +350,24 @@ function RouteComponent() {
 				isOpen={isRevokeModalOpen}
 				title="Revoke API Key"
 				description={`Are you sure you want to revoke "${keyToRevoke?.name}"? This action cannot be undone and any integrations using this key will stop working.`}
-				icon="warning"
+				icon={<AlertTriangle />}
+				iconVariant="warning"
 				onClose={() => {
 					setIsRevokeModalOpen(false);
 					setKeyToRevoke(null);
 				}}
-				proceedText={revokeLoading ? "Revoking..." : "Revoke Key"}
-				cancelText="Cancel"
-				onProceed={handleRevokeKey}
-			/>
+				footer={
+					<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+						<Button variant="ghost" onClick={() => {
+							setIsRevokeModalOpen(false);
+							setKeyToRevoke(null);
+						}}>Cancel</Button>
+						<Button variant="primary" onClick={handleRevokeKey}>{revokeLoading ? "Revoking..." : "Revoke Key"}</Button>
+					</div>
+				}
+			>
+				{null}
+			</Modal>
 		</motion.div>
 	);
 }

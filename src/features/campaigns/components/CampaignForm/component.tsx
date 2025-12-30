@@ -11,12 +11,13 @@ import {
 	useState,
 } from "react";
 import { useTier } from "@/contexts/tier";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import Dropdown from "@/proto-design-system/dropdown/dropdown";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import {
+	Button,
+	CheckboxWithLabel,
+	Divider,
+	Dropdown,
+	Input,
+} from "@/proto-design-system";
 import type { TrackingIntegrationType } from "@/types/campaign";
 import type { CampaignSettings } from "@/types/common.types";
 
@@ -623,9 +624,8 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					Basic information about your campaign
 				</p>
 
-				<TextInput
+				<Input
 					id="campaign-name"
-					label="Campaign Name"
 					type="text"
 					value={formData.name}
 					onChange={(e) => handleChange("name", e.target.value)}
@@ -633,19 +633,18 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					placeholder="e.g., Product Launch 2025"
 					disabled={isDisabled}
 					required
-					error={touched.name ? errors.name : undefined}
+					isError={!!(touched.name && errors.name)}
 				/>
 
-				<TextInput
+				<Input
 					id="campaign-description"
-					label="Description"
 					type="text"
 					value={formData.description}
 					onChange={(e) => handleChange("description", e.target.value)}
 					onBlur={() => handleBlur("description")}
 					placeholder="Describe your campaign..."
 					disabled={isDisabled}
-					error={touched.description ? errors.description : undefined}
+					isError={!!(touched.description && errors.description)}
 				/>
 			</div>
 
@@ -675,35 +674,35 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					linkHref={!hasEmail ? "/billing/plans" : undefined}
 				/>
 
-				<Dropdown
-					label="Duplicate Email Handling"
-					placeholderText="Select handling method"
-					size="medium"
-					options={[
-						{
-							label: "Block - Reject duplicate signups",
-							value: "block",
-							description: "Prevent users from signing up multiple times",
-							selected: formData.settings.duplicateHandling === "block",
-						},
-						{
-							label: "Update - Replace existing entry",
-							value: "update",
-							description: "Update the existing user information",
-							selected: formData.settings.duplicateHandling === "update",
-						},
-						{
-							label: "Allow - Create new entry",
-							value: "allow",
-							description: "Allow duplicate signups with separate entries",
-							selected: formData.settings.duplicateHandling === "allow",
-						},
-					]}
-					disabled={isDisabled}
-					onChange={(option) =>
-						handleSettingChange("duplicateHandling", option.value)
-					}
-				/>
+				<div>
+					<label className={styles.dropdownLabel}>Duplicate Email Handling</label>
+					<Dropdown
+						placeholder="Select handling method"
+						size="md"
+						items={[
+							{
+								id: "block",
+								label: "Block - Reject duplicate signups",
+								description: "Prevent users from signing up multiple times",
+							},
+							{
+								id: "update",
+								label: "Update - Replace existing entry",
+								description: "Update the existing user information",
+							},
+							{
+								id: "allow",
+								label: "Allow - Create new entry",
+								description: "Allow duplicate signups with separate entries",
+							},
+						]}
+						value={formData.settings.duplicateHandling}
+						disabled={isDisabled}
+						onChange={(id) =>
+							handleSettingChange("duplicateHandling", id)
+						}
+					/>
+				</div>
 
 				<CheckboxWithLabel
 					checked={
@@ -759,9 +758,8 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				{/* Referral Configuration - Only show if referrals are enabled */}
 				{formData.settings.enableReferrals && (
 					<div className={styles.subsection}>
-						<TextInput
+						<Input
 							id="points-per-referral"
-							label="Points Per Referral"
 							type="number"
 							value={
 								formData.referralConfig?.pointsPerReferral.toString() || "1"
@@ -776,7 +774,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							disabled={isDisabled || !hasReferrals}
 							min={1}
 							max={100}
-							hint="Points earned for each successful referral"
 						/>
 
 						<CheckboxWithLabel
@@ -792,9 +789,8 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							description="Only count referrals that have verified their email"
 						/>
 
-						<TextInput
+						<Input
 							id="referrer-positions-to-jump"
-							label="Referrer Positions to Jump"
 							type="number"
 							value={
 								formData.referralConfig?.referrerPositionsToJump.toString() ||
@@ -810,12 +806,10 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							disabled={isDisabled || !hasReferrals}
 							min={1}
 							max={1000}
-							hint="Positions referrer jumps for each referral"
 						/>
 
-						<TextInput
+						<Input
 							id="positions-to-jump"
-							label="Referee Positions to Jump"
 							type="number"
 							value={formData.referralConfig?.positionsToJump.toString() || "0"}
 							onChange={(e) =>
@@ -828,7 +822,6 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							disabled={isDisabled || !hasReferrals}
 							min={0}
 							max={1000}
-							hint="Positions new user jumps when using a referral code"
 						/>
 
 						<div className={styles.sharingChannels}>
@@ -892,27 +885,24 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 
 				{/* Add Integration Dropdown */}
 				{availableIntegrations.length > 0 && (
-					<Dropdown
-						label="Add Tracking Integration"
-						placeholderText="Select a tracking platform..."
-						size="medium"
-						options={availableIntegrations.map((integration) => ({
-							label: integration.label,
-							value: integration.type,
-							description: `ID format: ${integration.placeholder}`,
-							selected: false,
-						}))}
-						disabled={isDisabled || !hasTracking}
-						badge={!hasTracking ? "Pro" : undefined}
-						badgeColour="blue"
-						linkTitle={!hasTracking ? "Upgrade" : undefined}
-						linkHref={!hasTracking ? "/billing/plans" : undefined}
-						onChange={(option) =>
-							handleAddTrackingIntegration(
-								option.value as TrackingIntegrationType,
-							)
-						}
-					/>
+					<div>
+						<label className={styles.dropdownLabel}>Add Tracking Integration</label>
+						<Dropdown
+							placeholder="Select a tracking platform..."
+							size="md"
+							items={availableIntegrations.map((integration) => ({
+								id: integration.type,
+								label: integration.label,
+								description: `ID format: ${integration.placeholder}`,
+							}))}
+							disabled={isDisabled || !hasTracking}
+							onChange={(id) =>
+								handleAddTrackingIntegration(
+									id as TrackingIntegrationType,
+								)
+							}
+						/>
+					</div>
 				)}
 
 				{/* Configured Integrations List */}
@@ -940,18 +930,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 													{integrationInfo.label}
 												</span>
 											</div>
-											<IconOnlyButton
-												iconClass="delete-bin-line"
+											<Button
+												leftIcon="ri-delete-bin-line"
 												variant="secondary"
-												ariaLabel={`Remove ${integrationInfo.label}`}
+												aria-label={`Remove ${integrationInfo.label}`}
 												onClick={() => handleRemoveTracking(integration.type)}
 												disabled={isDisabled || !hasTracking}
 											/>
 										</div>
 										<div className={styles.trackingIntegrationFields}>
-											<TextInput
+											<Input
 												id={`tracking-${integration.type}-id`}
-												label="Tracking ID"
 												type="text"
 												value={integration.id}
 												onChange={(e) =>
@@ -967,17 +956,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 												placeholder={integrationInfo.placeholder}
 												disabled={isDisabled || !hasTracking}
 												required
-												error={
-													trackingTouched[integration.type]
-														? trackingErrors[integration.type]
-														: undefined
+												isError={
+													!!(trackingTouched[integration.type] &&
+														trackingErrors[integration.type])
 												}
-												hint={`Format: ${integrationInfo.placeholder}`}
 											/>
 											{integrationInfo.hasLabel && (
-												<TextInput
+												<Input
 													id={`tracking-${integration.type}-label`}
-													label="Conversion Label"
 													type="text"
 													value={integration.label || ""}
 													onChange={(e) =>
@@ -1007,7 +993,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 			</div>
 
 			{/* Divider */}
-			<ContentDivider size="thin" />
+			<Divider />
 
 			{/* Form Actions - only show when not disabled */}
 			{!disabled && (

@@ -10,10 +10,7 @@ import { ErrorState } from "@/components/error/error";
 import { useCreateCustomerPortal } from "@/hooks/useCreateCustomerPortal";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import { EmptyState } from "@/proto-design-system/EmptyState/EmptyState";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
+import { Button, Badge, EmptyState, Spinner } from "@/proto-design-system";
 import type { Price, Subscription } from "@/types/billing";
 import styles from "./component.module.scss";
 
@@ -105,10 +102,10 @@ const SubscriptionCard = memo(function SubscriptionCard({
 }: SubscriptionCardProps) {
 	const statusVariant =
 		subscription.status === "active"
-			? "green"
+			? "success"
 			: subscription.status === "canceled"
-				? "orange"
-				: "gray";
+				? "warning"
+				: "secondary";
 
 	return (
 		<section className={styles.section}>
@@ -119,11 +116,11 @@ const SubscriptionCard = memo(function SubscriptionCard({
 						{subscription.planName || "Unknown Plan"}
 					</span>
 					<Badge
-						text={subscription.status}
 						variant={statusVariant}
-						styleType="light"
-						size="medium"
-					/>
+						size="md"
+					>
+						{subscription.status}
+					</Badge>
 				</div>
 				{subscription.status === "active" && subscription.nextBillingDate && (
 					<p className={styles.billingDate}>
@@ -243,10 +240,9 @@ export const BillingPage = memo(function BillingPage() {
 	// Loading state
 	if (loading) {
 		return (
-			<LoadingSpinner
-				size="medium"
-				mode="centered"
-				message="Loading billing information..."
+			<Spinner
+				size="lg"
+				label="Loading billing information..."
 			/>
 		);
 	}
@@ -265,10 +261,10 @@ export const BillingPage = memo(function BillingPage() {
 	if (!subscription) {
 		return (
 			<EmptyState
-				icon="bank-card-line"
+				icon={<i className="ri-bank-card-line" aria-hidden="true" />}
 				title="No subscription found"
 				description="You don't have an active subscription."
-				action={{ label: "View Plans", onClick: handleChangePlan }}
+				action={<Button variant="primary" onClick={handleChangePlan}>View Plans</Button>}
 			/>
 		);
 	}

@@ -13,9 +13,7 @@ import {
 	type EmailTemplate,
 	useGetEmailTemplates,
 } from "@/hooks/useEmailTemplates";
-import { Button } from "@/proto-design-system/Button/button";
-import CheckboxWithLabel from "@/proto-design-system/checkbox/checkboxWithLabel";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Badge, Button, CheckboxWithLabel } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface EmailSettingsSectionProps {
@@ -69,10 +67,9 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 					<i className="ri-mail-line" aria-hidden="true" />
 					<div className={styles.templateCardTitle}>
 						<span className={styles.templateCardName}>{typeLabels[type]}</span>
-						<StatusBadge
-							text={isCustom ? "Custom" : "Default"}
-							variant={isCustom ? "completed" : "pending"}
-						/>
+						<Badge variant={isCustom ? "success" : "secondary"}>
+							{isCustom ? "Custom" : "Default"}
+						</Badge>
 					</div>
 				</div>
 			</div>

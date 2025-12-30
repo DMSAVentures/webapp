@@ -8,24 +8,24 @@ import { useCallback, useMemo } from "react";
 import type { WaitlistUserStatus } from "@/types/users.types";
 
 /**
- * Maps waitlist user status to StatusBadge variant
+ * Maps waitlist user status to Badge variant
  */
 export const useUserStatusVariant = () => {
 	return useCallback(
 		(
 			status: WaitlistUserStatus,
-		): "completed" | "pending" | "failed" | "disabled" => {
+		): "success" | "warning" | "error" | "secondary" => {
 			switch (status) {
 				case "verified":
 				case "active":
-					return "completed";
+					return "success";
 				case "pending":
 				case "invited":
-					return "pending";
+					return "warning";
 				case "rejected":
-					return "failed";
+					return "error";
 				default:
-					return "pending";
+					return "warning";
 			}
 		},
 		[],

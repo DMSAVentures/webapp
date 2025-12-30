@@ -4,9 +4,10 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { Sparkles } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useTier } from "@/contexts/tier";
-import Modal from "@/proto-design-system/modal/modal";
+import { Button, Modal } from "@/proto-design-system";
 
 // ============================================================================
 // Types
@@ -73,14 +74,19 @@ export const LimitUpgradeModal = memo(function LimitUpgradeModal({
 		<Modal
 			isOpen={isOpen}
 			onClose={onClose}
-			icon="feature"
+			icon={<Sparkles />}
+			iconVariant="info"
 			title={displayTitle}
 			description={displayDescription}
-			proceedText="View Plans"
-			cancelText="Maybe Later"
-			onProceed={handleUpgrade}
-			onCancel={onClose}
-		/>
+			footer={
+				<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+					<Button variant="ghost" onClick={onClose}>Maybe Later</Button>
+					<Button variant="primary" onClick={handleUpgrade}>View Plans</Button>
+				</div>
+			}
+		>
+			<p>Upgrade to continue using this feature.</p>
+		</Modal>
 	);
 });
 

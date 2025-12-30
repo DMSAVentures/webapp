@@ -4,8 +4,8 @@
  */
 
 import { type HTMLAttributes, memo } from "react";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { Badge } from "@/proto-design-system/badge/badge";
+import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
+import { Badge, Button } from "@/proto-design-system";
 import type { EmailBlock } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
 
@@ -83,13 +83,11 @@ function renderTextWithVariables(text: string): React.ReactNode[] {
 		parts.push(
 			<Badge
 				key={`var-${key++}`}
-				text={match[1]}
-				variant="blue"
-				styleType="filled"
-				size="small"
-				iconClass="braces-line"
-				iconPosition="left"
-			/>,
+				variant="primary"
+				size="sm"
+			>
+				{match[1]}
+			</Badge>,
 		);
 		lastIndex = regex.lastIndex;
 		match = regex.exec(text);
@@ -192,11 +190,11 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 			<div className={styles.typeInfo}>
 				<i className={getBlockIcon(block.type)} aria-hidden="true" />
 				<Badge
-					text={getBlockLabel(block.type)}
-					variant="gray"
-					styleType="light"
-					size="small"
-				/>
+					variant="secondary"
+					size="sm"
+				>
+					{getBlockLabel(block.type)}
+				</Badge>
 			</div>
 
 			{/* Center: Block preview */}
@@ -205,27 +203,30 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 			{/* Right: Actions */}
 			<div className={styles.actions}>
 				{onMoveUp && (
-					<IconOnlyButton
-						iconClass="arrow-up-line"
+					<Button
+						isIconOnly
+						leftIcon={<ArrowUp size={16} />}
 						variant="secondary"
-						ariaLabel="Move up"
+						aria-label="Move up"
 						onClick={handleMoveUpClick}
 						disabled={!canMoveUp}
 					/>
 				)}
 				{onMoveDown && (
-					<IconOnlyButton
-						iconClass="arrow-down-line"
+					<Button
+						isIconOnly
+						leftIcon={<ArrowDown size={16} />}
 						variant="secondary"
-						ariaLabel="Move down"
+						aria-label="Move down"
 						onClick={handleMoveDownClick}
 						disabled={!canMoveDown}
 					/>
 				)}
-				<IconOnlyButton
-					iconClass="delete-bin-line"
+				<Button
+					isIconOnly
+					leftIcon={<Trash2 size={16} />}
 					variant="secondary"
-					ariaLabel="Delete block"
+					aria-label="Delete block"
 					onClick={handleDeleteClick}
 				/>
 			</div>

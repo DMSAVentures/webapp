@@ -5,7 +5,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import ProgressBar from "@/proto-design-system/progressbar/progressbar";
+import { Progress } from "@/proto-design-system";
 import { PositionTracker } from "../PositionTracker/component";
 import { ReferralLink } from "../ReferralLink/component";
 import { ShareButtons } from "../ShareButtons/component";
@@ -232,11 +232,10 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 								</span>
 							</div>
 						</div>
-						<ProgressBar
-							progress={progress}
-							size="medium"
-							variant="info"
-							showPercentage={false}
+						<Progress
+							value={progress}
+							size="md"
+							variant="default"
 						/>
 					</div>
 				)}

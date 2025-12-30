@@ -6,12 +6,7 @@ import {
 	useZapierStatus,
 	useZapierSubscriptions,
 } from "@/hooks/useZapierIntegration";
-import { Button } from "@/proto-design-system/Button/button";
-import Banner from "@/proto-design-system/banner/banner";
-import Feedback from "@/proto-design-system/feedback/feedback";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import Modal from "@/proto-design-system/modal/modal";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
+import { Button, Banner, Toast, Spinner, Modal, Badge } from "@/proto-design-system";
 import styles from "./integrations.module.scss";
 
 export const Route = createFileRoute("/integrations/")({
@@ -83,25 +78,24 @@ function IntegrationsPage() {
 			{/* Team Feature Banner */}
 			{!isPro && (
 				<Banner
-					bannerType="feature"
+					type="feature"
 					variant="lighter"
-					alertTitle="Team Feature"
-					alertDescription="Upgrade to Team to connect integrations and automate your workflow."
-					linkTitle="Upgrade"
-					linkHref="/billing/plans"
+					title="Team Feature"
+					description="Upgrade to Team to connect integrations and automate your workflow."
+					action={<a href="/billing/plans">Upgrade</a>}
 					dismissible={false}
 				/>
 			)}
 
 			{/* Feedback */}
 			{feedback && (
-				<Feedback
-					feedbackType={feedback.type}
-					variant="light"
-					size="small"
-					alertTitle={feedback.message}
-					dismissable
-				/>
+				<Toast
+					variant={feedback.type === "success" ? "success" : "default"}
+					title={feedback.message}
+					closable
+				>
+					{feedback.message}
+				</Toast>
 			)}
 
 			{/* Content */}
@@ -123,11 +117,11 @@ function IntegrationsPage() {
 							</p>
 							{zapierStatus?.connected && (
 								<div className={styles.integrationStatus}>
-									<StatusBadge
-										text="Connected"
-										variant="completed"
-										styleType="stroke"
-									/>
+									<Badge
+										variant="success"
+									>
+										Connected
+									</Badge>
 									<span>
 										{zapierStatus.active_subscriptions} active subscription
 										{zapierStatus.active_subscriptions !== 1 ? "s" : ""}
@@ -138,7 +132,7 @@ function IntegrationsPage() {
 
 						<div className={styles.integrationActions}>
 							{loading ? (
-								<LoadingSpinner size="small" />
+								<Spinner size="sm" />
 							) : zapierStatus?.connected ? (
 								<>
 									<Button
@@ -190,13 +184,13 @@ function IntegrationsPage() {
 												)}
 											</span>
 										</div>
-										<StatusBadge
-											text={sub.status}
+										<Badge
 											variant={
-												sub.status === "active" ? "completed" : "pending"
+												sub.status === "active" ? "success" : "warning"
 											}
-											styleType="stroke"
-										/>
+										>
+											{sub.status}
+										</Badge>
 									</div>
 								))
 							)}
@@ -232,12 +226,20 @@ function IntegrationsPage() {
 				onClose={() => setShowDisconnectModal(false)}
 				title="Disconnect Zapier"
 				description="Are you sure you want to disconnect Zapier? This will remove all active subscriptions and stop triggering any connected Zaps."
-				icon="warning"
-				proceedText={disconnecting ? "Disconnecting..." : "Disconnect"}
-				cancelText="Cancel"
-				onProceed={handleDisconnect}
-				onCancel={() => setShowDisconnectModal(false)}
-			/>
+				icon={<i className="ri-error-warning-line" aria-hidden="true" />}
+				footer={
+					<>
+						<Button variant="secondary" onClick={() => setShowDisconnectModal(false)}>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={handleDisconnect} disabled={disconnecting}>
+							{disconnecting ? "Disconnecting..." : "Disconnect"}
+						</Button>
+					</>
+				}
+			>
+				{null}
+			</Modal>
 		</div>
 	);
 }

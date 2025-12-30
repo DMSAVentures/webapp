@@ -2,9 +2,7 @@ import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useSSEImageGen } from "@/hooks/useSSEImageGen";
-import Button from "@/proto-design-system/Button/button";
-import { LoadingSpinner } from "@/proto-design-system/LoadingSpinner/LoadingSpinner";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
+import { Button, Spinner, TextArea } from "@/proto-design-system";
 import styles from "./chatbox.module.scss";
 
 export default function ImageGenBox() {
@@ -44,7 +42,7 @@ export default function ImageGenBox() {
 				})}
 				{loading && (
 					<div className={styles["typing-indicator"]}>
-						<LoadingSpinner size="small" mode="inline" />{" "}
+						<Spinner size="sm" />{" "}
 						<span>AI is generating image...</span>
 					</div>
 				)}
@@ -52,7 +50,7 @@ export default function ImageGenBox() {
 			<div className={styles["message-input-container"]}>
 				{loading && (
 					<div className={styles["typing-indicator"]}>
-						<LoadingSpinner size="small" mode="inline" />{" "}
+						<Spinner size="sm" />{" "}
 						<span>AI is generating image...</span>
 					</div>
 				)}

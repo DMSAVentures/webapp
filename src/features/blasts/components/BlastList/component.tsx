@@ -6,9 +6,7 @@
 
 import { memo, useCallback } from "react";
 import { useDeleteBlast, useGetBlasts } from "@/hooks/useBlasts";
-import { Button } from "@/proto-design-system/Button/button";
-import { Badge } from "@/proto-design-system/badge/badge";
-import ProgressBar from "@/proto-design-system/progressbar/progressbar";
+import { Badge, Button, Progress } from "@/proto-design-system";
 import type { EmailBlast, EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 
@@ -23,16 +21,16 @@ export interface BlastListProps {
 
 const STATUS_VARIANTS: Record<
 	EmailBlastStatus,
-	"gray" | "blue" | "orange" | "red" | "green"
+	"secondary" | "primary" | "warning" | "error" | "success"
 > = {
-	draft: "gray",
-	scheduled: "blue",
-	processing: "orange",
-	sending: "orange",
-	completed: "green",
-	paused: "gray",
-	cancelled: "gray",
-	failed: "red",
+	draft: "secondary",
+	scheduled: "primary",
+	processing: "warning",
+	sending: "warning",
+	completed: "success",
+	paused: "secondary",
+	cancelled: "secondary",
+	failed: "error",
 };
 
 const STATUS_LABELS: Record<EmailBlastStatus, string> = {
@@ -136,20 +134,18 @@ export const BlastList = memo(function BlastList({
 									<h3 className={styles.blastName}>{blast.name}</h3>
 									<p className={styles.blastSubject}>{blast.subject}</p>
 								</div>
-								<Badge
-									variant={STATUS_VARIANTS[blast.status]}
-									text={STATUS_LABELS[blast.status]}
-								/>
+								<Badge variant={STATUS_VARIANTS[blast.status]}>
+									{STATUS_LABELS[blast.status]}
+								</Badge>
 							</div>
 
 							{(blast.status === "sending" ||
 								blast.status === "processing") && (
 								<div className={styles.progress}>
-									<ProgressBar
-										progress={getProgress(blast)}
-										size="small"
-										variant="info"
-										showPercentage={false}
+									<Progress
+										value={getProgress(blast)}
+										size="sm"
+										variant="default"
 									/>
 									<span className={styles.progressText}>
 										{(blast.sentCount ?? 0).toLocaleString()} /{" "}
@@ -201,7 +197,7 @@ export const BlastList = memo(function BlastList({
 							>
 								<Button
 									variant="secondary"
-									size="small"
+									size="sm"
 									onClick={() => onView?.(blast)}
 								>
 									<i className="ri-eye-line" aria-hidden="true" />
@@ -210,7 +206,7 @@ export const BlastList = memo(function BlastList({
 								{blast.status === "draft" && (
 									<Button
 										variant="secondary"
-										size="small"
+										size="sm"
 										onClick={() => handleDelete(blast)}
 										disabled={deleting}
 									>

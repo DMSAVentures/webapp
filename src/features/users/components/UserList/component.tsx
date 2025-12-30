@@ -5,11 +5,18 @@
 
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
-import { Button } from "@/proto-design-system/Button/button";
-import Checkbox from "@/proto-design-system/checkbox/checkbox";
-import Pagination from "@/proto-design-system/pagination/pagination";
-import StatusBadge from "@/proto-design-system/StatusBadge/statusBadge";
-import { Table } from "@/proto-design-system/Table";
+import {
+	Badge,
+	Button,
+	Checkbox,
+	Pagination,
+	Table,
+	TableHeader,
+	TableBody,
+	TableRow,
+	TableHead,
+	TableCell,
+} from "@/proto-design-system";
 import type { FormField } from "@/types/campaign";
 import type {
 	SortDirection,
@@ -291,7 +298,7 @@ export const UserList = memo<UserListProps>(function UserList({
 								: "Export All Users"}
 					</Button>
 					{hasSelection && (
-						<Button variant="secondary" size="small" onClick={clearSelection}>
+						<Button variant="secondary" size="sm" onClick={clearSelection}>
 							Clear Selection
 						</Button>
 					)}
@@ -321,206 +328,198 @@ export const UserList = memo<UserListProps>(function UserList({
 					</div>
 				) : (
 					<Table loading={loading} loadingMessage="Loading users...">
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell narrow>
+						<TableHeader>
+							<TableRow>
+								<TableHead narrow>
 									<Checkbox
-										checked={isAllSelected ? "checked" : "unchecked"}
+										checked={isAllSelected}
 										onChange={handleSelectAll}
 										aria-label="Select all users"
 									/>
-								</Table.HeaderCell>
-								<Table.HeaderCell
-									sortable
+								</TableHead>
+								<TableHead
 									sortDirection={getSortDirection("email")}
 									onSort={() => handleSort("email")}
 								>
 									Email
-								</Table.HeaderCell>
+								</TableHead>
 								{emailVerificationEnabled && (
-									<Table.HeaderCell
-										sortable
+									<TableHead
 										sortDirection={getSortDirection("status")}
 										onSort={() => handleSort("status")}
 									>
 										Status
-									</Table.HeaderCell>
+									</TableHead>
 								)}
 								{referralEnabled && (
 									<>
-										<Table.HeaderCell
-											sortable
+										<TableHead
 											sortDirection={getSortDirection("position")}
 											onSort={() => handleSort("position")}
 										>
 											Position
-										</Table.HeaderCell>
-										<Table.HeaderCell
-											sortable
+										</TableHead>
+										<TableHead
 											sortDirection={getSortDirection("referralCount")}
 											onSort={() => handleSort("referralCount")}
 										>
 											Referrals
-										</Table.HeaderCell>
-										<Table.HeaderCell
-											sortable
+										</TableHead>
+										<TableHead
 											sortDirection={getSortDirection("source")}
 											onSort={() => handleSort("source")}
 										>
 											Source
-										</Table.HeaderCell>
-										<Table.HeaderCell>UTM Source</Table.HeaderCell>
+										</TableHead>
+										<TableHead>UTM Source</TableHead>
 									</>
 								)}
 								{/* Dynamic columns for custom form fields */}
 								{customFormFields.map((field) => (
-									<Table.HeaderCell key={field.id}>
+									<TableHead key={field.id}>
 										{field.label}
-									</Table.HeaderCell>
+									</TableHead>
 								))}
-								<Table.HeaderCell
-									sortable
+								<TableHead
 									sortDirection={getSortDirection("createdAt")}
 									onSort={() => handleSort("createdAt")}
 								>
 									Date
-								</Table.HeaderCell>
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
+								</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
 							{users.map((user) => (
-								<Table.Row
+								<TableRow
 									key={user.id}
 									selected={isUserSelected(user.id)}
 									onClick={() => onUserClick?.(user)}
 								>
-									<Table.Cell narrow>
+									<TableCell>
 										<Checkbox
-											checked={
-												isUserSelected(user.id) ? "checked" : "unchecked"
-											}
+											checked={isUserSelected(user.id)}
 											onChange={() => handleSelectUser(user.id)}
 											onClick={(e) => e.stopPropagation()}
 										/>
-									</Table.Cell>
-									<Table.Cell>
+									</TableCell>
+									<TableCell>
 										<span className={styles.email}>{user.email}</span>
-									</Table.Cell>
+									</TableCell>
 									{emailVerificationEnabled && (
-										<Table.Cell fitContent>
-											<StatusBadge
-												text={formatStatus(user.status)}
+										<TableCell>
+											<Badge
 												variant={getStatusVariant(user.status)}
-												styleType="light"
-											/>
-										</Table.Cell>
+											>
+												{formatStatus(user.status)}
+											</Badge>
+										</TableCell>
 									)}
 									{referralEnabled && (
 										<>
-											<Table.Cell>
+											<TableCell>
 												<span className={styles.position}>
 													{formatPosition(user.position)}
 												</span>
-											</Table.Cell>
-											<Table.Cell>
+											</TableCell>
+											<TableCell>
 												<span className={styles.referralCount}>
 													{user.referralCount}
 												</span>
-											</Table.Cell>
-											<Table.Cell>
+											</TableCell>
+											<TableCell>
 												<span className={styles.source}>
 													{formatSource(user.source)}
 												</span>
-											</Table.Cell>
-											<Table.Cell fitContent>
+											</TableCell>
+											<TableCell>
 												<UtmSourceBadge source={user.utmSource} />
-											</Table.Cell>
+											</TableCell>
 										</>
 									)}
 									{/* Dynamic cells for custom form fields */}
 									{customFormFields.map((field) => (
-										<Table.Cell key={field.id}>
+										<TableCell key={field.id}>
 											<span className={styles.customField}>
 												{user.customFields?.[field.name] ?? "-"}
 											</span>
-										</Table.Cell>
+										</TableCell>
 									))}
-									<Table.Cell>
+									<TableCell>
 										<span className={styles.date}>
 											{formatDate(user.createdAt)}
 										</span>
-									</Table.Cell>
-								</Table.Row>
+									</TableCell>
+								</TableRow>
 							))}
 							{/* Phantom rows for gated leads */}
 							{hasGatedLeads &&
 								Array.from({ length: phantomRowCount }).map((_, index) => (
-									<Table.Row
+									<TableRow
 										key={`phantom-${index}`}
 										className={styles.phantomRow}
 									>
-										<Table.Cell narrow>
+										<TableCell>
 											<div className={styles.phantomCell} />
-										</Table.Cell>
-										<Table.Cell>
+										</TableCell>
+										<TableCell>
 											<div
 												className={styles.phantomCell}
 												style={{ width: "180px" }}
 											/>
-										</Table.Cell>
+										</TableCell>
 										{emailVerificationEnabled && (
-											<Table.Cell fitContent>
+											<TableCell>
 												<div
 													className={styles.phantomCell}
 													style={{ width: "70px" }}
 												/>
-											</Table.Cell>
+											</TableCell>
 										)}
 										{referralEnabled && (
 											<>
-												<Table.Cell>
+												<TableCell>
 													<div
 														className={styles.phantomCell}
 														style={{ width: "40px" }}
 													/>
-												</Table.Cell>
-												<Table.Cell>
+												</TableCell>
+												<TableCell>
 													<div
 														className={styles.phantomCell}
 														style={{ width: "30px" }}
 													/>
-												</Table.Cell>
-												<Table.Cell>
+												</TableCell>
+												<TableCell>
 													<div
 														className={styles.phantomCell}
 														style={{ width: "60px" }}
 													/>
-												</Table.Cell>
-												<Table.Cell fitContent>
+												</TableCell>
+												<TableCell>
 													<div
 														className={styles.phantomCell}
 														style={{ width: "50px" }}
 													/>
-												</Table.Cell>
+												</TableCell>
 											</>
 										)}
 										{customFormFields.map((field) => (
-											<Table.Cell key={field.id}>
+											<TableCell key={field.id}>
 												<div
 													className={styles.phantomCell}
 													style={{ width: "80px" }}
 												/>
-											</Table.Cell>
+											</TableCell>
 										))}
-										<Table.Cell>
+										<TableCell>
 											<div
 												className={styles.phantomCell}
 												style={{ width: "80px" }}
 											/>
-										</Table.Cell>
-									</Table.Row>
+										</TableCell>
+									</TableRow>
 								))}
-						</Table.Body>
+						</TableBody>
 					</Table>
 				)}
 
@@ -540,7 +539,7 @@ export const UserList = memo<UserListProps>(function UserList({
 							</div>
 							<Button
 								variant="primary"
-								size="small"
+								size="sm"
 								onClick={onUpgradeClick}
 								leftIcon="ri-arrow-up-line"
 							>
@@ -554,10 +553,8 @@ export const UserList = memo<UserListProps>(function UserList({
 				{totalPages > 1 && (
 					<div className={styles.pagination}>
 						<Pagination
-							currentPage={currentPage}
+							page={currentPage}
 							totalPages={totalPages}
-							itemsPerPage={pageSize}
-							style="rounded"
 							onPageChange={onPageChange ?? (() => undefined)}
 						/>
 					</div>

@@ -4,7 +4,6 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import "./checkout.scss";
-import { Column } from "@/proto-design-system/UIShell/Column/Column";
 
 // Load stripe outside of component to avoid recreating Stripe object on every render
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!);
@@ -15,12 +14,7 @@ interface CheckoutFormProps {
 
 const CustomCheckout = ({ clientSecret }: CheckoutFormProps) => {
 	return (
-		<Column
-			sm={{ span: 8, start: 1 }}
-			md={{ start: 1, span: 7 }}
-			lg={{ start: 1, span: 11 }}
-			xlg={{ start: 1, span: 13 }}
-		>
+		<div style={{ width: "100%", maxWidth: "800px" }}>
 			<div className="checkout-container">
 				<h2>Complete Your Payment</h2>
 				<EmbeddedCheckoutProvider
@@ -30,7 +24,7 @@ const CustomCheckout = ({ clientSecret }: CheckoutFormProps) => {
 					<EmbeddedCheckout />
 				</EmbeddedCheckoutProvider>
 			</div>
-		</Column>
+		</div>
 	);
 };
 

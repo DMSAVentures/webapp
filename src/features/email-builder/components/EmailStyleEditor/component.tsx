@@ -4,8 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import ContentDivider from "@/proto-design-system/contentdivider/contentdivider";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Divider, Input } from "@/proto-design-system";
 import { EMAIL_DESIGN_TEMPLATES } from "../../constants/emailDesignTemplates";
 import type { EmailDesign } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
@@ -220,6 +219,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 							<h4 className={styles.sectionTitle}>Colors</h4>
 							<div className={styles.colorGrid}>
 								<div className={styles.colorItem}>
+									<label htmlFor="email-color-primary-text">Primary</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-primary"
@@ -231,9 +231,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Primary color"
 										/>
-										<TextInput
+										<Input
 											id="email-color-primary-text"
-											label="Primary"
 											type="text"
 											value={design.colors.primary}
 											onChange={(e) =>
@@ -245,6 +244,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="email-color-background-text">Background</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-background"
@@ -256,9 +256,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Background color"
 										/>
-										<TextInput
+										<Input
 											id="email-color-background-text"
-											label="Background"
 											type="text"
 											value={design.colors.background}
 											onChange={(e) =>
@@ -270,6 +269,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="email-color-content-background-text">Content Background</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-content-background"
@@ -281,9 +281,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Content background color"
 										/>
-										<TextInput
+										<Input
 											id="email-color-content-background-text"
-											label="Content Background"
 											type="text"
 											value={design.colors.contentBackground}
 											onChange={(e) =>
@@ -295,6 +294,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="email-color-text-text">Text</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-text"
@@ -306,9 +306,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Text color"
 										/>
-										<TextInput
+										<Input
 											id="email-color-text-text"
-											label="Text"
 											type="text"
 											value={design.colors.text}
 											onChange={(e) =>
@@ -320,6 +319,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="email-color-secondary-text-text">Secondary Text</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-secondary-text"
@@ -331,9 +331,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Secondary text color"
 										/>
-										<TextInput
+										<Input
 											id="email-color-secondary-text-text"
-											label="Secondary Text"
 											type="text"
 											value={design.colors.secondaryText}
 											onChange={(e) =>
@@ -345,6 +344,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
+									<label htmlFor="email-color-link-text">Link</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-link"
@@ -356,9 +356,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											className={styles.colorPicker}
 											aria-label="Link color"
 										/>
-										<TextInput
+										<Input
 											id="email-color-link-text"
-											label="Link"
 											type="text"
 											value={design.colors.link}
 											onChange={(e) =>
@@ -371,116 +370,130 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Typography Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Typography</h4>
 							<div className={styles.inputGrid}>
-								<TextInput
-									id="email-font-family"
-									label="Font Family"
-									type="text"
-									value={design.typography.fontFamily}
-									onChange={(e) =>
-										handleTypographyChange("fontFamily", e.target.value)
-									}
-									placeholder="Inter, sans-serif"
-								/>
-								<TextInput
-									id="email-font-size"
-									label="Font Size (px)"
-									type="number"
-									value={design.typography.fontSize.toString()}
-									onChange={(e) =>
-										handleTypographyChange(
-											"fontSize",
-											parseInt(e.target.value) || 16,
-										)
-									}
-									min={12}
-									max={24}
-								/>
-								<TextInput
-									id="email-heading-weight"
-									label="Heading Weight"
-									type="number"
-									value={design.typography.headingWeight.toString()}
-									onChange={(e) =>
-										handleTypographyChange(
-											"headingWeight",
-											parseInt(e.target.value) || 600,
-										)
-									}
-									min={100}
-									max={900}
-									step={100}
-								/>
+								<div>
+									<label htmlFor="email-font-family">Font Family</label>
+									<Input
+										id="email-font-family"
+										type="text"
+										value={design.typography.fontFamily}
+										onChange={(e) =>
+											handleTypographyChange("fontFamily", e.target.value)
+										}
+										placeholder="Inter, sans-serif"
+									/>
+								</div>
+								<div>
+									<label htmlFor="email-font-size">Font Size (px)</label>
+									<Input
+										id="email-font-size"
+										type="number"
+										value={design.typography.fontSize.toString()}
+										onChange={(e) =>
+											handleTypographyChange(
+												"fontSize",
+												parseInt(e.target.value) || 16,
+											)
+										}
+										min={12}
+										max={24}
+									/>
+								</div>
+								<div>
+									<label htmlFor="email-heading-weight">Heading Weight</label>
+									<Input
+										id="email-heading-weight"
+										type="number"
+										value={design.typography.headingWeight.toString()}
+										onChange={(e) =>
+											handleTypographyChange(
+												"headingWeight",
+												parseInt(e.target.value) || 600,
+											)
+										}
+										min={100}
+										max={900}
+										step={100}
+									/>
+								</div>
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Spacing Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Spacing</h4>
 							<div className={styles.inputGrid}>
-								<TextInput
-									id="email-content-padding"
-									label="Content Padding (px)"
-									type="number"
-									value={design.spacing.contentPadding.toString()}
-									onChange={(e) =>
-										handleSpacingChange(
-											"contentPadding",
-											parseInt(e.target.value) || 40,
-										)
-									}
-									min={16}
-									max={80}
-								/>
-								<TextInput
-									id="email-block-gap"
-									label="Block Gap (px)"
-									type="number"
-									value={design.spacing.blockGap.toString()}
-									onChange={(e) =>
-										handleSpacingChange(
-											"blockGap",
-											parseInt(e.target.value) || 16,
-										)
-									}
-									min={8}
-									max={48}
-								/>
-								<TextInput
-									id="email-border-radius"
-									label="Border Radius (px)"
-									type="number"
-									value={design.borderRadius.toString()}
-									onChange={(e) =>
-										handleBorderRadiusChange(parseInt(e.target.value) || 8)
-									}
-									min={0}
-									max={32}
-								/>
+								<div>
+									<label htmlFor="email-content-padding">Content Padding (px)</label>
+									<Input
+										id="email-content-padding"
+										type="number"
+										value={design.spacing.contentPadding.toString()}
+										onChange={(e) =>
+											handleSpacingChange(
+												"contentPadding",
+												parseInt(e.target.value) || 40,
+											)
+										}
+										min={16}
+										max={80}
+									/>
+								</div>
+								<div>
+									<label htmlFor="email-block-gap">Block Gap (px)</label>
+									<Input
+										id="email-block-gap"
+										type="number"
+										value={design.spacing.blockGap.toString()}
+										onChange={(e) =>
+											handleSpacingChange(
+												"blockGap",
+												parseInt(e.target.value) || 16,
+											)
+										}
+										min={8}
+										max={48}
+									/>
+								</div>
+								<div>
+									<label htmlFor="email-border-radius">Border Radius (px)</label>
+									<Input
+										id="email-border-radius"
+										type="number"
+										value={design.borderRadius.toString()}
+										onChange={(e) =>
+											handleBorderRadiusChange(parseInt(e.target.value) || 8)
+										}
+										min={0}
+										max={32}
+									/>
+								</div>
 							</div>
 						</section>
 
-						<ContentDivider size="thin" />
+						<Divider />
 
 						{/* Footer Section */}
 						<section className={styles.section}>
 							<h4 className={styles.sectionTitle}>Footer</h4>
 							<div className={styles.inputGrid}>
-								<TextInput
-									id="email-footer-text"
-									label="Footer Text"
-									type="text"
-									value={design.footerText || ""}
-									onChange={(e) => handleFooterTextChange(e.target.value)}
-									placeholder="If you didn't request this email..."
-								/>
+								<div>
+									<label htmlFor="email-footer-text">Footer Text</label>
+									<Input
+										id="email-footer-text"
+										type="text"
+										value={design.footerText || ""}
+										onChange={(e) => handleFooterTextChange(e.target.value)}
+										placeholder="If you didn't request this email..."
+									/>
+								</div>
 							</div>
 						</section>
 					</div>

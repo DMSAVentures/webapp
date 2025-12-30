@@ -16,10 +16,7 @@ import {
 	useSendTestEmail,
 	useUpdateEmailTemplate,
 } from "@/hooks/useEmailTemplates";
-import { Button } from "@/proto-design-system/Button/button";
-import { IconOnlyButton } from "@/proto-design-system/Button/IconOnlyButton";
-import { TextArea } from "@/proto-design-system/TextArea/textArea";
-import { TextInput } from "@/proto-design-system/TextInput/textInput";
+import { Button, Input, TextArea } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface EmailTemplateEditorProps {
@@ -190,10 +187,10 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 							<i className="ri-mail-line" aria-hidden="true" />
 							<span>Customize {typeLabels[type]}</span>
 						</div>
-						<IconOnlyButton
-							ariaLabel="Close editor"
+						<Button
+							aria-label="Close editor"
 							variant="secondary"
-							iconClass="close-line"
+							leftIcon="ri-close-line"
 							onClick={handleClose}
 						/>
 					</div>
@@ -204,14 +201,12 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 						<div className={styles.editorPane}>
 							<div className={styles.editorContent}>
 								{/* Subject */}
-								<TextInput
+								<Input
 									id="email-subject"
-									label="Subject Line"
 									type="text"
 									value={subject}
 									onChange={(e) => setSubject(e.target.value)}
 									placeholder="Enter email subject..."
-									hint="Use {{variable}} for dynamic content"
 								/>
 
 								{/* Variables */}
@@ -269,9 +264,8 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 								<div className={styles.testEmailSection}>
 									{showTestEmailInput ? (
 										<div className={styles.testEmailForm}>
-											<TextInput
+											<Input
 												id="test-email-recipient"
-												label=""
 												type="email"
 												value={testEmailRecipient}
 												onChange={(e) => setTestEmailRecipient(e.target.value)}
@@ -285,10 +279,10 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 											>
 												{sendingTest ? "Sending..." : "Send"}
 											</Button>
-											<IconOnlyButton
-												ariaLabel="Cancel test email"
+											<Button
+												aria-label="Cancel test email"
 												variant="secondary"
-												iconClass="close-line"
+												leftIcon="ri-close-line"
 												onClick={() => {
 													setShowTestEmailInput(false);
 													setTestEmailRecipient("");

@@ -86,6 +86,48 @@
 	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
 }
 
+.tabList {
+	display: flex;
+	gap: layout.$spacing-04;
+}
+
+.tab {
+	display: flex;
+	align-items: center;
+	gap: layout.$spacing-02;
+	padding: layout.$spacing-03 layout.$spacing-01;
+	font-size: typography.$font-size-sm;
+	font-weight: typography.$font-weight-medium;
+	color: var(--color-text-secondary-default);
+	background: none;
+	border: none;
+	border-bottom: border.$border-width-medium solid transparent;
+	cursor: pointer;
+	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+
+	i {
+		font-size: typography.$font-size-md;
+	}
+
+	&:hover {
+		color: var(--color-text-primary-default);
+	}
+
+	&:focus-visible {
+		outline: border.$border-width-medium solid var(--color-focus-ring-default);
+		outline-offset: layout.$spacing-01;
+	}
+}
+
+.tabActive {
+	color: var(--color-text-primary-default);
+	border-bottom-color: var(--color-info-default);
+
+	i {
+		color: var(--color-info-default);
+	}
+}
+
 // Builder layout (3-column)
 .builder {
 	display: grid;
