@@ -1,9 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Home, Settings, Users, BarChart, CreditCard, User } from "lucide-react";
 import { motion } from "motion/react";
 import { useAuth } from "@/contexts/auth";
 import { usePersona } from "@/contexts/persona";
 import cardStyles from "./dashboard.module.scss";
 import styles from "./page.module.scss";
+
+const iconMap: Record<string, React.ReactNode> = {
+	"home-line": <Home size={18} />,
+	"settings-line": <Settings size={18} />,
+	"user-line": <User size={18} />,
+	"team-line": <Users size={18} />,
+	"bar-chart-line": <BarChart size={18} />,
+	"bank-card-line": <CreditCard size={18} />,
+};
+
+const getIcon = (iconClass?: string) => {
+	if (!iconClass) return null;
+	return iconMap[iconClass] || null;
+};
 
 export const Route = createFileRoute("/")({
 	component: Index,
@@ -59,7 +74,7 @@ function Index() {
 									to={item.href}
 									className={cardStyles.card}
 								>
-									<i className={`ri-${item.iconClass}`} aria-hidden="true" />
+									{getIcon(item.iconClass)}
 									<span className={cardStyles.cardLabel}>{item.label}</span>
 								</Link>
 							)),

@@ -1,6 +1,4 @@
 import React, { memo } from "react";
-import "remixicon/fonts/remixicon.css";
-
 import { Home, Settings, Users, BarChart, CreditCard, User, HelpCircle, LogOut } from "lucide-react";
 import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import UserName from "@/components/user/Username";
@@ -24,7 +22,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 const getIcon = (iconClass?: string) => {
 	if (!iconClass) return null;
-	return iconMap[iconClass] || <i className={`ri-${iconClass}`} />;
+	return iconMap[iconClass] || null;
 };
 
 const AppSidebar = memo(function AppSidebar() {
