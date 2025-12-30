@@ -5,6 +5,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 import { memo, useCallback, useEffect } from "react";
 import {
 	useCancelBlast,
@@ -145,8 +146,7 @@ export const BlastDetail = memo(function BlastDetail({
 	return (
 		<div className={styles.root}>
 			<div className={styles.header}>
-				<Button variant="secondary" onClick={handleBack}>
-					<i className="ri-arrow-left-line" aria-hidden="true" />
+				<Button variant="secondary" onClick={handleBack} leftIcon={<ArrowLeft size={16} />}>
 					Back to Blasts
 				</Button>
 				<div className={styles.headerContent}>
