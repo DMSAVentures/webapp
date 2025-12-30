@@ -5,6 +5,7 @@ import { GlobalBannerProvider } from "@/contexts/globalBanner";
 import { PersonaProvider } from "@/contexts/persona";
 import { SidebarProvider } from "@/contexts/sidebar";
 import { TierProvider } from "@/contexts/tier";
+import { ThemeProvider } from "@/proto-design-system";
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	const { user } = useAuth();
@@ -13,12 +14,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	const persona = user?.persona ?? "admin";
 
 	return (
-		<GlobalBannerProvider>
-			<TierProvider>
-				<PersonaProvider persona={persona}>
-					<SidebarProvider>{children}</SidebarProvider>
-				</PersonaProvider>
-			</TierProvider>
-		</GlobalBannerProvider>
+		<ThemeProvider defaultTheme="neon">
+			<GlobalBannerProvider>
+				<TierProvider>
+					<PersonaProvider persona={persona}>
+						<SidebarProvider>{children}</SidebarProvider>
+					</PersonaProvider>
+				</TierProvider>
+			</GlobalBannerProvider>
+		</ThemeProvider>
 	);
 }

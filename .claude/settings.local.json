@@ -23,7 +23,8 @@
       "Bash(source ~/.nvm/nvm.sh)",
       "Bash(nvm use:*)",
       "Bash(du:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "ask": []
