@@ -6,9 +6,13 @@
 import { Check, Code, Copy, Globe, Link, type LucideIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import "remixicon/fonts/remixicon.css";
 import type { Campaign } from "@/types/campaign";
@@ -41,6 +45,7 @@ interface CodeBlockProps {
 	copiedType: string | null;
 	onCopy: (code: string, type: string) => void;
 	rows?: number;
+	recommended?: boolean;
 }
 
 // ============================================================================
@@ -160,40 +165,50 @@ const CodeBlock = memo(function CodeBlock({
 	copiedType,
 	onCopy,
 	rows = 6,
+	recommended = false,
 }: CodeBlockProps) {
 	const isCopied = copiedType === codeType;
 	const isLucideIcon = typeof icon !== "string";
 
 	return (
-		<div className={styles.card}>
-			<h3 className={styles.cardTitle}>
-				{isLucideIcon ? (
-					<Icon icon={icon} size="md" />
-				) : (
-					<i className={icon} aria-hidden="true" />
-				)}
-				{title}
-			</h3>
-			<p className={styles.cardDescription}>{description}</p>
-			<div className={styles.codeBlock}>
-				<div className={styles.codeContent}>
+		<Card variant="outlined" padding="lg">
+			<Stack gap="sm">
+				<Stack direction="row" align="center" gap="sm">
+					<div className={styles.iconWrapper}>
+						{isLucideIcon ? (
+							<Icon icon={icon} size="md" />
+						) : (
+							<i className={icon} aria-hidden="true" />
+						)}
+					</div>
+					<Text as="h3" size="lg" weight="semibold">{title}</Text>
+					{recommended && (
+						<Badge variant="success" size="sm">Recommended</Badge>
+					)}
+				</Stack>
+				<Text size="sm" color="muted">{description}</Text>
+				<Stack gap="sm">
 					<TextArea
 						id={`embed-${codeType.toLowerCase()}`}
 						label={`${codeType} Code`}
 						value={code}
 						rows={rows}
 						readOnly
+                        fullWidth
 					/>
-				</div>
-				<Button
-					variant="secondary"
-					leftIcon={isCopied ? <Check size={16} /> : <Copy size={16} />}
-					onClick={() => onCopy(code, codeType)}
-				>
-					{isCopied ? "Copied!" : "Copy"}
-				</Button>
-			</div>
-		</div>
+					<Stack direction="row" justify="end">
+						<Button
+							variant="secondary"
+							size="sm"
+							leftIcon={isCopied ? <Check size={16} /> : <Copy size={16} />}
+							onClick={() => onCopy(code, codeType)}
+						>
+							{isCopied ? "Copied!" : "Copy"}
+						</Button>
+					</Stack>
+				</Stack>
+			</Stack>
+		</Card>
 	);
 });
 
@@ -235,16 +250,16 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 	}
 
 	return (
-		<div className={styles.embed}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Embed Your Form</h2>
-				<p className={styles.description}>
+		<Stack gap="lg" className={styles.embed}>
+			<Stack gap="xs">
+				<Text as="h2" size="xl" weight="semibold">Embed Your Form</Text>
+				<Text size="md" color="muted">
 					Choose your preferred method to embed the waitlist form on your
 					website
-				</p>
-			</div>
+				</Text>
+			</Stack>
 
-			<div className={styles.embedOptions}>
+			<Stack gap="md">
 				<CodeBlock
 					icon={Link}
 					title="Direct Link"
@@ -269,13 +284,14 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 
 				<CodeBlock
 					icon={Code}
-					title="JavaScript Snippet (Recommended)"
+					title="JavaScript Snippet"
 					description="Automatically detects and passes ref codes from your page URL (e.g., yoursite.com/signup?ref=ABC123)"
 					code={embedCodes.jsSnippet}
 					codeType="JavaScript"
 					copiedType={copiedType}
 					onCopy={handleCopy}
 					rows={8}
+					recommended
 				/>
 
 				<CodeBlock
@@ -288,8 +304,8 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 					onCopy={handleCopy}
 					rows={8}
 				/>
-			</div>
-		</div>
+			</Stack>
+		</Stack>
 	);
 });
 
