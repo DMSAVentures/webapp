@@ -13,7 +13,7 @@ import {
 import { useTier } from "@/contexts/tier";
 import {
 	Button,
-	CheckboxWithLabel,
+	Checkbox,
 	Divider,
 	Dropdown,
 	Input,
@@ -655,23 +655,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					Configure how users sign up for your waitlist
 				</p>
 
-				<CheckboxWithLabel
-					checked={
-						formData.settings.emailVerificationRequired
-							? "checked"
-							: "unchecked"
-					}
+				<Checkbox
+					checked={formData.settings.emailVerificationRequired}
 					onChange={(e) =>
 						handleSettingChange("emailVerificationRequired", e.target.checked)
 					}
 					disabled={isDisabled || !hasEmail}
-					flipCheckboxToRight={false}
-					text="Require email verification"
+					label="Require email verification"
 					description="Users must verify their email before being added to waitlist"
-					badgeString={!hasEmail ? "Pro" : undefined}
-					badgeColour="green"
-					linkTitle={!hasEmail ? "Upgrade" : undefined}
-					linkHref={!hasEmail ? "/billing/plans" : undefined}
 				/>
 
 				<div>
@@ -704,20 +695,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					/>
 				</div>
 
-				<CheckboxWithLabel
-					checked={
-						formData.formConfig?.captchaEnabled ? "checked" : "unchecked"
-					}
+				<Checkbox
+					checked={formData.formConfig?.captchaEnabled ?? false}
 					onChange={(e) =>
 						handleFormConfigChange("captchaEnabled", e.target.checked)
 					}
 					disabled={isDisabled || !hasAntiSpam}
-					flipCheckboxToRight={false}
-					text="Enable CAPTCHA"
+					label="Enable CAPTCHA"
 					description="Protect your waitlist from bots and spam submissions"
-					badgeString={!hasAntiSpam ? "Pro" : undefined}
-					linkTitle={!hasAntiSpam ? "Upgrade" : undefined}
-					linkHref={!hasAntiSpam ? "/billing/plans" : undefined}
 				/>
 			</div>
 
@@ -740,19 +725,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					Enable viral growth and engagement features
 				</p>
 
-				<CheckboxWithLabel
-					checked={formData.settings.enableReferrals ? "checked" : "unchecked"}
+				<Checkbox
+					checked={formData.settings.enableReferrals}
 					onChange={(e) =>
 						handleSettingChange("enableReferrals", e.target.checked)
 					}
 					disabled={isDisabled || !hasReferrals}
-					flipCheckboxToRight={false}
-					text="Enable referral system"
+					label="Enable referral system"
 					description="Allow users to refer others and track viral growth"
-					badgeString={!hasReferrals ? "Pro" : undefined}
-					badgeColour="blue"
-					linkTitle={!hasReferrals ? "Upgrade" : undefined}
-					linkHref={!hasReferrals ? "/billing/plans" : undefined}
 				/>
 
 				{/* Referral Configuration - Only show if referrals are enabled */}
@@ -776,16 +756,13 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							max={100}
 						/>
 
-						<CheckboxWithLabel
-							checked={
-								formData.referralConfig?.verifiedOnly ? "checked" : "unchecked"
-							}
+						<Checkbox
+							checked={formData.referralConfig?.verifiedOnly ?? false}
 							onChange={(e) =>
 								handleReferralConfigChange("verifiedOnly", e.target.checked)
 							}
 							disabled={isDisabled || !hasReferrals}
-							flipCheckboxToRight={false}
-							text="Count verified referrals only"
+							label="Count verified referrals only"
 							description="Only count referrals that have verified their email"
 						/>
 
@@ -839,20 +816,16 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 									{ value: "linkedin", label: "LinkedIn" },
 									{ value: "whatsapp", label: "WhatsApp" },
 								].map((channel) => (
-									<CheckboxWithLabel
+									<Checkbox
 										key={channel.value}
 										checked={
 											formData.referralConfig?.sharingChannels.includes(
 												channel.value,
-											)
-												? "checked"
-												: "unchecked"
+											) ?? false
 										}
 										onChange={() => handleSharingChannelToggle(channel.value)}
 										disabled={isDisabled || !hasReferrals}
-										flipCheckboxToRight={false}
-										text={channel.label}
-										description=""
+										label={channel.label}
 									/>
 								))}
 							</div>
@@ -860,19 +833,14 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					</div>
 				)}
 
-				<CheckboxWithLabel
-					checked={formData.settings.enableRewards ? "checked" : "unchecked"}
+				<Checkbox
+					checked={formData.settings.enableRewards}
 					onChange={(e) =>
 						handleSettingChange("enableRewards", e.target.checked)
 					}
 					disabled={isDisabled || !hasReferrals}
-					flipCheckboxToRight={false}
-					text="Enable reward system"
+					label="Enable reward system"
 					description="Reward users for reaching referral milestones"
-					badgeString={!hasReferrals ? "Pro" : undefined}
-					badgeColour="blue"
-					linkTitle={!hasReferrals ? "Upgrade" : undefined}
-					linkHref={!hasReferrals ? "/billing/plans" : undefined}
 				/>
 			</div>
 

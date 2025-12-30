@@ -13,7 +13,7 @@ import {
 import {
 	Badge,
 	Button,
-	CheckboxWithLabel,
+	Checkbox,
 	Divider,
 	Input,
 	TextArea,
@@ -494,11 +494,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				<Divider />
 
 				{/* Required */}
-				<CheckboxWithLabel
-					checked={formData.required ? "checked" : "unchecked"}
+				<Checkbox
+					checked={formData.required}
 					onChange={(e) => handleRequiredChange(e.target.checked)}
-					flipCheckboxToRight={false}
-					text="Required field"
+					label="Required field"
 					description="Users must fill this field to submit the form"
 				/>
 			</div>

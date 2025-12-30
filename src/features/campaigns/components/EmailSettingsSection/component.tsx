@@ -13,7 +13,7 @@ import {
 	type EmailTemplate,
 	useGetEmailTemplates,
 } from "@/hooks/useEmailTemplates";
-import { Badge, Button, CheckboxWithLabel } from "@/proto-design-system";
+import { Badge, Button, Checkbox } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface EmailSettingsSectionProps {
@@ -145,16 +145,12 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 				{/* Send Welcome Email Toggle - only show when verification is disabled */}
 				{!verificationRequired && (
 					<div className={styles.toggleSection}>
-						<CheckboxWithLabel
-							checked={sendWelcomeEmail ? "checked" : "unchecked"}
+						<Checkbox
+							checked={sendWelcomeEmail}
 							onChange={(e) => onSendWelcomeEmailChange(e.target.checked)}
 							disabled={isDisabled}
-							flipCheckboxToRight={false}
-							text="Send welcome email on signup"
+							label="Send welcome email on signup"
 							description="Send a welcome email immediately when users sign up (no verification required)"
-							badgeString={locked ? "Pro" : undefined}
-							linkTitle={locked ? "Upgrade" : undefined}
-							linkHref={locked ? "/billing/plans" : undefined}
 						/>
 					</div>
 				)}
