@@ -10,7 +10,7 @@ import {
 	useState,
 } from "react";
 import { Plus, Search, LayoutGrid, List, Megaphone } from "lucide-react";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Grid } from "@/proto-design-system/components/layout/Grid";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Input } from "@/proto-design-system/components/forms/Input";
@@ -160,15 +160,12 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 			<Stack gap="md" align="center" className={styles.emptyState}>
 				<Icon icon={Megaphone} size="2xl" color="muted" />
 				<Text as="h3" size="lg" weight="semibold">No campaigns yet</Text>
-				<Text color="secondary" align="center">
+				<Text color="muted" align="center">
 					Create your first campaign to start building your waitlist
 				</Text>
 				{onCreateCampaign && (
-					<Button
-						onClick={onCreateCampaign}
-						variant="primary"
-						leftIcon={<Plus size={16} />}
-					>
+					<Button onClick={onCreateCampaign}>
+						<Plus size={16} />
 						Create Campaign
 					</Button>
 				)}
@@ -183,7 +180,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 				<div className={styles.header}>
 					{/* Left side - Filters */}
 					{showFilters && (
-						<div className={styles.filters}>
+						<Stack direction="row" gap="sm" align="center" className={styles.filters}>
 							{/* Search */}
 							<div className={styles.searchBox}>
 								<Input
@@ -195,47 +192,57 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 								/>
 							</div>
 
-							{/* Status filter */}
-							<ButtonGroup>
+							{/* Status filter pills */}
+							<Stack direction="row" gap="xs">
 								{STATUS_OPTIONS.map((option) => (
-									<Button
+									<button
 										key={option.value}
-										variant={statusFilter === option.value ? "primary" : "secondary"}
-										size="sm"
 										onClick={() => setStatusFilter(option.value)}
 										aria-label={`${option.label} campaigns`}
+										style={{
+											padding: "var(--space-1-5) var(--space-3)",
+											border: "1px solid var(--color-border)",
+											borderRadius: "var(--radius-full)",
+											background: statusFilter === option.value ? "var(--color-base-content)" : "transparent",
+											color: statusFilter === option.value ? "var(--color-base-100)" : "var(--color-muted)",
+											cursor: "pointer",
+											fontSize: "var(--font-size-sm)",
+											whiteSpace: "nowrap",
+										}}
 									>
 										{option.label}
-									</Button>
+									</button>
 								))}
-							</ButtonGroup>
-						</div>
+							</Stack>
+						</Stack>
 					)}
 
 					{/* Right side - View toggle */}
 					{showViewToggle && (
-						<ButtonGroup>
+						<Stack direction="row" gap="xs">
 							<Button
-								variant={view === "grid" ? "primary" : "secondary"}
+								variant={view === "grid" ? "secondary" : "ghost"}
 								size="sm"
-								leftIcon={<LayoutGrid size={16} />}
 								onClick={() => setView("grid")}
 								aria-label="Grid view"
-							/>
+							>
+								<LayoutGrid size={16} />
+							</Button>
 							<Button
-								variant={view === "list" ? "primary" : "secondary"}
+								variant={view === "list" ? "secondary" : "ghost"}
 								size="sm"
-								leftIcon={<List size={16} />}
 								onClick={() => setView("list")}
 								aria-label="List view"
-							/>
-						</ButtonGroup>
+							>
+								<List size={16} />
+							</Button>
+						</Stack>
 					)}
 				</div>
 			)}
 
 			{/* Results count */}
-			<Text size="sm" color="secondary" className={styles.resultsInfo}>
+			<Text size="sm" color="muted" className={styles.resultsInfo}>
 				{filteredCampaigns.length} campaign
 				{filteredCampaigns.length !== 1 ? "s" : ""}
 				{searchQuery && ` matching "${searchQuery}"`}
@@ -251,7 +258,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 			) : filteredCampaigns.length === 0 ? (
 				<Stack gap="md" align="center" className={styles.noResults}>
 					<Icon icon={Search} size="xl" color="muted" />
-					<Text color="secondary">No campaigns found</Text>
+					<Text color="muted">No campaigns found</Text>
 					{searchQuery && (
 						<Button onClick={clearFilters} variant="secondary">
 							Clear filters

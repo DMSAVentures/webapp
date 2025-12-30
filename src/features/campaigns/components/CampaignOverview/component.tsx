@@ -297,13 +297,10 @@ const LaunchChecklist = memo(function LaunchChecklist({
 				</ul>
 				<div className={styles.checklistFooter}>
 					<Button
-						variant="primary"
-						leftIcon={
-							isUpdating ? <Loader2 size={16} className={styles.spin} /> : <Rocket size={16} />
-						}
 						onClick={onGoLive}
 						disabled={isUpdating || !canGoLive}
 					>
+						{isUpdating ? <Loader2 size={16} className={styles.spin} /> : <Rocket size={16} />}
 						{isUpdating ? "Launching..." : "Go Live"}
 					</Button>
 				</div>
@@ -327,11 +324,11 @@ const ConfigurationSection = memo(function ConfigurationSection({
 				<Card padding="md" className={styles.configCard}>
 					<Stack gap="sm">
 						<Stack direction="row" gap="sm" align="center">
-							<Icon icon={Mail} size="md" color="secondary" />
+							<Icon icon={Mail} size="md" color="muted" />
 							<Text weight="semibold">Email</Text>
 							<Badge
 								variant={
-									campaign.emailSettings?.verificationRequired ? "primary" : "secondary"
+									campaign.emailSettings?.verificationRequired ? "success" : "secondary"
 								}
 								size="sm"
 							>
@@ -344,17 +341,17 @@ const ConfigurationSection = memo(function ConfigurationSection({
 							campaign.emailSettings?.fromEmail) && (
 							<Stack gap="xs">
 								{campaign.emailSettings.fromName && (
-									<Text size="sm" color="secondary">
+									<Text size="sm" color="muted">
 										From: {campaign.emailSettings.fromName}
 									</Text>
 								)}
 								{campaign.emailSettings.fromEmail && (
-									<Text size="sm" color="secondary">
+									<Text size="sm" color="muted">
 										{campaign.emailSettings.fromEmail}
 									</Text>
 								)}
 								{campaign.emailSettings.replyTo && (
-									<Text size="sm" color="secondary">
+									<Text size="sm" color="muted">
 										Reply to: {campaign.emailSettings.replyTo}
 									</Text>
 								)}
@@ -367,7 +364,7 @@ const ConfigurationSection = memo(function ConfigurationSection({
 				<Card padding="md" className={styles.configCard}>
 					<Stack gap="sm">
 						<Stack direction="row" gap="sm" align="center">
-							<Icon icon={Share} size="md" color="secondary" />
+							<Icon icon={Share} size="md" color="muted" />
 							<Text weight="semibold">Referrals</Text>
 							<Badge
 								variant={campaign.referralSettings?.enabled ? "success" : "secondary"}
@@ -380,7 +377,7 @@ const ConfigurationSection = memo(function ConfigurationSection({
 							<Stack gap="xs">
 								{campaign.referralSettings.pointsPerReferral != null &&
 									campaign.referralSettings.pointsPerReferral > 0 && (
-										<Text size="sm" color="secondary">
+										<Text size="sm" color="muted">
 											<Text as="strong" weight="semibold">
 												{campaign.referralSettings.pointsPerReferral}
 											</Text>{" "}
@@ -388,7 +385,7 @@ const ConfigurationSection = memo(function ConfigurationSection({
 										</Text>
 									)}
 								{campaign.referralSettings.verifiedOnly && (
-									<Text size="sm" color="secondary">
+									<Text size="sm" color="muted">
 										Verified referrals only
 									</Text>
 								)}
@@ -417,23 +414,23 @@ const ConfigurationSection = memo(function ConfigurationSection({
 				<Card padding="md" className={styles.configCard}>
 					<Stack gap="sm">
 						<Stack direction="row" gap="sm" align="center">
-							<Icon icon={Calendar} size="md" color="secondary" />
+							<Icon icon={Calendar} size="md" color="muted" />
 							<Text weight="semibold">Timeline</Text>
 						</Stack>
 						<Stack gap="xs">
-							<Text size="sm" color="secondary">
+							<Text size="sm" color="muted">
 								Created: {formatDate(campaign.createdAt)}
 							</Text>
-							<Text size="sm" color="secondary">
+							<Text size="sm" color="muted">
 								Updated: {formatDate(campaign.updatedAt)}
 							</Text>
 							{campaign.launchDate && (
-								<Text size="sm" color="secondary">
+								<Text size="sm" color="muted">
 									Launch: {formatDate(campaign.launchDate)}
 								</Text>
 							)}
 							{campaign.endDate && (
-								<Text size="sm" color="secondary">
+								<Text size="sm" color="muted">
 									End: {formatDate(campaign.endDate)}
 								</Text>
 							)}
@@ -506,40 +503,35 @@ export const CampaignOverview = memo(function CampaignOverview({
 		<Stack gap="lg" className={styles.overviewContent}>
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Overview</Text>
-				<Text color="secondary">
+				<Text color="muted">
 					Monitor your campaign performance and configuration at a glance
 				</Text>
 			</Stack>
 
 			{/* Campaign Status Row */}
 			<Stack direction="row" gap="sm" align="center">
-				<Text size="sm" weight="medium" color="secondary">Status</Text>
+				<Text size="sm" weight="medium" color="muted">Status</Text>
 				<Badge variant={getStatusVariant(campaign.status)}>
 					{formatStatusText(campaign.status)}
 				</Badge>
 				{isActive && (
 					<Button
-						variant="secondary"
+						variant="outline"
 						size="sm"
-						leftIcon={
-							updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Pause size={16} />
-						}
 						onClick={handlePause}
 						disabled={updatingStatus}
 					>
+						{updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Pause size={16} />}
 						{updatingStatus ? "Pausing..." : "Pause"}
 					</Button>
 				)}
 				{isPaused && (
 					<Button
-						variant="primary"
 						size="sm"
-						leftIcon={
-							updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Play size={16} />
-						}
 						onClick={handleResume}
 						disabled={updatingStatus}
 					>
+						{updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Play size={16} />}
 						{updatingStatus ? "Resuming..." : "Resume"}
 					</Button>
 				)}

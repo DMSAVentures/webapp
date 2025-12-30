@@ -136,16 +136,15 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 			<Stack direction="row" justify="between" align="start" wrap className={styles.pageHeader}>
 				<Stack gap="xs">
 					<Text as="h1" size="2xl" weight="bold">Campaigns</Text>
-					<Text color="secondary">
+					<Text color="muted">
 						Manage your marketing campaigns and promotional activities
 					</Text>
 				</Stack>
 				{campaigns.length > 0 && (
 					<Button
-						variant="primary"
-						leftIcon={<Plus size={16} />}
 						onClick={handleCreateCampaign}
 					>
+						<Plus size={16} />
 						Create Campaign
 					</Button>
 				)}

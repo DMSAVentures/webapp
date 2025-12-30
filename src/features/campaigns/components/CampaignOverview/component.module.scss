@@ -52,7 +52,8 @@
 }
 
 .checklistCard {
-	background-color: var(--color-base-100);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
 	padding: var(--space-4);
 }
@@ -177,7 +178,7 @@
 	flex-direction: column;
 	gap: var(--space-2);
 	padding: var(--space-3);
-	background-color: var(--color-base-100);
+	background-color: var(--color-surface);
 	border-radius: var(--radius-md);
 	border: 1px solid var(--color-border);
 }

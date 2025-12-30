@@ -79,7 +79,7 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 					<Icon icon={UserPlus} size="lg" />
 				</div>
 				<Stack gap="xs" className={styles.statContent}>
-					<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>Total Signups</Text>
+					<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>Total Signups</Text>
 					<div className={styles.statValue}>
 						{loading ? (
 							<div className={styles.skeleton} />
@@ -103,14 +103,14 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 						<Icon icon={Verified} size="lg" />
 					</div>
 					<Stack gap="xs" className={styles.statContent}>
-						<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>Verified</Text>
+						<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>Verified</Text>
 						<div className={styles.statValue}>
 							{loading ? (
 								<div className={styles.skeleton} />
 							) : (
 								<Stack direction="row" gap="xs" align="baseline">
 									<Text size="xl" weight="bold">{formatNumber(stats.verifiedSignups)}</Text>
-									<Text size="md" color="secondary">({formatPercentage(stats.conversionRate)})</Text>
+									<Text size="md" color="muted">({formatPercentage(stats.conversionRate)})</Text>
 								</Stack>
 							)}
 						</div>
@@ -131,7 +131,7 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 						<Icon icon={Share2} size="lg" />
 					</div>
 					<Stack gap="xs" className={styles.statContent}>
-						<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>Referrals</Text>
+						<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>Referrals</Text>
 						<div className={styles.statValue}>
 							{loading ? (
 								<div className={styles.skeleton} />
@@ -156,7 +156,7 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 						<Icon icon={LineChart} size="lg" />
 					</div>
 					<Stack gap="xs" className={styles.statContent}>
-						<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>K-Factor</Text>
+						<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>K-Factor</Text>
 						<div className={styles.statValue}>
 							{loading ? (
 								<div className={styles.skeleton} />

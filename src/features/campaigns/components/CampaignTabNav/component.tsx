@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { useTier } from "@/contexts/tier";
 import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
-import styles from "./component.module.scss";
 
 interface TabConfig {
 	id: string;
@@ -100,8 +99,8 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 	);
 
 	return (
-		<nav className={styles.tabNav}>
-			<Tabs activeTab={activeTabId} onTabChange={handleTabChange}>
+		<nav>
+			<Tabs activeTab={activeTabId} onTabChange={handleTabChange} size={'lg'}>
 				<TabList>
 					{visibleTabs.map((tab) => (
 						<Tab key={tab.id} id={tab.id} icon={tab.icon}>

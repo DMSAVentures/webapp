@@ -261,15 +261,16 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 					{hasActions && (
 						<div className={styles.actions} ref={menuRef}>
 							<Button
-								leftIcon={<MoreHorizontal size={16} />}
-								variant="secondary"
+								variant="ghost"
 								size="sm"
 								aria-label="More actions"
 								onClick={(e) => {
 									e.stopPropagation();
 									toggleMenu();
 								}}
-							/>
+							>
+								<MoreHorizontal size={16} />
+							</Button>
 							{isMenuOpen && (
 								<div className={styles.actionMenu}>
 									<DropdownMenu items={menuItems} />
@@ -281,7 +282,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 
 				{/* Description */}
 				{campaign.description && (
-					<Text size="sm" color="secondary" className={styles.description}>
+					<Text size="sm" color="muted" className={styles.description}>
 						{campaign.description}
 					</Text>
 				)}
@@ -290,21 +291,21 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 				{showStats && campaign.totalSignups !== undefined && (
 					<Stack direction="row" gap="lg" className={styles.stats}>
 						<Stack direction="row" gap="xs" align="center">
-							<Icon icon={UserPlus} size="sm" color="secondary" />
+							<Icon icon={UserPlus} size="sm" color="muted" />
 							<Stack gap="0">
 								<Text size="sm" weight="semibold">{campaign.totalSignups.toLocaleString()}</Text>
 								<Text size="xs" color="muted">Signups</Text>
 							</Stack>
 						</Stack>
 						<Stack direction="row" gap="xs" align="center">
-							<Icon icon={Share2} size="sm" color="secondary" />
+							<Icon icon={Share2} size="sm" color="muted" />
 							<Stack gap="0">
 								<Text size="sm" weight="semibold">{campaign.totalReferrals.toLocaleString()}</Text>
 								<Text size="xs" color="muted">Referrals</Text>
 							</Stack>
 						</Stack>
 						<Stack direction="row" gap="xs" align="center">
-							<Icon icon={LineChart} size="sm" color="secondary" />
+							<Icon icon={LineChart} size="sm" color="muted" />
 							<Stack gap="0">
 								<Text size="sm" weight="semibold">
 									{calculateKFactor(campaign.totalSignups, campaign.totalReferrals)}
