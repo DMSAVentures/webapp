@@ -15,7 +15,11 @@ import {
 	Button,
 	Checkbox,
 	Divider,
+	FormField as ProtoFormField,
+	Grid,
 	Input,
+	Stack,
+	Text,
 	TextArea,
 } from "@/proto-design-system";
 import type { FormField } from "@/types/common.types";
@@ -301,10 +305,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				className={`${styles.root} ${styles.empty} ${customClassName || ""}`}
 				{...props}
 			>
-				<div className={styles.emptyState}>
+				<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
 					<i className="ri-edit-line" aria-hidden="true" />
-					<p>Select a field to edit its properties</p>
-				</div>
+					<Text color="muted">Select a field to edit its properties</Text>
+				</Stack>
 			</div>
 		);
 	}
@@ -317,20 +321,20 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	// Render
 	return (
 		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<h3 className={styles.title}>Edit Field</h3>
-				<Badge
-					variant="secondary"
-					size="sm"
-				>{field.type}</Badge>
-			</div>
+			<Stack direction="row" align="center" gap="sm" className={styles.header}>
+				<Text as="h3" size="lg" weight="semibold">Edit Field</Text>
+				<Badge variant="secondary" size="sm">{field.type}</Badge>
+			</Stack>
 
-			<div className={styles.content}>
+			<Stack gap="lg" className={styles.content}>
 				{/* Label */}
-				<div className={styles.fieldGroup}>
-					<label htmlFor="field-label" className={styles.fieldLabel}>
-						Label <span className={styles.required}>*</span>
-					</label>
+				<ProtoFormField
+					label="Label"
+					required
+					id="field-label"
+					helperText="This is what users will see above the field"
+					errorMessage={errors.label}
+				>
 					<Input
 						id="field-label"
 						type="text"
@@ -340,16 +344,15 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 						required
 						isError={!!errors.label}
 					/>
-					{errors.label && <span className={styles.errorText}>{errors.label}</span>}
-					<span className={styles.hintText}>This is what users will see above the field</span>
-				</div>
+				</ProtoFormField>
 
 				{/* Placeholder */}
 				{supportsPlaceholder(field.type) && (
-					<div className={styles.fieldGroup}>
-						<label htmlFor="field-placeholder" className={styles.fieldLabel}>
-							Placeholder
-						</label>
+					<ProtoFormField
+						label="Placeholder"
+						id="field-placeholder"
+						helperText="Hint text shown inside the field when empty"
+					>
 						<Input
 							id="field-placeholder"
 							type="text"
@@ -357,15 +360,15 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 							onChange={(e) => handlePlaceholderChange(e.target.value)}
 							placeholder="Enter placeholder text"
 						/>
-						<span className={styles.hintText}>Hint text shown inside the field when empty</span>
-					</div>
+					</ProtoFormField>
 				)}
 
 				{/* Help Text */}
-				<div className={styles.fieldGroup}>
-					<label htmlFor="field-help-text" className={styles.fieldLabel}>
-						Help Text
-					</label>
+				<ProtoFormField
+					label="Help Text"
+					id="field-help-text"
+					helperText="Optional help text shown below the field"
+				>
 					<TextArea
 						id="field-help-text"
 						value={formData.helpText || ""}
@@ -373,17 +376,18 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 						placeholder="Additional instructions or context"
 						rows={3}
 					/>
-					<span className={styles.hintText}>Optional help text shown below the field</span>
-				</div>
+				</ProtoFormField>
 
 				{/* Options */}
 				{supportsOptions(field.type) && (
 					<>
 						<Divider />
-						<div className={styles.fieldGroup}>
-							<label htmlFor="field-options" className={styles.fieldLabel}>
-								Options <span className={styles.required}>*</span>
-							</label>
+						<ProtoFormField
+							label="Options"
+							required
+							id="field-options"
+							helperText="Each line will be a separate option"
+						>
 							<TextArea
 								id="field-options"
 								value={formData.optionsText ?? ""}
@@ -392,8 +396,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 								rows={6}
 								required
 							/>
-							<span className={styles.hintText}>Each line will be a separate option</span>
-						</div>
+						</ProtoFormField>
 					</>
 				)}
 
@@ -401,13 +404,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				{supportsTextValidation(field.type) && (
 					<>
 						<Divider />
-						<div className={styles.validationSection}>
-							<h4 className={styles.sectionTitle}>Text Validation</h4>
-							<div className={styles.validationRow}>
-								<div className={styles.fieldGroup}>
-									<label htmlFor="field-min-length" className={styles.fieldLabel}>
-										Min Length
-									</label>
+						<Stack gap="md">
+							<Text as="h4" size="md" weight="semibold">Text Validation</Text>
+							<Grid columns="2" gap="md">
+								<ProtoFormField label="Min Length" id="field-min-length">
 									<Input
 										id="field-min-length"
 										type="number"
@@ -421,11 +421,8 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 										placeholder="0"
 										min={0}
 									/>
-								</div>
-								<div className={styles.fieldGroup}>
-									<label htmlFor="field-max-length" className={styles.fieldLabel}>
-										Max Length
-									</label>
+								</ProtoFormField>
+								<ProtoFormField label="Max Length" id="field-max-length">
 									<Input
 										id="field-max-length"
 										type="number"
@@ -439,9 +436,9 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 										placeholder="Unlimited"
 										min={0}
 									/>
-								</div>
-							</div>
-						</div>
+								</ProtoFormField>
+							</Grid>
+						</Stack>
 					</>
 				)}
 
@@ -449,13 +446,10 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				{field.type === "number" && (
 					<>
 						<Divider />
-						<div className={styles.validationSection}>
-							<h4 className={styles.sectionTitle}>Number Validation</h4>
-							<div className={styles.validationRow}>
-								<div className={styles.fieldGroup}>
-									<label htmlFor="field-min" className={styles.fieldLabel}>
-										Minimum Value
-									</label>
+						<Stack gap="md">
+							<Text as="h4" size="md" weight="semibold">Number Validation</Text>
+							<Grid columns="2" gap="md">
+								<ProtoFormField label="Minimum Value" id="field-min">
 									<Input
 										id="field-min"
 										type="number"
@@ -468,11 +462,8 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 										}
 										placeholder="No minimum"
 									/>
-								</div>
-								<div className={styles.fieldGroup}>
-									<label htmlFor="field-max" className={styles.fieldLabel}>
-										Maximum Value
-									</label>
+								</ProtoFormField>
+								<ProtoFormField label="Maximum Value" id="field-max">
 									<Input
 										id="field-max"
 										type="number"
@@ -485,9 +476,9 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 										}
 										placeholder="No maximum"
 									/>
-								</div>
-							</div>
-						</div>
+								</ProtoFormField>
+							</Grid>
+						</Stack>
 					</>
 				)}
 
@@ -500,9 +491,9 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 					label="Required field"
 					description="Users must fill this field to submit the form"
 				/>
-			</div>
+			</Stack>
 
-			<div className={styles.actions}>
+			<Stack direction="row" justify="end" gap="sm" className={styles.actions}>
 				<Button variant="secondary" onClick={handleCancel}>
 					Cancel
 				</Button>
@@ -514,7 +505,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				>
 					Save Changes
 				</Button>
-			</div>
+			</Stack>
 		</div>
 	);
 });
