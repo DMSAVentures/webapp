@@ -1,13 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-06;
+  gap: var(--space-5);
   width: 100%;
 }
 
@@ -17,17 +13,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-07;
-  color: var(--color-text-secondary-default);
+  gap: var(--space-2);
+  padding: var(--space-6);
+  color: var(--color-base-content-secondary);
 
   i {
-    font-size: typography.$font-size-h2;
-    color: var(--color-icon-primary-default);
+    font-size: var(--font-size-2xl);
+    color: var(--color-base-content);
   }
 
   span {
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
   }
 }
 
@@ -37,25 +33,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-07;
+  gap: var(--space-2);
+  padding: var(--space-6);
   text-align: center;
 
   i {
-    font-size: typography.$font-size-h1;
-    color: var(--color-icon-secondary-default);
+    font-size: var(--font-size-4xl);
+    color: var(--color-base-content-secondary);
   }
 
   h3 {
-    font-size: typography.$font-size-lg;
-    font-weight: typography.$font-weight-semibold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content);
     margin: 0;
   }
 
   p {
-    font-size: typography.$font-size-md;
-    color: var(--color-text-secondary-default);
+    font-size: var(--font-size-base);
+    color: var(--color-base-content-secondary);
     margin: 0;
   }
 }
@@ -64,45 +60,45 @@
 .progressSection {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .progressHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
 .progressStats {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .progressLabel {
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content-secondary);
   text-transform: uppercase;
-  letter-spacing: typography.$letter-spacing-wide;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .progressValue {
-  font-size: typography.$font-size-xl;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .progressRemaining {
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-info-default);
-  font-weight: typography.$font-weight-medium;
+  font-size: var(--font-size-sm);
+  color: var(--color-info);
+  font-weight: var(--font-weight-medium);
 }
 
 // Timeline
@@ -116,9 +112,9 @@
 // Timeline item
 .timelineItem {
   display: flex;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
   position: relative;
-  padding-bottom: layout.$spacing-06;
+  padding-bottom: var(--space-5);
 
   &:last-child {
     padding-bottom: 0;
@@ -129,41 +125,41 @@
 // Centered at 16px (half of 32px icon width)
 .connector {
   position: absolute;
-  left: calc(layout.$spacing-08 / 2);
-  top: layout.$spacing-07;
+  left: calc(var(--space-8) / 2);
+  top: var(--space-6);
   bottom: 0;
-  width: border.$border-width-medium;
-  background-color: var(--color-border-secondary-default);
-  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
+  width: 2px;
+  background-color: var(--color-border);
+  transition: background-color var(--duration-normal) var(--ease-out);
 }
 
 .timelineItem.unlocked .connector {
-  background-color: var(--color-success-default);
+  background-color: var(--color-success);
 }
 
 // Icon wrapper
 .iconWrapper {
   flex-shrink: 0;
-  width: layout.$spacing-08;
-  height: layout.$spacing-08;
+  width: var(--space-8);
+  height: var(--space-8);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-medium solid var(--color-border-primary-default);
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
   border-radius: 50%;
-  transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+  transition: all var(--duration-normal) var(--ease-out);
   z-index: 1;
 
   i {
-    font-size: typography.$font-size-md;
-    color: var(--color-icon-secondary-default);
+    font-size: var(--font-size-base);
+    color: var(--color-base-content-secondary);
   }
 }
 
 .timelineItem.unlocked .iconWrapper {
-  background-color: var(--color-success-default);
-  border-color: var(--color-success-default);
+  background-color: var(--color-success);
+  border-color: var(--color-success);
 
   i {
     color: var(--color-white);
@@ -172,7 +168,7 @@
 
 .timelineItem.current .iconWrapper {
   border-color: var(--color-border-focus-default);
-  box-shadow: 0 0 0 layout.$spacing-01 var(--color-alpha-focus);
+  box-shadow: 0 0 0 var(--space-0-5) var(--color-alpha-focus);
 }
 
 .timelineItem.next .iconWrapper {
@@ -184,15 +180,15 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-04;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
-  transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--ease-out);
 
   &:hover {
-    border-color: var(--color-border-primary-hover);
+    border-color: var(--color-border-hover);
     box-shadow: 0 4px 12px var(--color-shadow-default);
   }
 }
@@ -210,23 +206,23 @@
 .header {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
   flex-wrap: wrap;
 }
 
 // Name and description
 .name {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
-  line-height: typography.$line-height-tight;
+  line-height: var(--line-height-tight);
 }
 
 .description {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
-  line-height: typography.$line-height-normal;
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
+  line-height: var(--line-height-normal);
   margin: 0;
 }
 
@@ -234,17 +230,17 @@
 .value {
   display: inline-flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-03;
+  gap: var(--space-1);
+  padding: var(--space-2);
   background-color: var(--color-bg-success-alpha);
-  color: var(--color-text-success-default);
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-semibold;
-  border-radius: border.$border-radius-small;
+  color: var(--color-success);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-sm);
   align-self: flex-start;
 
   i {
-    font-size: typography.$font-size-lg;
+    font-size: var(--font-size-lg);
   }
 }
 
@@ -252,17 +248,17 @@
 .requirement {
   display: inline-flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-03;
-  background-color: var(--color-bg-info-alpha);
-  color: var(--color-text-info-default);
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-medium;
-  border-radius: border.$border-radius-small;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  background-color: oklch(from var(--color-info) l c h / 0.15);
+  color: var(--color-info);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-sm);
   align-self: flex-start;
 
   i {
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
   }
 }
 
@@ -270,28 +266,28 @@
 .meta {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
   flex-wrap: wrap;
-  padding-top: layout.$spacing-02;
-  border-top: border.$border-width-small solid var(--color-border-secondary-default);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-border);
 }
 
 .metaItem {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-tertiary-default);
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-tertiary);
 
   i {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
   }
 }
 
 // Responsive adjustments
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .progressSection {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .progressHeader {
@@ -300,34 +296,34 @@
   }
 
   .content {
-    padding: layout.$spacing-03;
+    padding: var(--space-2);
   }
 
   .iconWrapper {
-    width: layout.$spacing-06;
-    height: layout.$spacing-06;
+    width: var(--space-5);
+    height: var(--space-5);
 
     i {
-      font-size: typography.$font-size-sm;
+      font-size: var(--font-size-sm);
     }
   }
 
   .connector {
-    left: calc(layout.$spacing-06 / 2);
-    top: layout.$spacing-06;
+    left: calc(var(--space-5) / 2);
+    top: var(--space-5);
   }
 
   .name {
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
   }
 
   .description {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
   }
 
   .meta {
     flex-direction: column;
     align-items: flex-start;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
   }
 }

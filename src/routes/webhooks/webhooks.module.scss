@@ -1,136 +1,136 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
+// =============================================================================
+// WEBHOOKS LIST PAGE STYLES
+// =============================================================================
 
 .page {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-06;
-	padding: layout.$spacing-06;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
 }
 
 .pageHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: layout.$spacing-05;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
 }
 
 .headerContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
-	flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
 }
 
 .pageTitle {
-	font-size: typography.$font-size-h2;
-	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-tight;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .pageDescription {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-regular;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 .pageContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .webhooksList {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .webhookCard {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 .webhookHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: layout.$spacing-04;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
 }
 
 .webhookInfo {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
-	flex: 1;
-	min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
 }
 
 .webhookUrl {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-medium;
-	font-family: typography.$font-family-mono;
-	color: var(--color-text-primary-default);
-	margin: 0;
-	word-break: break-all;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-mono);
+  color: var(--color-base-content);
+  margin: 0;
+  word-break: break-all;
 }
 
 .webhookMeta {
-	display: flex;
-	gap: layout.$spacing-04;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+  display: flex;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 .webhookActions {
-	display: flex;
-	gap: layout.$spacing-02;
-	flex-shrink: 0;
+  display: flex;
+  gap: var(--space-1);
+  flex-shrink: 0;
 }
 
 .webhookEvents {
-	display: flex;
-	flex-wrap: wrap;
-	gap: layout.$spacing-02;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
 }
 
 .webhookStats {
-	display: flex;
-	gap: layout.$spacing-05;
-	padding-top: layout.$spacing-03;
-	border-top: 1px solid var(--color-border-primary-default);
-	font-size: typography.$font-size-sm;
+  display: flex;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
 }
 
 .statItem {
-	display: flex;
-	gap: layout.$spacing-02;
-	align-items: center;
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
 }
 
 .statLabel {
-	color: var(--color-text-secondary-default);
+  color: var(--color-base-content-secondary);
 }
 
 .statValue {
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .statValueSuccess {
-	color: var(--color-success-default);
+  color: var(--color-success);
 }
 
 .statValueError {
-	color: var(--color-error-default);
+  color: var(--color-error);
 }

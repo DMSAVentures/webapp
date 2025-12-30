@@ -1,5 +1,4 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
     display: flex;
@@ -10,10 +9,10 @@
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
     width: 100%;
 
-    @media (max-width: breakpoints.$breakpoint-md) {
+    @include breakpoint-down(md) {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -23,7 +22,7 @@
     .container {
         display: flex;
         flex-flow: row wrap;
-        gap: layout.$spacing-03;
+        gap: var(--space-2);
     }
 }
 
@@ -31,6 +30,6 @@
     .container {
         display: flex;
         flex-direction: column;
-        gap: layout.$spacing-03;
+        gap: var(--space-2);
     }
 }

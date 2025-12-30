@@ -1,79 +1,76 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
-	padding: layout.$spacing-06;
+	padding: var(--space-5);
 	min-height: 600px;
 	overflow: auto;
 	height: 100%;
-	background-color: var(--color-surface-primary-default);
+	background-color: var(--color-surface);
 }
 
 // Device frame
 .deviceFrame {
 	display: flex;
 	flex-direction: column;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-large;
+	background-color: var(--color-surface);
+	border-radius: var(--radius-lg);
 	box-shadow:
 		0 0 0 1px rgb(0, 0, 0, 0.05),
 		0 4px 8px rgb(0, 0, 0, 0.06),
 		0 12px 24px rgb(0, 0, 0, 0.08),
 		0 24px 48px rgb(0, 0, 0, 0.1);
 	overflow: hidden;
-	transition: all motion.$duration-moderate-01 motion.$easing-productive-standard;
+	transition: all var(--duration-normal) var(--ease-out);
 }
 
 // Device header (browser chrome)
 .deviceHeader {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	background-color: var(--color-bg-secondary-default);
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-3);
+	background-color: var(--color-base-100);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .deviceControls {
 	display: flex;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .deviceDot {
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
-	background-color: var(--color-border-secondary-default);
+	background-color: var(--color-border);
 
 	&:first-child {
-		background-color: var(--color-error-default);
+		background-color: var(--color-error);
 	}
 
 	&:nth-child(2) {
-		background-color: var(--color-warning-default);
+		background-color: var(--color-warning);
 	}
 
 	&:nth-child(3) {
-		background-color: var(--color-success-default);
+		background-color: var(--color-success);
 	}
 }
 
 .deviceTitle {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 	text-transform: capitalize;
-	font-weight: typography.$font-weight-medium;
+	font-weight: var(--font-weight-medium);
 }
 
 // Preview content area
 .previewContent {
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
+	padding: var(--space-4);
+	background-color: var(--color-surface);
 	overflow-y: auto;
 }
 
@@ -103,14 +100,14 @@
 }
 
 // Responsive adjustments
-@media (width <= 1024px) {
+@include breakpoint-down(lg) {
 	.device_tablet .deviceFrame {
 		width: 100%;
 		max-width: 100%;
 	}
 }
 
-@media (width <= 768px) {
+@include breakpoint-down(md) {
 	.root {
 		min-height: 400px;
 	}
@@ -123,7 +120,7 @@
 	}
 
 	.deviceHeader {
-		padding: layout.$spacing-02 layout.$spacing-03;
+		padding: var(--space-1) var(--space-2);
 	}
 
 	.deviceDot {

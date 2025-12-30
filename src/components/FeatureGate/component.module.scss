@@ -1,7 +1,6 @@
-@use "@/design-tokens/motion" as motion;
 
 .root {
-	transition: opacity motion.$duration-moderate-01 motion.$easing-productive-standard;
+	transition: opacity var(--duration-normal) var(--ease-out);
 }
 
 .disabled {

@@ -1,17 +1,14 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
   height: 100%;
   overflow: hidden;
 
   &.dragging {
-    background-color: var(--color-bg-info-alpha);
+    background-color: oklch(from var(--color-info) l c h / 0.15);
   }
 }
 
@@ -19,28 +16,28 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-05;
-  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .title {
   margin: 0;
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .subtitle {
   margin: 0;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Canvas area
 .canvas {
   flex: 1;
-  padding: layout.$spacing-05;
+  padding: var(--space-4);
   overflow-y: auto;
   min-height: 400px;
 }
@@ -51,23 +48,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-08;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-medium dashed var(--color-border-secondary-default);
-  border-radius: border.$border-radius-medium;
-  color: var(--color-text-secondary-default);
+  gap: var(--space-3);
+  padding: var(--space-8);
+  background-color: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-base-content-secondary);
   text-align: center;
   min-height: 300px;
 
   i {
-    font-size: calc(typography.$font-size-h1 * 1.2); // 48px (40px * 1.2)
-    color: var(--color-icon-secondary-default);
+    font-size: calc(var(--font-size-4xl) * 1.2); // 48px (40px * 1.2)
+    color: var(--color-base-content-secondary);
   }
 
   p {
     margin: 0;
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
   }
 }
 
@@ -88,17 +85,17 @@
 // Final drop zone at the bottom - fills remaining space
 .finalDropZone {
   flex: 1;
-  min-height: layout.$spacing-10; // At least 64px
+  min-height: var(--space-12); // At least 64px
 }
 
 // Responsive
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .header {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .canvas {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
     min-height: 300px;
   }
 }

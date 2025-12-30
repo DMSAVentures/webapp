@@ -1,50 +1,47 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
 
 .root {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 }
 
 .header {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 .headerText {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .title {
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 	margin: 0;
 }
 
 .subtitle {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 	margin: 0;
 }
 
 .error {
-	padding: layout.$spacing-05;
+	padding: var(--space-4);
 	text-align: center;
-	color: var(--color-error-text);
+	color: var(--color-error);
 }
 
 .emptyState {
-	padding: layout.$spacing-08;
-	background-color: var(--color-surface-secondary-default);
-	border: 1px dashed var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	padding: var(--space-8);
+	background-color: var(--color-base-100);
+	border: 1px dashed var(--color-border);
+	border-radius: var(--radius-md);
 }
 
 .emptyContent {
@@ -52,23 +49,23 @@
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 
 	i {
-		font-size: typography.$font-size-h1;
-		color: var(--color-icon-secondary-default);
+		font-size: var(--font-size-4xl);
+		color: var(--color-base-content-secondary);
 	}
 
 	h3 {
-		font-size: typography.$font-size-lg;
-		font-weight: typography.$font-weight-semibold;
-		color: var(--color-text-primary-default);
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-base-content);
 		margin: 0;
 	}
 
 	p {
-		font-size: typography.$font-size-sm;
-		color: var(--color-text-secondary-default);
+		font-size: var(--font-size-sm);
+		color: var(--color-base-content-secondary);
 		margin: 0;
 		max-width: 300px;
 	}
@@ -78,21 +75,21 @@
 .nameCell {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-01;
+	gap: var(--space-0-5);
 }
 
 .segmentName {
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content);
 }
 
 .segmentDescription {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 }
 
 .actions {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }

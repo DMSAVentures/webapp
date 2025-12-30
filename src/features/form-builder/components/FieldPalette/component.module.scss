@@ -1,12 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
   height: 100%;
   overflow-y: auto;
 }
@@ -15,48 +12,48 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-05;
-  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .title {
   margin: 0;
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .subtitle {
   margin: 0;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Fields list
 .fields {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-04;
+  gap: var(--space-1);
+  padding: var(--space-3);
 }
 
 .fieldItem {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-04;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   cursor: move;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+  transition: all var(--duration-fast) var(--ease-out);
   text-align: left;
   width: 100%;
 
   &:hover {
-    background-color: var(--color-bg-secondary-hover);
-    border-color: var(--color-border-primary-hover);
+    background-color: var(--color-base-200);
+    border-color: var(--color-border-hover);
     transform: translateX(4px);
   }
 
@@ -66,47 +63,47 @@
   }
 
   &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: layout.$spacing-01;
+    outline: 2px solid var(--color-focus-ring-default);
+    outline-offset: var(--space-0-5);
   }
 }
 
 .icon {
-  font-size: typography.$font-size-xl;
-  color: var(--color-icon-primary-default);
+  font-size: var(--font-size-xl);
+  color: var(--color-base-content);
   flex-shrink: 0;
 }
 
 .fieldInfo {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
   flex: 1;
   min-width: 0;
 }
 
 .fieldLabel {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .fieldDescription {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 // Responsive
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .header {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .fields {
-    padding: layout.$spacing-03;
+    padding: var(--space-2);
   }
 
   .fieldDescription {

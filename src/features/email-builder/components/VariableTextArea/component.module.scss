@@ -1,28 +1,24 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
 
 .root {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .label {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: layout.$spacing-03;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+	gap: var(--space-2);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content);
 }
 
 .labelHint {
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-regular;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-base-content-tertiary);
 }
 
 .inputWrapper {
@@ -32,10 +28,10 @@
 // Container for the editor
 .textareaContainer {
 	position: relative;
-	background-color: var(--color-surface-input-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
-	transition: border-color motion.$duration-moderate-01 motion.$easing-productive-entrance;
+	background-color: var(--color-base-200);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	transition: border-color var(--duration-normal) var(--ease-out);
 
 	&:hover:not(.focused) {
 		border-color: var(--color-border-focus-default);
@@ -50,11 +46,11 @@
 .placeholder {
 	position: absolute;
 	inset: 0;
-	padding: layout.$spacing-03;
-	font-size: typography.$font-size-md;
-	font-family: typography.$font-family-sans;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-secondary-default);
+	padding: var(--space-2);
+	font-size: var(--font-size-base);
+	font-family: var(--font-family-sans);
+	line-height: var(--line-height-relaxed);
+	color: var(--color-base-content-secondary);
 	pointer-events: none;
 }
 
@@ -62,11 +58,11 @@
 .editor {
 	width: 100%;
 	min-height: 100%;
-	padding: layout.$spacing-03;
-	font-size: typography.$font-size-md;
-	font-family: typography.$font-family-sans;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-primary-default);
+	padding: var(--space-2);
+	font-size: var(--font-size-base);
+	font-family: var(--font-family-sans);
+	line-height: var(--line-height-relaxed);
+	color: var(--color-base-content);
 	outline: none;
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
@@ -85,20 +81,20 @@
 // Variable chip - atomic, non-editable
 .variable {
 	display: inline;
-	padding: layout.$spacing-01 layout.$spacing-02;
-	margin: 0 layout.$spacing-01;
-	background-color: var(--color-bg-info-alpha);
-	color: var(--color-text-info-default);
-	border-radius: border.$border-radius-small;
-	font-family: typography.$font-family-mono;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
+	padding: var(--space-0-5) var(--space-1);
+	margin: 0 var(--space-0-5);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
+	color: var(--color-info);
+	border-radius: var(--radius-sm);
+	font-family: var(--font-family-mono);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
 	user-select: all; // Select entire chip on click
 	cursor: default;
 
 	// Visual feedback when selected
 	&::selection {
-		background-color: var(--color-info-default);
+		background-color: var(--color-info);
 		color: var(--color-white);
 	}
 }
@@ -109,15 +105,15 @@
 	left: 0;
 	right: 0;
 	max-height: 200px;
-	margin-top: layout.$spacing-02;
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
-	box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+	margin-top: var(--space-1);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	box-shadow: 0 var(--space-1) var(--space-3) var(--color-shadow-default);
 	overflow: hidden;
 	overflow-y: auto;
 	z-index: 1000;
-	animation: mentionSlideIn motion.$duration-fast-01 motion.$easing-expressive-standard;
+	animation: mentionSlideIn var(--duration-fast) var(--ease-out);
 }
 
 @keyframes mentionSlideIn {
@@ -135,66 +131,66 @@
 .mentionMenuItem {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-01;
+	gap: var(--space-0-5);
 	width: 100%;
-	padding: layout.$spacing-02 layout.$spacing-03;
+	padding: var(--space-1) var(--space-2);
 	background: none;
 	border: none;
 	text-align: left;
 	cursor: pointer;
-	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: background-color var(--duration-fast) var(--ease-out);
 
 	&:hover:not(.selected) {
-		background-color: var(--color-bg-secondary-hover);
+		background-color: var(--color-base-200);
 	}
 
 	&.selected {
-		background-color: var(--color-bg-secondary-default);
+		background-color: var(--color-base-100);
 	}
 
 	&:focus-visible {
-		background-color: var(--color-bg-secondary-default);
+		background-color: var(--color-base-100);
 		outline: none;
 	}
 
 	& + & {
-		border-top: border.$border-width-small solid var(--color-border-primary-default);
+		border-top: 1px solid var(--color-border);
 	}
 }
 
 .mentionItemName {
-	font-family: typography.$font-family-mono;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-info-default);
+	font-family: var(--font-family-mono);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-info);
 }
 
 .mentionItemDesc {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-tertiary);
 }
 
 .mentionNoResults {
-	padding: layout.$spacing-03;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-tertiary-default);
+	padding: var(--space-2);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-tertiary);
 	text-align: center;
 }
 
 // States
 .hasError {
 	.textareaContainer {
-		border-color: var(--color-error-default);
+		border-color: var(--color-error);
 
 		&.focused {
-			box-shadow: 0 0 0 3px var(--color-bg-danger-alpha);
+			box-shadow: 0 0 0 3px oklch(from var(--color-error) l c h / 0.15);
 		}
 	}
 }
 
 .disabled {
 	.textareaContainer {
-		background-color: var(--color-bg-secondary-default);
+		background-color: var(--color-base-100);
 	}
 
 	.editor {
@@ -203,11 +199,11 @@
 }
 
 .hint {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-tertiary);
 }
 
 .error {
-	font-size: typography.$font-size-xs;
-	color: var(--color-error-text);
+	font-size: var(--font-size-xs);
+	color: var(--color-error);
 }

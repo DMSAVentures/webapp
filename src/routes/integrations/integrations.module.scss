@@ -1,157 +1,157 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
+// =============================================================================
+// INTEGRATIONS PAGE STYLES
+// =============================================================================
 
 .page {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-06;
-	padding: layout.$spacing-06;
-	max-width: 1200px;
-	margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .header {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .title {
-	font-size: typography.$font-size-h2;
-	font-weight: typography.$font-weight-bold;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .description {
-	font-size: typography.$font-size-md;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 .content {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .section {
-	background-color: var(--color-surface-primary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
-	padding: layout.$spacing-05;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
 }
 
 .sectionTitle {
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
-	margin: 0 0 layout.$spacing-04;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
+  margin: 0 0 var(--space-3);
 }
 
 .integrationCard {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-04;
-	background-color: var(--color-surface-secondary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-base-100);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 
-	&:hover {
-		border-color: var(--color-border-primary-hover);
-	}
+  &:hover {
+    border-color: var(--color-border-hover);
+  }
 }
 
 .integrationIcon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 48px;
-	height: 48px;
-	background-color: var(--color-bg-info-alpha);
-	border-radius: border.$border-radius-medium;
-	font-size: typography.$font-size-h4;
-	color: var(--color-info-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: oklch(from var(--color-info) l c h / 0.15);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xl);
+  color: var(--color-info);
 }
 
 .integrationInfo {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-01;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
 }
 
 .integrationName {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .integrationDescription {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 .integrationStatus {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-02;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 .integrationActions {
-	display: flex;
-	gap: layout.$spacing-02;
+  display: flex;
+  gap: var(--space-1);
 }
 
 .subscriptionsList {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-03;
-	margin-top: layout.$spacing-04;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
 }
 
 .subscriptionItem {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: layout.$spacing-03;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-small;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2);
+  background-color: var(--color-base-100);
+  border-radius: var(--radius-sm);
 }
 
 .subscriptionInfo {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-01;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
 }
 
 .subscriptionEvent {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .subscriptionMeta {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-tertiary);
 }
 
 .emptySubscriptions {
-	text-align: center;
-	padding: layout.$spacing-06;
-	color: var(--color-text-secondary-default);
-	font-size: typography.$font-size-sm;
+  text-align: center;
+  padding: var(--space-5);
+  color: var(--color-base-content-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .loading {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: layout.$spacing-08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
 }

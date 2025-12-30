@@ -1,7 +1,8 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/border" as border;
+// =============================================================================
+// CAMPAIGN TAB NAV STYLES
+// =============================================================================
 
 .tabNav {
-	border-bottom: 1px solid var(--color-border-primary-default);
-	margin-bottom: layout.$spacing-05;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
 }

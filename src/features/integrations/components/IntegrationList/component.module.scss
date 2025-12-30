@@ -1,13 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-05;
+  gap: var(--space-4);
 }
 
 // Header with filters
@@ -15,35 +11,35 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 // Results info
 .resultsInfo {
-  color: var(--color-text-secondary-default);
-  font-size: typography.$font-size-sm;
+  color: var(--color-base-content-secondary);
+  font-size: var(--font-size-sm);
 }
 
 // Integration grid
 .integrationGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: layout.$spacing-05;
+  gap: var(--space-4);
 }
 
 // Integration card
 .integrationCard {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-03;
-  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--space-2);
+  transition: border-color var(--duration-fast) var(--ease-out);
 
   &:hover {
-    border-color: var(--color-border-primary-hover);
+    border-color: var(--color-border-hover);
   }
 }
 
@@ -53,19 +49,19 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  background-color: var(--color-bg-info-alpha);
-  border-radius: border.$border-radius-medium;
-  color: var(--color-info-default);
+  background-color: oklch(from var(--color-info) l c h / 0.15);
+  border-radius: var(--radius-md);
+  color: var(--color-info);
 
   i {
-    font-size: typography.$font-size-h6;
+    font-size: var(--font-size-base);
   }
 }
 
 .integrationContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   flex: 1;
 }
 
@@ -73,39 +69,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .integrationTitle {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .integrationDescription {
-  color: var(--color-text-secondary-default);
-  font-size: typography.$font-size-sm;
-  line-height: typography.$line-height-normal;
+  color: var(--color-base-content-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
   margin: 0;
 }
 
 .lastSynced {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  color: var(--color-text-tertiary-default);
-  font-size: typography.$font-size-xs;
-  margin-top: layout.$spacing-02;
+  gap: var(--space-1);
+  color: var(--color-base-content-tertiary);
+  font-size: var(--font-size-xs);
+  margin-top: var(--space-1);
 
   i {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
   }
 }
 
 .integrationActions {
   display: flex;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
@@ -115,8 +111,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-10;
+  gap: var(--space-3);
+  padding: var(--space-12);
   text-align: center;
 }
 
@@ -126,25 +122,25 @@
   justify-content: center;
   width: 64px;
   height: 64px;
-  background-color: var(--color-bg-secondary-default);
-  border-radius: border.$border-radius-large;
-  color: var(--color-icon-secondary-default);
+  background-color: var(--color-base-100);
+  border-radius: var(--radius-lg);
+  color: var(--color-base-content-secondary);
 
   i {
-    font-size: typography.$font-size-h5;
+    font-size: var(--font-size-lg);
   }
 }
 
 .emptyStateTitle {
-  font-size: typography.$font-size-xl;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .emptyStateDescription {
-  color: var(--color-text-secondary-default);
-  font-size: typography.$font-size-md;
+  color: var(--color-base-content-secondary);
+  font-size: var(--font-size-base);
   margin: 0;
   max-width: 400px;
 }
@@ -154,18 +150,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-08;
+  gap: var(--space-3);
+  padding: var(--space-8);
   text-align: center;
 
   i {
-    font-size: typography.$font-size-h5;
-    color: var(--color-icon-secondary-default);
+    font-size: var(--font-size-lg);
+    color: var(--color-base-content-secondary);
   }
 
   p {
-    color: var(--color-text-secondary-default);
-    font-size: typography.$font-size-md;
+    color: var(--color-base-content-secondary);
+    font-size: var(--font-size-base);
     margin: 0;
   }
 }
@@ -175,13 +171,13 @@
   height: 260px;
   background: linear-gradient(
     90deg,
-    var(--color-bg-secondary-default) 0%,
-    var(--color-bg-tertiary-default) 50%,
-    var(--color-bg-secondary-default) 100%
+    var(--color-base-100) 0%,
+    var(--color-base-200) 50%,
+    var(--color-base-100) 100%
   );
   background-size: 200% 100%;
-  animation: skeleton-loading motion.$duration-slow-02 ease-in-out infinite;
-  border-radius: layout.$spacing-03;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: var(--space-2);
 }
 
 @keyframes skeleton-loading {
@@ -195,13 +191,13 @@
 }
 
 // Responsive adjustments
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .integrationGrid {
     grid-template-columns: 1fr;
   }
 
   .integrationCard {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .categoryFilter {

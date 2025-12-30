@@ -1,18 +1,14 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .dialog {
 	padding: 0;
 	border: none;
-	border-radius: border.$border-radius-large;
+	border-radius: var(--radius-lg);
 	width: 90vw;
 	max-width: 1400px;
 	height: 85vh;
 	max-height: 900px;
 	overflow: hidden;
-	background-color: var(--color-surface-primary-default);
+	background-color: var(--color-surface);
 	box-shadow: var(--color-shadow-elevated);
 
 	&::backdrop {
@@ -32,22 +28,22 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: layout.$spacing-04 layout.$spacing-05;
-	border-bottom: 1px solid var(--color-border-primary-default);
-	background-color: var(--color-surface-secondary-default);
+	padding: var(--space-3) var(--space-4);
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-base-100);
 }
 
 .headerTitle {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	gap: var(--space-2);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 
 	i {
-		font-size: typography.$font-size-h6;
-		color: var(--color-icon-primary-default);
+		font-size: var(--font-size-base);
+		color: var(--color-base-content);
 	}
 }
 
@@ -63,51 +59,51 @@
 .editorPane {
 	display: flex;
 	flex-direction: column;
-	border-right: 1px solid var(--color-border-primary-default);
+	border-right: 1px solid var(--color-border);
 	overflow: hidden;
 }
 
 .editorContent {
 	flex: 1;
 	overflow-y: auto;
-	padding: layout.$spacing-05;
+	padding: var(--space-4);
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 // Variables Section
 .variablesSection {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .variablesLabel {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 }
 
 .variablesList {
 	display: flex;
 	flex-wrap: wrap;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .variableButton {
-	padding: layout.$spacing-01 layout.$spacing-02;
-	font-size: typography.$font-size-xs;
-	font-family: typography.$font-family-mono;
-	color: var(--color-text-info-default);
-	background-color: var(--color-bg-info-alpha);
+	padding: var(--space-0-5) var(--space-1);
+	font-size: var(--font-size-xs);
+	font-family: var(--font-family-mono);
+	color: var(--color-info);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
 	border: 1px solid var(--color-border-info-default);
-	border-radius: border.$border-radius-small;
+	border-radius: var(--radius-sm);
 	cursor: pointer;
-	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: background-color var(--duration-fast) var(--ease-out);
 
 	&:hover {
-		background-color: var(--color-bg-info-default);
+		background-color: oklch(from var(--color-info) l c h / 0.15);
 		color: var(--color-text-inverse-default);
 	}
 }
@@ -117,25 +113,25 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	background-color: var(--color-surface-secondary-default);
+	background-color: var(--color-base-100);
 }
 
 .previewHeader {
 	display: flex;
 	align-items: center;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	border-bottom: 1px solid var(--color-border-primary-default);
+	padding: var(--space-2) var(--space-3);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .previewTitle {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 }
 
 .previewContent {
 	flex: 1;
-	padding: layout.$spacing-04;
+	padding: var(--space-3);
 	overflow: hidden;
 
 	> div {
@@ -148,34 +144,34 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: layout.$spacing-04 layout.$spacing-05;
-	border-top: 1px solid var(--color-border-primary-default);
-	background-color: var(--color-surface-secondary-default);
+	padding: var(--space-3) var(--space-4);
+	border-top: 1px solid var(--color-border);
+	background-color: var(--color-base-100);
 }
 
 .footerLeft {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .footerRight {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 // Test Email Section
 .testEmailSection {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .testEmailForm {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .testEmailInput {
@@ -183,19 +179,19 @@
 }
 
 .testSuccess {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-success-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-success);
 }
 
 .testError {
-	font-size: typography.$font-size-sm;
-	color: var(--color-error-text);
+	font-size: var(--font-size-sm);
+	color: var(--color-error);
 }
 
 .errorMessage {
-	font-size: typography.$font-size-sm;
-	color: var(--color-error-text);
-	padding: layout.$spacing-02 layout.$spacing-03;
-	background-color: var(--color-bg-danger-alpha);
-	border-radius: border.$border-radius-small;
+	font-size: var(--font-size-sm);
+	color: var(--color-error);
+	padding: var(--space-1) var(--space-2);
+	background-color: oklch(from var(--color-error) l c h / 0.15);
+	border-radius: var(--radius-sm);
 }

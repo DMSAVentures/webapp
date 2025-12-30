@@ -1,8 +1,4 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
     display: flex;
@@ -15,14 +11,14 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-06;
-    padding: layout.$spacing-06;
-    background-color: var(--color-surface-primary-default);
-    border-radius: border.$border-radius-large;
+    gap: var(--space-5);
+    padding: var(--space-5);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
 
-    @media (max-width: breakpoints.$breakpoint-md) {
-        padding: layout.$spacing-04;
-        gap: layout.$spacing-05;
+    @include breakpoint-down(md) {
+        padding: var(--space-3);
+        gap: var(--space-4);
     }
 }
 
@@ -30,7 +26,7 @@
 .header {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
     text-align: center;
 }
 
@@ -38,39 +34,39 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
     margin: 0;
-    font-size: typography.$font-size-h3;  // 28px
-    font-weight: typography.$font-weight-bold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-xl);  // 28px
+    font-weight: var(--font-weight-bold);
+    color: var(--color-base-content);
 
     i {
-        font-size: typography.$font-size-h3;
-        color: var(--color-icon-primary-default);
+        font-size: var(--font-size-xl);
+        color: var(--color-base-content);
     }
 
-    @media (max-width: breakpoints.$breakpoint-md) {
-        font-size: typography.$font-size-h4;  // 24px
+    @include breakpoint-down(md) {
+        font-size: var(--font-size-xl);  // 24px
 
         i {
-            font-size: typography.$font-size-h4;
+            font-size: var(--font-size-xl);
         }
     }
 }
 
 .subtitle {
     margin: 0;
-    font-size: typography.$font-size-md;
-    color: var(--color-text-secondary-default);
+    font-size: var(--font-size-base);
+    color: var(--color-base-content-secondary);
 }
 
 // Stats Grid
 .statsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: layout.$spacing-05;
+    gap: var(--space-4);
 
-    @media (max-width: breakpoints.$breakpoint-md) {
+    @include breakpoint-down(md) {
         grid-template-columns: 1fr;
     }
 }
@@ -87,78 +83,78 @@
 .referralCountCard {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-04;
-    padding: layout.$spacing-06;
-    background-color: var(--color-surface-primary-default);
-    border: 1px solid var(--color-border-primary-default);
-    border-radius: border.$border-radius-large;
-    transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all var(--duration-fast) var(--ease-out);
 
     &:hover {
-        transform: translateY(calc(-1 * layout.$spacing-01));
-        box-shadow: 0 layout.$spacing-01 layout.$spacing-03 var(--color-shadow-default);
+        transform: translateY(calc(-1 * var(--space-0-5)));
+        box-shadow: 0 var(--space-0-5) var(--space-2) var(--color-shadow-default);
     }
 
-    @media (max-width: breakpoints.$breakpoint-md) {
-        padding: layout.$spacing-05;
+    @include breakpoint-down(md) {
+        padding: var(--space-4);
     }
 }
 
 .statCardHeader {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
 
     i {
-        font-size: typography.$font-size-xl;
-        color: var(--color-icon-primary-default);
+        font-size: var(--font-size-xl);
+        color: var(--color-base-content);
     }
 }
 
 .statLabel {
-    font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-semibold;
-    color: var(--color-text-secondary-default);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content-secondary);
     text-transform: uppercase;
-    letter-spacing: typography.$letter-spacing-wide;
+    letter-spacing: var(--letter-spacing-wide);
 }
 
 .statValue {
-    font-size: typography.$font-size-h1;  // 40px
-    font-weight: typography.$font-weight-bold;
-    color: var(--color-text-primary-default);
-    line-height: typography.$line-height-none;
+    font-size: var(--font-size-4xl);  // 40px
+    font-weight: var(--font-weight-bold);
+    color: var(--color-base-content);
+    line-height: var(--line-height-none);
 
-    @media (max-width: breakpoints.$breakpoint-md) {
-        font-size: typography.$font-size-h2;  // 32px
+    @include breakpoint-down(md) {
+        font-size: var(--font-size-2xl);  // 32px
     }
 }
 
 .statDescription {
-    font-size: typography.$font-size-md;
-    color: var(--color-text-secondary-default);
+    font-size: var(--font-size-base);
+    color: var(--color-base-content-secondary);
 }
 
 // Reward Section
 .rewardSection {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-04;
-    padding: layout.$spacing-05;
-    background: linear-gradient(135deg, var(--color-bg-info-alpha) 0%, var(--color-bg-success-alpha) 100%);
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: linear-gradient(135deg, oklch(from var(--color-info) l c h / 0.15) 0%, var(--color-bg-success-alpha) 100%);
     border: 1px solid var(--color-border-info-default);
-    border-radius: border.$border-radius-large;
+    border-radius: var(--radius-lg);
 }
 
 .rewardHeader {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: layout.$spacing-04;
+    gap: var(--space-3);
 
-    @media (max-width: breakpoints.$breakpoint-md) {
+    @include breakpoint-down(md) {
         flex-direction: column;
-        gap: layout.$spacing-03;
+        gap: var(--space-2);
     }
 }
 
@@ -166,74 +162,74 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
 }
 
 .rewardTitle {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
     margin: 0;
-    font-size: typography.$font-size-lg;
-    font-weight: typography.$font-weight-semibold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content);
 
     i {
-        font-size: typography.$font-size-xl;
-        color: var(--color-warning-default);
+        font-size: var(--font-size-xl);
+        color: var(--color-warning);
     }
 }
 
 .rewardDescription {
     margin: 0;
-    font-size: typography.$font-size-sm;
-    color: var(--color-text-secondary-default);
+    font-size: var(--font-size-sm);
+    color: var(--color-base-content-secondary);
 }
 
 .rewardProgress {
     display: flex;
     align-items: center;
-    padding: layout.$spacing-02 layout.$spacing-04;
-    background-color: var(--color-surface-primary-default);
-    border-radius: border.$border-radius-round;
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-full);
 }
 
 .progressText {
-    font-size: typography.$font-size-md;
-    font-weight: typography.$font-weight-bold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-base-content);
 }
 
 // Link Section
 .linkSection {
     display: flex;
     flex-direction: column;
-    padding: layout.$spacing-05;
-    background-color: var(--color-surface-secondary-default);
-    border: 1px solid var(--color-border-primary-default);
-    border-radius: border.$border-radius-large;
+    padding: var(--space-4);
+    background-color: var(--color-base-100);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
 }
 
 // Share Section
 .shareSection {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-04;
+    gap: var(--space-3);
 }
 
 // Section Title
 .sectionTitle {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
     margin: 0;
-    font-size: typography.$font-size-lg;
-    font-weight: typography.$font-weight-semibold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content);
 
     i {
-        font-size: typography.$font-size-xl;
-        color: var(--color-icon-primary-default);
+        font-size: var(--font-size-xl);
+        color: var(--color-base-content);
     }
 }
 
@@ -241,16 +237,16 @@
 .tipsSection {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-04;
-    padding: layout.$spacing-05;
-    background-color: var(--color-surface-secondary-default);
-    border-radius: border.$border-radius-large;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-base-100);
+    border-radius: var(--radius-lg);
 }
 
 .tipsList {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -259,15 +255,15 @@
 .tipItem {
     display: flex;
     align-items: flex-start;
-    gap: layout.$spacing-03;
-    font-size: typography.$font-size-sm;
-    color: var(--color-text-secondary-default);
-    line-height: typography.$line-height-relaxed;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-base-content-secondary);
+    line-height: var(--line-height-relaxed);
 
     i {
         flex-shrink: 0;
-        margin-top: layout.$spacing-01;
-        font-size: typography.$font-size-md;
-        color: var(--color-success-default);
+        margin-top: var(--space-0-5);
+        font-size: var(--font-size-base);
+        color: var(--color-success);
     }
 }

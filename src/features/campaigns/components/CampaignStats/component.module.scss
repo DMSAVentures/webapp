@@ -1,13 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: layout.$spacing-05;
+  gap: var(--space-4);
   width: 100%;
 }
 
@@ -22,15 +18,15 @@
 // Stat card
 .statCard {
   display: flex;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-secondary-default);
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-base-100);
   border: none;
-  border-radius: layout.$spacing-03;
-  transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
+  border-radius: var(--space-2);
+  transition: background-color var(--duration-normal) var(--ease-out);
 
   &:hover {
-    background-color: var(--color-surface-input-default);
+    background-color: var(--color-base-200);
   }
 }
 
@@ -48,15 +44,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: layout.$spacing-04;
-  color: var(--color-text-secondary-default);
+  padding: var(--space-3);
+  color: var(--color-base-content-secondary);
 
   i {
-    font-size: typography.$font-size-h5;
+    font-size: var(--font-size-lg);
   }
 
   &.statIconSuccess {
-    color: var(--color-text-success-default);
+    color: var(--color-success);
   }
 
   &.statIconPurple {
@@ -72,81 +68,81 @@
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
   flex: 1;
   min-width: 0;
 }
 
 .statLabel {
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content-secondary);
   text-transform: uppercase;
-  letter-spacing: typography.$letter-spacing-wide;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .statValue {
   display: flex;
   align-items: baseline;
-  gap: layout.$spacing-02;
-  font-size: typography.$font-size-h4;
-  font-weight: typography.$font-weight-bold;
-  color: var(--color-text-primary-default);
-  line-height: typography.$line-height-tight;
+  gap: var(--space-1);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-base-content);
+  line-height: var(--line-height-tight);
 }
 
 .statPercentage {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-regular;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-base-content-secondary);
 }
 
 .statBadge {
   display: inline-flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-01 layout.$spacing-02;
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-medium;
-  border-radius: layout.$spacing-01;
-  line-height: typography.$line-height-none;
+  gap: var(--space-1);
+  padding: var(--space-0-5) var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--space-0-5);
+  line-height: var(--line-height-none);
 }
 
 .statBadgeSuccess {
   background-color: var(--color-bg-success-default);
-  color: var(--color-text-success-default);
+  color: var(--color-success);
 
   i {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
   }
 }
 
 .statBadgeWarning {
   background-color: var(--color-bg-warning-default);
-  color: var(--color-text-warning-default);
+  color: var(--color-warning);
 
   i {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
   }
 }
 
 .statSubtext {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-tertiary-default);
-  line-height: typography.$line-height-snug;
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-tertiary);
+  line-height: var(--line-height-tight);
 }
 
 // Skeleton loader
 .skeleton {
-  height: layout.$spacing-07;
+  height: var(--space-6);
   background: linear-gradient(
     90deg,
-    var(--color-bg-secondary-default) 0%,
-    var(--color-bg-secondary-hover) 50%,
-    var(--color-bg-secondary-default) 100%
+    var(--color-base-100) 0%,
+    var(--color-base-200) 50%,
+    var(--color-base-100) 100%
   );
   background-size: 200% 100%;
-  border-radius: layout.$spacing-01;
+  border-radius: var(--space-0-5);
   animation: shimmer 1.5s infinite;
 }
 
@@ -161,32 +157,32 @@
 }
 
 // Responsive adjustments
-@media (width <= 1024px) {
+@include breakpoint-down(lg) {
   .root {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: layout.$spacing-04;
+    gap: var(--space-3);
   }
 
   .statCard {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .statIcon {
-    padding: layout.$spacing-03;
+    padding: var(--space-2);
 
     i {
-      font-size: typography.$font-size-h6;
+      font-size: var(--font-size-base);
     }
   }
 
   .statValue {
-    font-size: typography.$font-size-xl;
+    font-size: var(--font-size-xl);
   }
 }
 
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .root {
     grid-template-columns: 1fr;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
   }
 }

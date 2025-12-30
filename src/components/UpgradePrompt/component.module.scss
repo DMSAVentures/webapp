@@ -1,18 +1,14 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .root {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-06;
+	gap: var(--space-3);
+	padding: var(--space-5);
 	text-align: center;
-	background-color: var(--color-surface-secondary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	background-color: var(--color-base-100);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 }
 
 .icon {
@@ -21,45 +17,45 @@
 	justify-content: center;
 	width: 48px;
 	height: 48px;
-	font-size: typography.$font-size-h4;
-	color: var(--color-icon-secondary-default);
-	background-color: var(--color-bg-secondary-default);
-	border-radius: border.$border-radius-round;
+	font-size: var(--font-size-xl);
+	color: var(--color-base-content-secondary);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-full);
 }
 
 .content {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .title {
 	margin: 0;
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 }
 
 .description {
 	margin: 0;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
-	line-height: typography.$line-height-normal;
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
+	line-height: var(--line-height-normal);
 }
 
 .upgradeButton {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: layout.$spacing-03 layout.$spacing-05;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-semibold;
+	padding: var(--space-2) var(--space-4);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-semibold);
 	color: var(--color-text-inverse-default);
 	background-color: var(--color-bg-primary-default);
 	border: none;
-	border-radius: border.$border-radius-medium;
+	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: background-color var(--duration-fast) var(--ease-out);
 
 	&:hover {
 		background-color: var(--color-bg-primary-hover);
@@ -72,8 +68,8 @@
 }
 
 .currentTier {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-tertiary);
 }
 
 // ============================================================================
@@ -82,7 +78,7 @@
 
 .variant_inline {
 	flex-direction: row;
-	padding: layout.$spacing-04;
+	padding: var(--space-3);
 	text-align: left;
 
 	.content {
@@ -92,7 +88,7 @@
 	.icon {
 		width: 36px;
 		height: 36px;
-		font-size: typography.$font-size-xl;
+		font-size: var(--font-size-xl);
 	}
 
 	.currentTier {
@@ -103,16 +99,16 @@
 .variant_banner {
 	flex-flow: row wrap;
 	justify-content: center;
-	padding: layout.$spacing-04 layout.$spacing-05;
-	background-color: var(--color-bg-info-alpha);
+	padding: var(--space-3) var(--space-4);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
 	border-color: var(--color-border-info-default);
 
 	.icon {
 		width: 32px;
 		height: 32px;
-		font-size: layout.$spacing-05;
+		font-size: var(--space-4);
 		background-color: transparent;
-		color: var(--color-info-default);
+		color: var(--color-info);
 	}
 
 	.content {
@@ -122,22 +118,22 @@
 	}
 
 	.title {
-		font-size: typography.$font-size-md;
+		font-size: var(--font-size-base);
 	}
 
 	.description {
-		font-size: typography.$font-size-xs;
+		font-size: var(--font-size-xs);
 	}
 
 	.upgradeButton {
-		padding: layout.$spacing-02 layout.$spacing-04;
-		font-size: typography.$font-size-xs;
+		padding: var(--space-1) var(--space-3);
+		font-size: var(--font-size-xs);
 	}
 
 	.currentTier {
 		width: 100%;
 		text-align: center;
-		margin-top: layout.$spacing-02;
+		margin-top: var(--space-1);
 	}
 }
 

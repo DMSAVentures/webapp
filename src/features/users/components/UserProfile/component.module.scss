@@ -1,13 +1,10 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-05;
-  padding: layout.$spacing-06;
+  gap: var(--space-4);
+  padding: var(--space-5);
 }
 
 // Header
@@ -15,13 +12,13 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .headerContent {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
   flex: 1;
 }
 
@@ -29,34 +26,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: layout.$spacing-10;
-  height: layout.$spacing-10;
-  background-color: var(--color-bg-info-default);
+  width: var(--space-12);
+  height: var(--space-12);
+  background-color: oklch(from var(--color-info) l c h / 0.15);
   border-radius: 50%;
-  color: var(--color-text-info-default);
+  color: var(--color-info);
 
   i {
-    font-size: layout.$spacing-07;
+    font-size: var(--space-6);
   }
 }
 
 .userInfo {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
   flex: 1;
 }
 
 .userName {
-  font-size: typography.$font-size-h4;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .userEmail {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
   margin: 0;
 }
 
@@ -64,53 +61,53 @@
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .statCard {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-04;
-  background-color: var(--color-surface-secondary-default);
-  border-radius: layout.$spacing-03;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-base-100);
+  border-radius: var(--space-2);
 
   i {
-    font-size: typography.$font-size-xl;
-    color: var(--color-text-tertiary-default);
+    font-size: var(--font-size-xl);
+    color: var(--color-base-content-tertiary);
   }
 }
 
 .statContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
 }
 
 .statValue {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
-  line-height: typography.$line-height-none;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
+  line-height: var(--line-height-none);
 }
 
 .statLabel {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-secondary-default);
-  line-height: typography.$line-height-none;
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
+  line-height: var(--line-height-none);
 }
 
 // Section
 .section {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .sectionTitle {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
@@ -118,26 +115,26 @@
 .detailsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .detailItem {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .detailLabel {
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-tertiary-default);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content-tertiary);
   text-transform: uppercase;
-  letter-spacing: typography.$letter-spacing-wide;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .detailValue {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content);
   overflow-wrap: break-word;
 }
 
@@ -145,91 +142,91 @@
 .referralList {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .referralItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-03;
-  background-color: var(--color-surface-secondary-default);
-  border-radius: layout.$spacing-02;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background-color: var(--color-base-100);
+  border-radius: var(--space-1);
 }
 
 .referralInfo {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   flex: 1;
 
   i {
-    font-size: typography.$font-size-xl;
-    color: var(--color-text-tertiary-default);
+    font-size: var(--font-size-xl);
+    color: var(--color-base-content-tertiary);
   }
 }
 
 .referralName {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .referralEmail {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
 }
 
 // Reward List
 .rewardList {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .rewardItem {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-03;
-  background-color: var(--color-surface-secondary-default);
-  border-radius: layout.$spacing-02;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background-color: var(--color-base-100);
+  border-radius: var(--space-1);
 
   i {
-    font-size: typography.$font-size-xl;
-    color: var(--color-text-success-default);
+    font-size: var(--font-size-xl);
+    color: var(--color-success);
   }
 }
 
 .rewardInfo {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
 }
 
 .rewardStatus {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .rewardDate {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
 }
 
 // Actions
 .actionsGrid {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .actionItem {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .updateButton {
@@ -244,58 +241,58 @@
 .deleteModal {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-05;
-  padding: layout.$spacing-05;
+  gap: var(--space-4);
+  padding: var(--space-4);
 }
 
 .deleteModalHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .deleteModalIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: layout.$spacing-10;
-  height: layout.$spacing-10;
-  background-color: var(--color-bg-danger-alpha);
+  width: var(--space-12);
+  height: var(--space-12);
+  background-color: oklch(from var(--color-error) l c h / 0.15);
   border-radius: 50%;
-  color: var(--color-error-default);
+  color: var(--color-error);
 
   i {
-    font-size: layout.$spacing-07;
+    font-size: var(--space-6);
   }
 }
 
 .deleteModalTitle {
-  font-size: typography.$font-size-h4;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
   text-align: center;
 }
 
 .deleteModalDescription {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
-  line-height: typography.$line-height-normal;
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
+  line-height: var(--line-height-normal);
   text-align: center;
   margin: 0;
 }
 
 .deleteModalActions {
   display: flex;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   justify-content: center;
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .root {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .header {

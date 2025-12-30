@@ -1,8 +1,7 @@
-@use "@/design-tokens/layout.scss" as layout;
 
 .email-login-form {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-13;
+    gap: var(--space-16);
     width: 100%;
 }

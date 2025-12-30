@@ -1,50 +1,46 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .section {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 .sectionTitle {
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 	margin: 0;
 }
 
 .sectionDescription {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 	margin: 0;
 }
 
 .toggleSection {
-	padding: layout.$spacing-03 0;
+	padding: var(--space-2) 0;
 }
 
 // Template Cards
 .templateCards {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .templateCard {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-04;
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
-	background-color: var(--color-surface-primary-default);
-	transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+	gap: var(--space-2);
+	padding: var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background-color: var(--color-surface);
+	transition: border-color var(--duration-fast) var(--ease-out);
 
 	&:hover {
-		border-color: var(--color-border-primary-hover);
+		border-color: var(--color-border-hover);
 	}
 }
 
@@ -57,57 +53,57 @@
 .templateCardInfo {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 
 	> i {
-		font-size: typography.$font-size-h6;
-		color: var(--color-icon-secondary-default);
+		font-size: var(--font-size-base);
+		color: var(--color-base-content-secondary);
 	}
 }
 
 .templateCardTitle {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .templateCardName {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content);
 }
 
 .templateCardContent {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 	padding-left: 32px; // Align with icon
 }
 
 .templateCardDescription {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 	margin: 0;
 }
 
 .templateCardSubject {
 	display: flex;
 	align-items: baseline;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-02 layout.$spacing-03;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-small;
+	gap: var(--space-1);
+	padding: var(--space-1) var(--space-2);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-sm);
 }
 
 .subjectLabel {
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-tertiary);
 }
 
 .subjectValue {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -116,7 +112,7 @@
 .templateCardActions {
 	display: flex;
 	justify-content: flex-end;
-	padding-top: layout.$spacing-02;
+	padding-top: var(--space-1);
 }
 
 // No Emails Message
@@ -124,42 +120,42 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-06;
+	gap: var(--space-1);
+	padding: var(--space-5);
 	text-align: center;
-	color: var(--color-text-secondary-default);
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
+	color: var(--color-base-content-secondary);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-md);
 
 	> i {
-		font-size: typography.$font-size-h2;
-		color: var(--color-icon-secondary-default);
+		font-size: var(--font-size-2xl);
+		color: var(--color-base-content-secondary);
 	}
 
 	> p {
 		margin: 0;
-		font-size: typography.$font-size-sm;
+		font-size: var(--font-size-sm);
 	}
 }
 
 .noEmailsHint {
-	font-size: typography.$font-size-xs !important;
-	color: var(--color-text-tertiary-default) !important;
+	font-size: var(--font-size-xs) !important;
+	color: var(--color-base-content-tertiary) !important;
 }
 
 // Save Note
 .saveNote {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-info-default);
+	gap: var(--space-1);
+	font-size: var(--font-size-sm);
+	color: var(--color-info);
 	margin: 0;
-	padding: layout.$spacing-03;
-	background-color: var(--color-bg-info-alpha);
-	border-radius: border.$border-radius-small;
+	padding: var(--space-2);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
+	border-radius: var(--radius-sm);
 
 	> i {
-		font-size: typography.$font-size-xl;
+		font-size: var(--font-size-xl);
 	}
 }

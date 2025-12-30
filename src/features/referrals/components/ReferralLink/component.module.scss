@@ -1,8 +1,4 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
     display: flex;
@@ -13,40 +9,40 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
 }
 
 .labelContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
 }
 
 .label {
-    font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-semibold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content);
 }
 
 .copiedFeedback {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
-    font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-medium;
-    color: var(--color-success-default);
-    animation: fadeIn motion.$duration-fast-01 motion.$easing-productive-standard;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-success);
+    animation: fadeIn var(--duration-fast) var(--ease-out);
 
     i {
-        font-size: typography.$font-size-md;
+        font-size: var(--font-size-base);
     }
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(calc(-1 * layout.$spacing-01));
+        transform: translateY(calc(-1 * var(--space-0-5)));
     }
 
     to {
@@ -58,10 +54,10 @@
 .linkContainer {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
     width: 100%;
 
-    @media (min-width: breakpoints.$breakpoint-md) {
+    @include breakpoint(md) {
         flex-direction: row;
         align-items: stretch;
     }
@@ -71,18 +67,18 @@
     flex: 1;
     display: flex;
     align-items: center;
-    padding: layout.$spacing-03 layout.$spacing-04;
-    background-color: var(--color-surface-secondary-default);
-    border: 1px solid var(--color-border-primary-default);
-    border-radius: border.$border-radius-medium;
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-base-100);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     overflow: hidden;
 }
 
 .linkText {
     flex: 1;
-    font-size: typography.$font-size-sm;
-    font-family: typography.$font-family-mono;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family-mono);
+    color: var(--color-base-content);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -90,10 +86,10 @@
 
 .buttonGroup {
     display: flex;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
     flex-shrink: 0;
 
-    @media (max-width: breakpoints.$breakpoint-md) {
+    @include breakpoint-down(md) {
         width: 100%;
 
         button {
@@ -106,11 +102,11 @@
 .qrButton {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
     white-space: nowrap;
 
     i {
-        font-size: typography.$font-size-lg;
+        font-size: var(--font-size-lg);
     }
 }
 
@@ -119,22 +115,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: layout.$spacing-05;
-    padding: layout.$spacing-05 0;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
 }
 
 .qrCodeImage {
-    width: calc(layout.$spacing-13 * 3.75);  // 300px (80px * 3.75)
-    height: calc(layout.$spacing-13 * 3.75);
-    border-radius: border.$border-radius-medium;
-    box-shadow: 0 layout.$spacing-01 layout.$spacing-03 var(--color-shadow-default);
+    width: calc(var(--space-16) * 3.75);  // 300px (80px * 3.75)
+    height: calc(var(--space-16) * 3.75);
+    border-radius: var(--radius-md);
+    box-shadow: 0 var(--space-0-5) var(--space-2) var(--color-shadow-default);
 }
 
 .qrCodeUrl {
-    font-size: typography.$font-size-sm;
-    font-family: typography.$font-family-mono;
-    color: var(--color-text-secondary-default);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family-mono);
+    color: var(--color-base-content-secondary);
     text-align: center;
     word-break: break-all;
-    max-width: calc(layout.$spacing-13 * 3.75);  // 300px
+    max-width: calc(var(--space-16) * 3.75);  // 300px
 }

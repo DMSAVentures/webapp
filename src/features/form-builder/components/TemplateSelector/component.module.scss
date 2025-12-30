@@ -1,39 +1,35 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 // Header
 .header {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
 }
 
 .title {
   margin: 0;
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .subtitle {
   margin: 0;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Grid layout
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 // Template card
@@ -41,24 +37,24 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   cursor: pointer;
   overflow: hidden;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+  transition: all var(--duration-fast) var(--ease-out);
   text-align: left;
   position: relative;
 
   &:hover {
-    border-color: var(--color-border-primary-hover);
+    border-color: var(--color-border-hover);
     box-shadow: 0 4px 12px var(--color-shadow-default);
     transform: translateY(-2px);
   }
 
   &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: layout.$spacing-01;
+    outline: 2px solid var(--color-focus-ring-default);
+    outline-offset: var(--space-0-5);
   }
 
   &.selected {
@@ -74,7 +70,7 @@
 // Preview area
 .previewWrapper {
   position: relative;
-  padding: layout.$spacing-04;
+  padding: var(--space-3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,39 +88,39 @@
 
 // Mini form elements in preview
 .previewLabel {
-  height: layout.$spacing-02;
+  height: var(--space-1);
   width: 35%;
-  border-radius: border.$border-radius-small;
+  border-radius: var(--radius-sm);
 }
 
 .previewInput {
-  height: layout.$spacing-05;
+  height: var(--space-4);
   border-style: solid;
   display: flex;
   align-items: center;
-  padding: 0 layout.$spacing-02;
-  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard;
+  padding: 0 var(--space-1);
+  transition: border-color var(--duration-fast) var(--ease-out);
 }
 
 .previewPlaceholder {
-  height: layout.$spacing-02;
+  height: var(--space-1);
   width: 55%;
-  border-radius: border.$border-radius-small;
+  border-radius: var(--radius-sm);
 }
 
 .previewButton {
-  height: layout.$spacing-06;
+  height: var(--space-5);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform motion.$duration-fast-01 motion.$easing-productive-standard,
-    box-shadow motion.$duration-fast-01 motion.$easing-productive-standard;
+  transition: transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .previewButtonText {
-  height: layout.$spacing-02;
+  height: var(--space-1);
   width: 45%;
-  border-radius: border.$border-radius-small;
+  border-radius: var(--radius-sm);
 }
 
 // Accent bar to show primary color
@@ -140,43 +136,43 @@
 .cardContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
-  padding: layout.$spacing-03;
-  border-top: border.$border-width-small solid var(--color-border-primary-default);
+  gap: var(--space-0-5);
+  padding: var(--space-2);
+  border-top: 1px solid var(--color-border);
 }
 
 .cardName {
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .cardDescription {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-secondary-default);
-  line-height: typography.$line-height-tight;
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
+  line-height: var(--line-height-tight);
 }
 
 // Selected badge
 .selectedBadge {
   position: absolute;
-  top: layout.$spacing-02;
-  right: layout.$spacing-02;
+  top: var(--space-1);
+  right: var(--space-1);
   width: 20px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-success-default);
-  border-radius: border.$border-radius-round;
+  background-color: var(--color-success);
+  border-radius: var(--radius-full);
   color: var(--color-white);
-  font-size: typography.$font-size-sm;
+  font-size: var(--font-size-sm);
 }
 
 // Dark theme card adjustments
 .dark {
   .cardContent {
-    background-color: var(--color-surface-secondary-default);
+    background-color: var(--color-base-100);
   }
 }
 

@@ -1,7 +1,4 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 // Success screen container
 .successScreen {
@@ -9,9 +6,9 @@
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
-	background-color: var(--form-bg-color, var(--color-surface-primary-default));
-	padding: calc(var(--form-padding, layout.$spacing-04) * 2);
-	border-radius: var(--form-border-radius, border.$border-radius-medium);
+	background-color: var(--form-bg-color, var(--color-surface));
+	padding: calc(var(--form-padding, var(--space-3)) * 2);
+	border-radius: var(--form-border-radius, var(--radius-md));
 	max-width: 600px;
 	margin: 0 auto;
 }
@@ -23,9 +20,9 @@
 	justify-content: center;
 	width: 72px;
 	height: 72px;
-	margin-bottom: var(--form-gap, layout.$spacing-04);
+	margin-bottom: var(--form-gap, var(--space-3));
 	border-radius: 50%;
-	background-color: var(--form-success-color, var(--color-success-default));
+	background-color: var(--form-success-color, var(--color-success));
 	color: var(--color-white);
 
 	i {
@@ -34,35 +31,35 @@
 }
 
 .successTitle {
-	margin: 0 0 layout.$spacing-02;
+	margin: 0 0 var(--space-1);
 	font-family: var(--form-font-family, inherit);
 	font-size: calc(var(--form-font-size, 16px) * 1.5);
-	font-weight: typography.$font-weight-semibold;
-	color: var(--form-text-color, var(--color-text-primary-default));
+	font-weight: var(--font-weight-semibold);
+	color: var(--form-text-color, var(--color-base-content));
 }
 
 .successMessage {
 	margin: 0;
 	font-family: var(--form-font-family, inherit);
 	font-size: var(--form-font-size, 16px);
-	color: var(--form-text-color, var(--color-text-primary-default));
+	color: var(--form-text-color, var(--color-base-content));
 	opacity: 0.8;
 }
 
 // Referral section
 .referralSection {
 	width: 100%;
-	margin-top: calc(var(--form-gap, layout.$spacing-04) * 1.5);
-	padding-top: calc(var(--form-gap, layout.$spacing-04) * 1.5);
-	border-top: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
+	margin-top: calc(var(--form-gap, var(--space-3)) * 1.5);
+	padding-top: calc(var(--form-gap, var(--space-3)) * 1.5);
+	border-top: 1px solid var(--form-border-color, var(--color-border));
 }
 
 .referralText {
-	margin: 0 0 var(--form-gap, layout.$spacing-04);
+	margin: 0 0 var(--form-gap, var(--space-3));
 	font-family: var(--form-font-family, inherit);
 	font-size: calc(var(--form-font-size, 16px) * 0.875);
-	font-weight: typography.$font-weight-medium;
-	color: var(--form-text-color, var(--color-text-primary-default));
+	font-weight: var(--font-weight-medium);
+	color: var(--form-text-color, var(--color-base-content));
 	opacity: 0.8;
 }
 
@@ -70,18 +67,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 	width: 100%;
-	padding: layout.$spacing-03 layout.$spacing-04;
+	padding: var(--space-2) var(--space-3);
 	background-color: var(--form-primary-color, var(--color-primary));
 	border: none;
-	border-radius: var(--form-border-radius, border.$border-radius-medium);
+	border-radius: var(--form-border-radius, var(--radius-md));
 	color: var(--color-white);
 	font-family: var(--form-font-family, inherit);
 	font-size: var(--form-font-size, 16px);
-	font-weight: typography.$font-weight-medium;
+	font-weight: var(--font-weight-medium);
 	cursor: pointer;
-	transition: opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: opacity var(--duration-fast) var(--ease-out);
 
 	&:hover {
 		opacity: 0.9;
@@ -99,21 +96,21 @@
 .dividerWithText {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	margin: var(--form-gap, layout.$spacing-04) 0;
+	gap: var(--space-2);
+	margin: var(--form-gap, var(--space-3)) 0;
 
 	&::before,
 	&::after {
 		content: "";
 		flex: 1;
 		height: 1px;
-		background-color: var(--form-border-color, var(--color-border-primary-default));
+		background-color: var(--form-border-color, var(--color-border));
 	}
 
 	span {
 		font-family: var(--form-font-family, inherit);
 		font-size: calc(var(--form-font-size, 16px) * 0.75);
-		color: var(--form-text-color, var(--color-text-primary-default));
+		color: var(--form-text-color, var(--color-base-content));
 		opacity: 0.6;
 		white-space: nowrap;
 	}
@@ -122,19 +119,19 @@
 .channelList {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .channelRow {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-03;
-	background-color: var(--form-bg-color, var(--color-surface-primary-default));
-	border: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
-	border-radius: calc(var(--form-border-radius, border.$border-radius-medium) / 2);
+	gap: var(--space-2);
+	padding: var(--space-2);
+	background-color: var(--form-bg-color, var(--color-surface));
+	border: 1px solid var(--form-border-color, var(--color-border));
+	border-radius: calc(var(--form-border-radius, var(--radius-md)) / 2);
 	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: all var(--duration-fast) var(--ease-out);
 
 	&:hover {
 		border-color: var(--form-primary-color, var(--color-primary));
@@ -146,10 +143,10 @@
 }
 
 .channelRowCopied {
-	border-color: var(--form-success-color, var(--color-success-default));
+	border-color: var(--form-success-color, var(--color-success));
 
 	.copyLabel {
-		color: var(--form-success-color, var(--color-success-default));
+		color: var(--form-success-color, var(--color-success));
 	}
 }
 
@@ -159,7 +156,7 @@
 	justify-content: center;
 	width: 28px;
 	height: 28px;
-	color: var(--form-text-color, var(--color-text-primary-default));
+	color: var(--form-text-color, var(--color-base-content));
 
 	i {
 		font-size: calc(var(--form-font-size, 16px) * 1.25);
@@ -171,17 +168,17 @@
 	text-align: left;
 	font-family: var(--form-font-family, inherit);
 	font-size: calc(var(--form-font-size, 16px) * 0.875);
-	font-weight: typography.$font-weight-medium;
-	color: var(--form-text-color, var(--color-text-primary-default));
+	font-weight: var(--font-weight-medium);
+	color: var(--form-text-color, var(--color-base-content));
 }
 
 .copyLabel {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-01;
+	gap: var(--space-0-5);
 	font-family: var(--form-font-family, inherit);
 	font-size: calc(var(--form-font-size, 16px) * 0.75);
-	font-weight: typography.$font-weight-medium;
+	font-weight: var(--font-weight-medium);
 	color: var(--form-primary-color, var(--color-primary));
 
 	i {
@@ -190,7 +187,7 @@
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@include breakpoint-down(md) {
 	.successIcon {
 		width: 56px;
 		height: 56px;

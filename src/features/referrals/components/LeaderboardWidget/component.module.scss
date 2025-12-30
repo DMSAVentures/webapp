@@ -1,9 +1,4 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/colors" as colors;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
     display: flex;
@@ -14,14 +9,14 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-04;
-    padding: layout.$spacing-05;
-    background-color: var(--color-surface-primary-default);
-    border: 1px solid var(--color-border-primary-default);
-    border-radius: border.$border-radius-large;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
 
-    @media (max-width: breakpoints.$breakpoint-md) {
-        padding: layout.$spacing-04;
+    @include breakpoint-down(md) {
+        padding: var(--space-3);
     }
 }
 
@@ -30,43 +25,43 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: layout.$spacing-03;
+    gap: var(--space-2);
 }
 
 .title {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
     margin: 0;
-    font-size: typography.$font-size-lg;
-    font-weight: typography.$font-weight-semibold;
-    color: var(--color-text-primary-default);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content);
 
     i {
-        font-size: typography.$font-size-xl;
-        color: var(--color-icon-primary-default);
+        font-size: var(--font-size-xl);
+        color: var(--color-base-content);
     }
 }
 
 .periodSelector {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
 }
 
 .periodLabel {
-    font-size: typography.$font-size-sm;
-    font-weight: typography.$font-weight-medium;
-    color: var(--color-text-secondary-default);
-    padding: layout.$spacing-02 layout.$spacing-03;
-    background-color: var(--color-surface-secondary-default);
-    border-radius: border.$border-radius-small;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-base-content-secondary);
+    padding: var(--space-1) var(--space-2);
+    background-color: var(--color-base-100);
+    border-radius: var(--radius-sm);
 }
 
 .loadingIcon {
-    font-size: typography.$font-size-md;
-    color: var(--color-icon-secondary-default);
-    animation: spin motion.$duration-moderate-02 linear infinite;
+    font-size: var(--font-size-base);
+    color: var(--color-base-content-secondary);
+    animation: spin 0.5s linear infinite;
 }
 
 @keyframes spin {
@@ -82,54 +77,54 @@
 // Table Container
 .tableContainer {
     overflow-x: auto;
-    border-radius: border.$border-radius-medium;
-    border: 1px solid var(--color-border-primary-default);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
 
     thead {
-        background-color: var(--color-surface-secondary-default);
-        border-bottom: 1px solid var(--color-border-primary-default);
+        background-color: var(--color-base-100);
+        border-bottom: 1px solid var(--color-border);
 
         th {
-            padding: layout.$spacing-03 layout.$spacing-04;
+            padding: var(--space-2) var(--space-3);
             text-align: left;
-            font-weight: typography.$font-weight-semibold;
-            color: var(--color-text-secondary-default);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-base-content-secondary);
             text-transform: uppercase;
-            font-size: typography.$font-size-xs;
-            letter-spacing: typography.$letter-spacing-wide;
+            font-size: var(--font-size-xs);
+            letter-spacing: var(--letter-spacing-wide);
 
-            @media (max-width: breakpoints.$breakpoint-md) {
-                padding: layout.$spacing-02 layout.$spacing-03;
+            @include breakpoint-down(md) {
+                padding: var(--space-1) var(--space-2);
             }
         }
     }
 
     tbody {
         tr {
-            border-bottom: 1px solid var(--color-border-secondary-default);
-            transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+            border-bottom: 1px solid var(--color-border);
+            transition: background-color var(--duration-fast) var(--ease-out);
 
             &:last-child {
                 border-bottom: none;
             }
 
             &:hover {
-                background-color: var(--color-bg-secondary-hover);
+                background-color: var(--color-base-200);
             }
         }
 
         td {
-            padding: layout.$spacing-04;
-            color: var(--color-text-primary-default);
+            padding: var(--space-3);
+            color: var(--color-base-content);
 
-            @media (max-width: breakpoints.$breakpoint-md) {
-                padding: layout.$spacing-03;
+            @include breakpoint-down(md) {
+                padding: var(--space-2);
             }
         }
     }
@@ -137,43 +132,43 @@
 
 // Column Widths
 .rankColumn {
-    width: layout.$spacing-10;  // 40px, using 2x for 80px approximation
+    width: var(--space-12);  // 40px, using 2x for 80px approximation
 
-    @media (min-width: breakpoints.$breakpoint-md) {
-        width: calc(layout.$spacing-10 * 2);  // 80px
+    @include breakpoint(md) {
+        width: calc(var(--space-12) * 2);  // 80px
     }
 
-    @media (max-width: breakpoints.$breakpoint-md) {
-        width: calc(layout.$spacing-10 * 1.5);  // 60px
+    @include breakpoint-down(md) {
+        width: calc(var(--space-12) * 1.5);  // 60px
     }
 }
 
 .nameColumn {
-    min-width: calc(layout.$spacing-10 * 3.75);  // 150px
+    min-width: calc(var(--space-12) * 3.75);  // 150px
 }
 
 .referralsColumn {
-    width: calc(layout.$spacing-10 * 2.5);  // 100px
+    width: calc(var(--space-12) * 2.5);  // 100px
     text-align: right;
 }
 
 .pointsColumn {
-    width: calc(layout.$spacing-10 * 2.5);  // 100px
+    width: calc(var(--space-12) * 2.5);  // 100px
     text-align: right;
 }
 
 .badgesColumn {
-    width: calc(layout.$spacing-10 * 3);  // 120px
+    width: calc(var(--space-12) * 3);  // 120px
 }
 
 // Row States
 .row {
     &.highlighted {
-        background-color: var(--color-bg-info-alpha);
-        border-left: border.$border-width-large solid var(--color-info-default);
+        background-color: oklch(from var(--color-info) l c h / 0.15);
+        border-left: 3px solid var(--color-info);
 
         &:hover {
-            background-color: var(--color-bg-info-alpha);
+            background-color: oklch(from var(--color-info) l c h / 0.15);
         }
     }
 
@@ -202,23 +197,23 @@
     }
 
     50% {
-        background-color: var(--color-bg-danger-alpha);
+        background-color: oklch(from var(--color-error) l c h / 0.15);
     }
 }
 
 // Rank Cell
 .rankCell {
-    font-weight: typography.$font-weight-bold;
+    font-weight: var(--font-weight-bold);
 }
 
 .rankDisplay {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
 }
 
 .rankIcon {
-    font-size: typography.$font-size-lg;
+    font-size: var(--font-size-lg);
 
     tr:nth-child(1) & {
         color: colors.$color-yellow-500;
@@ -234,19 +229,19 @@
 }
 
 .rankNumber {
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
 }
 
 .changeIcon {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
     animation: bounce 0.5s ease-out;
 
     .rankChange_up & {
-        color: var(--color-success-default);
+        color: var(--color-success);
     }
 
     .rankChange_down & {
-        color: var(--color-error-default);
+        color: var(--color-error);
     }
 }
 
@@ -256,7 +251,7 @@
     }
 
     50% {
-        transform: translateY(calc(-1 * layout.$spacing-01));
+        transform: translateY(calc(-1 * var(--space-0-5)));
     }
 }
 
@@ -264,44 +259,44 @@
 .nameCell {
     display: flex;
     align-items: center;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
 }
 
 .userName {
-    font-weight: typography.$font-weight-medium;
+    font-weight: var(--font-weight-medium);
 }
 
 .youBadge {
-    padding: layout.$spacing-01 layout.$spacing-02;
-    background-color: var(--color-bg-info-alpha);
-    color: var(--color-info-default);
-    border-radius: border.$border-radius-small;
-    font-size: typography.$font-size-xs;
-    font-weight: typography.$font-weight-semibold;
+    padding: var(--space-0-5) var(--space-1);
+    background-color: oklch(from var(--color-info) l c h / 0.15);
+    color: var(--color-info);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
 }
 
 // Referrals and Points Cells
 .referralsCell,
 .pointsCell {
-    font-weight: typography.$font-weight-semibold;
+    font-weight: var(--font-weight-semibold);
     text-align: right;
 }
 
 // Badges Cell
 .badgesCell {
-    padding-left: layout.$spacing-04;
+    padding-left: var(--space-3);
 }
 
 .badgeList {
     display: flex;
-    gap: layout.$spacing-02;
+    gap: var(--space-1);
     flex-wrap: wrap;
 }
 
 .badgeIcon {
-    font-size: typography.$font-size-md;
-    color: var(--color-warning-default);
-    transition: transform motion.$duration-fast-01 motion.$easing-productive-standard;
+    font-size: var(--font-size-base);
+    color: var(--color-warning);
+    transition: transform var(--duration-fast) var(--ease-out);
     cursor: help;
 
     &:hover {
@@ -315,28 +310,28 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: layout.$spacing-03;
-    padding: layout.$spacing-08 layout.$spacing-05;
-    color: var(--color-text-secondary-default);
+    gap: var(--space-2);
+    padding: var(--space-8) var(--space-4);
+    color: var(--color-base-content-secondary);
 
     i {
-        font-size: typography.$font-size-h2;  // 32px
+        font-size: var(--font-size-2xl);  // 32px
         opacity: 0.3;
     }
 
     p {
         margin: 0;
-        font-size: typography.$font-size-md;
+        font-size: var(--font-size-base);
     }
 }
 
 // Responsive adjustments
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
     .badgesColumn {
         display: none;
     }
 
     .pointsColumn {
-        width: calc(layout.$spacing-10 * 2);  // 80px
+        width: calc(var(--space-12) * 2);  // 80px
     }
 }

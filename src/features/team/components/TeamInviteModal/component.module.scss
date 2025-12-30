@@ -1,34 +1,30 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-05;
+  gap: var(--space-4);
   width: 100%;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .error {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-03;
-  background-color: var(--color-bg-danger-alpha);
-  border: border.$border-width-small solid var(--color-border-danger-default);
-  border-radius: border.$border-radius-small;
-  color: var(--color-error-text);
-  font-size: typography.$font-size-sm;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  background-color: oklch(from var(--color-error) l c h / 0.15);
+  border: 1px solid var(--color-border-danger-default);
+  border-radius: var(--radius-sm);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
 
   i {
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
     flex-shrink: 0;
   }
 }

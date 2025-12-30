@@ -3,12 +3,9 @@
  * Uses CSS custom properties injected from useFormStyles hook
  */
 
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .field {
-  margin-bottom: var(--form-gap, layout.$spacing-04);
+  margin-bottom: var(--form-gap, var(--space-3));
 }
 
 .label {
@@ -16,29 +13,29 @@
   font-family: var(--form-font-family, inherit);
   font-size: var(--form-font-size, 14px);
   font-weight: calc(var(--form-font-weight, 400) + 100);
-  color: var(--form-text-color, var(--color-text-primary-default));
-  margin-bottom: calc(var(--form-gap, layout.$spacing-04) / 2);
+  color: var(--form-text-color, var(--color-base-content));
+  margin-bottom: calc(var(--form-gap, var(--space-3)) / 2);
 }
 
 .required {
-  color: var(--form-error-color, var(--color-error-default));
-  margin-left: layout.$spacing-01;
+  color: var(--form-error-color, var(--color-error));
+  margin-left: var(--space-0-5);
 }
 
 .input {
   width: 100%;
   font-family: var(--form-font-family, inherit);
   font-size: var(--form-font-size, 14px);
-  color: var(--form-text-color, var(--color-text-primary-default));
-  background-color: var(--form-bg-color, var(--color-surface-primary-default));
-  border: border.$border-width-small solid var(--form-border-color, var(--color-border-primary-default));
-  border-radius: var(--form-border-radius, border.$border-radius-medium);
-  padding: var(--form-padding, layout.$spacing-04);
-  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard,
-    box-shadow motion.$duration-fast-01 motion.$easing-productive-standard;
+  color: var(--form-text-color, var(--color-base-content));
+  background-color: var(--form-bg-color, var(--color-surface));
+  border: 1px solid var(--form-border-color, var(--color-border));
+  border-radius: var(--form-border-radius, var(--radius-md));
+  padding: var(--form-padding, var(--space-3));
+  transition: border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
 
   &::placeholder {
-    color: var(--form-text-color, var(--color-text-secondary-default));
+    color: var(--form-text-color, var(--color-base-content-secondary));
     opacity: 0.6;
   }
 
@@ -59,7 +56,7 @@
   }
 
   &--error {
-    border-color: var(--form-error-color, var(--color-error-default));
+    border-color: var(--form-error-color, var(--color-error));
 
     &:focus {
       box-shadow: 0 0 0 2px rgb(239, 68, 68, 0.2);
@@ -76,9 +73,9 @@
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right layout.$spacing-03 center;
+  background-position: right var(--space-2) center;
   background-size: 16px;
-  padding-right: layout.$spacing-08;
+  padding-right: var(--space-8);
   cursor: pointer;
 
   &:disabled {
@@ -89,16 +86,16 @@
 .optionGroup {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--form-gap, layout.$spacing-04) / 2);
+  gap: calc(var(--form-gap, var(--space-3)) / 2);
 }
 
 .optionLabel {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
   font-family: var(--form-font-family, inherit);
   font-size: var(--form-font-size, 14px);
-  color: var(--form-text-color, var(--color-text-primary-default));
+  color: var(--form-text-color, var(--color-base-content));
   cursor: pointer;
 
   &:has(input:disabled) {
@@ -119,15 +116,15 @@
   display: block;
   font-family: var(--form-font-family, inherit);
   font-size: calc(var(--form-font-size, 14px) - 2px);
-  color: var(--form-error-color, var(--color-error-default));
-  margin-top: calc(var(--form-gap, layout.$spacing-04) / 2);
+  color: var(--form-error-color, var(--color-error));
+  margin-top: calc(var(--form-gap, var(--space-3)) / 2);
 }
 
 .helpText {
   display: block;
   font-family: var(--form-font-family, inherit);
   font-size: calc(var(--form-font-size, 14px) - 2px);
-  color: var(--form-text-color, var(--color-text-secondary-default));
+  color: var(--form-text-color, var(--color-base-content-secondary));
   opacity: 0.7;
-  margin-top: calc(var(--form-gap, layout.$spacing-04) / 2);
+  margin-top: calc(var(--form-gap, var(--space-3)) / 2);
 }

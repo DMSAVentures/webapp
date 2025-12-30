@@ -1,14 +1,11 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-medium;
+	background-color: var(--color-surface);
+	border-radius: var(--radius-md);
 	overflow: hidden;
 }
 
@@ -17,45 +14,45 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	gap: var(--space-3);
+	padding: var(--space-4);
+	background-color: var(--color-surface);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .headerContent {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 	flex: 1;
 }
 
 .title {
 	margin: 0;
-	font-size: typography.$font-size-xl;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 }
 
 .headerActions {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .deviceSelector {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-02;
-	background-color: var(--color-bg-secondary-default);
-	border-radius: border.$border-radius-medium;
+	gap: var(--space-1);
+	padding: var(--space-1);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-md);
 }
 
 .testEmailForm {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .testEmailInput {
@@ -66,65 +63,65 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03;
+	gap: var(--space-1);
+	padding: var(--space-2);
 	background-color: var(--color-bg-success-default);
 	color: var(--color-text-inverse-default);
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
 
 	i {
-		font-size: typography.$font-size-md;
+		font-size: var(--font-size-base);
 	}
 }
 
 // Mode Tabs
 .modeTabs {
 	flex-shrink: 0;
-	padding: 0 layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	padding: 0 var(--space-4);
+	background-color: var(--color-surface);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .tabList {
 	display: flex;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 .tab {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03 layout.$spacing-01;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	gap: var(--space-1);
+	padding: var(--space-2) var(--space-0-5);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 	background: none;
 	border: none;
-	border-bottom: border.$border-width-medium solid transparent;
+	border-bottom: 2px solid transparent;
 	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: all var(--duration-fast) var(--ease-out);
 
 	i {
-		font-size: typography.$font-size-md;
+		font-size: var(--font-size-base);
 	}
 
 	&:hover {
-		color: var(--color-text-primary-default);
+		color: var(--color-base-content);
 	}
 
 	&:focus-visible {
-		outline: border.$border-width-medium solid var(--color-focus-ring-default);
-		outline-offset: layout.$spacing-01;
+		outline: 2px solid var(--color-focus-ring-default);
+		outline-offset: var(--space-0-5);
 	}
 }
 
 .tabActive {
-	color: var(--color-text-primary-default);
-	border-bottom-color: var(--color-info-default);
+	color: var(--color-base-content);
+	border-bottom-color: var(--color-info);
 
 	i {
-		color: var(--color-info-default);
+		color: var(--color-info);
 	}
 }
 
@@ -133,20 +130,20 @@
 	display: grid;
 	grid-template-columns: 260px 1fr 320px;
 	grid-template-rows: 1fr;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 	flex: 1;
 	min-height: 0; // Important for flex child with overflow
 	overflow: hidden;
-	padding: layout.$spacing-04;
-	background-color: var(--color-bg-secondary-default);
+	padding: var(--space-3);
+	background-color: var(--color-base-100);
 }
 
 // Panels
 .leftPanel,
 .rightPanel {
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	overflow-y: auto;
 	min-height: 0; // Allow shrinking in grid
 }
@@ -154,7 +151,7 @@
 .centerPanel {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 	overflow-y: auto;
 	min-height: 0; // Allow shrinking in grid
 }
@@ -168,9 +165,9 @@
 // Panel mode toggle (Content vs Appearance)
 .panelModeToggle {
 	display: flex;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-04;
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+	gap: var(--space-1);
+	padding: var(--space-3);
+	border-bottom: 1px solid var(--color-border);
 	flex-shrink: 0;
 }
 
@@ -179,49 +176,49 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03 layout.$spacing-03;
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	gap: var(--space-1);
+	padding: var(--space-2) var(--space-2);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: all var(--duration-fast) var(--ease-out);
 
 	i {
-		font-size: typography.$font-size-md;
+		font-size: var(--font-size-base);
 	}
 
 	&:hover {
-		background-color: var(--color-bg-secondary-hover);
-		border-color: var(--color-border-primary-hover);
-		color: var(--color-text-primary-default);
+		background-color: var(--color-base-200);
+		border-color: var(--color-border-hover);
+		color: var(--color-base-content);
 	}
 
 	&.active {
-		background-color: var(--color-bg-info-alpha);
+		background-color: oklch(from var(--color-info) l c h / 0.15);
 		border-color: var(--color-border-focus-default);
-		color: var(--color-text-primary-default);
+		color: var(--color-base-content);
 
 		i {
-			color: var(--color-info-default);
+			color: var(--color-info);
 		}
 	}
 
 	&:focus-visible {
-		outline: border.$border-width-medium solid var(--color-focus-ring-default);
-		outline-offset: layout.$spacing-01;
+		outline: 2px solid var(--color-focus-ring-default);
+		outline-offset: var(--space-0-5);
 	}
 }
 
 // Subject editor
 .subjectEditor {
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
-	padding: layout.$spacing-04;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	padding: var(--space-3);
 }
 
 // Canvas wrapper
@@ -229,40 +226,40 @@
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0; // Don't shrink - height based on content
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	overflow: hidden;
 }
 
 .canvasHeader {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	background-color: var(--color-surface-secondary-default);
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	gap: var(--space-1);
+	padding: var(--space-2) var(--space-3);
+	background-color: var(--color-base-100);
+	border-bottom: 1px solid var(--color-border);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 
 	i {
-		font-size: typography.$font-size-md;
-		color: var(--color-icon-secondary-default);
+		font-size: var(--font-size-base);
+		color: var(--color-base-content-secondary);
 	}
 }
 
 .blockCount {
 	margin-left: auto;
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-tertiary);
 }
 
 .canvas {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-04;
+	gap: var(--space-1);
+	padding: var(--space-3);
 }
 
 .emptyCanvas {
@@ -270,19 +267,19 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-08;
-	color: var(--color-text-tertiary-default);
+	gap: var(--space-2);
+	padding: var(--space-8);
+	color: var(--color-base-content-tertiary);
 	text-align: center;
 
 	i {
-		font-size: typography.$font-size-h1;
+		font-size: var(--font-size-4xl);
 		opacity: 0.5;
 	}
 
 	p {
 		margin: 0;
-		font-size: typography.$font-size-sm;
+		font-size: var(--font-size-sm);
 	}
 }
 
@@ -291,20 +288,20 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-08;
-	color: var(--color-text-tertiary-default);
+	gap: var(--space-2);
+	padding: var(--space-8);
+	color: var(--color-base-content-tertiary);
 	text-align: center;
 	flex: 1;
 
 	i {
-		font-size: typography.$font-size-h1;
+		font-size: var(--font-size-4xl);
 		animation: spin 1s linear infinite;
 	}
 
 	p {
 		margin: 0;
-		font-size: typography.$font-size-sm;
+		font-size: var(--font-size-sm);
 	}
 }
 
@@ -324,39 +321,39 @@
 	flex-direction: column;
 	flex: 1; // Take remaining space to show full email preview
 	min-height: 300px;
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	overflow: hidden;
 }
 
 .previewHeader {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	background-color: var(--color-surface-secondary-default);
-	border-bottom: border.$border-width-small solid var(--color-border-primary-default);
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	gap: var(--space-1);
+	padding: var(--space-2) var(--space-3);
+	background-color: var(--color-base-100);
+	border-bottom: 1px solid var(--color-border);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 
 	i {
-		font-size: typography.$font-size-md;
-		color: var(--color-icon-secondary-default);
+		font-size: var(--font-size-base);
+		color: var(--color-base-content-secondary);
 	}
 }
 
 .emailPreview {
 	display: flex;
 	flex-direction: column;
-	margin: layout.$spacing-04 auto;
-	background-color: var(--color-surface-primary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	margin: var(--space-3) auto;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	overflow: hidden;
 	box-shadow: var(--color-shadow-elevated);
-	transition: width motion.$duration-moderate-01 motion.$easing-productive-standard;
+	transition: width var(--duration-normal) var(--ease-out);
 
 	&.device_desktop {
 		width: 100%;
@@ -375,28 +372,28 @@
 .emailHeader {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	border-bottom: 1px solid var(--color-border-primary-default);
-	background-color: var(--color-surface-secondary-default);
+	gap: var(--space-1);
+	padding: var(--space-2) var(--space-3);
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-base-100);
 }
 
 .emailHeaderRow {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .emailLabel {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 	min-width: 60px;
 }
 
 .emailValue {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -405,7 +402,7 @@
 .emailBody {
 	flex: 1;
 	min-height: 300px;
-	background-color: var(--color-surface-secondary-default);
+	background-color: var(--color-base-100);
 }
 
 .emailIframe {
@@ -422,27 +419,27 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 	height: 100%;
-	padding: layout.$spacing-08;
+	padding: var(--space-8);
 	text-align: center;
-	color: var(--color-text-tertiary-default);
+	color: var(--color-base-content-tertiary);
 
 	i {
-		font-size: typography.$font-size-h1;
+		font-size: var(--font-size-4xl);
 		opacity: 0.5;
 	}
 
 	h3 {
 		margin: 0;
-		font-size: typography.$font-size-lg;
-		font-weight: typography.$font-weight-semibold;
-		color: var(--color-text-secondary-default);
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-base-content-secondary);
 	}
 
 	p {
 		margin: 0;
-		font-size: typography.$font-size-sm;
+		font-size: var(--font-size-sm);
 		max-width: 200px;
 	}
 }
@@ -460,7 +457,7 @@
 	}
 }
 
-@media (width <= 1024px) {
+@include breakpoint-down(lg) {
 	.builder {
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
@@ -474,7 +471,7 @@
 	.header {
 		flex-direction: column;
 		align-items: stretch;
-		gap: layout.$spacing-03;
+		gap: var(--space-2);
 	}
 
 	.headerContent {
@@ -489,22 +486,22 @@
 	}
 }
 
-@media (width <= 768px) {
+@include breakpoint-down(md) {
 	.header {
-		padding: layout.$spacing-04;
+		padding: var(--space-3);
 	}
 
 	.modeTabs {
-		padding: 0 layout.$spacing-04;
+		padding: 0 var(--space-3);
 	}
 
 	.title {
-		font-size: typography.$font-size-lg;
+		font-size: var(--font-size-lg);
 	}
 
 	.headerActions {
 		flex-direction: column;
-		gap: layout.$spacing-02;
+		gap: var(--space-1);
 
 		button {
 			width: 100%;
@@ -517,8 +514,8 @@
 	}
 
 	.builder {
-		padding: layout.$spacing-03;
-		gap: layout.$spacing-03;
+		padding: var(--space-2);
+		gap: var(--space-2);
 	}
 
 	.leftPanel,

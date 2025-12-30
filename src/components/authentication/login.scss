@@ -1,8 +1,7 @@
-@use "@/design-tokens/layout.scss" as layout;
 
 .login {
     display: flex;
     flex-direction: column;
-    gap: layout.$spacing-05;
+    gap: var(--space-4);
     align-items: center;
 }

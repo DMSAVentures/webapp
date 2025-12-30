@@ -1,61 +1,60 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/breakpoints" as breakpoints;
+// =============================================================================
+// SOURCES CHART STYLES
+// =============================================================================
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   width: 100%;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: layout.$spacing-04;
-  margin-bottom: layout.$spacing-05;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
 }
 
 .headerLeft {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
 }
 
 .headerRight {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .title {
   margin: 0;
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .total {
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-tertiary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-tertiary);
 }
 
 .navigation {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .dateRangeLabel {
   min-width: 140px;
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content-secondary);
   text-align: center;
 }
 
@@ -65,59 +64,59 @@
 
 // Custom tooltip
 .tooltip {
-  padding: layout.$spacing-03 layout.$spacing-04;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
-  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
 }
 
 .tooltipLabel {
-  margin: 0 0 layout.$spacing-02 0;
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .tooltipContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .tooltipItem {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 .tooltipDot {
   display: inline-block;
-  width: layout.$spacing-02;
-  height: layout.$spacing-02;
-  border-radius: 50%;
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: var(--radius-full);
 }
 
 .tooltipName {
-  font-weight: typography.$font-weight-medium;
+  font-weight: var(--font-weight-medium);
 }
 
 .tooltipValue {
   margin-left: auto;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .tooltipTotal {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  padding-top: layout.$spacing-02;
-  margin-top: layout.$spacing-02;
-  font-size: typography.$font-size-sm;
-  border-top: border.$border-width-small solid var(--color-border-secondary-default);
+  gap: var(--space-1);
+  padding-top: var(--space-1);
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  border-top: 1px solid var(--color-border);
 }
 
 // Loading state
@@ -129,11 +128,11 @@
 }
 
 .loadingSpinner {
-  width: layout.$spacing-08;
-  height: layout.$spacing-08;
-  border: layout.$spacing-01 solid var(--color-border-primary-default);
-  border-top-color: var(--color-info-default);
-  border-radius: 50%;
+  width: var(--space-8);
+  height: var(--space-8);
+  border: var(--space-0-5) solid var(--color-border);
+  border-top-color: var(--color-info);
+  border-radius: var(--radius-full);
   animation: spin 1s linear infinite;
 }
 
@@ -149,24 +148,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   height: 300px;
-  color: var(--color-text-tertiary-default);
+  color: var(--color-base-content-tertiary);
 
   i {
-    font-size: layout.$spacing-10;
+    font-size: var(--font-size-5xl);
   }
 
   p {
     margin: 0;
-    font-size: typography.$font-size-md;
+    font-size: var(--font-size-base);
   }
 }
 
 // Responsive adjustments
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .root {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .header {
@@ -179,6 +178,6 @@
   }
 
   .tooltip {
-    padding: layout.$spacing-02 layout.$spacing-03;
+    padding: var(--space-1) var(--space-2);
   }
 }

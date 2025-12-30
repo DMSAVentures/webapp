@@ -1,12 +1,8 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .root {
 	display: flex;
 	align-items: flex-start;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .lockedContent {
@@ -19,24 +15,24 @@
 	flex-shrink: 0;
 	display: inline-flex;
 	align-items: center;
-	gap: layout.$spacing-01;
-	padding: layout.$spacing-01 layout.$spacing-02;
+	gap: var(--space-0-5);
+	padding: var(--space-0-5) var(--space-1);
 	border: none;
-	border-radius: border.$border-radius-small;
-	background-color: var(--color-bg-info-alpha);
-	color: var(--color-info-default);
+	border-radius: var(--radius-sm);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
+	color: var(--color-info);
 	font-family: inherit;
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-semibold;
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-semibold);
 	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: all var(--duration-fast) var(--ease-out);
 
 	&:hover {
-		background-color: var(--color-bg-info-default);
+		background-color: oklch(from var(--color-info) l c h / 0.15);
 		color: var(--color-white);
 	}
 
 	i {
-		font-size: typography.$font-size-xs;
+		font-size: var(--font-size-xs);
 	}
 }

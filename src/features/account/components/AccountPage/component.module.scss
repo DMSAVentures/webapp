@@ -1,18 +1,17 @@
-@use "@/design-tokens/layout.scss" as layout;
-@use "@/design-tokens/breakpoints.scss" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .billing {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .billingButtons {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 
-	@media (min-width: breakpoints.$breakpoint-sm) {
+	@include breakpoint(sm) {
 		flex-direction: row;
 	}
 }
@@ -20,31 +19,31 @@
 .billingStatus {
 	display: flex;
 	flex-direction: row;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 	align-items: baseline;
 }
 
 .noSubscription {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 }
 
 .noSubscriptionText {
-	color: var(--color-text-secondary-default);
-	margin-bottom: layout.$spacing-03;
+	color: var(--color-base-content-secondary);
+	margin-bottom: var(--space-2);
 }
 
 .plansGrid {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 
-	@media (min-width: breakpoints.$breakpoint-sm) {
+	@include breakpoint(sm) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	@media (min-width: breakpoints.$breakpoint-lg) {
+	@include breakpoint(lg) {
 		grid-template-columns: repeat(3, 1fr);
 	}
 }

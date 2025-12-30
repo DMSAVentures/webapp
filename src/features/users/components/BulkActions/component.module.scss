@@ -1,19 +1,16 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   position: sticky;
-  bottom: layout.$spacing-05;
+  bottom: var(--space-4);
   z-index: 50;
-  animation: slideUp motion.$duration-moderate-01 motion.$easing-expressive-standard;
+  animation: slideUp var(--duration-normal) var(--ease-out);
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(layout.$spacing-05);
+    transform: translateY(var(--space-4));
   }
 
   to {
@@ -25,30 +22,30 @@
 .content {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-04 layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-03;
-  box-shadow: 0 layout.$spacing-02 layout.$spacing-05 var(--color-shadow-elevated);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--space-2);
+  box-shadow: 0 var(--space-1) var(--space-4) var(--color-shadow-elevated);
 }
 
 // Selection info
 .selectionInfo {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  color: var(--color-text-primary-default);
+  gap: var(--space-1);
+  color: var(--color-base-content);
 
   i {
-    font-size: typography.$font-size-xl;
-    color: var(--color-text-info-default);
+    font-size: var(--font-size-xl);
+    color: var(--color-info);
   }
 }
 
 .selectionCount {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-semibold;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
 }
 
@@ -56,7 +53,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
   flex: 1;
 }
 
@@ -64,62 +61,62 @@
 .modalContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-05;
+  gap: var(--space-4);
 }
 
 .modalHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .modalIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: layout.$spacing-10;
-  height: layout.$spacing-10;
-  background-color: var(--color-bg-danger-alpha);
+  width: var(--space-12);
+  height: var(--space-12);
+  background-color: oklch(from var(--color-error) l c h / 0.15);
   border-radius: 50%;
-  color: var(--color-error-default);
+  color: var(--color-error);
 
   i {
-    font-size: layout.$spacing-07;
+    font-size: var(--space-6);
   }
 }
 
 .modalTitle {
-  font-size: typography.$font-size-h4;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
   text-align: center;
 }
 
 .modalDescription {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
-  line-height: typography.$line-height-normal;
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
+  line-height: var(--line-height-normal);
   text-align: center;
   margin: 0;
 }
 
 .modalActions {
   display: flex;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
   justify-content: center;
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .root {
-    bottom: layout.$spacing-03;
+    bottom: var(--space-2);
   }
 
   .content {
     flex-wrap: wrap;
-    padding: layout.$spacing-03;
+    padding: var(--space-2);
   }
 
   .selectionInfo {

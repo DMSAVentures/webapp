@@ -1,27 +1,18 @@
-@use '../../../design-tokens/colors.scss' as colors;
-@use '../../../design-tokens/typography.scss' as typography;
-@use '../../../design-tokens/layout.scss' as layout;
-@use '../../../design-tokens/border.scss' as border;
-@use '../../../design-tokens/shadow.scss' as shadow;
+// =============================================================================
+// CHECKOUT STYLES
+// =============================================================================
 
 .checkout-container {
-  // max-width: 800px;
   margin: 0 auto;
-  padding: layout.$spacing-07;
-
-  // background-color: colors.$color-white;
-  border-radius: border.$border-radius-medium;
-
-  // box-shadow: shadow.$shadow-modal;
-  background: colors.$color-white;
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
 
   h2 {
-    font-size: typography.$font-size-h3;
-    font-weight: typography.$font-weight-semibold;
-    margin-bottom: layout.$spacing-06;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-5);
     text-align: center;
-    color: colors.$color-neutral-900;
+    color: var(--color-base-content);
   }
 }
-
-

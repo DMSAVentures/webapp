@@ -1,27 +1,24 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 }
 
 .title {
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 	margin: 0;
 }
 
 .content {
 	display: grid;
 	grid-template-columns: 1fr 350px;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 
-	@media (max-width: breakpoints.$breakpoint-lg) {
+	@include breakpoint-down(lg) {
 		grid-template-columns: 1fr;
 	}
 }
@@ -29,36 +26,36 @@
 .form {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 .section {
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	padding: var(--space-4);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 }
 
 .sectionTitle {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
-	margin: 0 0 layout.$spacing-04;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
+	margin: 0 0 var(--space-3);
 }
 
 .fields {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
-	max-width: layout.$spacing-13 * 2.5;
+	gap: var(--space-3);
+	max-width: var(--space-16) * 2.5;
 }
 
 .filterGroup {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
-	padding-bottom: layout.$spacing-04;
-	border-bottom: 1px solid var(--color-border-primary-default);
+	gap: var(--space-1);
+	padding-bottom: var(--space-3);
+	border-bottom: 1px solid var(--color-border);
 
 	&:last-child {
 		border-bottom: none;
@@ -67,80 +64,80 @@
 }
 
 .filterLabel {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 	margin: 0;
 }
 
 .checkboxGroup {
 	display: flex;
 	flex-wrap: wrap;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .checkboxLabel {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-primary-default);
+	gap: var(--space-1);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content);
 	cursor: pointer;
 }
 
 .preview {
 	position: sticky;
-	top: layout.$spacing-05;
+	top: var(--space-4);
 	height: fit-content;
 }
 
 .previewCard {
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	padding: var(--space-4);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 }
 
 .previewContent {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 .previewCount {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
+	padding: var(--space-4);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-md);
 }
 
 .previewNumber {
-	font-size: typography.$font-size-h2;
-	font-weight: typography.$font-weight-bold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-base-content);
 }
 
 .previewLabel {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 }
 
 .previewLoading,
 .previewEmpty {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-tertiary);
 	text-align: center;
-	padding: layout.$spacing-05;
+	padding: var(--space-4);
 }
 
 .sampleUsers {
 	h4 {
-		font-size: typography.$font-size-sm;
-		font-weight: typography.$font-weight-medium;
-		color: var(--color-text-secondary-default);
-		margin: 0 0 layout.$spacing-02;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-base-content-secondary);
+		margin: 0 0 var(--space-1);
 	}
 
 	ul {
@@ -150,25 +147,25 @@
 	}
 
 	li {
-		font-size: typography.$font-size-sm;
-		color: var(--color-text-primary-default);
-		padding: layout.$spacing-01 0;
+		font-size: var(--font-size-sm);
+		color: var(--color-base-content);
+		padding: var(--space-0-5) 0;
 	}
 }
 
 .error {
-	padding: layout.$spacing-03;
-	background-color: var(--color-bg-danger-alpha);
+	padding: var(--space-2);
+	background-color: oklch(from var(--color-error) l c h / 0.15);
 	border: 1px solid var(--color-border-danger-default);
-	border-radius: border.$border-radius-small;
-	color: var(--color-error-text);
-	font-size: typography.$font-size-sm;
+	border-radius: var(--radius-sm);
+	color: var(--color-error);
+	font-size: var(--font-size-sm);
 }
 
 .actions {
 	display: flex;
 	justify-content: flex-end;
-	gap: layout.$spacing-03;
-	padding-top: layout.$spacing-04;
-	border-top: 1px solid var(--color-border-primary-default);
+	gap: var(--space-2);
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--color-border);
 }

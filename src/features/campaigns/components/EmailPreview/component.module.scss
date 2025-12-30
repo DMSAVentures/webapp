@@ -1,42 +1,39 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
 
 .root {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	overflow: hidden;
-	background-color: var(--color-surface-primary-default);
+	background-color: var(--color-surface);
 	height: 100%;
 }
 
 .header {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03 layout.$spacing-04;
-	border-bottom: 1px solid var(--color-border-primary-default);
-	background-color: var(--color-surface-secondary-default);
+	gap: var(--space-1);
+	padding: var(--space-2) var(--space-3);
+	border-bottom: 1px solid var(--color-border);
+	background-color: var(--color-base-100);
 }
 
 .headerRow {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .headerLabel {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content-secondary);
 	min-width: 60px;
 }
 
 .headerValue {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -45,7 +42,7 @@
 .body {
 	flex: 1;
 	min-height: 300px;
-	background-color: var(--color-surface-secondary-default);
+	background-color: var(--color-base-100);
 }
 
 .iframe {

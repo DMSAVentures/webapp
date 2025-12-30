@@ -1,57 +1,55 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 // Filter group - layout container for label + control
 .filterGroup {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 // Row of inputs (for date range and position range)
 .inputRow {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 // Separator text between inputs
 .separator {
-  color: var(--color-text-tertiary-default);
-  font-size: typography.$font-size-sm;
+  color: var(--color-base-content-tertiary);
+  font-size: var(--font-size-sm);
 }
 
 // Checkbox wrapper to match input height
 .checkboxWrapper {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
   height: 42px; // Match TextInput/SelectDropdown height
 }
 
 .checkboxLabel {
-  color: var(--color-text-primary-default);
-  font-size: typography.$font-size-sm;
+  color: var(--color-base-content);
+  font-size: var(--font-size-sm);
 }
 
 // Actions container
 .actions {
   display: flex;
   align-items: flex-end;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
   margin-left: auto;
 }
 
 // Responsive
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .root {
     flex-direction: column;
     align-items: stretch;

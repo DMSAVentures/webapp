@@ -1,7 +1,4 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
 	display: flex;
@@ -14,73 +11,73 @@
 .header {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-05;
-	padding-bottom: layout.$spacing-04;
-	border-bottom: border.$border-width-small solid
-		var(--color-border-primary-default);
+	gap: var(--space-1);
+	padding: var(--space-4);
+	padding-bottom: var(--space-3);
+	border-bottom: 1px solid
+		var(--color-border);
 }
 
 .title {
 	margin: 0;
-	font-size: typography.$font-size-lg;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 }
 
 .subtitle {
 	margin: 0;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 }
 
 // Content
 .content {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-05;
-	padding: layout.$spacing-05;
+	gap: var(--space-4);
+	padding: var(--space-4);
 }
 
 // Section
 .section {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 .sectionTitle {
 	margin: 0;
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 }
 
 .sectionDescription {
 	margin: 0;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 }
 
 .inputGroup {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 }
 
 // Channel Info
 .channelInfo {
 	display: flex;
 	align-items: flex-start;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-small;
+	gap: var(--space-1);
+	padding: var(--space-2);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-sm);
 
 	i {
-		color: var(--color-icon-secondary-default);
+		color: var(--color-base-content-secondary);
 		flex-shrink: 0;
 		margin-top: 2px;
 	}
@@ -90,15 +87,15 @@
 .hint {
 	display: flex;
 	align-items: flex-start;
-	gap: layout.$spacing-02;
-	padding: layout.$spacing-03;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
-	background-color: var(--color-bg-info-alpha);
-	border-radius: border.$border-radius-small;
+	gap: var(--space-1);
+	padding: var(--space-2);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
+	border-radius: var(--radius-sm);
 
 	i {
-		color: var(--color-info-default);
+		color: var(--color-info);
 		flex-shrink: 0;
 		margin-top: 2px;
 	}
@@ -108,21 +105,21 @@
 .enabledChannels {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-03;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-small;
+	gap: var(--space-2);
+	padding: var(--space-2);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-sm);
 }
 
 .enabledChannelsLabel {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 }
 
 .channelIcons {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .channelIcon {
@@ -131,23 +128,23 @@
 	justify-content: center;
 	width: 28px;
 	height: 28px;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-small;
-	color: var(--color-icon-primary-default);
+	background-color: var(--color-surface);
+	border-radius: var(--radius-sm);
+	color: var(--color-base-content);
 
 	i {
-		font-size: typography.$font-size-md;
+		font-size: var(--font-size-base);
 	}
 }
 
 // Responsive
-@media (width <= 768px) {
+@include breakpoint-down(md) {
 	.header {
-		padding: layout.$spacing-04;
+		padding: var(--space-3);
 	}
 
 	.content {
-		padding: layout.$spacing-04;
+		padding: var(--space-3);
 	}
 
 	.enabledChannels {

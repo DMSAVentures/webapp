@@ -1,133 +1,133 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
+// =============================================================================
+// EMAIL TEMPLATES PAGE STYLES
+// =============================================================================
 
 .page {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-06;
-	padding: layout.$spacing-06;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
 }
 
 .pageHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: layout.$spacing-05;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
 }
 
 .headerContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
-	flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
 }
 
 .pageTitle {
-	font-size: typography.$font-size-h2;
-	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-tight;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .pageDescription {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-regular;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 .pageContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .templatesList {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .templateCard {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 .templateHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: layout.$spacing-04;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
 }
 
 .templateInfo {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
-	flex: 1;
-	min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
 }
 
 .templateName {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .templateSubject {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-regular;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 .templateMeta {
-	display: flex;
-	gap: layout.$spacing-03;
-	align-items: center;
-	flex-wrap: wrap;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 .campaignName {
-	color: var(--color-text-tertiary-default);
+  color: var(--color-base-content-tertiary);
 }
 
 .templateActions {
-	display: flex;
-	gap: layout.$spacing-02;
-	flex-shrink: 0;
+  display: flex;
+  gap: var(--space-1);
+  flex-shrink: 0;
 }
 
 .templateStats {
-	display: flex;
-	gap: layout.$spacing-05;
-	padding-top: layout.$spacing-03;
-	border-top: 1px solid var(--color-border-primary-default);
-	font-size: typography.$font-size-sm;
+  display: flex;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
 }
 
 .statItem {
-	display: flex;
-	gap: layout.$spacing-02;
-	align-items: center;
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
 }
 
 .statLabel {
-	color: var(--color-text-secondary-default);
+  color: var(--color-base-content-secondary);
 }
 
 .statValue {
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }

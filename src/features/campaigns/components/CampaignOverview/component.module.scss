@@ -1,30 +1,27 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .overviewContent {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-05;
+	gap: var(--space-4);
 }
 
 .header {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .title {
-	font-size: typography.$font-size-xl;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 	margin: 0;
 }
 
 .description {
-	font-size: typography.$font-size-md;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-base);
+	color: var(--color-base-content-secondary);
 	margin: 0;
 }
 
@@ -32,32 +29,32 @@
 .statusRow {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .statusLabel {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 }
 
 // Checklist Section
 .checklistSection {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-03;
+	gap: var(--space-2);
 }
 
 .checklistTitle {
-	font-size: typography.$font-size-h4;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 	margin: 0;
 }
 
 .checklistCard {
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
-	padding: layout.$spacing-05;
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-md);
+	padding: var(--space-4);
 }
 
 .checklistItems {
@@ -66,111 +63,111 @@
 	padding: 0;
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .checklistItem {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-04;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
+	gap: var(--space-2);
+	padding: var(--space-3);
+	background-color: var(--color-surface);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-border);
 	cursor: pointer;
 	transition: background-color 0.15s ease, border-color 0.15s ease;
 
 	&:hover {
-		background-color: var(--color-bg-secondary-hover);
-		border-color: var(--color-border-primary-hover);
+		background-color: var(--color-base-200);
+		border-color: var(--color-border-hover);
 	}
 }
 
 .checklistIcon {
-	font-size: typography.$font-size-xl;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-xl);
+	color: var(--color-base-content-secondary);
 	flex-shrink: 0;
 }
 
 .checklistItemComplete {
 	.checklistIcon {
-		color: var(--color-success-default);
+		color: var(--color-success);
 	}
 
 	.checklistItemText {
-		color: var(--color-text-secondary-default);
+		color: var(--color-base-content-secondary);
 	}
 
 	.checklistItemDescription {
-		color: var(--color-text-tertiary-default);
+		color: var(--color-base-content-tertiary);
 	}
 }
 
 .checklistItemContent {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-01;
+	gap: var(--space-0-5);
 	flex: 1;
 	min-width: 0;
 }
 
 .checklistItemText {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-base-content);
 }
 
 .checklistItemDescription {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-secondary);
 }
 
 .checklistItemBadge {
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-medium;
-	padding: layout.$spacing-01 layout.$spacing-02;
-	background-color: var(--color-bg-danger-alpha);
-	color: var(--color-error-text);
-	border-radius: border.$border-radius-small;
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-medium);
+	padding: var(--space-0-5) var(--space-1);
+	background-color: oklch(from var(--color-error) l c h / 0.15);
+	color: var(--color-error);
+	border-radius: var(--radius-sm);
 	flex-shrink: 0;
 }
 
 .checklistArrow {
-	font-size: typography.$font-size-lg;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-lg);
+	color: var(--color-base-content-tertiary);
 	flex-shrink: 0;
 }
 
 .checklistFooter {
 	display: flex;
 	justify-content: flex-end;
-	padding-top: layout.$spacing-04;
-	margin-top: layout.$spacing-04;
-	border-top: 1px solid var(--color-border-primary-default);
+	padding-top: var(--space-3);
+	margin-top: var(--space-3);
+	border-top: 1px solid var(--color-border);
 }
 
 // Configuration Section
 .configSection {
-	margin-top: layout.$spacing-06;
+	margin-top: var(--space-5);
 }
 
 .detailsTitle {
-	margin: 0 0 layout.$spacing-04 0;
-	font-size: typography.$font-size-h4;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	margin: 0 0 var(--space-3) 0;
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 }
 
 .configGrid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: layout.$spacing-04;
+	gap: var(--space-3);
 
-	@media (max-width: breakpoints.$breakpoint-lg) {
+	@include breakpoint-down(lg) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	@media (max-width: breakpoints.$breakpoint-sm) {
+	@include breakpoint-down(sm) {
 		grid-template-columns: 1fr;
 	}
 }
@@ -178,52 +175,52 @@
 .configCard {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-04;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
+	gap: var(--space-2);
+	padding: var(--space-3);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-border);
 }
 
 .configCardHeader {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 }
 
 .configCardIcon {
-	font-size: typography.$font-size-lg;
-	color: var(--color-icon-secondary-default);
+	font-size: var(--font-size-lg);
+	color: var(--color-base-content-secondary);
 }
 
 .configCardTitle {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
 	flex: 1;
 }
 
 .configCardDetails {
 	display: flex;
 	flex-direction: column;
-	gap: layout.$spacing-01;
-	padding-top: layout.$spacing-02;
-	border-top: 1px solid var(--color-border-primary-default);
+	gap: var(--space-0-5);
+	padding-top: var(--space-1);
+	border-top: 1px solid var(--color-border);
 }
 
 .configDetail {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-secondary);
 
 	strong {
-		font-weight: typography.$font-weight-semibold;
-		color: var(--color-text-primary-default);
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-base-content);
 	}
 }
 
 .configChannels {
 	display: flex;
 	flex-wrap: wrap;
-	gap: layout.$spacing-02;
-	margin-top: layout.$spacing-02;
+	gap: var(--space-1);
+	margin-top: var(--space-1);
 }

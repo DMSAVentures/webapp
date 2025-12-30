@@ -1,63 +1,63 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
+// =============================================================================
+// WEBHOOK DETAIL PAGE STYLES
+// =============================================================================
 
 .page {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-06;
-	padding: layout.$spacing-06;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
 }
 
 .pageHeader {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .headerActions {
-	margin-bottom: layout.$spacing-02;
+  margin-bottom: var(--space-1);
 }
 
 .headerTop {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: layout.$spacing-04;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
 }
 
 .headerContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
-	flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
 }
 
 .pageTitle {
-	font-size: typography.$font-size-h2;
-	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-tight;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .pageDescription {
-	font-size: typography.$font-size-sm;
-	font-family: typography.$font-family-mono;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-secondary-default);
-	margin: 0;
-	word-break: break-all;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family-mono);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-base-content-secondary);
+  margin: 0;
+  word-break: break-all;
 }
 
 .retryInfo {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
-	margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-tertiary);
+  margin: 0;
 }
 
 .pageContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }

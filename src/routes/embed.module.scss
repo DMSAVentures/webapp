@@ -1,4 +1,6 @@
-@use "@/design-tokens/layout" as layout;
+// =============================================================================
+// EMBED PAGE STYLES
+// =============================================================================
 
 .root {
   min-height: 100%;
@@ -6,8 +8,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-secondary-default);
+  padding: var(--space-4);
+  background-color: var(--color-base-100);
 }
 
 .form {

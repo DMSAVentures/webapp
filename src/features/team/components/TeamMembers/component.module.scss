@@ -1,13 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-06;
+  gap: var(--space-5);
   width: 100%;
 }
 
@@ -16,26 +12,26 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
 .headerContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .title {
-  font-size: typography.$font-size-h3;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .subtitle {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
   margin: 0;
 }
 
@@ -43,13 +39,13 @@
 .section {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .sectionTitle {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
@@ -57,48 +53,48 @@
 .table {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 .tableHeader {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 100px;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-04 layout.$spacing-05;
-  background-color: var(--color-bg-tertiary-default);
-  border-bottom: border.$border-width-small solid var(--color-border-primary-default);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-base-200);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .tableRow {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 100px;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-04 layout.$spacing-05;
-  border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
-  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--duration-fast) var(--ease-out);
 
   &:last-child {
     border-bottom: none;
   }
 
   &:hover {
-    background-color: var(--color-bg-secondary-default);
+    background-color: var(--color-base-100);
   }
 }
 
 .tableCell {
   display: flex;
   align-items: center;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
-  font-weight: typography.$font-weight-medium;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
+  font-weight: var(--font-weight-medium);
 
   .tableRow & {
-    font-weight: typography.$font-weight-regular;
-    color: var(--color-text-primary-default);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-base-content);
   }
 }
 
@@ -106,7 +102,7 @@
 .memberInfo {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .avatar {
@@ -115,50 +111,50 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: border.$border-radius-round;
+  border-radius: var(--radius-full);
   background-color: var(--color-bg-primary-default);
   color: var(--color-text-inverse-default);
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
   flex-shrink: 0;
 }
 
 .avatarPending {
-  background-color: var(--color-bg-secondary-default);
-  color: var(--color-text-secondary-default);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content-secondary);
 
   i {
-    font-size: typography.$font-size-lg;
+    font-size: var(--font-size-lg);
   }
 }
 
 .memberDetails {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-01;
+  gap: var(--space-0-5);
   min-width: 0;
 }
 
 .memberName {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .memberEmail {
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .pendingLabel {
-  font-size: typography.$font-size-xs;
-  color: var(--color-text-tertiary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-tertiary);
   font-style: italic;
 }
 
@@ -169,8 +165,8 @@
 
 // Last active
 .lastActive {
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Loading state
@@ -178,14 +174,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-08;
-  color: var(--color-text-secondary-default);
-  font-size: typography.$font-size-md;
+  gap: var(--space-2);
+  padding: var(--space-8);
+  color: var(--color-base-content-secondary);
+  font-size: var(--font-size-base);
 
   i {
-    font-size: typography.$font-size-xl;
-    animation: spin motion.$duration-slow-02 linear infinite;
+    font-size: var(--font-size-xl);
+    animation: spin 1.5s linear infinite;
   }
 }
 
@@ -204,16 +200,16 @@
 .error {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-04;
-  background-color: var(--color-bg-danger-alpha);
-  border: border.$border-width-small solid var(--color-border-danger-default);
-  border-radius: border.$border-radius-medium;
-  color: var(--color-error-text);
-  font-size: typography.$font-size-md;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: oklch(from var(--color-error) l c h / 0.15);
+  border: 1px solid var(--color-border-danger-default);
+  border-radius: var(--radius-md);
+  color: var(--color-error);
+  font-size: var(--font-size-base);
 
   i {
-    font-size: typography.$font-size-lg;
+    font-size: var(--font-size-lg);
     flex-shrink: 0;
   }
 }
@@ -224,39 +220,39 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-10;
+  gap: var(--space-3);
+  padding: var(--space-12);
   text-align: center;
 
   i {
-    font-size: typography.$font-size-display;
-    color: var(--color-text-tertiary-default);
+    font-size: var(--font-size-5xl);
+    color: var(--color-base-content-tertiary);
   }
 }
 
 .emptyTitle {
-  font-size: typography.$font-size-xl;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .emptyText {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
   margin: 0;
   max-width: 400px;
 }
 
 // Responsive
-@media (max-width: breakpoints.$breakpoint-lg) {
+@include breakpoint-down(lg) {
   .tableHeader,
   .tableRow {
     grid-template-columns: 2fr 1fr 1fr 80px;
   }
 }
 
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .header {
     flex-direction: column;
     align-items: stretch;

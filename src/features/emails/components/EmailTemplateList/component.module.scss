@@ -1,13 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-05;
+  gap: var(--space-4);
   width: 100%;
 }
 
@@ -16,25 +12,25 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 .headerContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .title {
-  font-size: typography.$font-size-h2;
-  font-weight: typography.$font-weight-bold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .subtitle {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
   margin: 0;
 }
 
@@ -42,50 +38,50 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: layout.$spacing-04;
+  gap: var(--space-3);
 }
 
 // Template card
 .card {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: border-color motion.$duration-fast-01 motion.$easing-productive-standard,
-              box-shadow motion.$duration-fast-01 motion.$easing-productive-standard;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
 
   &:hover {
-    border-color: var(--color-border-primary-hover);
+    border-color: var(--color-border-hover);
     box-shadow: 0 2px 8px var(--color-shadow-default);
   }
 
   &:focus-visible {
-    outline: border.$border-width-medium solid var(--color-focus-ring-default);
-    outline-offset: layout.$spacing-01;
+    outline: 2px solid var(--color-focus-ring-default);
+    outline-offset: var(--space-0-5);
   }
 }
 
 .cardHeader {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .cardTitle {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .templateName {
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,13 +92,13 @@
 .templateType {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 
   i {
-    font-size: typography.$font-size-md;
-    color: var(--color-icon-secondary-default);
+    font-size: var(--font-size-base);
+    color: var(--color-base-content-secondary);
   }
 }
 
@@ -110,37 +106,37 @@
 .cardContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-03;
+  gap: var(--space-2);
 }
 
 .subject,
 .preheader {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .subjectLabel,
 .preheaderLabel {
-  font-size: typography.$font-size-xs;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content-secondary);
   text-transform: uppercase;
-  letter-spacing: typography.$letter-spacing-wider;
+  letter-spacing: var(--letter-spacing-wide)r;
 }
 
 .subjectText,
 .preheaderText {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .preheaderText {
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Card footer
@@ -148,27 +144,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: layout.$spacing-03;
-  padding-top: layout.$spacing-03;
-  border-top: border.$border-width-small solid var(--color-border-primary-default);
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
 }
 
 .date {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
-  color: var(--color-text-tertiary-default);
-  font-size: typography.$font-size-xs;
+  gap: var(--space-1);
+  color: var(--color-base-content-tertiary);
+  font-size: var(--font-size-xs);
 
   i {
-    font-size: typography.$font-size-sm;
+    font-size: var(--font-size-sm);
   }
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 // Empty state
@@ -177,35 +173,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-08 layout.$spacing-05;
-  background-color: var(--color-surface-secondary-default);
-  border: border.$border-width-small dashed var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-4);
+  background-color: var(--color-base-100);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
   text-align: center;
 }
 
 .emptyIcon {
-  font-size: typography.$font-size-h1;
-  color: var(--color-icon-secondary-default);
+  font-size: var(--font-size-4xl);
+  color: var(--color-base-content-secondary);
 }
 
 .emptyTitle {
-  font-size: typography.$font-size-h4;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
   margin: 0;
 }
 
 .emptyDescription {
-  font-size: typography.$font-size-md;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
   margin: 0;
   max-width: 400px;
 }
 
 // Responsive adjustments
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .header {
     flex-direction: column;
     align-items: stretch;

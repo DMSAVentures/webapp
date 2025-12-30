@@ -1,367 +1,368 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+// =============================================================================
+// CAMPAIGN DETAIL PAGE STYLES
+// =============================================================================
+@use "@/proto-design-system/mixins" as *;
 
 .page {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-06;
-	padding: layout.$spacing-06;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
 
-	@media (max-width: breakpoints.$breakpoint-md) {
-		padding: layout.$spacing-04;
-		gap: layout.$spacing-04;
-	}
+  @include breakpoint-down(md) {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
 }
 
 .pageHeader {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .headerTop {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: layout.$spacing-05;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
 
-	@media (max-width: breakpoints.$breakpoint-md) {
-		flex-direction: column;
-		gap: layout.$spacing-04;
-	}
+  @include breakpoint-down(md) {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
 }
 
 .actions {
-	display: flex;
-	gap: layout.$spacing-03;
-	align-items: center;
-	flex-wrap: wrap;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
 
-	@media (max-width: breakpoints.$breakpoint-md) {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		width: 100%;
-	}
+  @include breakpoint-down(md) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
 }
 
 .headerContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-04;
-	flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
 }
 
 .pageTitle {
-	font-size: typography.$font-size-h2;
-	font-weight: typography.$font-weight-semibold;
-	line-height: typography.$line-height-tight;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .pageDescription {
-	font-size: typography.$font-size-md;
-	font-weight: typography.$font-weight-regular;
-	line-height: typography.$line-height-relaxed;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 .pageContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .headerActions {
-	margin-bottom: layout.$spacing-04;
+  margin-bottom: var(--space-3);
 }
 
 .badges {
-	display: flex;
-	gap: layout.$spacing-02;
-	margin-top: layout.$spacing-03;
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
 }
 
 .detailsCard {
-	margin-top: layout.$spacing-06;
+  margin-top: var(--space-5);
 }
 
 .detailsContent {
-	padding: layout.$spacing-05;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
+  padding: var(--space-4);
+  background-color: var(--color-base-100);
+  border-radius: var(--radius-md);
 }
 
 .detailsSection {
-	padding: layout.$spacing-05 0;
+  padding: var(--space-4) 0;
 
-	&:last-child {
-		padding-bottom: 0;
-	}
+  &:last-child {
+    padding-bottom: 0;
+  }
 
-	&:first-child {
-		padding-top: 0;
-	}
+  &:first-child {
+    padding-top: 0;
+  }
 }
 
 // Configuration Section - Card Layout
 .configSection {
-	margin-top: layout.$spacing-06;
+  margin-top: var(--space-5);
 }
 
 .configGrid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: layout.$spacing-04;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
 
-	@media (max-width: breakpoints.$breakpoint-lg) {
-		grid-template-columns: repeat(2, 1fr);
-	}
+  @include breakpoint-down(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-	@media (max-width: breakpoints.$breakpoint-sm) {
-		grid-template-columns: 1fr;
-	}
+  @include breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .configCard {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-04;
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-base-100);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 .configCardHeader {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-02;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 
 .configCardIcon {
-	font-size: typography.$font-size-lg;
-	color: var(--color-icon-secondary-default);
+  font-size: var(--font-size-lg);
+  color: var(--color-base-content-secondary);
 }
 
 .configCardTitle {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
-	flex: 1;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
+  flex: 1;
 }
 
 .configCardDetails {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-01;
-	padding-top: layout.$spacing-02;
-	border-top: 1px solid var(--color-border-primary-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-border);
 }
 
 .configDetail {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
 
-	strong {
-		font-weight: typography.$font-weight-semibold;
-		color: var(--color-text-primary-default);
-	}
+  strong {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-base-content);
+  }
 }
 
 .configChannels {
-	display: flex;
-	flex-wrap: wrap;
-	gap: layout.$spacing-02;
-	margin-top: layout.$spacing-02;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
 }
 
 .detailsTitle {
-	margin: 0 0 layout.$spacing-04 0;
-	font-size: typography.$font-size-h4;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .sectionTitle {
-	margin: 0 0 layout.$spacing-03 0;
-	font-size: typography.$font-size-xl;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .detailsList {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-03;
-	font-size: typography.$font-size-sm;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
 }
 
 .detailItem {
-	display: flex;
-	gap: layout.$spacing-02;
+  display: flex;
+  gap: var(--space-1);
 }
 
 .detailLabel {
-	min-width: 140px;
-	color: var(--color-text-secondary-default);
-	font-weight: typography.$font-weight-medium;
+  min-width: 140px;
+  color: var(--color-base-content-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 .detailValue {
-	color: var(--color-text-primary-default);
+  color: var(--color-base-content);
 }
 
 .detailValueMono {
-	font-family: typography.$font-family-mono;
-	color: var(--color-text-primary-default);
+  font-family: var(--font-family-mono);
+  color: var(--color-base-content);
 }
 
 .overviewContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .header {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .title {
-	font-size: typography.$font-size-xl;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .description {
-	font-size: typography.$font-size-md;
-	color: var(--color-text-secondary-default);
-	margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--color-base-content-secondary);
+  margin: 0;
 }
 
 // Status Row
 .statusRow {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-03;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .statusLabel {
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Checklist Section
 .checklistSection {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-03;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .checklistTitle {
-	font-size: typography.$font-size-h4;
-	font-weight: typography.$font-weight-semibold;
-	color: var(--color-text-primary-default);
-	margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
+  margin: 0;
 }
 
 .checklistCard {
-	background-color: var(--color-surface-secondary-default);
-	border-radius: border.$border-radius-medium;
-	padding: layout.$spacing-05;
+  background-color: var(--color-base-100);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
 }
 
 .checklistItems {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-02;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .checklistItem {
-	display: flex;
-	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-04;
-	background-color: var(--color-surface-primary-default);
-	border-radius: border.$border-radius-medium;
-	border: 1px solid var(--color-border-primary-default);
-	cursor: pointer;
-	transition: background-color 0.15s ease, border-color 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 
-	&:hover {
-		background-color: var(--color-bg-secondary-hover);
-		border-color: var(--color-border-primary-hover);
-	}
+  &:hover {
+    background-color: var(--color-base-100);
+    border-color: var(--color-border-hover);
+  }
 }
 
 .checklistIcon {
-	font-size: typography.$font-size-xl;
-	color: var(--color-text-secondary-default);
-	flex-shrink: 0;
+  font-size: var(--font-size-xl);
+  color: var(--color-base-content-secondary);
+  flex-shrink: 0;
 }
 
 .checklistItemComplete {
-	.checklistIcon {
-		color: var(--color-success-default);
-	}
+  .checklistIcon {
+    color: var(--color-success);
+  }
 
-	.checklistItemText {
-		color: var(--color-text-secondary-default);
-	}
+  .checklistItemText {
+    color: var(--color-base-content-secondary);
+  }
 
-	.checklistItemDescription {
-		color: var(--color-text-tertiary-default);
-	}
+  .checklistItemDescription {
+    color: var(--color-base-content-tertiary);
+  }
 }
 
 .checklistItemContent {
-	display: flex;
-	flex-direction: column;
-	gap: layout.$spacing-01;
-	flex: 1;
-	min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+  flex: 1;
+  min-width: 0;
 }
 
 .checklistItemText {
-	font-size: typography.$font-size-sm;
-	font-weight: typography.$font-weight-medium;
-	color: var(--color-text-primary-default);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .checklistItemDescription {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-secondary-default);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-content-secondary);
 }
 
 .checklistItemBadge {
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-medium;
-	padding: layout.$spacing-01 layout.$spacing-02;
-	background-color: var(--color-bg-danger-alpha);
-	color: var(--color-error-text);
-	border-radius: border.$border-radius-small;
-	flex-shrink: 0;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-0-5) var(--space-1);
+  background-color: oklch(from var(--color-error) l c h / 0.15);
+  color: var(--color-error);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
 }
 
 .checklistArrow {
-	font-size: typography.$font-size-lg;
-	color: var(--color-text-tertiary-default);
-	flex-shrink: 0;
+  font-size: var(--font-size-lg);
+  color: var(--color-base-content-tertiary);
+  flex-shrink: 0;
 }
 
 .checklistFooter {
-	display: flex;
-	justify-content: flex-end;
-	padding-top: layout.$spacing-04;
-	margin-top: layout.$spacing-04;
-	border-top: 1px solid var(--color-border-primary-default);
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
 }

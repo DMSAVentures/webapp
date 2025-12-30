@@ -1,128 +1,128 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/breakpoints" as breakpoints;
+// =============================================================================
+// TRAFFIC SOURCES STYLES
+// =============================================================================
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   width: 100%;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-medium;
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 // Header
 .header {
-  margin-bottom: layout.$spacing-04;
+  margin-bottom: var(--space-3);
 }
 
 .title {
-  margin: 0 0 layout.$spacing-01 0;
-  font-size: typography.$font-size-h5;
-  font-weight: typography.$font-weight-bold;
-  color: var(--color-text-primary-default);
+  margin: 0 0 var(--space-0-5) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-base-content);
 }
 
 .subtitle {
   margin: 0;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 // Custom tooltip
 .tooltip {
-  padding: layout.$spacing-03 layout.$spacing-04;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: border.$border-radius-small;
-  box-shadow: 0 layout.$spacing-02 layout.$spacing-04 var(--color-shadow-default);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
 }
 
 .tooltipLabel {
-  margin: 0 0 layout.$spacing-02 0;
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .tooltipContent {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-02;
+  gap: var(--space-1);
 }
 
 .tooltipItem {
   display: flex;
   justify-content: space-between;
-  gap: layout.$spacing-04;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-base-content-secondary);
 }
 
 .tooltipName {
-  font-weight: typography.$font-weight-medium;
+  font-weight: var(--font-weight-medium);
 }
 
 .tooltipValue {
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 // Source list
 .sourceList {
-  margin-top: layout.$spacing-05;
-  padding-top: layout.$spacing-04;
-  border-top: border.$border-width-small solid var(--color-border-secondary-default);
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
 }
 
 .sourceItem {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-02 0;
-  font-size: typography.$font-size-sm;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  font-size: var(--font-size-sm);
 
   &:not(:last-child) {
-    border-bottom: border.$border-width-small solid var(--color-border-secondary-default);
+    border-bottom: 1px solid var(--color-border);
   }
 }
 
 .sourceDot {
   display: inline-block;
-  width: layout.$spacing-03;
-  height: layout.$spacing-03;
-  border-radius: 50%;
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-full);
   flex-shrink: 0;
 }
 
 .sourceName {
   flex: 1;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .sourceCount {
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-base-content);
 }
 
 .sourcePercentage {
-  color: var(--color-text-secondary-default);
+  color: var(--color-base-content-secondary);
   min-width: 60px;
   text-align: right;
 }
 
 // Responsive adjustments
-@media (max-width: breakpoints.$breakpoint-md) {
+@include breakpoint-down(md) {
   .root {
-    padding: layout.$spacing-04;
+    padding: var(--space-3);
   }
 
   .tooltip {
-    padding: layout.$spacing-02 layout.$spacing-03;
+    padding: var(--space-1) var(--space-2);
   }
 
   .sourceItem {
-    font-size: typography.$font-size-xs;
+    font-size: var(--font-size-xs);
   }
 }

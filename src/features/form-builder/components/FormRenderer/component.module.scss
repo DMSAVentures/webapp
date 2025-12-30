@@ -1,18 +1,15 @@
+@use "@/proto-design-system/mixins" as *;
 /**
  * FormRenderer Component Styles
  * Handles form layout and container styling
  */
 
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .form {
   font-family: var(--form-font-family, inherit);
-  background-color: var(--form-bg-color, var(--color-surface-primary-default));
-  padding: calc(var(--form-padding, layout.$spacing-04) * 2);
-  border-radius: var(--form-border-radius, border.$border-radius-medium);
+  background-color: var(--form-bg-color, var(--color-surface));
+  padding: calc(var(--form-padding, var(--space-3)) * 2);
+  border-radius: var(--form-border-radius, var(--radius-md));
 }
 
 .fields {
@@ -23,7 +20,7 @@
 .fieldsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--form-gap, layout.$spacing-04);
+  gap: var(--form-gap, var(--space-3));
   align-items: start;
 }
 
@@ -39,12 +36,12 @@
   color: var(--form-bg-color, #fff);
   background-color: var(--form-primary-color, var(--color-primary));
   border: none;
-  border-radius: var(--form-border-radius, border.$border-radius-medium);
-  padding: var(--form-padding, layout.$spacing-04) calc(var(--form-padding, layout.$spacing-04) * 2);
-  margin-top: var(--form-gap, layout.$spacing-04);
+  border-radius: var(--form-border-radius, var(--radius-md));
+  padding: var(--form-padding, var(--space-3)) calc(var(--form-padding, var(--space-3)) * 2);
+  margin-top: var(--form-gap, var(--space-3));
   cursor: pointer;
-  transition: background-color motion.$duration-fast-01 motion.$easing-productive-standard,
-    opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
 
   &:hover:not(:disabled) {
     opacity: 0.9;
@@ -66,12 +63,12 @@
 }
 
 .error {
-  padding: var(--form-padding, layout.$spacing-04);
-  background-color: var(--color-bg-danger-alpha);
-  border: 1px solid var(--form-error-color, var(--color-error-default));
-  border-radius: var(--form-border-radius, border.$border-radius-medium);
-  margin-bottom: var(--form-gap, layout.$spacing-04);
-  color: var(--form-error-color, var(--color-error-default));
+  padding: var(--form-padding, var(--space-3));
+  background-color: oklch(from var(--color-error) l c h / 0.15);
+  border: 1px solid var(--form-error-color, var(--color-error));
+  border-radius: var(--form-border-radius, var(--radius-md));
+  margin-bottom: var(--form-gap, var(--space-3));
+  color: var(--form-error-color, var(--color-error));
   font-size: var(--form-font-size, 14px);
 }
 
@@ -81,72 +78,72 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: calc(var(--form-padding, layout.$spacing-04) * 2);
-  gap: var(--form-gap, layout.$spacing-04);
+  padding: calc(var(--form-padding, var(--space-3)) * 2);
+  gap: var(--form-gap, var(--space-3));
 
   &Icon {
-    font-size: typography.$font-size-h1;
-    color: var(--form-success-color, var(--color-success-default));
+    font-size: var(--font-size-4xl);
+    color: var(--form-success-color, var(--color-success));
   }
 
   &Title {
     font-size: calc(var(--form-font-size, 14px) + 4px);
-    font-weight: typography.$font-weight-semibold;
-    color: var(--form-text-color, var(--color-text-primary-default));
+    font-weight: var(--font-weight-semibold);
+    color: var(--form-text-color, var(--color-base-content));
     margin: 0;
   }
 
   &Message {
     font-size: var(--form-font-size, 14px);
-    color: var(--form-text-color, var(--color-text-secondary-default));
+    color: var(--form-text-color, var(--color-base-content-secondary));
     margin: 0;
   }
 }
 
 .referralSection {
   width: 100%;
-  margin-top: var(--form-gap, layout.$spacing-04);
+  margin-top: var(--form-gap, var(--space-3));
   text-align: left;
 }
 
 .captcha {
-  margin-top: var(--form-gap, layout.$spacing-04);
+  margin-top: var(--form-gap, var(--space-3));
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .captchaError {
-  color: var(--form-error-color, var(--color-error-default));
-  font-size: typography.$font-size-sm;
-  margin-top: layout.$spacing-02;
+  color: var(--form-error-color, var(--color-error));
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-1);
   text-align: center;
 }
 
 .statusBanner {
   text-align: center;
-  padding: var(--form-padding, layout.$spacing-05);
-  margin-bottom: var(--form-gap, layout.$spacing-04);
-  background-color: var(--color-bg-info-alpha);
+  padding: var(--form-padding, var(--space-4));
+  margin-bottom: var(--form-gap, var(--space-3));
+  background-color: oklch(from var(--color-info) l c h / 0.15);
   border: 1px solid var(--color-border-info-default);
-  border-radius: var(--form-border-radius, border.$border-radius-medium);
+  border-radius: var(--form-border-radius, var(--radius-md));
 }
 
 .statusTitle {
   font-size: calc(var(--form-font-size, 14px) + 2px);
-  font-weight: typography.$font-weight-semibold;
-  color: var(--form-text-color, var(--color-text-primary-default));
-  margin: 0 0 layout.$spacing-02 0;
+  font-weight: var(--font-weight-semibold);
+  color: var(--form-text-color, var(--color-base-content));
+  margin: 0 0 var(--space-1) 0;
 }
 
 .statusMessage {
   font-size: var(--form-font-size, 14px);
-  color: var(--form-text-color, var(--color-text-secondary-default));
+  color: var(--form-text-color, var(--color-base-content-secondary));
   margin: 0;
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .fieldsGrid {
     grid-template-columns: 1fr;
   }

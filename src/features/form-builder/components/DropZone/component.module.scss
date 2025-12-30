@@ -1,12 +1,9 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/border" as border;
-@use "@/design-tokens/motion" as motion;
 
 .root {
-  min-height: layout.$spacing-08; // 32px - much larger hit area
-  padding: layout.$spacing-04 0;
-  border-radius: border.$border-radius-small;
-  transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+  min-height: var(--space-8); // 32px - much larger hit area
+  padding: var(--space-3) 0;
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast) var(--ease-out);
   position: relative;
   display: flex;
   align-items: center;
@@ -21,15 +18,15 @@
     right: 0;
     height: 2px;
     background-color: transparent;
-    transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
-    border-radius: border.$border-radius-round;
+    transition: all var(--duration-fast) var(--ease-out);
+    border-radius: var(--radius-full);
   }
 
   &.active {
-    min-height: layout.$spacing-09; // 48px when active
-    background-color: var(--color-bg-info-alpha);
-    border: border.$border-width-small dashed var(--color-border-info-default);
-    padding: layout.$spacing-05 0;
+    min-height: var(--space-10); // 48px when active
+    background-color: oklch(from var(--color-info) l c h / 0.15);
+    border: 1px dashed var(--color-border-info-default);
+    padding: var(--space-4) 0;
 
     &::before {
       background-color: var(--color-border-info-default);

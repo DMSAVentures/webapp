@@ -1,22 +1,18 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
 
 .root {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-03;
-	padding: layout.$spacing-03;
-	background-color: var(--color-surface-primary-default);
-	border: border.$border-width-small solid var(--color-border-primary-default);
-	border-radius: border.$border-radius-medium;
+	gap: var(--space-2);
+	padding: var(--space-2);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition: all motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: all var(--duration-fast) var(--ease-out);
 
 	&:hover {
-		border-color: var(--color-border-primary-hover);
-		background-color: var(--color-surface-secondary-default);
+		border-color: var(--color-border-hover);
+		background-color: var(--color-base-100);
 	}
 
 	&:focus-visible {
@@ -26,18 +22,18 @@
 }
 
 .selected {
-	border-color: var(--color-info-default);
-	background-color: var(--color-bg-info-alpha);
+	border-color: var(--color-info);
+	background-color: oklch(from var(--color-info) l c h / 0.15);
 
 	&:hover {
-		border-color: var(--color-info-default);
+		border-color: var(--color-info);
 	}
 }
 
 .typeInfo {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-02;
+	gap: var(--space-1);
 	flex-shrink: 0;
 
 	> i {
@@ -46,61 +42,61 @@
 		justify-content: center;
 		width: 28px;
 		height: 28px;
-		font-size: typography.$font-size-md;
-		color: var(--color-icon-primary-default);
-		background-color: var(--color-bg-secondary-default);
-		border-radius: border.$border-radius-small;
+		font-size: var(--font-size-base);
+		color: var(--color-base-content);
+		background-color: var(--color-base-100);
+		border-radius: var(--radius-sm);
 	}
 }
 
 .content {
 	flex: 1;
 	min-width: 0;
-	font-size: typography.$font-size-sm;
-	color: var(--color-text-secondary-default);
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-height: typography.$line-height-normal;
+	line-height: var(--line-height-normal);
 
 	// Allow variable chips to show
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: layout.$spacing-01;
+	gap: var(--space-0-5);
 }
 
 .buttonPreview {
 	display: inline-flex;
 	align-items: center;
-	gap: layout.$spacing-01;
-	padding: layout.$spacing-01 layout.$spacing-02;
-	background-color: var(--color-bg-secondary-default);
-	border-radius: border.$border-radius-small;
-	font-size: typography.$font-size-xs;
-	font-weight: typography.$font-weight-medium;
+	gap: var(--space-0-5);
+	padding: var(--space-0-5) var(--space-1);
+	background-color: var(--color-base-100);
+	border-radius: var(--radius-sm);
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-medium);
 }
 
 .dividerPreview {
 	display: block;
 	width: 100%;
 	height: 1px;
-	background-color: var(--color-border-primary-default);
+	background-color: var(--color-border);
 }
 
 .spacerPreview {
-	font-size: typography.$font-size-xs;
-	color: var(--color-text-tertiary-default);
+	font-size: var(--font-size-xs);
+	color: var(--color-base-content-tertiary);
 	font-style: italic;
 }
 
 .actions {
 	display: flex;
 	align-items: center;
-	gap: layout.$spacing-01;
+	gap: var(--space-0-5);
 	flex-shrink: 0;
 	opacity: 0;
-	transition: opacity motion.$duration-fast-01 motion.$easing-productive-standard;
+	transition: opacity var(--duration-fast) var(--ease-out);
 
 	.root:hover &,
 	.root:focus-within &,
