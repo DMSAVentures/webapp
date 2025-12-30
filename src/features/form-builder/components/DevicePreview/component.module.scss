@@ -81,32 +81,27 @@
 	.deviceFrame {
 		width: 100%;
 		max-width: 100%;
-		min-height: 600px;
+		min-height: 500px;
 	}
 }
 
 .device_tablet {
 	.deviceFrame {
-		width: 768px;
-		min-height: 600px;
+		width: 100%;
+		max-width: 600px;
+		min-height: 500px;
 	}
 }
 
 .device_mobile {
 	.deviceFrame {
-		width: 375px;
-		min-height: 667px;
+		width: 100%;
+		max-width: 375px;
+		min-height: 550px;
 	}
 }
 
 // Responsive adjustments
-@include breakpoint-down(lg) {
-	.device_tablet .deviceFrame {
-		width: 100%;
-		max-width: 100%;
-	}
-}
-
 @include breakpoint-down(md) {
 	.root {
 		min-height: 400px;
@@ -115,7 +110,7 @@
 	.device_mobile .deviceFrame,
 	.device_tablet .deviceFrame,
 	.device_desktop .deviceFrame {
-		width: 100%;
+		max-width: 100%;
 		min-height: 400px;
 	}
 

@@ -15,56 +15,22 @@
   gap: var(--space-1);
   padding: var(--space-4);
   padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
 }
 
 // Mode Toggle
 .modeToggle {
-  display: flex;
-  gap: var(--space-1);
   padding: 0 var(--space-4);
   padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--color-border);
-}
 
-.modeButton {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-base-content-secondary);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
+  // Make ButtonGroup take full width
+  > div {
+    width: 100%;
 
-  i {
-    font-size: var(--font-size-base);
-  }
-
-  &:hover {
-    background-color: var(--color-base-200);
-    border-color: var(--color-border-hover);
-    color: var(--color-base-content);
-  }
-
-  &.active {
-    background-color: oklch(from var(--color-info) l c h / 0.15);
-    border-color: var(--color-border-focus-default);
-    color: var(--color-base-content);
-
-    i {
-      color: var(--color-info);
+    > button {
+      flex: 1;
     }
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-focus-ring-default);
-    outline-offset: var(--space-0-5);
   }
 }
 
@@ -75,6 +41,18 @@
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   padding-top: 0;
+}
+
+// Layout options - full width ButtonGroup
+.layoutOptions {
+  // Make ButtonGroup take full width
+  > div {
+    width: 100%;
+
+    > button {
+      flex: 1;
+    }
+  }
 }
 
 .title {
@@ -112,54 +90,6 @@
   color: var(--color-base-content);
 }
 
-// Layout options
-.layoutOptions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2);
-}
-
-.layoutOption {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-3);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
-  text-transform: capitalize;
-  font-size: var(--font-size-sm);
-  color: var(--color-base-content-secondary);
-
-  i {
-    font-size: var(--font-size-xl);
-    color: var(--color-base-content-secondary);
-  }
-
-  &:hover {
-    background-color: var(--color-base-200);
-    border-color: var(--color-border-hover);
-  }
-
-  &.active {
-    background-color: oklch(from var(--color-info) l c h / 0.15);
-    border-color: var(--color-border-focus-default);
-    color: var(--color-base-content);
-
-    i {
-      color: var(--color-base-content);
-    }
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-focus-ring-default);
-    outline-offset: var(--space-0-5);
-  }
-}
-
 // Color grid
 .colorGrid {
   display: flex;
@@ -171,6 +101,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+}
+
+.colorLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
 }
 
 .colorInputGroup {
@@ -204,6 +140,18 @@
   gap: var(--space-3);
 }
 
+.inputItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.inputLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-base-content);
+}
+
 // Responsive
 @include breakpoint-down(md) {
   .header {
@@ -212,9 +160,5 @@
 
   .content {
     padding: var(--space-3);
-  }
-
-  .layoutOptions {
-    grid-template-columns: 1fr;
   }
 }

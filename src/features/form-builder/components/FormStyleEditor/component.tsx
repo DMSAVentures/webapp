@@ -11,8 +11,8 @@ import {
 } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
@@ -141,53 +141,56 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 				{/* Layout Section - Always visible */}
 				<Stack gap="sm" className={styles.layoutSection}>
 					<Text as="h4" size="md" weight="semibold">Layout</Text>
-					<Stack direction="row" gap="sm" className={styles.layoutOptions}>
-						{(["single-column", "two-column", "multi-step"] as const).map(
-							(layoutType) => (
-								<button
-									key={layoutType}
-									type="button"
-									className={`${styles.layoutOption} ${design.layout === layoutType ? styles.active : ""}`}
-									onClick={() => handleLayoutChange(layoutType)}
-									aria-label={`${layoutType} layout`}
-								>
-									<Icon
-										icon={
-											layoutType === "single-column"
-												? LayoutList
-												: layoutType === "two-column"
-													? Columns2
-													: Grid2x2
-										}
-										size="md"
-									/>
-									<span>{layoutType.replace("-", " ")}</span>
-								</button>
-							),
-						)}
-					</Stack>
+					<div className={styles.layoutOptions}>
+						<ButtonGroup isFullWidth isAttached>
+							<Button
+								variant={design.layout === "single-column" ? "primary" : "ghost"}
+								size="sm"
+								leftIcon={<LayoutList size={16} />}
+								onClick={() => handleLayoutChange("single-column")}
+							>
+								Single
+							</Button>
+							<Button
+								variant={design.layout === "two-column" ? "primary" : "ghost"}
+								size="sm"
+								leftIcon={<Columns2 size={16} />}
+								onClick={() => handleLayoutChange("two-column")}
+							>
+								Double
+							</Button>
+							<Button
+								variant={design.layout === "multi-step" ? "primary" : "ghost"}
+								size="sm"
+								leftIcon={<Grid2x2 size={16} />}
+								onClick={() => handleLayoutChange("multi-step")}
+							>
+								Multi
+							</Button>
+						</ButtonGroup>
+					</div>
 				</Stack>
 				{/* Mode Toggle */}
-				<Stack direction="row" gap="xs" className={styles.modeToggle}>
-					<button
-						type="button"
-						className={`${styles.modeButton} ${mode === "templates" ? styles.active : ""}`}
-						onClick={() => setMode("templates")}
-						aria-pressed={mode === "templates"}
-					>
-						<Icon icon={Grid2x2} size="sm" />
-						Templates
-					</button>
-					<button
-						type="button"
-						className={`${styles.modeButton} ${mode === "custom" ? styles.active : ""}`}
-						onClick={() => setMode("custom")}
-						aria-pressed={mode === "custom"}
-					>
-						<Icon icon={Palette} size="sm" />
-						Custom
-					</button>
-				</Stack>
+				<div className={styles.modeToggle}>
+					<ButtonGroup isFullWidth isAttached>
+						<Button
+							variant={mode === "templates" ? "outline" : "ghost"}
+							size="sm"
+							leftIcon={<Grid2x2 size={16} />}
+							onClick={() => setMode("templates")}
+						>
+							Templates
+						</Button>
+						<Button
+							variant={mode === "custom" ? "outline" : "ghost"}
+							size="sm"
+							leftIcon={<Palette size={16} />}
+							onClick={() => setMode("custom")}
+						>
+							Custom
+						</Button>
+					</ButtonGroup>
+				</div>
 
 				{mode === "templates" ? (
 					<div className={styles.content}>
