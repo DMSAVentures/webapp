@@ -1,166 +1,42 @@
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
+// =============================================================================
+// CAMPAIGN FORM COMPONENT STYLES
+// =============================================================================
+@use "@/proto-design-system/mixins" as *;
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: layout.$spacing-06;
-  max-width: 600px;
+  max-width: var(--max-width-2xl);
   width: 100%;
 }
 
-// Section styles
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-05;
-  background-color: var(--color-surface-primary-default);
-  border: border.$border-width-small solid var(--color-border-primary-default);
-  border-radius: layout.$spacing-03;
-}
-
-.sectionTitle {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  margin: 0;
-  font-size: typography.$font-size-lg;
-  font-weight: typography.$font-weight-semibold;
-  color: var(--color-text-primary-default);
-}
-
-.sectionDescription {
-  margin: 0;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-secondary-default);
-  line-height: typography.$line-height-relaxed;
-}
-
-// Subsection for nested config (e.g., referral settings)
+// Subsection indent styling (for nested referral config)
 .subsection {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-04;
-  padding: layout.$spacing-04;
-  margin-left: layout.$spacing-05;
-  border-left: 2px solid var(--color-border-secondary-default);
-  background-color: var(--color-surface-secondary-default);
-  border-radius: 0 border.$border-radius-small border.$border-radius-small 0;
+  margin-left: var(--space-5);
+  border-left: 2px solid var(--color-border);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 
-// Sharing Channels
-.sharingChannels {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-03;
+// Empty state styling
+.emptyState {
+  padding: var(--space-4);
+  background-color: var(--color-base-100);
+  border-radius: var(--radius-md);
 }
 
-.sharingChannelsLabel {
-  font-size: typography.$font-size-sm;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
-  margin: 0;
-}
-
-.sharingChannelsHint {
-  margin: 0;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-tertiary-default);
-  line-height: typography.$line-height-relaxed;
-}
-
-.sharingChannelsList {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-02;
-}
-
-// Tracking Integrations
-.trackingIntegrations {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-04;
-}
-
-.trackingIntegration {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-03;
-  padding: layout.$spacing-04;
-  background-color: var(--color-surface-secondary-default);
-  border: border.$border-width-small solid var(--color-border-secondary-default);
-  border-radius: border.$border-radius-medium;
-}
-
-.trackingIntegrationHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: layout.$spacing-03;
-}
-
-.trackingIntegrationInfo {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-03;
-}
-
-.trackingIntegrationIcon {
-  font-size: typography.$font-size-h5;
-  color: var(--color-icon-secondary-default);
-}
-
-.trackingIntegrationName {
-  font-size: typography.$font-size-md;
-  font-weight: typography.$font-weight-medium;
-  color: var(--color-text-primary-default);
-}
-
-.trackingIntegrationActions {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-03;
-}
-
-.trackingIntegrationFields {
-  display: flex;
-  flex-direction: column;
-  gap: layout.$spacing-03;
-}
-
-.trackingEmptyState {
-  margin: 0;
-  padding: layout.$spacing-04;
-  text-align: center;
-  font-size: typography.$font-size-sm;
-  color: var(--color-text-tertiary-default);
-  background-color: var(--color-surface-secondary-default);
-  border-radius: border.$border-radius-medium;
-}
-
-// Form actions
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: layout.$spacing-03;
+// Integration icon styling
+.integrationIcon {
+  font-size: var(--font-size-xl);
+  color: var(--color-base-content-secondary);
 }
 
 // Responsive adjustments
-@media (width <= 768px) {
+@include breakpoint-down(md) {
   .root {
     max-width: 100%;
   }
 
-  .actions {
-    flex-direction: column-reverse;
-
-    .cancelButton,
-    .submitButton {
-      width: 100%;
-    }
+  .subsection {
+    margin-left: var(--space-3);
   }
 }
