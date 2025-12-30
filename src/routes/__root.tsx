@@ -1,7 +1,6 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { ErrorBoundary } from "@/components/error/error";
 import { useAuth } from "@/contexts/auth";
-import { Providers } from "@/contexts/providers";
 import { Layout } from "@/components/Layout/Layout";
 
 // Determines if the current path is a public route (e.g., /signin, /oauth/*, /embed/*, /test-*)
@@ -40,11 +39,9 @@ function RootLayout() {
 	}
 
 	return (
-		<Providers>
-			<Layout>
-				<Outlet />
-			</Layout>
-		</Providers>
+		<Layout>
+			<Outlet />
+		</Layout>
 	);
 }
 

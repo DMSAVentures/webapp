@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 import { AuthProvider, loadAuth } from "@/contexts/auth";
+import { Providers } from "@/contexts/providers";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
@@ -26,7 +27,9 @@ async function main() {
 		root.render(
 			<StrictMode>
 				<AuthProvider user={user}>
-					<RouterProvider router={router} />
+					<Providers>
+						<RouterProvider router={router} />
+					</Providers>
 				</AuthProvider>
 			</StrictMode>,
 		);

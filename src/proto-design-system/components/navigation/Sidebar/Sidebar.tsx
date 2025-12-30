@@ -568,7 +568,17 @@ export function SidebarItem({
   onClick,
   className,
 }: SidebarItemProps) {
-  const { collapsed } = useSidebarContext();
+  const { collapsed, isMobile, closeMobile } = useSidebarContext();
+
+  const handleClick = useCallback(() => {
+    onClick?.();
+    if (isMobile && href) {
+      // Delay close to allow navigation to start smoothly
+      requestAnimationFrame(() => {
+        closeMobile();
+      });
+    }
+  }, [isMobile, closeMobile, onClick, href]);
 
   const content = (
     <>
@@ -591,14 +601,14 @@ export function SidebarItem({
 
   if (href && !disabled) {
     return (
-      <a href={href} className={itemClass} aria-current={active ? "page" : undefined}>
+      <a href={href} className={itemClass} aria-current={active ? "page" : undefined} onClick={handleClick}>
         {content}
       </a>
     );
   }
 
   return (
-    <button type="button" className={itemClass} onClick={onClick} disabled={disabled}>
+    <button type="button" className={itemClass} onClick={handleClick} disabled={disabled}>
       {content}
     </button>
   );
