@@ -15,6 +15,7 @@ import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import type { Campaign } from "@/types/campaign";
 import styles from "./$campaignId/campaignLayout.module.scss";
+import {Divider} from "@/proto-design-system/components/layout/Divider";
 
 export const Route = createFileRoute("/campaigns/$campaignId")({
 	component: CampaignLayout,
@@ -97,9 +98,8 @@ function CampaignLayout() {
 
 	return (
 		<CampaignContext.Provider value={{ campaign, loading, error, refetch }}>
-
-				<header className={styles.header}>
-					<div>
+					<Stack direction={"row"} gap={"2xl"} className={styles.header}>
+                        <div>
 						<Stack direction="row" gap="sm" align="center">
 							<Breadcrumb
 								items={[
@@ -123,10 +123,10 @@ function CampaignLayout() {
 								</Button>
 							</Stack>
 						)}
-					</div>
-					<CampaignTabNav campaignId={campaignId} />
-				</header>
-
+                        </div>
+                        <Divider/>
+                    <CampaignTabNav campaignId={campaignId} />
+                    </Stack>
 				<main className={styles.content}>
 					<Outlet />
 				</main>
