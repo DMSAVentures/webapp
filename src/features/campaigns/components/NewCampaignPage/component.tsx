@@ -10,7 +10,7 @@ import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Spinner } from "@/proto-design-system";
+import { Spinner, Stack, Text } from "@/proto-design-system";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
 
@@ -187,14 +187,12 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Create Campaign</h1>
-					<p className={styles.pageDescription}>
-						Create a new waitlist or referral campaign
-					</p>
-				</div>
-			</div>
+			<Stack gap="xs" className={styles.pageHeader}>
+				<Text as="h1" size="2xl" weight="bold">Create Campaign</Text>
+				<Text color="secondary">
+					Create a new waitlist or referral campaign
+				</Text>
+			</Stack>
 
 			<div className={styles.pageContent}>
 				<CampaignForm

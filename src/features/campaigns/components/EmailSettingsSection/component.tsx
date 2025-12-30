@@ -7,13 +7,14 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { Info, Mail, MailX, Pencil } from "lucide-react";
 import { memo } from "react";
 import { DEFAULT_EMAIL_TEMPLATES } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
 	type EmailTemplate,
 	useGetEmailTemplates,
 } from "@/hooks/useEmailTemplates";
-import { Badge, Button, Checkbox } from "@/proto-design-system";
+import { Badge, Button, Checkbox, Icon } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface EmailSettingsSectionProps {
@@ -64,7 +65,7 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 		<div className={styles.templateCard}>
 			<div className={styles.templateCardHeader}>
 				<div className={styles.templateCardInfo}>
-					<i className="ri-mail-line" aria-hidden="true" />
+					<Icon icon={Mail} size="md" />
 					<div className={styles.templateCardTitle}>
 						<span className={styles.templateCardName}>{typeLabels[type]}</span>
 						<Badge variant={isCustom ? "success" : "secondary"}>
@@ -87,7 +88,7 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 			<div className={styles.templateCardActions}>
 				<Button
 					variant="secondary"
-					leftIcon="ri-edit-line"
+					leftIcon={<Pencil size={16} />}
 					onClick={onEdit}
 					disabled={disabled}
 				>
@@ -179,7 +180,7 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 
 					{!showVerificationTemplate && !showWelcomeTemplate && (
 						<div className={styles.noEmailsMessage}>
-							<i className="ri-mail-close-line" aria-hidden="true" />
+							<Icon icon={MailX} size="lg" />
 							<p>No automatic emails are configured.</p>
 							<p className={styles.noEmailsHint}>
 								Enable email verification above or toggle "Send welcome email"
@@ -192,7 +193,7 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 				{/* Note for new campaigns */}
 				{!campaignId && (showVerificationTemplate || showWelcomeTemplate) && (
 					<p className={styles.saveNote}>
-						<i className="ri-information-line" aria-hidden="true" />
+						<Icon icon={Info} size="sm" />
 						Save the campaign first to customize email templates.
 					</p>
 				)}

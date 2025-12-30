@@ -3,8 +3,14 @@
  * Edit form design settings (colors, typography, spacing)
  */
 
+import {
+	Columns2,
+	Grid2x2,
+	LayoutList,
+	Palette,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Divider, Input, TextArea } from "@/proto-design-system";
+import { Divider, Icon, Input, Stack, Text, TextArea } from "@/proto-design-system";
 import type { FormDesign } from "@/types/common.types";
 import { TemplateSelector } from "../TemplateSelector";
 import styles from "./component.module.scss";
@@ -118,19 +124,19 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 		return (
 			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<h3 className={styles.title}>Appearance Editor</h3>
-					<p className={styles.subtitle}>
+				<Stack gap="xs" className={styles.header}>
+					<Text as="h3" size="lg" weight="semibold">Appearance Editor</Text>
+					<Text size="sm" color="muted">
 						{selectedFieldId
 							? "Field selected - Edit properties"
 							: "Customize form appearance"}
-					</p>
-				</div>
+					</Text>
+				</Stack>
 
 				{/* Layout Section - Always visible */}
-				<div className={styles.layoutSection}>
-					<h4 className={styles.sectionTitle}>Layout</h4>
-					<div className={styles.layoutOptions}>
+				<Stack gap="sm" className={styles.layoutSection}>
+					<Text as="h4" size="md" weight="semibold">Layout</Text>
+					<Stack direction="row" gap="sm" className={styles.layoutOptions}>
 						{(["single-column", "two-column", "multi-step"] as const).map(
 							(layoutType) => (
 								<button
@@ -140,31 +146,31 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 									onClick={() => handleLayoutChange(layoutType)}
 									aria-label={`${layoutType} layout`}
 								>
-									<i
-										className={
+									<Icon
+										icon={
 											layoutType === "single-column"
-												? "ri-layout-line"
+												? LayoutList
 												: layoutType === "two-column"
-													? "ri-layout-column-line"
-													: "ri-layout-row-line"
+													? Columns2
+													: Grid2x2
 										}
-										aria-hidden="true"
+										size="md"
 									/>
 									<span>{layoutType.replace("-", " ")}</span>
 								</button>
 							),
 						)}
-					</div>
-				</div>
+					</Stack>
+				</Stack>
 				{/* Mode Toggle */}
-				<div className={styles.modeToggle}>
+				<Stack direction="row" gap="xs" className={styles.modeToggle}>
 					<button
 						type="button"
 						className={`${styles.modeButton} ${mode === "templates" ? styles.active : ""}`}
 						onClick={() => setMode("templates")}
 						aria-pressed={mode === "templates"}
 					>
-						<i className="ri-layout-grid-line" aria-hidden="true" />
+						<Icon icon={Grid2x2} size="sm" />
 						Templates
 					</button>
 					<button
@@ -173,10 +179,10 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 						onClick={() => setMode("custom")}
 						aria-pressed={mode === "custom"}
 					>
-						<i className="ri-palette-line" aria-hidden="true" />
+						<Icon icon={Palette} size="sm" />
 						Custom
 					</button>
-				</div>
+				</Stack>
 
 				{mode === "templates" ? (
 					<div className={styles.content}>
@@ -189,7 +195,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 					<div className={styles.content}>
 						{/* Colors Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Colors</h4>
+							<Text as="h4" size="md" weight="semibold">Colors</Text>
 							<div className={styles.colorGrid}>
 								<div className={styles.colorItem}>
 									<label htmlFor="color-primary-text" className={styles.colorLabel}>Primary</label>
@@ -347,7 +353,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Typography Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Typography</h4>
+							<Text as="h4" size="md" weight="semibold">Typography</Text>
 							<div className={styles.inputGrid}>
 								<div className={styles.inputItem}>
 									<label htmlFor="font-family" className={styles.inputLabel}>Font Family</label>
@@ -401,7 +407,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Spacing Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Spacing</h4>
+							<Text as="h4" size="md" weight="semibold">Spacing</Text>
 							<div className={styles.inputGrid}>
 								<div className={styles.inputItem}>
 									<label htmlFor="padding" className={styles.inputLabel}>Padding (px)</label>
@@ -452,7 +458,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Submit Button Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Submit Button</h4>
+							<Text as="h4" size="md" weight="semibold">Submit Button</Text>
 							<div className={styles.inputGrid}>
 								<div className={styles.inputItem}>
 									<label htmlFor="submit-button-text" className={styles.inputLabel}>Button Text</label>
@@ -471,7 +477,7 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Custom CSS Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Custom CSS</h4>
+							<Text as="h4" size="md" weight="semibold">Custom CSS</Text>
 							<div className={styles.inputItem}>
 								<label htmlFor="custom-css" className={styles.inputLabel}>Additional Styles</label>
 								<TextArea

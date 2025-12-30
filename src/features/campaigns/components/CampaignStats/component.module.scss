@@ -56,11 +56,11 @@
   }
 
   &.statIconPurple {
-    color: colors.$color-purple-600;
+    color: oklch(from var(--color-info) calc(l - 0.1) c h);
   }
 
   &.statIconOrange {
-    color: colors.$color-orange-600;
+    color: var(--color-warning);
   }
 }
 

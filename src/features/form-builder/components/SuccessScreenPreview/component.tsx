@@ -3,7 +3,9 @@
  * Live preview of the success screen with device frame
  */
 
+import { Check, CheckCircle, Copy, Share2 } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
@@ -98,19 +100,19 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 
 		return (
 			<DevicePreview device={device} className={customClassName} {...props}>
-				<div className={styles.successScreen} style={formStyles}>
+				<Stack gap="md" align="center" className={styles.successScreen} style={formStyles}>
 					<div className={styles.successIcon}>
-						<i className="ri-check-circle-line" aria-hidden="true" />
+						<Icon icon={CheckCircle} size="2xl" color="success" />
 					</div>
-					<h2 className={styles.successTitle}>{successTitle}</h2>
-					<p className={styles.successMessage}>{successMessage}</p>
+					<Text as="h2" size="xl" weight="semibold" className={styles.successTitle}>{successTitle}</Text>
+					<Text color="muted" className={styles.successMessage}>{successMessage}</Text>
 
 					{/* Referral Links Section */}
 					{channelsToShow.length > 0 && (
-						<div className={styles.referralSection}>
-							<p className={styles.referralText}>
+						<Stack gap="md" className={styles.referralSection}>
+							<Text size="sm" color="secondary" className={styles.referralText}>
 								Share your unique link & move up!
-							</p>
+							</Text>
 
 							{/* Native Share Button */}
 							<button
@@ -118,15 +120,15 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 								className={styles.nativeShareButton}
 								onClick={handleNativeShare}
 							>
-								<i className="ri-share-line" aria-hidden="true" />
+								<Icon icon={Share2} size="sm" />
 								<span>Share</span>
 							</button>
 
 							<div className={styles.dividerWithText}>
-								<span>or copy link for</span>
+								<Text size="xs" color="muted">or copy link for</Text>
 							</div>
 
-							<div className={styles.channelList}>
+							<Stack gap="xs" className={styles.channelList}>
 								{channelsToShow.map((channel) => {
 									const config = channelConfigs[channel];
 									const isCopied = copiedChannel === channel;
@@ -140,30 +142,27 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 											<div className={styles.channelIcon}>
 												<i className={config.icon} aria-hidden="true" />
 											</div>
-											<span className={styles.channelName}>{config.label}</span>
-											<span className={styles.copyLabel}>
+											<Text size="sm" className={styles.channelName}>{config.label}</Text>
+											<Stack direction="row" gap="xs" align="center" className={styles.copyLabel}>
 												{isCopied ? (
 													<>
-														<i className="ri-check-line" aria-hidden="true" />
-														<span>Copied!</span>
+														<Icon icon={Check} size="sm" />
+														<Text size="xs">Copied!</Text>
 													</>
 												) : (
 													<>
-														<i
-															className="ri-file-copy-line"
-															aria-hidden="true"
-														/>
-														<span>Copy link</span>
+														<Icon icon={Copy} size="sm" />
+														<Text size="xs">Copy link</Text>
 													</>
 												)}
-											</span>
+											</Stack>
 										</button>
 									);
 								})}
-							</div>
-						</div>
+							</Stack>
+						</Stack>
 					)}
-				</div>
+				</Stack>
 			</DevicePreview>
 		);
 	},

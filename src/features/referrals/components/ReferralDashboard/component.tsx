@@ -1,3 +1,4 @@
+import { Check, Gift, Lightbulb, Share2, UserPlus } from "lucide-react";
 import {
 	type HTMLAttributes,
 	memo,
@@ -5,12 +6,11 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Progress } from "@/proto-design-system";
+import { Icon, Progress, Stack, Text } from "@/proto-design-system";
 import { PositionTracker } from "../PositionTracker/component";
 import { ReferralLink } from "../ReferralLink/component";
 import { ShareButtons } from "../ShareButtons/component";
 import styles from "./component.module.scss";
-import "remixicon/fonts/remixicon.css";
 
 /**
  * Props for the ReferralDashboard component
@@ -175,15 +175,15 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 		<div className={classNames} {...props}>
 			<div className={styles.container}>
 				{/* Header Section */}
-				<div className={styles.header}>
-					<h2 className={styles.title}>
-						<i className="ri-share-forward-fill" aria-hidden="true" />
-						Your Referral Dashboard
-					</h2>
-					<p className={styles.subtitle}>
+				<Stack gap="xs" className={styles.header}>
+					<Stack direction="row" gap="sm" align="center">
+						<Icon icon={Share2} size="lg" color="primary" />
+						<Text as="h2" size="xl" weight="semibold" className={styles.title}>Your Referral Dashboard</Text>
+					</Stack>
+					<Text size="sm" color="muted" className={styles.subtitle}>
 						Share your referral link and climb the leaderboard!
-					</p>
-				</div>
+					</Text>
+				</Stack>
 
 				{/* Stats Grid */}
 				<div className={styles.statsGrid}>
@@ -201,37 +201,39 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 
 					{/* Referral Count Card */}
 					<div className={`${styles.statCard} ${styles.referralCountCard}`}>
-						<div className={styles.statCardHeader}>
-							<i className="ri-user-add-fill" aria-hidden="true" />
-							<span className={styles.statLabel}>Your Referrals</span>
-						</div>
-						<div className={styles.statValue}>{referralData.referralCount}</div>
-						<div className={styles.statDescription}>
+						<Stack direction="row" gap="sm" align="center" className={styles.statCardHeader}>
+							<Icon icon={UserPlus} size="md" color="secondary" />
+							<Text size="sm" weight="medium" className={styles.statLabel}>Your Referrals</Text>
+						</Stack>
+						<Text as="div" size="2xl" weight="semibold" className={styles.statValue}>{referralData.referralCount}</Text>
+						<Text size="sm" color="muted" className={styles.statDescription}>
 							{getReferralDescription(referralData.referralCount)}
-						</div>
+						</Text>
 					</div>
 				</div>
 
 				{/* Reward Progress Section */}
 				{referralData.nextRewardTier && (
 					<div className={styles.rewardSection}>
-						<div className={styles.rewardHeader}>
-							<div className={styles.rewardInfo}>
-								<h3 className={styles.rewardTitle}>
-									<i className="ri-gift-fill" aria-hidden="true" />
-									Next Reward: {referralData.nextRewardTier.name}
-								</h3>
-								<p className={styles.rewardDescription}>
+						<Stack direction="row" justify="between" align="start" className={styles.rewardHeader}>
+							<Stack gap="xs" className={styles.rewardInfo}>
+								<Stack direction="row" gap="sm" align="center">
+									<Icon icon={Gift} size="md" color="primary" />
+									<Text as="h3" size="md" weight="semibold" className={styles.rewardTitle}>
+										Next Reward: {referralData.nextRewardTier.name}
+									</Text>
+								</Stack>
+								<Text size="sm" color="muted" className={styles.rewardDescription}>
 									{referralData.nextRewardTier.reward}
-								</p>
-							</div>
+								</Text>
+							</Stack>
 							<div className={styles.rewardProgress}>
-								<span className={styles.progressText}>
+								<Text size="sm" weight="medium" className={styles.progressText}>
 									{referralData.referralCount} /{" "}
 									{referralData.nextRewardTier.requiredReferrals}
-								</span>
+								</Text>
 							</div>
-						</div>
+						</Stack>
 						<Progress
 							value={progress}
 							size="md"
@@ -250,10 +252,10 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 
 				{/* Share Buttons Section */}
 				<div className={styles.shareSection}>
-					<h3 className={styles.sectionTitle}>
-						<i className="ri-share-fill" aria-hidden="true" />
-						Share Your Link
-					</h3>
+					<Stack direction="row" gap="sm" align="center" className={styles.sectionTitle}>
+						<Icon icon={Share2} size="md" color="secondary" />
+						<Text as="h3" size="md" weight="semibold">Share Your Link</Text>
+					</Stack>
 					<ShareButtons
 						referralUrl={referralUrl}
 						message="Join me on this amazing platform! 🚀"
@@ -263,26 +265,26 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 
 				{/* Tips Section */}
 				<div className={styles.tipsSection}>
-					<h3 className={styles.sectionTitle}>
-						<i className="ri-lightbulb-fill" aria-hidden="true" />
-						Tips to Get More Referrals
-					</h3>
+					<Stack direction="row" gap="sm" align="center" className={styles.sectionTitle}>
+						<Icon icon={Lightbulb} size="md" color="warning" />
+						<Text as="h3" size="md" weight="semibold">Tips to Get More Referrals</Text>
+					</Stack>
 					<ul className={styles.tipsList}>
 						<li className={styles.tipItem}>
-							<i className="ri-check-line" aria-hidden="true" />
-							Share your link on social media to reach more people
+							<Icon icon={Check} size="sm" color="success" />
+							<Text size="sm">Share your link on social media to reach more people</Text>
 						</li>
 						<li className={styles.tipItem}>
-							<i className="ri-check-line" aria-hidden="true" />
-							Personalize your message to make it more appealing
+							<Icon icon={Check} size="sm" color="success" />
+							<Text size="sm">Personalize your message to make it more appealing</Text>
 						</li>
 						<li className={styles.tipItem}>
-							<i className="ri-check-line" aria-hidden="true" />
-							Follow up with friends who haven't signed up yet
+							<Icon icon={Check} size="sm" color="success" />
+							<Text size="sm">Follow up with friends who haven't signed up yet</Text>
 						</li>
 						<li className={styles.tipItem}>
-							<i className="ri-check-line" aria-hidden="true" />
-							Use the QR code for in-person sharing
+							<Icon icon={Check} size="sm" color="success" />
+							<Text size="sm">Use the QR code for in-person sharing</Text>
 						</li>
 					</ul>
 				</div>

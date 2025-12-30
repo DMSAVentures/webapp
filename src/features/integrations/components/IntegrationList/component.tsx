@@ -3,9 +3,11 @@
  * Displays available integrations with their connection status
  */
 
+import { AlertTriangle, Building2, ChartLine, HeadsetIcon, type LucideIcon, Mail, Plug, RefreshCw, Search, Settings, Trash2, Webhook, Zap } from "lucide-react";
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
-import { Badge, Button, Tabs, TabList, Tab } from "@/proto-design-system";
+import { Badge, Button, Icon, Tabs, TabList, Tab } from "@/proto-design-system";
 import type { Integration } from "@/types/common.types";
+import "remixicon/fonts/remixicon.css";
 import styles from "./component.module.scss";
 
 export interface IntegrationListProps extends HTMLAttributes<HTMLDivElement> {
@@ -97,27 +99,34 @@ const getStatusText = (status: Integration["status"]): string => {
 };
 
 /**
- * Gets integration icon class
+ * Gets integration icon - returns Lucide icon or RemixIcon class for brand icons
  */
-const getIntegrationIcon = (type: Integration["type"]): string => {
+const getIntegrationIcon = (type: Integration["type"]): LucideIcon | string => {
 	switch (type) {
 		case "zapier":
-			return "ri-flashlight-line";
+			return Zap;
 		case "webhook":
-			return "ri-webhook-line";
+			return Webhook;
 		case "mailchimp":
-			return "ri-mail-line";
+			return Mail;
 		case "hubspot":
-			return "ri-customer-service-2-line";
+			return HeadsetIcon;
 		case "salesforce":
-			return "ri-building-line";
+			return Building2;
 		case "google_analytics":
-			return "ri-line-chart-line";
+			return ChartLine;
 		case "facebook_pixel":
-			return "ri-facebook-box-line";
+			return "ri-facebook-box-line"; // Brand icon - keep as RemixIcon
 		default:
-			return "ri-plug-line";
+			return Plug;
 	}
+};
+
+/**
+ * Check if icon is a Lucide icon
+ */
+const isLucideIcon = (icon: LucideIcon | string): icon is LucideIcon => {
+	return typeof icon !== "string";
 };
 
 /**
@@ -178,7 +187,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 			return (
 				<div className={styles.emptyState}>
 					<div className={styles.emptyStateIcon}>
-						<i className="ri-plug-line" aria-hidden="true" />
+						<Icon icon={Plug} size="2xl" />
 					</div>
 					<h3 className={styles.emptyStateTitle}>No integrations available</h3>
 					<p className={styles.emptyStateDescription}>
@@ -221,7 +230,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 					</div>
 				) : filteredIntegrations.length === 0 ? (
 					<div className={styles.noResults}>
-						<i className="ri-search-line" aria-hidden="true" />
+						<Icon icon={Search} size="lg" />
 						<p>No integrations found in this category</p>
 						<Button
 							onClick={() => setCategoryFilter("all")}
@@ -232,14 +241,17 @@ export const IntegrationList = memo<IntegrationListProps>(
 					</div>
 				) : (
 					<div className={styles.integrationGrid}>
-						{filteredIntegrations.map((integration) => (
+						{filteredIntegrations.map((integration) => {
+							const integrationIcon = getIntegrationIcon(integration.type);
+							return (
 							<div key={integration.id} className={styles.integrationCard}>
 								{/* Icon */}
 								<div className={styles.integrationIcon}>
-									<i
-										className={getIntegrationIcon(integration.type)}
-										aria-hidden="true"
-									/>
+									{isLucideIcon(integrationIcon) ? (
+										<Icon icon={integrationIcon} size="lg" />
+									) : (
+										<i className={integrationIcon} aria-hidden="true" />
+									)}
 								</div>
 
 								{/* Content */}
@@ -263,7 +275,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 									{integration.status === "connected" &&
 										integration.lastSyncedAt && (
 											<div className={styles.lastSynced}>
-												<i className="ri-refresh-line" aria-hidden="true" />
+												<Icon icon={RefreshCw} size="sm" />
 												<span>
 													Last synced{" "}
 													{new Date(
@@ -284,7 +296,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 										<Button
 											variant="primary"
 											onClick={() => onConnect(integration.id)}
-											leftIcon="ri-plug-line"
+											leftIcon={<Plug size={16} />}
 										>
 											Connect
 										</Button>
@@ -295,7 +307,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 												<Button
 													variant="secondary"
 													onClick={() => onConfigure(integration.id)}
-													leftIcon="ri-settings-3-line"
+													leftIcon={<Settings size={16} />}
 												>
 													Configure
 												</Button>
@@ -304,7 +316,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 												<Button
 													variant="secondary"
 													onClick={() => onDisconnect(integration.id)}
-													leftIcon="ri-uninstall-line"
+													leftIcon={<Trash2 size={16} />}
 												>
 													Disconnect
 												</Button>
@@ -318,7 +330,7 @@ export const IntegrationList = memo<IntegrationListProps>(
 													variant="primary"
 													size="sm"
 													onClick={() => onConfigure(integration.id)}
-													leftIcon="ri-error-warning-line"
+													leftIcon={<AlertTriangle size={16} />}
 												>
 													Fix Error
 												</Button>
@@ -336,7 +348,8 @@ export const IntegrationList = memo<IntegrationListProps>(
 									)}
 								</div>
 							</div>
-						))}
+						);
+						})}
 					</div>
 				)}
 			</div>

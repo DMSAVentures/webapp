@@ -4,8 +4,10 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { Lock } from "lucide-react";
 import { type HTMLAttributes, memo, type ReactNode, useCallback } from "react";
 import { useTier } from "@/contexts/tier";
+import { Icon } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 // ============================================================================
@@ -66,7 +68,7 @@ export const FeatureGate = memo(function FeatureGate({
 				onClick={handleBadgeClick}
 				title="Upgrade to Pro"
 			>
-				<i className="ri-lock-line" aria-hidden="true" />
+				<Icon icon={Lock} size="sm" />
 				<span>Pro</span>
 			</button>
 		</div>

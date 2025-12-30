@@ -4,6 +4,8 @@
  */
 
 import { type HTMLAttributes, memo } from "react";
+import { ArrowDown, ArrowUp, LineChart, Share2, UserPlus, Verified } from "lucide-react";
+import { Badge, Icon, Stack, Text } from "@/proto-design-system";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -71,19 +73,19 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 				tabIndex={onCardClick ? 0 : undefined}
 			>
 				<div className={styles.statIcon}>
-					<i className="ri-user-add-line" aria-hidden="true" />
+					<Icon icon={UserPlus} size="lg" />
 				</div>
-				<div className={styles.statContent}>
-					<div className={styles.statLabel}>Total Signups</div>
+				<Stack gap="xs" className={styles.statContent}>
+					<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>Total Signups</Text>
 					<div className={styles.statValue}>
 						{loading ? (
 							<div className={styles.skeleton} />
 						) : (
-							formatNumber(stats.totalSignups)
+							<Text size="xl" weight="bold">{formatNumber(stats.totalSignups)}</Text>
 						)}
 					</div>
-					<div className={styles.statSubtext}>All users who joined</div>
-				</div>
+					<Text size="xs" color="muted">All users who joined</Text>
+				</Stack>
 			</div>
 
 			{/* Verified Signups - only show if verification is enabled */}
@@ -95,24 +97,22 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 					tabIndex={onCardClick ? 0 : undefined}
 				>
 					<div className={`${styles.statIcon} ${styles.statIconSuccess}`}>
-						<i className="ri-verified-badge-line" aria-hidden="true" />
+						<Icon icon={Verified} size="lg" />
 					</div>
-					<div className={styles.statContent}>
-						<div className={styles.statLabel}>Verified</div>
+					<Stack gap="xs" className={styles.statContent}>
+						<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>Verified</Text>
 						<div className={styles.statValue}>
 							{loading ? (
 								<div className={styles.skeleton} />
 							) : (
-								<>
-									{formatNumber(stats.verifiedSignups)}
-									<span className={styles.statPercentage}>
-										({formatPercentage(stats.conversionRate)})
-									</span>
-								</>
+								<Stack direction="row" gap="xs" align="baseline">
+									<Text size="xl" weight="bold">{formatNumber(stats.verifiedSignups)}</Text>
+									<Text size="md" color="secondary">({formatPercentage(stats.conversionRate)})</Text>
+								</Stack>
 							)}
 						</div>
-						<div className={styles.statSubtext}>Email verified users</div>
-					</div>
+						<Text size="xs" color="muted">Email verified users</Text>
+					</Stack>
 				</div>
 			)}
 
@@ -125,19 +125,19 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 					tabIndex={onCardClick ? 0 : undefined}
 				>
 					<div className={`${styles.statIcon} ${styles.statIconPurple}`}>
-						<i className="ri-share-forward-line" aria-hidden="true" />
+						<Icon icon={Share2} size="lg" />
 					</div>
-					<div className={styles.statContent}>
-						<div className={styles.statLabel}>Referrals</div>
+					<Stack gap="xs" className={styles.statContent}>
+						<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>Referrals</Text>
 						<div className={styles.statValue}>
 							{loading ? (
 								<div className={styles.skeleton} />
 							) : (
-								formatNumber(stats.totalReferrals)
+								<Text size="xl" weight="bold">{formatNumber(stats.totalReferrals)}</Text>
 							)}
 						</div>
-						<div className={styles.statSubtext}>Users referred by others</div>
-					</div>
+						<Text size="xs" color="muted">Users referred by others</Text>
+					</Stack>
 				</div>
 			)}
 
@@ -150,34 +150,26 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 					tabIndex={onCardClick ? 0 : undefined}
 				>
 					<div className={`${styles.statIcon} ${styles.statIconOrange}`}>
-						<i className="ri-line-chart-line" aria-hidden="true" />
+						<Icon icon={LineChart} size="lg" />
 					</div>
-					<div className={styles.statContent}>
-						<div className={styles.statLabel}>K-Factor</div>
+					<Stack gap="xs" className={styles.statContent}>
+						<Text size="sm" weight="medium" color="secondary" className={styles.statLabel}>K-Factor</Text>
 						<div className={styles.statValue}>
 							{loading ? (
 								<div className={styles.skeleton} />
 							) : (
-								<>
-									{formatCoefficient(stats.viralCoefficient)}
-									<span className={styles.statBadge}>
-										{stats.viralCoefficient >= 1 ? (
-											<span className={styles.statBadgeSuccess}>
-												<i className="ri-arrow-up-line" aria-hidden="true" />
-												Viral
-											</span>
-										) : (
-											<span className={styles.statBadgeWarning}>
-												<i className="ri-arrow-down-line" aria-hidden="true" />
-												Sub-viral
-											</span>
-										)}
-									</span>
-								</>
+								<Stack direction="row" gap="sm" align="center">
+									<Text size="xl" weight="bold">{formatCoefficient(stats.viralCoefficient)}</Text>
+									{stats.viralCoefficient >= 1 ? (
+										<Badge variant="success" leftIcon={<ArrowUp size={12} />}>Viral</Badge>
+									) : (
+										<Badge variant="warning" leftIcon={<ArrowDown size={12} />}>Sub-viral</Badge>
+									)}
+								</Stack>
 							)}
 						</div>
-						<div className={styles.statSubtext}>Average referrals per user</div>
-					</div>
+						<Text size="xs" color="muted">Average referrals per user</Text>
+					</Stack>
 				</div>
 			)}
 		</div>

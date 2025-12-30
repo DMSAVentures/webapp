@@ -11,6 +11,7 @@ import {
 	useCallback,
 	useState,
 } from "react";
+import { Eye, Send } from "lucide-react";
 import { Button, Dropdown, Input } from "@/proto-design-system";
 import type { EmailCampaign } from "@/types/common.types";
 import styles from "./component.module.scss";
@@ -433,7 +434,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							type="button"
 							variant="secondary"
 							size="md"
-							leftIcon="eye-line"
+							leftIcon={<Eye size={16} />}
 							onClick={handlePreview}
 							disabled={!templateId}
 						>
@@ -443,7 +444,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							type="button"
 							variant="secondary"
 							size="md"
-							leftIcon="mail-send-line"
+							leftIcon={<Send size={16} />}
 							onClick={handleSendTest}
 							disabled={!templateId}
 						>

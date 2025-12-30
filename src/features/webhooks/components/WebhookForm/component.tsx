@@ -3,6 +3,7 @@
  * Form for creating or editing webhooks
  */
 
+import { Check, Loader2 } from "lucide-react";
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
 import { Button, Checkbox, Divider, Input } from "@/proto-design-system";
 import { WEBHOOK_EVENTS } from "@/types/webhook";
@@ -251,7 +252,7 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 					type="submit"
 					disabled={loading}
 					variant="primary"
-					leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
+					leftIcon={loading ? <Loader2 size={16} className={styles.spinIcon} /> : <Check size={16} />}
 				>
 					{loading ? "Saving..." : submitText}
 				</Button>

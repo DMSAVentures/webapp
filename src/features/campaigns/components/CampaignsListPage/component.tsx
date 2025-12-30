@@ -4,13 +4,14 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { Megaphone, Plus } from "lucide-react";
 import { motion } from "motion/react";
 import { memo, useCallback } from "react";
 import { ErrorState } from "@/components/error/error";
 import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useDeleteCampaign } from "@/hooks/useDeleteCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Button, EmptyState, Spinner } from "@/proto-design-system";
+import { Button, EmptyState, Spinner, Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { CampaignList } from "../CampaignList/component";
 import styles from "./component.module.scss";
@@ -116,7 +117,7 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 
 	// Empty/no data state
 	if (!data || !data.campaigns) {
-		return <EmptyState title="No campaigns found" icon="megaphone-line" />;
+		return <EmptyState title="No campaigns found" icon={<Megaphone size={48} />} />;
 	}
 
 	const campaigns = data.campaigns;
@@ -128,23 +129,23 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Campaigns</h1>
-					<p className={styles.pageDescription}>
+			<Stack direction="row" justify="between" align="start" wrap className={styles.pageHeader}>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">Campaigns</Text>
+					<Text color="secondary">
 						Manage your marketing campaigns and promotional activities
-					</p>
-				</div>
+					</Text>
+				</Stack>
 				{campaigns.length > 0 && (
 					<Button
 						variant="primary"
-						leftIcon="ri-add-line"
+						leftIcon={<Plus size={16} />}
 						onClick={handleCreateCampaign}
 					>
 						Create Campaign
 					</Button>
 				)}
-			</div>
+			</Stack>
 
 			<div className={styles.pageContent}>
 				<CampaignList

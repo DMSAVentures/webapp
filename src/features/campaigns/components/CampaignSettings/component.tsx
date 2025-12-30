@@ -4,6 +4,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { Loader2, StopCircle } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import type { ApiTrackingIntegrationType } from "@/api/types/campaign";
 import { useGlobalBanner } from "@/contexts/globalBanner";
@@ -234,7 +235,7 @@ const DangerZone = memo(function DangerZone({
 					<Button
 						variant="secondary"
 						leftIcon={
-							loading ? "ri-loader-4-line ri-spin" : "ri-stop-circle-line"
+							loading ? <Loader2 size={16} className={styles.spin} /> : <StopCircle size={16} />
 						}
 						onClick={onEnd}
 						disabled={loading}

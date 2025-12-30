@@ -3,9 +3,9 @@
  * Modal for inviting new team members
  */
 
+import { AlertTriangle, Mail } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Mail } from "lucide-react";
-import { Button, Dropdown, Input, Modal } from "@/proto-design-system";
+import { Button, Dropdown, Icon, Input, Modal } from "@/proto-design-system";
 import type { TeamMember } from "@/types/common.types";
 
 type RoleOption = { id: string; label: string; description?: string };
@@ -164,7 +164,7 @@ export const TeamInviteModal = memo(function TeamInviteModal({
 
 				{submitError && (
 					<div className={styles.error}>
-						<i className="ri-error-warning-line" aria-hidden="true" />
+						<Icon icon={AlertTriangle} size="sm" />
 						{submitError}
 					</div>
 				)}

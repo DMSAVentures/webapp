@@ -3,8 +3,9 @@
  * Form for creating or editing campaign rewards
  */
 
+import { Check, CheckCircle, Gift, Loader2 } from "lucide-react";
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button, Divider, Dropdown, TextArea, Input } from "@/proto-design-system";
+import { Button, Divider, Dropdown, Icon, Stack, Text, TextArea, Input } from "@/proto-design-system";
 import type { Reward } from "@/types/common.types";
 import {
 	validateDate,
@@ -445,18 +446,20 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 						{formData.description || "Reward description will appear here..."}
 					</p>
 					{formData.value && (
-						<div className={styles.previewValue}>
-							<i className="ri-gift-line" aria-hidden="true" />
-							{formData.value}
-						</div>
+						<Stack direction="row" gap="sm" align="center" className={styles.previewValue}>
+							<Icon icon={Gift} size="sm" color="secondary" />
+							<Text size="sm">{formData.value}</Text>
+						</Stack>
 					)}
 					{formData.triggerType !== "manual" && formData.triggerValue && (
-						<div className={styles.previewRequirement}>
-							<i className="ri-checkbox-circle-line" aria-hidden="true" />
-							{formData.triggerType === "referral_count"
-								? `Refer ${formData.triggerValue} ${formData.triggerValue === 1 ? "person" : "people"}`
-								: `Top ${formData.triggerValue} on waitlist`}
-						</div>
+						<Stack direction="row" gap="sm" align="center" className={styles.previewRequirement}>
+							<Icon icon={CheckCircle} size="sm" color="success" />
+							<Text size="sm">
+								{formData.triggerType === "referral_count"
+									? `Refer ${formData.triggerValue} ${formData.triggerValue === 1 ? "person" : "people"}`
+									: `Top ${formData.triggerValue} on waitlist`}
+							</Text>
+						</Stack>
 					)}
 				</div>
 			</div>
@@ -480,7 +483,7 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 					type="submit"
 					disabled={loading}
 					variant="primary"
-					leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
+					leftIcon={loading ? <Loader2 size={16} className={styles.spinIcon} /> : <Check size={16} />}
 				>
 					{loading ? "Saving..." : submitText}
 				</Button>

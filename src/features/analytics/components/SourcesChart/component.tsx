@@ -21,8 +21,9 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { PieChart as PieChartIcon } from "lucide-react";
 import type { DateRange } from "@/hooks/useChartNavigation";
-import { Button, ButtonGroup } from "@/proto-design-system";
+import { Button, ButtonGroup, Card, Icon, Spinner, Stack, Text } from "@/proto-design-system";
 import type {
 	AnalyticsPeriod,
 	ApiSignupsBySourceDataPoint,
@@ -389,7 +390,7 @@ function CustomTooltip({ active, payload, label, period }: CustomTooltipProps) {
  */
 export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 	data,
-	sources,
+	sources: _sources,
 	total,
 	period,
 	dateRange,
@@ -399,7 +400,6 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 	height = 300,
 	loading = false,
 	className: customClassName,
-	...props
 }) {
 	// State
 	const [selectedPeriod, setSelectedPeriod] = useState<AnalyticsPeriod>(period);
@@ -432,133 +432,135 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 
 	// Render
 	return (
-		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<div className={styles.headerLeft}>
-					<h3 className={styles.title}>Signups by Source</h3>
-					<span className={styles.total}>
-						{formatNumber(total)} total signups
-					</span>
-				</div>
-				<div className={styles.headerRight}>
-					<ButtonGroup>
-						{PERIOD_OPTIONS.map((option) => (
-							<Button
-								key={option.value}
-								variant={selectedPeriod === option.value ? "primary" : "secondary"}
-								size="sm"
-								onClick={() => handlePeriodChange(option.value)}
+		<Card padding="lg" className={classNames}>
+			<Stack gap="lg">
+				<Stack direction="row" align="start" justify="between" wrap className={styles.header}>
+					<Stack gap="xs">
+						<Text as="h3" size="lg" weight="semibold">Signups by Source</Text>
+						<Text size="sm" color="secondary">
+							{formatNumber(total)} total signups
+						</Text>
+					</Stack>
+					<Stack direction="row" gap="md" align="center" wrap>
+						<ButtonGroup>
+							{PERIOD_OPTIONS.map((option) => (
+								<Button
+									key={option.value}
+									variant={selectedPeriod === option.value ? "primary" : "secondary"}
+									size="sm"
+									onClick={() => handlePeriodChange(option.value)}
+								>
+									{option.label}
+								</Button>
+							))}
+						</ButtonGroup>
+						{onNavigate && (
+							<Stack direction="row" gap="sm" align="center">
+								<Button
+									leftIcon={<ChevronLeft size={16} />}
+									variant="secondary"
+									onClick={() => onNavigate("back")}
+									aria-label="Previous period"
+								/>
+								{dateRangeLabel && (
+									<Text size="sm" color="secondary">{dateRangeLabel}</Text>
+								)}
+								<Button
+									leftIcon={<ChevronRight size={16} />}
+									variant="secondary"
+									onClick={() => onNavigate("forward")}
+									disabled={!canGoForward}
+									aria-label="Next period"
+								/>
+							</Stack>
+						)}
+					</Stack>
+				</Stack>
+
+				<div className={styles.chartContainer}>
+					{loading ? (
+						<Stack align="center" justify="center" style={{ height }}>
+							<Spinner size="lg" />
+						</Stack>
+					) : chartData.length === 0 ? (
+						<Stack align="center" justify="center" gap="sm" style={{ height }}>
+							<Icon icon={PieChartIcon} size="2xl" color="muted" />
+							<Text color="secondary">No source data available</Text>
+						</Stack>
+					) : (
+						<ResponsiveContainer width="100%" height={height}>
+							<BarChart
+								data={chartData}
+								margin={{
+									top: 10,
+									right: 10,
+									left: 0,
+									bottom: 0,
+								}}
 							>
-								{option.label}
-							</Button>
-						))}
-					</ButtonGroup>
-					{onNavigate && (
-						<div className={styles.navigation}>
-							<Button
-								leftIcon={<ChevronLeft size={16} />}
-								variant="secondary"
-								onClick={() => onNavigate("back")}
-								aria-label="Previous period"
-							/>
-							{dateRangeLabel && (
-								<span className={styles.dateRangeLabel}>{dateRangeLabel}</span>
-							)}
-							<Button
-								leftIcon={<ChevronRight size={16} />}
-								variant="secondary"
-								onClick={() => onNavigate("forward")}
-								disabled={!canGoForward}
-								aria-label="Next period"
-							/>
-						</div>
+								<CartesianGrid
+									strokeDasharray="3 3"
+									stroke="var(--color-border-secondary-default)"
+									vertical={false}
+								/>
+								<XAxis
+									dataKey="date"
+									stroke="var(--color-text-tertiary-default)"
+									tick={<CustomXAxisTick period={selectedPeriod} />}
+									tickLine={false}
+									axisLine={false}
+									height={selectedPeriod === "hour" ? 45 : 30}
+								/>
+								<YAxis
+									stroke="var(--color-text-tertiary-default)"
+									tick={{
+										fill: "var(--color-text-tertiary-default)",
+										fontSize: 12,
+									}}
+									tickFormatter={formatNumber}
+									tickLine={false}
+									axisLine={false}
+									width={40}
+								/>
+								<Tooltip
+									content={<CustomTooltip period={selectedPeriod} />}
+									cursor={{
+										fill: "var(--color-bg-secondary-default)",
+										opacity: 0.5,
+									}}
+								/>
+								<Legend
+									wrapperStyle={{
+										paddingTop: "12px",
+									}}
+									formatter={(value) => (
+										<span
+											style={{ color: "var(--color-text-secondary-default)" }}
+										>
+											{getSourceDisplayName(value)}
+										</span>
+									)}
+								/>
+								{displaySources.map((source, index) => (
+									<Bar
+										key={source}
+										dataKey={source}
+										name={getSourceDisplayName(source)}
+										stackId="sources"
+										fill={getSourceColor(source, index)}
+										radius={
+											index === displaySources.length - 1
+												? [4, 4, 0, 0]
+												: [0, 0, 0, 0]
+										}
+									/>
+								))}
+							</BarChart>
+						</ResponsiveContainer>
 					)}
 				</div>
-			</div>
-
-			<div className={styles.chartContainer}>
-				{loading ? (
-					<div className={styles.loading}>
-						<div className={styles.loadingSpinner} />
-					</div>
-				) : chartData.length === 0 ? (
-					<div className={styles.empty}>
-						<i className="ri-pie-chart-line" aria-hidden="true" />
-						<p>No source data available</p>
-					</div>
-				) : (
-					<ResponsiveContainer width="100%" height={height}>
-						<BarChart
-							data={chartData}
-							margin={{
-								top: 10,
-								right: 10,
-								left: 0,
-								bottom: 0,
-							}}
-						>
-							<CartesianGrid
-								strokeDasharray="3 3"
-								stroke="var(--color-border-secondary-default)"
-								vertical={false}
-							/>
-							<XAxis
-								dataKey="date"
-								stroke="var(--color-text-tertiary-default)"
-								tick={<CustomXAxisTick period={selectedPeriod} />}
-								tickLine={false}
-								axisLine={false}
-								height={selectedPeriod === "hour" ? 45 : 30}
-							/>
-							<YAxis
-								stroke="var(--color-text-tertiary-default)"
-								tick={{
-									fill: "var(--color-text-tertiary-default)",
-									fontSize: 12,
-								}}
-								tickFormatter={formatNumber}
-								tickLine={false}
-								axisLine={false}
-								width={40}
-							/>
-							<Tooltip
-								content={<CustomTooltip period={selectedPeriod} />}
-								cursor={{
-									fill: "var(--color-bg-secondary-default)",
-									opacity: 0.5,
-								}}
-							/>
-							<Legend
-								wrapperStyle={{
-									paddingTop: "12px",
-								}}
-								formatter={(value) => (
-									<span
-										style={{ color: "var(--color-text-secondary-default)" }}
-									>
-										{getSourceDisplayName(value)}
-									</span>
-								)}
-							/>
-							{displaySources.map((source, index) => (
-								<Bar
-									key={source}
-									dataKey={source}
-									name={getSourceDisplayName(source)}
-									stackId="sources"
-									fill={getSourceColor(source, index)}
-									radius={
-										index === displaySources.length - 1
-											? [4, 4, 0, 0]
-											: [0, 0, 0, 0]
-									}
-								/>
-							))}
-						</BarChart>
-					</ResponsiveContainer>
-				)}
-			</div>
-		</div>
+			</Stack>
+		</Card>
 	);
 });
 

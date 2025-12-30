@@ -10,7 +10,23 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Monitor, Save, Send, Smartphone, Tablet, X } from "lucide-react";
+import {
+	Check,
+	Eye,
+	HandHeart,
+	Layout,
+	Loader2,
+	Monitor,
+	MousePointer2,
+	Palette,
+	Plus,
+	Save,
+	Send,
+	ShieldCheck,
+	Smartphone,
+	Tablet,
+	X,
+} from "lucide-react";
 import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
@@ -24,7 +40,10 @@ import {
 import {
 	Badge,
 	Button,
+	Icon,
 	Input,
+	Stack,
+	Text,
 } from "@/proto-design-system";
 import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
 import {
@@ -443,18 +462,13 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	return (
 		<div className={classNames} {...props}>
 			{/* Header */}
-			<div className={styles.header}>
-				<div className={styles.headerContent}>
-					<h2 className={styles.title}>Email Builder</h2>
+			<Stack direction="row" justify="between" align="center" className={styles.header}>
+				<Stack direction="row" gap="sm" align="center" className={styles.headerContent}>
+					<Text as="h2" size="lg" weight="semibold">Email Builder</Text>
 					{hasUnsavedChanges && (
-						<Badge
-							variant="warning"
-							size="sm"
-						>
-							Unsaved changes
-						</Badge>
+						<Badge variant="warning" size="sm">Unsaved changes</Badge>
 					)}
-				</div>
+				</Stack>
 
 				<div className={styles.headerActions}>
 					<div className={styles.deviceSelector}>
@@ -533,41 +547,39 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 						{saving ? "Saving..." : "Save Email"}
 					</Button>
 				</div>
-			</div>
+			</Stack>
 
 			{/* Success message */}
 			{testSuccess && (
-				<div className={styles.successBanner}>
-					<i className="ri-check-line" aria-hidden="true" />
-					<span>Test email sent successfully!</span>
-				</div>
+				<Stack direction="row" gap="sm" align="center" className={styles.successBanner}>
+					<Icon icon={Check} size="sm" color="success" />
+					<Text size="sm">Test email sent successfully!</Text>
+				</Stack>
 			)}
 
 			{/* Tabs */}
-			<div className={styles.modeTabs}>
-				<div className={styles.tabList} role="tablist">
-					<button
-						type="button"
-						role="tab"
-						className={`${styles.tab} ${emailType === "verification" ? styles.tabActive : ""}`}
-						aria-selected={emailType === "verification"}
-						onClick={() => handleTabChange(0)}
-					>
-						<i className="ri-shield-check-line" aria-hidden="true" />
-						<span>Verification Email</span>
-					</button>
-					<button
-						type="button"
-						role="tab"
-						className={`${styles.tab} ${emailType === "welcome" ? styles.tabActive : ""}`}
-						aria-selected={emailType === "welcome"}
-						onClick={() => handleTabChange(1)}
-					>
-						<i className="ri-hand-heart-line" aria-hidden="true" />
-						<span>Welcome Email</span>
-					</button>
-				</div>
-			</div>
+			<Stack direction="row" gap="xs" className={styles.modeTabs}>
+				<button
+					type="button"
+					role="tab"
+					className={`${styles.tab} ${emailType === "verification" ? styles.tabActive : ""}`}
+					aria-selected={emailType === "verification"}
+					onClick={() => handleTabChange(0)}
+				>
+					<Icon icon={ShieldCheck} size="sm" />
+					<span>Verification Email</span>
+				</button>
+				<button
+					type="button"
+					role="tab"
+					className={`${styles.tab} ${emailType === "welcome" ? styles.tabActive : ""}`}
+					aria-selected={emailType === "welcome"}
+					onClick={() => handleTabChange(1)}
+				>
+					<Icon icon={HandHeart} size="sm" />
+					<span>Welcome Email</span>
+				</button>
+			</Stack>
 
 			{/* Three-pane layout */}
 			<div className={styles.builder}>
@@ -579,10 +591,10 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				{/* Center panel - Canvas + Preview */}
 				<main className={styles.centerPanel}>
 					{loadingTemplates ? (
-						<div className={styles.loadingState}>
-							<i className="ri-loader-4-line" aria-hidden="true" />
-							<p>Loading templates...</p>
-						</div>
+						<Stack gap="md" align="center" justify="center" className={styles.loadingState}>
+							<Icon icon={Loader2} size="xl" color="muted" className={styles.loadingIcon} />
+							<Text color="muted">Loading templates...</Text>
+						</Stack>
 					) : (
 						<>
 							{/* Subject line editor */}
@@ -598,19 +610,19 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 							{/* Block canvas */}
 							<div className={styles.canvasWrapper}>
-								<div className={styles.canvasHeader}>
-									<i className="ri-layout-4-line" aria-hidden="true" />
-									<span>Email Content</span>
-									<span className={styles.blockCount}>
+								<Stack direction="row" gap="sm" align="center" className={styles.canvasHeader}>
+									<Icon icon={Layout} size="sm" color="secondary" />
+									<Text size="sm" weight="medium">Email Content</Text>
+									<Text size="xs" color="muted" className={styles.blockCount}>
 										{blocks.length} blocks
-									</span>
-								</div>
+									</Text>
+								</Stack>
 								<div className={styles.canvas}>
 									{blocks.length === 0 ? (
-										<div className={styles.emptyCanvas}>
-											<i className="ri-add-box-line" aria-hidden="true" />
-											<p>Add content blocks from the left panel</p>
-										</div>
+										<Stack gap="md" align="center" justify="center" className={styles.emptyCanvas}>
+											<Icon icon={Plus} size="2xl" color="muted" />
+											<Text color="muted">Add content blocks from the left panel</Text>
+										</Stack>
 									) : (
 										blocks.map((block, index) => (
 											<BlockItem
@@ -631,10 +643,10 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 							{/* Live Preview */}
 							<div className={styles.previewWrapper}>
-								<div className={styles.previewHeader}>
-									<i className="ri-eye-line" aria-hidden="true" />
-									<span>Live Preview</span>
-								</div>
+								<Stack direction="row" gap="sm" align="center" className={styles.previewHeader}>
+									<Icon icon={Eye} size="sm" color="secondary" />
+									<Text size="sm" weight="medium">Live Preview</Text>
+								</Stack>
 								<div
 									className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
 								>
@@ -671,14 +683,14 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				{/* Right panel - Block Editor or Appearance Editor */}
 				<aside className={styles.rightPanel}>
 					{/* Panel mode toggle */}
-					<div className={styles.panelModeToggle}>
+					<Stack direction="row" gap="xs" className={styles.panelModeToggle}>
 						<button
 							type="button"
 							className={`${styles.panelModeButton} ${rightPanelMode === "block" ? styles.active : ""}`}
 							onClick={() => setRightPanelMode("block")}
 							aria-pressed={rightPanelMode === "block"}
 						>
-							<i className="ri-layout-4-line" aria-hidden="true" />
+							<Icon icon={Layout} size="sm" />
 							Content
 						</button>
 						<button
@@ -687,10 +699,10 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 							onClick={() => setRightPanelMode("appearance")}
 							aria-pressed={rightPanelMode === "appearance"}
 						>
-							<i className="ri-palette-line" aria-hidden="true" />
+							<Icon icon={Palette} size="sm" />
 							Appearance
 						</button>
-					</div>
+					</Stack>
 
 					{/* Panel content */}
 					{rightPanelMode === "block" ? (
@@ -701,13 +713,13 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 								emailType={emailType}
 							/>
 						) : (
-							<div className={styles.noSelection}>
-								<i className="ri-cursor-line" aria-hidden="true" />
-								<h3>No Block Selected</h3>
-								<p>
+							<Stack gap="md" align="center" justify="center" className={styles.noSelection}>
+								<Icon icon={MousePointer2} size="xl" color="muted" />
+								<Text as="h3" size="md" weight="semibold">No Block Selected</Text>
+								<Text size="sm" color="muted">
 									Select a content block from the canvas to edit its properties.
-								</p>
-							</div>
+								</Text>
+							</Stack>
 						)
 					) : (
 						<EmailStyleEditor design={design} onChange={handleDesignChange} />

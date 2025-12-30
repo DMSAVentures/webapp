@@ -216,15 +216,15 @@
     font-size: var(--font-size-lg);
 
     tr:nth-child(1) & {
-        color: colors.$color-yellow-500;
+        color: var(--color-warning); // Gold
     }
 
     tr:nth-child(2) & {
-        color: colors.$color-neutral-400;
+        color: var(--color-base-content-tertiary); // Silver
     }
 
     tr:nth-child(3) & {
-        color: colors.$color-orange-600;
+        color: oklch(from var(--color-warning) calc(l - 0.1) c h); // Bronze
     }
 }
 

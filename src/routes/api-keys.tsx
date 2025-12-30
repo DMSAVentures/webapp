@@ -1,11 +1,11 @@
+import { AlertTriangle, Check, CheckCircle, Copy, Plus, Sparkles, Trash2 } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, CheckCircle, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { useCreateAPIKey } from "@/hooks/useCreateAPIKey";
 import { useGetAPIKeys } from "@/hooks/useGetAPIKeys";
 import { useRevokeAPIKey } from "@/hooks/useRevokeAPIKey";
-import { Button, Checkbox, EmptyState, Spinner, Modal, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Input } from "@/proto-design-system";
+import { Button, Checkbox, EmptyState, Icon, Spinner, Modal, Badge, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Input } from "@/proto-design-system";
 import type { APIKey, CreateAPIKeyResponse } from "@/types/apikey";
 import { API_KEY_SCOPES } from "@/types/apikey";
 import styles from "./api-keys.module.scss";
@@ -159,7 +159,7 @@ function RouteComponent() {
 						Create and manage API keys for integrations like Zapier
 					</p>
 				</div>
-				<Button leftIcon="add-line" onClick={() => setIsCreateModalOpen(true)}>
+				<Button leftIcon={<Plus size={16} />} onClick={() => setIsCreateModalOpen(true)}>
 					Create API Key
 				</Button>
 			</div>
@@ -225,7 +225,7 @@ function RouteComponent() {
 												aria-label="Revoke API key"
 												variant="secondary"
 												size="sm"
-												leftIcon="delete-bin-line"
+												leftIcon={<Trash2 size={16} />}
 												onClick={() => {
 													setKeyToRevoke(key);
 													setIsRevokeModalOpen(true);
@@ -332,14 +332,14 @@ function RouteComponent() {
 						<code className={styles.apiKey}>{createdKey?.key}</code>
 						<Button
 							variant="secondary"
-							leftIcon={keyCopied ? "check-line" : "file-copy-line"}
+							leftIcon={keyCopied ? <Check size={16} /> : <Copy size={16} />}
 							onClick={handleCopyKey}
 						>
 							{keyCopied ? "Copied!" : "Copy"}
 						</Button>
 					</div>
 					<p className={styles.warningText}>
-						<i className="ri-error-warning-line" />
+						<Icon icon={AlertTriangle} size="sm" />
 						Store this key securely. It will only be shown once.
 					</p>
 				</div>

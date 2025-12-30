@@ -1,6 +1,7 @@
 import { ErrorComponentProps } from "@tanstack/react-router";
+import { AlertTriangle, Home, RefreshCw } from "lucide-react";
 import React from "react";
-import { Button } from "@/proto-design-system";
+import { Button, Icon } from "@/proto-design-system";
 import styles from "./error.module.scss";
 
 interface ErrorStateProps {
@@ -40,10 +41,7 @@ export const ErrorBoundary: React.FC<ErrorComponentProps> = ({
 		<div className={styles.root}>
 			<div className={styles.container}>
 				<div className={styles.iconWrapper}>
-					<i
-						className={`ri-error-warning-line ${styles.icon}`}
-						aria-hidden="true"
-					/>
+					<Icon icon={AlertTriangle} size="2xl" className={styles.icon} />
 				</div>
 
 				<h1 className={styles.title}>Something went wrong</h1>
@@ -59,14 +57,14 @@ export const ErrorBoundary: React.FC<ErrorComponentProps> = ({
 
 				<div className={styles.actions}>
 					{reset && (
-						<Button onClick={reset} leftIcon="refresh-line">
+						<Button onClick={reset} leftIcon={<RefreshCw size={16} />}>
 							Try again
 						</Button>
 					)}
 					<Button
 						variant="secondary"
 						onClick={handleGoHome}
-						leftIcon="home-line"
+						leftIcon={<Home size={16} />}
 					>
 						Go to home
 					</Button>

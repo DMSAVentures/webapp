@@ -1,7 +1,8 @@
+import { ArrowDown, ArrowUp, Award, BarChart3, Clock, Flame, type LucideIcon, Medal, RefreshCw, Rocket, Star, Trophy } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import type { LeaderboardEntry } from "@/types/common.types";
 import styles from "./component.module.scss";
-import "remixicon/fonts/remixicon.css";
 
 /**
  * Props for the LeaderboardWidget component
@@ -32,26 +33,26 @@ export interface LeaderboardWidgetProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Badge configuration
  */
-const badgeIcons: Record<string, string> = {
-	top_referrer: "ri-trophy-fill",
-	early_bird: "ri-time-fill",
-	influencer: "ri-star-fill",
-	champion: "ri-medal-fill",
-	rising_star: "ri-rocket-fill",
-	consistent: "ri-fire-fill",
+const badgeIcons: Record<string, LucideIcon> = {
+	top_referrer: Trophy,
+	early_bird: Clock,
+	influencer: Star,
+	champion: Medal,
+	rising_star: Rocket,
+	consistent: Flame,
 };
 
 /**
  * Get rank display with medal for top 3
  */
-const getRankDisplay = (rank: number): { display: string; icon?: string } => {
+const getRankDisplay = (rank: number): { display: string; icon?: LucideIcon } => {
 	switch (rank) {
 		case 1:
-			return { display: "1st", icon: "ri-medal-fill" };
+			return { display: "1st", icon: Medal };
 		case 2:
-			return { display: "2nd", icon: "ri-medal-2-fill" };
+			return { display: "2nd", icon: Medal };
 		case 3:
-			return { display: "3rd", icon: "ri-medal-fill" };
+			return { display: "3rd", icon: Medal };
 		default:
 			return { display: `${rank}${getRankSuffix(rank)}` };
 	}
@@ -144,26 +145,23 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 		<div className={classNames} {...props}>
 			<div className={styles.container}>
 				{/* Header */}
-				<div className={styles.header}>
-					<h3 className={styles.title}>
-						<i className="ri-bar-chart-fill" aria-hidden="true" />
-						Leaderboard
-					</h3>
-					<div className={styles.periodSelector}>
-						<span className={styles.periodLabel}>
+				<Stack direction="row" justify="between" align="center" className={styles.header}>
+					<Stack direction="row" gap="sm" align="center">
+						<Icon icon={BarChart3} size="md" color="secondary" />
+						<Text as="h3" size="md" weight="semibold" className={styles.title}>Leaderboard</Text>
+					</Stack>
+					<Stack direction="row" gap="sm" align="center" className={styles.periodSelector}>
+						<Text size="sm" color="muted" className={styles.periodLabel}>
 							{period === "all_time" && "All Time"}
 							{period === "daily" && "Today"}
 							{period === "weekly" && "This Week"}
 							{period === "monthly" && "This Month"}
-						</span>
+						</Text>
 						{loading && (
-							<i
-								className={`${styles.loadingIcon} ri-refresh-line`}
-								aria-hidden="true"
-							/>
+							<Icon icon={RefreshCw} size="sm" color="muted" className={styles.loadingIcon} />
 						)}
-					</div>
-				</div>
+					</Stack>
+				</Stack>
 
 				{/* Leaderboard Table */}
 				<div className={styles.tableContainer}>
@@ -193,27 +191,22 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
                                         `}
 									>
 										<td className={styles.rankCell}>
-											<div className={styles.rankDisplay}>
+											<Stack direction="row" gap="xs" align="center" className={styles.rankDisplay}>
 												{rankDisplay.icon && (
-													<i
-														className={`${styles.rankIcon} ${rankDisplay.icon}`}
-														aria-hidden="true"
-													/>
+													<Icon icon={rankDisplay.icon} size="sm" className={styles.rankIcon} />
 												)}
-												<span className={styles.rankNumber}>
+												<Text size="sm" weight="medium" className={styles.rankNumber}>
 													{rankDisplay.display}
-												</span>
+												</Text>
 												{rankChange && (
-													<i
-														className={`${styles.changeIcon} ${
-															rankChange === "up"
-																? "ri-arrow-up-line"
-																: "ri-arrow-down-line"
-														}`}
-														aria-hidden="true"
+													<Icon
+														icon={rankChange === "up" ? ArrowUp : ArrowDown}
+														size="sm"
+														color={rankChange === "up" ? "success" : "error"}
+														className={styles.changeIcon}
 													/>
 												)}
-											</div>
+											</Stack>
 										</td>
 										<td className={styles.nameCell}>
 											<span className={styles.userName}>{entry.name}</span>
@@ -228,16 +221,17 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 											{entry.points.toLocaleString()}
 										</td>
 										<td className={styles.badgesCell}>
-											<div className={styles.badgeList}>
+											<Stack direction="row" gap="xs" className={styles.badgeList}>
 												{entry.badges.map((badge) => (
-													<i
-														key={badge}
-														className={`${styles.badgeIcon} ${badgeIcons[badge] || "ri-award-fill"}`}
-														title={badge.replace("_", " ")}
-														aria-label={badge.replace("_", " ")}
-													/>
+													<span key={badge} title={badge.replace("_", " ")} aria-label={badge.replace("_", " ")}>
+														<Icon
+															icon={badgeIcons[badge] || Award}
+															size="sm"
+															className={styles.badgeIcon}
+														/>
+													</span>
 												))}
-											</div>
+											</Stack>
 										</td>
 									</tr>
 								);
@@ -247,10 +241,10 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 
 					{/* Empty State */}
 					{leaderboardData.length === 0 && !loading && (
-						<div className={styles.emptyState}>
-							<i className="ri-trophy-line" aria-hidden="true" />
-							<p>No leaderboard data yet</p>
-						</div>
+						<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
+							<Icon icon={Trophy} size="2xl" color="muted" />
+							<Text color="muted">No leaderboard data yet</Text>
+						</Stack>
 					)}
 				</div>
 			</div>

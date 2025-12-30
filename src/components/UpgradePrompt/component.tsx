@@ -1,8 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
+import { Lock } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
 import { FEATURE_DISPLAY_CONFIGS } from "@/config/tiers";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";
-import { Button } from "@/proto-design-system";
+import { Button, Icon } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 // ============================================================================
@@ -82,7 +83,7 @@ export const UpgradePrompt = memo(function UpgradePrompt({
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.icon}>
-				<i className="ri-lock-line" aria-hidden="true" />
+				<Icon icon={Lock} size="lg" />
 			</div>
 			<div className={styles.content}>
 				<h4 className={styles.title}>{displayTitle}</h4>

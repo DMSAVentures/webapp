@@ -3,9 +3,30 @@
  * Displays available email block types that can be added
  */
 
+import {
+	FileText,
+	Heading,
+	Image,
+	type LucideIcon,
+	Minus,
+	MousePointer2,
+	Plus,
+	Space,
+} from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import { BLOCK_TYPES, type EmailBlockType } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
+
+/** Map block type to Lucide icon */
+const blockIcons: Record<EmailBlockType, LucideIcon> = {
+	heading: Heading,
+	paragraph: FileText,
+	button: MousePointer2,
+	divider: Minus,
+	spacer: Space,
+	image: Image,
+};
 
 export interface BlockPaletteProps extends HTMLAttributes<HTMLDivElement> {
 	/** Callback when a block type is selected */
@@ -25,13 +46,13 @@ export const BlockPalette = memo<BlockPaletteProps>(function BlockPalette({
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 	return (
-		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<h3 className={styles.title}>Add Content</h3>
-				<p className={styles.subtitle}>Click to add blocks</p>
-			</div>
+		<Stack gap="md" className={classNames} {...props}>
+			<Stack gap="xs" className={styles.header}>
+				<Text as="h3" size="md" weight="semibold">Add Content</Text>
+				<Text size="sm" color="muted">Click to add blocks</Text>
+			</Stack>
 
-			<div className={styles.blocks}>
+			<Stack gap="sm" className={styles.blocks}>
 				{BLOCK_TYPES.map((block) => (
 					<button
 						key={block.type}
@@ -40,18 +61,18 @@ export const BlockPalette = memo<BlockPaletteProps>(function BlockPalette({
 						onClick={() => onBlockSelect(block.type)}
 						aria-label={`Add ${block.label} block`}
 					>
-						<i className={`${block.icon} ${styles.icon}`} aria-hidden="true" />
-						<div className={styles.blockInfo}>
-							<span className={styles.blockLabel}>{block.label}</span>
-							<span className={styles.blockDescription}>
+						<Icon icon={blockIcons[block.type]} size="md" color="secondary" className={styles.icon} />
+						<Stack gap="0" className={styles.blockInfo}>
+							<Text size="sm" weight="medium">{block.label}</Text>
+							<Text size="xs" color="muted">
 								{block.description}
-							</span>
-						</div>
-						<i className="ri-add-line" aria-hidden="true" />
+							</Text>
+						</Stack>
+						<Icon icon={Plus} size="sm" color="muted" />
 					</button>
 				))}
-			</div>
-		</div>
+			</Stack>
+		</Stack>
 	);
 });
 

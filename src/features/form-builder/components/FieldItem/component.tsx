@@ -3,8 +3,25 @@
  * Displays a single form field in the canvas
  */
 
+import {
+	ArrowLeft,
+	ArrowRight,
+	Calendar,
+	CheckSquare,
+	ChevronDown,
+	Circle,
+	FileText,
+	GripVertical,
+	Hash,
+	Link,
+	type LucideIcon,
+	Mail,
+	Phone,
+	Trash2,
+	Type,
+} from "lucide-react";
 import { type DragEvent, type HTMLAttributes, memo } from "react";
-import { Badge, Button } from "@/proto-design-system";
+import { Badge, Button, Icon, Stack, Text } from "@/proto-design-system";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -32,18 +49,18 @@ export interface FieldItemProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Get field type icon
  */
-const getFieldIcon = (type: FormField["type"]): string => {
-	const icons: Record<FormField["type"], string> = {
-		email: "ri-mail-line",
-		text: "ri-text",
-		textarea: "ri-file-text-line",
-		select: "ri-arrow-down-s-line",
-		checkbox: "ri-checkbox-line",
-		radio: "ri-radio-button-line",
-		phone: "ri-phone-line",
-		url: "ri-link",
-		date: "ri-calendar-line",
-		number: "ri-hashtag",
+const getFieldIcon = (type: FormField["type"]): LucideIcon => {
+	const icons: Record<FormField["type"], LucideIcon> = {
+		email: Mail,
+		text: Type,
+		textarea: FileText,
+		select: ChevronDown,
+		checkbox: CheckSquare,
+		radio: Circle,
+		phone: Phone,
+		url: Link,
+		date: Calendar,
+		number: Hash,
 	};
 	return icons[type];
 };
@@ -96,35 +113,32 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			{...props}
 		>
 			<div className={styles.dragHandle}>
-				<i className="ri-draggable" aria-hidden="true" />
+				<Icon icon={GripVertical} size="sm" color="muted" />
 			</div>
 
 			{/* Left side: Type icon and badge */}
-			<div className={styles.typeInfo}>
-				<i className={getFieldIcon(field.type)} aria-hidden="true" />
-				<Badge
-					variant="secondary"
-					size="sm"
-				>{field.type}</Badge>
-			</div>
+			<Stack direction="row" gap="sm" align="center" className={styles.typeInfo}>
+				<Icon icon={getFieldIcon(field.type)} size="md" color="secondary" />
+				<Badge variant="secondary" size="sm">{field.type}</Badge>
+			</Stack>
 
 			{/* Center: Field label and details */}
-			<div className={styles.content}>
-				<span className={styles.label}>
+			<Stack gap="0" className={styles.content}>
+				<Text size="sm" weight="medium">
 					{field.label}
 					{field.required && <span className={styles.required}>*</span>}
-				</span>
+				</Text>
 				{field.placeholder && (
-					<span className={styles.placeholder}>{field.placeholder}</span>
+					<Text size="xs" color="muted">{field.placeholder}</Text>
 				)}
 				{/* Show options count for select/radio/checkbox fields */}
 				{["select", "radio", "checkbox"].includes(field.type) && (
-					<span className={styles.optionsCount}>
+					<Text size="xs" color="muted">
 						{field.options?.length || 0} option
 						{(field.options?.length || 0) !== 1 ? "s" : ""}
-					</span>
+					</Text>
 				)}
-			</div>
+			</Stack>
 
 			{/* Column indicator (only in two-column mode) */}
 			{showColumnToggle && (
@@ -137,13 +151,11 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			)}
 
 			{/* Actions: always visible */}
-			<div className={styles.actions}>
+			<Stack direction="row" gap="xs" className={styles.actions}>
 				{/* Column toggle button (only in two-column mode) */}
 				{showColumnToggle && (
 					<Button
-						leftIcon={
-							currentColumn === 1 ? "ri-arrow-right-line" : "ri-arrow-left-line"
-						}
+						leftIcon={currentColumn === 1 ? <ArrowRight size={16} /> : <ArrowLeft size={16} />}
 						variant="secondary"
 						aria-label={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 						onClick={handleColumnToggleClick}
@@ -153,13 +165,13 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 				{/* Delete button - always visible, but not for email field */}
 				{field.type !== "email" && (
 					<Button
-						leftIcon="ri-delete-bin-line"
+						leftIcon={<Trash2 size={16} />}
 						variant="secondary"
 						aria-label="Delete field"
 						onClick={handleDeleteClick}
 					/>
 				)}
-			</div>
+			</Stack>
 		</div>
 	);
 });

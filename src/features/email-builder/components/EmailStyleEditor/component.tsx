@@ -3,8 +3,9 @@
  * Edit email design settings (colors, typography, spacing)
  */
 
+import { Grid2x2, Palette } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Divider, Input } from "@/proto-design-system";
+import { Divider, Icon, Input, Stack, Text } from "@/proto-design-system";
 import { EMAIL_DESIGN_TEMPLATES } from "../../constants/emailDesignTemplates";
 import type { EmailDesign } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
@@ -118,25 +119,25 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 		return (
 			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<h3 className={styles.title}>
-						<i className="ri-palette-line" aria-hidden="true" />
-						Email Appearance
-					</h3>
-					<p className={styles.subtitle}>
+				<Stack gap="xs" className={styles.header}>
+					<Stack direction="row" gap="sm" align="center">
+						<Icon icon={Palette} size="md" color="secondary" />
+						<Text as="h3" size="lg" weight="semibold">Email Appearance</Text>
+					</Stack>
+					<Text size="sm" color="muted">
 						Customize colors, fonts, and spacing
-					</p>
-				</div>
+					</Text>
+				</Stack>
 
 				{/* Mode Toggle */}
-				<div className={styles.modeToggle}>
+				<Stack direction="row" gap="xs" className={styles.modeToggle}>
 					<button
 						type="button"
 						className={`${styles.modeButton} ${mode === "templates" ? styles.active : ""}`}
 						onClick={() => setMode("templates")}
 						aria-pressed={mode === "templates"}
 					>
-						<i className="ri-layout-grid-line" aria-hidden="true" />
+						<Icon icon={Grid2x2} size="sm" />
 						Templates
 					</button>
 					<button
@@ -145,10 +146,10 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 						onClick={() => setMode("custom")}
 						aria-pressed={mode === "custom"}
 					>
-						<i className="ri-palette-line" aria-hidden="true" />
+						<Icon icon={Palette} size="sm" />
 						Custom
 					</button>
-				</div>
+				</Stack>
 
 				{mode === "templates" ? (
 					<div className={styles.content}>
@@ -216,7 +217,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 					<div className={styles.content}>
 						{/* Colors Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Colors</h4>
+							<Text as="h4" size="md" weight="semibold">Colors</Text>
 							<div className={styles.colorGrid}>
 								<div className={styles.colorItem}>
 									<label htmlFor="email-color-primary-text">Primary</label>
@@ -374,7 +375,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 						{/* Typography Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Typography</h4>
+							<Text as="h4" size="md" weight="semibold">Typography</Text>
 							<div className={styles.inputGrid}>
 								<div>
 									<label htmlFor="email-font-family">Font Family</label>
@@ -428,7 +429,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 						{/* Spacing Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Spacing</h4>
+							<Text as="h4" size="md" weight="semibold">Spacing</Text>
 							<div className={styles.inputGrid}>
 								<div>
 									<label htmlFor="email-content-padding">Content Padding (px)</label>
@@ -482,7 +483,7 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 						{/* Footer Section */}
 						<section className={styles.section}>
-							<h4 className={styles.sectionTitle}>Footer</h4>
+							<Text as="h4" size="md" weight="semibold">Footer</Text>
 							<div className={styles.inputGrid}>
 								<div>
 									<label htmlFor="email-footer-text">Footer Text</label>

@@ -4,12 +4,13 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { Calendar, CheckCircle2, ChevronRight, Circle, Loader2, Mail, Pause, Play, Rocket, Share } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
-import { Badge, Button } from "@/proto-design-system";
+import { Badge, Button, Card, Icon, Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import { CampaignFormPreview } from "../CampaignFormPreview/component";
@@ -239,12 +240,10 @@ const LaunchChecklist = memo(function LaunchChecklist({
 							})
 						}
 					>
-						<i
-							className={`${styles.checklistIcon} ${
-								hasFormFields
-									? "ri-checkbox-circle-fill"
-									: "ri-checkbox-blank-circle-line"
-							}`}
+						<Icon
+							icon={hasFormFields ? CheckCircle2 : Circle}
+							size="md"
+							className={styles.checklistIcon}
 						/>
 						<div className={styles.checklistItemContent}>
 							<span className={styles.checklistItemText}>
@@ -257,7 +256,7 @@ const LaunchChecklist = memo(function LaunchChecklist({
 							</span>
 						</div>
 						<span className={styles.checklistItemBadge}>Required</span>
-						<i className={`${styles.checklistArrow} ri-arrow-right-s-line`} />
+						<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
 					</li>
 					{needsEmailSetup && (
 						<li
@@ -269,12 +268,10 @@ const LaunchChecklist = memo(function LaunchChecklist({
 								})
 							}
 						>
-							<i
-								className={`${styles.checklistIcon} ${
-									hasRequiredEmailTemplates
-										? "ri-checkbox-circle-fill"
-										: "ri-checkbox-blank-circle-line"
-								}`}
+							<Icon
+								icon={hasRequiredEmailTemplates ? CheckCircle2 : Circle}
+								size="md"
+								className={styles.checklistIcon}
 							/>
 							<div className={styles.checklistItemContent}>
 								<span className={styles.checklistItemText}>
@@ -289,7 +286,7 @@ const LaunchChecklist = memo(function LaunchChecklist({
 											)}
 								</span>
 							</div>
-							<i className={`${styles.checklistArrow} ri-arrow-right-s-line`} />
+							<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
 						</li>
 					)}
 				</ul>
@@ -297,7 +294,7 @@ const LaunchChecklist = memo(function LaunchChecklist({
 					<Button
 						variant="primary"
 						leftIcon={
-							isUpdating ? "ri-loader-4-line ri-spin" : "ri-rocket-line"
+							isUpdating ? <Loader2 size={16} className={styles.spin} /> : <Rocket size={16} />
 						}
 						onClick={onGoLive}
 						disabled={isUpdating || !canGoLive}
@@ -318,131 +315,128 @@ const ConfigurationSection = memo(function ConfigurationSection({
 	campaign,
 }: ConfigurationSectionProps) {
 	return (
-		<div className={styles.configSection}>
-			<h3 className={styles.detailsTitle}>Configuration</h3>
+		<Stack gap="md" className={styles.configSection}>
+			<Text as="h3" size="lg" weight="semibold">Configuration</Text>
 			<div className={styles.configGrid}>
 				{/* Email Config Card */}
-				<div className={styles.configCard}>
-					<div className={styles.configCardHeader}>
-						<i
-							className={`ri-mail-line ${styles.configCardIcon}`}
-							aria-hidden="true"
-						/>
-						<span className={styles.configCardTitle}>Email</span>
-						<Badge
-							variant={
-								campaign.emailSettings?.verificationRequired ? "primary" : "secondary"
-							}
-							size="sm"
-						>
-							{campaign.emailSettings?.verificationRequired
-								? "Verification On"
-								: "Verification Off"}
-						</Badge>
-					</div>
-					{(campaign.emailSettings?.fromName ||
-						campaign.emailSettings?.fromEmail) && (
-						<div className={styles.configCardDetails}>
-							{campaign.emailSettings.fromName && (
-								<span className={styles.configDetail}>
-									From: {campaign.emailSettings.fromName}
-								</span>
-							)}
-							{campaign.emailSettings.fromEmail && (
-								<span className={styles.configDetail}>
-									{campaign.emailSettings.fromEmail}
-								</span>
-							)}
-							{campaign.emailSettings.replyTo && (
-								<span className={styles.configDetail}>
-									Reply to: {campaign.emailSettings.replyTo}
-								</span>
-							)}
-						</div>
-					)}
-				</div>
+				<Card padding="md" className={styles.configCard}>
+					<Stack gap="sm">
+						<Stack direction="row" gap="sm" align="center">
+							<Icon icon={Mail} size="md" color="secondary" />
+							<Text weight="semibold">Email</Text>
+							<Badge
+								variant={
+									campaign.emailSettings?.verificationRequired ? "primary" : "secondary"
+								}
+								size="sm"
+							>
+								{campaign.emailSettings?.verificationRequired
+									? "Verification On"
+									: "Verification Off"}
+							</Badge>
+						</Stack>
+						{(campaign.emailSettings?.fromName ||
+							campaign.emailSettings?.fromEmail) && (
+							<Stack gap="xs">
+								{campaign.emailSettings.fromName && (
+									<Text size="sm" color="secondary">
+										From: {campaign.emailSettings.fromName}
+									</Text>
+								)}
+								{campaign.emailSettings.fromEmail && (
+									<Text size="sm" color="secondary">
+										{campaign.emailSettings.fromEmail}
+									</Text>
+								)}
+								{campaign.emailSettings.replyTo && (
+									<Text size="sm" color="secondary">
+										Reply to: {campaign.emailSettings.replyTo}
+									</Text>
+								)}
+							</Stack>
+						)}
+					</Stack>
+				</Card>
 
 				{/* Referrals Config Card */}
-				<div className={styles.configCard}>
-					<div className={styles.configCardHeader}>
-						<i
-							className={`ri-share-line ${styles.configCardIcon}`}
-							aria-hidden="true"
-						/>
-						<span className={styles.configCardTitle}>Referrals</span>
-						<Badge
-							variant={campaign.referralSettings?.enabled ? "success" : "secondary"}
-							size="sm"
-						>
-							{campaign.referralSettings?.enabled ? "Enabled" : "Disabled"}
-						</Badge>
-					</div>
-					{campaign.referralSettings?.enabled && (
-						<div className={styles.configCardDetails}>
-							{campaign.referralSettings.pointsPerReferral != null &&
-								campaign.referralSettings.pointsPerReferral > 0 && (
-									<span className={styles.configDetail}>
-										<strong>
-											{campaign.referralSettings.pointsPerReferral}
-										</strong>{" "}
-										points per referral
-									</span>
+				<Card padding="md" className={styles.configCard}>
+					<Stack gap="sm">
+						<Stack direction="row" gap="sm" align="center">
+							<Icon icon={Share} size="md" color="secondary" />
+							<Text weight="semibold">Referrals</Text>
+							<Badge
+								variant={campaign.referralSettings?.enabled ? "success" : "secondary"}
+								size="sm"
+							>
+								{campaign.referralSettings?.enabled ? "Enabled" : "Disabled"}
+							</Badge>
+						</Stack>
+						{campaign.referralSettings?.enabled && (
+							<Stack gap="xs">
+								{campaign.referralSettings.pointsPerReferral != null &&
+									campaign.referralSettings.pointsPerReferral > 0 && (
+										<Text size="sm" color="secondary">
+											<Text as="strong" weight="semibold">
+												{campaign.referralSettings.pointsPerReferral}
+											</Text>{" "}
+											points per referral
+										</Text>
+									)}
+								{campaign.referralSettings.verifiedOnly && (
+									<Text size="sm" color="secondary">
+										Verified referrals only
+									</Text>
 								)}
-							{campaign.referralSettings.verifiedOnly && (
-								<span className={styles.configDetail}>
-									Verified referrals only
-								</span>
-							)}
-							{campaign.referralSettings.sharingChannels &&
-								campaign.referralSettings.sharingChannels.length > 0 && (
-									<div className={styles.configChannels}>
-										{campaign.referralSettings.sharingChannels.map(
-											(channel) => (
-												<Badge
-													key={channel}
-													variant="secondary"
-													size="sm"
-												>
-													{channel}
-												</Badge>
-											),
-										)}
-									</div>
-								)}
-						</div>
-					)}
-				</div>
+								{campaign.referralSettings.sharingChannels &&
+									campaign.referralSettings.sharingChannels.length > 0 && (
+										<Stack direction="row" gap="xs" wrap>
+											{campaign.referralSettings.sharingChannels.map(
+												(channel) => (
+													<Badge
+														key={channel}
+														variant="secondary"
+														size="sm"
+													>
+														{channel}
+													</Badge>
+												),
+											)}
+										</Stack>
+									)}
+							</Stack>
+						)}
+					</Stack>
+				</Card>
 
 				{/* Timeline Config Card */}
-				<div className={styles.configCard}>
-					<div className={styles.configCardHeader}>
-						<i
-							className={`ri-calendar-line ${styles.configCardIcon}`}
-							aria-hidden="true"
-						/>
-						<span className={styles.configCardTitle}>Timeline</span>
-					</div>
-					<div className={styles.configCardDetails}>
-						<span className={styles.configDetail}>
-							Created: {formatDate(campaign.createdAt)}
-						</span>
-						<span className={styles.configDetail}>
-							Updated: {formatDate(campaign.updatedAt)}
-						</span>
-						{campaign.launchDate && (
-							<span className={styles.configDetail}>
-								Launch: {formatDate(campaign.launchDate)}
-							</span>
-						)}
-						{campaign.endDate && (
-							<span className={styles.configDetail}>
-								End: {formatDate(campaign.endDate)}
-							</span>
-						)}
-					</div>
-				</div>
+				<Card padding="md" className={styles.configCard}>
+					<Stack gap="sm">
+						<Stack direction="row" gap="sm" align="center">
+							<Icon icon={Calendar} size="md" color="secondary" />
+							<Text weight="semibold">Timeline</Text>
+						</Stack>
+						<Stack gap="xs">
+							<Text size="sm" color="secondary">
+								Created: {formatDate(campaign.createdAt)}
+							</Text>
+							<Text size="sm" color="secondary">
+								Updated: {formatDate(campaign.updatedAt)}
+							</Text>
+							{campaign.launchDate && (
+								<Text size="sm" color="secondary">
+									Launch: {formatDate(campaign.launchDate)}
+								</Text>
+							)}
+							{campaign.endDate && (
+								<Text size="sm" color="secondary">
+									End: {formatDate(campaign.endDate)}
+								</Text>
+							)}
+						</Stack>
+					</Stack>
+				</Card>
 			</div>
-		</div>
+		</Stack>
 	);
 });
 
@@ -504,17 +498,17 @@ export const CampaignOverview = memo(function CampaignOverview({
 
 	// Render
 	return (
-		<div className={styles.overviewContent}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Overview</h2>
-				<p className={styles.description}>
+		<Stack gap="lg" className={styles.overviewContent}>
+			<Stack gap="xs">
+				<Text as="h2" size="xl" weight="semibold">Overview</Text>
+				<Text color="secondary">
 					Monitor your campaign performance and configuration at a glance
-				</p>
-			</div>
+				</Text>
+			</Stack>
 
 			{/* Campaign Status Row */}
-			<div className={styles.statusRow}>
-				<span className={styles.statusLabel}>Status</span>
+			<Stack direction="row" gap="sm" align="center">
+				<Text size="sm" weight="medium" color="secondary">Status</Text>
 				<Badge variant={getStatusVariant(campaign.status)}>
 					{formatStatusText(campaign.status)}
 				</Badge>
@@ -523,7 +517,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 						variant="secondary"
 						size="sm"
 						leftIcon={
-							updatingStatus ? "ri-loader-4-line ri-spin" : "ri-pause-line"
+							updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Pause size={16} />
 						}
 						onClick={handlePause}
 						disabled={updatingStatus}
@@ -536,7 +530,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 						variant="primary"
 						size="sm"
 						leftIcon={
-							updatingStatus ? "ri-loader-4-line ri-spin" : "ri-play-line"
+							updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Play size={16} />
 						}
 						onClick={handleResume}
 						disabled={updatingStatus}
@@ -544,7 +538,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 						{updatingStatus ? "Resuming..." : "Resume"}
 					</Button>
 				)}
-			</div>
+			</Stack>
 
 			{/* Launch Checklist for draft campaigns */}
 			{isDraft && (
@@ -573,7 +567,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 			<ConfigurationSection campaign={campaign} />
 
 			{hasFormFields && <CampaignFormPreview campaign={campaign} />}
-		</div>
+		</Stack>
 	);
 });
 

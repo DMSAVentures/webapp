@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
@@ -121,7 +122,7 @@ function RouteComponent() {
 				</div>
 				<Button
 					variant="primary"
-					leftIcon="ri-add-line"
+					leftIcon={<Plus size={16} />}
 					onClick={handleCreateTemplate}
 				>
 					Create Email Template

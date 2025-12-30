@@ -9,7 +9,7 @@ import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
 import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
-import { Dropdown, EmptyState, Spinner } from "@/proto-design-system";
+import { Dropdown, EmptyState, Spinner, Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { SignupsChart } from "../SignupsChart";
 import { SourcesChart } from "../SourcesChart";
@@ -115,25 +115,23 @@ const PageHeader = memo(function PageHeader({
 	onCampaignChange,
 }: PageHeaderProps) {
 	return (
-		<div className={styles.pageHeader}>
-			<div className={styles.headerTop}>
-				<div>
-					<h1 className={styles.pageTitle}>Analytics</h1>
-					<p className={styles.pageDescription}>
-						Track your marketing performance and campaign metrics
-					</p>
-				</div>
-				{showSelector && onCampaignChange && (
-					<Dropdown
-						items={campaignItems}
-						value={selectedCampaignId}
-						onChange={(id) => onCampaignChange(id)}
-						placeholder="Select campaign"
-						size="md"
-					/>
-				)}
-			</div>
-		</div>
+		<Stack direction="row" align="start" justify="between" gap="lg" className={styles.pageHeader}>
+			<Stack gap="xs">
+				<Text as="h1" size="2xl" weight="semibold">Analytics</Text>
+				<Text color="secondary">
+					Track your marketing performance and campaign metrics
+				</Text>
+			</Stack>
+			{showSelector && onCampaignChange && (
+				<Dropdown
+					items={campaignItems}
+					value={selectedCampaignId}
+					onChange={(id) => onCampaignChange(id)}
+					placeholder="Select campaign"
+					size="md"
+				/>
+			)}
+		</Stack>
 	);
 });
 
@@ -177,14 +175,14 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 				animate={{ opacity: 1 }}
 				transition={{ duration: 0.6 }}
 			>
-				<PageHeader showSelector={false} campaignItems={[]} selectedCampaignId="" />
-				<div className={styles.pageContent}>
+				<Stack gap="lg">
+					<PageHeader showSelector={false} campaignItems={[]} selectedCampaignId="" />
 					<EmptyState
 						title="No campaigns yet"
 						description="Create a campaign to start tracking analytics"
 						icon="bar-chart-2-line"
 					/>
-				</div>
+				</Stack>
 			</motion.div>
 		);
 	}
@@ -196,16 +194,16 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			<PageHeader
-				showSelector={true}
-				campaignItems={campaignItems}
-				selectedCampaignId={selectedCampaignId}
-				onCampaignChange={setSelectedCampaignId}
-			/>
+			<Stack gap="lg">
+				<PageHeader
+					showSelector={true}
+					campaignItems={campaignItems}
+					selectedCampaignId={selectedCampaignId}
+					onCampaignChange={setSelectedCampaignId}
+				/>
 
-			<div className={styles.pageContent}>
 				{selectedCampaignId && (
-					<>
+					<Stack gap="lg">
 						<SignupsChart
 							data={signups.data?.data ?? []}
 							total={signups.data?.total ?? 0}
@@ -228,9 +226,9 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 							canGoForward={sources.nav.canGoForward}
 							loading={sources.loading}
 						/>
-					</>
+					</Stack>
 				)}
-			</div>
+			</Stack>
 		</motion.div>
 	);
 });

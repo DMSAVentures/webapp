@@ -3,7 +3,9 @@
  * Drop zone for form fields with drag-drop reordering
  */
 
+import { GripVertical } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import type { FormDesign, FormField } from "@/types/common.types";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { DropZone } from "../DropZone/component";
@@ -162,15 +164,15 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 
 	// Render
 	return (
-		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<h3 className={styles.title}>Form Builder</h3>
-				<p className={styles.subtitle}>
+		<Stack gap="md" className={classNames} {...props}>
+			<Stack gap="xs" className={styles.header}>
+				<Text as="h3" size="md" weight="semibold">Form Builder</Text>
+				<Text size="sm" color="muted">
 					{fields.length === 0
 						? "Drag fields here or click to add"
 						: `${fields.length} field${fields.length !== 1 ? "s" : ""}`}
-				</p>
-			</div>
+				</Text>
+			</Stack>
 
 			<div className={styles.canvas}>
 				{fields.length === 0 ? (
@@ -180,8 +182,10 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 						onDragLeave={handleDropZoneDragLeave}
 						onDrop={handleDrop(0)}
 					>
-						<i className="ri-drag-drop-line" aria-hidden="true" />
-						<p>Drag fields from the left panel to start building your form</p>
+						<Stack gap="md" align="center" justify="center">
+							<Icon icon={GripVertical} size="2xl" color="muted" />
+							<Text color="secondary">Drag fields from the left panel to start building your form</Text>
+						</Stack>
 					</div>
 				) : (
 					<div className={styles.fieldsList}>
@@ -222,7 +226,7 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 					</div>
 				)}
 			</div>
-		</div>
+		</Stack>
 	);
 });
 

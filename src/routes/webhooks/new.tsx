@@ -1,3 +1,4 @@
+import { Check, Copy } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
@@ -94,7 +95,7 @@ function RouteComponent() {
 								<Button
 									aria-label={copied ? "Copied!" : "Copy secret"}
 									variant="secondary"
-									leftIcon={copied ? "ri-check-line" : "ri-file-copy-line"}
+									leftIcon={copied ? <Check size={16} /> : <Copy size={16} />}
 									onClick={handleCopySecret}
 								/>
 							</div>

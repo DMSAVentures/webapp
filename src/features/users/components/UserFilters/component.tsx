@@ -3,6 +3,7 @@
  * Horizontal filter bar for waitlist users
  */
 
+import { RefreshCw } from "lucide-react";
 import { memo, useCallback, useState, useEffect } from "react";
 import {
 	Button,
@@ -10,6 +11,8 @@ import {
 	Input,
 	Label,
 	Select,
+	Stack,
+	Text,
 } from "@/proto-design-system";
 import type { FormField } from "@/types/campaign";
 import type {
@@ -249,9 +252,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	);
 
 	return (
-		<div className={classNames}>
+		<Stack direction="row" gap="md" wrap className={classNames}>
 			{/* Status Filter */}
-			<div className={styles.filterGroup}>
+			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Status</Label>
 				<Select
 					options={STATUS_OPTIONS}
@@ -259,10 +262,10 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 					onChange={handleStatusChange}
 					placeholder="All Statuses"
 				/>
-			</div>
+			</Stack>
 
 			{/* Source Filter */}
-			<div className={styles.filterGroup}>
+			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Source</Label>
 				<Select
 					options={SOURCE_OPTIONS}
@@ -270,12 +273,12 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 					onChange={handleSourceChange}
 					placeholder="All Sources"
 				/>
-			</div>
+			</Stack>
 
 			{/* Date Range Filter */}
-			<div className={styles.filterGroup}>
+			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Date Range</Label>
-				<div className={styles.inputRow}>
+				<Stack direction="row" gap="xs" align="center">
 					<Input
 						type="date"
 						value={
@@ -285,7 +288,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						}
 						onChange={(e) => handleDateChange("start", e.target.value)}
 					/>
-					<span className={styles.separator}>to</span>
+					<Text size="sm" color="muted">to</Text>
 					<Input
 						type="date"
 						value={
@@ -295,13 +298,13 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						}
 						onChange={(e) => handleDateChange("end", e.target.value)}
 					/>
-				</div>
-			</div>
+				</Stack>
+			</Stack>
 
 			{/* Position Range Filter */}
-			<div className={styles.filterGroup}>
+			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Position</Label>
-				<div className={styles.inputRow}>
+				<Stack direction="row" gap="xs" align="center">
 					<Input
 						type="number"
 						placeholder="Min"
@@ -309,7 +312,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						value={filters.minPosition ?? ""}
 						onChange={(e) => handlePositionChange("min", e.target.value)}
 					/>
-					<span className={styles.separator}>-</span>
+					<Text size="sm" color="muted">-</Text>
 					<Input
 						type="number"
 						placeholder="Max"
@@ -317,20 +320,20 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						value={filters.maxPosition ?? ""}
 						onChange={(e) => handlePositionChange("max", e.target.value)}
 					/>
-				</div>
-			</div>
+				</Stack>
+			</Stack>
 
 			{/* Has Referrals Filter */}
-			<div className={styles.filterGroup}>
+			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Referrals</Label>
-				<div className={styles.checkboxWrapper}>
+				<Stack direction="row" gap="sm" align="center">
 					<Checkbox
 						checked={filters.hasReferrals || false}
 						onChange={handleReferralsToggle}
 					/>
-					<span className={styles.checkboxLabel}>Has referrals</span>
-				</div>
-			</div>
+					<Text size="sm">Has referrals</Text>
+				</Stack>
+			</Stack>
 
 			{/* Custom Form Field Filters */}
 			{filterableFields.map((field) => {
@@ -348,7 +351,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						})) || [];
 
 					return (
-						<div key={field.id} className={styles.filterGroup}>
+						<Stack key={field.id} gap="xs" className={styles.filterGroup}>
 							<Label>{field.label}</Label>
 							<Select
 								options={options}
@@ -358,20 +361,20 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 								}
 								placeholder={`All ${field.label}`}
 							/>
-						</div>
+						</Stack>
 					);
 				}
 
 				if (field.fieldType === "text") {
 					return (
-						<div key={field.id} className={styles.filterGroup}>
+						<Stack key={field.id} gap="xs" className={styles.filterGroup}>
 							<Label>{field.label}</Label>
 							<DebouncedTextInput
 								placeholder={`Filter by ${field.label.toLowerCase()}`}
 								value={(fieldValue as string) || ""}
 								onChange={(value) => handleCustomFieldText(field.name, value)}
 							/>
-						</div>
+						</Stack>
 					);
 				}
 
@@ -379,19 +382,17 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 			})}
 
 			{/* Actions */}
-			<div className={styles.actions}>
-				{hasActiveFilters && (
-					<Button
-						variant="secondary"
-						size="sm"
-						leftIcon="ri-refresh-line"
-						onClick={onReset}
-					>
-						Reset filters
-					</Button>
-				)}
-			</div>
-		</div>
+			{hasActiveFilters && (
+				<Button
+					variant="secondary"
+					size="sm"
+					leftIcon={<RefreshCw size={16} />}
+					onClick={onReset}
+				>
+					Reset filters
+				</Button>
+			)}
+		</Stack>
 	);
 });
 

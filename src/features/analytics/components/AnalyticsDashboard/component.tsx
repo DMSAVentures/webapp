@@ -4,7 +4,8 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system";
+import { ArrowUp, BarChart2, Download, LineChart, PieChart, Share2, UserPlus, Verified } from "lucide-react";
+import { Badge, Button, Card, Grid, Icon, Stack, Text } from "@/proto-design-system";
 import type { Analytics } from "@/types/common.types";
 import { ConversionFunnel } from "../ConversionFunnel/component";
 import { GrowthChart } from "../GrowthChart/component";
@@ -72,174 +73,182 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 
 		if (!analytics) {
 			return (
-				<div className={classNames} {...props}>
-					<div className={styles.emptyState}>
-						<i className="ri-line-chart-line" aria-hidden="true" />
-						<h3>No Analytics Data</h3>
-						<p>
+				<Stack gap="lg" className={classNames} {...props}>
+					<Stack gap="md" align="center" className={styles.emptyState}>
+						<Icon icon={LineChart} size="2xl" color="muted" />
+						<Text as="h3" size="lg" weight="semibold">No Analytics Data</Text>
+						<Text color="secondary">
 							Analytics data will appear here once your campaign starts
 							receiving traffic.
-						</p>
-					</div>
-				</div>
+						</Text>
+					</Stack>
+				</Stack>
 			);
 		}
 
 		const { overview, funnel, trafficSources, timeline } = analytics;
 
 		return (
-			<div className={classNames} {...props}>
+			<Stack gap="lg" className={classNames} {...props}>
 				{/* Header with actions */}
-				<div className={styles.header}>
-					<div className={styles.headerContent}>
-						<h2 className={styles.title}>Analytics Overview</h2>
+				<Stack direction="row" align="center" justify="between" className={styles.header}>
+					<Stack gap="xs">
+						<Text as="h2" size="xl" weight="semibold">Analytics Overview</Text>
 						{dateRange && (
-							<p className={styles.dateRange}>
+							<Text size="sm" color="secondary">
 								{dateRange.start.toLocaleDateString()} -{" "}
 								{dateRange.end.toLocaleDateString()}
-							</p>
+							</Text>
 						)}
-					</div>
-					<div className={styles.actions}>
-						{onExport && (
-							<Button
-								variant="secondary"
-								size="md"
-								leftIcon="download-2-line"
-								onClick={onExport}
-							>
-								Export
-							</Button>
-						)}
-					</div>
-				</div>
+					</Stack>
+					{onExport && (
+						<Button
+							variant="secondary"
+							size="md"
+							leftIcon={<Download size={16} />}
+							onClick={onExport}
+						>
+							Export
+						</Button>
+					)}
+				</Stack>
 
 				{/* KPI Cards */}
-				<div className={styles.kpiGrid}>
-					<div className={styles.kpiCard}>
-						<div className={styles.kpiIcon}>
-							<i className="ri-user-add-line" aria-hidden="true" />
-						</div>
-						<div className={styles.kpiContent}>
-							<div className={styles.kpiLabel}>Total Signups</div>
-							<div className={styles.kpiValue}>
-								{loading ? (
-									<div className={styles.skeleton} />
-								) : (
-									formatNumber(overview.totalSignups)
-								)}
+				<Grid columns="4" gap="md" className={styles.kpiGrid}>
+					<Card padding="md" className={styles.kpiCard}>
+						<Stack direction="row" gap="md" align="start">
+							<div className={styles.kpiIcon}>
+								<Icon icon={UserPlus} size="lg" />
 							</div>
-							{!loading && overview.todaySignups > 0 && (
-								<div className={styles.kpiSubtext}>
-									<i className="ri-arrow-up-line" aria-hidden="true" />
-									{formatNumber(overview.todaySignups)} today
-								</div>
-							)}
-						</div>
-					</div>
+							<Stack gap="xs">
+								<Text size="sm" color="secondary">Total Signups</Text>
+								<Text size="2xl" weight="semibold">
+									{loading ? (
+										<div className={styles.skeleton} />
+									) : (
+										formatNumber(overview.totalSignups)
+									)}
+								</Text>
+								{!loading && overview.todaySignups > 0 && (
+									<Stack direction="row" gap="xs" align="center">
+										<Icon icon={ArrowUp} size="sm" color="success" />
+										<Text size="xs" color="secondary">{formatNumber(overview.todaySignups)} today</Text>
+									</Stack>
+								)}
+							</Stack>
+						</Stack>
+					</Card>
 
-					<div className={styles.kpiCard}>
-						<div className={`${styles.kpiIcon} ${styles.kpiIconSuccess}`}>
-							<i className="ri-verified-badge-line" aria-hidden="true" />
-						</div>
-						<div className={styles.kpiContent}>
-							<div className={styles.kpiLabel}>Verification Rate</div>
-							<div className={styles.kpiValue}>
-								{loading ? (
-									<div className={styles.skeleton} />
-								) : (
-									formatPercentage(overview.verificationRate)
-								)}
+					<Card padding="md" className={styles.kpiCard}>
+						<Stack direction="row" gap="md" align="start">
+							<div className={`${styles.kpiIcon} ${styles.kpiIconSuccess}`}>
+								<Icon icon={Verified} size="lg" />
 							</div>
-							<div className={styles.kpiSubtext}>Email verification rate</div>
-						</div>
-					</div>
+							<Stack gap="xs">
+								<Text size="sm" color="secondary">Verification Rate</Text>
+								<Text size="2xl" weight="semibold">
+									{loading ? (
+										<div className={styles.skeleton} />
+									) : (
+										formatPercentage(overview.verificationRate)
+									)}
+								</Text>
+								<Text size="xs" color="secondary">Email verification rate</Text>
+							</Stack>
+						</Stack>
+					</Card>
 
-					<div className={styles.kpiCard}>
-						<div className={`${styles.kpiIcon} ${styles.kpiIconPurple}`}>
-							<i className="ri-line-chart-line" aria-hidden="true" />
-						</div>
-						<div className={styles.kpiContent}>
-							<div className={styles.kpiLabel}>K-Factor</div>
-							<div className={styles.kpiValue}>
-								{loading ? (
-									<div className={styles.skeleton} />
-								) : (
-									<>
-										{formatCoefficient(overview.viralCoefficient)}
-										<span className={styles.kpiBadge}>
-											{overview.viralCoefficient >= 1 ? (
-												<span className={styles.kpiBadgeSuccess}>Viral</span>
-											) : (
-												<span className={styles.kpiBadgeWarning}>
-													Sub-viral
-												</span>
-											)}
-										</span>
-									</>
-								)}
+					<Card padding="md" className={styles.kpiCard}>
+						<Stack direction="row" gap="md" align="start">
+							<div className={`${styles.kpiIcon} ${styles.kpiIconPurple}`}>
+								<Icon icon={LineChart} size="lg" />
 							</div>
-							<div className={styles.kpiSubtext}>Viral coefficient</div>
-						</div>
-					</div>
+							<Stack gap="xs">
+								<Text size="sm" color="secondary">K-Factor</Text>
+								<Stack direction="row" gap="sm" align="center">
+									<Text size="2xl" weight="semibold">
+										{loading ? (
+											<div className={styles.skeleton} />
+										) : (
+											formatCoefficient(overview.viralCoefficient)
+										)}
+									</Text>
+									{!loading && (
+										<Badge variant={overview.viralCoefficient >= 1 ? "success" : "warning"} size="sm">
+											{overview.viralCoefficient >= 1 ? "Viral" : "Sub-viral"}
+										</Badge>
+									)}
+								</Stack>
+								<Text size="xs" color="secondary">Viral coefficient</Text>
+							</Stack>
+						</Stack>
+					</Card>
 
-					<div className={styles.kpiCard}>
-						<div className={`${styles.kpiIcon} ${styles.kpiIconOrange}`}>
-							<i className="ri-share-forward-line" aria-hidden="true" />
-						</div>
-						<div className={styles.kpiContent}>
-							<div className={styles.kpiLabel}>Avg Referrals</div>
-							<div className={styles.kpiValue}>
-								{loading ? (
-									<div className={styles.skeleton} />
-								) : (
-									formatCoefficient(overview.avgReferralsPerUser)
-								)}
+					<Card padding="md" className={styles.kpiCard}>
+						<Stack direction="row" gap="md" align="start">
+							<div className={`${styles.kpiIcon} ${styles.kpiIconOrange}`}>
+								<Icon icon={Share2} size="lg" />
 							</div>
-							<div className={styles.kpiSubtext}>Per user average</div>
-						</div>
-					</div>
-				</div>
+							<Stack gap="xs">
+								<Text size="sm" color="secondary">Avg Referrals</Text>
+								<Text size="2xl" weight="semibold">
+									{loading ? (
+										<div className={styles.skeleton} />
+									) : (
+										formatCoefficient(overview.avgReferralsPerUser)
+									)}
+								</Text>
+								<Text size="xs" color="secondary">Per user average</Text>
+							</Stack>
+						</Stack>
+					</Card>
+				</Grid>
 
 				{/* Growth Chart */}
 				{timeline && timeline.length > 0 && (
-					<div className={styles.section}>
-						<h3 className={styles.sectionTitle}>Growth Over Time</h3>
-						<GrowthChart data={timeline} height={350} />
-					</div>
+					<Card padding="lg">
+						<Stack gap="md">
+							<Text as="h3" size="lg" weight="semibold">Growth Over Time</Text>
+							<GrowthChart data={timeline} height={350} />
+						</Stack>
+					</Card>
 				)}
 
 				{/* Two-column layout for Funnel and Traffic Sources */}
-				<div className={styles.twoColumnGrid}>
+				<Grid columns="2" gap="lg" className={styles.twoColumnGrid}>
 					{/* Conversion Funnel */}
-					<div className={styles.section}>
+					<Card padding="lg">
 						<ConversionFunnel data={funnel} />
-					</div>
+					</Card>
 
 					{/* Traffic Sources */}
 					{trafficSources && trafficSources.length > 0 && (
-						<div className={styles.section}>
-							<div className={styles.chartTypeToggle}>
-								<button
-									className={`${styles.toggleButton} ${chartType === "pie" ? styles.toggleButtonActive : ""}`}
-									onClick={() => setChartType("pie")}
-									aria-label="Pie chart"
-								>
-									<i className="ri-pie-chart-line" aria-hidden="true" />
-								</button>
-								<button
-									className={`${styles.toggleButton} ${chartType === "bar" ? styles.toggleButtonActive : ""}`}
-									onClick={() => setChartType("bar")}
-									aria-label="Bar chart"
-								>
-									<i className="ri-bar-chart-line" aria-hidden="true" />
-								</button>
-							</div>
-							<TrafficSources data={trafficSources} chartType={chartType} />
-						</div>
+						<Card padding="lg">
+							<Stack gap="md">
+								<Stack direction="row" justify="end">
+									<Stack direction="row" gap="xs" className={styles.chartTypeToggle}>
+										<button
+											className={`${styles.toggleButton} ${chartType === "pie" ? styles.toggleButtonActive : ""}`}
+											onClick={() => setChartType("pie")}
+											aria-label="Pie chart"
+										>
+											<Icon icon={PieChart} size="sm" />
+										</button>
+										<button
+											className={`${styles.toggleButton} ${chartType === "bar" ? styles.toggleButtonActive : ""}`}
+											onClick={() => setChartType("bar")}
+											aria-label="Bar chart"
+										>
+											<Icon icon={BarChart2} size="sm" />
+										</button>
+									</Stack>
+								</Stack>
+								<TrafficSources data={trafficSources} chartType={chartType} />
+							</Stack>
+						</Card>
 					)}
-				</div>
-			</div>
+				</Grid>
+			</Stack>
 		);
 	},
 );

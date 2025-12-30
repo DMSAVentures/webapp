@@ -4,6 +4,7 @@
  * A modal for editing email templates with live preview and test email functionality.
  */
 
+import { Mail, Send, X } from "lucide-react";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { EmailPreview } from "@/features/campaigns/components/EmailPreview/component";
 import {
@@ -16,7 +17,7 @@ import {
 	useSendTestEmail,
 	useUpdateEmailTemplate,
 } from "@/hooks/useEmailTemplates";
-import { Button, Input, TextArea } from "@/proto-design-system";
+import { Button, Icon, Input, TextArea } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface EmailTemplateEditorProps {
@@ -184,13 +185,13 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 					{/* Header */}
 					<div className={styles.header}>
 						<div className={styles.headerTitle}>
-							<i className="ri-mail-line" aria-hidden="true" />
+							<Icon icon={Mail} size="md" />
 							<span>Customize {typeLabels[type]}</span>
 						</div>
 						<Button
 							aria-label="Close editor"
 							variant="secondary"
-							leftIcon="ri-close-line"
+							leftIcon={<X size={16} />}
 							onClick={handleClose}
 						/>
 					</div>
@@ -282,7 +283,7 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 											<Button
 												aria-label="Cancel test email"
 												variant="secondary"
-												leftIcon="ri-close-line"
+												leftIcon={<X size={16} />}
 												onClick={() => {
 													setShowTestEmailInput(false);
 													setTestEmailRecipient("");
@@ -293,7 +294,7 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 									) : (
 										<Button
 											variant="secondary"
-											leftIcon="ri-send-plane-line"
+											leftIcon={<Send size={16} />}
 											onClick={() => setShowTestEmailInput(true)}
 										>
 											Send Test Email

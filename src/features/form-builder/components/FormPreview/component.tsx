@@ -3,7 +3,9 @@
  * Live preview of the form with applied design settings
  */
 
+import { EyeOff } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import type { FormConfig } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
 import { DevicePreview, type DeviceType } from "../DevicePreview/component";
@@ -70,10 +72,10 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	const rightColumnFields = currentFields.filter((f) => f.column === 2);
 
 	const emptyState = (
-		<div className={styles.emptyState}>
-			<i className="ri-eye-off-line" aria-hidden="true" />
-			<p>Add fields to see preview</p>
-		</div>
+		<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
+			<Icon icon={EyeOff} size="2xl" color="muted" />
+			<Text color="muted">Add fields to see preview</Text>
+		</Stack>
 	);
 
 	return (
@@ -92,14 +94,14 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 				{/* Multi-step progress indicator */}
 				{isMultiStep && totalSteps > 1 && (
 					<div className={styles.progressContainer}>
-						<div className={styles.progressHeader}>
-							<span className={styles.progressStep}>
+						<Stack direction="row" justify="between" align="center" className={styles.progressHeader}>
+							<Text size="sm" weight="medium">
 								Step {currentStep} of {totalSteps}
-							</span>
-							<span className={styles.progressPercent}>
+							</Text>
+							<Text size="sm" color="muted">
 								{Math.round((currentStep / totalSteps) * 100)}%
-							</span>
-						</div>
+							</Text>
+						</Stack>
 						<div className={styles.progressBar}>
 							<div
 								className={styles.progressFill}

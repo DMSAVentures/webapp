@@ -9,8 +9,8 @@ import {
 	useCallback,
 	useState,
 } from "react";
-import { Search, LayoutGrid, List } from "lucide-react";
-import { Button, ButtonGroup, Input } from "@/proto-design-system";
+import { Plus, Search, LayoutGrid, List, Megaphone } from "lucide-react";
+import { Button, ButtonGroup, Grid, Icon, Input, Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import { CampaignCard } from "../CampaignCard/component";
 import styles from "./component.module.scss";
@@ -152,24 +152,22 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 	// Empty state
 	if (!loading && campaigns.length === 0) {
 		return (
-			<div className={styles.emptyState}>
-				<div className={styles.emptyStateIcon}>
-					<i className="ri-megaphone-line" aria-hidden="true" />
-				</div>
-				<h3 className={styles.emptyStateTitle}>No campaigns yet</h3>
-				<p className={styles.emptyStateDescription}>
+			<Stack gap="md" align="center" className={styles.emptyState}>
+				<Icon icon={Megaphone} size="2xl" color="muted" />
+				<Text as="h3" size="lg" weight="semibold">No campaigns yet</Text>
+				<Text color="secondary" align="center">
 					Create your first campaign to start building your waitlist
-				</p>
+				</Text>
 				{onCreateCampaign && (
 					<Button
 						onClick={onCreateCampaign}
 						variant="primary"
-						leftIcon="ri-add-line"
+						leftIcon={<Plus size={16} />}
 					>
 						Create Campaign
 					</Button>
 				)}
-			</div>
+			</Stack>
 		);
 	}
 
@@ -232,35 +230,31 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 			)}
 
 			{/* Results count */}
-			<div className={styles.resultsInfo}>
+			<Text size="sm" color="secondary" className={styles.resultsInfo}>
 				{filteredCampaigns.length} campaign
 				{filteredCampaigns.length !== 1 ? "s" : ""}
 				{searchQuery && ` matching "${searchQuery}"`}
-			</div>
+			</Text>
 
 			{/* Campaign grid/list */}
 			{loading ? (
-				<div
-					className={`${styles.campaignGrid} ${view === "list" ? styles.campaignList : ""}`}
-				>
+				<Grid columns={view === "list" ? "1" : "3"} gap="md" className={styles.campaignGrid}>
 					{[...Array(6)].map((_, i) => (
 						<div key={i} className={styles.skeletonCard} />
 					))}
-				</div>
+				</Grid>
 			) : filteredCampaigns.length === 0 ? (
-				<div className={styles.noResults}>
-					<i className="ri-search-line" aria-hidden="true" />
-					<p>No campaigns found</p>
+				<Stack gap="md" align="center" className={styles.noResults}>
+					<Icon icon={Search} size="xl" color="muted" />
+					<Text color="secondary">No campaigns found</Text>
 					{searchQuery && (
 						<Button onClick={clearFilters} variant="secondary">
 							Clear filters
 						</Button>
 					)}
-				</div>
+				</Stack>
 			) : (
-				<div
-					className={`${styles.campaignGrid} ${view === "list" ? styles.campaignList : ""}`}
-				>
+				<Grid columns={view === "list" ? "1" : "3"} gap="md" className={styles.campaignGrid}>
 					{filteredCampaigns.map((campaign) => (
 						<CampaignCard
 							key={campaign.id}
@@ -276,7 +270,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 							}}
 						/>
 					))}
-				</div>
+				</Grid>
 			)}
 		</div>
 	);

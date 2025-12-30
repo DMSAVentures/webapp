@@ -3,7 +3,9 @@
  * Displays a grid of pre-built form design templates for quick selection
  */
 
+import { Check } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import type { FormDesign } from "@/types/common.types";
 import {
 	FORM_DESIGN_TEMPLATES,
@@ -145,12 +147,12 @@ export const TemplateSelector = memo<TemplateSelectorProps>(
 
 		return (
 			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<h4 className={styles.title}>Design Templates</h4>
-					<p className={styles.subtitle}>
+				<Stack gap="xs" className={styles.header}>
+					<Text as="h4" size="md" weight="semibold">Design Templates</Text>
+					<Text size="sm" color="muted">
 						Choose a starting point for your form
-					</p>
-				</div>
+					</Text>
+				</Stack>
 
 				<div className={styles.grid}>
 					{FORM_DESIGN_TEMPLATES.map((template) => {
@@ -189,16 +191,16 @@ export const TemplateSelector = memo<TemplateSelectorProps>(
 									/>
 								</div>
 
-								<div className={styles.cardContent}>
-									<span className={styles.cardName}>{template.name}</span>
-									<span className={styles.cardDescription}>
+								<Stack gap="0" className={styles.cardContent}>
+									<Text size="sm" weight="medium">{template.name}</Text>
+									<Text size="xs" color="muted">
 										{template.description}
-									</span>
-								</div>
+									</Text>
+								</Stack>
 
 								{isSelected && (
 									<div className={styles.selectedBadge}>
-										<i className="ri-check-line" aria-hidden="true" />
+										<Icon icon={Check} size="sm" />
 									</div>
 								)}
 							</button>

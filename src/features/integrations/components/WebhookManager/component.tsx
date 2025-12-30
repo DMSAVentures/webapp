@@ -3,16 +3,17 @@
  * Manages webhooks for a campaign
  */
 
+import { AlertTriangle, Calendar, Check, ChevronDown, ChevronUp, FileText, Link2, Pencil, Plus, Send, Trash2, Webhook, X } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Badge, Button, Divider } from "@/proto-design-system";
-import type { Webhook } from "@/types/common.types";
+import { Badge, Button, Divider, Icon } from "@/proto-design-system";
+import type { Webhook as WebhookType } from "@/types/common.types";
 import styles from "./component.module.scss";
 
 export interface WebhookManagerProps extends HTMLAttributes<HTMLDivElement> {
 	/** Campaign ID for the webhooks */
 	campaignId: string;
 	/** List of webhooks */
-	webhooks: Webhook[];
+	webhooks: WebhookType[];
 	/** Create webhook handler */
 	onCreate?: () => void;
 	/** Edit webhook handler */
@@ -36,12 +37,12 @@ type WebhookHealth = "healthy" | "warning" | "error";
 // ============================================================================
 
 /** Maps webhook status to StatusBadge variant */
-function getStatusVariant(status: Webhook["status"]): "success" | "secondary" {
+function getStatusVariant(status: WebhookType["status"]): "success" | "secondary" {
 	return status === "active" ? "success" : "secondary";
 }
 
 /** Gets display text for status */
-function getStatusText(status: Webhook["status"]): string {
+function getStatusText(status: WebhookType["status"]): string {
 	return status === "active" ? "Active" : "Inactive";
 }
 
@@ -60,7 +61,7 @@ function truncateUrl(url: string, maxLength: number = 50): string {
 }
 
 /** Calculates webhook health status based on delivery success rate */
-function getWebhookHealth(webhook: Webhook): WebhookHealth {
+function getWebhookHealth(webhook: WebhookType): WebhookHealth {
 	if (webhook.stats.totalAttempts === 0) return "warning";
 
 	const successRate =
@@ -71,15 +72,15 @@ function getWebhookHealth(webhook: Webhook): WebhookHealth {
 	return "error";
 }
 
-/** Gets icon class for health status */
-function getHealthIcon(health: WebhookHealth): string {
+/** Gets icon for health status */
+function HealthIcon({ health }: { health: WebhookHealth }) {
 	switch (health) {
 		case "healthy":
-			return "ri-check-line";
+			return <Icon icon={Check} size="sm" />;
 		case "warning":
-			return "ri-alert-line";
+			return <Icon icon={AlertTriangle} size="sm" />;
 		case "error":
-			return "ri-close-line";
+			return <Icon icon={X} size="sm" />;
 	}
 }
 
@@ -152,14 +153,14 @@ export const WebhookManager = memo<WebhookManagerProps>(
 			return (
 				<div className={styles.emptyState}>
 					<div className={styles.emptyStateIcon}>
-						<i className="ri-webhook-line" aria-hidden="true" />
+						<Icon icon={Webhook} size="2xl" />
 					</div>
 					<h3 className={styles.emptyStateTitle}>No webhooks configured</h3>
 					<p className={styles.emptyStateDescription}>
 						Create a webhook to receive real-time events from your campaign
 					</p>
 					{onCreate && (
-						<Button onClick={onCreate} variant="primary" leftIcon="ri-add-line">
+						<Button onClick={onCreate} variant="primary" leftIcon={<Plus size={16} />}>
 							Create Webhook
 						</Button>
 					)}
@@ -178,7 +179,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 						</p>
 					</div>
 					{onCreate && (
-						<Button onClick={onCreate} variant="primary" leftIcon="ri-add-line">
+						<Button onClick={onCreate} variant="primary" leftIcon={<Plus size={16} />}>
 							Create Webhook
 						</Button>
 					)}
@@ -213,7 +214,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											</div>
 
 											<div className={styles.webhookUrl}>
-												<i className="ri-link" aria-hidden="true" />
+												<Icon icon={Link2} size="sm" />
 												<span title={webhook.url}>
 													{truncateUrl(webhook.url)}
 												</span>
@@ -221,20 +222,14 @@ export const WebhookManager = memo<WebhookManagerProps>(
 
 											<div className={styles.webhookMeta}>
 												<div className={styles.metaItem}>
-													<i
-														className="ri-calendar-event-line"
-														aria-hidden="true"
-													/>
+													<Icon icon={Calendar} size="sm" />
 													<span>{webhook.events.length} events</span>
 												</div>
 												{webhook.stats.totalAttempts > 0 && (
 													<div
 														className={`${styles.metaItem} ${styles[`health_${health}`]}`}
 													>
-														<i
-															className={getHealthIcon(health)}
-															aria-hidden="true"
-														/>
+														<HealthIcon health={health} />
 														<span>
 															{webhook.stats.successfulDeliveries}/
 															{webhook.stats.totalAttempts} delivered
@@ -251,7 +246,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 													variant="secondary"
 													size="sm"
 													onClick={() => onTest(webhook.id)}
-													leftIcon="ri-send-plane-line"
+													leftIcon={<Send size={16} />}
 												>
 													Test
 												</Button>
@@ -261,14 +256,14 @@ export const WebhookManager = memo<WebhookManagerProps>(
 													variant="secondary"
 													size="sm"
 													onClick={() => onViewLogs(webhook.id)}
-													leftIcon="ri-file-list-3-line"
+													leftIcon={<FileText size={16} />}
 												>
 													Logs
 												</Button>
 											)}
 											{onEdit && (
 												<Button
-													leftIcon="edit-line"
+													leftIcon={<Pencil size={16} />}
 													variant="secondary"
 													aria-label="Edit webhook"
 													onClick={() => onEdit(webhook.id)}
@@ -276,7 +271,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											)}
 											{onDelete && (
 												<Button
-													leftIcon="delete-bin-line"
+													leftIcon={<Trash2 size={16} />}
 													variant="secondary"
 													aria-label="Delete webhook"
 													onClick={() => onDelete(webhook.id)}
@@ -285,8 +280,8 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											<Button
 												leftIcon={
 													webhookIsExpanded
-														? "arrow-up-s-line"
-														: "arrow-down-s-line"
+														? <ChevronUp size={16} />
+														: <ChevronDown size={16} />
 												}
 												variant="secondary"
 												aria-label={webhookIsExpanded ? "Collapse" : "Expand"}

@@ -39,16 +39,16 @@
 // ============================================================================
 
 .tier_free {
-	color: colors.$color-neutral-700;
-	background-color: colors.$color-neutral-200;
+	color: var(--color-base-content-secondary);
+	background-color: var(--color-base-200);
 }
 
 .tier_pro {
-	color: colors.$color-blue-700;
-	background-color: colors.$color-blue-100;
+	color: var(--color-info);
+	background-color: var(--color-bg-info-alpha);
 }
 
 .tier_team {
-	color: colors.$color-purple-700;
-	background-color: colors.$color-purple-100;
+	color: oklch(from var(--color-info) calc(l - 0.1) c calc(h + 60));
+	background-color: oklch(from var(--color-info) l c calc(h + 60) / 0.15);
 }

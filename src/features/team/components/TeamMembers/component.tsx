@@ -3,8 +3,9 @@
  * Displays team member list with management capabilities
  */
 
+import { AlertTriangle, Check, Loader2, Mail, Trash2, UserPlus, Users } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Badge, Button, Dropdown } from "@/proto-design-system";
+import { Badge, Button, Dropdown, Icon } from "@/proto-design-system";
 import type { TeamMember } from "@/types/common.types";
 
 type RoleOption = { id: string; label: string; disabled?: boolean };
@@ -167,7 +168,7 @@ export const TeamMembers = memo(function TeamMembers({
 				</div>
 				<Button
 					variant="primary"
-					leftIcon="user-add-line"
+					leftIcon={<UserPlus size={16} />}
 					onClick={() => setIsInviteModalOpen(true)}
 				>
 					Invite Member
@@ -177,7 +178,7 @@ export const TeamMembers = memo(function TeamMembers({
 			{/* Loading state */}
 			{loading && (
 				<div className={styles.loading}>
-					<i className="ri-loader-4-line ri-spin" aria-hidden="true" />
+					<Icon icon={Loader2} size="md" className={styles.spin} />
 					Loading team members...
 				</div>
 			)}
@@ -185,7 +186,7 @@ export const TeamMembers = memo(function TeamMembers({
 			{/* Error state */}
 			{error && (
 				<div className={styles.error}>
-					<i className="ri-error-warning-line" aria-hidden="true" />
+					<Icon icon={AlertTriangle} size="md" />
 					{error.error}
 				</div>
 			)}
@@ -255,8 +256,8 @@ export const TeamMembers = memo(function TeamMembers({
 												<Button
 													leftIcon={
 														confirmDeleteId === member.id
-															? "check-line"
-															: "delete-bin-line"
+															? <Check size={16} />
+															: <Trash2 size={16} />
 													}
 													variant="secondary"
 													aria-label={
@@ -295,7 +296,7 @@ export const TeamMembers = memo(function TeamMembers({
 												<div
 													className={`${styles.avatar} ${styles.avatarPending}`}
 												>
-													<i className="ri-mail-line" aria-hidden="true" />
+													<Icon icon={Mail} size="sm" />
 												</div>
 												<div className={styles.memberDetails}>
 													<div className={styles.memberEmail}>
@@ -332,8 +333,8 @@ export const TeamMembers = memo(function TeamMembers({
 											<Button
 												leftIcon={
 													confirmDeleteId === member.id
-														? "check-line"
-														: "delete-bin-line"
+														? <Check size={16} />
+														: <Trash2 size={16} />
 												}
 												variant="secondary"
 												aria-label={
@@ -354,14 +355,14 @@ export const TeamMembers = memo(function TeamMembers({
 					{/* Empty state */}
 					{teamMembers.length === 0 && (
 						<div className={styles.empty}>
-							<i className="ri-team-line" aria-hidden="true" />
+							<Icon icon={Users} size="2xl" />
 							<h3 className={styles.emptyTitle}>No team members yet</h3>
 							<p className={styles.emptyText}>
 								Invite your first team member to start collaborating
 							</p>
 							<Button
 								variant="primary"
-								leftIcon="user-add-line"
+								leftIcon={<UserPlus size={16} />}
 								onClick={() => setIsInviteModalOpen(true)}
 							>
 								Invite Member

@@ -19,8 +19,9 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { BarChart2 } from "lucide-react";
 import type { DateRange } from "@/hooks/useChartNavigation";
-import { Button, ButtonGroup } from "@/proto-design-system";
+import { Button, ButtonGroup, Card, Icon, Spinner, Stack, Text } from "@/proto-design-system";
 import type { AnalyticsPeriod, ApiSignupDataPoint } from "@/types/api.types";
 import styles from "./component.module.scss";
 
@@ -273,7 +274,6 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 	height = 300,
 	loading = false,
 	className: customClassName,
-	...props
 }) {
 	// State
 	const [selectedPeriod, setSelectedPeriod] = useState<AnalyticsPeriod>(period);
@@ -295,135 +295,137 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 
 	// Render
 	return (
-		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<div className={styles.headerLeft}>
-					<h3 className={styles.title}>Signups Over Time</h3>
-					<span className={styles.total}>
-						{formatNumber(total)} total signups
-					</span>
-				</div>
-				<div className={styles.headerRight}>
-					<ButtonGroup>
-						{PERIOD_OPTIONS.map((option) => (
-							<Button
-								key={option.value}
-								variant={selectedPeriod === option.value ? "primary" : "secondary"}
-								size="sm"
-								onClick={() => handlePeriodChange(option.value)}
+		<Card padding="lg" className={classNames}>
+			<Stack gap="lg">
+				<Stack direction="row" align="start" justify="between" wrap className={styles.header}>
+					<Stack gap="xs">
+						<Text as="h3" size="lg" weight="semibold">Signups Over Time</Text>
+						<Text size="sm" color="secondary">
+							{formatNumber(total)} total signups
+						</Text>
+					</Stack>
+					<Stack direction="row" gap="md" align="center" wrap>
+						<ButtonGroup>
+							{PERIOD_OPTIONS.map((option) => (
+								<Button
+									key={option.value}
+									variant={selectedPeriod === option.value ? "primary" : "secondary"}
+									size="sm"
+									onClick={() => handlePeriodChange(option.value)}
+								>
+									{option.label}
+								</Button>
+							))}
+						</ButtonGroup>
+						{onNavigate && (
+							<Stack direction="row" gap="sm" align="center">
+								<Button
+									leftIcon={<ChevronLeft size={16} />}
+									variant="secondary"
+									onClick={() => onNavigate("back")}
+									aria-label="Previous period"
+								/>
+								{dateRangeLabel && (
+									<Text size="sm" color="secondary">{dateRangeLabel}</Text>
+								)}
+								<Button
+									leftIcon={<ChevronRight size={16} />}
+									variant="secondary"
+									onClick={() => onNavigate("forward")}
+									disabled={!canGoForward}
+									aria-label="Next period"
+								/>
+							</Stack>
+						)}
+					</Stack>
+				</Stack>
+
+				<div className={styles.chartContainer}>
+					{loading ? (
+						<Stack align="center" justify="center" style={{ height }}>
+							<Spinner size="lg" />
+						</Stack>
+					) : data.length === 0 ? (
+						<Stack align="center" justify="center" gap="sm" style={{ height }}>
+							<Icon icon={BarChart2} size="2xl" color="muted" />
+							<Text color="secondary">No signup data available</Text>
+						</Stack>
+					) : (
+						<ResponsiveContainer width="100%" height={height}>
+							<AreaChart
+								data={data}
+								margin={{
+									top: 10,
+									right: 10,
+									left: 0,
+									bottom: selectedPeriod === "hour" ? 20 : 0,
+								}}
 							>
-								{option.label}
-							</Button>
-						))}
-					</ButtonGroup>
-					{onNavigate && (
-						<div className={styles.navigation}>
-							<Button
-								leftIcon={<ChevronLeft size={16} />}
-								variant="secondary"
-								onClick={() => onNavigate("back")}
-								aria-label="Previous period"
-							/>
-							{dateRangeLabel && (
-								<span className={styles.dateRangeLabel}>{dateRangeLabel}</span>
-							)}
-							<Button
-								leftIcon={<ChevronRight size={16} />}
-								variant="secondary"
-								onClick={() => onNavigate("forward")}
-								disabled={!canGoForward}
-								aria-label="Next period"
-							/>
-						</div>
+								<defs>
+									<linearGradient id="signupGradient" x1="0" y1="0" x2="0" y2="1">
+										<stop
+											offset="5%"
+											stopColor="var(--color-info-default)"
+											stopOpacity={0.3}
+										/>
+										<stop
+											offset="95%"
+											stopColor="var(--color-info-default)"
+											stopOpacity={0}
+										/>
+									</linearGradient>
+								</defs>
+								<CartesianGrid
+									strokeDasharray="3 3"
+									stroke="var(--color-border-secondary-default)"
+									vertical={false}
+								/>
+								<XAxis
+									dataKey="date"
+									stroke="var(--color-text-tertiary-default)"
+									tick={<CustomXAxisTick period={selectedPeriod} />}
+									tickLine={false}
+									axisLine={false}
+									height={selectedPeriod === "hour" ? 45 : 30}
+								/>
+								<YAxis
+									stroke="var(--color-text-tertiary-default)"
+									tick={{
+										fill: "var(--color-text-tertiary-default)",
+										fontSize: 12,
+									}}
+									tickFormatter={formatNumber}
+									tickLine={false}
+									axisLine={false}
+									width={40}
+								/>
+								<Tooltip
+									content={<CustomTooltip period={selectedPeriod} />}
+									cursor={{
+										stroke: "var(--color-border-primary-default)",
+										strokeDasharray: "3 3",
+									}}
+								/>
+								<Area
+									type="monotone"
+									dataKey="count"
+									stroke="var(--color-info-default)"
+									strokeWidth={2}
+									fill="url(#signupGradient)"
+									dot={false}
+									activeDot={{
+										r: 4,
+										fill: "var(--color-info-default)",
+										stroke: "var(--color-surface-primary-default)",
+										strokeWidth: 2,
+									}}
+								/>
+							</AreaChart>
+						</ResponsiveContainer>
 					)}
 				</div>
-			</div>
-
-			<div className={styles.chartContainer}>
-				{loading ? (
-					<div className={styles.loading}>
-						<div className={styles.loadingSpinner} />
-					</div>
-				) : data.length === 0 ? (
-					<div className={styles.empty}>
-						<i className="ri-bar-chart-line" aria-hidden="true" />
-						<p>No signup data available</p>
-					</div>
-				) : (
-					<ResponsiveContainer width="100%" height={height}>
-						<AreaChart
-							data={data}
-							margin={{
-								top: 10,
-								right: 10,
-								left: 0,
-								bottom: selectedPeriod === "hour" ? 20 : 0,
-							}}
-						>
-							<defs>
-								<linearGradient id="signupGradient" x1="0" y1="0" x2="0" y2="1">
-									<stop
-										offset="5%"
-										stopColor="var(--color-info-default)"
-										stopOpacity={0.3}
-									/>
-									<stop
-										offset="95%"
-										stopColor="var(--color-info-default)"
-										stopOpacity={0}
-									/>
-								</linearGradient>
-							</defs>
-							<CartesianGrid
-								strokeDasharray="3 3"
-								stroke="var(--color-border-secondary-default)"
-								vertical={false}
-							/>
-							<XAxis
-								dataKey="date"
-								stroke="var(--color-text-tertiary-default)"
-								tick={<CustomXAxisTick period={selectedPeriod} />}
-								tickLine={false}
-								axisLine={false}
-								height={selectedPeriod === "hour" ? 45 : 30}
-							/>
-							<YAxis
-								stroke="var(--color-text-tertiary-default)"
-								tick={{
-									fill: "var(--color-text-tertiary-default)",
-									fontSize: 12,
-								}}
-								tickFormatter={formatNumber}
-								tickLine={false}
-								axisLine={false}
-								width={40}
-							/>
-							<Tooltip
-								content={<CustomTooltip period={selectedPeriod} />}
-								cursor={{
-									stroke: "var(--color-border-primary-default)",
-									strokeDasharray: "3 3",
-								}}
-							/>
-							<Area
-								type="monotone"
-								dataKey="count"
-								stroke="var(--color-info-default)"
-								strokeWidth={2}
-								fill="url(#signupGradient)"
-								dot={false}
-								activeDot={{
-									r: 4,
-									fill: "var(--color-info-default)",
-									stroke: "var(--color-surface-primary-default)",
-									strokeWidth: 2,
-								}}
-							/>
-						</AreaChart>
-					</ResponsiveContainer>
-				)}
-			</div>
-		</div>
+			</Stack>
+		</Card>
 	);
 });
 

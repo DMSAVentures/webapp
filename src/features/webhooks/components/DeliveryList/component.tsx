@@ -3,8 +3,9 @@
  * Display webhook delivery history with expandable details
  */
 
+import { ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { Fragment, type HTMLAttributes, memo, useState } from "react";
-import { Badge, Button, ButtonGroup, EmptyState, Pagination, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system";
+import { Badge, Button, ButtonGroup, EmptyState, Icon, Pagination, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system";
 import type { DeliveryStatus, WebhookDelivery } from "@/types/webhook";
 import styles from "./component.module.scss";
 
@@ -140,7 +141,7 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 					<Button
 						variant="secondary"
 						size="sm"
-						leftIcon="ri-refresh-line"
+						leftIcon={<RefreshCw size={14} />}
 						onClick={onRefresh}
 					>
 						Refresh
@@ -241,8 +242,10 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										</TableCell>
 										<TableCell>
 											<div className={styles.expandIcon}>
-												<i
-													className={`ri-arrow-${expandedDeliveryId === delivery.id ? "up" : "down"}-s-line`}
+												<Icon
+													icon={expandedDeliveryId === delivery.id ? ChevronUp : ChevronDown}
+													size="sm"
+													color="muted"
 												/>
 											</div>
 										</TableCell>

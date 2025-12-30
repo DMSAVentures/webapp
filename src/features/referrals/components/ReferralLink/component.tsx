@@ -1,7 +1,7 @@
+import { CheckCircle, Copy, QrCode } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button, Modal } from "@/proto-design-system";
+import { Button, Icon, Modal, Stack, Text } from "@/proto-design-system";
 import styles from "./component.module.scss";
-import "remixicon/fonts/remixicon.css";
 
 /**
  * Props for the ReferralLink component
@@ -74,15 +74,15 @@ export const ReferralLink = memo(function ReferralLink({
 		<>
 			<div className={classNames} {...props}>
 				<div className={styles.container}>
-					<div className={styles.labelContainer}>
-						<label className={styles.label}>Your Referral Link</label>
+					<Stack direction="row" gap="sm" align="center" className={styles.labelContainer}>
+						<Text as="label" size="sm" weight="medium" className={styles.label}>Your Referral Link</Text>
 						{showCopiedFeedback && (
-							<span className={styles.copiedFeedback}>
-								<i className="ri-checkbox-circle-fill" aria-hidden="true" />
-								Copied!
-							</span>
+							<Stack direction="row" gap="xs" align="center" className={styles.copiedFeedback}>
+								<Icon icon={CheckCircle} size="sm" color="success" />
+								<Text size="sm" color="success">Copied!</Text>
+							</Stack>
 						)}
-					</div>
+					</Stack>
 
 					<div className={styles.linkContainer}>
 						<div className={styles.linkDisplay}>
@@ -93,22 +93,22 @@ export const ReferralLink = memo(function ReferralLink({
 							<Button
 								variant="secondary"
 								size="md"
+								leftIcon={<Copy size={16} />}
 								onClick={handleCopy}
 								aria-label="Copy referral link"
 								className={styles.copyButton}
 							>
-								<i className="ri-file-copy-line" aria-hidden="true" />
 								Copy
 							</Button>
 
 							<Button
 								variant="secondary"
 								size="md"
+								leftIcon={<QrCode size={16} />}
 								onClick={handleOpenQRModal}
 								aria-label="Show QR code"
 								className={styles.qrButton}
 							>
-								<i className="ri-qr-code-line" aria-hidden="true" />
 								QR Code
 							</Button>
 						</div>

@@ -3,12 +3,12 @@
  * Displays channel-specific referral links with copy and share functionality
  */
 
+import { CheckCircle, Copy, Share, Share2 } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button } from "@/proto-design-system";
-import { CheckCircle, Copy, Share } from "lucide-react";
+import { Button, Icon, Stack, Text } from "@/proto-design-system";
 import type { SharingChannel } from "@/types/campaign";
 import styles from "./component.module.scss";
-import "remixicon/fonts/remixicon.css";
+import "remixicon/fonts/remixicon.css"; // Keep for brand icons
 
 /**
  * Props for the ChannelReferralLinks component
@@ -156,10 +156,10 @@ export const ChannelReferralLinks = memo<ChannelReferralLinksProps>(
 
 		return (
 			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<i className="ri-share-forward-fill" aria-hidden="true" />
-					<h3 className={styles.title}>Share with friends & move up!</h3>
-				</div>
+				<Stack direction="row" gap="sm" align="center" className={styles.header}>
+					<Icon icon={Share2} size="md" color="secondary" />
+					<Text as="h3" size="md" weight="semibold" className={styles.title}>Share with friends & move up!</Text>
+				</Stack>
 
 				<div className={styles.channelList}>
 					{channelsToDisplay.map((channel) => {

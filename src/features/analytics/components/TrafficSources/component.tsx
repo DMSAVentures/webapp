@@ -17,6 +17,7 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { Stack, Text } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface TrafficSourceData {
@@ -129,11 +130,11 @@ export const TrafficSources = memo<TrafficSourcesProps>(
 		];
 
 		return (
-			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<h3 className={styles.title}>Traffic Sources</h3>
-					<p className={styles.subtitle}>Where your users come from</p>
-				</div>
+			<Stack gap="md" className={classNames} {...props}>
+				<Stack gap="xs">
+					<Text as="h3" size="lg" weight="semibold">Traffic Sources</Text>
+					<Text size="sm" color="secondary">Where your users come from</Text>
+				</Stack>
 
 				{chartType === "pie" ? (
 					<ResponsiveContainer width="100%" height={400}>
@@ -220,24 +221,20 @@ export const TrafficSources = memo<TrafficSourcesProps>(
 				)}
 
 				{/* Source list */}
-				<div className={styles.sourceList}>
+				<Stack gap="sm" className={styles.sourceList}>
 					{data.map((source, index) => (
-						<div key={source.source} className={styles.sourceItem}>
+						<Stack direction="row" gap="sm" align="center" key={source.source} className={styles.sourceItem}>
 							<span
 								className={styles.sourceDot}
 								style={{ backgroundColor: COLORS[index % COLORS.length] }}
 							/>
-							<span className={styles.sourceName}>{source.source}</span>
-							<span className={styles.sourceCount}>
-								{formatNumber(source.count)}
-							</span>
-							<span className={styles.sourcePercentage}>
-								({formatPercentage(source.percentage)})
-							</span>
-						</div>
+							<Text size="sm">{source.source}</Text>
+							<Text size="sm" weight="medium">{formatNumber(source.count)}</Text>
+							<Text size="sm" color="secondary">({formatPercentage(source.percentage)})</Text>
+						</Stack>
 					))}
-				</div>
-			</div>
+				</Stack>
+			</Stack>
 		);
 	},
 );

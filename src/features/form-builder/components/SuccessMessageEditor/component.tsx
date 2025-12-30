@@ -3,13 +3,14 @@
  * Edit success/thank you message settings (editor panel only)
  */
 
+import { Info } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Divider, Input, TextArea } from "@/proto-design-system";
+import { Divider, Icon, Input, Stack, Text, TextArea } from "@/proto-design-system";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import styles from "./component.module.scss";
 
-/** Channel icon configuration */
+/** Channel icon configuration - using RemixIcon for brand icons */
 const channelIcons: Record<SharingChannel, string> = {
 	twitter: "ri-twitter-x-fill",
 	facebook: "ri-facebook-fill",
@@ -70,18 +71,18 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 
 		return (
 			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<h3 className={styles.title}>Success Message</h3>
-					<p className={styles.subtitle}>
+				<Stack gap="xs" className={styles.header}>
+					<Text as="h3" size="lg" weight="semibold">Success Message</Text>
+					<Text size="sm" color="muted">
 						Customize what users see after signing up
-					</p>
-				</div>
+					</Text>
+				</Stack>
 
 				<div className={styles.content}>
 					{/* Message Content Section */}
 					<section className={styles.section}>
-						<h4 className={styles.sectionTitle}>Message Content</h4>
-						<div className={styles.inputGroup}>
+						<Text as="h4" size="md" weight="semibold">Message Content</Text>
+						<Stack gap="sm" className={styles.inputGroup}>
 							<label htmlFor="success-title">Title</label>
 							<Input
 								id="success-title"
@@ -98,7 +99,7 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 								placeholder="We'll be in touch soon."
 								rows={3}
 							/>
-						</div>
+						</Stack>
 					</section>
 
 					{/* Referral Links Section */}
@@ -106,15 +107,15 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 						<>
 							<Divider />
 							<section className={styles.section}>
-								<h4 className={styles.sectionTitle}>Referral Links</h4>
-								<p className={styles.sectionDescription}>
+								<Text as="h4" size="md" weight="semibold">Referral Links</Text>
+								<Text size="sm" color="muted">
 									Share links will appear after signup
-								</p>
-								<div className={styles.enabledChannels}>
-									<span className={styles.enabledChannelsLabel}>
+								</Text>
+								<Stack direction="row" gap="sm" align="center" className={styles.enabledChannels}>
+									<Text size="sm" color="secondary">
 										Enabled channels:
-									</span>
-									<div className={styles.channelIcons}>
+									</Text>
+									<Stack direction="row" gap="xs" className={styles.channelIcons}>
 										{enabledChannels.map((channel) => (
 											<span
 												key={channel}
@@ -127,8 +128,8 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 												/>
 											</span>
 										))}
-									</div>
-								</div>
+									</Stack>
+								</Stack>
 							</section>
 						</>
 					)}
@@ -137,13 +138,13 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 						<>
 							<Divider />
 							<section className={styles.section}>
-								<div className={styles.hint}>
-									<i className="ri-information-line" aria-hidden="true" />
-									<span>
+								<Stack direction="row" gap="sm" align="center" className={styles.hint}>
+									<Icon icon={Info} size="md" color="secondary" />
+									<Text size="sm" color="secondary">
 										Enable referrals in campaign settings to show share links
 										after signup
-									</span>
-								</div>
+									</Text>
+								</Stack>
 							</section>
 						</>
 					)}

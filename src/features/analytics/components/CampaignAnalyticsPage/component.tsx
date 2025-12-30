@@ -8,6 +8,7 @@ import { CampaignStats } from "@/features/campaigns/components/CampaignStats/com
 import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
 import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
+import { Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import { SignupsChart } from "../SignupsChart";
@@ -91,13 +92,13 @@ export const CampaignAnalyticsPage = memo(function CampaignAnalyticsPage({
 	const stats = useMemo(() => buildCampaignStats(campaign), [campaign]);
 
 	return (
-		<div className={styles.analytics}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Analytics</h2>
-				<p className={styles.description}>
+		<Stack gap="lg" className={styles.analytics}>
+			<Stack gap="xs">
+				<Text as="h2" size="xl" weight="semibold">Analytics</Text>
+				<Text color="secondary">
 					Track signups, sources, and campaign performance over time
-				</p>
-			</div>
+				</Text>
+			</Stack>
 
 			<CampaignStats
 				stats={stats}
@@ -107,7 +108,7 @@ export const CampaignAnalyticsPage = memo(function CampaignAnalyticsPage({
 				referralsEnabled={campaign.referralSettings?.enabled ?? false}
 			/>
 
-			<div className={styles.charts}>
+			<Stack gap="lg">
 				<SignupsChart
 					data={signups.data?.data ?? []}
 					total={signups.data?.total ?? 0}
@@ -130,8 +131,8 @@ export const CampaignAnalyticsPage = memo(function CampaignAnalyticsPage({
 					canGoForward={sources.nav.canGoForward}
 					loading={sources.loading}
 				/>
-			</div>
-		</div>
+			</Stack>
+		</Stack>
 	);
 });
 

@@ -6,6 +6,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
+import { Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import type { FormConfig } from "@/types/common.types";
 import { FormBuilder } from "../FormBuilder/component";
@@ -176,13 +177,13 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 	const { handleSave } = useSaveFormConfig(campaignId);
 
 	return (
-		<div className={styles.formBuilderTab}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Form Builder</h2>
-				<p className={styles.description}>
+		<Stack gap="lg" className={styles.formBuilderTab}>
+			<Stack gap="xs">
+				<Text as="h2" size="xl" weight="semibold">Form Builder</Text>
+				<Text color="secondary">
 					Design your signup form and customize the success screen
-				</p>
-			</div>
+				</Text>
+			</Stack>
 
 			<FormBuilder
 				campaignId={campaignId}
@@ -190,7 +191,7 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 				onSave={handleSave}
 				enabledReferralChannels={campaign.referralSettings?.sharingChannels}
 			/>
-		</div>
+		</Stack>
 	);
 });
 

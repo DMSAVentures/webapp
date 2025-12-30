@@ -1,3 +1,4 @@
+import { Send } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
@@ -109,7 +110,7 @@ function RouteComponent() {
 					</div>
 					<Button
 						variant="secondary"
-						leftIcon="ri-send-plane-line"
+						leftIcon={<Send size={16} />}
 						onClick={handleTest}
 						disabled={webhook?.status !== "active"}
 					>

@@ -3,10 +3,12 @@
  * Renders a complete form with fields, layout, and submit functionality
  */
 
+import { CheckCircle, ShieldCheck } from "lucide-react";
 import { memo, useCallback, useRef, useState } from "react";
 import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
 import { useConversionTracking } from "@/hooks/useConversionTracking";
 import type { SignupResponse } from "@/hooks/useFormSubmission";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import type { SharingChannel, TrackingIntegration } from "@/types/campaign";
 import type {
 	FormDesign,
@@ -223,13 +225,10 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 	if (submitted) {
 		return (
 			<div className={formClassName} style={formStyles}>
-				<div className={styles.success}>
-					<i
-						className={`ri-check-circle-line ${styles.successIcon}`}
-						aria-hidden="true"
-					/>
-					<h2 className={styles.successTitle}>{successTitle}</h2>
-					<p className={styles.successMessage}>{successMessage}</p>
+				<Stack gap="md" align="center" className={styles.success}>
+					<Icon icon={CheckCircle} size="2xl" color="success" className={styles.successIcon} />
+					<Text as="h2" size="xl" weight="semibold" className={styles.successTitle}>{successTitle}</Text>
+					<Text color="muted" className={styles.successMessage}>{successMessage}</Text>
 
 					{/* Show channel-specific referral links if available */}
 					{hasReferralLinks && (
@@ -241,7 +240,7 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 							/>
 						</div>
 					)}
-				</div>
+				</Stack>
 			</div>
 		);
 	}
@@ -267,10 +266,10 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 		>
 			{/* Status message banner for non-active campaigns */}
 			{statusMessage && (
-				<div className={styles.statusBanner}>
-					<h3 className={styles.statusTitle}>{statusMessage.title}</h3>
-					<p className={styles.statusMessage}>{statusMessage.message}</p>
-				</div>
+				<Stack gap="xs" className={styles.statusBanner}>
+					<Text as="h3" size="md" weight="semibold">{statusMessage.title}</Text>
+					<Text size="sm" color="muted">{statusMessage.message}</Text>
+				</Stack>
 			)}
 
 			{/* Submit error */}
@@ -297,14 +296,14 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 			{/* Captcha widget placeholder - Turnstile integration pending */}
 			{isCaptchaEnabled && captcha && (
 				<div className={styles.captcha} ref={turnstileRef}>
-					<div className={styles.captchaPlaceholder}>
-						<i className="ri-shield-check-line" aria-hidden="true" />
-						<span>Captcha verification</span>
-					</div>
+					<Stack direction="row" gap="sm" align="center" className={styles.captchaPlaceholder}>
+						<Icon icon={ShieldCheck} size="md" color="secondary" />
+						<Text size="sm" color="secondary">Captcha verification</Text>
+					</Stack>
 					{captchaError && (
-						<div className={styles.captchaError}>
+						<Text size="sm" color="error" className={styles.captchaError}>
 							Captcha verification failed. Please try again.
-						</div>
+						</Text>
 					)}
 				</div>
 			)}

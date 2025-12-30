@@ -4,6 +4,19 @@
  */
 
 import {
+	CheckCheck,
+	Eye,
+	FileText,
+	Lightbulb,
+	Loader2,
+	Monitor,
+	Pencil,
+	Save,
+	Share2,
+	Smartphone,
+	Tablet,
+} from "lucide-react";
+import {
 	type HTMLAttributes,
 	memo,
 	useCallback,
@@ -13,6 +26,9 @@ import {
 import {
 	Badge,
 	Button,
+	Icon,
+	Stack,
+	Text,
 } from "@/proto-design-system";
 import type { SharingChannel } from "@/types/campaign";
 import type {
@@ -378,47 +394,47 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 
 	// Render
 	return (
-		<div className={classNames} {...props}>
+		<Stack gap="md" className={classNames} {...props}>
 			{/* Header */}
-			<div className={styles.header}>
-				<div className={styles.headerContent}>
-					<h2 className={styles.title}>Form Builder</h2>
+			<Stack direction="row" justify="between" align="center" className={styles.header}>
+				<Stack direction="row" gap="sm" align="center">
+					<Text as="h2" size="lg" weight="semibold">Form Builder</Text>
 					{hasUnsavedChanges && (
 						<Badge
 							variant="warning"
 							size="sm"
 						>Unsaved changes</Badge>
 					)}
-				</div>
+				</Stack>
 
-				<div className={styles.headerActions}>
+				<Stack direction="row" gap="sm" align="center">
 					{showPreview && (
-						<div className={styles.deviceSelector}>
+						<Stack direction="row" gap="xs" className={styles.deviceSelector}>
 							<Button
-								leftIcon="ri-smartphone-line"
+								leftIcon={<Smartphone size={16} />}
 								variant={previewDevice === "mobile" ? "primary" : "secondary"}
 								aria-label="Mobile preview"
 								onClick={() => setPreviewDevice("mobile")}
 							/>
 							<Button
-								leftIcon="ri-tablet-line"
+								leftIcon={<Tablet size={16} />}
 								variant={previewDevice === "tablet" ? "primary" : "secondary"}
 								aria-label="Tablet preview"
 								onClick={() => setPreviewDevice("tablet")}
 							/>
 							<Button
-								leftIcon="ri-computer-line"
+								leftIcon={<Monitor size={16} />}
 								variant={previewDevice === "desktop" ? "primary" : "secondary"}
 								aria-label="Desktop preview"
 								onClick={() => setPreviewDevice("desktop")}
 							/>
-						</div>
+						</Stack>
 					)}
 
 					<Button
 						variant="secondary"
 						size="md"
-						leftIcon={showPreview ? "edit-line" : "eye-line"}
+						leftIcon={showPreview ? <Pencil size={16} /> : <Eye size={16} />}
 						onClick={handleTogglePreview}
 					>
 						{showPreview ? "Edit" : "Preview"}
@@ -427,38 +443,36 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					<Button
 						variant="primary"
 						size="md"
-						leftIcon={saving ? "loader-4-line" : "save-line"}
+						leftIcon={saving ? <Loader2 size={16} className={styles.spin} /> : <Save size={16} />}
 						onClick={handleSave}
 						disabled={saving || !hasUnsavedChanges}
 					>
 						{saving ? "Saving..." : "Save Form"}
 					</Button>
-				</div>
-			</div>
+				</Stack>
+			</Stack>
 
 			{/* Top-level Mode Tabs */}
-			<div className={styles.modeTabs}>
-				<div className={styles.tabButtons}>
-					<button
-						type="button"
-						className={`${styles.tabButton} ${builderMode === "form" ? styles.tabButtonActive : ""}`}
-						onClick={() => handleBuilderModeChange(0)}
-						aria-pressed={builderMode === "form"}
-					>
-						<i className="ri-file-list-3-line" aria-hidden="true" />
-						<span>Form</span>
-					</button>
-					<button
-						type="button"
-						className={`${styles.tabButton} ${builderMode === "success-screen" ? styles.tabButtonActive : ""}`}
-						onClick={() => handleBuilderModeChange(1)}
-						aria-pressed={builderMode === "success-screen"}
-					>
-						<i className="ri-check-double-line" aria-hidden="true" />
-						<span>Success Screen</span>
-					</button>
-				</div>
-			</div>
+			<Stack direction="row" gap="xs" className={styles.modeTabs}>
+				<button
+					type="button"
+					className={`${styles.tabButton} ${builderMode === "form" ? styles.tabButtonActive : ""}`}
+					onClick={() => handleBuilderModeChange(0)}
+					aria-pressed={builderMode === "form"}
+				>
+					<Icon icon={FileText} size="sm" />
+					<span>Form</span>
+				</button>
+				<button
+					type="button"
+					className={`${styles.tabButton} ${builderMode === "success-screen" ? styles.tabButtonActive : ""}`}
+					onClick={() => handleBuilderModeChange(1)}
+					aria-pressed={builderMode === "success-screen"}
+				>
+					<Icon icon={CheckCheck} size="sm" />
+					<span>Success Screen</span>
+				</button>
+			</Stack>
 
 			{/* Main content based on builder mode */}
 			{builderMode === "form" ? (
@@ -515,32 +529,32 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 				<div className={styles.builder}>
 					{/* Left panel - Info/Tips */}
 					<aside className={styles.leftPanel}>
-						<div className={styles.successInfoPanel}>
-							<div className={styles.successInfoHeader}>
-								<i className="ri-lightbulb-line" aria-hidden="true" />
-								<h3>Success Screen Tips</h3>
-							</div>
-							<div className={styles.successInfoContent}>
-								<p>
+						<Stack gap="md" className={styles.successInfoPanel}>
+							<Stack direction="row" gap="sm" align="center">
+								<Icon icon={Lightbulb} size="md" color="secondary" />
+								<Text as="h3" size="md" weight="semibold">Success Screen Tips</Text>
+							</Stack>
+							<Stack gap="md">
+								<Text size="sm" color="secondary">
 									The success screen is shown to users after they sign up. Make
 									it memorable!
-								</p>
-								<ul>
+								</Text>
+								<ul className={styles.tipsList}>
 									<li>Keep your title concise and welcoming</li>
 									<li>Tell users what to expect next</li>
 									<li>Enable referrals to boost viral growth</li>
 								</ul>
 								{enabledReferralChannels.length > 0 && (
-									<div className={styles.referralBadge}>
-										<i className="ri-share-line" aria-hidden="true" />
-										<span>
+									<Stack direction="row" gap="sm" align="center" className={styles.referralBadge}>
+										<Icon icon={Share2} size="sm" color="secondary" />
+										<Text size="sm">
 											Referrals enabled ({enabledReferralChannels.length}{" "}
 											channels)
-										</span>
-									</div>
+										</Text>
+									</Stack>
 								)}
-							</div>
-						</div>
+							</Stack>
+						</Stack>
 					</aside>
 
 					{/* Center panel - Success Screen Preview */}
@@ -567,7 +581,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					</aside>
 				</div>
 			)}
-		</div>
+		</Stack>
 	);
 });
 

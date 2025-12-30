@@ -3,6 +3,7 @@
  * Form for creating or editing campaigns
  */
 
+import { Check, Loader2, Trash2 } from "lucide-react";
 import {
 	type FormEvent,
 	type HTMLAttributes,
@@ -22,6 +23,7 @@ import {
 	Stack,
 	Text,
 } from "@/proto-design-system";
+import "remixicon/fonts/remixicon.css";
 import type { TrackingIntegrationType } from "@/types/campaign";
 import type { CampaignSettings } from "@/types/common.types";
 
@@ -921,7 +923,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 															</Text>
 														</Stack>
 														<Button
-															leftIcon="ri-delete-bin-line"
+															leftIcon={<Trash2 size={16} />}
 															variant="ghost"
 															size="sm"
 															aria-label={`Remove ${integrationInfo.label}`}
@@ -1005,7 +1007,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							type="submit"
 							disabled={loading}
 							variant="primary"
-							leftIcon={loading ? "ri-loader-4-line ri-spin" : "ri-check-line"}
+							leftIcon={loading ? <Loader2 size={16} className={styles.spin} /> : <Check size={16} />}
 						>
 							{loading ? "Saving..." : submitText}
 						</Button>

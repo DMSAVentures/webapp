@@ -1,3 +1,4 @@
+import { ListChecks, Plus, Trash2 } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
@@ -166,7 +167,7 @@ function RouteComponent() {
 				</div>
 				<Button
 					variant="primary"
-					leftIcon="ri-add-line"
+					leftIcon={<Plus size={16} />}
 					onClick={handleCreateWebhook}
 					disabled={!isPro}
 				>
@@ -241,13 +242,13 @@ function RouteComponent() {
 										<Button
 											aria-label="View deliveries"
 											variant="secondary"
-											leftIcon="ri-list-check"
+											leftIcon={<ListChecks size={16} />}
 											onClick={() => handleViewDeliveries(webhook.id)}
 										/>
 										<Button
 											aria-label="Delete webhook"
 											variant="secondary"
-											leftIcon="ri-delete-bin-line"
+											leftIcon={<Trash2 size={16} />}
 											onClick={() => handleDeleteClick(webhook.id)}
 										/>
 									</div>

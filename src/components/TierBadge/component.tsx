@@ -1,5 +1,7 @@
+import { Crown, type LucideIcon, User, Users } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
 import { useTier } from "@/contexts/tier";
+import { Icon } from "@/proto-design-system";
 import type { TierName } from "@/types/tier";
 import styles from "./component.module.scss";
 
@@ -20,10 +22,10 @@ export interface TierBadgeProps extends HTMLAttributes<HTMLSpanElement> {
 // Tier Icons
 // ============================================================================
 
-const TIER_ICONS: Record<TierName, string> = {
-	free: "ri-user-line",
-	pro: "ri-vip-crown-line",
-	team: "ri-team-line",
+const TIER_ICONS: Record<TierName, LucideIcon> = {
+	free: User,
+	pro: Crown,
+	team: Users,
 };
 
 // ============================================================================
@@ -70,7 +72,7 @@ export const TierBadge = memo(function TierBadge({
 
 	return (
 		<span className={classNames} {...props}>
-			<i className={`${styles.icon} ${icon}`} aria-hidden="true" />
+			<Icon icon={icon} size="sm" className={styles.icon} />
 			<span className={styles.label}>{displayName}</span>
 		</span>
 	);

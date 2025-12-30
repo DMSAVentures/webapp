@@ -4,7 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Dropdown, Input, Switch } from "@/proto-design-system";
+import { Dropdown, Input, Stack, Switch, Text } from "@/proto-design-system";
 import type {
 	ButtonBlock,
 	DividerBlock,
@@ -415,9 +415,9 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 
 	return (
 		<div className={classNames} {...props}>
-			<div className={styles.header}>
-				<h3 className={styles.title}>Edit {getBlockLabel(block.type)}</h3>
-			</div>
+			<Stack gap="xs" className={styles.header}>
+				<Text as="h3" size="lg" weight="semibold">Edit {getBlockLabel(block.type)}</Text>
+			</Stack>
 			<div className={styles.content}>{renderEditor()}</div>
 		</div>
 	);

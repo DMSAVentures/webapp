@@ -4,6 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, type ReactNode } from "react";
+import { Stack, Text } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export type DeviceType = "mobile" | "tablet" | "desktop";
@@ -39,14 +40,14 @@ export const DevicePreview = memo<DevicePreviewProps>(function DevicePreview({
 	return (
 		<div className={classNames} {...props}>
 			<div className={styles.deviceFrame}>
-				<div className={styles.deviceHeader}>
-					<div className={styles.deviceControls}>
+				<Stack direction="row" align="center" className={styles.deviceHeader}>
+					<Stack direction="row" gap="xs" className={styles.deviceControls}>
 						<span className={styles.deviceDot} />
 						<span className={styles.deviceDot} />
 						<span className={styles.deviceDot} />
-					</div>
-					<span className={styles.deviceTitle}>{device} Preview</span>
-				</div>
+					</Stack>
+					<Text size="xs" color="muted" className={styles.deviceTitle}>{device} Preview</Text>
+				</Stack>
 
 				<div className={styles.previewContent}>
 					{isEmpty && emptyState ? emptyState : children}

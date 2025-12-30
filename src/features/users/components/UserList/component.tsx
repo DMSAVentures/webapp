@@ -3,19 +3,23 @@
  * Display waitlist users with filters and sorting
  */
 
+import { ArrowUp, Download, Lock, Search, User } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
 import {
 	Badge,
 	Button,
 	Checkbox,
+	Icon,
 	Pagination,
+	Stack,
 	Table,
 	TableHeader,
 	TableBody,
 	TableRow,
 	TableHead,
 	TableCell,
+	Text,
 } from "@/proto-design-system";
 import type { FormField } from "@/types/campaign";
 import type {
@@ -267,65 +271,63 @@ export const UserList = memo<UserListProps>(function UserList({
 	// Empty state
 	if (!loading && users.length === 0) {
 		return (
-			<div className={styles.emptyState}>
-				<div className={styles.emptyStateIcon}>
-					<i className="ri-user-line" aria-hidden="true" />
-				</div>
-				<h3 className={styles.emptyStateTitle}>No users yet</h3>
-				<p className={styles.emptyStateDescription}>
+			<Stack gap="md" align="center" className={styles.emptyState}>
+				<Icon icon={User} size="2xl" color="muted" />
+				<Text as="h3" size="lg" weight="semibold">No users yet</Text>
+				<Text color="secondary">
 					Users who sign up for this campaign will appear here
-				</p>
-			</div>
+				</Text>
+			</Stack>
 		);
 	}
 
 	// Render
 	return (
-		<div className={classNames} {...props}>
+		<Stack gap="md" className={classNames} {...props}>
 			{/* Header with actions */}
-			<div className={styles.header}>
-				<div className={styles.headerActions}>
-					<Button
-						variant="secondary"
-						leftIcon="ri-download-line"
-						onClick={onExportClick}
-						disabled={isExporting}
-					>
-						{isExporting
-							? "Exporting..."
-							: hasSelection
-								? `Export Selected (${selectedUserIds.length})`
-								: "Export All Users"}
+			<Stack direction="row" gap="sm" align="center">
+				<Button
+					variant="secondary"
+					leftIcon={<Download size={16} />}
+					onClick={onExportClick}
+					disabled={isExporting}
+				>
+					{isExporting
+						? "Exporting..."
+						: hasSelection
+							? `Export Selected (${selectedUserIds.length})`
+							: "Export All Users"}
+				</Button>
+				{hasSelection && (
+					<Button variant="secondary" size="sm" onClick={clearSelection}>
+						Clear Selection
 					</Button>
-					{hasSelection && (
-						<Button variant="secondary" size="sm" onClick={clearSelection}>
-							Clear Selection
-						</Button>
-					)}
-				</div>
-			</div>
+				)}
+			</Stack>
 
 			{/* Main content */}
-			<div className={styles.main}>
+			<Stack gap="md">
 				{/* Results count */}
-				<div className={styles.resultsInfo}>
-					{hasSelection ? (
+				<Stack direction="row" gap="xs" align="center">
+					{hasSelection && (
 						<>
-							<span className={styles.selectionCount}>
+							<Text weight="semibold" color="primary">
 								{selectedUserIds.length} selected
-							</span>
-							<span className={styles.resultsDivider}>/</span>
+							</Text>
+							<Text color="muted">/</Text>
 						</>
-					) : null}
-					{totalUsers} user{totalUsers !== 1 ? "s" : ""} total
-				</div>
+					)}
+					<Text color="secondary">
+						{totalUsers} user{totalUsers !== 1 ? "s" : ""} total
+					</Text>
+				</Stack>
 
 				{/* User table */}
 				{!loading && users.length === 0 ? (
-					<div className={styles.noResults}>
-						<i className="ri-search-line" aria-hidden="true" />
-						<p>No users found</p>
-					</div>
+					<Stack gap="sm" align="center" className={styles.noResults}>
+						<Icon icon={Search} size="lg" color="muted" />
+						<Text color="secondary">No users found</Text>
+					</Stack>
 				) : (
 					<Table loading={loading} loadingMessage="Loading users...">
 						<TableHeader>
@@ -525,42 +527,37 @@ export const UserList = memo<UserListProps>(function UserList({
 
 				{/* Gated leads upgrade CTA */}
 				{hasGatedLeads && (
-					<div className={styles.gatedOverlay}>
-						<div className={styles.gatedContent}>
-							<i className="ri-lock-line" aria-hidden="true" />
-							<div className={styles.gatedText}>
-								<span className={styles.gatedTitle}>
-									{gatedLeadsCount} more lead{gatedLeadsCount !== 1 ? "s" : ""}{" "}
-									hidden
-								</span>
-								<span className={styles.gatedDescription}>
-									Upgrade your plan to view all your leads
-								</span>
-							</div>
-							<Button
-								variant="primary"
-								size="sm"
-								onClick={onUpgradeClick}
-								leftIcon="ri-arrow-up-line"
-							>
-								Upgrade Plan
-							</Button>
-						</div>
-					</div>
+					<Stack direction="row" gap="md" align="center" justify="center" className={styles.gatedOverlay}>
+						<Icon icon={Lock} size="lg" color="muted" />
+						<Stack gap="xs">
+							<Text weight="semibold">
+								{gatedLeadsCount} more lead{gatedLeadsCount !== 1 ? "s" : ""} hidden
+							</Text>
+							<Text size="sm" color="secondary">
+								Upgrade your plan to view all your leads
+							</Text>
+						</Stack>
+						<Button
+							variant="primary"
+							size="sm"
+							onClick={onUpgradeClick}
+							leftIcon={<ArrowUp size={16} />}
+						>
+							Upgrade Plan
+						</Button>
+					</Stack>
 				)}
 
 				{/* Pagination */}
 				{totalPages > 1 && (
-					<div className={styles.pagination}>
-						<Pagination
-							page={currentPage}
-							totalPages={totalPages}
-							onPageChange={onPageChange ?? (() => undefined)}
-						/>
-					</div>
+					<Pagination
+						page={currentPage}
+						totalPages={totalPages}
+						onPageChange={onPageChange ?? (() => undefined)}
+					/>
 				)}
-			</div>
-		</div>
+			</Stack>
+		</Stack>
 	);
 });
 

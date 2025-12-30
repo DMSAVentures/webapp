@@ -61,31 +61,31 @@
 
 	// Platform-specific brand colors (exempt from design token rule)
 	&_twitter {
-		background-color: colors.$color-neutral-900;
-		color: colors.$color-white;
+		background-color: var(--color-base-content);
+		color: var(--color-white);
 	}
 
 	&_facebook {
 		/* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
 		background-color: #1877f2; // Facebook brand blue
-		color: colors.$color-white;
+		color: var(--color-white);
 	}
 
 	&_linkedin {
 		/* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
 		background-color: #0a66c2; // LinkedIn brand blue
-		color: colors.$color-white;
+		color: var(--color-white);
 	}
 
 	&_whatsapp {
 		/* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
 		background-color: #25d366; // WhatsApp brand green
-		color: colors.$color-white;
+		color: var(--color-white);
 	}
 
 	&_email {
-		background-color: colors.$color-neutral-600;
-		color: colors.$color-white;
+		background-color: var(--color-base-content-secondary);
+		color: var(--color-white);
 	}
 }
 

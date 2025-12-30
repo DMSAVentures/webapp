@@ -3,6 +3,7 @@
  * Edit properties of a selected form field
  */
 
+import { Check, Pencil } from "lucide-react";
 import {
 	type HTMLAttributes,
 	memo,
@@ -17,6 +18,7 @@ import {
 	Divider,
 	FormField as ProtoFormField,
 	Grid,
+	Icon,
 	Input,
 	Stack,
 	Text,
@@ -306,7 +308,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				{...props}
 			>
 				<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
-					<i className="ri-edit-line" aria-hidden="true" />
+					<Icon icon={Pencil} size="xl" color="muted" />
 					<Text color="muted">Select a field to edit its properties</Text>
 				</Stack>
 			</div>
@@ -501,7 +503,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 					variant="primary"
 					onClick={handleSave}
 					disabled={!canSave}
-					leftIcon={canSave ? "ri-check-line" : undefined}
+					leftIcon={canSave ? <Check size={16} /> : undefined}
 				>
 					Save Changes
 				</Button>

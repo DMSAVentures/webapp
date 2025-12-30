@@ -1,5 +1,19 @@
 @use "@/proto-design-system/mixins" as *;
 
+// Spin animation for loading icons
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
 .root {
   display: flex;
   flex-direction: column;

@@ -4,8 +4,8 @@
  * Displays a list of segments for a campaign in a table format
  */
 
+import { AlertTriangle, Loader2, Pencil, RefreshCw, Send, Trash2, Users } from "lucide-react";
 import { memo, useCallback, useState } from "react";
-import { AlertTriangle, Loader2, Pencil, RefreshCw, Send, Trash2 } from "lucide-react";
 import {
 	useDeleteSegment,
 	useGetSegments,
@@ -111,7 +111,7 @@ export const SegmentList = memo(function SegmentList({
 			{!loading && segments.length === 0 ? (
 				<div className={styles.emptyState}>
 					<div className={styles.emptyContent}>
-						<i className="ri-group-line" aria-hidden="true" />
+						<Users size={48} />
 						<h3>No segments yet</h3>
 						<p>
 							Create your first segment to start targeting specific audiences

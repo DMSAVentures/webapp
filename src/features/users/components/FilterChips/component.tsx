@@ -1,5 +1,6 @@
+import { X } from "lucide-react";
 import { memo } from "react";
-import { Button, Badge } from "@/proto-design-system";
+import { Badge, Button, Icon, Stack } from "@/proto-design-system";
 import type { ActiveFilter } from "@/types/users.types";
 import styles from "./component.module.scss";
 
@@ -19,10 +20,10 @@ export const FilterChips = memo<FilterChipsProps>(function FilterChips({
 	}
 
 	return (
-		<div className={styles.root}>
-			<div className={styles.chips}>
+		<Stack direction="row" gap="sm" align="center" wrap className={styles.root}>
+			<Stack direction="row" gap="xs" wrap>
 				{activeFilters.map((filter) => (
-					<span key={filter.id} className={styles.chip}>
+					<Stack key={filter.id} direction="row" gap="0" align="center" className={styles.chip}>
 						<Badge variant="secondary" size="sm">
 							{`${filter.label}: ${filter.value}`}
 						</Badge>
@@ -32,17 +33,17 @@ export const FilterChips = memo<FilterChipsProps>(function FilterChips({
 							onClick={() => onRemoveFilter(filter.id)}
 							aria-label={`Remove ${filter.label} filter`}
 						>
-							<i className="ri-close-line" aria-hidden="true" />
+							<Icon icon={X} size="xs" />
 						</button>
-					</span>
+					</Stack>
 				))}
-			</div>
+			</Stack>
 			{activeFilters.length > 1 && (
 				<Button variant="secondary" size="sm" onClick={onClearAll}>
 					Clear all
 				</Button>
 			)}
-		</div>
+		</Stack>
 	);
 });
 

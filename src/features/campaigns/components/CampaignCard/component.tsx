@@ -13,8 +13,8 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { Copy, Pencil, Trash2 } from "lucide-react";
-import { Badge, Button, DropdownMenu } from "@/proto-design-system";
+import { Calendar, Copy, LineChart, MoreHorizontal, Pencil, Share2, Trash2, UserPlus } from "lucide-react";
+import { Badge, Button, DropdownMenu, Icon, Stack, Text } from "@/proto-design-system";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 
@@ -242,86 +242,80 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			tabIndex={onClick ? 0 : undefined}
 			{...props}
 		>
-			{/* Header */}
-			<div className={styles.header}>
-				<div className={styles.headerContent}>
-					<h3 className={styles.title}>{campaign.name}</h3>
-					<Badge variant={getStatusVariant(campaign.status)}>
-						{toTitleCase(campaign.status)}
-					</Badge>
-				</div>
+			<Stack gap="md">
+				{/* Header */}
+				<Stack direction="row" justify="between" align="start">
+					<Stack direction="row" gap="sm" align="center" className={styles.headerContent}>
+						<Text as="h3" size="md" weight="semibold">{campaign.name}</Text>
+						<Badge variant={getStatusVariant(campaign.status)}>
+							{toTitleCase(campaign.status)}
+						</Badge>
+					</Stack>
 
-				{/* Action Menu */}
-				{hasActions && (
-					<div className={styles.actions} ref={menuRef}>
-						<Button
-							leftIcon="ri-more-2-fill"
-							variant="secondary"
-							aria-label="More actions"
-							onClick={(e) => {
-								e.stopPropagation();
-								toggleMenu();
-							}}
-						/>
-						{isMenuOpen && (
-							<div className={styles.actionMenu}>
-								<DropdownMenu items={menuItems} />
-							</div>
-						)}
-					</div>
+					{/* Action Menu */}
+					{hasActions && (
+						<div className={styles.actions} ref={menuRef}>
+							<Button
+								leftIcon={<MoreHorizontal size={16} />}
+								variant="secondary"
+								size="sm"
+								aria-label="More actions"
+								onClick={(e) => {
+									e.stopPropagation();
+									toggleMenu();
+								}}
+							/>
+							{isMenuOpen && (
+								<div className={styles.actionMenu}>
+									<DropdownMenu items={menuItems} />
+								</div>
+							)}
+						</div>
+					)}
+				</Stack>
+
+				{/* Description */}
+				{campaign.description && (
+					<Text size="sm" color="secondary" className={styles.description}>
+						{campaign.description}
+					</Text>
 				)}
-			</div>
 
-			{/* Description */}
-			{campaign.description && (
-				<p className={styles.description}>{campaign.description}</p>
-			)}
+				{/* Stats */}
+				{showStats && campaign.totalSignups !== undefined && (
+					<Stack direction="row" gap="lg" className={styles.stats}>
+						<Stack direction="row" gap="xs" align="center">
+							<Icon icon={UserPlus} size="sm" color="secondary" />
+							<Stack gap="0">
+								<Text size="sm" weight="semibold">{campaign.totalSignups.toLocaleString()}</Text>
+								<Text size="xs" color="muted">Signups</Text>
+							</Stack>
+						</Stack>
+						<Stack direction="row" gap="xs" align="center">
+							<Icon icon={Share2} size="sm" color="secondary" />
+							<Stack gap="0">
+								<Text size="sm" weight="semibold">{campaign.totalReferrals.toLocaleString()}</Text>
+								<Text size="xs" color="muted">Referrals</Text>
+							</Stack>
+						</Stack>
+						<Stack direction="row" gap="xs" align="center">
+							<Icon icon={LineChart} size="sm" color="secondary" />
+							<Stack gap="0">
+								<Text size="sm" weight="semibold">
+									{calculateKFactor(campaign.totalSignups, campaign.totalReferrals)}
+								</Text>
+								<Text size="xs" color="muted">K-Factor</Text>
+							</Stack>
+						</Stack>
+					</Stack>
+				)}
 
-			{/* Stats */}
-			{showStats && campaign.totalSignups !== undefined && (
-				<>
-					<div className={styles.stats}>
-						<div className={styles.statItem}>
-							<i className="ri-user-add-line" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>
-									{campaign.totalSignups.toLocaleString()}
-								</span>
-								<span className={styles.statLabel}>Signups</span>
-							</div>
-						</div>
-						<div className={styles.statItem}>
-							<i className="ri-share-forward-line" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>
-									{campaign.totalReferrals.toLocaleString()}
-								</span>
-								<span className={styles.statLabel}>Referrals</span>
-							</div>
-						</div>
-						<div className={styles.statItem}>
-							<i className="ri-line-chart-line" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>
-									{calculateKFactor(
-										campaign.totalSignups,
-										campaign.totalReferrals,
-									)}
-								</span>
-								<span className={styles.statLabel}>K-Factor</span>
-							</div>
-						</div>
-					</div>
-				</>
-			)}
-
-			{/* Footer */}
-			<div className={styles.footer}>
-				<span className={styles.date}>
-					<i className="ri-calendar-line" aria-hidden="true" />
-					{formatCampaignDate(campaign)}
-				</span>
-			</div>
+				{/* Footer */}
+				<Stack direction="row" gap="xs" align="center" className={styles.footer}>
+					<Icon icon={Calendar} size="sm" color="muted" />
+					<Text size="xs" color="muted">{formatCampaignDate(campaign)}</Text>
+				</Stack>
+			</Stack>
 		</div>
 	);
 });

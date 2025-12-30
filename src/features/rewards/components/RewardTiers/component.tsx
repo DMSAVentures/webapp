@@ -3,8 +3,9 @@
  * Displays reward tiers as a vertical timeline
  */
 
+import { Archive, Calendar, CheckCircle2, Crown, Flag, Gift, Loader2, type LucideIcon, Shirt, Star, Tag } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
-import { Badge, Progress } from "@/proto-design-system";
+import { Badge, Icon, Progress } from "@/proto-design-system";
 import type { Reward } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -27,20 +28,20 @@ export interface RewardTiersProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Maps reward type to icon
  */
-const getRewardIcon = (type: Reward["type"]): string => {
+const getRewardIcon = (type: Reward["type"]): LucideIcon => {
 	switch (type) {
 		case "early_access":
-			return "ri-vip-crown-line";
+			return Crown;
 		case "discount":
-			return "ri-coupon-line";
+			return Tag;
 		case "premium_feature":
-			return "ri-star-line";
+			return Star;
 		case "merchandise":
-			return "ri-t-shirt-line";
+			return Shirt;
 		case "custom":
-			return "ri-gift-line";
+			return Gift;
 		default:
-			return "ri-gift-line";
+			return Gift;
 	}
 };
 
@@ -153,7 +154,7 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 		return (
 			<div className={classNames} {...props}>
 				<div className={styles.loading}>
-					<i className="ri-loader-4-line ri-spin" aria-hidden="true" />
+					<Icon icon={Loader2} size="lg" className={styles.spin} />
 					<span>Loading reward tiers...</span>
 				</div>
 			</div>
@@ -164,7 +165,7 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 		return (
 			<div className={classNames} {...props}>
 				<div className={styles.empty}>
-					<i className="ri-gift-line" aria-hidden="true" />
+					<Icon icon={Gift} size="2xl" />
 					<h3>No reward tiers yet</h3>
 					<p>Create reward tiers to incentivize referrals</p>
 				</div>
@@ -230,12 +231,9 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 							{/* Icon */}
 							<div className={styles.iconWrapper}>
 								{isUnlocked ? (
-									<i className="ri-checkbox-circle-fill" aria-hidden="true" />
+									<Icon icon={CheckCircle2} size="md" />
 								) : (
-									<i
-										className={getRewardIcon(reward.type)}
-										aria-hidden="true"
-									/>
+									<Icon icon={getRewardIcon(reward.type)} size="md" />
 								)}
 							</div>
 
@@ -272,14 +270,14 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 								{/* Value */}
 								{reward.value && (
 									<div className={styles.value}>
-										<i className="ri-gift-line" aria-hidden="true" />
+										<Icon icon={Gift} size="sm" />
 										{reward.value}
 									</div>
 								)}
 
 								{/* Requirement */}
 								<div className={styles.requirement}>
-									<i className="ri-flag-line" aria-hidden="true" />
+									<Icon icon={Flag} size="sm" />
 									{getRequirementText(reward)}
 								</div>
 
@@ -287,13 +285,13 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 								<div className={styles.meta}>
 									{reward.inventory && (
 										<span className={styles.metaItem}>
-											<i className="ri-archive-line" aria-hidden="true" />
+											<Icon icon={Archive} size="sm" />
 											{reward.inventory} available
 										</span>
 									)}
 									{reward.expiryDate && (
 										<span className={styles.metaItem}>
-											<i className="ri-calendar-line" aria-hidden="true" />
+											<Icon icon={Calendar} size="sm" />
 											Expires{" "}
 											{new Date(reward.expiryDate).toLocaleDateString("en-US", {
 												month: "short",

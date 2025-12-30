@@ -3,9 +3,11 @@
  * Container component for embed code generation
  */
 
+import { Check, Code, Copy, Globe, Link, type LucideIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
-import { Button, EmptyState, TextArea } from "@/proto-design-system";
+import { Button, EmptyState, Icon, TextArea } from "@/proto-design-system";
+import "remixicon/fonts/remixicon.css";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 
@@ -28,7 +30,7 @@ interface EmbedCodes {
 }
 
 interface CodeBlockProps {
-	icon: string;
+	icon: LucideIcon | string;
 	title: string;
 	description: string;
 	code: string;
@@ -157,11 +159,16 @@ const CodeBlock = memo(function CodeBlock({
 	rows = 6,
 }: CodeBlockProps) {
 	const isCopied = copiedType === codeType;
+	const isLucideIcon = typeof icon !== "string";
 
 	return (
 		<div className={styles.card}>
 			<h3 className={styles.cardTitle}>
-				<i className={icon} aria-hidden="true" />
+				{isLucideIcon ? (
+					<Icon icon={icon} size="md" />
+				) : (
+					<i className={icon} aria-hidden="true" />
+				)}
 				{title}
 			</h3>
 			<p className={styles.cardDescription}>{description}</p>
@@ -177,7 +184,7 @@ const CodeBlock = memo(function CodeBlock({
 				</div>
 				<Button
 					variant="secondary"
-					leftIcon={isCopied ? "ri-check-line" : "ri-file-copy-line"}
+					leftIcon={isCopied ? <Check size={16} /> : <Copy size={16} />}
 					onClick={() => onCopy(code, codeType)}
 				>
 					{isCopied ? "Copied!" : "Copy"}
@@ -218,7 +225,7 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 				<EmptyState
 					title="Form not configured"
 					description="You need to configure your form before you can embed it."
-					icon="code-s-slash-line"
+					icon={<Code size={48} />}
 				/>
 			</div>
 		);
@@ -236,7 +243,7 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 
 			<div className={styles.embedOptions}>
 				<CodeBlock
-					icon="ri-link"
+					icon={Link}
 					title="Direct Link"
 					description="Share this URL directly or use it as a landing page"
 					code={embedCodes.embedUrl}
@@ -247,7 +254,7 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 				/>
 
 				<CodeBlock
-					icon="ri-window-line"
+					icon={Globe}
 					title="iFrame Embed"
 					description="Simple iframe embed - works with any HTML website"
 					code={embedCodes.iframeCode}
@@ -258,7 +265,7 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 				/>
 
 				<CodeBlock
-					icon="ri-code-box-line"
+					icon={Code}
 					title="JavaScript Snippet (Recommended)"
 					description="Automatically detects and passes ref codes from your page URL (e.g., yoursite.com/signup?ref=ABC123)"
 					code={embedCodes.jsSnippet}

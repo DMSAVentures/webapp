@@ -4,6 +4,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
+import { CreditCard, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import { memo, useCallback, useEffect } from "react";
 import { ErrorState } from "@/components/error/error";
@@ -173,7 +174,7 @@ const BillingActions = memo(function BillingActions({
 						</div>
 						<Button
 							variant="secondary"
-							leftIcon="ri-external-link-line"
+							leftIcon={<ExternalLink size={16} />}
 							onClick={onManage}
 							disabled={portalLoading || !portalUrl}
 						>
@@ -206,7 +207,7 @@ const BillingActions = memo(function BillingActions({
 						</div>
 						<Button
 							variant="secondary"
-							leftIcon="ri-bank-card-line"
+							leftIcon={<CreditCard size={16} />}
 							onClick={onUpdatePayment}
 						>
 							Update
@@ -261,7 +262,7 @@ export const BillingPage = memo(function BillingPage() {
 	if (!subscription) {
 		return (
 			<EmptyState
-				icon={<i className="ri-bank-card-line" aria-hidden="true" />}
+				icon={<CreditCard size={48} />}
 				title="No subscription found"
 				description="You don't have an active subscription."
 				action={<Button variant="primary" onClick={handleChangePlan}>View Plans</Button>}

@@ -7,6 +7,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useExportCampaignUsers } from "@/hooks/useExportCampaignUsers";
 import { useGetCampaignUsers } from "@/hooks/useGetCampaignUsers";
+import { Stack, Text } from "@/proto-design-system";
 import type { Campaign, FormField } from "@/types/campaign";
 import type {
 	SortDirection,
@@ -231,15 +232,15 @@ export const LeadsPage = memo(function LeadsPage({
 	const users = usersData?.users || [];
 
 	return (
-		<div className={styles.leads}>
-			<div className={styles.header}>
-				<h2 className={styles.title}>Leads</h2>
-				<p className={styles.description}>
+		<Stack gap="lg" className={styles.leads}>
+			<Stack gap="xs">
+				<Text as="h2" size="xl" weight="semibold">Leads</Text>
+				<Text color="secondary">
 					Manage and view all users who have signed up for this campaign
-				</p>
-			</div>
+				</Text>
+			</Stack>
 
-			<div className={styles.content}>
+			<Stack gap="md" className={styles.content}>
 				{/* Filters */}
 				<UserFilters
 					filters={filters}
@@ -280,8 +281,8 @@ export const LeadsPage = memo(function LeadsPage({
 						onSortChange={handleSortChange}
 					/>
 				)}
-			</div>
-		</div>
+			</Stack>
+		</Stack>
 	);
 });
 

@@ -1,3 +1,4 @@
+import { AlertTriangle, Key, Unplug, Zap } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTier } from "@/contexts/tier";
@@ -7,6 +8,7 @@ import {
 	useZapierSubscriptions,
 } from "@/hooks/useZapierIntegration";
 import { Button, Banner, Toast, Spinner, Modal, Badge } from "@/proto-design-system";
+import "remixicon/fonts/remixicon.css";
 import styles from "./integrations.module.scss";
 
 export const Route = createFileRoute("/integrations/")({
@@ -106,7 +108,7 @@ function IntegrationsPage() {
 
 					<div className={styles.integrationCard}>
 						<div className={styles.integrationIcon}>
-							<i className="ri-flashlight-line" aria-hidden="true" />
+							<Zap aria-hidden="true" />
 						</div>
 
 						<div className={styles.integrationInfo}>
@@ -138,7 +140,7 @@ function IntegrationsPage() {
 									<Button
 										variant="secondary"
 										onClick={() => setShowDisconnectModal(true)}
-										leftIcon="ri-uninstall-line"
+										leftIcon={<Unplug size={16} />}
 										disabled={!isPro}
 									>
 										Disconnect
@@ -148,7 +150,7 @@ function IntegrationsPage() {
 								<Button
 									variant="primary"
 									onClick={handleConnect}
-									leftIcon="ri-key-2-line"
+									leftIcon={<Key size={16} />}
 									disabled={!isPro}
 								>
 									Get API Key
@@ -226,7 +228,7 @@ function IntegrationsPage() {
 				onClose={() => setShowDisconnectModal(false)}
 				title="Disconnect Zapier"
 				description="Are you sure you want to disconnect Zapier? This will remove all active subscriptions and stop triggering any connected Zaps."
-				icon={<i className="ri-error-warning-line" aria-hidden="true" />}
+				icon={<AlertTriangle aria-hidden="true" />}
 				footer={
 					<>
 						<Button variant="secondary" onClick={() => setShowDisconnectModal(false)}>

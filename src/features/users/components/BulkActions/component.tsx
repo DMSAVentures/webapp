@@ -3,9 +3,9 @@
  * Bulk operations toolbar for selected users
  */
 
+import { AlertTriangle, CheckSquare, Download, Mail, RefreshCw, Trash2, X } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { AlertTriangle } from "lucide-react";
-import { Button, Modal } from "@/proto-design-system";
+import { Button, Icon, Modal, Stack, Text } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface BulkActionsProps extends HTMLAttributes<HTMLDivElement> {
@@ -71,63 +71,61 @@ export const BulkActions = memo<BulkActionsProps>(function BulkActions({
 
 	return (
 		<>
-			<div className={classNames} {...props}>
-				<div className={styles.content}>
-					{/* Selection count */}
-					<div className={styles.selectionInfo}>
-						<i className="ri-checkbox-multiple-line" aria-hidden="true" />
-						<span className={styles.selectionCount}>
-							{selectedUserIds.length} user
-							{selectedUserIds.length !== 1 ? "s" : ""} selected
-						</span>
-					</div>
+			<Stack direction="row" gap="md" align="center" className={classNames} {...props}>
+				{/* Selection count */}
+				<Stack direction="row" gap="sm" align="center">
+					<Icon icon={CheckSquare} size="md" color="secondary" />
+					<Text weight="medium">
+						{selectedUserIds.length} user
+						{selectedUserIds.length !== 1 ? "s" : ""} selected
+					</Text>
+				</Stack>
 
-					{/* Action buttons */}
-					<div className={styles.actions}>
-						<Button
-							variant="secondary"
-							leftIcon="ri-mail-line"
-							onClick={() => handleAction("email")}
-							disabled={isLoading}
-						>
-							Send Email
-						</Button>
-						<Button
-							variant="secondary"
-							leftIcon="ri-refresh-line"
-							onClick={() => handleAction("status")}
-							disabled={isLoading}
-						>
-							Update Status
-						</Button>
-						<Button
-							variant="secondary"
-							leftIcon="ri-download-line"
-							onClick={() => handleAction("export")}
-							disabled={isLoading}
-						>
-							Export
-						</Button>
-						<Button
-							variant="secondary"
-							leftIcon="ri-delete-bin-line"
-							onClick={() => handleAction("delete")}
-							disabled={isLoading}
-						>
-							Delete
-						</Button>
-					</div>
-
-					{/* Clear selection */}
+				{/* Action buttons */}
+				<Stack direction="row" gap="sm">
 					<Button
-						leftIcon="ri-close-line"
 						variant="secondary"
-						aria-label="Clear selection"
-						onClick={onClearSelection}
+						leftIcon={<Mail size={16} />}
+						onClick={() => handleAction("email")}
 						disabled={isLoading}
-					/>
-				</div>
-			</div>
+					>
+						Send Email
+					</Button>
+					<Button
+						variant="secondary"
+						leftIcon={<RefreshCw size={16} />}
+						onClick={() => handleAction("status")}
+						disabled={isLoading}
+					>
+						Update Status
+					</Button>
+					<Button
+						variant="secondary"
+						leftIcon={<Download size={16} />}
+						onClick={() => handleAction("export")}
+						disabled={isLoading}
+					>
+						Export
+					</Button>
+					<Button
+						variant="secondary"
+						leftIcon={<Trash2 size={16} />}
+						onClick={() => handleAction("delete")}
+						disabled={isLoading}
+					>
+						Delete
+					</Button>
+				</Stack>
+
+				{/* Clear selection */}
+				<Button
+					leftIcon={<X size={16} />}
+					variant="secondary"
+					aria-label="Clear selection"
+					onClick={onClearSelection}
+					disabled={isLoading}
+				/>
+			</Stack>
 
 			{/* Delete confirmation modal */}
 			<Modal

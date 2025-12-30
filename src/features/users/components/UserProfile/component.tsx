@@ -3,13 +3,17 @@
  * User detail modal with full information and actions
  */
 
+import { Gift, Hash, Link, Mail, Share2, Star, Trash2, User, X } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
 import {
 	Badge,
 	Button,
 	Divider,
 	Dropdown,
+	Icon,
 	Modal,
+	Stack,
+	Text,
 } from "@/proto-design-system";
 import type { RewardEarned, WaitlistUser } from "@/types/common.types";
 import { formatPosition } from "@/utils/positionFormatter";
@@ -122,91 +126,87 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 				onClose={onClose}
 				title="User Profile"
 			>
-				<div className={classNames} {...props}>
+				<Stack gap="md" className={classNames} {...props}>
 
 					{/* Header */}
-					<div className={styles.header}>
-						<div className={styles.headerContent}>
-							<div className={styles.userAvatar}>
-								<i className="ri-user-line" aria-hidden="true" />
-							</div>
-							<div className={styles.userInfo}>
-								<h2 className={styles.userName}>{user.email}</h2>
-								<p className={styles.userEmail}>
+					<Stack direction="row" justify="between" align="start">
+						<Stack direction="row" gap="md" align="center">
+							<Stack align="center" justify="center" className={styles.userAvatar}>
+								<Icon icon={User} size="lg" color="muted" />
+							</Stack>
+							<Stack gap="xs">
+								<Text as="h2" size="lg" weight="semibold">{user.email}</Text>
+								<Text size="sm" color="secondary">
 									{user.emailVerified ? "Verified" : "Not verified"}
-								</p>
-							</div>
+								</Text>
+							</Stack>
 							<Badge
 								variant={getStatusVariant(user.status)}
 							>
 								{formatStatus(user.status)}
 							</Badge>
-						</div>
+						</Stack>
 						<Button
-							leftIcon="ri-close-line"
+							leftIcon={<X size={16} />}
 							variant="secondary"
 							aria-label="Close"
 							onClick={onClose}
 						/>
-					</div>
+					</Stack>
 
 					<Divider />
 
 					{/* Stats Grid */}
-					<div className={styles.statsGrid}>
-						<div className={styles.statCard}>
-							<i className="ri-number-1" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>
-									{formatPosition(user.position)}
-								</span>
-								<span className={styles.statLabel}>Position</span>
-							</div>
-						</div>
-						<div className={styles.statCard}>
-							<i className="ri-share-forward-line" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>{user.referralCount}</span>
-								<span className={styles.statLabel}>Referrals</span>
-							</div>
-						</div>
-						<div className={styles.statCard}>
-							<i className="ri-star-line" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>{user.points}</span>
-								<span className={styles.statLabel}>Points</span>
-							</div>
-						</div>
-						<div className={styles.statCard}>
-							<i className="ri-link" aria-hidden="true" />
-							<div className={styles.statContent}>
-								<span className={styles.statValue}>{user.source}</span>
-								<span className={styles.statLabel}>Source</span>
-							</div>
-						</div>
-					</div>
+					<Stack direction="row" gap="md" wrap className={styles.statsGrid}>
+						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+							<Icon icon={Hash} size="md" color="secondary" />
+							<Stack gap="0">
+								<Text weight="semibold">{formatPosition(user.position)}</Text>
+								<Text size="xs" color="muted">Position</Text>
+							</Stack>
+						</Stack>
+						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+							<Icon icon={Share2} size="md" color="secondary" />
+							<Stack gap="0">
+								<Text weight="semibold">{user.referralCount}</Text>
+								<Text size="xs" color="muted">Referrals</Text>
+							</Stack>
+						</Stack>
+						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+							<Icon icon={Star} size="md" color="secondary" />
+							<Stack gap="0">
+								<Text weight="semibold">{user.points}</Text>
+								<Text size="xs" color="muted">Points</Text>
+							</Stack>
+						</Stack>
+						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+							<Icon icon={Link} size="md" color="secondary" />
+							<Stack gap="0">
+								<Text weight="semibold">{user.source}</Text>
+								<Text size="xs" color="muted">Source</Text>
+							</Stack>
+						</Stack>
+					</Stack>
 
 					<Divider />
 
 					{/* Details Section */}
-					<div className={styles.section}>
-						<h3 className={styles.sectionTitle}>Details</h3>
-						<div className={styles.detailsGrid}>
-							<div className={styles.detailItem}>
-								<span className={styles.detailLabel}>Referral Code</span>
-								<span className={styles.detailValue}>{user.referralCode}</span>
-							</div>
+					<Stack gap="sm">
+						<Text as="h3" size="md" weight="semibold">Details</Text>
+						<Stack gap="md" className={styles.detailsGrid}>
+							<Stack gap="xs">
+								<Text size="xs" color="muted">Referral Code</Text>
+								<Text size="sm">{user.referralCode}</Text>
+							</Stack>
 							{user.referredById && (
-								<div className={styles.detailItem}>
-									<span className={styles.detailLabel}>Referred By</span>
-									<span className={styles.detailValue}>
-										{user.referredById}
-									</span>
-								</div>
+								<Stack gap="xs">
+									<Text size="xs" color="muted">Referred By</Text>
+									<Text size="sm">{user.referredById}</Text>
+								</Stack>
 							)}
-							<div className={styles.detailItem}>
-								<span className={styles.detailLabel}>Created At</span>
-								<span className={styles.detailValue}>
+							<Stack gap="xs">
+								<Text size="xs" color="muted">Created At</Text>
+								<Text size="sm">
 									{new Date(user.createdAt).toLocaleString("en-US", {
 										month: "long",
 										day: "numeric",
@@ -214,10 +214,10 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 										hour: "numeric",
 										minute: "2-digit",
 									})}
-								</span>
-							</div>
-						</div>
-					</div>
+								</Text>
+							</Stack>
+						</Stack>
+					</Stack>
 
 					{/* UTM Parameters */}
 					{(user.utmSource ||
@@ -227,49 +227,41 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						user.utmTerm) && (
 						<>
 							<Divider />
-							<div className={styles.section}>
-								<h3 className={styles.sectionTitle}>UTM Parameters</h3>
-								<div className={styles.detailsGrid}>
+							<Stack gap="sm">
+								<Text as="h3" size="md" weight="semibold">UTM Parameters</Text>
+								<Stack gap="md" className={styles.detailsGrid}>
 									{user.utmSource && (
-										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Source</span>
-											<span className={styles.detailValue}>
-												{user.utmSource}
-											</span>
-										</div>
+										<Stack gap="xs">
+											<Text size="xs" color="muted">Source</Text>
+											<Text size="sm">{user.utmSource}</Text>
+										</Stack>
 									)}
 									{user.utmMedium && (
-										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Medium</span>
-											<span className={styles.detailValue}>
-												{user.utmMedium}
-											</span>
-										</div>
+										<Stack gap="xs">
+											<Text size="xs" color="muted">Medium</Text>
+											<Text size="sm">{user.utmMedium}</Text>
+										</Stack>
 									)}
 									{user.utmCampaign && (
-										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Campaign</span>
-											<span className={styles.detailValue}>
-												{user.utmCampaign}
-											</span>
-										</div>
+										<Stack gap="xs">
+											<Text size="xs" color="muted">Campaign</Text>
+											<Text size="sm">{user.utmCampaign}</Text>
+										</Stack>
 									)}
 									{user.utmContent && (
-										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Content</span>
-											<span className={styles.detailValue}>
-												{user.utmContent}
-											</span>
-										</div>
+										<Stack gap="xs">
+											<Text size="xs" color="muted">Content</Text>
+											<Text size="sm">{user.utmContent}</Text>
+										</Stack>
 									)}
 									{user.utmTerm && (
-										<div className={styles.detailItem}>
-											<span className={styles.detailLabel}>Term</span>
-											<span className={styles.detailValue}>{user.utmTerm}</span>
-										</div>
+										<Stack gap="xs">
+											<Text size="xs" color="muted">Term</Text>
+											<Text size="sm">{user.utmTerm}</Text>
+										</Stack>
 									)}
-								</div>
-							</div>
+								</Stack>
+							</Stack>
 						</>
 					)}
 
@@ -277,30 +269,26 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 					{referredUsers.length > 0 && (
 						<>
 							<Divider />
-							<div className={styles.section}>
-								<h3 className={styles.sectionTitle}>
+							<Stack gap="sm">
+								<Text as="h3" size="md" weight="semibold">
 									Referred Users ({referredUsers.length})
-								</h3>
-								<div className={styles.referralList}>
+								</Text>
+								<Stack gap="sm" className={styles.referralList}>
 									{referredUsers.map((referredUser) => (
-										<div key={referredUser.id} className={styles.referralItem}>
-											<div className={styles.referralInfo}>
-												<i className="ri-user-line" aria-hidden="true" />
-												<div>
-													<div className={styles.referralName}>
-														{referredUser.email}
-													</div>
-												</div>
-											</div>
+										<Stack key={referredUser.id} direction="row" justify="between" align="center" className={styles.referralItem}>
+											<Stack direction="row" gap="sm" align="center">
+												<Icon icon={User} size="sm" color="muted" />
+												<Text size="sm">{referredUser.email}</Text>
+											</Stack>
 											<Badge
 												variant={getStatusVariant(referredUser.status)}
 											>
 												{formatStatus(referredUser.status)}
 											</Badge>
-										</div>
+										</Stack>
 									))}
-								</div>
-							</div>
+								</Stack>
+							</Stack>
 						</>
 					)}
 
@@ -308,87 +296,82 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 					{rewards.length > 0 && (
 						<>
 							<Divider />
-							<div className={styles.section}>
-								<h3 className={styles.sectionTitle}>
+							<Stack gap="sm">
+								<Text as="h3" size="md" weight="semibold">
 									Rewards Earned ({rewards.length})
-								</h3>
-								<div className={styles.rewardList}>
+								</Text>
+								<Stack gap="sm" className={styles.rewardList}>
 									{rewards.map((reward) => (
-										<div key={reward.id} className={styles.rewardItem}>
-											<i className="ri-gift-line" aria-hidden="true" />
-											<div className={styles.rewardInfo}>
-												<div className={styles.rewardStatus}>
+										<Stack key={reward.id} direction="row" gap="sm" align="center" className={styles.rewardItem}>
+											<Icon icon={Gift} size="md" color="secondary" />
+											<Stack gap="0">
+												<Text size="sm" weight="medium">
 													{reward.status.charAt(0).toUpperCase() +
 														reward.status.slice(1)}
-												</div>
-												<div className={styles.rewardDate}>
+												</Text>
+												<Text size="xs" color="muted">
 													Earned{" "}
 													{new Date(reward.earnedAt).toLocaleDateString()}
-												</div>
-											</div>
-										</div>
+												</Text>
+											</Stack>
+										</Stack>
 									))}
-								</div>
-							</div>
+								</Stack>
+							</Stack>
 						</>
 					)}
 
 					<Divider />
 
 					{/* Actions Section */}
-					<div className={styles.section}>
-						<h3 className={styles.sectionTitle}>Actions</h3>
-						<div className={styles.actionsGrid}>
+					<Stack gap="sm">
+						<Text as="h3" size="md" weight="semibold">Actions</Text>
+						<Stack gap="md" className={styles.actionsGrid}>
 							{/* Update Status */}
-							<div className={styles.actionItem}>
-								<label className={styles.detailLabel}>Update Status</label>
-								<Dropdown
-									items={STATUS_OPTIONS}
-									value={selectedStatus}
-									placeholder="Select status"
-									size="md"
-									onChange={handleStatusChange}
-								/>
-								<Button
-									variant="secondary"
-									onClick={handleUpdateStatus}
-									disabled={selectedStatus === user.status}
-									className={styles.updateButton}
-								>
-									Update
-								</Button>
-							</div>
+							<Stack gap="xs">
+								<Text size="xs" color="muted">Update Status</Text>
+								<Stack direction="row" gap="sm" align="center">
+									<Dropdown
+										items={STATUS_OPTIONS}
+										value={selectedStatus}
+										placeholder="Select status"
+										size="md"
+										onChange={handleStatusChange}
+									/>
+									<Button
+										variant="secondary"
+										onClick={handleUpdateStatus}
+										disabled={selectedStatus === user.status}
+									>
+										Update
+									</Button>
+								</Stack>
+							</Stack>
 
 							{/* Send Email */}
 							{onSendEmail && (
-								<div className={styles.actionItem}>
-									<Button
-										variant="secondary"
-										leftIcon="ri-mail-line"
-										onClick={() => onSendEmail(userId)}
-										className={styles.actionButton}
-									>
-										Send Email
-									</Button>
-								</div>
+								<Button
+									variant="secondary"
+									leftIcon={<Mail size={16} />}
+									onClick={() => onSendEmail(userId)}
+								>
+									Send Email
+								</Button>
 							)}
 
 							{/* Delete User */}
 							{onDelete && (
-								<div className={styles.actionItem}>
-									<Button
-										variant="secondary"
-										leftIcon="ri-delete-bin-line"
-										onClick={() => setIsDeleteModalOpen(true)}
-										className={styles.actionButton}
-									>
-										Delete User
-									</Button>
-								</div>
+								<Button
+									variant="secondary"
+									leftIcon={<Trash2 size={16} />}
+									onClick={() => setIsDeleteModalOpen(true)}
+								>
+									Delete User
+								</Button>
 							)}
-						</div>
-					</div>
-				</div>
+						</Stack>
+					</Stack>
+				</Stack>
 			</Modal>
 
 			{/* Delete confirmation modal */}

@@ -4,8 +4,8 @@
  */
 
 import { type HTMLAttributes, memo, useState } from "react";
-import { Pencil, Copy, Eye, Trash2, Plus } from "lucide-react";
-import { Button, Badge } from "@/proto-design-system";
+import { Calendar, Copy, Eye, Mail, Pencil, Plus, Trash2 } from "lucide-react";
+import { Button, Badge, Icon } from "@/proto-design-system";
 import type { EmailTemplate } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -68,7 +68,7 @@ const EmailTemplateCard = memo<TemplateCardProps>(function EmailTemplateCard({
 					</Badge>
 				</div>
 				<span className={styles.templateType}>
-					<i className="ri-mail-line" aria-hidden="true" />
+					<Icon icon={Mail} size="sm" />
 					{getTypeLabel(template.type)}
 				</span>
 			</div>
@@ -88,7 +88,7 @@ const EmailTemplateCard = memo<TemplateCardProps>(function EmailTemplateCard({
 
 			<div className={styles.cardFooter}>
 				<span className={styles.date}>
-					<i className="ri-calendar-line" aria-hidden="true" />
+					<Icon icon={Calendar} size="sm" />
 					Updated{" "}
 					{new Date(template.updatedAt).toLocaleDateString("en-US", {
 						month: "short",
@@ -211,10 +211,7 @@ export const EmailTemplateList = memo<EmailTemplateListProps>(
 
 				{templates.length === 0 ? (
 					<div className={styles.emptyState}>
-						<i
-							className={`ri-mail-line ${styles.emptyIcon}`}
-							aria-hidden="true"
-						/>
+						<Mail size={48} className={styles.emptyIcon} />
 						<h3 className={styles.emptyTitle}>No templates yet</h3>
 						<p className={styles.emptyDescription}>
 							Create your first email template to start engaging with your

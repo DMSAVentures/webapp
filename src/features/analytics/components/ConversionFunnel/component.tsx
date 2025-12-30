@@ -15,6 +15,8 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { AlertTriangle } from "lucide-react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import styles from "./component.module.scss";
 
 export interface ConversionFunnelData {
@@ -251,17 +253,19 @@ export const ConversionFunnel = memo<ConversionFunnelProps>(
 
 		// Render
 		return (
-			<div className={classNames} {...props}>
-				<div className={styles.header}>
-					<h3 className={styles.title}>Conversion Funnel</h3>
+			<Stack gap="md" className={classNames} {...props}>
+				<Stack gap="xs">
+					<Text as="h3" size="lg" weight="semibold">Conversion Funnel</Text>
 					{biggestDropOffIndex > 0 && (
-						<p className={styles.subtitle}>
-							<i className="ri-error-warning-line" aria-hidden="true" />
-							Biggest drop-off at{" "}
-							<strong>{chartData[biggestDropOffIndex].name}</strong>
-						</p>
+						<Stack direction="row" gap="xs" align="center">
+							<Icon icon={AlertTriangle} size="sm" color="warning" />
+							<Text size="sm" color="secondary">
+								Biggest drop-off at{" "}
+								<Text as="strong" weight="semibold">{chartData[biggestDropOffIndex].name}</Text>
+							</Text>
+						</Stack>
 					)}
-				</div>
+				</Stack>
 
 				<ResponsiveContainer width="100%" height={400}>
 					<BarChart
@@ -298,7 +302,7 @@ export const ConversionFunnel = memo<ConversionFunnelProps>(
 						</Bar>
 					</BarChart>
 				</ResponsiveContainer>
-			</div>
+			</Stack>
 		);
 	},
 );

@@ -3,9 +3,20 @@
  * Displays a single email block in the canvas with edit/delete controls
  */
 
+import {
+	ArrowDown,
+	ArrowUp,
+	FileText,
+	Heading,
+	Image,
+	type LucideIcon,
+	Minus,
+	MousePointer2,
+	Space,
+	Trash2,
+} from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
-import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
-import { Badge, Button } from "@/proto-design-system";
+import { Badge, Button, Icon, Stack } from "@/proto-design-system";
 import type { EmailBlock } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
 
@@ -33,14 +44,14 @@ export interface BlockItemProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Get block type icon
  */
-const getBlockIcon = (type: EmailBlock["type"]): string => {
-	const icons: Record<EmailBlock["type"], string> = {
-		heading: "ri-heading",
-		paragraph: "ri-text",
-		button: "ri-cursor-line",
-		divider: "ri-separator",
-		spacer: "ri-space",
-		image: "ri-image-line",
+const getBlockIcon = (type: EmailBlock["type"]): LucideIcon => {
+	const icons: Record<EmailBlock["type"], LucideIcon> = {
+		heading: Heading,
+		paragraph: FileText,
+		button: MousePointer2,
+		divider: Minus,
+		spacer: Space,
+		image: Image,
 	};
 	return icons[type];
 };
@@ -187,21 +198,16 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 			{...props}
 		>
 			{/* Left: Type icon and badge */}
-			<div className={styles.typeInfo}>
-				<i className={getBlockIcon(block.type)} aria-hidden="true" />
-				<Badge
-					variant="secondary"
-					size="sm"
-				>
-					{getBlockLabel(block.type)}
-				</Badge>
-			</div>
+			<Stack direction="row" gap="sm" align="center" className={styles.typeInfo}>
+				<Icon icon={getBlockIcon(block.type)} size="md" color="secondary" />
+				<Badge variant="secondary" size="sm">{getBlockLabel(block.type)}</Badge>
+			</Stack>
 
 			{/* Center: Block preview */}
 			<div className={styles.content}>{getBlockPreview(block)}</div>
 
 			{/* Right: Actions */}
-			<div className={styles.actions}>
+			<Stack direction="row" gap="xs" className={styles.actions}>
 				{onMoveUp && (
 					<Button
 						isIconOnly
@@ -229,7 +235,7 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 					aria-label="Delete block"
 					onClick={handleDeleteClick}
 				/>
-			</div>
+			</Stack>
 		</div>
 	);
 });

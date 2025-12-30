@@ -1,7 +1,8 @@
+import { CheckCircle2, Link, Mail } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
 import { Button } from "@/proto-design-system";
 import styles from "./component.module.scss";
-import "remixicon/fonts/remixicon.css";
+import "remixicon/fonts/remixicon.css"; // Keep for brand icons (Twitter, Facebook, LinkedIn, etc.)
 
 /**
  * Supported social sharing platforms
@@ -82,7 +83,7 @@ const platformConfigs: Record<
 	},
 	email: {
 		label: "Email",
-		icon: "ri-mail-fill",
+		icon: "mail", // Will use Lucide Mail icon
 		color: "email",
 		getUrl: (url, message) =>
 			`mailto:?subject=${encodeURIComponent("Check this out!")}&body=${encodeURIComponent(`${message}\n\n${url}`)}`,
@@ -157,12 +158,16 @@ export const ShareButtons = memo(function ShareButtons({
 					Object.keys(platformConfigs) as Array<keyof typeof platformConfigs>
 				).map((platform) => {
 					const config = platformConfigs[platform];
+					// Email uses Lucide icon, others use RemixIcon brand icons
+					const leftIcon = platform === "email"
+						? <Mail size={16} />
+						: config.icon.replace("ri-", "");
 					return (
 						<Button
 							key={platform}
 							variant="secondary"
 							size="md"
-							leftIcon={config.icon.replace("ri-", "")}
+							leftIcon={leftIcon}
 							onClick={() => handleShare(platform)}
 							aria-label={`Share on ${config.label}`}
 						>
@@ -175,7 +180,7 @@ export const ShareButtons = memo(function ShareButtons({
 				<Button
 					variant="secondary"
 					size="md"
-					leftIcon={showCopiedFeedback ? "checkbox-circle-fill" : "link"}
+					leftIcon={showCopiedFeedback ? <CheckCircle2 size={16} /> : <Link size={16} />}
 					onClick={handleCopyLink}
 					aria-label="Copy link"
 				>

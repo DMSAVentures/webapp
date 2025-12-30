@@ -1,7 +1,8 @@
+import { ArrowUp, RefreshCw, Trophy } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
+import { Icon, Stack, Text } from "@/proto-design-system";
 import { formatPositionWithLocale } from "@/utils/positionFormatter";
 import styles from "./component.module.scss";
-import "remixicon/fonts/remixicon.css";
 
 /**
  * Props for the PositionTracker component
@@ -148,10 +149,10 @@ export const PositionTracker = memo(function PositionTracker({
 							{formatPositionWithLocale(positionData.position)}
 						</span>
 						{showImprovement && (
-							<span className={styles.improvementBadge}>
-								<i className="ri-arrow-up-line" aria-hidden="true" />
-								Improved!
-							</span>
+							<Stack direction="row" gap="xs" align="center" className={styles.improvementBadge}>
+								<Icon icon={ArrowUp} size="sm" />
+								<Text size="sm">Improved!</Text>
+							</Stack>
 						)}
 					</div>
 					<div className={styles.totalUsers}>
@@ -161,16 +162,16 @@ export const PositionTracker = memo(function PositionTracker({
 
 				{/* Percentile Badge */}
 				<div className={styles.percentileSection}>
-					<div className={styles.percentileBadge}>
-						<i className="ri-trophy-line" aria-hidden="true" />
-						<span className={styles.percentileText}>Top {percentile}%</span>
-					</div>
+					<Stack direction="row" gap="xs" align="center" className={styles.percentileBadge}>
+						<Icon icon={Trophy} size="sm" />
+						<Text size="sm" weight="medium" className={styles.percentileText}>Top {percentile}%</Text>
+					</Stack>
 				</div>
 
 				{/* Loading Indicator */}
 				{loading && (
 					<div className={styles.loadingIndicator}>
-						<i className="ri-refresh-line" aria-hidden="true" />
+						<Icon icon={RefreshCw} size="sm" color="muted" />
 					</div>
 				)}
 			</div>
