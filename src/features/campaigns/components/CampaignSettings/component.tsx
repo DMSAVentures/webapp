@@ -12,6 +12,9 @@ import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
@@ -220,21 +223,21 @@ const DangerZone = memo(function DangerZone({
 	loading,
 }: DangerZoneProps) {
 	return (
-		<section className={styles.section}>
-			<h3 className={`${styles.sectionTitle} ${styles.dangerTitle}`}>
+		<Stack gap="sm" as="section">
+			<Text as="h3" size="lg" weight="semibold" className={styles.dangerTitle}>
 				Danger Zone
-			</h3>
-			<div className={`${styles.card} ${styles.dangerCard}`}>
-				<div className={styles.dangerRow}>
-					<div className={styles.dangerInfo}>
-						<span className={styles.dangerLabel}>End Campaign</span>
-						<span className={styles.dangerDescription}>
+			</Text>
+			<Card variant="outlined" padding="md" className={styles.dangerCard}>
+				<Stack direction="row" justify="between" align="center" gap="md" wrap>
+					<Stack gap="xs">
+						<Text size="md" weight="medium">End Campaign</Text>
+						<Text size="sm" color="muted">
 							Once ended, the campaign cannot be reactivated. All data will be
 							preserved.
-						</span>
-					</div>
+						</Text>
+					</Stack>
 					<Button
-						variant="secondary"
+						variant="destructive"
 						leftIcon={
 							loading ? <Loader2 size={16} className={styles.spin} /> : <StopCircle size={16} />
 						}
@@ -243,9 +246,9 @@ const DangerZone = memo(function DangerZone({
 					>
 						{loading ? "Ending..." : "End Campaign"}
 					</Button>
-				</div>
-			</div>
-		</section>
+				</Stack>
+			</Card>
+		</Stack>
 	);
 });
 
@@ -284,7 +287,15 @@ export const CampaignSettings = memo(function CampaignSettings({
 	const isCompleted = campaign.status === "completed";
 
 	return (
-		<div className={styles.settings}>
+		<Stack gap="lg" className={styles.settings}>
+			{/* Page Header */}
+			<Stack gap="xs">
+				<Text as="h2" size="xl" weight="semibold">Campaign Settings</Text>
+				<Text size="md" color="secondary">
+					Configure your campaign settings, email options, and growth features
+				</Text>
+			</Stack>
+
 			{/* Ended Campaign Notice */}
 			{isCompleted && (
 				<Banner
@@ -311,7 +322,7 @@ export const CampaignSettings = memo(function CampaignSettings({
 			{!isCompleted && (
 				<DangerZone onEnd={handleEnd} loading={updatingStatus} />
 			)}
-		</div>
+		</Stack>
 	);
 });
 

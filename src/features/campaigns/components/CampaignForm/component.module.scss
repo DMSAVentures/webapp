@@ -10,6 +10,11 @@
   width: 100%;
 }
 
+// Section header with increased bottom padding
+.sectionHeader {
+  padding-bottom: var(--space-2);
+}
+
 // Subsection indent styling (for nested referral config)
 .subsection {
   margin-left: var(--space-5);

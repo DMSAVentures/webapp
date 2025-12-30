@@ -623,101 +623,101 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 		<form className={classNames} onSubmit={handleSubmit} {...props}>
 			<Stack gap="lg">
 				{/* General Section */}
-				<Card variant="outlined" padding="lg">
-					<Stack gap="md">
-						<Stack gap="xs">
-							<Text as="h3" size="lg" weight="semibold">General</Text>
-							<Text color="muted" size="sm">
-								Basic information about your campaign
-							</Text>
-						</Stack>
-
-						<Input
-							id="campaign-name"
-							type="text"
-							value={formData.name}
-							onChange={(e) => handleChange("name", e.target.value)}
-							onBlur={() => handleBlur("name")}
-							placeholder="e.g., Product Launch 2025"
-							disabled={isDisabled}
-							required
-							isError={!!(touched.name && errors.name)}
-						/>
-
-						<Input
-							id="campaign-description"
-							type="text"
-							value={formData.description}
-							onChange={(e) => handleChange("description", e.target.value)}
-							onBlur={() => handleBlur("description")}
-							placeholder="Describe your campaign..."
-							disabled={isDisabled}
-							isError={!!(touched.description && errors.description)}
-						/>
+				<Stack gap="md">
+					<Stack gap="xs" className={styles.sectionHeader}>
+						<Text as="h3" size="lg" weight="semibold">General</Text>
+						<Text color="muted" size="sm">
+							Basic information about your campaign
+						</Text>
 					</Stack>
-				</Card>
+
+					<Input
+						id="campaign-name"
+						type="text"
+						value={formData.name}
+						onChange={(e) => handleChange("name", e.target.value)}
+						onBlur={() => handleBlur("name")}
+						placeholder="e.g., Product Launch 2025"
+						disabled={isDisabled}
+						required
+						isError={!!(touched.name && errors.name)}
+					/>
+
+					<Input
+						id="campaign-description"
+						type="text"
+						value={formData.description}
+						onChange={(e) => handleChange("description", e.target.value)}
+						onBlur={() => handleBlur("description")}
+						placeholder="Describe your campaign..."
+						disabled={isDisabled}
+						isError={!!(touched.description && errors.description)}
+					/>
+				</Stack>
+
+				<Divider />
 
 				{/* Signup Options Section */}
-				<Card variant="outlined" padding="lg">
-					<Stack gap="md">
-						<Stack gap="xs">
-							<Text as="h3" size="lg" weight="semibold">Signup Options</Text>
-							<Text color="muted" size="sm">
-								Configure how users sign up for your waitlist
-							</Text>
-						</Stack>
+				<Stack gap="lg">
+					<Stack gap="xs" className={styles.sectionHeader}>
+						<Text as="h3" size="lg" weight="semibold">Signup Options</Text>
+						<Text color="muted" size="sm">
+							Configure how users sign up for your waitlist
+						</Text>
+					</Stack>
 
-						<Checkbox
-							checked={formData.settings.emailVerificationRequired}
-							onChange={(e) =>
-								handleSettingChange("emailVerificationRequired", e.target.checked)
+					<Checkbox
+						checked={formData.settings.emailVerificationRequired}
+						onChange={(e) =>
+							handleSettingChange("emailVerificationRequired", e.target.checked)
+						}
+						disabled={isDisabled || !hasEmail}
+						label="Require email verification"
+						description="Users must verify their email before being added to waitlist"
+					/>
+
+					<Stack gap="xs">
+						<Label>Duplicate Email Handling</Label>
+						<Dropdown
+							placeholder="Select handling method"
+							size="md"
+							items={[
+								{
+									id: "block",
+									label: "Block - Reject duplicate signups",
+									description: "Prevent users from signing up multiple times",
+								},
+								{
+									id: "update",
+									label: "Update - Replace existing entry",
+									description: "Update the existing user information",
+								},
+								{
+									id: "allow",
+									label: "Allow - Create new entry",
+									description: "Allow duplicate signups with separate entries",
+								},
+							]}
+							value={formData.settings.duplicateHandling}
+							disabled={isDisabled}
+							onChange={(id) =>
+								handleSettingChange("duplicateHandling", id)
 							}
-							disabled={isDisabled || !hasEmail}
-							label="Require email verification"
-							description="Users must verify their email before being added to waitlist"
-						/>
-
-						<Stack gap="xs">
-							<Label>Duplicate Email Handling</Label>
-							<Dropdown
-								placeholder="Select handling method"
-								size="md"
-								items={[
-									{
-										id: "block",
-										label: "Block - Reject duplicate signups",
-										description: "Prevent users from signing up multiple times",
-									},
-									{
-										id: "update",
-										label: "Update - Replace existing entry",
-										description: "Update the existing user information",
-									},
-									{
-										id: "allow",
-										label: "Allow - Create new entry",
-										description: "Allow duplicate signups with separate entries",
-									},
-								]}
-								value={formData.settings.duplicateHandling}
-								disabled={isDisabled}
-								onChange={(id) =>
-									handleSettingChange("duplicateHandling", id)
-								}
-							/>
-						</Stack>
-
-						<Checkbox
-							checked={formData.formConfig?.captchaEnabled ?? false}
-							onChange={(e) =>
-								handleFormConfigChange("captchaEnabled", e.target.checked)
-							}
-							disabled={isDisabled || !hasAntiSpam}
-							label="Enable CAPTCHA"
-							description="Protect your waitlist from bots and spam submissions"
 						/>
 					</Stack>
-				</Card>
+
+					<Checkbox
+						checked={formData.formConfig?.captchaEnabled ?? false}
+						onChange={(e) =>
+							handleFormConfigChange("captchaEnabled", e.target.checked)
+						}
+						disabled={isDisabled || !hasAntiSpam}
+						label="Enable CAPTCHA"
+						description="Protect your waitlist from bots and spam submissions"
+					/>
+				</Stack>
+
+				<Divider />
 
 				{/* Email Settings Section */}
 				<EmailSettingsSection
@@ -731,259 +731,259 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					locked={!hasEmail}
 				/>
 
+				<Divider />
+
 				{/* Growth Features Section */}
-				<Card variant="outlined" padding="lg">
-					<Stack gap="md">
-						<Stack gap="xs">
-							<Text as="h3" size="lg" weight="semibold">Growth Features</Text>
-							<Text color="muted" size="sm">
-								Enable viral growth and engagement features
-							</Text>
-						</Stack>
-
-						<Checkbox
-							checked={formData.settings.enableReferrals}
-							onChange={(e) =>
-								handleSettingChange("enableReferrals", e.target.checked)
-							}
-							disabled={isDisabled || !hasReferrals}
-							label="Enable referral system"
-							description="Allow users to refer others and track viral growth"
-						/>
-
-						{/* Referral Configuration - Only show if referrals are enabled */}
-						{formData.settings.enableReferrals && (
-							<Card variant="filled" padding="md" className={styles.subsection}>
-								<Stack gap="md">
-									<Input
-										id="points-per-referral"
-										type="number"
-										value={
-											formData.referralConfig?.pointsPerReferral.toString() || "1"
-										}
-										onChange={(e) =>
-											handleReferralConfigChange(
-												"pointsPerReferral",
-												parseInt(e.target.value) || 1,
-											)
-										}
-										placeholder="1"
-										disabled={isDisabled || !hasReferrals}
-										min={1}
-										max={100}
-									/>
-
-									<Checkbox
-										checked={formData.referralConfig?.verifiedOnly ?? false}
-										onChange={(e) =>
-											handleReferralConfigChange("verifiedOnly", e.target.checked)
-										}
-										disabled={isDisabled || !hasReferrals}
-										label="Count verified referrals only"
-										description="Only count referrals that have verified their email"
-									/>
-
-									<Input
-										id="referrer-positions-to-jump"
-										type="number"
-										value={
-											formData.referralConfig?.referrerPositionsToJump.toString() ||
-											"1"
-										}
-										onChange={(e) =>
-											handleReferralConfigChange(
-												"referrerPositionsToJump",
-												parseInt(e.target.value) || 1,
-											)
-										}
-										placeholder="1"
-										disabled={isDisabled || !hasReferrals}
-										min={1}
-										max={1000}
-									/>
-
-									<Input
-										id="positions-to-jump"
-										type="number"
-										value={formData.referralConfig?.positionsToJump.toString() || "0"}
-										onChange={(e) =>
-											handleReferralConfigChange(
-												"positionsToJump",
-												parseInt(e.target.value) || 0,
-											)
-										}
-										placeholder="0"
-										disabled={isDisabled || !hasReferrals}
-										min={0}
-										max={1000}
-									/>
-
-									<Stack gap="sm">
-										<Label>Sharing Channels</Label>
-										<Text color="muted" size="sm">
-											Platforms users can share their referral link on
-										</Text>
-										<Stack gap="xs">
-											{[
-												{ value: "email", label: "Email" },
-												{ value: "twitter", label: "Twitter/X" },
-												{ value: "facebook", label: "Facebook" },
-												{ value: "linkedin", label: "LinkedIn" },
-												{ value: "whatsapp", label: "WhatsApp" },
-											].map((channel) => (
-												<Checkbox
-													key={channel.value}
-													checked={
-														formData.referralConfig?.sharingChannels.includes(
-															channel.value,
-														) ?? false
-													}
-													onChange={() => handleSharingChannelToggle(channel.value)}
-													disabled={isDisabled || !hasReferrals}
-													label={channel.label}
-												/>
-											))}
-										</Stack>
-									</Stack>
-								</Stack>
-							</Card>
-						)}
-
-						<Checkbox
-							checked={formData.settings.enableRewards}
-							onChange={(e) =>
-								handleSettingChange("enableRewards", e.target.checked)
-							}
-							disabled={isDisabled || !hasReferrals}
-							label="Enable reward system"
-							description="Reward users for reaching referral milestones"
-						/>
+				<Stack gap="lg">
+					<Stack gap="xs" className={styles.sectionHeader}>
+						<Text as="h3" size="lg" weight="semibold">Growth Features</Text>
+						<Text color="muted" size="sm">
+							Enable viral growth and engagement features
+						</Text>
 					</Stack>
-				</Card>
 
-				{/* Conversion Tracking Section */}
-				<Card variant="outlined" padding="lg">
-					<Stack gap="md">
-						<Stack gap="xs">
-							<Text as="h3" size="lg" weight="semibold">Conversion Tracking</Text>
-							<Text color="muted" size="sm">
-								Add tracking pixels to fire when users complete signup
-							</Text>
-						</Stack>
+					<Checkbox
+						checked={formData.settings.enableReferrals}
+						onChange={(e) =>
+							handleSettingChange("enableReferrals", e.target.checked)
+						}
+						disabled={isDisabled || !hasReferrals}
+						label="Enable referral system"
+						description="Allow users to refer others and track viral growth"
+					/>
 
-						{/* Add Integration Dropdown */}
-						{availableIntegrations.length > 0 && (
-							<Stack gap="xs">
-								<Label>Add Tracking Integration</Label>
-								<Dropdown
-									placeholder="Select a tracking platform..."
-									size="md"
-									items={availableIntegrations.map((integration) => ({
-										id: integration.type,
-										label: integration.label,
-										description: `ID format: ${integration.placeholder}`,
-									}))}
-									disabled={isDisabled || !hasTracking}
-									onChange={(id) =>
-										handleAddTrackingIntegration(
-											id as TrackingIntegrationType,
+					{/* Referral Configuration - Only show if referrals are enabled */}
+					{formData.settings.enableReferrals && (
+						<Card variant="filled" padding="md" className={styles.subsection}>
+							<Stack gap="md">
+								<Input
+									id="points-per-referral"
+									type="number"
+									value={
+										formData.referralConfig?.pointsPerReferral.toString() || "1"
+									}
+									onChange={(e) =>
+										handleReferralConfigChange(
+											"pointsPerReferral",
+											parseInt(e.target.value) || 1,
 										)
 									}
+									placeholder="1"
+									disabled={isDisabled || !hasReferrals}
+									min={1}
+									max={100}
 								/>
-							</Stack>
-						)}
 
-						{/* Configured Integrations List */}
-						{formData.trackingConfig?.integrations &&
-							formData.trackingConfig.integrations.length > 0 && (
+								<Checkbox
+									checked={formData.referralConfig?.verifiedOnly ?? false}
+									onChange={(e) =>
+										handleReferralConfigChange("verifiedOnly", e.target.checked)
+									}
+									disabled={isDisabled || !hasReferrals}
+									label="Count verified referrals only"
+									description="Only count referrals that have verified their email"
+								/>
+
+								<Input
+									id="referrer-positions-to-jump"
+									type="number"
+									value={
+										formData.referralConfig?.referrerPositionsToJump.toString() ||
+										"1"
+									}
+									onChange={(e) =>
+										handleReferralConfigChange(
+											"referrerPositionsToJump",
+											parseInt(e.target.value) || 1,
+										)
+									}
+									placeholder="1"
+									disabled={isDisabled || !hasReferrals}
+									min={1}
+									max={1000}
+								/>
+
+								<Input
+									id="positions-to-jump"
+									type="number"
+									value={formData.referralConfig?.positionsToJump.toString() || "0"}
+									onChange={(e) =>
+										handleReferralConfigChange(
+											"positionsToJump",
+											parseInt(e.target.value) || 0,
+										)
+									}
+									placeholder="0"
+									disabled={isDisabled || !hasReferrals}
+									min={0}
+									max={1000}
+								/>
+
 								<Stack gap="sm">
-									{formData.trackingConfig.integrations.map((integration) => {
-										const integrationInfo = TRACKING_INTEGRATIONS.find(
-											(i) => i.type === integration.type,
-										);
-										if (!integrationInfo) return null;
+									<Label>Sharing Channels</Label>
+									<Text color="muted" size="sm">
+										Platforms users can share their referral link on
+									</Text>
+									<Stack gap="xs">
+										{[
+											{ value: "email", label: "Email" },
+											{ value: "twitter", label: "Twitter/X" },
+											{ value: "facebook", label: "Facebook" },
+											{ value: "linkedin", label: "LinkedIn" },
+											{ value: "whatsapp", label: "WhatsApp" },
+										].map((channel) => (
+											<Checkbox
+												key={channel.value}
+												checked={
+													formData.referralConfig?.sharingChannels.includes(
+														channel.value,
+													) ?? false
+												}
+												onChange={() => handleSharingChannelToggle(channel.value)}
+												disabled={isDisabled || !hasReferrals}
+												label={channel.label}
+											/>
+										))}
+									</Stack>
+								</Stack>
+							</Stack>
+						</Card>
+					)}
 
-										return (
-											<Card
-												key={integration.type}
-												variant="filled"
-												padding="md"
-											>
-												<Stack gap="sm">
-													<Stack direction="row" align="center" justify="between">
-														<Stack direction="row" align="center" gap="sm">
-															<i
-																className={`${integrationInfo.icon} ${styles.integrationIcon}`}
-																aria-hidden="true"
-															/>
-															<Text weight="medium">
-																{integrationInfo.label}
-															</Text>
-														</Stack>
-														<Button
-															leftIcon={<Trash2 size={16} />}
-															variant="ghost"
-															size="sm"
-															aria-label={`Remove ${integrationInfo.label}`}
-															onClick={() => handleRemoveTracking(integration.type)}
-															disabled={isDisabled || !hasTracking}
+					<Checkbox
+						checked={formData.settings.enableRewards}
+						onChange={(e) =>
+							handleSettingChange("enableRewards", e.target.checked)
+						}
+						disabled={isDisabled || !hasReferrals}
+						label="Enable reward system"
+						description="Reward users for reaching referral milestones"
+					/>
+				</Stack>
+
+				<Divider />
+
+				{/* Conversion Tracking Section */}
+				<Stack gap="lg">
+					<Stack gap="xs" className={styles.sectionHeader}>
+						<Text as="h3" size="lg" weight="semibold">Conversion Tracking</Text>
+						<Text color="muted" size="sm">
+							Add tracking pixels to fire when users complete signup
+						</Text>
+					</Stack>
+
+					{/* Add Integration Dropdown */}
+					{availableIntegrations.length > 0 && (
+						<Stack gap="xs">
+							<Label>Add Tracking Integration</Label>
+							<Dropdown
+								placeholder="Select a tracking platform..."
+								size="md"
+								items={availableIntegrations.map((integration) => ({
+									id: integration.type,
+									label: integration.label,
+									description: `ID format: ${integration.placeholder}`,
+								}))}
+								disabled={isDisabled || !hasTracking}
+								onChange={(id) =>
+									handleAddTrackingIntegration(
+										id as TrackingIntegrationType,
+									)
+								}
+							/>
+						</Stack>
+					)}
+
+					{/* Configured Integrations List */}
+					{formData.trackingConfig?.integrations &&
+						formData.trackingConfig.integrations.length > 0 && (
+							<Stack gap="sm">
+								{formData.trackingConfig.integrations.map((integration) => {
+									const integrationInfo = TRACKING_INTEGRATIONS.find(
+										(i) => i.type === integration.type,
+									);
+									if (!integrationInfo) return null;
+
+									return (
+										<Card
+											key={integration.type}
+											variant="filled"
+											padding="md"
+										>
+											<Stack gap="sm">
+												<Stack direction="row" align="center" justify="between">
+													<Stack direction="row" align="center" gap="sm">
+														<i
+															className={`${integrationInfo.icon} ${styles.integrationIcon}`}
+															aria-hidden="true"
 														/>
+														<Text weight="medium">
+															{integrationInfo.label}
+														</Text>
 													</Stack>
-													<Stack gap="sm">
+													<Button
+														leftIcon={<Trash2 size={16} />}
+														variant="ghost"
+														size="sm"
+														aria-label={`Remove ${integrationInfo.label}`}
+														onClick={() => handleRemoveTracking(integration.type)}
+														disabled={isDisabled || !hasTracking}
+													/>
+												</Stack>
+												<Stack gap="sm">
+													<Input
+														id={`tracking-${integration.type}-id`}
+														type="text"
+														value={integration.id}
+														onChange={(e) =>
+															handleTrackingChange(
+																integration.type,
+																"id",
+																e.target.value,
+															)
+														}
+														onBlur={() =>
+															handleTrackingIdBlur(integration.type, integration.id)
+														}
+														placeholder={integrationInfo.placeholder}
+														disabled={isDisabled || !hasTracking}
+														required
+														isError={
+															!!(trackingTouched[integration.type] &&
+																trackingErrors[integration.type])
+														}
+													/>
+													{integrationInfo.hasLabel && (
 														<Input
-															id={`tracking-${integration.type}-id`}
+															id={`tracking-${integration.type}-label`}
 															type="text"
-															value={integration.id}
+															value={integration.label || ""}
 															onChange={(e) =>
 																handleTrackingChange(
 																	integration.type,
-																	"id",
+																	"label",
 																	e.target.value,
 																)
 															}
-															onBlur={() =>
-																handleTrackingIdBlur(integration.type, integration.id)
-															}
-															placeholder={integrationInfo.placeholder}
+															placeholder="Enter conversion label"
 															disabled={isDisabled || !hasTracking}
-															required
-															isError={
-																!!(trackingTouched[integration.type] &&
-																	trackingErrors[integration.type])
-															}
 														/>
-														{integrationInfo.hasLabel && (
-															<Input
-																id={`tracking-${integration.type}-label`}
-																type="text"
-																value={integration.label || ""}
-																onChange={(e) =>
-																	handleTrackingChange(
-																		integration.type,
-																		"label",
-																		e.target.value,
-																	)
-																}
-																placeholder="Enter conversion label"
-																disabled={isDisabled || !hasTracking}
-															/>
-														)}
-													</Stack>
+													)}
 												</Stack>
-											</Card>
-										);
-									})}
-								</Stack>
-							)}
-
-						{formData.trackingConfig?.integrations.length === 0 && (
-							<Text color="muted" size="sm" align="center" className={styles.emptyState}>
-								No tracking integrations configured. Add one above to track
-								conversions.
-							</Text>
+											</Stack>
+										</Card>
+									);
+								})}
+							</Stack>
 						)}
-					</Stack>
-				</Card>
+
+					{formData.trackingConfig?.integrations.length === 0 && (
+						<Text color="muted" size="sm" align="center" className={styles.emptyState}>
+							No tracking integrations configured. Add one above to track
+							conversions.
+						</Text>
+					)}
+				</Stack>
 
 				{/* Divider */}
 				<Divider />
@@ -996,7 +996,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								type="button"
 								onClick={onCancel}
 								disabled={loading}
-								variant="secondary"
+								variant="outline"
 							>
 								Cancel
 							</Button>

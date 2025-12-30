@@ -16,8 +16,11 @@ import {
 } from "@/hooks/useEmailTemplates";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
 export interface EmailSettingsSectionProps {
@@ -65,40 +68,41 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 	const isCustom = !!template;
 
 	return (
-		<div className={styles.templateCard}>
-			<div className={styles.templateCardHeader}>
-				<div className={styles.templateCardInfo}>
-					<Icon icon={Mail} size="md" />
-					<div className={styles.templateCardTitle}>
-						<span className={styles.templateCardName}>{typeLabels[type]}</span>
-						<Badge variant={isCustom ? "success" : "secondary"}>
-							{isCustom ? "Custom" : "Default"}
-						</Badge>
+		<Card variant="outlined" padding="md">
+			<Stack gap="sm">
+				<Stack direction="row" align="center" gap="sm">
+					<div className={styles.iconWrapper}>
+						<Icon icon={Mail} size="md" />
 					</div>
-				</div>
-			</div>
+					<Text size="md" weight="medium">{typeLabels[type]}</Text>
+					<Badge variant={isCustom ? "success" : "secondary"} size="sm">
+						{isCustom ? "Custom" : "Default"}
+					</Badge>
+				</Stack>
 
-			<div className={styles.templateCardContent}>
-				<p className={styles.templateCardDescription}>
-					{typeDescriptions[type]}
-				</p>
-				<div className={styles.templateCardSubject}>
-					<span className={styles.subjectLabel}>Subject:</span>
-					<span className={styles.subjectValue}>{subject}</span>
-				</div>
-			</div>
+				<Stack gap="xs" className={styles.templateCardContent}>
+					<Text size="sm" color="muted">
+						{typeDescriptions[type]}
+					</Text>
+					<div className={styles.templateCardSubject}>
+						<Text as="span" size="xs" weight="medium" color="muted">Subject:</Text>
+						<Text as="span" size="sm">{subject}</Text>
+					</div>
+				</Stack>
 
-			<div className={styles.templateCardActions}>
-				<Button
-					variant="secondary"
-					leftIcon={<Pencil size={16} />}
-					onClick={onEdit}
-					disabled={disabled}
-				>
-					Customize
-				</Button>
-			</div>
-		</div>
+				<Stack direction="row" justify="end">
+					<Button
+						variant="secondary"
+						size="sm"
+						leftIcon={<Pencil size={16} />}
+						onClick={onEdit}
+						disabled={disabled}
+					>
+						Customize
+					</Button>
+				</Stack>
+			</Stack>
+		</Card>
 	);
 });
 
@@ -140,27 +144,27 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 		const showWelcomeTemplate = verificationRequired || sendWelcomeEmail;
 
 		return (
-			<div className={styles.section}>
-				<h3 className={styles.sectionTitle}>Email Settings</h3>
-				<p className={styles.sectionDescription}>
-					Configure the emails sent to users when they join your waitlist
-				</p>
+			<Stack gap="lg">
+				<Stack gap="xs" className={styles.sectionHeader}>
+					<Text as="h3" size="lg" weight="semibold">Email Settings</Text>
+					<Text size="sm" color="muted">
+						Configure the emails sent to users when they join your waitlist
+					</Text>
+				</Stack>
 
 				{/* Send Welcome Email Toggle - only show when verification is disabled */}
 				{!verificationRequired && (
-					<div className={styles.toggleSection}>
-						<Checkbox
-							checked={sendWelcomeEmail}
-							onChange={(e) => onSendWelcomeEmailChange(e.target.checked)}
-							disabled={isDisabled}
-							label="Send welcome email on signup"
-							description="Send a welcome email immediately when users sign up (no verification required)"
-						/>
-					</div>
+					<Checkbox
+						checked={sendWelcomeEmail}
+						onChange={(e) => onSendWelcomeEmailChange(e.target.checked)}
+						disabled={isDisabled}
+						label="Send welcome email on signup"
+						description="Send a welcome email immediately when users sign up (no verification required)"
+					/>
 				)}
 
 				{/* Template Cards */}
-				<div className={styles.templateCards}>
+				<Stack gap="sm">
 					{showVerificationTemplate && (
 						<TemplateCard
 							type="verification"
@@ -182,25 +186,27 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 					)}
 
 					{!showVerificationTemplate && !showWelcomeTemplate && (
-						<div className={styles.noEmailsMessage}>
-							<Icon icon={MailX} size="lg" />
-							<p>No automatic emails are configured.</p>
-							<p className={styles.noEmailsHint}>
-								Enable email verification above or toggle "Send welcome email"
-								to configure automatic emails.
-							</p>
-						</div>
+						<Card variant="filled" padding="lg">
+							<Stack gap="xs" align="center">
+								<Icon icon={MailX} size="lg" />
+								<Text size="sm" color="muted">No automatic emails are configured.</Text>
+								<Text size="xs" color="muted">
+									Enable email verification above or toggle "Send welcome email"
+									to configure automatic emails.
+								</Text>
+							</Stack>
+						</Card>
 					)}
-				</div>
+				</Stack>
 
 				{/* Note for new campaigns */}
 				{!campaignId && (showVerificationTemplate || showWelcomeTemplate) && (
-					<p className={styles.saveNote}>
+					<div className={styles.saveNote}>
 						<Icon icon={Info} size="sm" />
-						Save the campaign first to customize email templates.
-					</p>
+						<Text size="sm">Save the campaign first to customize email templates.</Text>
+					</div>
 				)}
-			</div>
+			</Stack>
 		);
 	},
 );

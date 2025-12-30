@@ -253,7 +253,7 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 		<Stack gap="lg" className={styles.embed}>
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Embed Your Form</Text>
-				<Text size="md" color="muted">
+				<Text size="md" color="secondary">
 					Choose your preferred method to embed the waitlist form on your
 					website
 				</Text>
