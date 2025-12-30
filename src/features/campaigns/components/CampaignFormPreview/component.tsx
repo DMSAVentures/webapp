@@ -1,9 +1,9 @@
 /**
  * CampaignFormPreview Component
- * Displays the form preview on campaign detail page
+ * Displays the form preview on campaign detail page with device toggle
  */
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { FormPreview } from "@/features/form-builder/components/FormPreview/component";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
 import type { Campaign } from "@/types/campaign";
@@ -14,12 +14,15 @@ export interface CampaignFormPreviewProps {
 	campaign: Campaign;
 }
 
+type DeviceType = "desktop" | "mobile";
+
 /**
- * CampaignFormPreview renders the form preview section
+ * CampaignFormPreview renders the form preview section with device toggle
  */
 export const CampaignFormPreview = memo<CampaignFormPreviewProps>(
 	function CampaignFormPreview({ campaign }) {
 		const formConfig = useFormConfigFromCampaign(campaign);
+		const [device, setDevice] = useState<DeviceType>("desktop");
 
 		if (!formConfig) {
 			return null;
@@ -27,12 +30,32 @@ export const CampaignFormPreview = memo<CampaignFormPreviewProps>(
 
 		return (
 			<div className={styles.root}>
-				<h3 className={styles.title}>Form Preview</h3>
-				<p className={styles.description}>
-					See how your form will look when embedded
-				</p>
+				<div className={styles.header}>
+					<div>
+						<h3 className={styles.title}>Form Preview</h3>
+						<p className={styles.description}>
+							See how your form will look when embedded
+						</p>
+					</div>
+					<div className={styles.deviceToggle}>
+						<button
+							type="button"
+							className={`${styles.deviceButton} ${device === "desktop" ? styles.deviceButtonActive : ""}`}
+							onClick={() => setDevice("desktop")}
+						>
+							Desktop
+						</button>
+						<button
+							type="button"
+							className={`${styles.deviceButton} ${device === "mobile" ? styles.deviceButtonActive : ""}`}
+							onClick={() => setDevice("mobile")}
+						>
+							Mobile
+						</button>
+					</div>
+				</div>
 				<div className={styles.previewContainer}>
-					<FormPreview config={formConfig} device="desktop" />
+					<FormPreview config={formConfig} device={device} />
 				</div>
 			</div>
 		);

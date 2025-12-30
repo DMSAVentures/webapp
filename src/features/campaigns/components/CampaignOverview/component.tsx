@@ -4,7 +4,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { Calendar, CheckCircle2, ChevronRight, Circle, Loader2, Mail, Pause, Play, Rocket, Share } from "lucide-react";
+import { Calendar, CheckCircle2, ChevronRight, Circle, Mail, Settings, Share2 } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
@@ -12,10 +12,7 @@ import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Card } from "@/proto-design-system/components/layout/Card";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import { CampaignFormPreview } from "../CampaignFormPreview/component";
@@ -35,34 +32,12 @@ export interface CampaignOverviewProps {
 // Pure Functions
 // ============================================================================
 
-/** Map campaign status to Badge variant */
-function getStatusVariant(
-	status: Campaign["status"],
-): "success" | "warning" | "secondary" | "primary" {
-	switch (status) {
-		case "active":
-			return "success";
-		case "completed":
-			return "primary";
-		case "paused":
-			return "secondary";
-		default:
-			return "warning";
-	}
-}
-
-/** Format status text for display */
-function formatStatusText(status: string): string {
-	return status.charAt(0).toUpperCase() + status.slice(1);
-}
-
-/** Format date for display */
-function formatDate(date: string | Date): string {
+/** Format date for display (short format) */
+function formatDateShort(date: string | Date): string {
 	const dateObj = typeof date === "string" ? new Date(date) : date;
 	return dateObj.toLocaleDateString(undefined, {
 		month: "short",
 		day: "numeric",
-		year: "numeric",
 	});
 }
 
@@ -99,19 +74,6 @@ function checkEmailTemplates(
 	);
 }
 
-/** Build required email types message */
-function buildEmailRequirementsMessage(
-	needsVerification: boolean,
-	needsWelcome: boolean,
-): string {
-	const types = [
-		needsVerification && "verification",
-		needsWelcome && "welcome",
-	].filter(Boolean);
-	const suffix = types.length > 1 ? "s" : "";
-	return `Configure ${types.join(" & ")} email${suffix}`;
-}
-
 // ============================================================================
 // Custom Hooks
 // ============================================================================
@@ -139,27 +101,9 @@ function useCampaignStatusActions(campaignId: string, onRefetch: () => void) {
 		}
 	}, [campaignId, updateStatus, showBanner, onRefetch]);
 
-	const handlePause = useCallback(async () => {
-		const updated = await updateStatus(campaignId, { status: "paused" });
-		if (updated) {
-			showBanner({ type: "success", title: "Campaign has been paused" });
-			onRefetch();
-		}
-	}, [campaignId, updateStatus, showBanner, onRefetch]);
-
-	const handleResume = useCallback(async () => {
-		const updated = await updateStatus(campaignId, { status: "active" });
-		if (updated) {
-			showBanner({ type: "success", title: "Campaign has been resumed" });
-			onRefetch();
-		}
-	}, [campaignId, updateStatus, showBanner, onRefetch]);
-
 	return {
 		loading,
 		handleGoLive,
-		handlePause,
-		handleResume,
 	};
 }
 
@@ -173,8 +117,6 @@ function useLaunchReadiness(
 		campaign.formFields && campaign.formFields.length > 0,
 	);
 	const isDraft = campaign.status === "draft";
-	const isActive = campaign.status === "active";
-	const isPaused = campaign.status === "paused";
 
 	const needsVerificationEmail =
 		campaign.emailSettings?.verificationRequired ?? false;
@@ -187,17 +129,19 @@ function useLaunchReadiness(
 		emailTemplatesLoading,
 	);
 
-	const canGoLive = isDraft && hasFormFields && hasRequiredEmailTemplates;
+	const hasReferralRewards = Boolean(
+		campaign.referralSettings?.enabled &&
+		campaign.referralSettings?.pointsPerReferral != null &&
+		campaign.referralSettings.pointsPerReferral > 0
+	);
 
 	return {
 		hasFormFields,
 		isDraft,
-		isActive,
-		isPaused,
 		needsVerificationEmail,
 		needsWelcomeEmail,
 		hasRequiredEmailTemplates,
-		canGoLive,
+		hasReferralRewards,
 	};
 }
 
@@ -209,236 +153,216 @@ interface LaunchChecklistProps {
 	campaignId: string;
 	hasFormFields: boolean;
 	formFieldCount: number;
-	needsVerificationEmail: boolean;
-	needsWelcomeEmail: boolean;
 	hasRequiredEmailTemplates: boolean;
-	canGoLive: boolean;
-	isUpdating: boolean;
-	onGoLive: () => void;
+	hasReferralRewards: boolean;
+	referralsEnabled: boolean;
 }
 
 const LaunchChecklist = memo(function LaunchChecklist({
 	campaignId,
 	hasFormFields,
 	formFieldCount,
-	needsVerificationEmail,
-	needsWelcomeEmail,
 	hasRequiredEmailTemplates,
-	canGoLive,
-	isUpdating,
-	onGoLive,
+	hasReferralRewards,
+	referralsEnabled,
 }: LaunchChecklistProps) {
 	const navigate = useNavigate();
-	const needsEmailSetup = needsVerificationEmail || needsWelcomeEmail;
+
+	// Calculate completion count
+	const totalItems = referralsEnabled ? 3 : 2;
+	let completedItems = 0;
+	if (hasFormFields) completedItems++;
+	if (hasRequiredEmailTemplates) completedItems++;
+	if (referralsEnabled && hasReferralRewards) completedItems++;
 
 	return (
-		<div className={styles.checklistSection}>
-			<h3 className={styles.checklistTitle}>Launch Checklist</h3>
-			<div className={styles.checklistCard}>
-				<ul className={styles.checklistItems}>
+		<div className={styles.checklistCard}>
+			<div className={styles.checklistHeader}>
+				<div>
+					<h3 className={styles.checklistTitle}>Launch Checklist</h3>
+					<p className={styles.checklistSubtitle}>Complete these steps before going live</p>
+				</div>
+				<Badge variant="success" size="sm">
+					{completedItems}/{totalItems} Complete
+				</Badge>
+			</div>
+
+			<ul className={styles.checklistItems}>
+				{/* Configure signup form */}
+				<li
+					className={`${styles.checklistItem} ${hasFormFields ? styles.checklistItemComplete : ""}`}
+					onClick={() =>
+						navigate({
+							to: "/campaigns/$campaignId/form-builder",
+							params: { campaignId },
+						})
+					}
+				>
+					<Icon
+						icon={hasFormFields ? CheckCircle2 : Circle}
+						size="md"
+						className={styles.checklistIcon}
+					/>
+					<div className={styles.checklistItemContent}>
+						<span className={styles.checklistItemText}>
+							Configure signup form
+						</span>
+						<span className={styles.checklistItemDescription}>
+							{hasFormFields
+								? `${formFieldCount} field${formFieldCount === 1 ? "" : "s"} configured`
+								: "Add fields to collect user information"}
+						</span>
+					</div>
+					{!hasFormFields && (
+						<span className={styles.checklistItemBadge}>Required</span>
+					)}
+					<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
+				</li>
+
+				{/* Set up email templates */}
+				<li
+					className={`${styles.checklistItem} ${hasRequiredEmailTemplates ? styles.checklistItemComplete : ""}`}
+					onClick={() =>
+						navigate({
+							to: "/campaigns/$campaignId/email-builder",
+							params: { campaignId },
+						})
+					}
+				>
+					<Icon
+						icon={hasRequiredEmailTemplates ? CheckCircle2 : Circle}
+						size="md"
+						className={styles.checklistIcon}
+					/>
+					<div className={styles.checklistItemContent}>
+						<span className={styles.checklistItemText}>
+							Set up email templates
+						</span>
+						<span className={styles.checklistItemDescription}>
+							{hasRequiredEmailTemplates
+								? "Email templates configured"
+								: "Configure verification & welcome emails"}
+						</span>
+					</div>
+					<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
+				</li>
+
+				{/* Configure referral rewards - only show if referrals enabled */}
+				{referralsEnabled && (
 					<li
-						className={`${styles.checklistItem} ${hasFormFields ? styles.checklistItemComplete : ""}`}
+						className={`${styles.checklistItem} ${hasReferralRewards ? styles.checklistItemComplete : ""}`}
 						onClick={() =>
 							navigate({
-								to: "/campaigns/$campaignId/form-builder",
+								to: "/campaigns/$campaignId/settings",
 								params: { campaignId },
 							})
 						}
 					>
 						<Icon
-							icon={hasFormFields ? CheckCircle2 : Circle}
+							icon={hasReferralRewards ? CheckCircle2 : Circle}
 							size="md"
 							className={styles.checklistIcon}
 						/>
 						<div className={styles.checklistItemContent}>
 							<span className={styles.checklistItemText}>
-								Configure signup form
+								Configure referral rewards
 							</span>
 							<span className={styles.checklistItemDescription}>
-								{hasFormFields
-									? `${formFieldCount} field${formFieldCount === 1 ? "" : "s"} configured`
-									: "Add fields to collect user information"}
+								{hasReferralRewards
+									? "Rewards configured"
+									: "Set up rewards for successful referrals"}
 							</span>
 						</div>
-						<span className={styles.checklistItemBadge}>Required</span>
 						<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
 					</li>
-					{needsEmailSetup && (
-						<li
-							className={`${styles.checklistItem} ${hasRequiredEmailTemplates ? styles.checklistItemComplete : ""}`}
-							onClick={() =>
-								navigate({
-									to: "/campaigns/$campaignId/email-builder",
-									params: { campaignId },
-								})
-							}
-						>
-							<Icon
-								icon={hasRequiredEmailTemplates ? CheckCircle2 : Circle}
-								size="md"
-								className={styles.checklistIcon}
-							/>
-							<div className={styles.checklistItemContent}>
-								<span className={styles.checklistItemText}>
-									Set up email templates
-								</span>
-								<span className={styles.checklistItemDescription}>
-									{hasRequiredEmailTemplates
-										? "Email templates configured"
-										: buildEmailRequirementsMessage(
-												needsVerificationEmail,
-												needsWelcomeEmail,
-											)}
-								</span>
-							</div>
-							<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
-						</li>
-					)}
-				</ul>
+				)}
+			</ul>
+
+			{referralsEnabled && !hasReferralRewards && (
 				<div className={styles.checklistFooter}>
 					<Button
-						onClick={onGoLive}
-						disabled={isUpdating || !canGoLive}
+						variant="outline"
+						onClick={() =>
+							navigate({
+								to: "/campaigns/$campaignId/settings",
+								params: { campaignId },
+							})
+						}
 					>
-						{isUpdating ? <Loader2 size={16} className={styles.spin} /> : <Rocket size={16} />}
-						{isUpdating ? "Launching..." : "Go Live"}
+						Set Up Referral Rewards
+						<Icon icon={ChevronRight} size="sm" />
 					</Button>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 });
 
-interface ConfigurationSectionProps {
+interface ConfigurationCardProps {
 	campaign: Campaign;
+	campaignId: string;
 }
 
-const ConfigurationSection = memo(function ConfigurationSection({
+const ConfigurationCard = memo(function ConfigurationCard({
 	campaign,
-}: ConfigurationSectionProps) {
+	campaignId,
+}: ConfigurationCardProps) {
+	const navigate = useNavigate();
+	const verificationEnabled = campaign.emailSettings?.verificationRequired ?? false;
+	const referralsEnabled = campaign.referralSettings?.enabled ?? false;
+
 	return (
-		<Stack gap="md" className={styles.configSection}>
-			<Text as="h3" size="lg" weight="semibold">Configuration</Text>
-			<div className={styles.configGrid}>
-				{/* Email Config Card */}
-				<Card padding="md" className={styles.configCard}>
-					<Stack gap="sm">
-						<Stack direction="row" gap="sm" align="center">
-							<Icon icon={Mail} size="md" color="muted" />
-							<Text weight="semibold">Email</Text>
-							<Badge
-								variant={
-									campaign.emailSettings?.verificationRequired ? "success" : "secondary"
-								}
-								size="sm"
-							>
-								{campaign.emailSettings?.verificationRequired
-									? "Verification On"
-									: "Verification Off"}
-							</Badge>
-						</Stack>
-						{(campaign.emailSettings?.fromName ||
-							campaign.emailSettings?.fromEmail) && (
-							<Stack gap="xs">
-								{campaign.emailSettings.fromName && (
-									<Text size="sm" color="muted">
-										From: {campaign.emailSettings.fromName}
-									</Text>
-								)}
-								{campaign.emailSettings.fromEmail && (
-									<Text size="sm" color="muted">
-										{campaign.emailSettings.fromEmail}
-									</Text>
-								)}
-								{campaign.emailSettings.replyTo && (
-									<Text size="sm" color="muted">
-										Reply to: {campaign.emailSettings.replyTo}
-									</Text>
-								)}
-							</Stack>
-						)}
-					</Stack>
-				</Card>
+		<div className={styles.configCard}>
+			<h3 className={styles.configTitle}>Configuration</h3>
 
-				{/* Referrals Config Card */}
-				<Card padding="md" className={styles.configCard}>
-					<Stack gap="sm">
-						<Stack direction="row" gap="sm" align="center">
-							<Icon icon={Share} size="md" color="muted" />
-							<Text weight="semibold">Referrals</Text>
-							<Badge
-								variant={campaign.referralSettings?.enabled ? "success" : "secondary"}
-								size="sm"
-							>
-								{campaign.referralSettings?.enabled ? "Enabled" : "Disabled"}
-							</Badge>
-						</Stack>
-						{campaign.referralSettings?.enabled && (
-							<Stack gap="xs">
-								{campaign.referralSettings.pointsPerReferral != null &&
-									campaign.referralSettings.pointsPerReferral > 0 && (
-										<Text size="sm" color="muted">
-											<Text as="strong" weight="semibold">
-												{campaign.referralSettings.pointsPerReferral}
-											</Text>{" "}
-											points per referral
-										</Text>
-									)}
-								{campaign.referralSettings.verifiedOnly && (
-									<Text size="sm" color="muted">
-										Verified referrals only
-									</Text>
-								)}
-								{campaign.referralSettings.sharingChannels &&
-									campaign.referralSettings.sharingChannels.length > 0 && (
-										<Stack direction="row" gap="xs" wrap>
-											{campaign.referralSettings.sharingChannels.map(
-												(channel) => (
-													<Badge
-														key={channel}
-														variant="secondary"
-														size="sm"
-													>
-														{channel}
-													</Badge>
-												),
-											)}
-										</Stack>
-									)}
-							</Stack>
-						)}
-					</Stack>
-				</Card>
+			<div className={styles.configList}>
+				{/* Email Verification */}
+				<div className={styles.configRow}>
+					<div className={styles.configRowLeft}>
+						<Icon icon={Mail} size="sm" className={styles.configIcon} />
+						<span className={styles.configLabel}>Email Verification</span>
+					</div>
+					<Badge variant={verificationEnabled ? "success" : "secondary"} size="sm">
+						{verificationEnabled ? "On" : "Off"}
+					</Badge>
+				</div>
 
-				{/* Timeline Config Card */}
-				<Card padding="md" className={styles.configCard}>
-					<Stack gap="sm">
-						<Stack direction="row" gap="sm" align="center">
-							<Icon icon={Calendar} size="md" color="muted" />
-							<Text weight="semibold">Timeline</Text>
-						</Stack>
-						<Stack gap="xs">
-							<Text size="sm" color="muted">
-								Created: {formatDate(campaign.createdAt)}
-							</Text>
-							<Text size="sm" color="muted">
-								Updated: {formatDate(campaign.updatedAt)}
-							</Text>
-							{campaign.launchDate && (
-								<Text size="sm" color="muted">
-									Launch: {formatDate(campaign.launchDate)}
-								</Text>
-							)}
-							{campaign.endDate && (
-								<Text size="sm" color="muted">
-									End: {formatDate(campaign.endDate)}
-								</Text>
-							)}
-						</Stack>
-					</Stack>
-				</Card>
+				{/* Referrals */}
+				<div className={styles.configRow}>
+					<div className={styles.configRowLeft}>
+						<Icon icon={Share2} size="sm" className={styles.configIcon} />
+						<span className={styles.configLabel}>Referrals</span>
+					</div>
+					<span className={styles.configValue}>
+						{referralsEnabled ? "On" : "Off"}
+					</span>
+				</div>
+
+				{/* Created */}
+				<div className={styles.configRow}>
+					<div className={styles.configRowLeft}>
+						<Icon icon={Calendar} size="sm" className={styles.configIcon} />
+						<span className={styles.configLabel}>Created</span>
+					</div>
+					<span className={styles.configValue}>
+						{formatDateShort(campaign.createdAt)}
+					</span>
+				</div>
 			</div>
-		</Stack>
+
+			<button
+				className={styles.configSettingsLink}
+				onClick={() =>
+					navigate({
+						to: "/campaigns/$campaignId/settings",
+						params: { campaignId },
+					})
+				}
+			>
+				<Icon icon={Settings} size="sm" />
+				Settings
+			</button>
+		</div>
 	);
 });
 
@@ -459,26 +383,18 @@ export const CampaignOverview = memo(function CampaignOverview({
 	const { templates: emailTemplates, loading: emailTemplatesLoading } =
 		useGetEmailTemplates(campaign.id);
 
-	const {
-		loading: updatingStatus,
-		handleGoLive,
-		handlePause,
-		handleResume,
-	} = useCampaignStatusActions(campaignId, onRefetch);
+	useCampaignStatusActions(campaignId, onRefetch);
 
 	const {
 		hasFormFields,
 		isDraft,
-		isActive,
-		isPaused,
-		needsVerificationEmail,
-		needsWelcomeEmail,
 		hasRequiredEmailTemplates,
-		canGoLive,
+		hasReferralRewards,
 	} = useLaunchReadiness(campaign, emailTemplates, emailTemplatesLoading);
 
 	// Derived state
 	const stats = useMemo(() => calculateStats(campaign), [campaign]);
+	const referralsEnabled = campaign.referralSettings?.enabled ?? false;
 
 	// Handlers
 	const handleStatCardClick = useCallback(
@@ -500,71 +416,40 @@ export const CampaignOverview = memo(function CampaignOverview({
 
 	// Render
 	return (
-		<Stack gap="lg" className={styles.overviewContent}>
-			<Stack gap="xs">
-				<Text as="h2" size="xl" weight="semibold">Overview</Text>
-				<Text color="muted">
-					Monitor your campaign performance and configuration at a glance
-				</Text>
-			</Stack>
-
-			{/* Campaign Status Row */}
-			<Stack direction="row" gap="sm" align="center">
-				<Text size="sm" weight="medium" color="muted">Status</Text>
-				<Badge variant={getStatusVariant(campaign.status)}>
-					{formatStatusText(campaign.status)}
-				</Badge>
-				{isActive && (
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={handlePause}
-						disabled={updatingStatus}
-					>
-						{updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Pause size={16} />}
-						{updatingStatus ? "Pausing..." : "Pause"}
-					</Button>
-				)}
-				{isPaused && (
-					<Button
-						size="sm"
-						onClick={handleResume}
-						disabled={updatingStatus}
-					>
-						{updatingStatus ? <Loader2 size={16} className={styles.spin} /> : <Play size={16} />}
-						{updatingStatus ? "Resuming..." : "Resume"}
-					</Button>
-				)}
-			</Stack>
-
-			{/* Launch Checklist for draft campaigns */}
-			{isDraft && (
-				<LaunchChecklist
-					campaignId={campaignId}
-					hasFormFields={hasFormFields}
-					formFieldCount={campaign.formFields?.length ?? 0}
-					needsVerificationEmail={needsVerificationEmail}
-					needsWelcomeEmail={needsWelcomeEmail}
-					hasRequiredEmailTemplates={hasRequiredEmailTemplates}
-					canGoLive={canGoLive}
-					isUpdating={updatingStatus}
-					onGoLive={handleGoLive}
-				/>
-			)}
-
+		<div className={styles.overviewContent}>
+			{/* Stats Cards Row */}
 			<CampaignStats
 				stats={stats}
 				verificationEnabled={
 					campaign.emailSettings?.verificationRequired ?? false
 				}
-				referralsEnabled={campaign.referralSettings?.enabled ?? false}
+				referralsEnabled={referralsEnabled}
 				onCardClick={handleStatCardClick}
 			/>
 
-			<ConfigurationSection campaign={campaign} />
+			{/* Two-column layout for Checklist and Configuration */}
+			{isDraft && (
+				<div className={styles.twoColumnGrid}>
+					<LaunchChecklist
+						campaignId={campaignId}
+						hasFormFields={hasFormFields}
+						formFieldCount={campaign.formFields?.length ?? 0}
+						hasRequiredEmailTemplates={hasRequiredEmailTemplates}
+						hasReferralRewards={hasReferralRewards}
+						referralsEnabled={referralsEnabled}
+					/>
+					<ConfigurationCard campaign={campaign} campaignId={campaignId} />
+				</div>
+			)}
 
+			{/* Configuration only when not draft */}
+			{!isDraft && (
+				<ConfigurationCard campaign={campaign} campaignId={campaignId} />
+			)}
+
+			{/* Form Preview */}
 			{hasFormFields && <CampaignFormPreview campaign={campaign} />}
-		</Stack>
+		</div>
 	);
 });
 

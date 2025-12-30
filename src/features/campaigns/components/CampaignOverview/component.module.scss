@@ -1,61 +1,62 @@
 @use "@/proto-design-system/mixins" as *;
 
+// =============================================================================
+// MAIN LAYOUT
+// =============================================================================
+
 .overviewContent {
 	display: flex;
 	flex-direction: column;
+	gap: var(--space-6);
+}
+
+// =============================================================================
+// TWO-COLUMN GRID
+// =============================================================================
+
+.twoColumnGrid {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr;
 	gap: var(--space-4);
+
+	@include breakpoint-down(lg) {
+		grid-template-columns: 1fr;
+	}
 }
 
-.header {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-1);
-}
-
-.title {
-	font-size: var(--font-size-xl);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-base-content);
-	margin: 0;
-}
-
-.description {
-	font-size: var(--font-size-base);
-	color: var(--color-base-content-secondary);
-	margin: 0;
-}
-
-// Status Row
-.statusRow {
-	display: flex;
-	align-items: center;
-	gap: var(--space-2);
-}
-
-.statusLabel {
-	font-size: var(--font-size-sm);
-	color: var(--color-base-content-secondary);
-}
-
-// Checklist Section
-.checklistSection {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-2);
-}
-
-.checklistTitle {
-	font-size: var(--font-size-xl);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-base-content);
-	margin: 0;
-}
+// =============================================================================
+// CHECKLIST CARD
+// =============================================================================
 
 .checklistCard {
 	background-color: var(--color-surface);
 	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	padding: var(--space-4);
+	border-radius: var(--radius-lg);
+	padding: var(--space-5);
+}
+
+.checklistHeader {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-4);
+	padding-bottom: var(--space-4);
+	margin-bottom: var(--space-4);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.checklistTitle {
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-base-content);
+	margin: 0;
+	line-height: var(--line-height-tight);
+}
+
+.checklistSubtitle {
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+	margin: var(--space-1) 0 0;
 }
 
 .checklistItems {
@@ -64,43 +65,35 @@
 	padding: 0;
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-1);
+	gap: var(--space-2);
 }
 
 .checklistItem {
 	display: flex;
 	align-items: center;
-	gap: var(--space-2);
-	padding: var(--space-3);
+	gap: var(--space-3);
+	padding: var(--space-3) var(--space-4);
 	background-color: var(--color-surface);
 	border-radius: var(--radius-md);
 	border: 1px solid var(--color-border);
 	cursor: pointer;
-	transition: background-color 0.15s ease, border-color 0.15s ease;
+
+	@include transition-colors;
 
 	&:hover {
-		background-color: var(--color-base-200);
+		background-color: var(--color-base-100);
 		border-color: var(--color-border-hover);
 	}
 }
 
 .checklistIcon {
-	font-size: var(--font-size-xl);
-	color: var(--color-base-content-secondary);
 	flex-shrink: 0;
+	color: var(--color-muted);
 }
 
 .checklistItemComplete {
 	.checklistIcon {
 		color: var(--color-success);
-	}
-
-	.checklistItemText {
-		color: var(--color-base-content-secondary);
-	}
-
-	.checklistItemDescription {
-		color: var(--color-base-content-tertiary);
 	}
 }
 
@@ -120,113 +113,112 @@
 
 .checklistItemDescription {
 	font-size: var(--font-size-xs);
-	color: var(--color-base-content-secondary);
+	color: var(--color-muted);
 }
 
 .checklistItemBadge {
 	font-size: var(--font-size-xs);
 	font-weight: var(--font-weight-medium);
-	padding: var(--space-0-5) var(--space-1);
-	background-color: oklch(from var(--color-error) l c h / 0.15);
-	color: var(--color-error);
+	padding: var(--space-1) var(--space-2);
+	background-color: var(--color-warning);
+	color: var(--color-base-content);
 	border-radius: var(--radius-sm);
 	flex-shrink: 0;
 }
 
 .checklistArrow {
-	font-size: var(--font-size-lg);
-	color: var(--color-base-content-tertiary);
 	flex-shrink: 0;
+	color: var(--color-muted);
 }
 
 .checklistFooter {
-	display: flex;
-	justify-content: flex-end;
-	padding-top: var(--space-3);
-	margin-top: var(--space-3);
+	margin-top: var(--space-4);
+	padding-top: var(--space-4);
 	border-top: 1px solid var(--color-border);
 }
 
-// Configuration Section
-.configSection {
-	margin-top: var(--space-5);
-}
-
-.detailsTitle {
-	margin: 0 0 var(--space-3) 0;
-	font-size: var(--font-size-xl);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-base-content);
-}
-
-.configGrid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: var(--space-3);
-
-	@include breakpoint-down(lg) {
-		grid-template-columns: repeat(2, 1fr);
-	}
-
-	@include breakpoint-down(sm) {
-		grid-template-columns: 1fr;
-	}
-}
+// =============================================================================
+// CONFIGURATION CARD
+// =============================================================================
 
 .configCard {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	padding: var(--space-5);
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-2);
-	padding: var(--space-3);
-	background-color: var(--color-surface);
-	border-radius: var(--radius-md);
-	border: 1px solid var(--color-border);
 }
 
-.configCardHeader {
-	display: flex;
-	align-items: center;
-	gap: var(--space-1);
-}
-
-.configCardIcon {
+.configTitle {
 	font-size: var(--font-size-lg);
-	color: var(--color-base-content-secondary);
-}
-
-.configCardTitle {
-	font-size: var(--font-size-sm);
 	font-weight: var(--font-weight-semibold);
 	color: var(--color-base-content);
-	flex: 1;
+	margin: 0;
+	padding-bottom: var(--space-4);
+	border-bottom: 1px solid var(--color-border);
 }
 
-.configCardDetails {
+.configList {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-0-5);
-	padding-top: var(--space-1);
-	border-top: 1px solid var(--color-border);
+	gap: var(--space-4);
+	flex: 1;
+	padding: var(--space-4) 0;
+	border-bottom: 1px solid var(--color-border);
 }
 
-.configDetail {
-	font-size: var(--font-size-xs);
-	color: var(--color-base-content-secondary);
+.configRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
 
-	strong {
-		font-weight: var(--font-weight-semibold);
+.configRowLeft {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+}
+
+.configIcon {
+	color: var(--color-muted);
+}
+
+.configLabel {
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content);
+}
+
+.configValue {
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+}
+
+.configSettingsLink {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	padding-top: var(--space-4);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-muted);
+	background: none;
+	border: none;
+	cursor: pointer;
+
+	@include transition-colors;
+
+	&:hover {
 		color: var(--color-base-content);
 	}
 }
 
-.configChannels {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--space-1);
-	margin-top: var(--space-1);
-}
+// =============================================================================
+// SPIN ANIMATION
+// =============================================================================
 
-// Spin animation for loading icons
 @keyframes spin {
 	from {
 		transform: rotate(0deg);

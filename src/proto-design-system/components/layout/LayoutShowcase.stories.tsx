@@ -53,7 +53,6 @@ import { Tab, TabList, Tabs } from "../navigation/Tabs";
 import { Card, CardBody, CardFooter, CardHeader } from "./Card";
 import { Container } from "./Container";
 import { Grid } from "./Grid";
-import { PageTransition } from "./PageTransition";
 import { Stack } from "./Stack";
 import showcaseStyles from "./LayoutShowcase.module.scss";
 

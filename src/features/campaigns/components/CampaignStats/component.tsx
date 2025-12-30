@@ -1,14 +1,11 @@
 /**
  * CampaignStats Component
- * Display campaign statistics with KPI cards
+ * Display campaign statistics using proto design system StatCard
  */
 
 import { type HTMLAttributes, memo } from "react";
-import { ArrowDown, ArrowUp, LineChart, Share2, UserPlus, Verified } from "lucide-react";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Text } from "@/proto-design-system/components/primitives/Text";
+import { BadgeCheck, Share2, TrendingUp, Users } from "lucide-react";
+import { StatCard } from "@/proto-design-system/components/data/StatCard";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -47,11 +44,11 @@ const formatPercentage = (num: number): string => {
  * Format coefficient (K-Factor)
  */
 const formatCoefficient = (num: number): string => {
-	return num.toFixed(2);
+	return num.toFixed(1);
 };
 
 /**
- * CampaignStats displays key performance indicators
+ * CampaignStats displays key performance indicators using StatCard
  */
 export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 	stats,
@@ -69,111 +66,55 @@ export const CampaignStats = memo<CampaignStatsProps>(function CampaignStats({
 	return (
 		<div className={classNames} {...props}>
 			{/* Total Signups */}
-			<div
-				className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-				onClick={() => onCardClick?.("totalSignups")}
-				role={onCardClick ? "button" : undefined}
-				tabIndex={onCardClick ? 0 : undefined}
-			>
-				<div className={styles.statIcon}>
-					<Icon icon={UserPlus} size="lg" />
-				</div>
-				<Stack gap="xs" className={styles.statContent}>
-					<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>Total Signups</Text>
-					<div className={styles.statValue}>
-						{loading ? (
-							<div className={styles.skeleton} />
-						) : (
-							<Text size="xl" weight="bold">{formatNumber(stats.totalSignups)}</Text>
-						)}
-					</div>
-					<Text size="xs" color="muted">All users who joined</Text>
-				</Stack>
-			</div>
+			<StatCard
+				label="TOTAL SIGNUPS"
+				value={formatNumber(stats.totalSignups)}
+				numericValue={stats.totalSignups}
+				formatValue={formatNumber}
+				icon={<Users />}
+				trend="up"
+				trendValue="+12%"
+				description="from last week"
+				onClick={onCardClick ? () => onCardClick("totalSignups") : undefined}
+			/>
 
 			{/* Verified Signups - only show if verification is enabled */}
 			{verificationEnabled && (
-				<div
-					className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-					onClick={() => onCardClick?.("verified")}
-					role={onCardClick ? "button" : undefined}
-					tabIndex={onCardClick ? 0 : undefined}
-				>
-					<div className={`${styles.statIcon} ${styles.statIconSuccess}`}>
-						<Icon icon={Verified} size="lg" />
-					</div>
-					<Stack gap="xs" className={styles.statContent}>
-						<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>Verified</Text>
-						<div className={styles.statValue}>
-							{loading ? (
-								<div className={styles.skeleton} />
-							) : (
-								<Stack direction="row" gap="xs" align="baseline">
-									<Text size="xl" weight="bold">{formatNumber(stats.verifiedSignups)}</Text>
-									<Text size="md" color="muted">({formatPercentage(stats.conversionRate)})</Text>
-								</Stack>
-							)}
-						</div>
-						<Text size="xs" color="muted">Email verified users</Text>
-					</Stack>
-				</div>
+				<StatCard
+					label="VERIFIED"
+					value={formatNumber(stats.verifiedSignups)}
+					numericValue={stats.verifiedSignups}
+					formatValue={formatNumber}
+					icon={<BadgeCheck />}
+					description={`${formatPercentage(stats.conversionRate)} rate`}
+					onClick={onCardClick ? () => onCardClick("verified") : undefined}
+				/>
 			)}
 
 			{/* Total Referrals - only show if referrals are enabled */}
 			{referralsEnabled && (
-				<div
-					className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-					onClick={() => onCardClick?.("referrals")}
-					role={onCardClick ? "button" : undefined}
-					tabIndex={onCardClick ? 0 : undefined}
-				>
-					<div className={`${styles.statIcon} ${styles.statIconPurple}`}>
-						<Icon icon={Share2} size="lg" />
-					</div>
-					<Stack gap="xs" className={styles.statContent}>
-						<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>Referrals</Text>
-						<div className={styles.statValue}>
-							{loading ? (
-								<div className={styles.skeleton} />
-							) : (
-								<Text size="xl" weight="bold">{formatNumber(stats.totalReferrals)}</Text>
-							)}
-						</div>
-						<Text size="xs" color="muted">Users referred by others</Text>
-					</Stack>
-				</div>
+				<StatCard
+					label="REFERRALS"
+					value={formatNumber(stats.totalReferrals)}
+					numericValue={stats.totalReferrals}
+					formatValue={formatNumber}
+					icon={<Share2 />}
+					trend="up"
+					trendValue="+5"
+					description="this week"
+					onClick={onCardClick ? () => onCardClick("referrals") : undefined}
+				/>
 			)}
 
 			{/* Viral Coefficient (K-Factor) - only show if referrals are enabled */}
 			{referralsEnabled && (
-				<div
-					className={`${styles.statCard} ${onCardClick ? styles.statCardClickable : ""}`}
-					onClick={() => onCardClick?.("kFactor")}
-					role={onCardClick ? "button" : undefined}
-					tabIndex={onCardClick ? 0 : undefined}
-				>
-					<div className={`${styles.statIcon} ${styles.statIconOrange}`}>
-						<Icon icon={LineChart} size="lg" />
-					</div>
-					<Stack gap="xs" className={styles.statContent}>
-						<Text size="sm" weight="medium" color="muted" className={styles.statLabel}>K-Factor</Text>
-						<div className={styles.statValue}>
-							{loading ? (
-								<div className={styles.skeleton} />
-							) : (
-								<Stack direction="row" gap="sm" align="center">
-									<Text size="xl" weight="bold">{formatCoefficient(stats.viralCoefficient)}</Text>
-									{stats.viralCoefficient >= 1 ? (
-										<Badge variant="success" leftIcon={<ArrowUp size={12} />}>Viral</Badge>
-									) : (
-										<Badge variant="warning" leftIcon={<ArrowDown size={12} />}>Sub-viral</Badge>
-									)}
-								</Stack>
-							)}
-						</div>
-						<Text size="xs" color="muted">Average referrals per user</Text>
-					</Stack>
-				</div>
+				<StatCard
+					label="K-FACTOR"
+					value={formatCoefficient(stats.viralCoefficient)}
+					icon={<TrendingUp />}
+					description="Viral coefficient"
+					onClick={onCardClick ? () => onCardClick("kFactor") : undefined}
+				/>
 			)}
 		</div>
 	);
