@@ -1,26 +1,27 @@
-@use "@/design-tokens/layout.scss" as layout;
-@use "@/design-tokens/breakpoints.scss" as breakpoints;
+// =============================================================================
+// ACCOUNT PAGE STYLES
+// =============================================================================
+@use "@/proto-design-system/mixins" as *;
 
 .billing {
-    display: flex;
-    flex-direction: column;
-    gap: layout.$spacing-02;
-
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .billing-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: layout.$spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 
-    @media (min-width: breakpoints.$breakpoint-sm) {
-        flex-direction: row;
-    }
+  @include breakpoint(sm) {
+    flex-direction: row;
+  }
 }
 
 .billing-status {
-    display: flex;
-    flex-direction: row;
-    gap: layout.$spacing-05;
-    align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-5);
+  align-items: baseline;
 }
