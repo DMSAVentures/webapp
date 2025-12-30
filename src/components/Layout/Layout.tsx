@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import "remixicon/fonts/remixicon.css";
 
-import { Home, Settings, Users, Mail, BarChart, Webhook, Key, CreditCard, User } from "lucide-react";
+import { Home, Settings, Users, BarChart, CreditCard, User, HelpCircle, LogOut } from "lucide-react";
 import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
@@ -10,7 +10,6 @@ import styles from "./layout.module.scss";
 
 interface LayoutProps {
 	children: React.ReactNode;
-	title?: string;
 }
 
 // Map icon names to Lucide icons
@@ -19,10 +18,7 @@ const iconMap: Record<string, React.ReactNode> = {
 	"settings-line": <Settings size={18} />,
 	"user-line": <User size={18} />,
 	"team-line": <Users size={18} />,
-	"mail-line": <Mail size={18} />,
 	"bar-chart-line": <BarChart size={18} />,
-	"webhook-line": <Webhook size={18} />,
-	"key-2-line": <Key size={18} />,
 	"bank-card-line": <CreditCard size={18} />,
 };
 
@@ -36,7 +32,7 @@ const AppSidebar = memo(function AppSidebar() {
 	const navigationGroups = getNavigationGroups();
 
 	return (
-		<Sidebar responsive>
+		<Sidebar>
 			<SidebarHeader>
 				<SidebarLogo>DMSA Ventures</SidebarLogo>
 				<SidebarToggle />
@@ -60,11 +56,14 @@ const AppSidebar = memo(function AppSidebar() {
 			<SidebarDivider />
 
 			<SidebarSection title="Settings">
-				<SidebarItem icon={<User size={18} />} href="/account">
-					Account
+				<SidebarItem icon={<Settings size={18} />} href="/account">
+					Settings
 				</SidebarItem>
-				<SidebarItem icon={<CreditCard size={18} />} href="/billing">
-					Billing
+				<SidebarItem icon={<HelpCircle size={18} />} href="/help">
+					Help
+				</SidebarItem>
+				<SidebarItem icon={<LogOut size={18} />} href="/signout">
+					Log out
 				</SidebarItem>
 			</SidebarSection>
 
@@ -75,23 +74,17 @@ const AppSidebar = memo(function AppSidebar() {
 	);
 });
 
-const Header = memo(function Header() {
-	return (
-		<header className={styles.header}>
-			<SidebarMobileTrigger />
-		</header>
-	);
-});
-
 export const Layout = memo(function Layout({ children }: LayoutProps) {
 	return (
 		<div className={styles.container}>
 			<AppSidebar />
-			<main className={styles.content}>
-				<Header />
+			<div className={styles.content}>
 				<GlobalBannerContainer />
-				<div className={styles.scrollArea}>{children}</div>
-			</main>
+				<header className={styles.header}>
+					<SidebarMobileTrigger />
+				</header>
+				<main className={styles.main}>{children}</main>
+			</div>
 		</div>
 	);
 });
