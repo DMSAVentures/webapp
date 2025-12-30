@@ -447,11 +447,11 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 						</Text>
 					</Stack>
 					<Stack direction="row" gap="md" align="center" wrap>
-						<ButtonGroup>
+						<ButtonGroup isAttached>
 							{PERIOD_OPTIONS.map((option) => (
 								<Button
 									key={option.value}
-									variant={selectedPeriod === option.value ? "primary" : "secondary"}
+									variant={selectedPeriod === option.value ? "outline" : "ghost"}
 									size="sm"
 									onClick={() => handlePeriodChange(option.value)}
 								>

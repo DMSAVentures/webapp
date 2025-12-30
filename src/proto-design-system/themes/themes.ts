@@ -35,6 +35,7 @@ export type ThemeName =
   | "riso"
   | "y2k"
   | "neon"
+  | "neon-orange"
   | "lime"
   | "blueprint"
   | "paper";
@@ -199,6 +200,11 @@ export const themes: Record<ThemeName, Theme> = {
   neon: {
     name: "neon",
     label: "Neon",
+    colorScheme: "light",
+  },
+  "neon-orange": {
+    name: "neon-orange",
+    label: "Neon Orange",
     colorScheme: "light",
   },
   lime: {

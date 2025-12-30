@@ -6,6 +6,8 @@
 import { memo, useState } from "react";
 import { FormPreview } from "@/features/form-builder/components/FormPreview/component";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { ButtonGroup } from "@/proto-design-system/components/primitives/Button";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 
@@ -37,22 +39,22 @@ export const CampaignFormPreview = memo<CampaignFormPreviewProps>(
 							See how your form will look when embedded
 						</p>
 					</div>
-					<div className={styles.deviceToggle}>
-						<button
-							type="button"
-							className={`${styles.deviceButton} ${device === "desktop" ? styles.deviceButtonActive : ""}`}
+					<ButtonGroup isAttached>
+						<Button
+							variant={device === "desktop" ? "outline" : "ghost"}
+							size="sm"
 							onClick={() => setDevice("desktop")}
 						>
 							Desktop
-						</button>
-						<button
-							type="button"
-							className={`${styles.deviceButton} ${device === "mobile" ? styles.deviceButtonActive : ""}`}
+						</Button>
+						<Button
+							variant={device === "mobile" ? "outline" : "ghost"}
+							size="sm"
 							onClick={() => setDevice("mobile")}
 						>
 							Mobile
-						</button>
-					</div>
+						</Button>
+					</ButtonGroup>
 				</div>
 				<div className={styles.previewContainer}>
 					<FormPreview config={formConfig} device={device} />

@@ -4,7 +4,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { Calendar, CheckCircle2, ChevronRight, Circle, Mail, Settings, Share2 } from "lucide-react";
+import { Calendar, CheckCircle2, ChevronRight, Circle, Loader2, Mail, Rocket, Settings, Share2 } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
@@ -156,6 +156,9 @@ interface LaunchChecklistProps {
 	hasRequiredEmailTemplates: boolean;
 	hasReferralRewards: boolean;
 	referralsEnabled: boolean;
+	canGoLive: boolean;
+	isUpdating: boolean;
+	onGoLive: () => void;
 }
 
 const LaunchChecklist = memo(function LaunchChecklist({
@@ -165,6 +168,9 @@ const LaunchChecklist = memo(function LaunchChecklist({
 	hasRequiredEmailTemplates,
 	hasReferralRewards,
 	referralsEnabled,
+	canGoLive,
+	isUpdating,
+	onGoLive,
 }: LaunchChecklistProps) {
 	const navigate = useNavigate();
 
@@ -174,6 +180,7 @@ const LaunchChecklist = memo(function LaunchChecklist({
 	if (hasFormFields) completedItems++;
 	if (hasRequiredEmailTemplates) completedItems++;
 	if (referralsEnabled && hasReferralRewards) completedItems++;
+	const isComplete = completedItems === totalItems;
 
 	return (
 		<div className={styles.checklistCard}>
@@ -278,22 +285,52 @@ const LaunchChecklist = memo(function LaunchChecklist({
 				)}
 			</ul>
 
-			{referralsEnabled && !hasReferralRewards && (
-				<div className={styles.checklistFooter}>
+			<div className={styles.checklistFooter}>
+				{isComplete ? (
+					<Button
+						variant="primary"
+						onClick={onGoLive}
+						disabled={isUpdating || !canGoLive}
+					>
+						{isUpdating ? (
+							<Icon icon={Loader2} size="sm" className={styles.spin} />
+						) : (
+							<Icon icon={Rocket} size="sm" />
+						)}
+						{isUpdating ? "Launching..." : "Go Live"}
+					</Button>
+				) : (
 					<Button
 						variant="outline"
-						onClick={() =>
-							navigate({
-								to: "/campaigns/$campaignId/settings",
-								params: { campaignId },
-							})
-						}
+						onClick={() => {
+							// Navigate to first incomplete item
+							if (!hasFormFields) {
+								navigate({
+									to: "/campaigns/$campaignId/form-builder",
+									params: { campaignId },
+								});
+							} else if (!hasRequiredEmailTemplates) {
+								navigate({
+									to: "/campaigns/$campaignId/email-builder",
+									params: { campaignId },
+								});
+							} else if (referralsEnabled && !hasReferralRewards) {
+								navigate({
+									to: "/campaigns/$campaignId/settings",
+									params: { campaignId },
+								});
+							}
+						}}
 					>
-						Set Up Referral Rewards
+						{!hasFormFields
+							? "Configure Form"
+							: !hasRequiredEmailTemplates
+								? "Set Up Email Templates"
+								: "Set Up Referral Rewards"}
 						<Icon icon={ChevronRight} size="sm" />
 					</Button>
-				</div>
-			)}
+				)}
+			</div>
 		</div>
 	);
 });
@@ -383,7 +420,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 	const { templates: emailTemplates, loading: emailTemplatesLoading } =
 		useGetEmailTemplates(campaign.id);
 
-	useCampaignStatusActions(campaignId, onRefetch);
+	const { loading: updatingStatus, handleGoLive } = useCampaignStatusActions(campaignId, onRefetch);
 
 	const {
 		hasFormFields,
@@ -395,6 +432,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 	// Derived state
 	const stats = useMemo(() => calculateStats(campaign), [campaign]);
 	const referralsEnabled = campaign.referralSettings?.enabled ?? false;
+	const canGoLive = hasFormFields && hasRequiredEmailTemplates;
 
 	// Handlers
 	const handleStatCardClick = useCallback(
@@ -437,6 +475,9 @@ export const CampaignOverview = memo(function CampaignOverview({
 						hasRequiredEmailTemplates={hasRequiredEmailTemplates}
 						hasReferralRewards={hasReferralRewards}
 						referralsEnabled={referralsEnabled}
+						canGoLive={canGoLive}
+						isUpdating={updatingStatus}
+						onGoLive={handleGoLive}
 					/>
 					<ConfigurationCard campaign={campaign} campaignId={campaignId} />
 				</div>
