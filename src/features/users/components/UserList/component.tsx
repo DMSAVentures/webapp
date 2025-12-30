@@ -53,6 +53,10 @@ export interface UserListProps extends HTMLAttributes<HTMLDivElement> {
 	sortDirection?: SortDirection;
 	/** Sort change handler for server-side sorting */
 	onSortChange?: (field: UserSortField, direction: SortDirection) => void;
+	/** Number of leads that are gated (hidden due to plan limit) */
+	gatedLeadsCount?: number;
+	/** Callback when upgrade CTA is clicked */
+	onUpgradeClick?: () => void;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -214,6 +218,8 @@ export const UserList = memo<UserListProps>(function UserList({
 	sortField = "position",
 	sortDirection = "asc",
 	onSortChange,
+	gatedLeadsCount = 0,
+	onUpgradeClick,
 	className: customClassName,
 	...props
 }) {
@@ -241,6 +247,10 @@ export const UserList = memo<UserListProps>(function UserList({
 	// Derived state
 	const customFormFields = filterCustomFormFields(formFields);
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
+
+	// Phantom rows for gated leads (show max 3 phantom rows)
+	const phantomRowCount = Math.min(gatedLeadsCount, 3);
+	const hasGatedLeads = gatedLeadsCount > 0;
 
 	// Handlers
 	const onExportClick = useCallback(() => {
@@ -442,8 +452,102 @@ export const UserList = memo<UserListProps>(function UserList({
 									</Table.Cell>
 								</Table.Row>
 							))}
+							{/* Phantom rows for gated leads */}
+							{hasGatedLeads &&
+								Array.from({ length: phantomRowCount }).map((_, index) => (
+									<Table.Row
+										key={`phantom-${index}`}
+										className={styles.phantomRow}
+									>
+										<Table.Cell narrow>
+											<div className={styles.phantomCell} />
+										</Table.Cell>
+										<Table.Cell>
+											<div
+												className={styles.phantomCell}
+												style={{ width: "180px" }}
+											/>
+										</Table.Cell>
+										{emailVerificationEnabled && (
+											<Table.Cell fitContent>
+												<div
+													className={styles.phantomCell}
+													style={{ width: "70px" }}
+												/>
+											</Table.Cell>
+										)}
+										{referralEnabled && (
+											<>
+												<Table.Cell>
+													<div
+														className={styles.phantomCell}
+														style={{ width: "40px" }}
+													/>
+												</Table.Cell>
+												<Table.Cell>
+													<div
+														className={styles.phantomCell}
+														style={{ width: "30px" }}
+													/>
+												</Table.Cell>
+												<Table.Cell>
+													<div
+														className={styles.phantomCell}
+														style={{ width: "60px" }}
+													/>
+												</Table.Cell>
+												<Table.Cell fitContent>
+													<div
+														className={styles.phantomCell}
+														style={{ width: "50px" }}
+													/>
+												</Table.Cell>
+											</>
+										)}
+										{customFormFields.map((field) => (
+											<Table.Cell key={field.id}>
+												<div
+													className={styles.phantomCell}
+													style={{ width: "80px" }}
+												/>
+											</Table.Cell>
+										))}
+										<Table.Cell>
+											<div
+												className={styles.phantomCell}
+												style={{ width: "80px" }}
+											/>
+										</Table.Cell>
+									</Table.Row>
+								))}
 						</Table.Body>
 					</Table>
+				)}
+
+				{/* Gated leads upgrade CTA */}
+				{hasGatedLeads && (
+					<div className={styles.gatedOverlay}>
+						<div className={styles.gatedContent}>
+							<i className="ri-lock-line" aria-hidden="true" />
+							<div className={styles.gatedText}>
+								<span className={styles.gatedTitle}>
+									{gatedLeadsCount} more lead{gatedLeadsCount !== 1 ? "s" : ""}{" "}
+									hidden
+								</span>
+								<span className={styles.gatedDescription}>
+									Upgrade your plan to view all your leads
+								</span>
+							</div>
+							<Button
+								variant="primary"
+								size="small"
+								onClick={onUpgradeClick}
+								leftIcon="ri-arrow-up-line"
+							>
+								Upgrade Plan
+							</Button>
+						</div>
+					</div>
 				)}
 
 				{/* Pagination */}

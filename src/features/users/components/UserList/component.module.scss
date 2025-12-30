@@ -206,6 +206,91 @@
   padding-top: layout.$spacing-04;
 }
 
+// Phantom rows (gated leads)
+.phantomRow {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+
+  td {
+    background-color: var(--color-surface-secondary-default);
+  }
+}
+
+.phantomCell {
+  height: layout.$spacing-04;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary-default) 0%,
+    var(--color-bg-tertiary-default) 50%,
+    var(--color-bg-secondary-default) 100%
+  );
+  border-radius: border.$border-radius-small;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+// Gated overlay CTA
+.gatedOverlay {
+  display: flex;
+  justify-content: center;
+  padding: layout.$spacing-04 layout.$spacing-05;
+  margin-top: -(layout.$spacing-02);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--color-surface-primary-default) 20%
+  );
+  border: border.$border-width-small solid var(--color-border-primary-default);
+  border-top: none;
+  border-radius: 0 0 border.$border-radius-medium border.$border-radius-medium;
+}
+
+.gatedContent {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-04;
+  padding: layout.$spacing-03 layout.$spacing-05;
+  background-color: var(--color-bg-warning-alpha);
+  border: border.$border-width-small solid var(--color-border-warning-default);
+  border-radius: border.$border-radius-medium;
+
+  > i {
+    font-size: typography.$font-size-h4;
+    color: var(--color-warning-default);
+  }
+}
+
+.gatedText {
+  display: flex;
+  flex-direction: column;
+  gap: layout.$spacing-01;
+}
+
+.gatedTitle {
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-semibold;
+  color: var(--color-text-primary-default);
+}
+
+.gatedDescription {
+  font-size: typography.$font-size-sm;
+  color: var(--color-text-secondary-default);
+}
+
 // Responsive adjustments
 @media (width <= 1024px) {
   .container {
@@ -229,5 +314,15 @@
 
   .headerActions {
     justify-content: space-between;
+  }
+
+  .gatedContent {
+    flex-direction: column;
+    text-align: center;
+    gap: layout.$spacing-03;
+  }
+
+  .gatedText {
+    align-items: center;
   }
 }
