@@ -8,7 +8,9 @@ import { memo, useCallback, useRef, useState } from "react";
 import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
 import { useConversionTracking } from "@/hooks/useConversionTracking";
 import type { SignupResponse } from "@/hooks/useFormSubmission";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel, TrackingIntegration } from "@/types/campaign";
 import type {
 	FormDesign,

@@ -10,7 +10,12 @@ import {
 	useState,
 } from "react";
 import { Plus, Search, LayoutGrid, List, Megaphone } from "lucide-react";
-import { Button, ButtonGroup, Grid, Icon, Input, Stack, Text } from "@/proto-design-system";
+import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
+import { Grid } from "@/proto-design-system/components/layout/Grid";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import { CampaignCard } from "../CampaignCard/component";
 import styles from "./component.module.scss";

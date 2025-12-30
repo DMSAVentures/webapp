@@ -11,19 +11,17 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import {
-	Badge,
-	Button,
-	Checkbox,
-	Divider,
-	FormField as ProtoFormField,
-	Grid,
-	Icon,
-	Input,
-	Stack,
-	Text,
-	TextArea,
-} from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { FormField as ProtoFormField } from "@/proto-design-system/components/forms/FormField";
+import { Grid } from "@/proto-design-system/components/layout/Grid";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 

@@ -4,7 +4,9 @@ import { ErrorState } from "@/components/error/error";
 import { CampaignTabNav } from "@/features/campaigns/components/CampaignTabNav/component";
 import { CampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { Breadcrumb, EmptyState, Spinner } from "@/proto-design-system";
+import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import styles from "./$campaignId/campaignLayout.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId")({

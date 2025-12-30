@@ -12,7 +12,7 @@ import {
 	Settings,
 } from "lucide-react";
 import { useTier } from "@/contexts/tier";
-import { Tabs, TabList, Tab } from "@/proto-design-system";
+import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
 import styles from "./component.module.scss";
 
 interface TabConfig {

@@ -5,16 +5,14 @@
 
 import { Gift, Hash, Link, Mail, Share2, Star, Trash2, User, X } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import {
-	Badge,
-	Button,
-	Divider,
-	Dropdown,
-	Icon,
-	Modal,
-	Stack,
-	Text,
-} from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { RewardEarned, WaitlistUser } from "@/types/common.types";
 import { formatPosition } from "@/utils/positionFormatter";
 import styles from "./component.module.scss";

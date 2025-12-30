@@ -10,7 +10,12 @@ import {
 	Palette,
 } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Divider, Icon, Input, Stack, Text, TextArea } from "@/proto-design-system";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import type { FormDesign } from "@/types/common.types";
 import { TemplateSelector } from "../TemplateSelector";
 import styles from "./component.module.scss";

@@ -5,7 +5,13 @@
 
 import { type HTMLAttributes, memo, useState } from "react";
 import { ArrowUp, BarChart2, Download, LineChart, PieChart, Share2, UserPlus, Verified } from "lucide-react";
-import { Badge, Button, Card, Grid, Icon, Stack, Text } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Grid } from "@/proto-design-system/components/layout/Grid";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Analytics } from "@/types/common.types";
 import { ConversionFunnel } from "../ConversionFunnel/component";
 import { GrowthChart } from "../GrowthChart/component";

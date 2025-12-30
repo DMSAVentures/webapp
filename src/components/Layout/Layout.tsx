@@ -6,17 +6,7 @@ import { motion } from "motion/react";
 import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
-import {
-	Sidebar,
-	SidebarProvider,
-	SidebarHeader,
-	SidebarLogo,
-	SidebarToggle,
-	SidebarSection,
-	SidebarItem,
-	SidebarDivider,
-	SidebarMobileTrigger,
-} from "@/proto-design-system";
+import { Sidebar, SidebarProvider, SidebarHeader, SidebarLogo, SidebarToggle, SidebarSection, SidebarItem, SidebarDivider, SidebarMobileTrigger } from "@/proto-design-system/components/navigation/Sidebar";
 import styles from "./layout.module.scss";
 
 interface LayoutProps {

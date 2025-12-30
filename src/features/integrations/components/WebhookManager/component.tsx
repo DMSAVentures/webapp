@@ -5,7 +5,10 @@
 
 import { AlertTriangle, Calendar, Check, ChevronDown, ChevronUp, FileText, Link2, Pencil, Plus, Send, Trash2, Webhook, X } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Badge, Button, Divider, Icon } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import type { Webhook as WebhookType } from "@/types/common.types";
 import styles from "./component.module.scss";
 

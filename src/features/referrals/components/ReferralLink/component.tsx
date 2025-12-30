@@ -1,6 +1,10 @@
 import { CheckCircle, Copy, QrCode } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button, Icon, Modal, Stack, Text } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
 /**

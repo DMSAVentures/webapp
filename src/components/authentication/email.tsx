@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useSubmitLogin } from "@/hooks/useSubmitLogin";
-import { Button, Input } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Input } from "@/proto-design-system/components/forms/Input";
 import "./email.scss";
 
 type EmailFormErrors = {

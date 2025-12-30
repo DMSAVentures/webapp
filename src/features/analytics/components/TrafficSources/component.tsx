@@ -17,7 +17,8 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import { Stack, Text } from "@/proto-design-system";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
 export interface TrafficSourceData {

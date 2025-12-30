@@ -18,7 +18,9 @@ import {
 	Type,
 } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/common.types";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import styles from "./component.module.scss";

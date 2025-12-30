@@ -14,12 +14,10 @@ import {
 } from "@/hooks/useBlasts";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetSegments } from "@/hooks/useSegments";
-import {
-	Button,
-	Select,
-	type SelectOption,
-	Input,
-} from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Select } from "@/proto-design-system/components/forms/Select";
+import type { SelectOption } from "@/proto-design-system/components/forms/Select";
+import { Input } from "@/proto-design-system/components/forms/Input";
 import styles from "./component.module.scss";
 
 export interface BlastWizardProps {

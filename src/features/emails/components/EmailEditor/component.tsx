@@ -22,7 +22,8 @@ import {
 	Eye,
 	Pencil,
 } from "lucide-react";
-import { Button, ButtonGroup, DropdownMenu } from "@/proto-design-system";
+import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
+import { DropdownMenu } from "@/proto-design-system/components/overlays/DropdownMenu";
 import styles from "./component.module.scss";
 
 export interface EmailEditorProps

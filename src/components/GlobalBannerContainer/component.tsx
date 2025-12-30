@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
-import { Banner } from "@/proto-design-system";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import styles from "./component.module.scss";
 
 export function GlobalBannerContainer() {

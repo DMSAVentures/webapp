@@ -7,7 +7,8 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useExportCampaignUsers } from "@/hooks/useExportCampaignUsers";
 import { useGetCampaignUsers } from "@/hooks/useGetCampaignUsers";
-import { Stack, Text } from "@/proto-design-system";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign, FormField } from "@/types/campaign";
 import type {
 	SortDirection,

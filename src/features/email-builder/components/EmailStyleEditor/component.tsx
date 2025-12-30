@@ -5,7 +5,11 @@
 
 import { Grid2x2, Palette } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Divider, Icon, Input, Stack, Text } from "@/proto-design-system";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import { EMAIL_DESIGN_TEMPLATES } from "../../constants/emailDesignTemplates";
 import type { EmailDesign } from "../../types/emailBlocks";
 import styles from "./component.module.scss";

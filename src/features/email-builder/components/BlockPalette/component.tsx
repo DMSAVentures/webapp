@@ -14,7 +14,9 @@ import {
 	Space,
 } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import { BLOCK_TYPES, type EmailBlockType } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
 

@@ -12,17 +12,15 @@ import {
 	useState,
 } from "react";
 import { useTier } from "@/contexts/tier";
-import {
-	Button,
-	Card,
-	Checkbox,
-	Divider,
-	Dropdown,
-	Input,
-	Label,
-	Stack,
-	Text,
-} from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Label } from "@/proto-design-system/components/forms/Label";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import "remixicon/fonts/remixicon.css";
 import type { TrackingIntegrationType } from "@/types/campaign";
 import type { CampaignSettings } from "@/types/common.types";

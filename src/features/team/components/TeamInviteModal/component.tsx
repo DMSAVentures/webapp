@@ -5,7 +5,11 @@
 
 import { AlertTriangle, Mail } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button, Dropdown, Icon, Input, Modal } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import type { TeamMember } from "@/types/common.types";
 
 type RoleOption = { id: string; label: string; description?: string };

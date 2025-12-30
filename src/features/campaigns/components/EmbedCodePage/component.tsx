@@ -6,7 +6,10 @@
 import { Check, Code, Copy, Globe, Link, type LucideIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
-import { Button, EmptyState, Icon, TextArea } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import "remixicon/fonts/remixicon.css";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";

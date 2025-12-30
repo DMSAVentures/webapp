@@ -1,6 +1,9 @@
 import { X } from "lucide-react";
 import { memo } from "react";
-import { Badge, Button, Icon, Stack } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import type { ActiveFilter } from "@/types/users.types";
 import styles from "./component.module.scss";
 

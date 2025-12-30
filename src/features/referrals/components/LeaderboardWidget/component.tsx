@@ -1,6 +1,8 @@
 import { ArrowDown, ArrowUp, Award, BarChart3, Clock, Flame, type LucideIcon, Medal, RefreshCw, Rocket, Star, Trophy } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { LeaderboardEntry } from "@/types/common.types";
 import styles from "./component.module.scss";
 

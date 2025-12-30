@@ -1,7 +1,7 @@
 "use client";
 
 import { useNavigate } from "@tanstack/react-router";
-import { Button } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Price } from "@/types/billing";
 
 export default function PlanToPay(props: Price) {

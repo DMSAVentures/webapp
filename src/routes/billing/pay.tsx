@@ -2,7 +2,8 @@ import { createFileRoute, useSearch } from "@tanstack/react-router";
 import CustomCheckout from "@/components/billing/checkout/CustomCheckout";
 import { ErrorState } from "@/components/error/error";
 import { useCreateCheckoutSession } from "@/hooks/useCreateCheckoutSession";
-import { Banner, Spinner } from "@/proto-design-system";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 
 export const Route = createFileRoute("/billing/pay")({
 	component: RouteComponent,

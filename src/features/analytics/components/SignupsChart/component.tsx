@@ -21,7 +21,12 @@ import {
 } from "recharts";
 import { BarChart2 } from "lucide-react";
 import type { DateRange } from "@/hooks/useChartNavigation";
-import { Button, ButtonGroup, Card, Icon, Spinner, Stack, Text } from "@/proto-design-system";
+import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { AnalyticsPeriod, ApiSignupDataPoint } from "@/types/api.types";
 import styles from "./component.module.scss";
 

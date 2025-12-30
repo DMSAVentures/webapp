@@ -1,7 +1,8 @@
 "use client";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/auth";
-import { Avatar, Text } from "@/proto-design-system";
+import { Avatar } from "@/proto-design-system/components/primitives/Avatar";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 
 export default function UserName() {
 	const auth = useContext(AuthContext);

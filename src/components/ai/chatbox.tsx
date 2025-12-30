@@ -2,7 +2,9 @@ import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useSSEChat } from "@/hooks/useSSEChat";
-import { Button, Spinner, TextArea } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import styles from "./chatbox.module.scss";
 
 export default function ChatBox() {

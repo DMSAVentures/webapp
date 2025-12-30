@@ -1,7 +1,8 @@
 import { ErrorComponentProps } from "@tanstack/react-router";
 import { AlertTriangle, Home, RefreshCw } from "lucide-react";
 import React from "react";
-import { Button, Icon } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import styles from "./error.module.scss";
 
 interface ErrorStateProps {

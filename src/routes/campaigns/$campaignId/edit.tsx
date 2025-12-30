@@ -9,7 +9,9 @@ import {
 } from "@/features/campaigns/components/CampaignForm/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
-import { Breadcrumb, EmptyState, Spinner } from "@/proto-design-system";
+import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import styles from "./campaignEdit.module.scss";
 
 export const Route = createFileRoute("/campaigns/$campaignId/edit")({

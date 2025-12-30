@@ -5,7 +5,10 @@
 
 import { CheckCircle, Copy, Share, Share2 } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button, Icon, Stack, Text } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import styles from "./component.module.scss";
 import "remixicon/fonts/remixicon.css"; // Keep for brand icons

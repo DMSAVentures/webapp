@@ -23,13 +23,11 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import {
-	Badge,
-	Button,
-	Icon,
-	Stack,
-	Text,
-} from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import type {
 	FormBehavior,

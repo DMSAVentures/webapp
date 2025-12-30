@@ -14,7 +14,10 @@ import {
 	type EmailTemplate,
 	useGetEmailTemplates,
 } from "@/hooks/useEmailTemplates";
-import { Badge, Button, Checkbox, Icon } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import styles from "./component.module.scss";
 
 export interface EmailSettingsSectionProps {

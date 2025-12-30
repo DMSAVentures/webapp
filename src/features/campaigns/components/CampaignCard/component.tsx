@@ -14,7 +14,12 @@ import {
 	useState,
 } from "react";
 import { Calendar, Copy, LineChart, MoreHorizontal, Pencil, Share2, Trash2, UserPlus } from "lucide-react";
-import { Badge, Button, DropdownMenu, Icon, Stack, Text } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { DropdownMenu } from "@/proto-design-system/components/overlays/DropdownMenu";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 

@@ -7,7 +7,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useTier } from "@/contexts/tier";
-import { Button, Modal } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
 
 // ============================================================================
 // Types

@@ -5,7 +5,10 @@
 
 import { AlertTriangle, Check, Loader2, Mail, Trash2, UserPlus, Users } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Badge, Button, Dropdown, Icon } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import type { TeamMember } from "@/types/common.types";
 
 type RoleOption = { id: string; label: string; disabled?: boolean };

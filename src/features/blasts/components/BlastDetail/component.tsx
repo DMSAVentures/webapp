@@ -15,7 +15,9 @@ import {
 	useResumeBlast,
 	useSendBlast,
 } from "@/hooks/useBlasts";
-import { Badge, Button, Progress } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import type { EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 

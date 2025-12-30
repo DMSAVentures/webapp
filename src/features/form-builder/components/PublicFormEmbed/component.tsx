@@ -8,7 +8,7 @@ import { ErrorState } from "@/components/error/error";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { usePublicCampaign } from "@/hooks/usePublicCampaign";
 import { useTrackingData } from "@/hooks/useTrackingData";
-import { Spinner } from "@/proto-design-system";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Campaign, CampaignStatus } from "@/types/campaign";
 import type { FormDesign, FormField } from "@/types/common.types";
 import {

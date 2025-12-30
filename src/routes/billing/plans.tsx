@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import PlanToPay from "@/components/billing/plans/planPay";
 import { ErrorState } from "@/components/error/error";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
-import { Spinner } from "@/proto-design-system";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 
 export const Route = createFileRoute("/billing/plans")({
 	component: RouteComponent,

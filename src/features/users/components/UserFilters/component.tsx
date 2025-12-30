@@ -5,15 +5,13 @@
 
 import { RefreshCw } from "lucide-react";
 import { memo, useCallback, useState, useEffect } from "react";
-import {
-	Button,
-	Checkbox,
-	Input,
-	Label,
-	Select,
-	Stack,
-	Text,
-} from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Label } from "@/proto-design-system/components/forms/Label";
+import { Select } from "@/proto-design-system/components/forms/Select";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/campaign";
 import type {
 	UserFilters as UserFiltersType,

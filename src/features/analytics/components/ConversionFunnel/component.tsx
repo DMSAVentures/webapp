@@ -16,7 +16,9 @@ import {
 	YAxis,
 } from "recharts";
 import { AlertTriangle } from "lucide-react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
 export interface ConversionFunnelData {

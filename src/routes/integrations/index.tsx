@@ -7,7 +7,12 @@ import {
 	useZapierStatus,
 	useZapierSubscriptions,
 } from "@/hooks/useZapierIntegration";
-import { Button, Banner, Toast, Spinner, Modal, Badge } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
+import { Toast } from "@/proto-design-system/components/feedback/Toast";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import "remixicon/fonts/remixicon.css";
 import styles from "./integrations.module.scss";
 

@@ -5,7 +5,9 @@
 
 import { Archive, Calendar, CheckCircle2, Crown, Flag, Gift, Loader2, type LucideIcon, Shirt, Star, Tag } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
-import { Badge, Icon, Progress } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import type { Reward } from "@/types/common.types";
 import styles from "./component.module.scss";
 

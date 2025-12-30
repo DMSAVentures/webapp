@@ -1,6 +1,7 @@
 "use client";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
-import { EmptyState, Spinner } from "@/proto-design-system";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 
 interface PlanCardProps {
 	priceId: string;

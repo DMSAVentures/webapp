@@ -5,7 +5,11 @@
 
 import { AlertTriangle, CheckSquare, Download, Mail, RefreshCw, Trash2, X } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Button, Icon, Modal, Stack, Text } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
 export interface BulkActionsProps extends HTMLAttributes<HTMLDivElement> {

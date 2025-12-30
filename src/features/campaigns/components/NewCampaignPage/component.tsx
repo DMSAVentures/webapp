@@ -10,7 +10,9 @@ import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Spinner, Stack, Text } from "@/proto-design-system";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
 import styles from "./component.module.scss";
 

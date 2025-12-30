@@ -8,7 +8,8 @@ import {
 	type WebhookFormData,
 } from "@/features/webhooks/components/WebhookForm/component";
 import { useCreateWebhook } from "@/hooks/useCreateWebhook";
-import { Button, Banner } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import styles from "./new.module.scss";
 
 export const Route = createFileRoute("/webhooks/new")({

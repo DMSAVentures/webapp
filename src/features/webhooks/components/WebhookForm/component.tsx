@@ -5,7 +5,10 @@
 
 import { Check, Loader2 } from "lucide-react";
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button, Checkbox, Divider, Input } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Input } from "@/proto-design-system/components/forms/Input";
 import { WEBHOOK_EVENTS } from "@/types/webhook";
 import { validateRequired, validateUrl } from "@/utils/validation";
 import styles from "./component.module.scss";

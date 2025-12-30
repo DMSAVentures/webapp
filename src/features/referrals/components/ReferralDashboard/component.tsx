@@ -6,7 +6,10 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Icon, Progress, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import { PositionTracker } from "../PositionTracker/component";
 import { ReferralLink } from "../ReferralLink/component";
 import { ShareButtons } from "../ShareButtons/component";

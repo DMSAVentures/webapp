@@ -5,7 +5,9 @@
 
 import { EyeOff } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormConfig } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
 import { DevicePreview, type DeviceType } from "../DevicePreview/component";

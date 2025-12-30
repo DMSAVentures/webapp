@@ -4,7 +4,8 @@
  */
 
 import { type HTMLAttributes, memo, type ReactNode } from "react";
-import { Stack, Text } from "@/proto-design-system";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
 export type DeviceType = "mobile" | "tablet" | "desktop";

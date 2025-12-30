@@ -11,16 +11,9 @@ import {
 	useGetSegments,
 	useRefreshSegment,
 } from "@/hooks/useSegments";
-import {
-	Button,
-	Modal,
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/proto-design-system/components/data/Table";
 import type { Segment } from "@/types/segment";
 import styles from "./component.module.scss";
 

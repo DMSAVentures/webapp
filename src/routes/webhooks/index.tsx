@@ -7,7 +7,13 @@ import { useTier } from "@/contexts/tier";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
 import { useGetWebhooks } from "@/hooks/useGetWebhooks";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Button, Badge, Banner, EmptyState, Toast, Spinner, Modal } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Toast } from "@/proto-design-system/components/feedback/Toast";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import type { WebhookStatus } from "@/types/webhook";
 import styles from "./webhooks.module.scss";
 

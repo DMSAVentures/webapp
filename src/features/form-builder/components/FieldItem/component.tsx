@@ -21,7 +21,11 @@ import {
 	Type,
 } from "lucide-react";
 import { type DragEvent, type HTMLAttributes, memo } from "react";
-import { Badge, Button, Icon, Stack, Text } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 

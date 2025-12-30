@@ -5,7 +5,10 @@
 
 import { type HTMLAttributes, memo } from "react";
 import { ArrowDown, ArrowUp, LineChart, Share2, UserPlus, Verified } from "lucide-react";
-import { Badge, Icon, Stack, Text } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./component.module.scss";
 

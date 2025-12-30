@@ -1,6 +1,6 @@
 import { CheckCircle2, Link, Mail } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
-import { Button } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import styles from "./component.module.scss";
 import "remixicon/fonts/remixicon.css"; // Keep for brand icons (Twitter, Facebook, LinkedIn, etc.)
 

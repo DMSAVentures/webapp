@@ -4,7 +4,8 @@
  */
 
 import { memo } from "react";
-import { Badge, type BadgeVariant } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import type { BadgeVariant } from "@/proto-design-system/components/primitives/Badge";
 
 export interface UtmSourceBadgeProps {
 	/** UTM source value */

@@ -5,7 +5,10 @@
 
 import { AlertTriangle, Building2, ChartLine, HeadsetIcon, type LucideIcon, Mail, Plug, RefreshCw, Search, Settings, Trash2, Webhook, Zap } from "lucide-react";
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
-import { Badge, Button, Icon, Tabs, TabList, Tab } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
 import type { Integration } from "@/types/common.types";
 import "remixicon/fonts/remixicon.css";
 import styles from "./component.module.scss";

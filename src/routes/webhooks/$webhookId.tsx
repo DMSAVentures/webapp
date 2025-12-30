@@ -7,7 +7,10 @@ import { DeliveryList } from "@/features/webhooks/components/DeliveryList/compon
 import { useGetWebhook } from "@/hooks/useGetWebhook";
 import { useGetWebhookDeliveries } from "@/hooks/useGetWebhookDeliveries";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Button, Breadcrumb, Toast, Spinner } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
+import { Toast } from "@/proto-design-system/components/feedback/Toast";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import styles from "./webhookDetail.module.scss";
 
 export const Route = createFileRoute("/webhooks/$webhookId")({

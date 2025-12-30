@@ -5,7 +5,9 @@
 
 import { Check, CheckCircle, Copy, Share2 } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";

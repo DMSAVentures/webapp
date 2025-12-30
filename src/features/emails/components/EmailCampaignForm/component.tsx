@@ -12,7 +12,9 @@ import {
 	useState,
 } from "react";
 import { Eye, Send } from "lucide-react";
-import { Button, Dropdown, Input } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Input } from "@/proto-design-system/components/forms/Input";
 import type { EmailCampaign } from "@/types/common.types";
 import styles from "./component.module.scss";
 

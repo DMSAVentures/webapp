@@ -5,7 +5,9 @@
 
 import { Check } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Icon, Stack, Text } from "@/proto-design-system";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormDesign } from "@/types/common.types";
 import {
 	FORM_DESIGN_TEMPLATES,

@@ -1,4 +1,4 @@
-import { LinkButton } from "@/proto-design-system";
+import { LinkButton } from "@/proto-design-system/components/primitives/Button";
 
 export default function GoogleSignIn() {
 	//TODO: This is process env vars are undefined on client side.

@@ -5,7 +5,14 @@
 
 import { Check, CheckCircle, Gift, Loader2 } from "lucide-react";
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button, Divider, Dropdown, Icon, Stack, Text, TextArea, Input } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Input } from "@/proto-design-system/components/forms/Input";
 import type { Reward } from "@/types/common.types";
 import {
 	validateDate,

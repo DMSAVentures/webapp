@@ -5,7 +5,12 @@
 
 import { ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { Fragment, type HTMLAttributes, memo, useState } from "react";
-import { Badge, Button, ButtonGroup, EmptyState, Icon, Pagination, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Pagination } from "@/proto-design-system/components/navigation/Pagination";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system/components/data/Table";
 import type { DeliveryStatus, WebhookDelivery } from "@/types/webhook";
 import styles from "./component.module.scss";
 

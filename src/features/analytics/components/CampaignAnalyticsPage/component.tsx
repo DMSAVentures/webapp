@@ -8,7 +8,8 @@ import { CampaignStats } from "@/features/campaigns/components/CampaignStats/com
 import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
 import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
-import { Stack, Text } from "@/proto-design-system";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import { SignupsChart } from "../SignupsChart";

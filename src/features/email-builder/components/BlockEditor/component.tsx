@@ -4,7 +4,11 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Dropdown, Input, Stack, Switch, Text } from "@/proto-design-system";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Switch } from "@/proto-design-system/components/forms/Switch";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type {
 	ButtonBlock,
 	DividerBlock,

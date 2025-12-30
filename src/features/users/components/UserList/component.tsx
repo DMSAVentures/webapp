@@ -6,21 +6,14 @@
 import { ArrowUp, Download, Lock, Search, User } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
-import {
-	Badge,
-	Button,
-	Checkbox,
-	Icon,
-	Pagination,
-	Stack,
-	Table,
-	TableHeader,
-	TableBody,
-	TableRow,
-	TableHead,
-	TableCell,
-	Text,
-} from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Pagination } from "@/proto-design-system/components/navigation/Pagination";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system/components/data/Table";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/campaign";
 import type {
 	SortDirection,

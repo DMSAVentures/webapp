@@ -6,7 +6,8 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
-import { Stack, Text } from "@/proto-design-system";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import type { FormConfig } from "@/types/common.types";
 import { FormBuilder } from "../FormBuilder/component";

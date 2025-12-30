@@ -4,7 +4,10 @@ import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
 import { useGetAllEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Button, Badge, EmptyState, Spinner } from "@/proto-design-system";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Campaign } from "@/types/campaign";
 import styles from "./email-templates.module.scss";
 

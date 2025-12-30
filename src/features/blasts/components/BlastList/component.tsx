@@ -7,7 +7,14 @@
 import { Eye, Mail, Trash2 } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useDeleteBlast, useGetBlasts } from "@/hooks/useBlasts";
-import { Badge, Button, Card, Icon, Progress, Spinner, Stack, Text } from "@/proto-design-system";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { EmailBlast, EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 
