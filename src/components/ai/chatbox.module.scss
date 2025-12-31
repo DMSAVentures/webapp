@@ -25,7 +25,7 @@
 
 .chat-bubble-user {
   border-color: var(--color-border);
-  border-width: 1px;
+  border-width: var(--border-width-sm);
   border-style: solid;
   border-radius: var(--radius-lg);
   padding: var(--space-5);

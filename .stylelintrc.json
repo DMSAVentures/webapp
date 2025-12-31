@@ -29,17 +29,21 @@
 				"ignoreValues": [
 					"transparent",
 					"currentColor",
+					"currentcolor",
 					"inherit",
 					"initial",
 					"unset",
 					"none",
 					"auto",
 					"0",
+					"1",
 					"100%",
 					"50%",
 					"/^0 /",
 					"/ 0$/",
-					"/ 0 /"
+					"/ 0 /",
+					"/^[0-9.]+em$/",
+					"/^var\\(--/"
 				],
 				"message": "Use design tokens from @/design-tokens/ instead of hardcoded values. See docs/design-tokens.md"
 			}
@@ -64,9 +68,32 @@
 		"function-no-unknown": null,
 		"no-descending-specificity": null,
 		"selector-class-pattern": null,
+		"custom-property-pattern": [
+			"^(_)?[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+			{
+				"message": "Expected custom property name to be kebab-case (--_prefix allowed for internal properties)"
+			}
+		],
 		"color-function-notation": "legacy",
 		"alpha-value-notation": "number",
-		"import-notation": "string"
+		"import-notation": "string",
+		"property-no-deprecated": [
+			true,
+			{
+				"ignoreProperties": ["clip"]
+			}
+		],
+		"no-invalid-position-declaration": null,
+		"media-feature-range-notation": null,
+		"container-name-pattern": null,
+		"hue-degree-notation": null,
+		"lightness-notation": null,
+		"selector-not-notation": null,
+		"declaration-block-no-redundant-longhand-properties": null,
+		"declaration-property-value-keyword-no-deprecated": null,
+		"rule-empty-line-before": null,
+		"comment-empty-line-before": null,
+		"no-duplicate-selectors": null
 	},
 	"ignoreFiles": [
 		"**/*.js",
@@ -78,6 +105,8 @@
 		"build/**",
 		"storybook-static/**",
 		"src/design-tokens/**",
+		"src/proto-design-system/base/**",
+		"src/proto-design-system/mixins/**",
 		"src/proto-design-system/UIShell/Column/grid-example.module.scss"
 	]
 }

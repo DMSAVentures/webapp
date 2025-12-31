@@ -6,6 +6,10 @@
 
 // Base colors (neutral scale) — Vibrant with primary hue tint
 :root {
+  // Pure colors
+  --color-white: oklch(100% 0 0deg);
+  --color-black: oklch(0% 0 0deg);
+
   // Base scale (light theme defaults) — More vibrant, less grey
   --color-base-50: oklch(98% 0.012 265deg);
   --color-base-100: oklch(96% 0.015 265deg);

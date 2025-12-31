@@ -21,3 +21,21 @@
   --radius-badge: var(--radius-full);
   --radius-avatar: var(--radius-full);
 }
+
+// =============================================================================
+// BORDER WIDTH TOKENS
+// =============================================================================
+
+:root {
+  --border-width-none: 0;
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 3px;
+  --border-width-xl: 4px;
+
+  // Component-specific
+  --border-width-input: var(--border-width-sm);
+  --border-width-button: var(--border-width-sm);
+  --border-width-card: var(--border-width-sm);
+  --border-width-focus: var(--border-width-md);
+}
