@@ -4,11 +4,12 @@
  */
 
 import { RefreshCw } from "lucide-react";
-import { memo, useCallback, useState, useEffect } from "react";
+import { memo, useCallback, useMemo, useState, useEffect } from "react";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Label } from "@/proto-design-system/components/forms/Label";
+import { MultiSelect } from "@/proto-design-system/components/composite/MultiSelect/MultiSelect";
 import { Select } from "@/proto-design-system/components/forms/Select";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
@@ -33,22 +34,22 @@ export interface UserFiltersProps {
 }
 
 const STATUS_OPTIONS = [
-	{ value: "pending", label: "Pending" },
-	{ value: "verified", label: "Verified" },
-	{ value: "invited", label: "Invited" },
-	{ value: "active", label: "Active" },
-	{ value: "rejected", label: "Rejected" },
+	{ id: "pending", label: "Pending" },
+	{ id: "verified", label: "Verified" },
+	{ id: "invited", label: "Invited" },
+	{ id: "active", label: "Active" },
+	{ id: "rejected", label: "Rejected" },
 ];
 
 const SOURCE_OPTIONS = [
-	{ value: "organic", label: "Organic" },
-	{ value: "referral", label: "Referral" },
-	{ value: "twitter", label: "Twitter" },
-	{ value: "facebook", label: "Facebook" },
-	{ value: "linkedin", label: "LinkedIn" },
-	{ value: "instagram", label: "Instagram" },
-	{ value: "email", label: "Email" },
-	{ value: "other", label: "Other" },
+	{ id: "organic", label: "Organic" },
+	{ id: "referral", label: "Referral" },
+	{ id: "twitter", label: "Twitter" },
+	{ id: "facebook", label: "Facebook" },
+	{ id: "linkedin", label: "LinkedIn" },
+	{ id: "instagram", label: "Instagram" },
+	{ id: "email", label: "Email" },
+	{ id: "other", label: "Other" },
 ];
 
 /** Debounced text input component for filter fields */
@@ -121,13 +122,24 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 				field.fieldType === "text",
 		) || [];
 
+	// Convert filters to Set for MultiSelect
+	const statusValue = useMemo(
+		() => new Set(filters.status || []),
+		[filters.status],
+	);
+
+	const sourceValue = useMemo(
+		() => new Set(filters.source || []),
+		[filters.source],
+	);
+
 	// Handle status change
 	const handleStatusChange = useCallback(
-		(e: React.ChangeEvent<HTMLSelectElement>) => {
-			const value = e.target.value;
+		(selectedIds: Set<string>) => {
+			const statusArray = Array.from(selectedIds) as WaitlistUserStatus[];
 			onChange({
 				...filters,
-				status: value ? ([value] as WaitlistUserStatus[]) : undefined,
+				status: statusArray.length > 0 ? statusArray : undefined,
 			});
 		},
 		[filters, onChange],
@@ -135,11 +147,11 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 
 	// Handle source change
 	const handleSourceChange = useCallback(
-		(e: React.ChangeEvent<HTMLSelectElement>) => {
-			const value = e.target.value;
+		(selectedIds: Set<string>) => {
+			const sourceArray = Array.from(selectedIds);
 			onChange({
 				...filters,
-				source: value ? [value] : undefined,
+				source: sourceArray.length > 0 ? sourceArray : undefined,
 			});
 		},
 		[filters, onChange],
@@ -254,9 +266,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 			{/* Status Filter */}
 			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Status</Label>
-				<Select
-					options={STATUS_OPTIONS}
-					value={filters.status?.[0] || ""}
+				<MultiSelect
+					items={STATUS_OPTIONS}
+					value={statusValue}
 					onChange={handleStatusChange}
 					placeholder="All Statuses"
 				/>
@@ -265,9 +277,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 			{/* Source Filter */}
 			<Stack gap="xs" className={styles.filterGroup}>
 				<Label>Source</Label>
-				<Select
-					options={SOURCE_OPTIONS}
-					value={filters.source?.[0] || ""}
+				<MultiSelect
+					items={SOURCE_OPTIONS}
+					value={sourceValue}
 					onChange={handleSourceChange}
 					placeholder="All Sources"
 				/>

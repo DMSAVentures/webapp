@@ -1,9 +1,7 @@
-import { X } from "lucide-react";
 import { memo } from "react";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Tag } from "@/proto-design-system/components/primitives/Tag/Tag";
 import type { ActiveFilter } from "@/types/users.types";
 import styles from "./component.module.scss";
 
@@ -26,19 +24,15 @@ export const FilterChips = memo<FilterChipsProps>(function FilterChips({
 		<Stack direction="row" gap="sm" align="center" wrap className={styles.root}>
 			<Stack direction="row" gap="xs" wrap>
 				{activeFilters.map((filter) => (
-					<Stack key={filter.id} direction="row" gap="0" align="center" className={styles.chip}>
-						<Badge variant="secondary" size="sm">
-							{`${filter.label}: ${filter.value}`}
-						</Badge>
-						<button
-							type="button"
-							className={styles.chipRemove}
-							onClick={() => onRemoveFilter(filter.id)}
-							aria-label={`Remove ${filter.label} filter`}
-						>
-							<Icon icon={X} size="xs" />
-						</button>
-					</Stack>
+					<Tag
+						key={filter.id}
+						variant="secondary"
+						size="sm"
+						removable
+						onRemove={() => onRemoveFilter(filter.id)}
+					>
+						{`${filter.label}: ${filter.value}`}
+					</Tag>
 				))}
 			</Stack>
 			{activeFilters.length > 1 && (
