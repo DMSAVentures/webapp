@@ -41,9 +41,8 @@ export const SegmentsPage = memo(function SegmentsPage({
 	const handleCreateBlast = useCallback(
 		(segment: Segment) => {
 			navigate({
-				to: "/campaigns/$campaignId/blasts/new",
-				params: { campaignId },
-				search: { segmentId: segment.id },
+				to: "/blasts/new",
+				search: { campaignId, segmentId: segment.id },
 			});
 		},
 		[navigate, campaignId],

@@ -5,10 +5,8 @@ import {
 	FileText,
 	LayoutGrid,
 	Mail,
-	Send,
 	Settings,
 	User,
-	Users,
 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTier } from "@/contexts/tier";
@@ -48,20 +46,6 @@ const TABS: TabConfig[] = [
 		path: "/email-builder",
 		label: "Email",
 		icon: <Mail size={16} />,
-		requiresPro: true,
-	},
-	{
-		id: "segments",
-		path: "/segments",
-		label: "Segments",
-		icon: <Users size={16} />,
-		requiresPro: true,
-	},
-	{
-		id: "blasts",
-		path: "/blasts",
-		label: "Blasts",
-		icon: <Send size={16} />,
 		requiresPro: true,
 	},
 	{

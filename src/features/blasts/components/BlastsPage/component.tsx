@@ -22,17 +22,17 @@ export const BlastsPage = memo(function BlastsPage({
 
 	const handleCreate = useCallback(() => {
 		navigate({
-			to: "/campaigns/$campaignId/blasts/new",
-			params: { campaignId },
-			search: {},
+			to: "/blasts/new",
+			search: { campaignId },
 		});
 	}, [navigate, campaignId]);
 
 	const handleView = useCallback(
 		(blast: EmailBlast) => {
 			navigate({
-				to: "/campaigns/$campaignId/blasts/$blastId",
-				params: { campaignId, blastId: blast.id },
+				to: "/blasts/$blastId",
+				params: { blastId: blast.id },
+				search: { campaignId },
 			});
 		},
 		[navigate, campaignId],

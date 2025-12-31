@@ -75,8 +75,8 @@ export const BlastWizard = memo(function BlastWizard({
 
 	const handleCancel = useCallback(() => {
 		navigate({
-			to: "/campaigns/$campaignId/blasts",
-			params: { campaignId },
+			to: "/blasts",
+			search: { campaignId },
 		});
 	}, [navigate, campaignId]);
 
@@ -117,8 +117,9 @@ export const BlastWizard = memo(function BlastWizard({
 			const result = await sendBlast(campaignId, blast.id);
 			if (result) {
 				navigate({
-					to: "/campaigns/$campaignId/blasts/$blastId",
-					params: { campaignId, blastId: blast.id },
+					to: "/blasts/$blastId",
+					params: { blastId: blast.id },
+					search: { campaignId },
 				});
 			}
 		} else {
@@ -127,8 +128,9 @@ export const BlastWizard = memo(function BlastWizard({
 			const result = await scheduleBlast(campaignId, blast.id, scheduledAt);
 			if (result) {
 				navigate({
-					to: "/campaigns/$campaignId/blasts/$blastId",
-					params: { campaignId, blastId: blast.id },
+					to: "/blasts/$blastId",
+					params: { blastId: blast.id },
+					search: { campaignId },
 				});
 			}
 		}

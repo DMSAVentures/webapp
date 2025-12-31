@@ -82,8 +82,8 @@ export const BlastDetail = memo(function BlastDetail({
 
 	const handleBack = useCallback(() => {
 		navigate({
-			to: "/campaigns/$campaignId/blasts",
-			params: { campaignId },
+			to: "/blasts",
+			search: { campaignId },
 		});
 	}, [navigate, campaignId]);
 
