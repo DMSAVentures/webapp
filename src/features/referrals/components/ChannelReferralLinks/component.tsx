@@ -5,9 +5,9 @@
 
 import { CheckCircle, Copy, Share, Share2 } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import styles from "./component.module.scss";
@@ -159,9 +159,16 @@ export const ChannelReferralLinks = memo<ChannelReferralLinksProps>(
 
 		return (
 			<div className={classNames} {...props}>
-				<Stack direction="row" gap="sm" align="center" className={styles.header}>
+				<Stack
+					direction="row"
+					gap="sm"
+					align="center"
+					className={styles.header}
+				>
 					<Icon icon={Share2} size="md" color="secondary" />
-					<Text as="h3" size="md" weight="semibold" className={styles.title}>Share with friends & move up!</Text>
+					<Text as="h3" size="md" weight="semibold" className={styles.title}>
+						Share with friends & move up!
+					</Text>
 				</Stack>
 
 				<div className={styles.channelList}>
@@ -190,9 +197,7 @@ export const ChannelReferralLinks = memo<ChannelReferralLinksProps>(
 										<Button
 											variant="secondary"
 											size="sm"
-											leftIcon={
-												isCopied ? <CheckCircle /> : <Copy />
-											}
+											leftIcon={isCopied ? <CheckCircle /> : <Copy />}
 											onClick={() => handleCopy(channel)}
 											aria-label={`Copy ${config.label} link`}
 										>

@@ -3,12 +3,12 @@ import { ErrorState } from "@/components/error/error";
 import { CampaignTabNav } from "@/features/campaigns/components/CampaignTabNav/component";
 import { CampaignContext } from "@/features/campaigns/contexts/CampaignContext";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Campaign } from "@/types/campaign";
 import styles from "./$campaignId/campaignLayout.module.scss";
 
@@ -17,7 +17,9 @@ export const Route = createFileRoute("/campaigns/$campaignId")({
 });
 
 /** Get badge variant based on campaign status */
-function getStatusVariant(status: Campaign["status"]): "success" | "warning" | "secondary" | "primary" {
+function getStatusVariant(
+	status: Campaign["status"],
+): "success" | "warning" | "secondary" | "primary" {
 	switch (status) {
 		case "active":
 			return "success";
@@ -45,12 +47,7 @@ function CampaignLayout() {
 	} = useGetCampaign(campaignId);
 
 	if (loading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading campaign..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading campaign..." />;
 	}
 
 	if (error) {

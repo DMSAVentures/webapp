@@ -5,14 +5,14 @@
 
 import { Check, CheckCircle, Gift, Loader2 } from "lucide-react";
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Text } from "@/proto-design-system/components/primitives/Text";
-import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Reward } from "@/types/common.types";
 import {
 	validateDate,
@@ -221,7 +221,9 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 		<form className={classNames} onSubmit={handleSubmit} {...props}>
 			{/* Reward Name */}
 			<div className={styles.fieldGroup}>
-				<label htmlFor="reward-name" className={styles.label}>Reward Name</label>
+				<label htmlFor="reward-name" className={styles.label}>
+					Reward Name
+				</label>
 				<Input
 					id="reward-name"
 					type="text"
@@ -237,7 +239,9 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 
 			{/* Description */}
 			<div className={styles.fieldGroup}>
-				<label htmlFor="reward-description" className={styles.label}>Description</label>
+				<label htmlFor="reward-description" className={styles.label}>
+					Description
+				</label>
 				<TextArea
 					id="reward-description"
 					value={formData.description}
@@ -265,15 +269,15 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 						{ id: "custom", label: "Custom" },
 					]}
 					disabled={loading}
-					onChange={(id) =>
-						handleChange("type", id as Reward["type"])
-					}
+					onChange={(id) => handleChange("type", id as Reward["type"])}
 				/>
 			</div>
 
 			{/* Reward Value */}
 			<div className={styles.fieldGroup}>
-				<label htmlFor="reward-value" className={styles.label}>Reward Value</label>
+				<label htmlFor="reward-value" className={styles.label}>
+					Reward Value
+				</label>
 				<Input
 					id="reward-value"
 					type="text"
@@ -288,7 +292,9 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 
 			{/* Tier */}
 			<div className={styles.fieldGroup}>
-				<label htmlFor="reward-tier" className={styles.label}>Reward Tier</label>
+				<label htmlFor="reward-tier" className={styles.label}>
+					Reward Tier
+				</label>
 				<Input
 					id="reward-tier"
 					type="number"
@@ -380,17 +386,16 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 						]}
 						disabled={loading}
 						onChange={(id) =>
-							handleChange(
-								"deliveryMethod",
-								id as Reward["deliveryMethod"],
-							)
+							handleChange("deliveryMethod", id as Reward["deliveryMethod"])
 						}
 					/>
 				</div>
 
 				{/* Inventory (optional) */}
 				<div className={styles.fieldGroup}>
-					<label htmlFor="reward-inventory" className={styles.label}>Inventory Limit</label>
+					<label htmlFor="reward-inventory" className={styles.label}>
+						Inventory Limit
+					</label>
 					<Input
 						id="reward-inventory"
 						type="number"
@@ -411,7 +416,9 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 
 				{/* Expiry Date (optional) */}
 				<div className={styles.fieldGroup}>
-					<label htmlFor="reward-expiry" className={styles.label}>Expiry Date</label>
+					<label htmlFor="reward-expiry" className={styles.label}>
+						Expiry Date
+					</label>
 					<Input
 						id="reward-expiry"
 						type="date"
@@ -453,13 +460,23 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 						{formData.description || "Reward description will appear here..."}
 					</p>
 					{formData.value && (
-						<Stack direction="row" gap="sm" align="center" className={styles.previewValue}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.previewValue}
+						>
 							<Icon icon={Gift} size="sm" color="secondary" />
 							<Text size="sm">{formData.value}</Text>
 						</Stack>
 					)}
 					{formData.triggerType !== "manual" && formData.triggerValue && (
-						<Stack direction="row" gap="sm" align="center" className={styles.previewRequirement}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.previewRequirement}
+						>
 							<Icon icon={CheckCircle} size="sm" color="success" />
 							<Text size="sm">
 								{formData.triggerType === "referral_count"
@@ -490,7 +507,13 @@ export const RewardBuilder = memo<RewardBuilderProps>(function RewardBuilder({
 					type="submit"
 					disabled={loading}
 					variant="primary"
-					leftIcon={loading ? <Loader2 size={16} className={styles.spinIcon} /> : <Check size={16} />}
+					leftIcon={
+						loading ? (
+							<Loader2 size={16} className={styles.spinIcon} />
+						) : (
+							<Check size={16} />
+						)
+					}
 				>
 					{loading ? "Saving..." : submitText}
 				</Button>

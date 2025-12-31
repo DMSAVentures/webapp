@@ -1,5 +1,5 @@
-import { Check, Copy } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
@@ -8,8 +8,8 @@ import {
 	type WebhookFormData,
 } from "@/features/webhooks/components/WebhookForm/component";
 import { useCreateWebhook } from "@/hooks/useCreateWebhook";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import styles from "./new.module.scss";
 
 export const Route = createFileRoute("/webhooks/new")({

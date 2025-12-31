@@ -15,9 +15,9 @@ import {
 	useResumeBlast,
 	useSendBlast,
 } from "@/hooks/useBlasts";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import type { EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 
@@ -148,7 +148,11 @@ export const BlastDetail = memo(function BlastDetail({
 	return (
 		<div className={styles.root}>
 			<div className={styles.header}>
-				<Button variant="secondary" onClick={handleBack} leftIcon={<ArrowLeft size={16} />}>
+				<Button
+					variant="secondary"
+					onClick={handleBack}
+					leftIcon={<ArrowLeft size={16} />}
+				>
 					Back to Blasts
 				</Button>
 				<div className={styles.headerContent}>
@@ -168,11 +172,7 @@ export const BlastDetail = memo(function BlastDetail({
 						<span className={styles.progressTitle}>Sending Progress</span>
 						<span className={styles.progressPercent}>{getProgress()}%</span>
 					</div>
-					<Progress
-						value={getProgress()}
-						size="md"
-						variant="default"
-					/>
+					<Progress value={getProgress()} size="md" variant="default" />
 					<div className={styles.progressStats}>
 						<span>{(blast.sentCount ?? 0).toLocaleString()} sent</span>
 						<span>

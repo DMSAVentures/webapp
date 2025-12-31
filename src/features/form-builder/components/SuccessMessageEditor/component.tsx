@@ -5,12 +5,12 @@
 
 import { Info } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Input } from "@/proto-design-system/components/forms/Input";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Text } from "@/proto-design-system/components/primitives/Text";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
 import styles from "./component.module.scss";
@@ -77,7 +77,9 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 		return (
 			<div className={classNames} {...props}>
 				<Stack gap="xs" className={styles.header}>
-					<Text as="h3" size="lg" weight="semibold">Success Message</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						Success Message
+					</Text>
 					<Text size="sm" color="muted">
 						Customize what users see after signing up
 					</Text>
@@ -86,7 +88,9 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 				<div className={styles.content}>
 					{/* Message Content Section */}
 					<section className={styles.section}>
-						<Text as="h4" size="md" weight="semibold">Message Content</Text>
+						<Text as="h4" size="md" weight="semibold">
+							Message Content
+						</Text>
 						<Stack gap="sm" className={styles.inputGroup}>
 							<label htmlFor="success-title">Title</label>
 							<Input
@@ -112,15 +116,26 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 						<>
 							<Divider />
 							<section className={styles.section}>
-								<Text as="h4" size="md" weight="semibold">Referral Links</Text>
+								<Text as="h4" size="md" weight="semibold">
+									Referral Links
+								</Text>
 								<Text size="sm" color="muted">
 									Share links will appear after signup
 								</Text>
-								<Stack direction="row" gap="sm" align="center" className={styles.enabledChannels}>
+								<Stack
+									direction="row"
+									gap="sm"
+									align="center"
+									className={styles.enabledChannels}
+								>
 									<Text size="sm" color="secondary">
 										Enabled channels:
 									</Text>
-									<Stack direction="row" gap="xs" className={styles.channelIcons}>
+									<Stack
+										direction="row"
+										gap="xs"
+										className={styles.channelIcons}
+									>
 										{enabledChannels.map((channel) => (
 											<span
 												key={channel}
@@ -143,7 +158,12 @@ export const SuccessMessageEditor = memo<SuccessMessageEditorProps>(
 						<>
 							<Divider />
 							<section className={styles.section}>
-								<Stack direction="row" gap="sm" align="center" className={styles.hint}>
+								<Stack
+									direction="row"
+									gap="sm"
+									align="center"
+									className={styles.hint}
+								>
 									<Icon icon={Info} size="md" color="secondary" />
 									<Text size="sm" color="secondary">
 										Enable referrals in campaign settings to show share links

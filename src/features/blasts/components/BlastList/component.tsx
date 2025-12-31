@@ -7,13 +7,13 @@
 import { Eye, Mail, Trash2 } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useDeleteBlast, useGetBlasts } from "@/hooks/useBlasts";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Card } from "@/proto-design-system/components/layout/Card";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { EmailBlast, EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
@@ -108,7 +108,9 @@ export const BlastList = memo(function BlastList({
 		<Stack gap="lg" className={styles.root}>
 			<Stack direction="row" justify="between" align="start" wrap>
 				<Stack gap="xs">
-					<Text as="h2" size="xl" weight="semibold">Email Blasts</Text>
+					<Text as="h2" size="xl" weight="semibold">
+						Email Blasts
+					</Text>
 					<Text color="secondary">
 						Send targeted emails to your audience segments
 					</Text>
@@ -121,8 +123,12 @@ export const BlastList = memo(function BlastList({
 			{blasts.length === 0 ? (
 				<Stack gap="md" align="center" className={styles.emptyState}>
 					<Icon icon={Mail} size="2xl" color="muted" />
-					<Text as="h3" size="lg" weight="semibold">No email blasts yet</Text>
-					<Text color="secondary">Create your first email blast to reach your audience</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						No email blasts yet
+					</Text>
+					<Text color="secondary">
+						Create your first email blast to reach your audience
+					</Text>
 					<Button variant="secondary" onClick={onCreate}>
 						Create Blast
 					</Button>
@@ -140,7 +146,9 @@ export const BlastList = memo(function BlastList({
 								<Stack direction="row" justify="between" align="start">
 									<Stack gap="xs">
 										<Text weight="semibold">{blast.name}</Text>
-										<Text size="sm" color="secondary">{blast.subject}</Text>
+										<Text size="sm" color="secondary">
+											{blast.subject}
+										</Text>
 									</Stack>
 									<Badge variant={STATUS_VARIANTS[blast.status]}>
 										{STATUS_LABELS[blast.status]}
@@ -164,20 +172,36 @@ export const BlastList = memo(function BlastList({
 
 								<Stack direction="row" gap="lg" className={styles.blastStats}>
 									<Stack gap="0" align="center">
-										<Text weight="semibold">{(blast.totalRecipients ?? 0).toLocaleString()}</Text>
-										<Text size="xs" color="muted">Recipients</Text>
+										<Text weight="semibold">
+											{(blast.totalRecipients ?? 0).toLocaleString()}
+										</Text>
+										<Text size="xs" color="muted">
+											Recipients
+										</Text>
 									</Stack>
 									<Stack gap="0" align="center">
-										<Text weight="semibold">{(blast.sentCount ?? 0).toLocaleString()}</Text>
-										<Text size="xs" color="muted">Sent</Text>
+										<Text weight="semibold">
+											{(blast.sentCount ?? 0).toLocaleString()}
+										</Text>
+										<Text size="xs" color="muted">
+											Sent
+										</Text>
 									</Stack>
 									<Stack gap="0" align="center">
-										<Text weight="semibold">{(blast.openedCount ?? 0).toLocaleString()}</Text>
-										<Text size="xs" color="muted">Opened</Text>
+										<Text weight="semibold">
+											{(blast.openedCount ?? 0).toLocaleString()}
+										</Text>
+										<Text size="xs" color="muted">
+											Opened
+										</Text>
 									</Stack>
 									<Stack gap="0" align="center">
-										<Text weight="semibold">{(blast.clickedCount ?? 0).toLocaleString()}</Text>
-										<Text size="xs" color="muted">Clicked</Text>
+										<Text weight="semibold">
+											{(blast.clickedCount ?? 0).toLocaleString()}
+										</Text>
+										<Text size="xs" color="muted">
+											Clicked
+										</Text>
 									</Stack>
 								</Stack>
 

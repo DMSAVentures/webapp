@@ -11,17 +11,17 @@ import {
 	useEffect,
 	useState,
 } from "react";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { FormField as ProtoFormField } from "@/proto-design-system/components/forms/FormField";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Grid } from "@/proto-design-system/components/layout/Grid";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { FormField as ProtoFormField } from "@/proto-design-system/components/forms/FormField";
-import { Grid } from "@/proto-design-system/components/layout/Grid";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Input } from "@/proto-design-system/components/forms/Input";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
-import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -305,7 +305,12 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				className={`${styles.root} ${styles.empty} ${customClassName || ""}`}
 				{...props}
 			>
-				<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
+				<Stack
+					gap="md"
+					align="center"
+					justify="center"
+					className={styles.emptyState}
+				>
 					<Icon icon={Pencil} size="xl" color="muted" />
 					<Text color="muted">Select a field to edit its properties</Text>
 				</Stack>
@@ -322,8 +327,12 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 	return (
 		<div className={classNames} {...props}>
 			<Stack direction="row" align="center" gap="sm" className={styles.header}>
-				<Text as="h3" size="lg" weight="semibold">Edit Field</Text>
-				<Badge variant="secondary" size="sm">{field.type}</Badge>
+				<Text as="h3" size="lg" weight="semibold">
+					Edit Field
+				</Text>
+				<Badge variant="secondary" size="sm">
+					{field.type}
+				</Badge>
 			</Stack>
 
 			<Stack gap="lg" className={styles.content}>
@@ -405,7 +414,9 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 					<>
 						<Divider />
 						<Stack gap="md">
-							<Text as="h4" size="md" weight="semibold">Text Validation</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Text Validation
+							</Text>
 							<Grid columns="2" gap="md">
 								<ProtoFormField label="Min Length" id="field-min-length">
 									<Input
@@ -447,7 +458,9 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 					<>
 						<Divider />
 						<Stack gap="md">
-							<Text as="h4" size="md" weight="semibold">Number Validation</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Number Validation
+							</Text>
 							<Grid columns="2" gap="md">
 								<ProtoFormField label="Minimum Value" id="field-min">
 									<Input

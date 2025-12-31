@@ -133,8 +133,12 @@ export const TrafficSources = memo<TrafficSourcesProps>(
 		return (
 			<Stack gap="md" className={classNames} {...props}>
 				<Stack gap="xs">
-					<Text as="h3" size="lg" weight="semibold">Traffic Sources</Text>
-					<Text size="sm" color="secondary">Where your users come from</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						Traffic Sources
+					</Text>
+					<Text size="sm" color="secondary">
+						Where your users come from
+					</Text>
 				</Stack>
 
 				{chartType === "pie" ? (
@@ -224,14 +228,24 @@ export const TrafficSources = memo<TrafficSourcesProps>(
 				{/* Source list */}
 				<Stack gap="sm" className={styles.sourceList}>
 					{data.map((source, index) => (
-						<Stack direction="row" gap="sm" align="center" key={source.source} className={styles.sourceItem}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							key={source.source}
+							className={styles.sourceItem}
+						>
 							<span
 								className={styles.sourceDot}
 								style={{ backgroundColor: COLORS[index % COLORS.length] }}
 							/>
 							<Text size="sm">{source.source}</Text>
-							<Text size="sm" weight="medium">{formatNumber(source.count)}</Text>
-							<Text size="sm" color="secondary">({formatPercentage(source.percentage)})</Text>
+							<Text size="sm" weight="medium">
+								{formatNumber(source.count)}
+							</Text>
+							<Text size="sm" color="secondary">
+								({formatPercentage(source.percentage)})
+							</Text>
 						</Stack>
 					))}
 				</Stack>

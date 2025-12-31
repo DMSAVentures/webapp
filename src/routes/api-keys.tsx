@@ -1,19 +1,34 @@
-import { AlertTriangle, Check, CheckCircle, Copy, Plus, Sparkles, Trash2 } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
+import {
+	AlertTriangle,
+	Check,
+	CheckCircle,
+	Copy,
+	Plus,
+	Sparkles,
+	Trash2,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { useCreateAPIKey } from "@/hooks/useCreateAPIKey";
 import { useGetAPIKeys } from "@/hooks/useGetAPIKeys";
 import { useRevokeAPIKey } from "@/hooks/useRevokeAPIKey";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/proto-design-system/components/data/Table";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Input } from "@/proto-design-system/components/forms/Input";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system/components/data/Table";
-import { Input } from "@/proto-design-system/components/forms/Input";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { APIKey, CreateAPIKeyResponse } from "@/types/apikey";
 import { API_KEY_SCOPES } from "@/types/apikey";
 import styles from "./api-keys.module.scss";
@@ -167,7 +182,10 @@ function RouteComponent() {
 						Create and manage API keys for integrations like Zapier
 					</p>
 				</div>
-				<Button leftIcon={<Plus size={16} />} onClick={() => setIsCreateModalOpen(true)}>
+				<Button
+					leftIcon={<Plus size={16} />}
+					onClick={() => setIsCreateModalOpen(true)}
+				>
 					Create API Key
 				</Button>
 			</div>
@@ -260,12 +278,21 @@ function RouteComponent() {
 					resetForm();
 				}}
 				footer={
-					<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-						<Button variant="ghost" onClick={() => {
-							setIsCreateModalOpen(false);
-							resetForm();
-						}}>Cancel</Button>
-						<Button variant="primary" onClick={handleCreateKey}>{createLoading ? "Creating..." : "Create Key"}</Button>
+					<div
+						style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
+					>
+						<Button
+							variant="ghost"
+							onClick={() => {
+								setIsCreateModalOpen(false);
+								resetForm();
+							}}
+						>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={handleCreateKey}>
+							{createLoading ? "Creating..." : "Create Key"}
+						</Button>
 					</div>
 				}
 			>
@@ -326,12 +353,19 @@ function RouteComponent() {
 					setKeyCopied(false);
 				}}
 				footer={
-					<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-						<Button variant="primary" onClick={() => {
-							setIsSuccessModalOpen(false);
-							setCreatedKey(null);
-							setKeyCopied(false);
-						}}>Done</Button>
+					<div
+						style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
+					>
+						<Button
+							variant="primary"
+							onClick={() => {
+								setIsSuccessModalOpen(false);
+								setCreatedKey(null);
+								setKeyCopied(false);
+							}}
+						>
+							Done
+						</Button>
 					</div>
 				}
 			>
@@ -365,12 +399,21 @@ function RouteComponent() {
 					setKeyToRevoke(null);
 				}}
 				footer={
-					<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-						<Button variant="ghost" onClick={() => {
-							setIsRevokeModalOpen(false);
-							setKeyToRevoke(null);
-						}}>Cancel</Button>
-						<Button variant="primary" onClick={handleRevokeKey}>{revokeLoading ? "Revoking..." : "Revoke Key"}</Button>
+					<div
+						style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
+					>
+						<Button
+							variant="ghost"
+							onClick={() => {
+								setIsRevokeModalOpen(false);
+								setKeyToRevoke(null);
+							}}
+						>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={handleRevokeKey}>
+							{revokeLoading ? "Revoking..." : "Revoke Key"}
+						</Button>
 					</div>
 				}
 			>

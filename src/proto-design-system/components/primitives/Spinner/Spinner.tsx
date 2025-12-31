@@ -6,12 +6,12 @@ export type SpinnerSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type SpinnerVariant = "default" | "primary" | "secondary" | "white";
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Size of the spinner */
-  size?: SpinnerSize;
-  /** Color variant */
-  variant?: SpinnerVariant;
-  /** Accessible label for screen readers */
-  label?: string;
+	/** Size of the spinner */
+	size?: SpinnerSize;
+	/** Color variant */
+	variant?: SpinnerVariant;
+	/** Accessible label for screen readers */
+	label?: string;
 }
 
 /**
@@ -25,16 +25,35 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
  * ```
  */
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
-  ({ size = "md", variant = "default", label = "Loading", className, ...props }, ref) => {
-    const spinnerClasses = cn(styles.spinner, styles[size], styles[variant], className);
+	(
+		{
+			size = "md",
+			variant = "default",
+			label = "Loading",
+			className,
+			...props
+		},
+		ref,
+	) => {
+		const spinnerClasses = cn(
+			styles.spinner,
+			styles[size],
+			styles[variant],
+			className,
+		);
 
-    return (
-      // biome-ignore lint/a11y/useSemanticElements: role="status" is correct for loading indicators per WAI-ARIA
-      <div ref={ref} role="status" aria-label={label} className={spinnerClasses} {...props}>
-        <span className={styles.visuallyHidden}>{label}</span>
-      </div>
-    );
-  }
+		return (
+			<div
+				ref={ref}
+				role="status"
+				aria-label={label}
+				className={spinnerClasses}
+				{...props}
+			>
+				<span className={styles.visuallyHidden}>{label}</span>
+			</div>
+		);
+	},
 );
 
 Spinner.displayName = "Spinner";

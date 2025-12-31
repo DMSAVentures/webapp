@@ -1,6 +1,6 @@
 export {
-  BannerCenterProvider,
-  useBannerCenter,
-  type BannerCenterProviderProps,
-  type BannerItem,
+	BannerCenterProvider,
+	type BannerCenterProviderProps,
+	type BannerItem,
+	useBannerCenter,
 } from "./BannerCenter";

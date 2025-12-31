@@ -5,8 +5,8 @@
 
 import { Check, CheckCircle, Copy, Share2 } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import type { FormBehavior, FormDesign } from "@/types/common.types";
@@ -102,12 +102,26 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 
 		return (
 			<DevicePreview device={device} className={customClassName} {...props}>
-				<Stack gap="md" align="center" className={styles.successScreen} style={formStyles}>
+				<Stack
+					gap="md"
+					align="center"
+					className={styles.successScreen}
+					style={formStyles}
+				>
 					<div className={styles.successIcon}>
 						<Icon icon={CheckCircle} size="2xl" color="success" />
 					</div>
-					<Text as="h2" size="xl" weight="semibold" className={styles.successTitle}>{successTitle}</Text>
-					<Text color="muted" className={styles.successMessage}>{successMessage}</Text>
+					<Text
+						as="h2"
+						size="xl"
+						weight="semibold"
+						className={styles.successTitle}
+					>
+						{successTitle}
+					</Text>
+					<Text color="muted" className={styles.successMessage}>
+						{successMessage}
+					</Text>
 
 					{/* Referral Links Section */}
 					{channelsToShow.length > 0 && (
@@ -127,7 +141,9 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 							</button>
 
 							<div className={styles.dividerWithText}>
-								<Text size="xs" color="muted">or copy link for</Text>
+								<Text size="xs" color="muted">
+									or copy link for
+								</Text>
 							</div>
 
 							<Stack gap="xs" className={styles.channelList}>
@@ -144,8 +160,15 @@ export const SuccessScreenPreview = memo<SuccessScreenPreviewProps>(
 											<div className={styles.channelIcon}>
 												<i className={config.icon} aria-hidden="true" />
 											</div>
-											<Text size="sm" className={styles.channelName}>{config.label}</Text>
-											<Stack direction="row" gap="xs" align="center" className={styles.copyLabel}>
+											<Text size="sm" className={styles.channelName}>
+												{config.label}
+											</Text>
+											<Stack
+												direction="row"
+												gap="xs"
+												align="center"
+												className={styles.copyLabel}
+											>
 												{isCopied ? (
 													<>
 														<Icon icon={Check} size="sm" />

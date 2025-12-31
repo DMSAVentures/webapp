@@ -1,8 +1,8 @@
 export {
-  StepIndicator,
-  type StepData,
-  type StepIndicatorOrientation,
-  type StepIndicatorProps,
-  type StepIndicatorSize,
-  type StepStatus,
+	type StepData,
+	StepIndicator,
+	type StepIndicatorOrientation,
+	type StepIndicatorProps,
+	type StepIndicatorSize,
+	type StepStatus,
 } from "./StepIndicator";

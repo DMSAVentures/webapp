@@ -95,7 +95,9 @@ export const CampaignAnalyticsPage = memo(function CampaignAnalyticsPage({
 	return (
 		<Stack gap="lg" className={styles.analytics} animate>
 			<Stack gap="xs">
-				<Text as="h2" size="xl" weight="semibold">Analytics</Text>
+				<Text as="h2" size="xl" weight="semibold">
+					Analytics
+				</Text>
 				<Text color="secondary">
 					Track signups, sources, and campaign performance over time
 				</Text>

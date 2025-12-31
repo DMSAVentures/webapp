@@ -159,9 +159,12 @@ export const ShareButtons = memo(function ShareButtons({
 				).map((platform) => {
 					const config = platformConfigs[platform];
 					// Email uses Lucide icon, others use RemixIcon brand icons
-					const leftIcon = platform === "email"
-						? <Mail size={16} />
-						: config.icon.replace("ri-", "");
+					const leftIcon =
+						platform === "email" ? (
+							<Mail size={16} />
+						) : (
+							config.icon.replace("ri-", "")
+						);
 					return (
 						<Button
 							key={platform}
@@ -180,7 +183,9 @@ export const ShareButtons = memo(function ShareButtons({
 				<Button
 					variant="secondary"
 					size="md"
-					leftIcon={showCopiedFeedback ? <CheckCircle2 size={16} /> : <Link size={16} />}
+					leftIcon={
+						showCopiedFeedback ? <CheckCircle2 size={16} /> : <Link size={16} />
+					}
 					onClick={handleCopyLink}
 					aria-label="Copy link"
 				>

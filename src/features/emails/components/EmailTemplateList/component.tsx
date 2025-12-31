@@ -3,10 +3,10 @@
  * Displays list of email templates with action buttons
  */
 
-import { type HTMLAttributes, memo, useState } from "react";
 import { Calendar, Copy, Eye, Mail, Pencil, Plus, Trash2 } from "lucide-react";
-import { Button } from "@/proto-design-system/components/primitives/Button";
+import { type HTMLAttributes, memo, useState } from "react";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import type { EmailTemplate } from "@/types/common.types";
 import styles from "./component.module.scss";

@@ -7,8 +7,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useTier } from "@/contexts/tier";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 
 // ============================================================================
 // Types
@@ -80,9 +80,15 @@ export const LimitUpgradeModal = memo(function LimitUpgradeModal({
 			title={displayTitle}
 			description={displayDescription}
 			footer={
-				<div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-					<Button variant="ghost" onClick={onClose}>Maybe Later</Button>
-					<Button variant="primary" onClick={handleUpgrade}>View Plans</Button>
+				<div
+					style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
+				>
+					<Button variant="ghost" onClick={onClose}>
+						Maybe Later
+					</Button>
+					<Button variant="primary" onClick={handleUpgrade}>
+						View Plans
+					</Button>
 				</div>
 			}
 		>

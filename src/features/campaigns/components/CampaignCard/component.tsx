@@ -3,14 +3,11 @@
  * Displays campaign summary in list/grid view
  */
 
-import {
-	type HTMLAttributes,
-	memo,
-} from "react";
 import { Calendar, Share2, TrendingUp, Users } from "lucide-react";
+import { type HTMLAttributes, memo } from "react";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
@@ -110,7 +107,9 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			<Stack gap="sm">
 				{/* Header */}
 				<Stack direction="row" justify="between" align="center">
-					<Text as="h3" size="md" weight="semibold" className={styles.title}>{campaign.name}</Text>
+					<Text as="h3" size="md" weight="semibold" className={styles.title}>
+						{campaign.name}
+					</Text>
 					<Badge variant={getStatusVariant(campaign.status)} size="sm">
 						{toTitleCase(campaign.status)}
 					</Badge>
@@ -131,8 +130,12 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 								<Icon icon={Users} size="sm" />
 							</div>
 							<div className={styles.statContent}>
-								<Text size="xl" weight="semibold">{campaign.totalSignups.toLocaleString()}</Text>
-								<Text size="xs" color="muted">Signups</Text>
+								<Text size="xl" weight="semibold">
+									{campaign.totalSignups.toLocaleString()}
+								</Text>
+								<Text size="xs" color="muted">
+									Signups
+								</Text>
 							</div>
 						</div>
 						<div className={styles.statItem}>
@@ -140,8 +143,12 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 								<Icon icon={Share2} size="sm" />
 							</div>
 							<div className={styles.statContent}>
-								<Text size="xl" weight="semibold">{campaign.totalReferrals.toLocaleString()}</Text>
-								<Text size="xs" color="muted">Referrals</Text>
+								<Text size="xl" weight="semibold">
+									{campaign.totalReferrals.toLocaleString()}
+								</Text>
+								<Text size="xs" color="muted">
+									Referrals
+								</Text>
 							</div>
 						</div>
 						<div className={styles.statItem}>
@@ -150,9 +157,14 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 							</div>
 							<div className={styles.statContent}>
 								<Text size="xl" weight="semibold">
-									{calculateKFactor(campaign.totalSignups, campaign.totalReferrals)}
+									{calculateKFactor(
+										campaign.totalSignups,
+										campaign.totalReferrals,
+									)}
 								</Text>
-								<Text size="xs" color="muted">K-Factor</Text>
+								<Text size="xs" color="muted">
+									K-Factor
+								</Text>
 							</div>
 						</div>
 					</div>
@@ -161,7 +173,9 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 				{/* Footer */}
 				<div className={styles.footer}>
 					<Icon icon={Calendar} size="xs" color="muted" />
-					<Text size="xs" color="muted">{formatCampaignDate(campaign)}</Text>
+					<Text size="xs" color="muted">
+						{formatCampaignDate(campaign)}
+					</Text>
 				</div>
 			</Stack>
 		</div>

@@ -4,13 +4,6 @@
  */
 
 import {
-	type HTMLAttributes,
-	memo,
-	useCallback,
-	useEffect,
-	useState,
-} from "react";
-import {
 	Check,
 	Eye,
 	HandHeart,
@@ -28,6 +21,13 @@ import {
 	X,
 } from "lucide-react";
 import {
+	type HTMLAttributes,
+	memo,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
+import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
@@ -37,11 +37,11 @@ import {
 	useSendTestEmail,
 	useUpdateEmailTemplate,
 } from "@/hooks/useEmailTemplates";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Input } from "@/proto-design-system/components/forms/Input";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
 import {
@@ -460,11 +460,25 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	return (
 		<div className={classNames} {...props}>
 			{/* Header */}
-			<Stack direction="row" justify="between" align="center" className={styles.header}>
-				<Stack direction="row" gap="sm" align="center" className={styles.headerContent}>
-					<Text as="h2" size="lg" weight="semibold">Email Builder</Text>
+			<Stack
+				direction="row"
+				justify="between"
+				align="center"
+				className={styles.header}
+			>
+				<Stack
+					direction="row"
+					gap="sm"
+					align="center"
+					className={styles.headerContent}
+				>
+					<Text as="h2" size="lg" weight="semibold">
+						Email Builder
+					</Text>
 					{hasUnsavedChanges && (
-						<Badge variant="warning" size="sm">Unsaved changes</Badge>
+						<Badge variant="warning" size="sm">
+							Unsaved changes
+						</Badge>
 					)}
 				</Stack>
 
@@ -549,7 +563,12 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 			{/* Success message */}
 			{testSuccess && (
-				<Stack direction="row" gap="sm" align="center" className={styles.successBanner}>
+				<Stack
+					direction="row"
+					gap="sm"
+					align="center"
+					className={styles.successBanner}
+				>
 					<Icon icon={Check} size="sm" color="success" />
 					<Text size="sm">Test email sent successfully!</Text>
 				</Stack>
@@ -589,8 +608,18 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				{/* Center panel - Canvas + Preview */}
 				<main className={styles.centerPanel}>
 					{loadingTemplates ? (
-						<Stack gap="md" align="center" justify="center" className={styles.loadingState}>
-							<Icon icon={Loader2} size="xl" color="muted" className={styles.loadingIcon} />
+						<Stack
+							gap="md"
+							align="center"
+							justify="center"
+							className={styles.loadingState}
+						>
+							<Icon
+								icon={Loader2}
+								size="xl"
+								color="muted"
+								className={styles.loadingIcon}
+							/>
 							<Text color="muted">Loading templates...</Text>
 						</Stack>
 					) : (
@@ -608,18 +637,32 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 							{/* Block canvas */}
 							<div className={styles.canvasWrapper}>
-								<Stack direction="row" gap="sm" align="center" className={styles.canvasHeader}>
+								<Stack
+									direction="row"
+									gap="sm"
+									align="center"
+									className={styles.canvasHeader}
+								>
 									<Icon icon={Layout} size="sm" color="secondary" />
-									<Text size="sm" weight="medium">Email Content</Text>
+									<Text size="sm" weight="medium">
+										Email Content
+									</Text>
 									<Text size="xs" color="muted" className={styles.blockCount}>
 										{blocks.length} blocks
 									</Text>
 								</Stack>
 								<div className={styles.canvas}>
 									{blocks.length === 0 ? (
-										<Stack gap="md" align="center" justify="center" className={styles.emptyCanvas}>
+										<Stack
+											gap="md"
+											align="center"
+											justify="center"
+											className={styles.emptyCanvas}
+										>
 											<Icon icon={Plus} size="2xl" color="muted" />
-											<Text color="muted">Add content blocks from the left panel</Text>
+											<Text color="muted">
+												Add content blocks from the left panel
+											</Text>
 										</Stack>
 									) : (
 										blocks.map((block, index) => (
@@ -641,9 +684,16 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 							{/* Live Preview */}
 							<div className={styles.previewWrapper}>
-								<Stack direction="row" gap="sm" align="center" className={styles.previewHeader}>
+								<Stack
+									direction="row"
+									gap="sm"
+									align="center"
+									className={styles.previewHeader}
+								>
 									<Icon icon={Eye} size="sm" color="secondary" />
-									<Text size="sm" weight="medium">Live Preview</Text>
+									<Text size="sm" weight="medium">
+										Live Preview
+									</Text>
 								</Stack>
 								<div
 									className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
@@ -711,9 +761,16 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 								emailType={emailType}
 							/>
 						) : (
-							<Stack gap="md" align="center" justify="center" className={styles.noSelection}>
+							<Stack
+								gap="md"
+								align="center"
+								justify="center"
+								className={styles.noSelection}
+							>
 								<Icon icon={MousePointer2} size="xl" color="muted" />
-								<Text as="h3" size="md" weight="semibold">No Block Selected</Text>
+								<Text as="h3" size="md" weight="semibold">
+									No Block Selected
+								</Text>
 								<Text size="sm" color="muted">
 									Select a content block from the canvas to edit its properties.
 								</Text>

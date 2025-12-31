@@ -3,15 +3,25 @@
  * User detail modal with full information and actions
  */
 
-import { Gift, Hash, Link, Mail, Share2, Star, Trash2, User, X } from "lucide-react";
+import {
+	Gift,
+	Hash,
+	Link,
+	Mail,
+	Share2,
+	Star,
+	Trash2,
+	User,
+	X,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Modal } from "@/proto-design-system/components/overlays/Modal";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { RewardEarned, WaitlistUser } from "@/types/common.types";
 import { formatPosition } from "@/utils/positionFormatter";
@@ -119,28 +129,27 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 
 	return (
 		<>
-			<Modal
-				isOpen={true}
-				onClose={onClose}
-				title="User Profile"
-			>
+			<Modal isOpen={true} onClose={onClose} title="User Profile">
 				<Stack gap="md" className={classNames} {...props}>
-
 					{/* Header */}
 					<Stack direction="row" justify="between" align="start">
 						<Stack direction="row" gap="md" align="center">
-							<Stack align="center" justify="center" className={styles.userAvatar}>
+							<Stack
+								align="center"
+								justify="center"
+								className={styles.userAvatar}
+							>
 								<Icon icon={User} size="lg" color="muted" />
 							</Stack>
 							<Stack gap="xs">
-								<Text as="h2" size="lg" weight="semibold">{user.email}</Text>
+								<Text as="h2" size="lg" weight="semibold">
+									{user.email}
+								</Text>
 								<Text size="sm" color="secondary">
 									{user.emailVerified ? "Verified" : "Not verified"}
 								</Text>
 							</Stack>
-							<Badge
-								variant={getStatusVariant(user.status)}
-							>
+							<Badge variant={getStatusVariant(user.status)}>
 								{formatStatus(user.status)}
 							</Badge>
 						</Stack>
@@ -156,32 +165,60 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 
 					{/* Stats Grid */}
 					<Stack direction="row" gap="md" wrap className={styles.statsGrid}>
-						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.statCard}
+						>
 							<Icon icon={Hash} size="md" color="secondary" />
 							<Stack gap="0">
 								<Text weight="semibold">{formatPosition(user.position)}</Text>
-								<Text size="xs" color="muted">Position</Text>
+								<Text size="xs" color="muted">
+									Position
+								</Text>
 							</Stack>
 						</Stack>
-						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.statCard}
+						>
 							<Icon icon={Share2} size="md" color="secondary" />
 							<Stack gap="0">
 								<Text weight="semibold">{user.referralCount}</Text>
-								<Text size="xs" color="muted">Referrals</Text>
+								<Text size="xs" color="muted">
+									Referrals
+								</Text>
 							</Stack>
 						</Stack>
-						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.statCard}
+						>
 							<Icon icon={Star} size="md" color="secondary" />
 							<Stack gap="0">
 								<Text weight="semibold">{user.points}</Text>
-								<Text size="xs" color="muted">Points</Text>
+								<Text size="xs" color="muted">
+									Points
+								</Text>
 							</Stack>
 						</Stack>
-						<Stack direction="row" gap="sm" align="center" className={styles.statCard}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.statCard}
+						>
 							<Icon icon={Link} size="md" color="secondary" />
 							<Stack gap="0">
 								<Text weight="semibold">{user.source}</Text>
-								<Text size="xs" color="muted">Source</Text>
+								<Text size="xs" color="muted">
+									Source
+								</Text>
 							</Stack>
 						</Stack>
 					</Stack>
@@ -190,20 +227,28 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 
 					{/* Details Section */}
 					<Stack gap="sm">
-						<Text as="h3" size="md" weight="semibold">Details</Text>
+						<Text as="h3" size="md" weight="semibold">
+							Details
+						</Text>
 						<Stack gap="md" className={styles.detailsGrid}>
 							<Stack gap="xs">
-								<Text size="xs" color="muted">Referral Code</Text>
+								<Text size="xs" color="muted">
+									Referral Code
+								</Text>
 								<Text size="sm">{user.referralCode}</Text>
 							</Stack>
 							{user.referredById && (
 								<Stack gap="xs">
-									<Text size="xs" color="muted">Referred By</Text>
+									<Text size="xs" color="muted">
+										Referred By
+									</Text>
 									<Text size="sm">{user.referredById}</Text>
 								</Stack>
 							)}
 							<Stack gap="xs">
-								<Text size="xs" color="muted">Created At</Text>
+								<Text size="xs" color="muted">
+									Created At
+								</Text>
 								<Text size="sm">
 									{new Date(user.createdAt).toLocaleString("en-US", {
 										month: "long",
@@ -226,35 +271,47 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 						<>
 							<Divider />
 							<Stack gap="sm">
-								<Text as="h3" size="md" weight="semibold">UTM Parameters</Text>
+								<Text as="h3" size="md" weight="semibold">
+									UTM Parameters
+								</Text>
 								<Stack gap="md" className={styles.detailsGrid}>
 									{user.utmSource && (
 										<Stack gap="xs">
-											<Text size="xs" color="muted">Source</Text>
+											<Text size="xs" color="muted">
+												Source
+											</Text>
 											<Text size="sm">{user.utmSource}</Text>
 										</Stack>
 									)}
 									{user.utmMedium && (
 										<Stack gap="xs">
-											<Text size="xs" color="muted">Medium</Text>
+											<Text size="xs" color="muted">
+												Medium
+											</Text>
 											<Text size="sm">{user.utmMedium}</Text>
 										</Stack>
 									)}
 									{user.utmCampaign && (
 										<Stack gap="xs">
-											<Text size="xs" color="muted">Campaign</Text>
+											<Text size="xs" color="muted">
+												Campaign
+											</Text>
 											<Text size="sm">{user.utmCampaign}</Text>
 										</Stack>
 									)}
 									{user.utmContent && (
 										<Stack gap="xs">
-											<Text size="xs" color="muted">Content</Text>
+											<Text size="xs" color="muted">
+												Content
+											</Text>
 											<Text size="sm">{user.utmContent}</Text>
 										</Stack>
 									)}
 									{user.utmTerm && (
 										<Stack gap="xs">
-											<Text size="xs" color="muted">Term</Text>
+											<Text size="xs" color="muted">
+												Term
+											</Text>
 											<Text size="sm">{user.utmTerm}</Text>
 										</Stack>
 									)}
@@ -273,14 +330,18 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 								</Text>
 								<Stack gap="sm" className={styles.referralList}>
 									{referredUsers.map((referredUser) => (
-										<Stack key={referredUser.id} direction="row" justify="between" align="center" className={styles.referralItem}>
+										<Stack
+											key={referredUser.id}
+											direction="row"
+											justify="between"
+											align="center"
+											className={styles.referralItem}
+										>
 											<Stack direction="row" gap="sm" align="center">
 												<Icon icon={User} size="sm" color="muted" />
 												<Text size="sm">{referredUser.email}</Text>
 											</Stack>
-											<Badge
-												variant={getStatusVariant(referredUser.status)}
-											>
+											<Badge variant={getStatusVariant(referredUser.status)}>
 												{formatStatus(referredUser.status)}
 											</Badge>
 										</Stack>
@@ -300,7 +361,13 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 								</Text>
 								<Stack gap="sm" className={styles.rewardList}>
 									{rewards.map((reward) => (
-										<Stack key={reward.id} direction="row" gap="sm" align="center" className={styles.rewardItem}>
+										<Stack
+											key={reward.id}
+											direction="row"
+											gap="sm"
+											align="center"
+											className={styles.rewardItem}
+										>
 											<Icon icon={Gift} size="md" color="secondary" />
 											<Stack gap="0">
 												<Text size="sm" weight="medium">
@@ -323,11 +390,15 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 
 					{/* Actions Section */}
 					<Stack gap="sm">
-						<Text as="h3" size="md" weight="semibold">Actions</Text>
+						<Text as="h3" size="md" weight="semibold">
+							Actions
+						</Text>
 						<Stack gap="md" className={styles.actionsGrid}>
 							{/* Update Status */}
 							<Stack gap="xs">
-								<Text size="xs" color="muted">Update Status</Text>
+								<Text size="xs" color="muted">
+									Update Status
+								</Text>
 								<Stack direction="row" gap="sm" align="center">
 									<Dropdown
 										items={STATUS_OPTIONS}
@@ -381,7 +452,10 @@ export const UserProfile = memo<UserProfileProps>(function UserProfile({
 				icon="warning"
 				footer={
 					<>
-						<Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
+						<Button
+							variant="secondary"
+							onClick={() => setIsDeleteModalOpen(false)}
+						>
 							Cancel
 						</Button>
 						<Button variant="primary" onClick={handleDelete}>

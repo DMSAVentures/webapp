@@ -21,10 +21,10 @@ import {
 	Type,
 } from "lucide-react";
 import { type DragEvent, type HTMLAttributes, memo } from "react";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/common.types";
 import styles from "./component.module.scss";
@@ -42,7 +42,7 @@ export interface FieldItemProps extends HTMLAttributes<HTMLDivElement> {
 	onSelect: () => void;
 	/** Delete handler */
 	onDelete: () => void;
-    /** Whether the field can be deleted */
+	/** Whether the field can be deleted */
 	canDelete?: boolean;
 	/** Whether to show column toggle (two-column layout) */
 	showColumnToggle?: boolean;
@@ -124,9 +124,16 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 			</div>
 
 			{/* Left side: Type icon and badge */}
-			<Stack direction="row" gap="sm" align="center" className={styles.typeInfo}>
+			<Stack
+				direction="row"
+				gap="sm"
+				align="center"
+				className={styles.typeInfo}
+			>
 				<Icon icon={getFieldIcon(field.type)} size="md" color="secondary" />
-				<Badge variant="secondary" size="sm">{field.type}</Badge>
+				<Badge variant="secondary" size="sm">
+					{field.type}
+				</Badge>
 			</Stack>
 
 			{/* Center: Field label and details */}
@@ -136,7 +143,9 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 					{field.required && <span className={styles.required}>*</span>}
 				</Text>
 				{field.placeholder && (
-					<Text size="xs" color="muted">{field.placeholder}</Text>
+					<Text size="xs" color="muted">
+						{field.placeholder}
+					</Text>
 				)}
 				{/* Show options count for select/radio/checkbox fields */}
 				{["select", "radio", "checkbox"].includes(field.type) && (
@@ -153,7 +162,9 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 					<Badge
 						variant={currentColumn === 1 ? "primary" : "secondary"}
 						size="sm"
-					>{currentColumn === 1 ? "Left" : "Right"}</Badge>
+					>
+						{currentColumn === 1 ? "Left" : "Right"}
+					</Badge>
 				</div>
 			)}
 
@@ -162,7 +173,13 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 				{/* Column toggle button (only in two-column mode) */}
 				{showColumnToggle && (
 					<Button
-						leftIcon={currentColumn === 1 ? <ArrowRight size={16} /> : <ArrowLeft size={16} />}
+						leftIcon={
+							currentColumn === 1 ? (
+								<ArrowRight size={16} />
+							) : (
+								<ArrowLeft size={16} />
+							)
+						}
 						variant="secondary"
 						aria-label={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 						onClick={handleColumnToggleClick}

@@ -3,12 +3,20 @@
  * Bulk operations toolbar for selected users
  */
 
-import { AlertTriangle, CheckSquare, Download, Mail, RefreshCw, Trash2, X } from "lucide-react";
+import {
+	AlertTriangle,
+	CheckSquare,
+	Download,
+	Mail,
+	RefreshCw,
+	Trash2,
+	X,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Modal } from "@/proto-design-system/components/overlays/Modal";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
@@ -75,7 +83,13 @@ export const BulkActions = memo<BulkActionsProps>(function BulkActions({
 
 	return (
 		<>
-			<Stack direction="row" gap="md" align="center" className={classNames} {...props}>
+			<Stack
+				direction="row"
+				gap="md"
+				align="center"
+				className={classNames}
+				{...props}
+			>
 				{/* Selection count */}
 				<Stack direction="row" gap="sm" align="center">
 					<Icon icon={CheckSquare} size="md" color="secondary" />
@@ -140,10 +154,18 @@ export const BulkActions = memo<BulkActionsProps>(function BulkActions({
 				icon={<AlertTriangle />}
 				footer={
 					<>
-						<Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)} disabled={isLoading}>
+						<Button
+							variant="secondary"
+							onClick={() => setIsDeleteModalOpen(false)}
+							disabled={isLoading}
+						>
 							Cancel
 						</Button>
-						<Button variant="primary" onClick={handleConfirmDelete} disabled={isLoading}>
+						<Button
+							variant="primary"
+							onClick={handleConfirmDelete}
+							disabled={isLoading}
+						>
 							{isLoading ? "Deleting..." : "Delete"}
 						</Button>
 					</>

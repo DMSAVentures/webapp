@@ -3,8 +3,8 @@
  * Display campaign statistics using proto design system StatCard
  */
 
-import { type HTMLAttributes, memo } from "react";
 import { BadgeCheck, Share2, TrendingUp, Users } from "lucide-react";
+import { type HTMLAttributes, memo } from "react";
 import { StatCard } from "@/proto-design-system/components/data/StatCard";
 import type { CampaignStats as CampaignStatsType } from "@/types/common.types";
 import styles from "./component.module.scss";

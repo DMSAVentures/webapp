@@ -1,1 +1,1 @@
-export { Grid, type GridProps, type GridColumns, type GridGap } from "./Grid";
+export { Grid, type GridColumns, type GridGap, type GridProps } from "./Grid";

@@ -1,12 +1,12 @@
-import { Plus } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
 import { useGetAllEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Campaign } from "@/types/campaign";
 import styles from "./email-templates.module.scss";
@@ -30,12 +30,7 @@ function RouteComponent() {
 	};
 
 	if (loading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading email templates..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading email templates..." />;
 	}
 
 	if (error) {
@@ -55,56 +50,45 @@ function RouteComponent() {
 		switch (type) {
 			case "verification":
 				return (
-					<Badge
-						variant="primary"
-						size="sm"
-					>
+					<Badge variant="primary" size="sm">
 						Verification
 					</Badge>
 				);
 			case "welcome":
 				return (
-					<Badge
-						variant="success"
-						size="sm"
-					>
+					<Badge variant="success" size="sm">
 						Welcome
 					</Badge>
 				);
 			case "position_update":
 				return (
-					<Badge
-						variant="secondary"
-						size="sm"
-					>
+					<Badge variant="secondary" size="sm">
 						Position Update
 					</Badge>
 				);
 			case "reward_earned":
 				return (
-					<Badge
-						variant="warning"
-						size="sm"
-					>
+					<Badge variant="warning" size="sm">
 						Reward Earned
 					</Badge>
 				);
 			case "milestone":
 				return (
-					<Badge
-						variant="primary"
-						size="sm"
-					>
+					<Badge variant="primary" size="sm">
 						Milestone
 					</Badge>
 				);
 			case "custom":
 				return (
-					<Badge variant="secondary" size="sm">Custom</Badge>
+					<Badge variant="secondary" size="sm">
+						Custom
+					</Badge>
 				);
 			default:
 				return (
-					<Badge variant="secondary" size="sm">{type}</Badge>
+					<Badge variant="secondary" size="sm">
+						{type}
+					</Badge>
 				);
 		}
 	};
@@ -138,7 +122,11 @@ function RouteComponent() {
 						icon="mail-line"
 						title="No email templates yet"
 						description="Create email templates within your campaigns to send automated emails to your users."
-						action={<Button variant="primary" onClick={handleCreateTemplate}>Go to Campaigns</Button>}
+						action={
+							<Button variant="primary" onClick={handleCreateTemplate}>
+								Go to Campaigns
+							</Button>
+						}
 					/>
 				) : (
 					<div className={styles.templatesList}>

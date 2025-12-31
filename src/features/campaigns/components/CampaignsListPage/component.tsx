@@ -10,10 +10,10 @@ import { ErrorState } from "@/components/error/error";
 import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useDeleteCampaign } from "@/hooks/useDeleteCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import { CampaignList } from "../CampaignList/component";
@@ -105,12 +105,7 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 
 	// Loading state
 	if (loading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading campaigns..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading campaigns..." />;
 	}
 
 	// Error state
@@ -120,25 +115,32 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 
 	// Empty/no data state
 	if (!data || !data.campaigns) {
-		return <EmptyState title="No campaigns found" icon={<Megaphone size={48} />} />;
+		return (
+			<EmptyState title="No campaigns found" icon={<Megaphone size={48} />} />
+		);
 	}
 
 	const campaigns = data.campaigns;
 
 	return (
 		<Stack gap="lg" className={styles.page} animate>
-			<Stack direction="row" justify="between" align="start" wrap className={styles.pageHeader}>
+			<Stack
+				direction="row"
+				justify="between"
+				align="start"
+				wrap
+				className={styles.pageHeader}
+			>
 				<Stack gap="xs">
-					<Text as="h1" size="2xl" weight="bold">Campaigns</Text>
+					<Text as="h1" size="2xl" weight="bold">
+						Campaigns
+					</Text>
 					<Text color="muted">
 						Manage your marketing campaigns and promotional activities
 					</Text>
 				</Stack>
 				{campaigns.length > 0 && (
-					<Button
-						onClick={handleCreateCampaign}
-						variant="primary"
-					>
+					<Button onClick={handleCreateCampaign} variant="primary">
 						<Plus size={16} />
 						Create Campaign
 					</Button>

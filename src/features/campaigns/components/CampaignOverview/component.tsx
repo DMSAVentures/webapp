@@ -4,7 +4,17 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { Calendar, CheckCircle2, ChevronRight, Circle, Loader2, Mail, Rocket, Settings, Share2 } from "lucide-react";
+import {
+	Calendar,
+	CheckCircle2,
+	ChevronRight,
+	Circle,
+	Loader2,
+	Mail,
+	Rocket,
+	Settings,
+	Share2,
+} from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
@@ -132,8 +142,8 @@ function useLaunchReadiness(
 
 	const hasReferralRewards = Boolean(
 		campaign.referralSettings?.enabled &&
-		campaign.referralSettings?.pointsPerReferral != null &&
-		campaign.referralSettings.pointsPerReferral > 0
+			campaign.referralSettings?.pointsPerReferral != null &&
+			campaign.referralSettings.pointsPerReferral > 0,
 	);
 
 	return {
@@ -188,7 +198,9 @@ const LaunchChecklist = memo(function LaunchChecklist({
 			<div className={styles.checklistHeader}>
 				<div>
 					<h3 className={styles.checklistTitle}>Launch Checklist</h3>
-					<p className={styles.checklistSubtitle}>Complete these steps before going live</p>
+					<p className={styles.checklistSubtitle}>
+						Complete these steps before going live
+					</p>
 				</div>
 				<Badge variant="success" size="sm">
 					{completedItems}/{totalItems} Complete
@@ -224,7 +236,11 @@ const LaunchChecklist = memo(function LaunchChecklist({
 					{!hasFormFields && (
 						<span className={styles.checklistItemBadge}>Required</span>
 					)}
-					<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
+					<Icon
+						icon={ChevronRight}
+						size="sm"
+						className={styles.checklistArrow}
+					/>
 				</li>
 
 				{/* Set up email templates */}
@@ -252,7 +268,11 @@ const LaunchChecklist = memo(function LaunchChecklist({
 								: "Configure verification & welcome emails"}
 						</span>
 					</div>
-					<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
+					<Icon
+						icon={ChevronRight}
+						size="sm"
+						className={styles.checklistArrow}
+					/>
 				</li>
 
 				{/* Configure referral rewards - only show if referrals enabled */}
@@ -281,7 +301,11 @@ const LaunchChecklist = memo(function LaunchChecklist({
 									: "Set up rewards for successful referrals"}
 							</span>
 						</div>
-						<Icon icon={ChevronRight} size="sm" className={styles.checklistArrow} />
+						<Icon
+							icon={ChevronRight}
+							size="sm"
+							className={styles.checklistArrow}
+						/>
 					</li>
 				)}
 			</ul>
@@ -346,7 +370,8 @@ const ConfigurationCard = memo(function ConfigurationCard({
 	campaignId,
 }: ConfigurationCardProps) {
 	const navigate = useNavigate();
-	const verificationEnabled = campaign.emailSettings?.verificationRequired ?? false;
+	const verificationEnabled =
+		campaign.emailSettings?.verificationRequired ?? false;
 	const referralsEnabled = campaign.referralSettings?.enabled ?? false;
 
 	return (
@@ -360,7 +385,10 @@ const ConfigurationCard = memo(function ConfigurationCard({
 						<Icon icon={Mail} size="sm" className={styles.configIcon} />
 						<span className={styles.configLabel}>Email Verification</span>
 					</div>
-					<Badge variant={verificationEnabled ? "success" : "secondary"} size="sm">
+					<Badge
+						variant={verificationEnabled ? "success" : "secondary"}
+						size="sm"
+					>
 						{verificationEnabled ? "On" : "Off"}
 					</Badge>
 				</div>
@@ -421,7 +449,10 @@ export const CampaignOverview = memo(function CampaignOverview({
 	const { templates: emailTemplates, loading: emailTemplatesLoading } =
 		useGetEmailTemplates(campaign.id);
 
-	const { loading: updatingStatus, handleGoLive } = useCampaignStatusActions(campaignId, onRefetch);
+	const { loading: updatingStatus, handleGoLive } = useCampaignStatusActions(
+		campaignId,
+		onRefetch,
+	);
 
 	const {
 		hasFormFields,

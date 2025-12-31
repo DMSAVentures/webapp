@@ -14,12 +14,12 @@ import {
 	type EmailTemplate,
 	useGetEmailTemplates,
 } from "@/hooks/useEmailTemplates";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Card } from "@/proto-design-system/components/layout/Card";
-import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
@@ -74,7 +74,9 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 					<div className={styles.iconWrapper}>
 						<Icon icon={Mail} size="md" />
 					</div>
-					<Text size="md" weight="medium">{typeLabels[type]}</Text>
+					<Text size="md" weight="medium">
+						{typeLabels[type]}
+					</Text>
 					<Badge variant={isCustom ? "success" : "secondary"} size="sm">
 						{isCustom ? "Custom" : "Default"}
 					</Badge>
@@ -85,8 +87,12 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 						{typeDescriptions[type]}
 					</Text>
 					<div className={styles.templateCardSubject}>
-						<Text as="span" size="xs" weight="medium" color="muted">Subject:</Text>
-						<Text as="span" size="sm">{subject}</Text>
+						<Text as="span" size="xs" weight="medium" color="muted">
+							Subject:
+						</Text>
+						<Text as="span" size="sm">
+							{subject}
+						</Text>
 					</div>
 				</Stack>
 
@@ -146,7 +152,9 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 		return (
 			<Stack gap="lg">
 				<Stack gap="xs" className={styles.sectionHeader}>
-					<Text as="h3" size="lg" weight="semibold">Email Settings</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						Email Settings
+					</Text>
 					<Text size="sm" color="muted">
 						Configure the emails sent to users when they join your waitlist
 					</Text>
@@ -189,7 +197,9 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 						<Card variant="filled" padding="lg">
 							<Stack gap="xs" align="center">
 								<Icon icon={MailX} size="lg" />
-								<Text size="sm" color="muted">No automatic emails are configured.</Text>
+								<Text size="sm" color="muted">
+									No automatic emails are configured.
+								</Text>
 								<Text size="xs" color="muted">
 									Enable email verification above or toggle "Send welcome email"
 									to configure automatic emails.
@@ -203,7 +213,9 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 				{!campaignId && (showVerificationTemplate || showWelcomeTemplate) && (
 					<div className={styles.saveNote}>
 						<Icon icon={Info} size="sm" />
-						<Text size="sm">Save the campaign first to customize email templates.</Text>
+						<Text size="sm">
+							Save the campaign first to customize email templates.
+						</Text>
 					</div>
 				)}
 			</Stack>

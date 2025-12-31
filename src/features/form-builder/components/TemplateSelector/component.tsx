@@ -5,8 +5,8 @@
 
 import { Check } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormDesign } from "@/types/common.types";
 import {
@@ -150,7 +150,9 @@ export const TemplateSelector = memo<TemplateSelectorProps>(
 		return (
 			<div className={classNames} {...props}>
 				<Stack gap="xs" className={styles.header}>
-					<Text as="h4" size="md" weight="semibold">Design Templates</Text>
+					<Text as="h4" size="md" weight="semibold">
+						Design Templates
+					</Text>
 					<Text size="sm" color="muted">
 						Choose a starting point for your form
 					</Text>
@@ -194,7 +196,9 @@ export const TemplateSelector = memo<TemplateSelectorProps>(
 								</div>
 
 								<Stack gap="0" className={styles.cardContent}>
-									<Text size="sm" weight="medium">{template.name}</Text>
+									<Text size="sm" weight="medium">
+										{template.name}
+									</Text>
 									<Text size="xs" color="muted">
 										{template.description}
 									</Text>

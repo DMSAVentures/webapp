@@ -11,9 +11,9 @@ import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import { CampaignForm, type CampaignFormData } from "../CampaignForm/component";
@@ -230,7 +230,9 @@ const DangerZone = memo(function DangerZone({
 			<Card variant="outlined" padding="md" className={styles.dangerCard}>
 				<Stack direction="row" justify="between" align="center" gap="md" wrap>
 					<Stack gap="xs">
-						<Text size="md" weight="medium">End Campaign</Text>
+						<Text size="md" weight="medium">
+							End Campaign
+						</Text>
 						<Text size="sm" color="muted">
 							Once ended, the campaign cannot be reactivated. All data will be
 							preserved.
@@ -239,7 +241,11 @@ const DangerZone = memo(function DangerZone({
 					<Button
 						variant="destructive"
 						leftIcon={
-							loading ? <Loader2 size={16} className={styles.spin} /> : <StopCircle size={16} />
+							loading ? (
+								<Loader2 size={16} className={styles.spin} />
+							) : (
+								<StopCircle size={16} />
+							)
 						}
 						onClick={onEnd}
 						disabled={loading}
@@ -290,7 +296,9 @@ export const CampaignSettings = memo(function CampaignSettings({
 		<Stack gap="lg" className={styles.settings} animate>
 			{/* Page Header */}
 			<Stack gap="xs">
-				<Text as="h2" size="xl" weight="semibold">Campaign Settings</Text>
+				<Text as="h2" size="xl" weight="semibold">
+					Campaign Settings
+				</Text>
 				<Text size="md" color="secondary">
 					Configure your campaign settings, email options, and growth features
 				</Text>

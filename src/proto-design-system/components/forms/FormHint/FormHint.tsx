@@ -6,26 +6,26 @@ import styles from "./FormHint.module.scss";
 export type FormHintVariant = "default" | "error" | "success";
 
 export interface FormHintProps {
-  /** Hint text content */
-  children: ReactNode;
-  /** Visual variant */
-  variant?: FormHintVariant;
-  /** Show icon prefix */
-  showIcon?: boolean;
-  /** Custom icon (overrides default) */
-  icon?: ReactNode;
-  /** Associated input ID for aria-describedby */
-  id?: string;
-  /** Hidden state */
-  hidden?: boolean;
-  /** Additional className */
-  className?: string;
+	/** Hint text content */
+	children: ReactNode;
+	/** Visual variant */
+	variant?: FormHintVariant;
+	/** Show icon prefix */
+	showIcon?: boolean;
+	/** Custom icon (overrides default) */
+	icon?: ReactNode;
+	/** Associated input ID for aria-describedby */
+	id?: string;
+	/** Hidden state */
+	hidden?: boolean;
+	/** Additional className */
+	className?: string;
 }
 
 const defaultIcons: Record<FormHintVariant, ReactNode> = {
-  default: <Info size={14} />,
-  error: <AlertCircle size={14} />,
-  success: <CheckCircle2 size={14} />,
+	default: <Info size={14} />,
+	error: <AlertCircle size={14} />,
+	success: <CheckCircle2 size={14} />,
 };
 
 /**
@@ -39,28 +39,28 @@ const defaultIcons: Record<FormHintVariant, ReactNode> = {
  * ```
  */
 export function FormHint({
-  children,
-  variant = "default",
-  showIcon = false,
-  icon,
-  id,
-  hidden = false,
-  className,
+	children,
+	variant = "default",
+	showIcon = false,
+	icon,
+	id,
+	hidden = false,
+	className,
 }: FormHintProps) {
-  if (hidden) return null;
+	if (hidden) return null;
 
-  const iconElement = icon ?? (showIcon ? defaultIcons[variant] : null);
+	const iconElement = icon ?? (showIcon ? defaultIcons[variant] : null);
 
-  return (
-    <p
-      id={id}
-      className={cn(styles.hint, styles[variant], className)}
-      role={variant === "error" ? "alert" : undefined}
-    >
-      {iconElement && <span className={styles.icon}>{iconElement}</span>}
-      <span className={styles.text}>{children}</span>
-    </p>
-  );
+	return (
+		<p
+			id={id}
+			className={cn(styles.hint, styles[variant], className)}
+			role={variant === "error" ? "alert" : undefined}
+		>
+			{iconElement && <span className={styles.icon}>{iconElement}</span>}
+			<span className={styles.text}>{children}</span>
+		</p>
+	);
 }
 
 FormHint.displayName = "FormHint";

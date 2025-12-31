@@ -5,10 +5,10 @@
 
 import { Check, Loader2 } from "lucide-react";
 import { type FormEvent, type HTMLAttributes, memo, useState } from "react";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { WEBHOOK_EVENTS } from "@/types/webhook";
 import { validateRequired, validateUrl } from "@/utils/validation";
 import styles from "./component.module.scss";
@@ -255,7 +255,13 @@ export const WebhookForm = memo<WebhookFormProps>(function WebhookForm({
 					type="submit"
 					disabled={loading}
 					variant="primary"
-					leftIcon={loading ? <Loader2 size={16} className={styles.spinIcon} /> : <Check size={16} />}
+					leftIcon={
+						loading ? (
+							<Loader2 size={16} className={styles.spinIcon} />
+						) : (
+							<Check size={16} />
+						)
+					}
 				>
 					{loading ? "Saving..." : submitText}
 				</Button>

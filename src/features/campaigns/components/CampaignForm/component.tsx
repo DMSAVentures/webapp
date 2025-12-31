@@ -12,14 +12,14 @@ import {
 	useState,
 } from "react";
 import { useTier } from "@/contexts/tier";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Card } from "@/proto-design-system/components/layout/Card";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Label } from "@/proto-design-system/components/forms/Label";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import "remixicon/fonts/remixicon.css";
 import type { TrackingIntegrationType } from "@/types/campaign";
@@ -625,7 +625,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				{/* General Section */}
 				<Stack gap="md">
 					<Stack gap="xs" className={styles.sectionHeader}>
-						<Text as="h3" size="lg" weight="semibold">General</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							General
+						</Text>
 						<Text color="muted" size="sm">
 							Basic information about your campaign
 						</Text>
@@ -660,7 +662,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				{/* Signup Options Section */}
 				<Stack gap="lg">
 					<Stack gap="xs" className={styles.sectionHeader}>
-						<Text as="h3" size="lg" weight="semibold">Signup Options</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							Signup Options
+						</Text>
 						<Text color="muted" size="sm">
 							Configure how users sign up for your waitlist
 						</Text>
@@ -700,9 +704,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							]}
 							value={formData.settings.duplicateHandling}
 							disabled={isDisabled}
-							onChange={(id) =>
-								handleSettingChange("duplicateHandling", id)
-							}
+							onChange={(id) => handleSettingChange("duplicateHandling", id)}
 						/>
 					</Stack>
 
@@ -736,7 +738,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				{/* Growth Features Section */}
 				<Stack gap="lg">
 					<Stack gap="xs" className={styles.sectionHeader}>
-						<Text as="h3" size="lg" weight="semibold">Growth Features</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							Growth Features
+						</Text>
 						<Text color="muted" size="sm">
 							Enable viral growth and engagement features
 						</Text>
@@ -806,7 +810,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								<Input
 									id="positions-to-jump"
 									type="number"
-									value={formData.referralConfig?.positionsToJump.toString() || "0"}
+									value={
+										formData.referralConfig?.positionsToJump.toString() || "0"
+									}
 									onChange={(e) =>
 										handleReferralConfigChange(
 											"positionsToJump",
@@ -839,7 +845,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 														channel.value,
 													) ?? false
 												}
-												onChange={() => handleSharingChannelToggle(channel.value)}
+												onChange={() =>
+													handleSharingChannelToggle(channel.value)
+												}
 												disabled={isDisabled || !hasReferrals}
 												label={channel.label}
 											/>
@@ -866,7 +874,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 				{/* Conversion Tracking Section */}
 				<Stack gap="lg">
 					<Stack gap="xs" className={styles.sectionHeader}>
-						<Text as="h3" size="lg" weight="semibold">Conversion Tracking</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							Conversion Tracking
+						</Text>
 						<Text color="muted" size="sm">
 							Add tracking pixels to fire when users complete signup
 						</Text>
@@ -886,9 +896,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 								}))}
 								disabled={isDisabled || !hasTracking}
 								onChange={(id) =>
-									handleAddTrackingIntegration(
-										id as TrackingIntegrationType,
-									)
+									handleAddTrackingIntegration(id as TrackingIntegrationType)
 								}
 							/>
 						</Stack>
@@ -905,11 +913,7 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 									if (!integrationInfo) return null;
 
 									return (
-										<Card
-											key={integration.type}
-											variant="filled"
-											padding="md"
-										>
+										<Card key={integration.type} variant="filled" padding="md">
 											<Stack gap="sm">
 												<Stack direction="row" align="center" justify="between">
 													<Stack direction="row" align="center" gap="sm">
@@ -917,16 +921,16 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 															className={`${integrationInfo.icon} ${styles.integrationIcon}`}
 															aria-hidden="true"
 														/>
-														<Text weight="medium">
-															{integrationInfo.label}
-														</Text>
+														<Text weight="medium">{integrationInfo.label}</Text>
 													</Stack>
 													<Button
 														leftIcon={<Trash2 size={16} />}
 														variant="ghost"
 														size="sm"
 														aria-label={`Remove ${integrationInfo.label}`}
-														onClick={() => handleRemoveTracking(integration.type)}
+														onClick={() =>
+															handleRemoveTracking(integration.type)
+														}
 														disabled={isDisabled || !hasTracking}
 													/>
 												</Stack>
@@ -943,14 +947,19 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 															)
 														}
 														onBlur={() =>
-															handleTrackingIdBlur(integration.type, integration.id)
+															handleTrackingIdBlur(
+																integration.type,
+																integration.id,
+															)
 														}
 														placeholder={integrationInfo.placeholder}
 														disabled={isDisabled || !hasTracking}
 														required
 														isError={
-															!!(trackingTouched[integration.type] &&
-																trackingErrors[integration.type])
+															!!(
+																trackingTouched[integration.type] &&
+																trackingErrors[integration.type]
+															)
 														}
 													/>
 													{integrationInfo.hasLabel && (
@@ -978,7 +987,12 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						)}
 
 					{formData.trackingConfig?.integrations.length === 0 && (
-						<Text color="muted" size="sm" align="center" className={styles.emptyState}>
+						<Text
+							color="muted"
+							size="sm"
+							align="center"
+							className={styles.emptyState}
+						>
 							No tracking integrations configured. Add one above to track
 							conversions.
 						</Text>
@@ -1005,7 +1019,13 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 							type="submit"
 							disabled={loading}
 							variant="primary"
-							leftIcon={loading ? <Loader2 size={16} className={styles.spin} /> : <Check size={16} />}
+							leftIcon={
+								loading ? (
+									<Loader2 size={16} className={styles.spin} />
+								) : (
+									<Check size={16} />
+								)
+							}
 						>
 							{loading ? "Saving..." : submitText}
 						</Button>

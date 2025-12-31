@@ -6,13 +6,20 @@
 import { ArrowUp, Download, Lock, Search, User } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/proto-design-system/components/data/Table";
+import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Pagination } from "@/proto-design-system/components/navigation/Pagination";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Pagination } from "@/proto-design-system/components/navigation/Pagination";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system/components/data/Table";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/campaign";
 import type {
@@ -266,7 +273,9 @@ export const UserList = memo<UserListProps>(function UserList({
 		return (
 			<Stack gap="md" align="center" className={styles.emptyState}>
 				<Icon icon={User} size="2xl" color="muted" />
-				<Text as="h3" size="lg" weight="semibold">No users yet</Text>
+				<Text as="h3" size="lg" weight="semibold">
+					No users yet
+				</Text>
 				<Text color="secondary">
 					Users who sign up for this campaign will appear here
 				</Text>
@@ -371,9 +380,7 @@ export const UserList = memo<UserListProps>(function UserList({
 								)}
 								{/* Dynamic columns for custom form fields */}
 								{customFormFields.map((field) => (
-									<TableHead key={field.id}>
-										{field.label}
-									</TableHead>
+									<TableHead key={field.id}>{field.label}</TableHead>
 								))}
 								<TableHead
 									sortDirection={getSortDirection("createdAt")}
@@ -402,9 +409,7 @@ export const UserList = memo<UserListProps>(function UserList({
 									</TableCell>
 									{emailVerificationEnabled && (
 										<TableCell>
-											<Badge
-												variant={getStatusVariant(user.status)}
-											>
+											<Badge variant={getStatusVariant(user.status)}>
 												{formatStatus(user.status)}
 											</Badge>
 										</TableCell>
@@ -520,11 +525,18 @@ export const UserList = memo<UserListProps>(function UserList({
 
 				{/* Gated leads upgrade CTA */}
 				{hasGatedLeads && (
-					<Stack direction="row" gap="md" align="center" justify="center" className={styles.gatedOverlay}>
+					<Stack
+						direction="row"
+						gap="md"
+						align="center"
+						justify="center"
+						className={styles.gatedOverlay}
+					>
 						<Icon icon={Lock} size="lg" color="muted" />
 						<Stack gap="xs">
 							<Text weight="semibold">
-								{gatedLeadsCount} more lead{gatedLeadsCount !== 1 ? "s" : ""} hidden
+								{gatedLeadsCount} more lead{gatedLeadsCount !== 1 ? "s" : ""}{" "}
+								hidden
 							</Text>
 							<Text size="sm" color="secondary">
 								Upgrade your plan to view all your leads

@@ -1,6 +1,6 @@
 export {
-  Divider,
-  type DividerProps,
-  type DividerOrientation,
-  type DividerVariant,
+	Divider,
+	type DividerOrientation,
+	type DividerProps,
+	type DividerVariant,
 } from "./Divider";

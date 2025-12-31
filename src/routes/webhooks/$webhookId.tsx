@@ -1,5 +1,5 @@
-import { Send } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Send } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
@@ -7,9 +7,9 @@ import { DeliveryList } from "@/features/webhooks/components/DeliveryList/compon
 import { useGetWebhook } from "@/hooks/useGetWebhook";
 import { useGetWebhookDeliveries } from "@/hooks/useGetWebhookDeliveries";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
 import { Toast } from "@/proto-design-system/components/feedback/Toast";
+import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import styles from "./webhookDetail.module.scss";
 
@@ -66,12 +66,7 @@ function RouteComponent() {
 	};
 
 	if (webhookLoading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading webhook..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading webhook..." />;
 	}
 
 	if (error) {

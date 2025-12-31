@@ -3,19 +3,14 @@
  * Displays a list or grid of campaign cards with filtering
  */
 
-import {
-	type HTMLAttributes,
-	memo,
-	useCallback,
-	useState,
-} from "react";
-import { Plus, Search, Megaphone } from "lucide-react";
+import { Megaphone, Plus, Search } from "lucide-react";
+import { type HTMLAttributes, memo, useCallback, useState } from "react";
+import { Input } from "@/proto-design-system/components/forms/Input";
+import { Grid } from "@/proto-design-system/components/layout/Grid";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { ButtonGroup } from "@/proto-design-system/components/primitives/Button/ButtonGroup";
-import { Grid } from "@/proto-design-system/components/layout/Grid";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Input } from "@/proto-design-system/components/forms/Input";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import { CampaignCard } from "../CampaignCard/component";
@@ -150,7 +145,11 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 	} = useCampaignFilters(initialView);
 
 	// Derived state
-	const filteredCampaigns = filterCampaigns(campaigns, statusFilter, searchQuery);
+	const filteredCampaigns = filterCampaigns(
+		campaigns,
+		statusFilter,
+		searchQuery,
+	);
 
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
@@ -159,12 +158,14 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 		return (
 			<Stack gap="md" align="center" className={styles.emptyState}>
 				<Icon icon={Megaphone} size="2xl" color="muted" />
-				<Text as="h3" size="lg" weight="semibold">No campaigns yet</Text>
+				<Text as="h3" size="lg" weight="semibold">
+					No campaigns yet
+				</Text>
 				<Text color="muted" align="center">
 					Create your first campaign to start building your waitlist
 				</Text>
 				{onCreateCampaign && (
-					<Button onClick={onCreateCampaign} variant={'primary'}>
+					<Button onClick={onCreateCampaign} variant={"primary"}>
 						<Plus size={16} />
 						Create Campaign
 					</Button>
@@ -180,7 +181,12 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 				<div className={styles.header}>
 					{/* Left side - Filters */}
 					{showFilters && (
-						<Stack direction="row" gap="sm" align="center" className={styles.filters}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.filters}
+						>
 							{/* Search */}
 							<div className={styles.searchBox}>
 								<Input
@@ -197,7 +203,9 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 								{STATUS_OPTIONS.map((option) => (
 									<Button
 										key={option.value}
-										variant={statusFilter === option.value ? "primary" : "outline"}
+										variant={
+											statusFilter === option.value ? "primary" : "outline"
+										}
 										onClick={() => setStatusFilter(option.value)}
 										aria-label={`${option.label} campaigns`}
 									>
@@ -219,7 +227,11 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 
 			{/* Campaign grid/list */}
 			{loading ? (
-				<Grid columns={view === "list" ? "1" : "3"} gap="md" className={styles.campaignGrid}>
+				<Grid
+					columns={view === "list" ? "1" : "3"}
+					gap="md"
+					className={styles.campaignGrid}
+				>
 					{[...Array(6)].map((_, i) => (
 						<div key={i} className={styles.skeletonCard} />
 					))}
@@ -235,7 +247,11 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 					)}
 				</Stack>
 			) : (
-				<Grid columns={view === "list" ? "1" : "3"} gap="md" className={styles.campaignGrid}>
+				<Grid
+					columns={view === "list" ? "1" : "3"}
+					gap="md"
+					className={styles.campaignGrid}
+				>
 					{filteredCampaigns.map((campaign) => (
 						<CampaignCard
 							key={campaign.id}

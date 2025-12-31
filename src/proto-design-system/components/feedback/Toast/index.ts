@@ -1,8 +1,8 @@
 export {
-  Toast,
-  ToastContainer,
-  type ToastProps,
-  type ToastContainerProps,
-  type ToastVariant,
-  type ToastPosition,
+	Toast,
+	ToastContainer,
+	type ToastContainerProps,
+	type ToastPosition,
+	type ToastProps,
+	type ToastVariant,
 } from "./Toast";

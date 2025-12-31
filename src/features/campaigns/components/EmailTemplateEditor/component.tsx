@@ -17,10 +17,10 @@ import {
 	useSendTestEmail,
 	useUpdateEmailTemplate,
 } from "@/hooks/useEmailTemplates";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import styles from "./component.module.scss";
 
 export interface EmailTemplateEditorProps {

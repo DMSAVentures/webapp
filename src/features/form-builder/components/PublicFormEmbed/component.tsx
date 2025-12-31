@@ -198,9 +198,7 @@ export const PublicFormEmbed = memo(function PublicFormEmbed({
 
 	// Loading state
 	if (loading) {
-		return (
-			<Spinner size="lg" label="Loading form..." />
-		);
+		return <Spinner size="lg" label="Loading form..." />;
 	}
 
 	// Error states

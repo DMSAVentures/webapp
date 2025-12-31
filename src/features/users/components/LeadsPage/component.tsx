@@ -235,7 +235,9 @@ export const LeadsPage = memo(function LeadsPage({
 	return (
 		<Stack gap="lg" className={styles.leads} animate>
 			<Stack gap="xs">
-				<Text as="h2" size="xl" weight="semibold">Leads</Text>
+				<Text as="h2" size="xl" weight="semibold">
+					Leads
+				</Text>
 				<Text color="secondary">
 					Manage and view all users who have signed up for this campaign
 				</Text>

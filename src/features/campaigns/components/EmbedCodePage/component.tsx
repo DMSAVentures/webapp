@@ -6,14 +6,14 @@
 import { Check, Code, Copy, Globe, Link, type LucideIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useGlobalBanner } from "@/contexts/globalBanner";
+import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Card } from "@/proto-design-system/components/layout/Card";
-import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
-import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import "remixicon/fonts/remixicon.css";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
@@ -181,12 +181,18 @@ const CodeBlock = memo(function CodeBlock({
 							<i className={icon} aria-hidden="true" />
 						)}
 					</div>
-					<Text as="h3" size="lg" weight="semibold">{title}</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						{title}
+					</Text>
 					{recommended && (
-						<Badge variant="success" size="sm">Recommended</Badge>
+						<Badge variant="success" size="sm">
+							Recommended
+						</Badge>
 					)}
 				</Stack>
-				<Text size="sm" color="muted">{description}</Text>
+				<Text size="sm" color="muted">
+					{description}
+				</Text>
 				<Stack gap="sm">
 					<TextArea
 						id={`embed-${codeType.toLowerCase()}`}
@@ -194,7 +200,7 @@ const CodeBlock = memo(function CodeBlock({
 						value={code}
 						rows={rows}
 						readOnly
-                        fullWidth
+						fullWidth
 					/>
 					<Stack direction="row" justify="end">
 						<Button
@@ -252,7 +258,9 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 	return (
 		<Stack gap="lg" className={styles.embed} animate>
 			<Stack gap="xs">
-				<Text as="h2" size="xl" weight="semibold">Embed Your Form</Text>
+				<Text as="h2" size="xl" weight="semibold">
+					Embed Your Form
+				</Text>
 				<Text size="md" color="secondary">
 					Choose your preferred method to embed the waitlist form on your
 					website

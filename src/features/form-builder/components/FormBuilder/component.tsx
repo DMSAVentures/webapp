@@ -20,11 +20,18 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
+import {
+	Tab,
+	TabList,
+	Tabs,
+} from "@/proto-design-system/components/navigation/Tabs";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel } from "@/types/campaign";
 import type {
@@ -392,14 +399,20 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	return (
 		<Stack gap="md" className={classNames} {...props}>
 			{/* Header */}
-			<Stack direction="row" justify="between" align="center" className={styles.header}>
+			<Stack
+				direction="row"
+				justify="between"
+				align="center"
+				className={styles.header}
+			>
 				<Stack direction="row" gap="sm" align="center">
-					<Text as="h2" size="lg" weight="semibold">Form Builder</Text>
+					<Text as="h2" size="lg" weight="semibold">
+						Form Builder
+					</Text>
 					{hasUnsavedChanges && (
-						<Badge
-							variant="warning"
-							size="sm"
-						>Unsaved changes</Badge>
+						<Badge variant="warning" size="sm">
+							Unsaved changes
+						</Badge>
 					)}
 				</Stack>
 
@@ -435,7 +448,13 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					<Button
 						variant="primary"
 						size="md"
-						leftIcon={saving ? <Loader2 size={16} className={styles.spin} /> : <Save size={16} />}
+						leftIcon={
+							saving ? (
+								<Loader2 size={16} className={styles.spin} />
+							) : (
+								<Save size={16} />
+							)
+						}
 						onClick={handleSave}
 						disabled={saving || !hasUnsavedChanges}
 					>
@@ -453,8 +472,12 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 					size="sm"
 				>
 					<TabList aria-label="Form builder sections">
-						<Tab id="form" icon={<FileText size={16} />}>Form</Tab>
-						<Tab id="success-screen" icon={<CheckCheck size={16} />}>Success Screen</Tab>
+						<Tab id="form" icon={<FileText size={16} />}>
+							Form
+						</Tab>
+						<Tab id="success-screen" icon={<CheckCheck size={16} />}>
+							Success Screen
+						</Tab>
 					</TabList>
 				</Tabs>
 			</div>
@@ -517,7 +540,9 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 						<div className={styles.successInfoPanel}>
 							<div className={styles.successInfoHeader}>
 								<Icon icon={Lightbulb} size="md" />
-								<Text as="h3" size="md" weight="semibold">Success Screen Tips</Text>
+								<Text as="h3" size="md" weight="semibold">
+									Success Screen Tips
+								</Text>
 							</div>
 							<div className={styles.successInfoContent}>
 								<Text size="sm" className={styles.infoText}>

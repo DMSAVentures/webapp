@@ -1,7 +1,20 @@
-import { ArrowDown, ArrowUp, Award, BarChart3, Clock, Flame, type LucideIcon, Medal, RefreshCw, Rocket, Star, Trophy } from "lucide-react";
+import {
+	ArrowDown,
+	ArrowUp,
+	Award,
+	BarChart3,
+	Clock,
+	Flame,
+	type LucideIcon,
+	Medal,
+	RefreshCw,
+	Rocket,
+	Star,
+	Trophy,
+} from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useEffect, useState } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { LeaderboardEntry } from "@/types/common.types";
 import styles from "./component.module.scss";
@@ -47,7 +60,9 @@ const badgeIcons: Record<string, LucideIcon> = {
 /**
  * Get rank display with medal for top 3
  */
-const getRankDisplay = (rank: number): { display: string; icon?: LucideIcon } => {
+const getRankDisplay = (
+	rank: number,
+): { display: string; icon?: LucideIcon } => {
 	switch (rank) {
 		case 1:
 			return { display: "1st", icon: Medal };
@@ -147,12 +162,24 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 		<div className={classNames} {...props}>
 			<div className={styles.container}>
 				{/* Header */}
-				<Stack direction="row" justify="between" align="center" className={styles.header}>
+				<Stack
+					direction="row"
+					justify="between"
+					align="center"
+					className={styles.header}
+				>
 					<Stack direction="row" gap="sm" align="center">
 						<Icon icon={BarChart3} size="md" color="secondary" />
-						<Text as="h3" size="md" weight="semibold" className={styles.title}>Leaderboard</Text>
+						<Text as="h3" size="md" weight="semibold" className={styles.title}>
+							Leaderboard
+						</Text>
 					</Stack>
-					<Stack direction="row" gap="sm" align="center" className={styles.periodSelector}>
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.periodSelector}
+					>
 						<Text size="sm" color="muted" className={styles.periodLabel}>
 							{period === "all_time" && "All Time"}
 							{period === "daily" && "Today"}
@@ -160,7 +187,12 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 							{period === "monthly" && "This Month"}
 						</Text>
 						{loading && (
-							<Icon icon={RefreshCw} size="sm" color="muted" className={styles.loadingIcon} />
+							<Icon
+								icon={RefreshCw}
+								size="sm"
+								color="muted"
+								className={styles.loadingIcon}
+							/>
 						)}
 					</Stack>
 				</Stack>
@@ -193,11 +225,24 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
                                         `}
 									>
 										<td className={styles.rankCell}>
-											<Stack direction="row" gap="xs" align="center" className={styles.rankDisplay}>
+											<Stack
+												direction="row"
+												gap="xs"
+												align="center"
+												className={styles.rankDisplay}
+											>
 												{rankDisplay.icon && (
-													<Icon icon={rankDisplay.icon} size="sm" className={styles.rankIcon} />
+													<Icon
+														icon={rankDisplay.icon}
+														size="sm"
+														className={styles.rankIcon}
+													/>
 												)}
-												<Text size="sm" weight="medium" className={styles.rankNumber}>
+												<Text
+													size="sm"
+													weight="medium"
+													className={styles.rankNumber}
+												>
 													{rankDisplay.display}
 												</Text>
 												{rankChange && (
@@ -223,9 +268,17 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 											{entry.points.toLocaleString()}
 										</td>
 										<td className={styles.badgesCell}>
-											<Stack direction="row" gap="xs" className={styles.badgeList}>
+											<Stack
+												direction="row"
+												gap="xs"
+												className={styles.badgeList}
+											>
 												{entry.badges.map((badge) => (
-													<span key={badge} title={badge.replace("_", " ")} aria-label={badge.replace("_", " ")}>
+													<span
+														key={badge}
+														title={badge.replace("_", " ")}
+														aria-label={badge.replace("_", " ")}
+													>
 														<Icon
 															icon={badgeIcons[badge] || Award}
 															size="sm"
@@ -243,7 +296,12 @@ export const LeaderboardWidget = memo(function LeaderboardWidget({
 
 					{/* Empty State */}
 					{leaderboardData.length === 0 && !loading && (
-						<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
+						<Stack
+							gap="md"
+							align="center"
+							justify="center"
+							className={styles.emptyState}
+						>
 							<Icon icon={Trophy} size="2xl" color="muted" />
 							<Text color="muted">No leaderboard data yet</Text>
 						</Stack>

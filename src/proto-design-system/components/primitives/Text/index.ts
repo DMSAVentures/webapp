@@ -1,9 +1,9 @@
 export { Text } from "./Text";
 export type {
-  TextProps,
-  TextElement,
-  TextSize,
-  TextWeight,
-  TextColor,
-  TextAlign,
+	TextAlign,
+	TextColor,
+	TextElement,
+	TextProps,
+	TextSize,
+	TextWeight,
 } from "./Text.types";

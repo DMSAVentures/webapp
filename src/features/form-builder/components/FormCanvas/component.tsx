@@ -5,8 +5,8 @@
 
 import { GripVertical } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormDesign, FormField } from "@/types/common.types";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
@@ -173,7 +173,9 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 	return (
 		<Stack gap="md" className={classNames} {...props}>
 			<Stack gap="xs" className={styles.header}>
-				<Text as="h3" size="md" weight="semibold">Form Builder</Text>
+				<Text as="h3" size="md" weight="semibold">
+					Form Builder
+				</Text>
 				<Text size="sm" color="muted">
 					{fields.length === 0
 						? "Drag fields here or click to add"
@@ -191,7 +193,9 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 					>
 						<Stack gap="md" align="center" justify="center">
 							<Icon icon={GripVertical} size="2xl" color="muted" />
-							<Text color="secondary">Drag fields from the left panel to start building your form</Text>
+							<Text color="secondary">
+								Drag fields from the left panel to start building your form
+							</Text>
 						</Stack>
 					</div>
 				) : (

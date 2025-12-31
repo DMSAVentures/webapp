@@ -14,8 +14,8 @@ import {
 	Space,
 } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import { BLOCK_TYPES, type EmailBlockType } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
@@ -50,8 +50,12 @@ export const BlockPalette = memo<BlockPaletteProps>(function BlockPalette({
 	return (
 		<Stack gap="md" className={classNames} {...props}>
 			<Stack gap="xs" className={styles.header}>
-				<Text as="h3" size="md" weight="semibold">Add Content</Text>
-				<Text size="sm" color="muted">Click to add blocks</Text>
+				<Text as="h3" size="md" weight="semibold">
+					Add Content
+				</Text>
+				<Text size="sm" color="muted">
+					Click to add blocks
+				</Text>
 			</Stack>
 
 			<Stack gap="sm" className={styles.blocks}>
@@ -63,9 +67,16 @@ export const BlockPalette = memo<BlockPaletteProps>(function BlockPalette({
 						onClick={() => onBlockSelect(block.type)}
 						aria-label={`Add ${block.label} block`}
 					>
-						<Icon icon={blockIcons[block.type]} size="md" color="secondary" className={styles.icon} />
+						<Icon
+							icon={blockIcons[block.type]}
+							size="md"
+							color="secondary"
+							className={styles.icon}
+						/>
 						<Stack gap="0" className={styles.blockInfo}>
-							<Text size="sm" weight="medium">{block.label}</Text>
+							<Text size="sm" weight="medium">
+								{block.label}
+							</Text>
 							<Text size="xs" color="muted">
 								{block.description}
 							</Text>

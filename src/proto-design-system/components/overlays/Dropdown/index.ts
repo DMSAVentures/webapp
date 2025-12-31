@@ -1,7 +1,7 @@
 export {
-  Dropdown,
-  type DropdownProps,
-  type DropdownItem,
-  type DropdownSize,
-  type DropdownVariant,
+	Dropdown,
+	type DropdownItem,
+	type DropdownProps,
+	type DropdownSize,
+	type DropdownVariant,
 } from "./Dropdown";

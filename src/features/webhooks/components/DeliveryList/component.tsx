@@ -5,12 +5,22 @@
 
 import { ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { Fragment, type HTMLAttributes, memo, useState } from "react";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/proto-design-system/components/data/Table";
 import { Pagination } from "@/proto-design-system/components/navigation/Pagination";
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/proto-design-system/components/data/Table";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import type { DeliveryStatus, WebhookDelivery } from "@/types/webhook";
 import styles from "./component.module.scss";
 
@@ -191,13 +201,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 						<TableBody>
 							{filteredDeliveries.map((delivery) => (
 								<Fragment key={delivery.id}>
-									<TableRow
-										onClick={() => toggleDelivery(delivery.id)}
-									>
+									<TableRow onClick={() => toggleDelivery(delivery.id)}>
 										<TableCell>
-											<Badge
-												variant={getStatusVariant(delivery.status)}
-											>
+											<Badge variant={getStatusVariant(delivery.status)}>
 												{formatStatus(delivery.status)}
 											</Badge>
 										</TableCell>
@@ -248,7 +254,11 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 										<TableCell>
 											<div className={styles.expandIcon}>
 												<Icon
-													icon={expandedDeliveryId === delivery.id ? ChevronUp : ChevronDown}
+													icon={
+														expandedDeliveryId === delivery.id
+															? ChevronUp
+															: ChevronDown
+													}
 													size="sm"
 													color="muted"
 												/>
@@ -266,7 +276,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 													)}
 
 													<div className={styles.detailSection}>
-														<h4 className={styles.detailTitle}>Request Payload</h4>
+														<h4 className={styles.detailTitle}>
+															Request Payload
+														</h4>
 														<pre className={styles.codeBlock}>
 															{JSON.stringify(delivery.payload, null, 2)}
 														</pre>
@@ -274,7 +286,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 
 													{delivery.responseBody && (
 														<div className={styles.detailSection}>
-															<h4 className={styles.detailTitle}>Response Body</h4>
+															<h4 className={styles.detailTitle}>
+																Response Body
+															</h4>
 															<pre className={styles.codeBlock}>
 																{delivery.responseBody}
 															</pre>
@@ -285,7 +299,9 @@ export const DeliveryList = memo<DeliveryListProps>(function DeliveryList({
 														<div className={styles.detailMeta}>
 															<span className={styles.metaItem}>
 																<strong>Delivered at:</strong>{" "}
-																{new Date(delivery.deliveredAt).toLocaleString()}
+																{new Date(
+																	delivery.deliveredAt,
+																).toLocaleString()}
 															</span>
 														</div>
 													)}

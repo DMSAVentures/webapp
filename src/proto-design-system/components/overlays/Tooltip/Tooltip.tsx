@@ -5,14 +5,14 @@ import styles from "./Tooltip.module.scss";
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
 
 export interface TooltipProps {
-  /** Tooltip content */
-  content: ReactNode;
-  /** Position of tooltip */
-  position?: TooltipPosition;
-  /** Trigger element */
-  children: ReactNode;
-  /** Additional className for tooltip */
-  className?: string;
+	/** Tooltip content */
+	content: ReactNode;
+	/** Position of tooltip */
+	position?: TooltipPosition;
+	/** Trigger element */
+	children: ReactNode;
+	/** Additional className for tooltip */
+	className?: string;
 }
 
 /**
@@ -26,16 +26,24 @@ export interface TooltipProps {
  * </Tooltip>
  * ```
  */
-export function Tooltip({ content, position = "top", children, className }: TooltipProps) {
-  return (
-    <span className={styles.wrapper}>
-      {children}
-      <span className={cn(styles.tooltip, styles[position], className)} role="tooltip">
-        {content}
-        <span className={styles.arrow} />
-      </span>
-    </span>
-  );
+export function Tooltip({
+	content,
+	position = "top",
+	children,
+	className,
+}: TooltipProps) {
+	return (
+		<span className={styles.wrapper}>
+			{children}
+			<span
+				className={cn(styles.tooltip, styles[position], className)}
+				role="tooltip"
+			>
+				{content}
+				<span className={styles.arrow} />
+			</span>
+		</span>
+	);
 }
 
 Tooltip.displayName = "Tooltip";

@@ -4,10 +4,10 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Input } from "@/proto-design-system/components/forms/Input";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Switch } from "@/proto-design-system/components/forms/Switch";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type {
 	ButtonBlock,
@@ -245,10 +245,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 					placeholder="Select alignment"
 					size="md"
 					onChange={(id) =>
-						updateBlock<ButtonBlock>(
-							"align",
-							id as "left" | "center" | "right",
-						)
+						updateBlock<ButtonBlock>("align", id as "left" | "center" | "right")
 					}
 				/>
 			</div>
@@ -390,10 +387,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				placeholder="Select height"
 				size="md"
 				onChange={(id) =>
-					updateBlock<SpacerBlock>(
-						"height",
-						id as "small" | "medium" | "large",
-					)
+					updateBlock<SpacerBlock>("height", id as "small" | "medium" | "large")
 				}
 			/>
 		</div>
@@ -420,7 +414,9 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 	return (
 		<div className={classNames} {...props}>
 			<Stack gap="xs" className={styles.header}>
-				<Text as="h3" size="lg" weight="semibold">Edit {getBlockLabel(block.type)}</Text>
+				<Text as="h3" size="lg" weight="semibold">
+					Edit {getBlockLabel(block.type)}
+				</Text>
 			</Stack>
 			<div className={styles.content}>{renderEditor()}</div>
 		</div>

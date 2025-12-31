@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Tag } from "@/proto-design-system/components/primitives/Tag/Tag";
 import type { ActiveFilter } from "@/types/users.types";
 import styles from "./component.module.scss";

@@ -2,56 +2,63 @@
 // PROTO DESIGN SYSTEM - PUBLIC API
 // =============================================================================
 
+export {
+	type MotionContextValue,
+	MotionProvider,
+	type MotionProviderProps,
+	useMotionContext,
+} from "./context/MotionProvider";
 // Context Providers
 export {
-  ThemeProvider,
-  type ThemeContextValue,
-  type ThemeProviderProps,
+	type ThemeContextValue,
+	ThemeProvider,
+	type ThemeProviderProps,
 } from "./context/ThemeProvider";
-export {
-  MotionProvider,
-  useMotionContext,
-  type MotionContextValue,
-  type MotionProviderProps,
-} from "./context/MotionProvider";
-
-// Hooks
-export { useTheme } from "./hooks/useTheme";
-export { useReducedMotion } from "./hooks/useReducedMotion";
-export { useMediaQuery, useIsMobile, useIsTablet, useIsDesktop } from "./hooks/useMediaQuery";
-export {
-  useMotionConfig,
-  useAnimationVariants,
-  type MotionConfig,
-  type SpringConfig,
-  type SpringPreset,
-} from "./hooks/useMotionConfig";
 export { useClickOutside } from "./hooks/useClickOutside";
 export { useFocusTrap } from "./hooks/useFocusTrap";
-
-// Utilities
-export { cn } from "./utils/cn";
-export { getToken, setToken, removeToken, getTokens, tokenVar } from "./utils/tokens";
 export {
-  generateId,
-  announce,
-  isVisible,
-  getFocusableElements,
-  prefersReducedMotion,
-  prefersDarkMode,
-  prefersHighContrast,
-  aria,
-} from "./utils/a11y";
-
+	useIsDesktop,
+	useIsMobile,
+	useIsTablet,
+	useMediaQuery,
+} from "./hooks/useMediaQuery";
+export {
+	type MotionConfig,
+	type SpringConfig,
+	type SpringPreset,
+	useAnimationVariants,
+	useMotionConfig,
+} from "./hooks/useMotionConfig";
+export { useReducedMotion } from "./hooks/useReducedMotion";
+// Hooks
+export { useTheme } from "./hooks/useTheme";
 // Theme utilities
 export {
-  applyTheme,
-  getCurrentTheme,
-  getSystemTheme,
-  subscribeToSystemTheme,
-  themes,
-  themeNames,
-  type ThemeName,
-  type Theme,
+	applyTheme,
+	getCurrentTheme,
+	getSystemTheme,
+	subscribeToSystemTheme,
+	type Theme,
+	type ThemeName,
+	themeNames,
+	themes,
 } from "./themes/themes";
-
+export {
+	announce,
+	aria,
+	generateId,
+	getFocusableElements,
+	isVisible,
+	prefersDarkMode,
+	prefersHighContrast,
+	prefersReducedMotion,
+} from "./utils/a11y";
+// Utilities
+export { cn } from "./utils/cn";
+export {
+	getToken,
+	getTokens,
+	removeToken,
+	setToken,
+	tokenVar,
+} from "./utils/tokens";

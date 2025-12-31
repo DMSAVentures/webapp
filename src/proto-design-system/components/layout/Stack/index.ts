@@ -1,8 +1,8 @@
 export {
-  Stack,
-  type StackProps,
-  type StackDirection,
-  type StackAlign,
-  type StackJustify,
-  type StackSpacing,
+	Stack,
+	type StackAlign,
+	type StackDirection,
+	type StackJustify,
+	type StackProps,
+	type StackSpacing,
 } from "./Stack";

@@ -180,7 +180,9 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 	return (
 		<Stack gap="lg" className={styles.formBuilderTab} animate>
 			<Stack gap="xs">
-				<Text as="h2" size="xl" weight="semibold">Form Builder</Text>
+				<Text as="h2" size="xl" weight="semibold">
+					Form Builder
+				</Text>
 				<Text color="secondary">
 					Design your signup form and customize the success screen
 				</Text>

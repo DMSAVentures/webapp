@@ -2,22 +2,22 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { TextArea } from "./TextArea";
 
 const meta: Meta<typeof TextArea> = {
-  title: "Forms/TextArea",
-  component: TextArea,
-  parameters: {
-    layout: "centered",
-  },
-  tags: ["autodocs"],
-  argTypes: {
-    size: {
-      control: "select",
-      options: ["sm", "md", "lg"],
-    },
-    resize: {
-      control: "select",
-      options: ["none", "vertical", "horizontal", "both"],
-    },
-  },
+	title: "Forms/TextArea",
+	component: TextArea,
+	parameters: {
+		layout: "centered",
+	},
+	tags: ["autodocs"],
+	argTypes: {
+		size: {
+			control: "select",
+			options: ["sm", "md", "lg"],
+		},
+		resize: {
+			control: "select",
+			options: ["none", "vertical", "horizontal", "both"],
+		},
+	},
 };
 
 export default meta;
@@ -28,35 +28,35 @@ type Story = StoryObj<typeof meta>;
 // =============================================================================
 
 export const Default: Story = {
-  args: {
-    label: "Description",
-    placeholder: "Enter a description...",
-  },
+	args: {
+		label: "Description",
+		placeholder: "Enter a description...",
+	},
 };
 
 export const WithHelperText: Story = {
-  args: {
-    label: "Bio",
-    placeholder: "Tell us about yourself",
-    helperText: "Max 500 characters",
-  },
+	args: {
+		label: "Bio",
+		placeholder: "Tell us about yourself",
+		helperText: "Max 500 characters",
+	},
 };
 
 export const Required: Story = {
-  args: {
-    label: "Message",
-    placeholder: "Enter your message",
-    required: true,
-  },
+	args: {
+		label: "Message",
+		placeholder: "Enter your message",
+		required: true,
+	},
 };
 
 export const WithError: Story = {
-  args: {
-    label: "Description",
-    placeholder: "Enter a description",
-    defaultValue: "Too short",
-    errorMessage: "Description must be at least 50 characters",
-  },
+	args: {
+		label: "Description",
+		placeholder: "Enter a description",
+		defaultValue: "Too short",
+		errorMessage: "Description must be at least 50 characters",
+	},
 };
 
 // =============================================================================
@@ -64,27 +64,27 @@ export const WithError: Story = {
 // =============================================================================
 
 export const Small: Story = {
-  args: {
-    label: "Small",
-    placeholder: "Small textarea",
-    size: "sm",
-  },
+	args: {
+		label: "Small",
+		placeholder: "Small textarea",
+		size: "sm",
+	},
 };
 
 export const Medium: Story = {
-  args: {
-    label: "Medium",
-    placeholder: "Medium textarea",
-    size: "md",
-  },
+	args: {
+		label: "Medium",
+		placeholder: "Medium textarea",
+		size: "md",
+	},
 };
 
 export const Large: Story = {
-  args: {
-    label: "Large",
-    placeholder: "Large textarea",
-    size: "lg",
-  },
+	args: {
+		label: "Large",
+		placeholder: "Large textarea",
+		size: "lg",
+	},
 };
 
 // =============================================================================
@@ -92,27 +92,27 @@ export const Large: Story = {
 // =============================================================================
 
 export const NoResize: Story = {
-  args: {
-    label: "No resize",
-    placeholder: "Cannot be resized",
-    resize: "none",
-  },
+	args: {
+		label: "No resize",
+		placeholder: "Cannot be resized",
+		resize: "none",
+	},
 };
 
 export const ResizeVertical: Story = {
-  args: {
-    label: "Vertical resize",
-    placeholder: "Can resize vertically",
-    resize: "vertical",
-  },
+	args: {
+		label: "Vertical resize",
+		placeholder: "Can resize vertically",
+		resize: "vertical",
+	},
 };
 
 export const ResizeBoth: Story = {
-  args: {
-    label: "Both directions",
-    placeholder: "Can resize both ways",
-    resize: "both",
-  },
+	args: {
+		label: "Both directions",
+		placeholder: "Can resize both ways",
+		resize: "both",
+	},
 };
 
 // =============================================================================
@@ -120,19 +120,19 @@ export const ResizeBoth: Story = {
 // =============================================================================
 
 export const Disabled: Story = {
-  args: {
-    label: "Disabled",
-    placeholder: "Cannot edit",
-    disabled: true,
-  },
+	args: {
+		label: "Disabled",
+		placeholder: "Cannot edit",
+		disabled: true,
+	},
 };
 
 export const CustomRows: Story = {
-  args: {
-    label: "Large text area",
-    placeholder: "Enter detailed description...",
-    rows: 8,
-  },
+	args: {
+		label: "Large text area",
+		placeholder: "Enter detailed description...",
+		rows: 8,
+	},
 };
 
 // =============================================================================
@@ -140,19 +140,35 @@ export const CustomRows: Story = {
 // =============================================================================
 
 export const Showcase: Story = {
-  render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", width: "350px" }}>
-      <TextArea label="Bio" placeholder="Tell us about yourself" helperText="Max 500 characters" />
-      <TextArea label="Feedback" placeholder="Share your thoughts..." required rows={5} />
-      <TextArea
-        label="Error state"
-        defaultValue="Invalid"
-        errorMessage="Please provide more detail"
-      />
-      <TextArea label="Disabled" placeholder="Cannot edit" disabled />
-    </div>
-  ),
-  parameters: {
-    layout: "padded",
-  },
+	render: () => (
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				gap: "1.5rem",
+				width: "350px",
+			}}
+		>
+			<TextArea
+				label="Bio"
+				placeholder="Tell us about yourself"
+				helperText="Max 500 characters"
+			/>
+			<TextArea
+				label="Feedback"
+				placeholder="Share your thoughts..."
+				required
+				rows={5}
+			/>
+			<TextArea
+				label="Error state"
+				defaultValue="Invalid"
+				errorMessage="Please provide more detail"
+			/>
+			<TextArea label="Disabled" placeholder="Cannot edit" disabled />
+		</div>
+	),
+	parameters: {
+		layout: "padded",
+	},
 };

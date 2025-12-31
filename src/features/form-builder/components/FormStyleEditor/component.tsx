@@ -3,19 +3,17 @@
  * Edit form design settings (colors, typography, spacing)
  */
 
-import {
-	Columns2,
-	Grid2x2,
-	LayoutList,
-	Palette,
-} from "lucide-react";
+import { Columns2, Grid2x2, LayoutList, Palette } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Input } from "@/proto-design-system/components/forms/Input";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
-import { Text } from "@/proto-design-system/components/primitives/Text";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormDesign } from "@/types/common.types";
 import { TemplateSelector } from "../TemplateSelector";
 import styles from "./component.module.scss";
@@ -130,7 +128,9 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 		return (
 			<div className={classNames} {...props}>
 				<Stack gap="xs" className={styles.header}>
-					<Text as="h3" size="lg" weight="semibold">Appearance Editor</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						Appearance Editor
+					</Text>
 					<Text size="sm" color="muted">
 						{selectedFieldId
 							? "Field selected - Edit properties"
@@ -140,11 +140,15 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 				{/* Layout Section - Always visible */}
 				<Stack gap="sm" className={styles.layoutSection}>
-					<Text as="h4" size="md" weight="semibold">Layout</Text>
+					<Text as="h4" size="md" weight="semibold">
+						Layout
+					</Text>
 					<div className={styles.layoutOptions}>
 						<ButtonGroup isFullWidth isAttached>
 							<Button
-								variant={design.layout === "single-column" ? "primary" : "ghost"}
+								variant={
+									design.layout === "single-column" ? "primary" : "ghost"
+								}
 								size="sm"
 								leftIcon={<LayoutList size={16} />}
 								onClick={() => handleLayoutChange("single-column")}
@@ -203,10 +207,17 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 					<div className={styles.content}>
 						{/* Colors Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Colors</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Colors
+							</Text>
 							<div className={styles.colorGrid}>
 								<div className={styles.colorItem}>
-									<label htmlFor="color-primary-text" className={styles.colorLabel}>Primary</label>
+									<label
+										htmlFor="color-primary-text"
+										className={styles.colorLabel}
+									>
+										Primary
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-primary"
@@ -231,7 +242,12 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="color-background-text" className={styles.colorLabel}>Background</label>
+									<label
+										htmlFor="color-background-text"
+										className={styles.colorLabel}
+									>
+										Background
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-background"
@@ -256,7 +272,12 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="color-text-text" className={styles.colorLabel}>Text</label>
+									<label
+										htmlFor="color-text-text"
+										className={styles.colorLabel}
+									>
+										Text
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-text"
@@ -281,7 +302,12 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="color-border-text" className={styles.colorLabel}>Border</label>
+									<label
+										htmlFor="color-border-text"
+										className={styles.colorLabel}
+									>
+										Border
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-border"
@@ -306,7 +332,12 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="color-error-text" className={styles.colorLabel}>Error</label>
+									<label
+										htmlFor="color-error-text"
+										className={styles.colorLabel}
+									>
+										Error
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-error"
@@ -331,7 +362,12 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="color-success-text" className={styles.colorLabel}>Success</label>
+									<label
+										htmlFor="color-success-text"
+										className={styles.colorLabel}
+									>
+										Success
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="color-success"
@@ -361,10 +397,14 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Typography Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Typography</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Typography
+							</Text>
 							<div className={styles.inputGrid}>
 								<div className={styles.inputItem}>
-									<label htmlFor="font-family" className={styles.inputLabel}>Font Family</label>
+									<label htmlFor="font-family" className={styles.inputLabel}>
+										Font Family
+									</label>
 									<Input
 										id="font-family"
 										type="text"
@@ -376,7 +416,9 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 									/>
 								</div>
 								<div className={styles.inputItem}>
-									<label htmlFor="font-size" className={styles.inputLabel}>Font Size (px)</label>
+									<label htmlFor="font-size" className={styles.inputLabel}>
+										Font Size (px)
+									</label>
 									<Input
 										id="font-size"
 										type="number"
@@ -392,7 +434,9 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 									/>
 								</div>
 								<div className={styles.inputItem}>
-									<label htmlFor="font-weight" className={styles.inputLabel}>Font Weight</label>
+									<label htmlFor="font-weight" className={styles.inputLabel}>
+										Font Weight
+									</label>
 									<Input
 										id="font-weight"
 										type="number"
@@ -415,10 +459,14 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Spacing Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Spacing</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Spacing
+							</Text>
 							<div className={styles.inputGrid}>
 								<div className={styles.inputItem}>
-									<label htmlFor="padding" className={styles.inputLabel}>Padding (px)</label>
+									<label htmlFor="padding" className={styles.inputLabel}>
+										Padding (px)
+									</label>
 									<Input
 										id="padding"
 										type="number"
@@ -434,7 +482,9 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 									/>
 								</div>
 								<div className={styles.inputItem}>
-									<label htmlFor="gap" className={styles.inputLabel}>Gap (px)</label>
+									<label htmlFor="gap" className={styles.inputLabel}>
+										Gap (px)
+									</label>
 									<Input
 										id="gap"
 										type="number"
@@ -447,7 +497,9 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 									/>
 								</div>
 								<div className={styles.inputItem}>
-									<label htmlFor="border-radius" className={styles.inputLabel}>Border Radius (px)</label>
+									<label htmlFor="border-radius" className={styles.inputLabel}>
+										Border Radius (px)
+									</label>
 									<Input
 										id="border-radius"
 										type="number"
@@ -466,15 +518,24 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Submit Button Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Submit Button</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Submit Button
+							</Text>
 							<div className={styles.inputGrid}>
 								<div className={styles.inputItem}>
-									<label htmlFor="submit-button-text" className={styles.inputLabel}>Button Text</label>
+									<label
+										htmlFor="submit-button-text"
+										className={styles.inputLabel}
+									>
+										Button Text
+									</label>
 									<Input
 										id="submit-button-text"
 										type="text"
 										value={design.submitButtonText || "Submit"}
-										onChange={(e) => handleSubmitButtonTextChange(e.target.value)}
+										onChange={(e) =>
+											handleSubmitButtonTextChange(e.target.value)
+										}
 										placeholder="Submit"
 									/>
 								</div>
@@ -485,9 +546,13 @@ export const FormStyleEditor = memo<FormStyleEditorProps>(
 
 						{/* Custom CSS Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Custom CSS</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Custom CSS
+							</Text>
 							<div className={styles.inputItem}>
-								<label htmlFor="custom-css" className={styles.inputLabel}>Additional Styles</label>
+								<label htmlFor="custom-css" className={styles.inputLabel}>
+									Additional Styles
+								</label>
 								<TextArea
 									id="custom-css"
 									value={design.customCss || ""}

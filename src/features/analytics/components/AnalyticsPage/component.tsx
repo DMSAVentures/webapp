@@ -8,10 +8,10 @@ import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useGetSignupsBySource } from "@/hooks/useGetSignupsBySource";
 import { useGetSignupsOverTime } from "@/hooks/useGetSignupsOverTime";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";
 import { SignupsChart } from "../SignupsChart";
@@ -32,9 +32,7 @@ interface DropdownItem {
 // ============================================================================
 
 /** Build dropdown items from campaigns list */
-function buildCampaignItems(
-	campaigns: Campaign[] | undefined,
-): DropdownItem[] {
+function buildCampaignItems(campaigns: Campaign[] | undefined): DropdownItem[] {
 	if (!campaigns) return [];
 
 	return campaigns.map((campaign) => ({
@@ -118,9 +116,17 @@ const PageHeader = memo(function PageHeader({
 	onCampaignChange,
 }: PageHeaderProps) {
 	return (
-		<Stack direction="row" align="start" justify="between" gap="lg" className={styles.pageHeader}>
+		<Stack
+			direction="row"
+			align="start"
+			justify="between"
+			gap="lg"
+			className={styles.pageHeader}
+		>
 			<Stack gap="xs">
-				<Text as="h1" size="2xl" weight="semibold">Analytics</Text>
+				<Text as="h1" size="2xl" weight="semibold">
+					Analytics
+				</Text>
 				<Text color="secondary">
 					Track your marketing performance and campaign metrics
 				</Text>
@@ -161,19 +167,18 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 
 	// Loading state
 	if (campaignsLoading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading analytics..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading analytics..." />;
 	}
 
 	// Empty state
 	if (!campaigns || campaigns.length === 0) {
 		return (
 			<Stack gap="lg" className={styles.page} animate>
-				<PageHeader showSelector={false} campaignItems={[]} selectedCampaignId="" />
+				<PageHeader
+					showSelector={false}
+					campaignItems={[]}
+					selectedCampaignId=""
+				/>
 				<EmptyState
 					title="No campaigns yet"
 					description="Create a campaign to start tracking analytics"

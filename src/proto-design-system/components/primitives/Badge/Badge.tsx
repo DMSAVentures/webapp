@@ -15,45 +15,45 @@ import type { BadgeProps } from "./Badge.types";
  * ```
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  (
-    {
-      variant = "default",
-      size = "md",
-      rounded = false,
-      dot = false,
-      leftIcon,
-      rightIcon,
-      children,
-      className,
-      ...props
-    },
-    ref
-  ) => {
-    const badgeClasses = cn(
-      styles.badge,
-      styles[variant],
-      styles[size],
-      rounded && styles.rounded,
-      className
-    );
+	(
+		{
+			variant = "default",
+			size = "md",
+			rounded = false,
+			dot = false,
+			leftIcon,
+			rightIcon,
+			children,
+			className,
+			...props
+		},
+		ref,
+	) => {
+		const badgeClasses = cn(
+			styles.badge,
+			styles[variant],
+			styles[size],
+			rounded && styles.rounded,
+			className,
+		);
 
-    return (
-      <span ref={ref} className={badgeClasses} {...props}>
-        {dot && <span className={styles.dot} aria-hidden="true" />}
-        {leftIcon && (
-          <span className={styles.icon} aria-hidden="true">
-            {leftIcon}
-          </span>
-        )}
-        {children}
-        {rightIcon && (
-          <span className={styles.icon} aria-hidden="true">
-            {rightIcon}
-          </span>
-        )}
-      </span>
-    );
-  }
+		return (
+			<span ref={ref} className={badgeClasses} {...props}>
+				{dot && <span className={styles.dot} aria-hidden="true" />}
+				{leftIcon && (
+					<span className={styles.icon} aria-hidden="true">
+						{leftIcon}
+					</span>
+				)}
+				{children}
+				{rightIcon && (
+					<span className={styles.icon} aria-hidden="true">
+						{rightIcon}
+					</span>
+				)}
+			</span>
+		);
+	},
 );
 
 Badge.displayName = "Badge";

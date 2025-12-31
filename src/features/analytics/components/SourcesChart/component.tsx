@@ -4,13 +4,17 @@
  */
 
 import {
+	ChevronLeft,
+	ChevronRight,
+	PieChart as PieChartIcon,
+} from "lucide-react";
+import {
 	type HTMLAttributes,
 	memo,
 	useCallback,
 	useMemo,
 	useState,
 } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
 	Bar,
 	BarChart,
@@ -21,13 +25,15 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import { PieChart as PieChartIcon } from "lucide-react";
 import type { DateRange } from "@/hooks/useChartNavigation";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
 import { Card } from "@/proto-design-system/components/layout/Card";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type {
 	AnalyticsPeriod,
@@ -229,7 +235,6 @@ function formatDateForPeriod(
 		return { line1: dateStr };
 	}
 }
-
 
 /** Get top sources by total count, grouping rest into "Other" */
 function getTopSources(data: ApiSignupsBySourceDataPoint[]): {
@@ -439,9 +444,17 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 	return (
 		<Card padding="lg" className={classNames}>
 			<Stack gap="lg">
-				<Stack direction="row" align="start" justify="between" wrap className={styles.header}>
+				<Stack
+					direction="row"
+					align="start"
+					justify="between"
+					wrap
+					className={styles.header}
+				>
 					<Stack gap="xs">
-						<Text as="h3" size="lg" weight="semibold">Signups by Source</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							Signups by Source
+						</Text>
 						<Text size="sm" color="secondary">
 							{formatNumber(total)} total signups
 						</Text>
@@ -451,7 +464,9 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 							{PERIOD_OPTIONS.map((option) => (
 								<Button
 									key={option.value}
-									variant={selectedPeriod === option.value ? "outline" : "ghost"}
+									variant={
+										selectedPeriod === option.value ? "outline" : "ghost"
+									}
 									size="sm"
 									onClick={() => handlePeriodChange(option.value)}
 								>
@@ -468,7 +483,9 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 									aria-label="Previous period"
 								/>
 								{dateRangeLabel && (
-									<Text size="sm" color="secondary">{dateRangeLabel}</Text>
+									<Text size="sm" color="secondary">
+										{dateRangeLabel}
+									</Text>
 								)}
 								<Button
 									leftIcon={<ChevronRight size={16} />}

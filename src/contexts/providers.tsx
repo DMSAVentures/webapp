@@ -20,9 +20,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				<TierProvider>
 					<PersonaProvider persona={persona}>
 						<SidebarProvider>
-							<ProtoSidebarProvider responsive>
-								{children}
-							</ProtoSidebarProvider>
+							<ProtoSidebarProvider responsive>{children}</ProtoSidebarProvider>
 						</SidebarProvider>
 					</PersonaProvider>
 				</TierProvider>

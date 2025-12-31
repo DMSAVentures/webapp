@@ -16,10 +16,10 @@ import {
 	Trash2,
 } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import type { EmailBlock } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
 
@@ -95,11 +95,7 @@ function renderTextWithVariables(text: string): React.ReactNode[] {
 		}
 		// Add the variable chip
 		parts.push(
-			<Badge
-				key={`var-${key++}`}
-				variant="primary"
-				size="sm"
-			>
+			<Badge key={`var-${key++}`} variant="primary" size="sm">
 				{match[1]}
 			</Badge>,
 		);
@@ -201,9 +197,16 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 			{...props}
 		>
 			{/* Left: Type icon and badge */}
-			<Stack direction="row" gap="sm" align="center" className={styles.typeInfo}>
+			<Stack
+				direction="row"
+				gap="sm"
+				align="center"
+				className={styles.typeInfo}
+			>
 				<Icon icon={getBlockIcon(block.type)} size="md" color="secondary" />
-				<Badge variant="secondary" size="sm">{getBlockLabel(block.type)}</Badge>
+				<Badge variant="secondary" size="sm">
+					{getBlockLabel(block.type)}
+				</Badge>
 			</Stack>
 
 			{/* Center: Block preview */}

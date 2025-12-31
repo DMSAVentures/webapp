@@ -16,9 +16,9 @@ import {
 	usePreviewSegment,
 	useUpdateSegment,
 } from "@/hooks/useSegments";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import type { Segment, SegmentFilterCriteria } from "@/types/segment";
 import styles from "./component.module.scss";
 

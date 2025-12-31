@@ -3,15 +3,24 @@
  * Displays team member list with management capabilities
  */
 
-import { AlertTriangle, Check, Loader2, Mail, Trash2, UserPlus, Users } from "lucide-react";
+import {
+	AlertTriangle,
+	Check,
+	Loader2,
+	Mail,
+	Trash2,
+	UserPlus,
+	Users,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import type { TeamMember } from "@/types/common.types";
 
 type RoleOption = { id: string; label: string; disabled?: boolean };
+
 import { useGetTeamMembers } from "../../hooks/useGetTeamMembers";
 import { useInviteTeamMember } from "../../hooks/useInviteTeamMember";
 import { useRemoveTeamMember } from "../../hooks/useRemoveTeamMember";
@@ -130,10 +139,7 @@ export const TeamMembers = memo(function TeamMembers({
 	};
 
 	// Handle role change
-	const handleRoleChange = async (
-		memberId: string,
-		id: string,
-	) => {
+	const handleRoleChange = async (memberId: string, id: string) => {
 		const newRole = id as TeamMember["role"];
 		const result = await updateMemberRole(memberId, { role: newRole });
 		if (result) {
@@ -241,9 +247,7 @@ export const TeamMembers = memo(function TeamMembers({
 														items={ROLE_OPTIONS}
 														value={member.role}
 														size="sm"
-														onChange={(id) =>
-															handleRoleChange(member.id, id)
-														}
+														onChange={(id) => handleRoleChange(member.id, id)}
 														disabled={updateLoading}
 													/>
 												</div>
@@ -258,9 +262,11 @@ export const TeamMembers = memo(function TeamMembers({
 											{member.role !== "owner" && (
 												<Button
 													leftIcon={
-														confirmDeleteId === member.id
-															? <Check size={16} />
-															: <Trash2 size={16} />
+														confirmDeleteId === member.id ? (
+															<Check size={16} />
+														) : (
+															<Trash2 size={16} />
+														)
 													}
 													variant="secondary"
 													aria-label={
@@ -335,9 +341,11 @@ export const TeamMembers = memo(function TeamMembers({
 										<div className={styles.tableCell}>
 											<Button
 												leftIcon={
-													confirmDeleteId === member.id
-														? <Check size={16} />
-														: <Trash2 size={16} />
+													confirmDeleteId === member.id ? (
+														<Check size={16} />
+													) : (
+														<Trash2 size={16} />
+													)
 												}
 												variant="secondary"
 												aria-label={

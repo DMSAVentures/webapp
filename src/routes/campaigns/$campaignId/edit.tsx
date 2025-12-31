@@ -9,8 +9,8 @@ import {
 } from "@/features/campaigns/components/CampaignForm/component";
 import { useGetCampaign } from "@/hooks/useGetCampaign";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
-import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Breadcrumb } from "@/proto-design-system/components/navigation/Breadcrumb";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import styles from "./campaignEdit.module.scss";
 
@@ -85,12 +85,7 @@ function RouteComponent() {
 	};
 
 	if (loadingCampaign) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading campaign..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading campaign..." />;
 	}
 
 	if (errorCampaign) {

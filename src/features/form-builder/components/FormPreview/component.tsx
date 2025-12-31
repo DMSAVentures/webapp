@@ -5,8 +5,8 @@
 
 import { EyeOff } from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormConfig } from "@/types/common.types";
 import { useFormStyles } from "../../hooks/useFormStyles";
@@ -74,7 +74,12 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 	const rightColumnFields = currentFields.filter((f) => f.column === 2);
 
 	const emptyState = (
-		<Stack gap="md" align="center" justify="center" className={styles.emptyState}>
+		<Stack
+			gap="md"
+			align="center"
+			justify="center"
+			className={styles.emptyState}
+		>
 			<Icon icon={EyeOff} size="2xl" color="muted" />
 			<Text color="muted">Add fields to see preview</Text>
 		</Stack>
@@ -96,7 +101,12 @@ export const FormPreview = memo<FormPreviewProps>(function FormPreview({
 				{/* Multi-step progress indicator */}
 				{isMultiStep && totalSteps > 1 && (
 					<div className={styles.progressContainer}>
-						<Stack direction="row" justify="between" align="center" className={styles.progressHeader}>
+						<Stack
+							direction="row"
+							justify="between"
+							align="center"
+							className={styles.progressHeader}
+						>
 							<Text size="sm" weight="medium">
 								Step {currentStep} of {totalSteps}
 							</Text>

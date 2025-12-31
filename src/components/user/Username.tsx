@@ -10,13 +10,17 @@ export default function UserName() {
 		return null;
 	}
 
-	const initials = `${auth.user.firstName?.charAt(0) || ""}${auth.user.lastName?.charAt(0) || ""}`.toUpperCase();
-	const fullName = `${auth.user.firstName || ""} ${auth.user.lastName || ""}`.trim();
+	const initials =
+		`${auth.user.firstName?.charAt(0) || ""}${auth.user.lastName?.charAt(0) || ""}`.toUpperCase();
+	const fullName =
+		`${auth.user.firstName || ""} ${auth.user.lastName || ""}`.trim();
 
 	return (
 		<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 			<Avatar size="sm" fallback={initials} />
-			<Text size="sm" weight="medium">{fullName}</Text>
+			<Text size="sm" weight="medium">
+				{fullName}
+			</Text>
 		</div>
 	);
 }

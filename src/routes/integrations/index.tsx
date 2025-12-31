@@ -1,5 +1,5 @@
-import { AlertTriangle, Key, Unplug, Zap } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
+import { AlertTriangle, Key, Unplug, Zap } from "lucide-react";
 import { useState } from "react";
 import { useTier } from "@/contexts/tier";
 import {
@@ -7,12 +7,12 @@ import {
 	useZapierStatus,
 	useZapierSubscriptions,
 } from "@/hooks/useZapierIntegration";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Toast } from "@/proto-design-system/components/feedback/Toast";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import "remixicon/fonts/remixicon.css";
 import styles from "./integrations.module.scss";
 
@@ -124,11 +124,7 @@ function IntegrationsPage() {
 							</p>
 							{zapierStatus?.connected && (
 								<div className={styles.integrationStatus}>
-									<Badge
-										variant="success"
-									>
-										Connected
-									</Badge>
+									<Badge variant="success">Connected</Badge>
 									<span>
 										{zapierStatus.active_subscriptions} active subscription
 										{zapierStatus.active_subscriptions !== 1 ? "s" : ""}
@@ -192,9 +188,7 @@ function IntegrationsPage() {
 											</span>
 										</div>
 										<Badge
-											variant={
-												sub.status === "active" ? "success" : "warning"
-											}
+											variant={sub.status === "active" ? "success" : "warning"}
 										>
 											{sub.status}
 										</Badge>
@@ -236,10 +230,17 @@ function IntegrationsPage() {
 				icon={<AlertTriangle aria-hidden="true" />}
 				footer={
 					<>
-						<Button variant="secondary" onClick={() => setShowDisconnectModal(false)}>
+						<Button
+							variant="secondary"
+							onClick={() => setShowDisconnectModal(false)}
+						>
 							Cancel
 						</Button>
-						<Button variant="primary" onClick={handleDisconnect} disabled={disconnecting}>
+						<Button
+							variant="primary"
+							onClick={handleDisconnect}
+							disabled={disconnecting}
+						>
 							{disconnecting ? "Disconnecting..." : "Disconnect"}
 						</Button>
 					</>

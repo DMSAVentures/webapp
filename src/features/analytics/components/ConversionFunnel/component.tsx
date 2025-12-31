@@ -3,6 +3,7 @@
  * Displays conversion funnel visualization with stages and conversion rates
  */
 
+import { AlertTriangle } from "lucide-react";
 import { type HTMLAttributes, memo, useMemo } from "react";
 import {
 	Bar,
@@ -15,9 +16,8 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import { AlertTriangle } from "lucide-react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
@@ -257,13 +257,17 @@ export const ConversionFunnel = memo<ConversionFunnelProps>(
 		return (
 			<Stack gap="md" className={classNames} {...props}>
 				<Stack gap="xs">
-					<Text as="h3" size="lg" weight="semibold">Conversion Funnel</Text>
+					<Text as="h3" size="lg" weight="semibold">
+						Conversion Funnel
+					</Text>
 					{biggestDropOffIndex > 0 && (
 						<Stack direction="row" gap="xs" align="center">
 							<Icon icon={AlertTriangle} size="sm" color="warning" />
 							<Text size="sm" color="secondary">
 								Biggest drop-off at{" "}
-								<Text as="strong" weight="semibold">{chartData[biggestDropOffIndex].name}</Text>
+								<Text as="strong" weight="semibold">
+									{chartData[biggestDropOffIndex].name}
+								</Text>
 							</Text>
 						</Stack>
 					)}

@@ -14,10 +14,10 @@ import {
 } from "@/hooks/useBlasts";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetSegments } from "@/hooks/useSegments";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Select } from "@/proto-design-system/components/forms/Select";
-import type { SelectOption } from "@/proto-design-system/components/forms/Select";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import type { SelectOption } from "@/proto-design-system/components/forms/Select";
+import { Select } from "@/proto-design-system/components/forms/Select";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import styles from "./component.module.scss";
 
 export interface BlastWizardProps {
@@ -157,13 +157,19 @@ export const BlastWizard = memo(function BlastWizard({
 		label: t.name,
 	}));
 
-	const handleSegmentChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectedSegmentId(e.target.value);
-	}, []);
+	const handleSegmentChange = useCallback(
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			setSelectedSegmentId(e.target.value);
+		},
+		[],
+	);
 
-	const handleTemplateChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectedTemplateId(e.target.value);
-	}, []);
+	const handleTemplateChange = useCallback(
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			setSelectedTemplateId(e.target.value);
+		},
+		[],
+	);
 
 	const handleNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);

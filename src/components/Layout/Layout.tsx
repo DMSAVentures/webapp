@@ -1,9 +1,31 @@
+import {
+	BarChart,
+	CreditCard,
+	HelpCircle,
+	Home,
+	LogOut,
+	Mail,
+	Megaphone,
+	Plug,
+	Settings,
+	User,
+	Users,
+	Webhook,
+} from "lucide-react";
 import React, { memo } from "react";
-import { Home, Settings, Users, BarChart, CreditCard, User, HelpCircle, LogOut, Megaphone, Mail, Webhook, Plug } from "lucide-react";
 import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
-import { Sidebar, SidebarHeader, SidebarLogo, SidebarToggle, SidebarSection, SidebarItem, SidebarDivider, SidebarMobileTrigger } from "@/proto-design-system/components/navigation/Sidebar";
+import {
+	Sidebar,
+	SidebarDivider,
+	SidebarHeader,
+	SidebarItem,
+	SidebarLogo,
+	SidebarMobileTrigger,
+	SidebarSection,
+	SidebarToggle,
+} from "@/proto-design-system/components/navigation/Sidebar";
 import styles from "./layout.module.scss";
 
 interface LayoutProps {
@@ -47,7 +69,10 @@ const AppSidebar = memo(function AppSidebar() {
 							key={item.href}
 							icon={getIcon(item.iconClass)}
 							href={item.href}
-							active={typeof window !== "undefined" && window.location.pathname === item.href}
+							active={
+								typeof window !== "undefined" &&
+								window.location.pathname === item.href
+							}
 						>
 							{item.label}
 						</SidebarItem>

@@ -4,16 +4,31 @@
  * Displays a list of segments for a campaign in a table format
  */
 
-import { AlertTriangle, Loader2, Pencil, RefreshCw, Send, Trash2, Users } from "lucide-react";
+import {
+	AlertTriangle,
+	Loader2,
+	Pencil,
+	RefreshCw,
+	Send,
+	Trash2,
+	Users,
+} from "lucide-react";
 import { memo, useCallback, useState } from "react";
 import {
 	useDeleteSegment,
 	useGetSegments,
 	useRefreshSegment,
 } from "@/hooks/useSegments";
-import { Button } from "@/proto-design-system/components/primitives/Button";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/proto-design-system/components/data/Table";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/proto-design-system/components/data/Table";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import type { Segment } from "@/types/segment";
 import styles from "./component.module.scss";
 
@@ -151,9 +166,11 @@ export const SegmentList = memo(function SegmentList({
 											variant="secondary"
 											isIconOnly
 											leftIcon={
-												refreshing && refreshingId === segment.id
-													? <Loader2 />
-													: <RefreshCw />
+												refreshing && refreshingId === segment.id ? (
+													<Loader2 />
+												) : (
+													<RefreshCw />
+												)
 											}
 											aria-label="Refresh count"
 											onClick={() => handleRefresh(segment)}
@@ -197,10 +214,18 @@ export const SegmentList = memo(function SegmentList({
 				onClose={handleDeleteCancel}
 				footer={
 					<>
-						<Button variant="secondary" onClick={handleDeleteCancel} disabled={deleting}>
+						<Button
+							variant="secondary"
+							onClick={handleDeleteCancel}
+							disabled={deleting}
+						>
 							Cancel
 						</Button>
-						<Button variant="primary" onClick={handleDeleteConfirm} disabled={deleting}>
+						<Button
+							variant="primary"
+							onClick={handleDeleteConfirm}
+							disabled={deleting}
+						>
 							{deleting ? "Deleting..." : "Delete"}
 						</Button>
 					</>

@@ -8,8 +8,8 @@ import { memo, useCallback, useRef, useState } from "react";
 import { ChannelReferralLinks } from "@/features/referrals/components/ChannelReferralLinks/component";
 import { useConversionTracking } from "@/hooks/useConversionTracking";
 import type { SignupResponse } from "@/hooks/useFormSubmission";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { SharingChannel, TrackingIntegration } from "@/types/campaign";
 import type {
@@ -228,9 +228,23 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 		return (
 			<div className={formClassName} style={formStyles}>
 				<Stack gap="md" align="center" className={styles.success}>
-					<Icon icon={CheckCircle} size="2xl" color="success" className={styles.successIcon} />
-					<Text as="h2" size="xl" weight="semibold" className={styles.successTitle}>{successTitle}</Text>
-					<Text color="muted" className={styles.successMessage}>{successMessage}</Text>
+					<Icon
+						icon={CheckCircle}
+						size="2xl"
+						color="success"
+						className={styles.successIcon}
+					/>
+					<Text
+						as="h2"
+						size="xl"
+						weight="semibold"
+						className={styles.successTitle}
+					>
+						{successTitle}
+					</Text>
+					<Text color="muted" className={styles.successMessage}>
+						{successMessage}
+					</Text>
 
 					{/* Show channel-specific referral links if available */}
 					{hasReferralLinks && (
@@ -269,8 +283,12 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 			{/* Status message banner for non-active campaigns */}
 			{statusMessage && (
 				<Stack gap="xs" className={styles.statusBanner}>
-					<Text as="h3" size="md" weight="semibold">{statusMessage.title}</Text>
-					<Text size="sm" color="muted">{statusMessage.message}</Text>
+					<Text as="h3" size="md" weight="semibold">
+						{statusMessage.title}
+					</Text>
+					<Text size="sm" color="muted">
+						{statusMessage.message}
+					</Text>
 				</Stack>
 			)}
 
@@ -298,9 +316,16 @@ export const FormRenderer = memo<FormRendererProps>(function FormRenderer({
 			{/* Captcha widget placeholder - Turnstile integration pending */}
 			{isCaptchaEnabled && captcha && (
 				<div className={styles.captcha} ref={turnstileRef}>
-					<Stack direction="row" gap="sm" align="center" className={styles.captchaPlaceholder}>
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.captchaPlaceholder}
+					>
 						<Icon icon={ShieldCheck} size="md" color="secondary" />
-						<Text size="sm" color="secondary">Captcha verification</Text>
+						<Text size="sm" color="secondary">
+							Captcha verification
+						</Text>
 					</Stack>
 					{captchaError && (
 						<Text size="sm" color="error" className={styles.captchaError}>

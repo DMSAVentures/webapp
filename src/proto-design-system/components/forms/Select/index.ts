@@ -1,7 +1,7 @@
 export {
-  Select,
-  type SelectProps,
-  type SelectOption,
-  type SelectSize,
-  type SelectVariant,
+	Select,
+	type SelectOption,
+	type SelectProps,
+	type SelectSize,
+	type SelectVariant,
 } from "./Select";

@@ -3,12 +3,30 @@
  * Displays available integrations with their connection status
  */
 
-import { AlertTriangle, Building2, ChartLine, HeadsetIcon, type LucideIcon, Mail, Plug, RefreshCw, Search, Settings, Trash2, Webhook, Zap } from "lucide-react";
+import {
+	AlertTriangle,
+	Building2,
+	ChartLine,
+	HeadsetIcon,
+	type LucideIcon,
+	Mail,
+	Plug,
+	RefreshCw,
+	Search,
+	Settings,
+	Trash2,
+	Webhook,
+	Zap,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useMemo, useState } from "react";
+import {
+	Tab,
+	TabList,
+	Tabs,
+} from "@/proto-design-system/components/navigation/Tabs";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
 import type { Integration } from "@/types/common.types";
 import "remixicon/fonts/remixicon.css";
 import styles from "./component.module.scss";
@@ -206,7 +224,9 @@ export const IntegrationList = memo<IntegrationListProps>(
 				<div className={styles.header}>
 					<Tabs
 						activeTab={categoryFilter}
-						onTabChange={(tabId) => setCategoryFilter(tabId as IntegrationCategory)}
+						onTabChange={(tabId) =>
+							setCategoryFilter(tabId as IntegrationCategory)
+						}
 					>
 						<TabList aria-label="Integration categories">
 							{CATEGORY_OPTIONS.map((option) => (
@@ -247,111 +267,109 @@ export const IntegrationList = memo<IntegrationListProps>(
 						{filteredIntegrations.map((integration) => {
 							const integrationIcon = getIntegrationIcon(integration.type);
 							return (
-							<div key={integration.id} className={styles.integrationCard}>
-								{/* Icon */}
-								<div className={styles.integrationIcon}>
-									{isLucideIcon(integrationIcon) ? (
-										<Icon icon={integrationIcon} size="lg" />
-									) : (
-										<i className={integrationIcon} aria-hidden="true" />
-									)}
-								</div>
-
-								{/* Content */}
-								<div className={styles.integrationContent}>
-									<div className={styles.integrationHeader}>
-										<h3 className={styles.integrationTitle}>
-											{integration.name}
-										</h3>
-										<Badge
-											variant={getStatusVariant(integration.status)}
-										>
-											{getStatusText(integration.status)}
-										</Badge>
+								<div key={integration.id} className={styles.integrationCard}>
+									{/* Icon */}
+									<div className={styles.integrationIcon}>
+										{isLucideIcon(integrationIcon) ? (
+											<Icon icon={integrationIcon} size="lg" />
+										) : (
+											<i className={integrationIcon} aria-hidden="true" />
+										)}
 									</div>
 
-									<p className={styles.integrationDescription}>
-										{getIntegrationDescription(integration.type)}
-									</p>
+									{/* Content */}
+									<div className={styles.integrationContent}>
+										<div className={styles.integrationHeader}>
+											<h3 className={styles.integrationTitle}>
+												{integration.name}
+											</h3>
+											<Badge variant={getStatusVariant(integration.status)}>
+												{getStatusText(integration.status)}
+											</Badge>
+										</div>
 
-									{/* Last synced info */}
-									{integration.status === "connected" &&
-										integration.lastSyncedAt && (
-											<div className={styles.lastSynced}>
-												<Icon icon={RefreshCw} size="sm" />
-												<span>
-													Last synced{" "}
-													{new Date(
-														integration.lastSyncedAt,
-													).toLocaleDateString("en-US", {
-														month: "short",
-														day: "numeric",
-														year: "numeric",
-													})}
-												</span>
-											</div>
+										<p className={styles.integrationDescription}>
+											{getIntegrationDescription(integration.type)}
+										</p>
+
+										{/* Last synced info */}
+										{integration.status === "connected" &&
+											integration.lastSyncedAt && (
+												<div className={styles.lastSynced}>
+													<Icon icon={RefreshCw} size="sm" />
+													<span>
+														Last synced{" "}
+														{new Date(
+															integration.lastSyncedAt,
+														).toLocaleDateString("en-US", {
+															month: "short",
+															day: "numeric",
+															year: "numeric",
+														})}
+													</span>
+												</div>
+											)}
+									</div>
+
+									{/* Actions */}
+									<div className={styles.integrationActions}>
+										{integration.status === "disconnected" && onConnect && (
+											<Button
+												variant="primary"
+												onClick={() => onConnect(integration.id)}
+												leftIcon={<Plug size={16} />}
+											>
+												Connect
+											</Button>
 										)}
+										{integration.status === "connected" && (
+											<>
+												{onConfigure && (
+													<Button
+														variant="secondary"
+														onClick={() => onConfigure(integration.id)}
+														leftIcon={<Settings size={16} />}
+													>
+														Configure
+													</Button>
+												)}
+												{onDisconnect && (
+													<Button
+														variant="secondary"
+														onClick={() => onDisconnect(integration.id)}
+														leftIcon={<Trash2 size={16} />}
+													>
+														Disconnect
+													</Button>
+												)}
+											</>
+										)}
+										{integration.status === "error" && (
+											<>
+												{onConfigure && (
+													<Button
+														variant="primary"
+														size="sm"
+														onClick={() => onConfigure(integration.id)}
+														leftIcon={<AlertTriangle size={16} />}
+													>
+														Fix Error
+													</Button>
+												)}
+												{onDisconnect && (
+													<Button
+														variant="secondary"
+														size="sm"
+														onClick={() => onDisconnect(integration.id)}
+													>
+														Disconnect
+													</Button>
+												)}
+											</>
+										)}
+									</div>
 								</div>
-
-								{/* Actions */}
-								<div className={styles.integrationActions}>
-									{integration.status === "disconnected" && onConnect && (
-										<Button
-											variant="primary"
-											onClick={() => onConnect(integration.id)}
-											leftIcon={<Plug size={16} />}
-										>
-											Connect
-										</Button>
-									)}
-									{integration.status === "connected" && (
-										<>
-											{onConfigure && (
-												<Button
-													variant="secondary"
-													onClick={() => onConfigure(integration.id)}
-													leftIcon={<Settings size={16} />}
-												>
-													Configure
-												</Button>
-											)}
-											{onDisconnect && (
-												<Button
-													variant="secondary"
-													onClick={() => onDisconnect(integration.id)}
-													leftIcon={<Trash2 size={16} />}
-												>
-													Disconnect
-												</Button>
-											)}
-										</>
-									)}
-									{integration.status === "error" && (
-										<>
-											{onConfigure && (
-												<Button
-													variant="primary"
-													size="sm"
-													onClick={() => onConfigure(integration.id)}
-													leftIcon={<AlertTriangle size={16} />}
-												>
-													Fix Error
-												</Button>
-											)}
-											{onDisconnect && (
-												<Button
-													variant="secondary"
-													size="sm"
-													onClick={() => onDisconnect(integration.id)}
-												>
-													Disconnect
-												</Button>
-											)}
-										</>
-									)}
-								</div>
-							</div>
-						);
+							);
 						})}
 					</div>
 				)}

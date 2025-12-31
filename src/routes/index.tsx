@@ -1,5 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Home, Settings, Users, BarChart, CreditCard, User } from "lucide-react";
+import {
+	BarChart,
+	CreditCard,
+	Home,
+	Settings,
+	User,
+	Users,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { useAuth } from "@/contexts/auth";
 import { usePersona } from "@/contexts/persona";

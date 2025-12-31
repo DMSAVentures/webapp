@@ -3,14 +3,23 @@
  * Campaign analytics overview with KPIs, charts, and insights
  */
 
+import {
+	ArrowUp,
+	BarChart2,
+	Download,
+	LineChart,
+	PieChart,
+	Share2,
+	UserPlus,
+	Verified,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useState } from "react";
-import { ArrowUp, BarChart2, Download, LineChart, PieChart, Share2, UserPlus, Verified } from "lucide-react";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Grid } from "@/proto-design-system/components/layout/Grid";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Analytics } from "@/types/common.types";
 import { ConversionFunnel } from "../ConversionFunnel/component";
@@ -82,7 +91,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 				<Stack gap="lg" className={classNames} {...props}>
 					<Stack gap="md" align="center" className={styles.emptyState}>
 						<Icon icon={LineChart} size="2xl" color="muted" />
-						<Text as="h3" size="lg" weight="semibold">No Analytics Data</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							No Analytics Data
+						</Text>
 						<Text color="secondary">
 							Analytics data will appear here once your campaign starts
 							receiving traffic.
@@ -97,9 +108,16 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 		return (
 			<Stack gap="lg" className={classNames} {...props}>
 				{/* Header with actions */}
-				<Stack direction="row" align="center" justify="between" className={styles.header}>
+				<Stack
+					direction="row"
+					align="center"
+					justify="between"
+					className={styles.header}
+				>
 					<Stack gap="xs">
-						<Text as="h2" size="xl" weight="semibold">Analytics Overview</Text>
+						<Text as="h2" size="xl" weight="semibold">
+							Analytics Overview
+						</Text>
 						{dateRange && (
 							<Text size="sm" color="secondary">
 								{dateRange.start.toLocaleDateString()} -{" "}
@@ -127,7 +145,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 								<Icon icon={UserPlus} size="lg" />
 							</div>
 							<Stack gap="xs">
-								<Text size="sm" color="secondary">Total Signups</Text>
+								<Text size="sm" color="secondary">
+									Total Signups
+								</Text>
 								<Text size="2xl" weight="semibold">
 									{loading ? (
 										<div className={styles.skeleton} />
@@ -138,7 +158,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 								{!loading && overview.todaySignups > 0 && (
 									<Stack direction="row" gap="xs" align="center">
 										<Icon icon={ArrowUp} size="sm" color="success" />
-										<Text size="xs" color="secondary">{formatNumber(overview.todaySignups)} today</Text>
+										<Text size="xs" color="secondary">
+											{formatNumber(overview.todaySignups)} today
+										</Text>
 									</Stack>
 								)}
 							</Stack>
@@ -151,7 +173,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 								<Icon icon={Verified} size="lg" />
 							</div>
 							<Stack gap="xs">
-								<Text size="sm" color="secondary">Verification Rate</Text>
+								<Text size="sm" color="secondary">
+									Verification Rate
+								</Text>
 								<Text size="2xl" weight="semibold">
 									{loading ? (
 										<div className={styles.skeleton} />
@@ -159,7 +183,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 										formatPercentage(overview.verificationRate)
 									)}
 								</Text>
-								<Text size="xs" color="secondary">Email verification rate</Text>
+								<Text size="xs" color="secondary">
+									Email verification rate
+								</Text>
 							</Stack>
 						</Stack>
 					</Card>
@@ -170,7 +196,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 								<Icon icon={LineChart} size="lg" />
 							</div>
 							<Stack gap="xs">
-								<Text size="sm" color="secondary">K-Factor</Text>
+								<Text size="sm" color="secondary">
+									K-Factor
+								</Text>
 								<Stack direction="row" gap="sm" align="center">
 									<Text size="2xl" weight="semibold">
 										{loading ? (
@@ -180,12 +208,19 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 										)}
 									</Text>
 									{!loading && (
-										<Badge variant={overview.viralCoefficient >= 1 ? "success" : "warning"} size="sm">
+										<Badge
+											variant={
+												overview.viralCoefficient >= 1 ? "success" : "warning"
+											}
+											size="sm"
+										>
 											{overview.viralCoefficient >= 1 ? "Viral" : "Sub-viral"}
 										</Badge>
 									)}
 								</Stack>
-								<Text size="xs" color="secondary">Viral coefficient</Text>
+								<Text size="xs" color="secondary">
+									Viral coefficient
+								</Text>
 							</Stack>
 						</Stack>
 					</Card>
@@ -196,7 +231,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 								<Icon icon={Share2} size="lg" />
 							</div>
 							<Stack gap="xs">
-								<Text size="sm" color="secondary">Avg Referrals</Text>
+								<Text size="sm" color="secondary">
+									Avg Referrals
+								</Text>
 								<Text size="2xl" weight="semibold">
 									{loading ? (
 										<div className={styles.skeleton} />
@@ -204,7 +241,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 										formatCoefficient(overview.avgReferralsPerUser)
 									)}
 								</Text>
-								<Text size="xs" color="secondary">Per user average</Text>
+								<Text size="xs" color="secondary">
+									Per user average
+								</Text>
 							</Stack>
 						</Stack>
 					</Card>
@@ -214,7 +253,9 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 				{timeline && timeline.length > 0 && (
 					<Card padding="lg">
 						<Stack gap="md">
-							<Text as="h3" size="lg" weight="semibold">Growth Over Time</Text>
+							<Text as="h3" size="lg" weight="semibold">
+								Growth Over Time
+							</Text>
 							<GrowthChart data={timeline} height={350} />
 						</Stack>
 					</Card>
@@ -232,7 +273,11 @@ export const AnalyticsDashboard = memo<AnalyticsDashboardProps>(
 						<Card padding="lg">
 							<Stack gap="md">
 								<Stack direction="row" justify="end">
-									<Stack direction="row" gap="xs" className={styles.chartTypeToggle}>
+									<Stack
+										direction="row"
+										gap="xs"
+										className={styles.chartTypeToggle}
+									>
 										<button
 											className={`${styles.toggleButton} ${chartType === "pie" ? styles.toggleButtonActive : ""}`}
 											onClick={() => setChartType("pie")}

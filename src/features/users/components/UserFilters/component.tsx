@@ -4,14 +4,14 @@
  */
 
 import { RefreshCw } from "lucide-react";
-import { memo, useCallback, useMemo, useState, useEffect } from "react";
-import { Button } from "@/proto-design-system/components/primitives/Button";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { MultiSelect } from "@/proto-design-system/components/composite/MultiSelect/MultiSelect";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Label } from "@/proto-design-system/components/forms/Label";
-import { MultiSelect } from "@/proto-design-system/components/composite/MultiSelect/MultiSelect";
 import { Select } from "@/proto-design-system/components/forms/Select";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { FormField } from "@/types/campaign";
 import type {
@@ -298,7 +298,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						}
 						onChange={(e) => handleDateChange("start", e.target.value)}
 					/>
-					<Text size="sm" color="muted">to</Text>
+					<Text size="sm" color="muted">
+						to
+					</Text>
 					<Input
 						type="date"
 						value={
@@ -322,7 +324,9 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 						value={filters.minPosition ?? ""}
 						onChange={(e) => handlePositionChange("min", e.target.value)}
 					/>
-					<Text size="sm" color="muted">-</Text>
+					<Text size="sm" color="muted">
+						-
+					</Text>
 					<Input
 						type="number"
 						placeholder="Max"
@@ -366,9 +370,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 							<Select
 								options={options}
 								value={selectedValue}
-								onChange={(e) =>
-									handleCustomFieldSelect(field.name, e)
-								}
+								onChange={(e) => handleCustomFieldSelect(field.name, e)}
 								placeholder={`All ${field.label}`}
 							/>
 						</Stack>

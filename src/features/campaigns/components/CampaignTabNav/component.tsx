@@ -1,20 +1,24 @@
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { useCallback, useMemo } from "react";
 import {
-	LayoutGrid,
-	User,
 	BarChart2,
-	Mail,
-	Users,
-	Send,
-	FileText,
 	Code,
+	FileText,
+	LayoutGrid,
+	Mail,
+	Send,
 	Settings,
+	User,
+	Users,
 } from "lucide-react";
+import { useCallback, useMemo } from "react";
 import { useTier } from "@/contexts/tier";
-import { useIsMobile } from "@/proto-design-system/hooks/useMediaQuery";
 import { Select } from "@/proto-design-system/components/forms/Select";
-import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
+import {
+	Tab,
+	TabList,
+	Tabs,
+} from "@/proto-design-system/components/navigation/Tabs";
+import { useIsMobile } from "@/proto-design-system/hooks/useMediaQuery";
 
 interface TabConfig {
 	id: string;
@@ -26,9 +30,19 @@ interface TabConfig {
 }
 
 const TABS: TabConfig[] = [
-	{ id: "overview", path: "", label: "Overview", icon: <LayoutGrid size={16} /> },
+	{
+		id: "overview",
+		path: "",
+		label: "Overview",
+		icon: <LayoutGrid size={16} />,
+	},
 	{ id: "leads", path: "/leads", label: "Leads", icon: <User size={16} /> },
-	{ id: "analytics", path: "/analytics", label: "Analytics", icon: <BarChart2 size={16} /> },
+	{
+		id: "analytics",
+		path: "/analytics",
+		label: "Analytics",
+		icon: <BarChart2 size={16} />,
+	},
 	{
 		id: "email-builder",
 		path: "/email-builder",
@@ -50,9 +64,19 @@ const TABS: TabConfig[] = [
 		icon: <Send size={16} />,
 		requiresPro: true,
 	},
-	{ id: "form-builder", path: "/form-builder", label: "Form", icon: <FileText size={16} /> },
+	{
+		id: "form-builder",
+		path: "/form-builder",
+		label: "Form",
+		icon: <FileText size={16} />,
+	},
 	{ id: "embed", path: "/embed", label: "Embed", icon: <Code size={16} /> },
-	{ id: "settings", path: "/settings", label: "Settings", icon: <Settings size={16} /> },
+	{
+		id: "settings",
+		path: "/settings",
+		label: "Settings",
+		icon: <Settings size={16} />,
+	},
 ];
 
 interface CampaignTabNavProps {
@@ -131,7 +155,7 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 	// Desktop: show tabs
 	return (
 		<nav>
-			<Tabs activeTab={activeTabId} onTabChange={handleTabChange} size={'lg'}>
+			<Tabs activeTab={activeTabId} onTabChange={handleTabChange} size={"lg"}>
 				<TabList>
 					{visibleTabs.map((tab) => (
 						<Tab key={tab.id} id={tab.id} icon={tab.icon}>

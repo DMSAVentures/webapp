@@ -3,13 +3,8 @@
  * Area chart showing signups over time with period selector
  */
 
-import {
-	type HTMLAttributes,
-	memo,
-	useCallback,
-	useState,
-} from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { BarChart2, ChevronLeft, ChevronRight } from "lucide-react";
+import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import {
 	Area,
 	AreaChart,
@@ -19,13 +14,15 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import { BarChart2 } from "lucide-react";
 import type { DateRange } from "@/hooks/useChartNavigation";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
 import { Card } from "@/proto-design-system/components/layout/Card";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { AnalyticsPeriod, ApiSignupDataPoint } from "@/types/api.types";
 import styles from "./component.module.scss";
@@ -181,7 +178,6 @@ function formatDateForPeriod(
 	}
 }
 
-
 // ============================================================================
 // Sub-Components
 // ============================================================================
@@ -295,16 +291,23 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 	// Derived state
 	const dateRangeLabel = formatDateRange(dateRange, selectedPeriod);
 
-
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
 	// Render
 	return (
 		<Card padding="lg" className={classNames}>
 			<Stack gap="lg">
-				<Stack direction="row" align="start" justify="between" wrap className={styles.header}>
+				<Stack
+					direction="row"
+					align="start"
+					justify="between"
+					wrap
+					className={styles.header}
+				>
 					<Stack gap="xs">
-						<Text as="h3" size="lg" weight="semibold">Signups Over Time</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							Signups Over Time
+						</Text>
 						<Text size="sm" color="secondary">
 							{formatNumber(total)} total signups
 						</Text>
@@ -314,7 +317,9 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 							{PERIOD_OPTIONS.map((option) => (
 								<Button
 									key={option.value}
-									variant={selectedPeriod === option.value ? "outline" : "ghost"}
+									variant={
+										selectedPeriod === option.value ? "outline" : "ghost"
+									}
 									size="sm"
 									onClick={() => handlePeriodChange(option.value)}
 								>
@@ -331,7 +336,9 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 									aria-label="Previous period"
 								/>
 								{dateRangeLabel && (
-									<Text size="sm" color="secondary">{dateRangeLabel}</Text>
+									<Text size="sm" color="secondary">
+										{dateRangeLabel}
+									</Text>
 								)}
 								<Button
 									leftIcon={<ChevronRight size={16} />}
@@ -367,7 +374,13 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 								}}
 							>
 								<defs>
-									<linearGradient id="signupGradient" x1="0" y1="0" x2="0" y2="1">
+									<linearGradient
+										id="signupGradient"
+										x1="0"
+										y1="0"
+										x2="0"
+										y2="1"
+									>
 										<stop
 											offset="5%"
 											stopColor="var(--color-info-default)"

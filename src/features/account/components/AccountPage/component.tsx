@@ -12,11 +12,11 @@ import { useGlobalBanner } from "@/contexts/globalBanner";
 import { useCancelSubscription } from "@/hooks/useCancelSubscription";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import styles from "./component.module.scss";
 
 // ============================================================================

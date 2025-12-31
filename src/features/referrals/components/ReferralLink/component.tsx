@@ -1,9 +1,9 @@
 import { CheckCircle, Copy, QrCode } from "lucide-react";
 import { HTMLAttributes, memo, useCallback, useState } from "react";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Modal } from "@/proto-design-system/components/overlays/Modal";
-import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import styles from "./component.module.scss";
 
@@ -78,12 +78,26 @@ export const ReferralLink = memo(function ReferralLink({
 		<>
 			<div className={classNames} {...props}>
 				<div className={styles.container}>
-					<Stack direction="row" gap="sm" align="center" className={styles.labelContainer}>
-						<Text as="label" size="sm" weight="medium" className={styles.label}>Your Referral Link</Text>
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.labelContainer}
+					>
+						<Text as="label" size="sm" weight="medium" className={styles.label}>
+							Your Referral Link
+						</Text>
 						{showCopiedFeedback && (
-							<Stack direction="row" gap="xs" align="center" className={styles.copiedFeedback}>
+							<Stack
+								direction="row"
+								gap="xs"
+								align="center"
+								className={styles.copiedFeedback}
+							>
 								<Icon icon={CheckCircle} size="sm" color="success" />
-								<Text size="sm" color="success">Copied!</Text>
+								<Text size="sm" color="success">
+									Copied!
+								</Text>
 							</Stack>
 						)}
 					</Stack>

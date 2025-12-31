@@ -4,26 +4,29 @@
  */
 
 import {
+	Bold,
+	Code,
+	Eye,
+	Image,
+	Italic,
+	Link,
+	Monitor,
+	Pencil,
+	Smartphone,
+	Underline,
+} from "lucide-react";
+import {
 	type HTMLAttributes,
 	memo,
 	useCallback,
 	useRef,
 	useState,
 } from "react";
-import {
-	Bold,
-	Italic,
-	Underline,
-	Link,
-	Image,
-	Code,
-	Monitor,
-	Smartphone,
-	Eye,
-	Pencil,
-} from "lucide-react";
-import { Button, ButtonGroup } from "@/proto-design-system/components/primitives/Button";
 import { DropdownMenu } from "@/proto-design-system/components/overlays/DropdownMenu";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
 import styles from "./component.module.scss";
 
 export interface EmailEditorProps
@@ -275,7 +278,8 @@ export const EmailEditor = memo<EmailEditorProps>(function EmailEditor({
 
 			{/* Help text */}
 			<p className={styles.helpText}>
-				Use the toolbar to format text, insert links, images, and dynamic variables
+				Use the toolbar to format text, insert links, images, and dynamic
+				variables
 			</p>
 		</div>
 	);

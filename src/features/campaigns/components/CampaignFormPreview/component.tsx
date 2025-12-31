@@ -6,8 +6,10 @@
 import { memo, useState } from "react";
 import { FormPreview } from "@/features/form-builder/components/FormPreview/component";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { ButtonGroup } from "@/proto-design-system/components/primitives/Button";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
 import type { Campaign } from "@/types/campaign";
 import styles from "./component.module.scss";
 

@@ -6,9 +6,9 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import { PositionTracker } from "../PositionTracker/component";
 import { ReferralLink } from "../ReferralLink/component";
@@ -181,7 +181,9 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 				<Stack gap="xs" className={styles.header}>
 					<Stack direction="row" gap="sm" align="center">
 						<Icon icon={Share2} size="lg" color="primary" />
-						<Text as="h2" size="xl" weight="semibold" className={styles.title}>Your Referral Dashboard</Text>
+						<Text as="h2" size="xl" weight="semibold" className={styles.title}>
+							Your Referral Dashboard
+						</Text>
 					</Stack>
 					<Text size="sm" color="muted" className={styles.subtitle}>
 						Share your referral link and climb the leaderboard!
@@ -204,11 +206,25 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 
 					{/* Referral Count Card */}
 					<div className={`${styles.statCard} ${styles.referralCountCard}`}>
-						<Stack direction="row" gap="sm" align="center" className={styles.statCardHeader}>
+						<Stack
+							direction="row"
+							gap="sm"
+							align="center"
+							className={styles.statCardHeader}
+						>
 							<Icon icon={UserPlus} size="md" color="secondary" />
-							<Text size="sm" weight="medium" className={styles.statLabel}>Your Referrals</Text>
+							<Text size="sm" weight="medium" className={styles.statLabel}>
+								Your Referrals
+							</Text>
 						</Stack>
-						<Text as="div" size="2xl" weight="semibold" className={styles.statValue}>{referralData.referralCount}</Text>
+						<Text
+							as="div"
+							size="2xl"
+							weight="semibold"
+							className={styles.statValue}
+						>
+							{referralData.referralCount}
+						</Text>
 						<Text size="sm" color="muted" className={styles.statDescription}>
 							{getReferralDescription(referralData.referralCount)}
 						</Text>
@@ -218,15 +234,29 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 				{/* Reward Progress Section */}
 				{referralData.nextRewardTier && (
 					<div className={styles.rewardSection}>
-						<Stack direction="row" justify="between" align="start" className={styles.rewardHeader}>
+						<Stack
+							direction="row"
+							justify="between"
+							align="start"
+							className={styles.rewardHeader}
+						>
 							<Stack gap="xs" className={styles.rewardInfo}>
 								<Stack direction="row" gap="sm" align="center">
 									<Icon icon={Gift} size="md" color="primary" />
-									<Text as="h3" size="md" weight="semibold" className={styles.rewardTitle}>
+									<Text
+										as="h3"
+										size="md"
+										weight="semibold"
+										className={styles.rewardTitle}
+									>
 										Next Reward: {referralData.nextRewardTier.name}
 									</Text>
 								</Stack>
-								<Text size="sm" color="muted" className={styles.rewardDescription}>
+								<Text
+									size="sm"
+									color="muted"
+									className={styles.rewardDescription}
+								>
 									{referralData.nextRewardTier.reward}
 								</Text>
 							</Stack>
@@ -237,11 +267,7 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 								</Text>
 							</div>
 						</Stack>
-						<Progress
-							value={progress}
-							size="md"
-							variant="default"
-						/>
+						<Progress value={progress} size="md" variant="default" />
 					</div>
 				)}
 
@@ -255,9 +281,16 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 
 				{/* Share Buttons Section */}
 				<div className={styles.shareSection}>
-					<Stack direction="row" gap="sm" align="center" className={styles.sectionTitle}>
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.sectionTitle}
+					>
 						<Icon icon={Share2} size="md" color="secondary" />
-						<Text as="h3" size="md" weight="semibold">Share Your Link</Text>
+						<Text as="h3" size="md" weight="semibold">
+							Share Your Link
+						</Text>
 					</Stack>
 					<ShareButtons
 						referralUrl={referralUrl}
@@ -268,22 +301,35 @@ export const ReferralDashboard = memo(function ReferralDashboard({
 
 				{/* Tips Section */}
 				<div className={styles.tipsSection}>
-					<Stack direction="row" gap="sm" align="center" className={styles.sectionTitle}>
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.sectionTitle}
+					>
 						<Icon icon={Lightbulb} size="md" color="warning" />
-						<Text as="h3" size="md" weight="semibold">Tips to Get More Referrals</Text>
+						<Text as="h3" size="md" weight="semibold">
+							Tips to Get More Referrals
+						</Text>
 					</Stack>
 					<ul className={styles.tipsList}>
 						<li className={styles.tipItem}>
 							<Icon icon={Check} size="sm" color="success" />
-							<Text size="sm">Share your link on social media to reach more people</Text>
+							<Text size="sm">
+								Share your link on social media to reach more people
+							</Text>
 						</li>
 						<li className={styles.tipItem}>
 							<Icon icon={Check} size="sm" color="success" />
-							<Text size="sm">Personalize your message to make it more appealing</Text>
+							<Text size="sm">
+								Personalize your message to make it more appealing
+							</Text>
 						</li>
 						<li className={styles.tipItem}>
 							<Icon icon={Check} size="sm" color="success" />
-							<Text size="sm">Follow up with friends who haven't signed up yet</Text>
+							<Text size="sm">
+								Follow up with friends who haven't signed up yet
+							</Text>
 						</li>
 						<li className={styles.tipItem}>
 							<Icon icon={Check} size="sm" color="success" />

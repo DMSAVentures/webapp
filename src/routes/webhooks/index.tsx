@@ -1,5 +1,5 @@
-import { ListChecks, Plus, Trash2 } from "lucide-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ListChecks, Plus, Trash2 } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
@@ -7,13 +7,13 @@ import { useTier } from "@/contexts/tier";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
 import { useGetWebhooks } from "@/hooks/useGetWebhooks";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Toast } from "@/proto-design-system/components/feedback/Toast";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { WebhookStatus } from "@/types/webhook";
 import styles from "./webhooks.module.scss";
 
@@ -123,12 +123,7 @@ function RouteComponent() {
 	};
 
 	if (loading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading webhooks..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading webhooks..." />;
 	}
 
 	if (error) {
@@ -139,19 +134,27 @@ function RouteComponent() {
 		switch (status) {
 			case "active":
 				return (
-					<Badge variant="success" size="sm">Active</Badge>
+					<Badge variant="success" size="sm">
+						Active
+					</Badge>
 				);
 			case "paused":
 				return (
-					<Badge variant="warning" size="sm">Paused</Badge>
+					<Badge variant="warning" size="sm">
+						Paused
+					</Badge>
 				);
 			case "failed":
 				return (
-					<Badge variant="error" size="sm">Failed</Badge>
+					<Badge variant="error" size="sm">
+						Failed
+					</Badge>
 				);
 			default:
 				return (
-					<Badge variant="secondary" size="sm">{status}</Badge>
+					<Badge variant="secondary" size="sm">
+						{status}
+					</Badge>
 				);
 		}
 	};
@@ -262,7 +265,9 @@ function RouteComponent() {
 
 								{testFeedback?.webhookId === webhook.id && (
 									<Toast
-										variant={testFeedback.type === "success" ? "success" : "error"}
+										variant={
+											testFeedback.type === "success" ? "success" : "error"
+										}
 										title={testFeedback.message}
 										closable
 									>
@@ -272,11 +277,7 @@ function RouteComponent() {
 
 								<div className={styles.webhookEvents}>
 									{webhook.events.map((event) => (
-										<Badge
-											key={event}
-											variant="secondary"
-											size="sm"
-										>
+										<Badge key={event} variant="secondary" size="sm">
 											{event}
 										</Badge>
 									))}
@@ -325,7 +326,11 @@ function RouteComponent() {
 						<Button variant="secondary" onClick={handleDeleteCancel}>
 							Cancel
 						</Button>
-						<Button variant="destructive" onClick={handleDeleteConfirm} isLoading={isDeleting}>
+						<Button
+							variant="destructive"
+							onClick={handleDeleteConfirm}
+							isLoading={isDeleting}
+						>
 							{isDeleting ? "Deleting..." : "Delete"}
 						</Button>
 					</>

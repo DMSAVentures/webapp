@@ -10,11 +10,11 @@ import { ErrorState } from "@/components/error/error";
 import { useCreateCustomerPortal } from "@/hooks/useCreateCustomerPortal";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Price, Subscription } from "@/types/billing";
 import styles from "./component.module.scss";
 
@@ -119,10 +119,7 @@ const SubscriptionCard = memo(function SubscriptionCard({
 					<span className={styles.planName}>
 						{subscription.planName || "Unknown Plan"}
 					</span>
-					<Badge
-						variant={statusVariant}
-						size="md"
-					>
+					<Badge variant={statusVariant} size="md">
 						{subscription.status}
 					</Badge>
 				</div>
@@ -243,12 +240,7 @@ export const BillingPage = memo(function BillingPage() {
 
 	// Loading state
 	if (loading) {
-		return (
-			<Spinner
-				size="lg"
-				label="Loading billing information..."
-			/>
-		);
+		return <Spinner size="lg" label="Loading billing information..." />;
 	}
 
 	// Redirect pending (no subscription)
@@ -268,7 +260,11 @@ export const BillingPage = memo(function BillingPage() {
 				icon={<CreditCard size={48} />}
 				title="No subscription found"
 				description="You don't have an active subscription."
-				action={<Button variant="primary" onClick={handleChangePlan}>View Plans</Button>}
+				action={
+					<Button variant="primary" onClick={handleChangePlan}>
+						View Plans
+					</Button>
+				}
 			/>
 		);
 	}

@@ -3,6 +3,7 @@
  * Form for creating email campaigns with trigger configuration
  */
 
+import { Eye, Send } from "lucide-react";
 import {
 	type ChangeEvent,
 	type FormEvent,
@@ -11,10 +12,9 @@ import {
 	useCallback,
 	useState,
 } from "react";
-import { Eye, Send } from "lucide-react";
-import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { Dropdown } from "@/proto-design-system/components/overlays/Dropdown";
+import { Button } from "@/proto-design-system/components/primitives/Button";
 import type { EmailCampaign } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -246,9 +246,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							}
 							isError={!!errors.name}
 						/>
-						{errors.name && (
-							<span className={styles.error}>{errors.name}</span>
-						)}
+						{errors.name && <span className={styles.error}>{errors.name}</span>}
 					</div>
 
 					{/* Template Selector */}
@@ -292,9 +290,7 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 							items={triggerOptions}
 							value={trigger}
 							size="md"
-							onChange={(id) =>
-								setTrigger(id as EmailCampaign["trigger"])
-							}
+							onChange={(id) => setTrigger(id as EmailCampaign["trigger"])}
 						/>
 					</div>
 
@@ -381,7 +377,9 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 										min="1"
 									/>
 									{errors.milestoneValue && (
-										<span className={styles.error}>{errors.milestoneValue}</span>
+										<span className={styles.error}>
+											{errors.milestoneValue}
+										</span>
 									)}
 								</div>
 							</div>
@@ -405,7 +403,9 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 											isError={!!errors.scheduledDate}
 										/>
 										{errors.scheduledDate && (
-											<span className={styles.error}>{errors.scheduledDate}</span>
+											<span className={styles.error}>
+												{errors.scheduledDate}
+											</span>
 										)}
 									</div>
 									<div>
@@ -420,7 +420,9 @@ export const EmailCampaignForm = memo<EmailCampaignFormProps>(
 											isError={!!errors.scheduledTime}
 										/>
 										{errors.scheduledTime && (
-											<span className={styles.error}>{errors.scheduledTime}</span>
+											<span className={styles.error}>
+												{errors.scheduledTime}
+											</span>
 										)}
 									</div>
 								</div>

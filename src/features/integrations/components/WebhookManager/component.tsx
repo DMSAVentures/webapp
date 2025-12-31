@@ -3,11 +3,25 @@
  * Manages webhooks for a campaign
  */
 
-import { AlertTriangle, Calendar, Check, ChevronDown, ChevronUp, FileText, Link2, Pencil, Plus, Send, Trash2, Webhook, X } from "lucide-react";
+import {
+	AlertTriangle,
+	Calendar,
+	Check,
+	ChevronDown,
+	ChevronUp,
+	FileText,
+	Link2,
+	Pencil,
+	Plus,
+	Send,
+	Trash2,
+	Webhook,
+	X,
+} from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import type { Webhook as WebhookType } from "@/types/common.types";
 import styles from "./component.module.scss";
@@ -40,7 +54,9 @@ type WebhookHealth = "healthy" | "warning" | "error";
 // ============================================================================
 
 /** Maps webhook status to StatusBadge variant */
-function getStatusVariant(status: WebhookType["status"]): "success" | "secondary" {
+function getStatusVariant(
+	status: WebhookType["status"],
+): "success" | "secondary" {
 	return status === "active" ? "success" : "secondary";
 }
 
@@ -163,7 +179,11 @@ export const WebhookManager = memo<WebhookManagerProps>(
 						Create a webhook to receive real-time events from your campaign
 					</p>
 					{onCreate && (
-						<Button onClick={onCreate} variant="primary" leftIcon={<Plus size={16} />}>
+						<Button
+							onClick={onCreate}
+							variant="primary"
+							leftIcon={<Plus size={16} />}
+						>
 							Create Webhook
 						</Button>
 					)}
@@ -182,7 +202,11 @@ export const WebhookManager = memo<WebhookManagerProps>(
 						</p>
 					</div>
 					{onCreate && (
-						<Button onClick={onCreate} variant="primary" leftIcon={<Plus size={16} />}>
+						<Button
+							onClick={onCreate}
+							variant="primary"
+							leftIcon={<Plus size={16} />}
+						>
 							Create Webhook
 						</Button>
 					)}
@@ -209,9 +233,7 @@ export const WebhookManager = memo<WebhookManagerProps>(
 										<div className={styles.webhookInfo}>
 											<div className={styles.webhookHeader}>
 												<h3 className={styles.webhookName}>{webhook.name}</h3>
-												<Badge
-													variant={getStatusVariant(webhook.status)}
-												>
+												<Badge variant={getStatusVariant(webhook.status)}>
 													{getStatusText(webhook.status)}
 												</Badge>
 											</div>
@@ -282,9 +304,11 @@ export const WebhookManager = memo<WebhookManagerProps>(
 											)}
 											<Button
 												leftIcon={
-													webhookIsExpanded
-														? <ChevronUp size={16} />
-														: <ChevronDown size={16} />
+													webhookIsExpanded ? (
+														<ChevronUp size={16} />
+													) : (
+														<ChevronDown size={16} />
+													)
 												}
 												variant="secondary"
 												aria-label={webhookIsExpanded ? "Collapse" : "Expand"}

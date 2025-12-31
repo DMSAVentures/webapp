@@ -47,7 +47,9 @@ export const DevicePreview = memo<DevicePreviewProps>(function DevicePreview({
 						<span className={styles.deviceDot} />
 						<span className={styles.deviceDot} />
 					</Stack>
-					<Text size="xs" color="muted" className={styles.deviceTitle}>{device} Preview</Text>
+					<Text size="xs" color="muted" className={styles.deviceTitle}>
+						{device} Preview
+					</Text>
 				</Stack>
 
 				<div className={styles.previewContent}>

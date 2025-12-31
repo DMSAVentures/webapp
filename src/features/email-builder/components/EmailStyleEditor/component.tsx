@@ -5,10 +5,10 @@
 
 import { Grid2x2, Palette } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
-import { Divider } from "@/proto-design-system/components/layout/Divider";
-import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import { EMAIL_DESIGN_TEMPLATES } from "../../constants/emailDesignTemplates";
 import type { EmailDesign } from "../../types/emailBlocks";
@@ -126,7 +126,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 				<Stack gap="xs" className={styles.header}>
 					<Stack direction="row" gap="sm" align="center">
 						<Icon icon={Palette} size="md" color="secondary" />
-						<Text as="h3" size="lg" weight="semibold">Email Appearance</Text>
+						<Text as="h3" size="lg" weight="semibold">
+							Email Appearance
+						</Text>
 					</Stack>
 					<Text size="sm" color="muted">
 						Customize colors, fonts, and spacing
@@ -221,7 +223,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 					<div className={styles.content}>
 						{/* Colors Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Colors</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Colors
+							</Text>
 							<div className={styles.colorGrid}>
 								<div className={styles.colorItem}>
 									<label htmlFor="email-color-primary-text">Primary</label>
@@ -249,7 +253,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="email-color-background-text">Background</label>
+									<label htmlFor="email-color-background-text">
+										Background
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-background"
@@ -274,7 +280,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="email-color-content-background-text">Content Background</label>
+									<label htmlFor="email-color-content-background-text">
+										Content Background
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-content-background"
@@ -324,7 +332,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 								</div>
 
 								<div className={styles.colorItem}>
-									<label htmlFor="email-color-secondary-text-text">Secondary Text</label>
+									<label htmlFor="email-color-secondary-text-text">
+										Secondary Text
+									</label>
 									<div className={styles.colorInputGroup}>
 										<input
 											id="email-color-secondary-text"
@@ -379,7 +389,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 						{/* Typography Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Typography</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Typography
+							</Text>
 							<div className={styles.inputGrid}>
 								<div>
 									<label htmlFor="email-font-family">Font Family</label>
@@ -433,10 +445,14 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 						{/* Spacing Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Spacing</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Spacing
+							</Text>
 							<div className={styles.inputGrid}>
 								<div>
-									<label htmlFor="email-content-padding">Content Padding (px)</label>
+									<label htmlFor="email-content-padding">
+										Content Padding (px)
+									</label>
 									<Input
 										id="email-content-padding"
 										type="number"
@@ -468,7 +484,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 									/>
 								</div>
 								<div>
-									<label htmlFor="email-border-radius">Border Radius (px)</label>
+									<label htmlFor="email-border-radius">
+										Border Radius (px)
+									</label>
 									<Input
 										id="email-border-radius"
 										type="number"
@@ -487,7 +505,9 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 
 						{/* Footer Section */}
 						<section className={styles.section}>
-							<Text as="h4" size="md" weight="semibold">Footer</Text>
+							<Text as="h4" size="md" weight="semibold">
+								Footer
+							</Text>
 							<div className={styles.inputGrid}>
 								<div>
 									<label htmlFor="email-footer-text">Footer Text</label>

@@ -4,16 +4,16 @@ import { Input, type InputProps } from "../Input/Input";
 import styles from "./TextField.module.scss";
 
 export interface TextFieldProps extends InputProps {
-  /** Label text */
-  label?: string;
-  /** Helper text shown below input */
-  helperText?: string;
-  /** Error message (also sets error state) */
-  errorMessage?: string;
-  /** Make the field required */
-  required?: boolean;
-  /** Hide the label visually (still accessible) */
-  hideLabel?: boolean;
+	/** Label text */
+	label?: string;
+	/** Helper text shown below input */
+	helperText?: string;
+	/** Error message (also sets error state) */
+	errorMessage?: string;
+	/** Make the field required */
+	required?: boolean;
+	/** Hide the label visually (still accessible) */
+	hideLabel?: boolean;
 }
 
 /**
@@ -27,59 +27,64 @@ export interface TextFieldProps extends InputProps {
  * ```
  */
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  (
-    {
-      label,
-      helperText,
-      errorMessage,
-      required,
-      hideLabel,
-      id: providedId,
-      className,
-      isError,
-      ...props
-    },
-    ref
-  ) => {
-    const generatedId = useId();
-    const id = providedId || generatedId;
-    const helperId = `${id}-helper`;
-    const errorId = `${id}-error`;
-    const hasError = isError || !!errorMessage;
+	(
+		{
+			label,
+			helperText,
+			errorMessage,
+			required,
+			hideLabel,
+			id: providedId,
+			className,
+			isError,
+			...props
+		},
+		ref,
+	) => {
+		const generatedId = useId();
+		const id = providedId || generatedId;
+		const helperId = `${id}-helper`;
+		const errorId = `${id}-error`;
+		const hasError = isError || !!errorMessage;
 
-    return (
-      <div className={cn(styles.field, className)}>
-        {label && (
-          <label htmlFor={id} className={cn(styles.label, hideLabel && styles.visuallyHidden)}>
-            {label}
-            {required && <span className={styles.required}>*</span>}
-          </label>
-        )}
+		return (
+			<div className={cn(styles.field, className)}>
+				{label && (
+					<label
+						htmlFor={id}
+						className={cn(styles.label, hideLabel && styles.visuallyHidden)}
+					>
+						{label}
+						{required && <span className={styles.required}>*</span>}
+					</label>
+				)}
 
-        <Input
-          ref={ref}
-          id={id}
-          isError={hasError}
-          aria-describedby={errorMessage ? errorId : helperText ? helperId : undefined}
-          aria-invalid={hasError}
-          aria-required={required}
-          {...props}
-        />
+				<Input
+					ref={ref}
+					id={id}
+					isError={hasError}
+					aria-describedby={
+						errorMessage ? errorId : helperText ? helperId : undefined
+					}
+					aria-invalid={hasError}
+					aria-required={required}
+					{...props}
+				/>
 
-        {helperText && !errorMessage && (
-          <p id={helperId} className={styles.helper}>
-            {helperText}
-          </p>
-        )}
+				{helperText && !errorMessage && (
+					<p id={helperId} className={styles.helper}>
+						{helperText}
+					</p>
+				)}
 
-        {errorMessage && (
-          <p id={errorId} className={styles.error} role="alert">
-            {errorMessage}
-          </p>
-        )}
-      </div>
-    );
-  }
+				{errorMessage && (
+					<p id={errorId} className={styles.error} role="alert">
+						{errorMessage}
+					</p>
+				)}
+			</div>
+		);
+	},
 );
 
 TextField.displayName = "TextField";

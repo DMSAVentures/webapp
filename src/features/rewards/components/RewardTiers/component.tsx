@@ -3,11 +3,23 @@
  * Displays reward tiers as a vertical timeline
  */
 
-import { Archive, Calendar, CheckCircle2, Crown, Flag, Gift, Loader2, type LucideIcon, Shirt, Star, Tag } from "lucide-react";
+import {
+	Archive,
+	Calendar,
+	CheckCircle2,
+	Crown,
+	Flag,
+	Gift,
+	Loader2,
+	type LucideIcon,
+	Shirt,
+	Star,
+	Tag,
+} from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
+import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
-import { Progress } from "@/proto-design-system/components/feedback/Progress";
 import type { Reward } from "@/types/common.types";
 import styles from "./component.module.scss";
 
@@ -197,11 +209,7 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 						)}
 					</div>
 					{nextTierReward && (
-						<Progress
-							value={progressPercent}
-							variant="default"
-							size="md"
-						/>
+						<Progress value={progressPercent} variant="default" size="md" />
 					)}
 				</div>
 			)}
@@ -242,25 +250,16 @@ export const RewardTiers = memo<RewardTiersProps>(function RewardTiers({
 							{/* Content */}
 							<div className={styles.content}>
 								<div className={styles.header}>
-									<Badge
-										variant="primary"
-										size="sm"
-									>
+									<Badge variant="primary" size="sm">
 										Tier {reward.tier}
 									</Badge>
 									{reward.status === "inactive" && (
-										<Badge
-											variant="secondary"
-											size="sm"
-										>
+										<Badge variant="secondary" size="sm">
 											Inactive
 										</Badge>
 									)}
 									{isUnlocked && (
-										<Badge
-											variant="success"
-											size="sm"
-										>
+										<Badge variant="success" size="sm">
 											Unlocked
 										</Badge>
 									)}

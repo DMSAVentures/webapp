@@ -10,12 +10,7 @@ export default function PlanCard(props: PlanCardProps) {
 	const { loading, error, prices } = useGetAllPrices();
 
 	if (loading) {
-		return (
-			<Spinner
-				size="md"
-				label="Loading plan details..."
-			/>
-		);
+		return <Spinner size="md" label="Loading plan details..." />;
 	}
 
 	if (error) {
