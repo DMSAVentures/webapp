@@ -1,0 +1,50 @@
+// =============================================================================
+// SEGMENTS PAGE STYLES
+// =============================================================================
+
+.page {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+	padding: var(--space-5);
+}
+
+.pageHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: var(--space-4);
+}
+
+.headerContent {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+	flex: 1;
+}
+
+.pageTitle {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-semibold);
+	line-height: var(--line-height-tight);
+	color: var(--color-base-content);
+	margin: 0;
+}
+
+.pageDescription {
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-relaxed);
+	color: var(--color-base-content-secondary);
+	margin: 0;
+}
+
+.campaignSelector {
+	max-width: 300px;
+}
+
+.pageContent {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+}

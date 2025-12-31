@@ -1,12 +1,14 @@
 import {
 	BarChart,
 	CreditCard,
+	Filter,
 	HelpCircle,
 	Home,
 	LogOut,
 	Mail,
 	Megaphone,
 	Plug,
+	Send,
 	Settings,
 	User,
 	Users,
@@ -43,6 +45,8 @@ const iconMap: Record<string, React.ReactNode> = {
 	"mail-line": <Mail size={18} />,
 	"webhook-line": <Webhook size={18} />,
 	"plug-line": <Plug size={18} />,
+	"filter-line": <Filter size={18} />,
+	"send-line": <Send size={18} />,
 };
 
 const getIcon = (iconClass?: string) => {
