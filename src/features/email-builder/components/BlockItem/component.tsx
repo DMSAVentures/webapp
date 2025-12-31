@@ -198,7 +198,12 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 		>
 			<Stack direction="row" gap="sm" align="center">
 				{/* Left: Type icon and badge */}
-				<Stack direction="row" gap="sm" align="center" className={styles.typeInfo}>
+				<Stack
+					direction="row"
+					gap="sm"
+					align="center"
+					className={styles.typeInfo}
+				>
 					<Icon icon={getBlockIcon(block.type)} size="md" color="secondary" />
 					<Badge variant="secondary" size="sm">
 						{getBlockLabel(block.type)}

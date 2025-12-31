@@ -4,8 +4,8 @@
  */
 
 import { memo, useCallback, useEffect, useState } from "react";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Campaign } from "@/types/campaign";

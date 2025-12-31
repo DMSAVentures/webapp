@@ -5,8 +5,8 @@
 
 import { Check, Code, Copy, Globe, Link, type LucideIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";

@@ -765,7 +765,9 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 								Content
 							</Button>
 							<Button
-								variant={rightPanelMode === "appearance" ? "primary" : "secondary"}
+								variant={
+									rightPanelMode === "appearance" ? "primary" : "secondary"
+								}
 								size="sm"
 								leftIcon={<Palette size={16} />}
 								onClick={() => setRightPanelMode("appearance")}

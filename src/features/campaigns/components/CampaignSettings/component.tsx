@@ -7,10 +7,10 @@ import { useNavigate } from "@tanstack/react-router";
 import { Loader2, StopCircle } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import type { ApiTrackingIntegrationType } from "@/api/types/campaign";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Button } from "@/proto-design-system/components/primitives/Button";
@@ -185,7 +185,11 @@ function useCampaignSettingsActions(campaignId: string, onRefetch: () => void) {
 	const handleEnd = useCallback(async () => {
 		const updated = await updateStatus(campaignId, { status: "completed" });
 		if (updated) {
-			addBanner({ type: "success", title: "Campaign has been ended", dismissible: true });
+			addBanner({
+				type: "success",
+				title: "Campaign has been ended",
+				dismissible: true,
+			});
 			onRefetch();
 		}
 	}, [campaignId, updateStatus, addBanner, onRefetch]);
@@ -195,7 +199,11 @@ function useCampaignSettingsActions(campaignId: string, onRefetch: () => void) {
 			const payload = transformFormDataToApiPayload(data);
 			const updated = await updateCampaign(campaignId, payload);
 			if (updated) {
-				addBanner({ type: "success", title: "Campaign settings saved!", dismissible: true });
+				addBanner({
+					type: "success",
+					title: "Campaign settings saved!",
+					dismissible: true,
+				});
 				onRefetch();
 			}
 		},

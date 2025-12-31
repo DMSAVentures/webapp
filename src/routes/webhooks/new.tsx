@@ -2,13 +2,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import {
 	WebhookForm,
 	type WebhookFormData,
 } from "@/features/webhooks/components/WebhookForm/component";
 import { useCreateWebhook } from "@/hooks/useCreateWebhook";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import styles from "./new.module.scss";
 

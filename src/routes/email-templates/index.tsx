@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import {Mail, Plus} from "lucide-react";
+import { Mail, Plus } from "lucide-react";
 import { motion } from "motion/react";
 import { ErrorState } from "@/components/error/error";
 import { useGetAllEmailTemplates } from "@/hooks/useEmailTemplates";
@@ -118,7 +118,7 @@ function RouteComponent() {
 			<div className={styles.pageContent}>
 				{!templates || templates.length === 0 ? (
 					<EmptyState
-						icon={<Mail/>}
+						icon={<Mail />}
 						title="No email templates yet"
 						description="Create email templates within your campaigns to send automated emails to your users."
 						action={

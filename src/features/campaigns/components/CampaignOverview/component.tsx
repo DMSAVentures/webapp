@@ -16,10 +16,10 @@ import {
 	Share2,
 } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
@@ -108,7 +108,11 @@ function useCampaignStatusActions(campaignId: string, onRefetch: () => void) {
 	const handleGoLive = useCallback(async () => {
 		const updated = await updateStatus(campaignId, { status: "active" });
 		if (updated) {
-			addBanner({ type: "success", title: "Campaign is now live!", dismissible: true });
+			addBanner({
+				type: "success",
+				title: "Campaign is now live!",
+				dismissible: true,
+			});
 			onRefetch();
 		}
 	}, [campaignId, updateStatus, addBanner, onRefetch]);

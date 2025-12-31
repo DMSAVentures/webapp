@@ -4,21 +4,15 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import {
-	Eye,
-	Loader2,
-	Monitor,
-	Save,
-	Smartphone,
-	Tablet,
-} from "lucide-react";
+import { Eye, Loader2, Monitor, Save, Smartphone, Tablet } from "lucide-react";
 import { memo, useCallback, useState } from "react";
 import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
-import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useCreateEmailTemplate } from "@/hooks/useEmailTemplates";
+import { useGetCampaigns } from "@/hooks/useGetCampaigns";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { FormField } from "@/proto-design-system/components/forms/FormField";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -30,7 +24,6 @@ import {
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Text } from "@/proto-design-system/components/primitives/Text";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import type { Campaign } from "@/types/campaign";
 import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
 import {
@@ -327,9 +320,7 @@ export const NewEmailTemplatePage = memo(function NewEmailTemplatePage() {
 					<Text as="h1" size="2xl" weight="bold">
 						Create Email Template
 					</Text>
-					<Text color="muted">
-						Design and customize your email template
-					</Text>
+					<Text color="muted">Design and customize your email template</Text>
 				</Stack>
 
 				<Stack direction="row" gap="sm" align="center">

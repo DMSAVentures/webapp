@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Filter, Plus, Users } from "lucide-react";
 import { motion } from "motion/react";
 import { useCallback, useState } from "react";
+import { SegmentBuilder } from "@/features/segments/components/SegmentBuilder/component";
+import { SegmentList } from "@/features/segments/components/SegmentList/component";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useGetSegments } from "@/hooks/useSegments";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
@@ -12,8 +14,6 @@ import {
 } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Segment } from "@/types/segment";
-import { SegmentBuilder } from "@/features/segments/components/SegmentBuilder/component";
-import { SegmentList } from "@/features/segments/components/SegmentList/component";
 import styles from "./index.module.scss";
 
 export const Route = createFileRoute("/segments/")({
