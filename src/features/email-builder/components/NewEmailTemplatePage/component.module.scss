@@ -11,83 +11,47 @@
 	}
 }
 
-.loadingIcon {
+.spin {
 	animation: spin 1s linear infinite;
 }
 
-.root {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	background-color: var(--color-surface);
-	border-radius: var(--radius-md);
-	overflow: hidden;
-}
-
-// Header
-.header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--space-4);
-	padding: var(--space-4);
-	background-color: var(--color-surface);
-	border-bottom: 1px solid var(--color-border);
-}
-
-.headerContent {
-	display: flex;
-	align-items: center;
-	gap: var(--space-3);
-	flex: 1;
-}
-
-.title {
-	margin: 0;
-	font-size: var(--font-size-xl);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-base-content);
-}
-
-.headerActions {
-	display: flex;
-	align-items: center;
-	gap: var(--space-2);
-}
-
-
-.testEmailForm {
-	display: flex;
-	align-items: center;
-	gap: var(--space-1);
-}
-
-.testEmailInput {
-	width: 200px;
-}
-
-.successBanner {
+.loading {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: var(--space-1);
-	padding: var(--space-2);
-	background-color: var(--color-bg-success-default);
-	color: var(--color-text-inverse-default);
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-medium);
-
-	i {
-		font-size: var(--font-size-base);
-	}
+	height: 100%;
+	min-height: 400px;
 }
 
-// Tabs wrapper
-.tabsWrapper {
+.page {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+	padding: var(--space-5);
+	height: 100%;
+	min-height: 0;
+}
+
+.pageHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: var(--space-4);
 	flex-shrink: 0;
-	padding: 0 var(--space-4);
+}
+
+// Configuration bar
+.configBar {
+	padding: var(--space-4);
 	background-color: var(--color-surface);
-	border-bottom: 1px solid var(--color-border);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	flex-shrink: 0;
+}
+
+.configField {
+	flex: 1;
+	min-width: 200px;
 }
 
 // Builder layout (3-column)
@@ -97,10 +61,8 @@
 	grid-template-rows: 1fr;
 	gap: var(--space-3);
 	flex: 1;
-	min-height: 0; // Important for flex child with overflow
+	min-height: 0;
 	overflow: hidden;
-	padding: var(--space-3);
-	background-color: var(--color-base-100);
 }
 
 // Panels
@@ -110,7 +72,7 @@
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
 	overflow-y: auto;
-	min-height: 0; // Allow shrinking in grid
+	min-height: 0;
 }
 
 .centerPanel {
@@ -118,16 +80,16 @@
 	flex-direction: column;
 	gap: var(--space-3);
 	overflow-y: auto;
-	min-height: 0; // Allow shrinking in grid
+	min-height: 0;
 }
 
 .rightPanel {
 	display: flex;
 	flex-direction: column;
-	overflow: hidden; // Contain content, child will scroll
+	overflow: hidden;
 }
 
-// Panel mode toggle (Content vs Appearance)
+// Panel mode toggle
 .panelModeToggle {
 	padding: var(--space-3);
 	border-bottom: 1px solid var(--color-border);
@@ -146,7 +108,7 @@
 .canvasWrapper {
 	display: flex;
 	flex-direction: column;
-	flex-shrink: 0; // Don't shrink - height based on content
+	flex-shrink: 0;
 	background-color: var(--color-surface);
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
@@ -160,20 +122,10 @@
 	padding: var(--space-2) var(--space-3);
 	background-color: var(--color-base-100);
 	border-bottom: 1px solid var(--color-border);
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-medium);
-	color: var(--color-base-content-secondary);
-
-	i {
-		font-size: var(--font-size-base);
-		color: var(--color-base-content-secondary);
-	}
 }
 
 .blockCount {
 	margin-left: auto;
-	font-size: var(--font-size-xs);
-	color: var(--color-base-content-tertiary);
 }
 
 .canvas {
@@ -190,45 +142,18 @@
 	justify-content: center;
 	gap: var(--space-3);
 	padding: var(--space-8);
-	color: var(--color-base-content-tertiary);
 	text-align: center;
 	border: 2px dashed var(--color-border);
 	border-radius: var(--radius-md);
 	margin: var(--space-2);
 	background-color: oklch(from var(--color-info) l c h / 0.03);
-
-	p {
-		margin: 0;
-		font-size: var(--font-size-sm);
-		max-width: 200px;
-	}
-}
-
-.loadingState {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: var(--space-3);
-	padding: var(--space-8);
-	color: var(--color-base-content-tertiary);
-	text-align: center;
-	flex: 1;
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-
-	p {
-		margin: 0;
-		font-size: var(--font-size-sm);
-	}
 }
 
 // Preview section
 .previewWrapper {
 	display: flex;
 	flex-direction: column;
-	flex: 1; // Take remaining space to show full email preview
+	flex: 1;
 	min-height: 300px;
 	background-color: var(--color-surface);
 	border: 1px solid var(--color-border);
@@ -243,14 +168,6 @@
 	padding: var(--space-2) var(--space-3);
 	background-color: var(--color-base-100);
 	border-bottom: 1px solid var(--color-border);
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-medium);
-	color: var(--color-base-content-secondary);
-
-	i {
-		font-size: var(--font-size-base);
-		color: var(--color-base-content-secondary);
-	}
 }
 
 .emailPreview {
@@ -332,24 +249,24 @@
 	height: 100%;
 	padding: var(--space-6);
 	text-align: center;
-	color: var(--color-base-content-tertiary);
 	background-color: var(--color-base-100);
 	margin: var(--space-4);
 	border-radius: var(--radius-md);
+}
 
-	h3 {
-		margin: 0;
-		font-size: var(--font-size-md);
-		font-weight: var(--font-weight-semibold);
-		color: var(--color-base-content-secondary);
-	}
-
-	p {
-		margin: 0;
-		font-size: var(--font-size-sm);
-		max-width: 220px;
-		line-height: var(--line-height-normal);
-	}
+// Select campaign prompt
+.selectCampaignPrompt {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-3);
+	flex: 1;
+	padding: var(--space-8);
+	text-align: center;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
 }
 
 // Responsive adjustments
@@ -376,64 +293,34 @@
 		max-height: 300px;
 	}
 
-	.header {
+	.pageHeader {
 		flex-direction: column;
 		align-items: stretch;
-		gap: var(--space-2);
+		gap: var(--space-3);
 	}
 
-	.headerContent {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-
-	.headerActions {
-		justify-content: space-between;
-		width: 100%;
-		flex-wrap: wrap;
+	.configBar {
+		overflow-x: auto;
 	}
 }
 
 @include breakpoint-down(md) {
-	.header {
+	.page {
 		padding: var(--space-3);
+		gap: var(--space-3);
 	}
 
-	.tabsWrapper {
-		padding: 0 var(--space-3);
+	.configField {
+		min-width: 150px;
 	}
-
-	.title {
-		font-size: var(--font-size-lg);
-	}
-
-	.headerActions {
-		flex-direction: column;
-		gap: var(--space-1);
-
-		button {
-			width: 100%;
-		}
-	}
-
 
 	.builder {
-		padding: var(--space-2);
 		gap: var(--space-2);
 	}
 
 	.leftPanel,
 	.rightPanel {
 		max-height: 250px;
-	}
-
-	.testEmailForm {
-		flex-direction: column;
-		width: 100%;
-
-		.testEmailInput {
-			width: 100%;
-		}
 	}
 
 	.emailPreview {

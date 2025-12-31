@@ -14,6 +14,7 @@ import {
 	Space,
 } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
+import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
@@ -60,29 +61,34 @@ export const BlockPalette = memo<BlockPaletteProps>(function BlockPalette({
 
 			<Stack gap="sm" className={styles.blocks}>
 				{BLOCK_TYPES.map((block) => (
-					<button
+					<Card
 						key={block.type}
-						type="button"
-						className={styles.blockItem}
+						variant="outlined"
+						padding="sm"
+						interactive
 						onClick={() => onBlockSelect(block.type)}
-						aria-label={`Add ${block.label} block`}
+						className={styles.blockCard}
 					>
-						<Icon
-							icon={blockIcons[block.type]}
-							size="md"
-							color="secondary"
-							className={styles.icon}
-						/>
-						<Stack gap="0" className={styles.blockInfo}>
-							<Text size="sm" weight="medium">
-								{block.label}
-							</Text>
-							<Text size="xs" color="muted">
-								{block.description}
-							</Text>
+						<Stack direction="row" gap="md" align="center">
+							<div className={styles.iconWrapper}>
+								<Icon icon={blockIcons[block.type]} size="md" />
+							</div>
+							<Stack gap="0" className={styles.blockInfo}>
+								<Text size="sm" weight="medium">
+									{block.label}
+								</Text>
+								<Text size="xs" color="muted">
+									{block.description}
+								</Text>
+							</Stack>
+							<Icon
+								icon={Plus}
+								size="sm"
+								color="muted"
+								className={styles.addIcon}
+							/>
 						</Stack>
-						<Icon icon={Plus} size="sm" color="muted" />
-					</button>
+					</Card>
 				))}
 			</Stack>
 		</Stack>

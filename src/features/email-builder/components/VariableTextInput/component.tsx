@@ -14,6 +14,7 @@ import {
 	useState,
 } from "react";
 import { TEMPLATE_VARIABLES } from "@/features/campaigns/constants/defaultEmailTemplates";
+import type { EmailTemplateType } from "../../types/emailBlocks";
 import {
 	getTextBeforeCursor,
 	parseValue,
@@ -38,7 +39,7 @@ export interface VariableTextInputProps
 	/** Whether input is disabled */
 	disabled?: boolean;
 	/** Email type for filtering variables */
-	emailType?: "verification" | "welcome";
+	emailType?: EmailTemplateType;
 	/** Additional CSS class name */
 	className?: string;
 }

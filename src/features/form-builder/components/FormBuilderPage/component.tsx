@@ -4,7 +4,7 @@
  */
 
 import { memo, useCallback, useEffect, useState } from "react";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useFormConfigFromCampaign } from "@/hooks/useFormConfigFromCampaign";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
@@ -94,27 +94,29 @@ function transformConfigToPayload(config: FormConfig): {
 function useSaveFormConfig(campaignId: string) {
 	const [saveError, setSaveError] = useState<string | null>(null);
 	const [saveSuccess, setSaveSuccess] = useState(false);
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 
 	useEffect(() => {
 		if (saveSuccess) {
-			showBanner({
+			addBanner({
 				type: "success",
 				title: "Form saved successfully!",
 				description: "Your waitlist form has been updated.",
+				dismissible: true,
 			});
 		}
-	}, [saveSuccess, showBanner]);
+	}, [saveSuccess, addBanner]);
 
 	useEffect(() => {
 		if (saveError) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to save form",
 				description: saveError,
+				dismissible: true,
 			});
 		}
-	}, [saveError, showBanner]);
+	}, [saveError, addBanner]);
 
 	const handleSave = useCallback(
 		async (config: FormConfig) => {

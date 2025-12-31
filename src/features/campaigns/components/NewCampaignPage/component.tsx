@@ -6,7 +6,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { memo, useCallback, useEffect } from "react";
 import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useCreateCampaign } from "@/hooks/useCreateCampaign";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -136,7 +136,7 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 	const navigate = useNavigate();
 	const { handleSubmit, handleCancel, loading, error } =
 		useCreateCampaignHandler();
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 
 	// Check campaign limits
 	const { data: campaignsData, loading: campaignsLoading } = useGetCampaigns();
@@ -156,13 +156,14 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 
 	useEffect(() => {
 		if (error) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to create campaign",
 				description: error.error,
+				dismissible: true,
 			});
 		}
-	}, [error, showBanner]);
+	}, [error, addBanner]);
 
 	// Show loading while checking campaign count
 	if (campaignsLoading) {

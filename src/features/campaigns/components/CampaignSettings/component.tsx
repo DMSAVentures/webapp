@@ -7,7 +7,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Loader2, StopCircle } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import type { ApiTrackingIntegrationType } from "@/api/types/campaign";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useUpdateCampaign } from "@/hooks/useUpdateCampaign";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
@@ -147,7 +147,7 @@ function transformFormDataToApiPayload(
 
 /** Hook for managing campaign settings updates */
 function useCampaignSettingsActions(campaignId: string, onRefetch: () => void) {
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 	const {
 		updateStatus,
 		loading: updatingStatus,
@@ -162,42 +162,44 @@ function useCampaignSettingsActions(campaignId: string, onRefetch: () => void) {
 	// Show error banners when errors occur
 	useEffect(() => {
 		if (statusError) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to update campaign status",
 				description: statusError.error,
+				dismissible: true,
 			});
 		}
-	}, [statusError, showBanner]);
+	}, [statusError, addBanner]);
 
 	useEffect(() => {
 		if (updateError) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to update campaign",
 				description: updateError.error,
+				dismissible: true,
 			});
 		}
-	}, [updateError, showBanner]);
+	}, [updateError, addBanner]);
 
 	const handleEnd = useCallback(async () => {
 		const updated = await updateStatus(campaignId, { status: "completed" });
 		if (updated) {
-			showBanner({ type: "success", title: "Campaign has been ended" });
+			addBanner({ type: "success", title: "Campaign has been ended", dismissible: true });
 			onRefetch();
 		}
-	}, [campaignId, updateStatus, showBanner, onRefetch]);
+	}, [campaignId, updateStatus, addBanner, onRefetch]);
 
 	const handleSave = useCallback(
 		async (data: CampaignFormData) => {
 			const payload = transformFormDataToApiPayload(data);
 			const updated = await updateCampaign(campaignId, payload);
 			if (updated) {
-				showBanner({ type: "success", title: "Campaign settings saved!" });
+				addBanner({ type: "success", title: "Campaign settings saved!", dismissible: true });
 				onRefetch();
 			}
 		},
-		[campaignId, updateCampaign, showBanner, onRefetch],
+		[campaignId, updateCampaign, addBanner, onRefetch],
 	);
 
 	return {

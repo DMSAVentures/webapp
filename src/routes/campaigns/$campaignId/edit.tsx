@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import { ErrorState } from "@/components/error/error";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import {
 	CampaignForm,
 	type CampaignFormData,
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/campaigns/$campaignId/edit")({
 function RouteComponent() {
 	const { campaignId } = Route.useParams();
 	const navigate = useNavigate();
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 	const {
 		data: campaign,
 		loading: loadingCampaign,
@@ -35,13 +35,14 @@ function RouteComponent() {
 
 	useEffect(() => {
 		if (updateError) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to update campaign",
 				description: updateError.error,
+				dismissible: true,
 			});
 		}
-	}, [updateError, showBanner]);
+	}, [updateError, addBanner]);
 
 	const handleSubmit = async (data: CampaignFormData) => {
 		const updated = await updateCampaign(campaignId, {

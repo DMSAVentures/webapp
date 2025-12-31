@@ -26,12 +26,15 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WebhooksIndexRouteImport } from './routes/webhooks/index'
 import { Route as IntegrationsIndexRouteImport } from './routes/integrations/index'
+import { Route as EmailTemplatesIndexRouteImport } from './routes/email-templates/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
 import { Route as BillingIndexRouteImport } from './routes/billing/index'
 import { Route as WebhooksNewRouteImport } from './routes/webhooks/new'
 import { Route as WebhooksWebhookIdRouteImport } from './routes/webhooks/$webhookId'
 import { Route as OauthSignedinRouteImport } from './routes/oauth/signedin'
 import { Route as EmbedCampaignIdRouteImport } from './routes/embed.$campaignId'
+import { Route as EmailTemplatesNewRouteImport } from './routes/email-templates/new'
+import { Route as EmailTemplatesTemplateIdRouteImport } from './routes/email-templates/$templateId'
 import { Route as CampaignsNewRouteImport } from './routes/campaigns/new'
 import { Route as CampaignsCampaignIdRouteImport } from './routes/campaigns/$campaignId'
 import { Route as BillingPlansRouteImport } from './routes/billing/plans'
@@ -137,6 +140,11 @@ const IntegrationsIndexRoute = IntegrationsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => IntegrationsRoute,
 } as any)
+const EmailTemplatesIndexRoute = EmailTemplatesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EmailTemplatesRoute,
+} as any)
 const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
   id: '/campaigns/',
   path: '/campaigns/',
@@ -167,6 +175,17 @@ const EmbedCampaignIdRoute = EmbedCampaignIdRouteImport.update({
   path: '/embed/$campaignId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmailTemplatesNewRoute = EmailTemplatesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => EmailTemplatesRoute,
+} as any)
+const EmailTemplatesTemplateIdRoute =
+  EmailTemplatesTemplateIdRouteImport.update({
+    id: '/$templateId',
+    path: '/$templateId',
+    getParentRoute: () => EmailTemplatesRoute,
+  } as any)
 const CampaignsNewRoute = CampaignsNewRouteImport.update({
   id: '/campaigns/new',
   path: '/campaigns/new',
@@ -284,7 +303,7 @@ export interface FileRoutesByFullPath {
   '/articles': typeof ArticlesRoute
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
-  '/email-templates': typeof EmailTemplatesRoute
+  '/email-templates': typeof EmailTemplatesRouteWithChildren
   '/integrations': typeof IntegrationsRouteWithChildren
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
@@ -297,12 +316,15 @@ export interface FileRoutesByFullPath {
   '/billing/plans': typeof BillingPlansRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdRouteWithChildren
   '/campaigns/new': typeof CampaignsNewRoute
+  '/email-templates/$templateId': typeof EmailTemplatesTemplateIdRoute
+  '/email-templates/new': typeof EmailTemplatesNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/webhooks/$webhookId': typeof WebhooksWebhookIdRoute
   '/webhooks/new': typeof WebhooksNewRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/email-templates/': typeof EmailTemplatesIndexRoute
   '/integrations/': typeof IntegrationsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
@@ -328,7 +350,6 @@ export interface FileRoutesByTo {
   '/articles': typeof ArticlesRoute
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
-  '/email-templates': typeof EmailTemplatesRoute
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
   '/signin': typeof SigninRoute
@@ -338,12 +359,15 @@ export interface FileRoutesByTo {
   '/billing/payment_method': typeof BillingPayment_methodRoute
   '/billing/plans': typeof BillingPlansRoute
   '/campaigns/new': typeof CampaignsNewRoute
+  '/email-templates/$templateId': typeof EmailTemplatesTemplateIdRoute
+  '/email-templates/new': typeof EmailTemplatesNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/webhooks/$webhookId': typeof WebhooksWebhookIdRoute
   '/webhooks/new': typeof WebhooksNewRoute
   '/billing': typeof BillingIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/email-templates': typeof EmailTemplatesIndexRoute
   '/integrations': typeof IntegrationsIndexRoute
   '/webhooks': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
@@ -369,7 +393,7 @@ export interface FileRoutesById {
   '/articles': typeof ArticlesRoute
   '/contacts': typeof ContactsRoute
   '/deals': typeof DealsRoute
-  '/email-templates': typeof EmailTemplatesRoute
+  '/email-templates': typeof EmailTemplatesRouteWithChildren
   '/integrations': typeof IntegrationsRouteWithChildren
   '/main': typeof MainRoute
   '/media': typeof MediaRoute
@@ -382,12 +406,15 @@ export interface FileRoutesById {
   '/billing/plans': typeof BillingPlansRoute
   '/campaigns/$campaignId': typeof CampaignsCampaignIdRouteWithChildren
   '/campaigns/new': typeof CampaignsNewRoute
+  '/email-templates/$templateId': typeof EmailTemplatesTemplateIdRoute
+  '/email-templates/new': typeof EmailTemplatesNewRoute
   '/embed/$campaignId': typeof EmbedCampaignIdRoute
   '/oauth/signedin': typeof OauthSignedinRoute
   '/webhooks/$webhookId': typeof WebhooksWebhookIdRoute
   '/webhooks/new': typeof WebhooksNewRoute
   '/billing/': typeof BillingIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/email-templates/': typeof EmailTemplatesIndexRoute
   '/integrations/': typeof IntegrationsIndexRoute
   '/webhooks/': typeof WebhooksIndexRoute
   '/campaigns/$campaignId/analytics': typeof CampaignsCampaignIdAnalyticsRoute
@@ -428,12 +455,15 @@ export interface FileRouteTypes {
     | '/billing/plans'
     | '/campaigns/$campaignId'
     | '/campaigns/new'
+    | '/email-templates/$templateId'
+    | '/email-templates/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
     | '/webhooks/$webhookId'
     | '/webhooks/new'
     | '/billing'
     | '/campaigns'
+    | '/email-templates/'
     | '/integrations/'
     | '/webhooks/'
     | '/campaigns/$campaignId/analytics'
@@ -459,7 +489,6 @@ export interface FileRouteTypes {
     | '/articles'
     | '/contacts'
     | '/deals'
-    | '/email-templates'
     | '/main'
     | '/media'
     | '/signin'
@@ -469,12 +498,15 @@ export interface FileRouteTypes {
     | '/billing/payment_method'
     | '/billing/plans'
     | '/campaigns/new'
+    | '/email-templates/$templateId'
+    | '/email-templates/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
     | '/webhooks/$webhookId'
     | '/webhooks/new'
     | '/billing'
     | '/campaigns'
+    | '/email-templates'
     | '/integrations'
     | '/webhooks'
     | '/campaigns/$campaignId/analytics'
@@ -512,12 +544,15 @@ export interface FileRouteTypes {
     | '/billing/plans'
     | '/campaigns/$campaignId'
     | '/campaigns/new'
+    | '/email-templates/$templateId'
+    | '/email-templates/new'
     | '/embed/$campaignId'
     | '/oauth/signedin'
     | '/webhooks/$webhookId'
     | '/webhooks/new'
     | '/billing/'
     | '/campaigns/'
+    | '/email-templates/'
     | '/integrations/'
     | '/webhooks/'
     | '/campaigns/$campaignId/analytics'
@@ -544,7 +579,7 @@ export interface RootRouteChildren {
   ArticlesRoute: typeof ArticlesRoute
   ContactsRoute: typeof ContactsRoute
   DealsRoute: typeof DealsRoute
-  EmailTemplatesRoute: typeof EmailTemplatesRoute
+  EmailTemplatesRoute: typeof EmailTemplatesRouteWithChildren
   IntegrationsRoute: typeof IntegrationsRouteWithChildren
   MainRoute: typeof MainRoute
   MediaRoute: typeof MediaRoute
@@ -684,6 +719,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsIndexRouteImport
       parentRoute: typeof IntegrationsRoute
     }
+    '/email-templates/': {
+      id: '/email-templates/'
+      path: '/'
+      fullPath: '/email-templates/'
+      preLoaderRoute: typeof EmailTemplatesIndexRouteImport
+      parentRoute: typeof EmailTemplatesRoute
+    }
     '/campaigns/': {
       id: '/campaigns/'
       path: '/campaigns'
@@ -725,6 +767,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/embed/$campaignId'
       preLoaderRoute: typeof EmbedCampaignIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/email-templates/new': {
+      id: '/email-templates/new'
+      path: '/new'
+      fullPath: '/email-templates/new'
+      preLoaderRoute: typeof EmailTemplatesNewRouteImport
+      parentRoute: typeof EmailTemplatesRoute
+    }
+    '/email-templates/$templateId': {
+      id: '/email-templates/$templateId'
+      path: '/$templateId'
+      fullPath: '/email-templates/$templateId'
+      preLoaderRoute: typeof EmailTemplatesTemplateIdRouteImport
+      parentRoute: typeof EmailTemplatesRoute
     }
     '/campaigns/new': {
       id: '/campaigns/new'
@@ -862,6 +918,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface EmailTemplatesRouteChildren {
+  EmailTemplatesTemplateIdRoute: typeof EmailTemplatesTemplateIdRoute
+  EmailTemplatesNewRoute: typeof EmailTemplatesNewRoute
+  EmailTemplatesIndexRoute: typeof EmailTemplatesIndexRoute
+}
+
+const EmailTemplatesRouteChildren: EmailTemplatesRouteChildren = {
+  EmailTemplatesTemplateIdRoute: EmailTemplatesTemplateIdRoute,
+  EmailTemplatesNewRoute: EmailTemplatesNewRoute,
+  EmailTemplatesIndexRoute: EmailTemplatesIndexRoute,
+}
+
+const EmailTemplatesRouteWithChildren = EmailTemplatesRoute._addFileChildren(
+  EmailTemplatesRouteChildren,
+)
+
 interface IntegrationsRouteChildren {
   IntegrationsIndexRoute: typeof IntegrationsIndexRoute
 }
@@ -947,7 +1019,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesRoute: ArticlesRoute,
   ContactsRoute: ContactsRoute,
   DealsRoute: DealsRoute,
-  EmailTemplatesRoute: EmailTemplatesRoute,
+  EmailTemplatesRoute: EmailTemplatesRouteWithChildren,
   IntegrationsRoute: IntegrationsRouteWithChildren,
   MainRoute: MainRoute,
   MediaRoute: MediaRoute,

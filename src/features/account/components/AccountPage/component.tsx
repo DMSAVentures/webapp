@@ -8,7 +8,7 @@ import { memo, useCallback, useEffect } from "react";
 import PlanCard from "@/components/billing/plans/planCard";
 import PlanToPay from "@/components/billing/plans/planPay";
 import { ErrorState } from "@/components/error/error";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useCancelSubscription } from "@/hooks/useCancelSubscription";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
 import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
@@ -36,7 +36,7 @@ interface Subscription {
 /** Hook for subscription actions (cancel, navigate) */
 function useSubscriptionActions(refetch: () => void) {
 	const navigate = useNavigate();
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 	const {
 		cancelSubscription,
 		error: errorCancelSub,
@@ -53,13 +53,14 @@ function useSubscriptionActions(refetch: () => void) {
 	// Show error banner if cancel fails
 	useEffect(() => {
 		if (errorCancelSub) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to cancel subscription",
 				description: errorCancelSub,
+				dismissible: true,
 			});
 		}
-	}, [errorCancelSub, showBanner]);
+	}, [errorCancelSub, addBanner]);
 
 	const handleUpdatePaymentMethod = useCallback(() => {
 		navigate({ to: "/billing/payment_method" });

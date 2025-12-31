@@ -5,7 +5,7 @@
 
 import { Check, Code, Copy, Globe, Link, type LucideIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import { Card } from "@/proto-design-system/components/layout/Card";
@@ -126,17 +126,18 @@ export function WaitlistForm() {
 /** Hook for clipboard operations with feedback */
 function useCopyToClipboard() {
 	const [copiedType, setCopiedType] = useState<string | null>(null);
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 
 	useEffect(() => {
 		if (copiedType) {
-			showBanner({
+			addBanner({
 				type: "success",
 				title: "Copied to clipboard!",
 				description: `${copiedType} code has been copied.`,
+				dismissible: true,
 			});
 		}
-	}, [copiedType, showBanner]);
+	}, [copiedType, addBanner]);
 
 	const handleCopy = useCallback(async (code: string, type: string) => {
 		try {

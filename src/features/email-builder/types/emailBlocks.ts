@@ -256,124 +256,349 @@ export function createBlock(type: EmailBlockType): EmailBlock {
 	}
 }
 
+export type EmailTemplateType =
+	| "verification"
+	| "welcome"
+	| "position_update"
+	| "reward_earned"
+	| "milestone"
+	| "custom";
+
 /**
  * Default email structure for different email types
  */
-export function getDefaultBlocks(
-	emailType: "verification" | "welcome",
-): EmailBlock[] {
-	if (emailType === "verification") {
-		return [
-			{
-				id: "block-1",
-				type: "heading",
-				content: "Verify Your Email",
-				level: 1,
-				align: "left",
-				color: "#1a1a1a",
-			},
-			{
-				id: "block-2",
-				type: "paragraph",
-				content:
-					"Hi {{.first_name}},\n\nThank you for joining the {{.campaign_name}} waitlist! You're currently at position #{{.position}}.",
-				align: "left",
-				color: "#4a4a4a",
-				fontSize: "medium",
-			},
-			{
-				id: "block-3",
-				type: "paragraph",
-				content: "Please verify your email address to secure your spot:",
-				align: "left",
-				color: "#4a4a4a",
-				fontSize: "medium",
-			},
-			{
-				id: "block-4",
-				type: "button",
-				text: "Verify Email",
-				url: "{{.verification_link}}",
-				align: "center",
-				backgroundColor: "#2563EB",
-				textColor: "#ffffff",
-				fullWidth: false,
-			},
-			{
-				id: "block-5",
-				type: "divider",
-				color: "#e5e5e5",
-				thickness: "thin",
-				style: "solid",
-			},
-			{
-				id: "block-6",
-				type: "paragraph",
-				content: "Share to move up the waitlist:\n{{.referral_link}}",
-				align: "left",
-				color: "#6b6b6b",
-				fontSize: "small",
-			},
-		];
-	}
+export function getDefaultBlocks(emailType: EmailTemplateType): EmailBlock[] {
+	switch (emailType) {
+		case "verification":
+			return [
+				{
+					id: "block-1",
+					type: "heading",
+					content: "Verify Your Email",
+					level: 1,
+					align: "left",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-2",
+					type: "paragraph",
+					content:
+						"Hi {{.first_name}},\n\nThank you for joining the {{.campaign_name}} waitlist! You're currently at position #{{.position}}.",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-3",
+					type: "paragraph",
+					content: "Please verify your email address to secure your spot:",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-4",
+					type: "button",
+					text: "Verify Email",
+					url: "{{.verification_link}}",
+					align: "center",
+					backgroundColor: "#2563EB",
+					textColor: "#ffffff",
+					fullWidth: false,
+				},
+				{
+					id: "block-5",
+					type: "divider",
+					color: "#e5e5e5",
+					thickness: "thin",
+					style: "solid",
+				},
+				{
+					id: "block-6",
+					type: "paragraph",
+					content: "Share to move up the waitlist:\n{{.referral_link}}",
+					align: "left",
+					color: "#6b6b6b",
+					fontSize: "small",
+				},
+			];
 
-	// Welcome email
-	return [
-		{
-			id: "block-1",
-			type: "heading",
-			content: "Welcome to the Waitlist!",
-			level: 1,
-			align: "left",
-			color: "#1a1a1a",
-		},
-		{
-			id: "block-2",
-			type: "paragraph",
-			content:
-				"Hi {{.first_name}},\n\nYou've successfully joined the {{.campaign_name}} waitlist!",
-			align: "left",
-			color: "#4a4a4a",
-			fontSize: "medium",
-		},
-		{
-			id: "block-3",
-			type: "heading",
-			content: "#{{.position}}",
-			level: 2,
-			align: "center",
-			color: "#1a1a1a",
-		},
-		{
-			id: "block-4",
-			type: "paragraph",
-			content: "Your current position",
-			align: "center",
-			color: "#6b6b6b",
-			fontSize: "small",
-		},
-		{
-			id: "block-5",
-			type: "spacer",
-			height: "medium",
-		},
-		{
-			id: "block-6",
-			type: "paragraph",
-			content: "Want to move up? Share your unique referral link with friends:",
-			align: "left",
-			color: "#4a4a4a",
-			fontSize: "medium",
-		},
-		{
-			id: "block-7",
-			type: "button",
-			text: "Share Your Link",
-			url: "{{.referral_link}}",
-			align: "center",
-			backgroundColor: "#2563EB",
-			textColor: "#ffffff",
-			fullWidth: false,
-		},
-	];
+		case "welcome":
+			return [
+				{
+					id: "block-1",
+					type: "heading",
+					content: "Welcome to the Waitlist!",
+					level: 1,
+					align: "left",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-2",
+					type: "paragraph",
+					content:
+						"Hi {{.first_name}},\n\nYou've successfully joined the {{.campaign_name}} waitlist!",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-3",
+					type: "heading",
+					content: "#{{.position}}",
+					level: 2,
+					align: "center",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-4",
+					type: "paragraph",
+					content: "Your current position",
+					align: "center",
+					color: "#6b6b6b",
+					fontSize: "small",
+				},
+				{
+					id: "block-5",
+					type: "spacer",
+					height: "medium",
+				},
+				{
+					id: "block-6",
+					type: "paragraph",
+					content:
+						"Want to move up? Share your unique referral link with friends:",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-7",
+					type: "button",
+					text: "Share Your Link",
+					url: "{{.referral_link}}",
+					align: "center",
+					backgroundColor: "#2563EB",
+					textColor: "#ffffff",
+					fullWidth: false,
+				},
+			];
+
+		case "position_update":
+			return [
+				{
+					id: "block-1",
+					type: "heading",
+					content: "Your Position Has Changed!",
+					level: 1,
+					align: "left",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-2",
+					type: "paragraph",
+					content:
+						"Hi {{.first_name}},\n\nGreat news! Your position on the {{.campaign_name}} waitlist has been updated.",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-3",
+					type: "heading",
+					content: "#{{.position}}",
+					level: 2,
+					align: "center",
+					color: "#2563EB",
+				},
+				{
+					id: "block-4",
+					type: "paragraph",
+					content: "Your new position",
+					align: "center",
+					color: "#6b6b6b",
+					fontSize: "small",
+				},
+				{
+					id: "block-5",
+					type: "spacer",
+					height: "medium",
+				},
+				{
+					id: "block-6",
+					type: "paragraph",
+					content: "Keep sharing to move up even faster!",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-7",
+					type: "button",
+					text: "Share Your Link",
+					url: "{{.referral_link}}",
+					align: "center",
+					backgroundColor: "#2563EB",
+					textColor: "#ffffff",
+					fullWidth: false,
+				},
+			];
+
+		case "reward_earned":
+			return [
+				{
+					id: "block-1",
+					type: "heading",
+					content: "Congratulations! You've Earned a Reward!",
+					level: 1,
+					align: "left",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-2",
+					type: "paragraph",
+					content:
+						"Hi {{.first_name}},\n\nYour referrals have paid off! You've unlocked a new reward on {{.campaign_name}}.",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-3",
+					type: "divider",
+					color: "#e5e5e5",
+					thickness: "thin",
+					style: "solid",
+				},
+				{
+					id: "block-4",
+					type: "paragraph",
+					content: "Your reward details will be available in your dashboard.",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-5",
+					type: "button",
+					text: "View My Reward",
+					url: "{{.dashboard_link}}",
+					align: "center",
+					backgroundColor: "#2563EB",
+					textColor: "#ffffff",
+					fullWidth: false,
+				},
+				{
+					id: "block-6",
+					type: "spacer",
+					height: "medium",
+				},
+				{
+					id: "block-7",
+					type: "paragraph",
+					content: "Keep referring friends to unlock more rewards!",
+					align: "center",
+					color: "#6b6b6b",
+					fontSize: "small",
+				},
+			];
+
+		case "milestone":
+			return [
+				{
+					id: "block-1",
+					type: "heading",
+					content: "Milestone Reached!",
+					level: 1,
+					align: "left",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-2",
+					type: "paragraph",
+					content:
+						"Hi {{.first_name}},\n\nExciting news! The {{.campaign_name}} waitlist has reached a new milestone.",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-3",
+					type: "spacer",
+					height: "small",
+				},
+				{
+					id: "block-4",
+					type: "paragraph",
+					content:
+						"Thank you for being part of this journey. Your support means everything to us!",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-5",
+					type: "divider",
+					color: "#e5e5e5",
+					thickness: "thin",
+					style: "solid",
+				},
+				{
+					id: "block-6",
+					type: "paragraph",
+					content:
+						"Your current position: #{{.position}}\n\nShare with friends to move up:",
+					align: "left",
+					color: "#6b6b6b",
+					fontSize: "small",
+				},
+				{
+					id: "block-7",
+					type: "button",
+					text: "Share the News",
+					url: "{{.referral_link}}",
+					align: "center",
+					backgroundColor: "#2563EB",
+					textColor: "#ffffff",
+					fullWidth: false,
+				},
+			];
+
+		case "custom":
+		default:
+			return [
+				{
+					id: "block-1",
+					type: "heading",
+					content: "Your Heading Here",
+					level: 1,
+					align: "left",
+					color: "#1a1a1a",
+				},
+				{
+					id: "block-2",
+					type: "paragraph",
+					content:
+						"Hi {{.first_name}},\n\nAdd your custom message here. You can use variables like {{.campaign_name}}, {{.position}}, and {{.referral_link}}.",
+					align: "left",
+					color: "#4a4a4a",
+					fontSize: "medium",
+				},
+				{
+					id: "block-3",
+					type: "spacer",
+					height: "medium",
+				},
+				{
+					id: "block-4",
+					type: "button",
+					text: "Call to Action",
+					url: "{{.referral_link}}",
+					align: "center",
+					backgroundColor: "#2563EB",
+					textColor: "#ffffff",
+					fullWidth: false,
+				},
+			];
+	}
 }

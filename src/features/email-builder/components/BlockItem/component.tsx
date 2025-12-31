@@ -16,10 +16,12 @@ import {
 	Trash2,
 } from "lucide-react";
 import { type HTMLAttributes, memo } from "react";
+import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { EmailBlock } from "../../types/emailBlocks";
 import styles from "./component.module.scss";
 
@@ -134,10 +136,16 @@ function getBlockPreview(block: EmailBlock): React.ReactNode {
 			return <span className={styles.dividerPreview} />;
 		case "spacer":
 			return (
-				<span className={styles.spacerPreview}>{block.height} spacing</span>
+				<Text size="xs" color="muted" className={styles.spacerPreview}>
+					{block.height} spacing
+				</Text>
 			);
 		case "image":
-			return block.src ? "Image added" : "No image";
+			return (
+				<Text size="xs" color="muted">
+					{block.src ? "Image added" : "No image"}
+				</Text>
+			);
 		default:
 			return null;
 	}
@@ -156,7 +164,6 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 	canMoveUp = true,
 	canMoveDown = true,
 	className: customClassName,
-	...props
 }) {
 	const classNames = [
 		styles.root,
@@ -182,67 +189,60 @@ export const BlockItem = memo<BlockItemProps>(function BlockItem({
 	};
 
 	return (
-		<div
-			className={classNames}
+		<Card
+			variant="outlined"
+			padding="sm"
+			interactive
 			onClick={onSelect}
-			role="button"
-			tabIndex={0}
-			aria-label={`${getBlockLabel(block.type)} block`}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" || e.key === " ") {
-					e.preventDefault();
-					onSelect();
-				}
-			}}
-			{...props}
+			className={classNames}
 		>
-			{/* Left: Type icon and badge */}
-			<Stack
-				direction="row"
-				gap="sm"
-				align="center"
-				className={styles.typeInfo}
-			>
-				<Icon icon={getBlockIcon(block.type)} size="md" color="secondary" />
-				<Badge variant="secondary" size="sm">
-					{getBlockLabel(block.type)}
-				</Badge>
-			</Stack>
+			<Stack direction="row" gap="sm" align="center">
+				{/* Left: Type icon and badge */}
+				<Stack direction="row" gap="sm" align="center" className={styles.typeInfo}>
+					<Icon icon={getBlockIcon(block.type)} size="md" color="secondary" />
+					<Badge variant="secondary" size="sm">
+						{getBlockLabel(block.type)}
+					</Badge>
+				</Stack>
 
-			{/* Center: Block preview */}
-			<div className={styles.content}>{getBlockPreview(block)}</div>
+				{/* Center: Block preview */}
+				<div className={styles.content}>{getBlockPreview(block)}</div>
 
-			{/* Right: Actions */}
-			<Stack direction="row" gap="xs" className={styles.actions}>
-				{onMoveUp && (
+				{/* Right: Actions */}
+				<Stack direction="row" gap="xs" className={styles.actions}>
+					{onMoveUp && (
+						<Button
+							isIconOnly
+							leftIcon={<ArrowUp size={16} />}
+							variant="secondary"
+							size="sm"
+							aria-label="Move up"
+							onClick={handleMoveUpClick}
+							disabled={!canMoveUp}
+						/>
+					)}
+					{onMoveDown && (
+						<Button
+							isIconOnly
+							leftIcon={<ArrowDown size={16} />}
+							variant="secondary"
+							size="sm"
+							aria-label="Move down"
+							onClick={handleMoveDownClick}
+							disabled={!canMoveDown}
+						/>
+					)}
 					<Button
 						isIconOnly
-						leftIcon={<ArrowUp size={16} />}
+						leftIcon={<Trash2 size={16} />}
 						variant="secondary"
-						aria-label="Move up"
-						onClick={handleMoveUpClick}
-						disabled={!canMoveUp}
+						size="sm"
+						aria-label="Delete block"
+						onClick={handleDeleteClick}
 					/>
-				)}
-				{onMoveDown && (
-					<Button
-						isIconOnly
-						leftIcon={<ArrowDown size={16} />}
-						variant="secondary"
-						aria-label="Move down"
-						onClick={handleMoveDownClick}
-						disabled={!canMoveDown}
-					/>
-				)}
-				<Button
-					isIconOnly
-					leftIcon={<Trash2 size={16} />}
-					variant="secondary"
-					aria-label="Delete block"
-					onClick={handleDeleteClick}
-				/>
+				</Stack>
 			</Stack>
-		</div>
+		</Card>
 	);
 });
 

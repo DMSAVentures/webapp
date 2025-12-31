@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { useAuth } from "@/contexts/auth";
-import { GlobalBannerProvider } from "@/contexts/globalBanner";
 import { PersonaProvider } from "@/contexts/persona";
 import { SidebarProvider } from "@/contexts/sidebar";
 import { TierProvider } from "@/contexts/tier";
 import { ThemeProvider } from "@/proto-design-system";
+import { BannerCenterProvider } from "@/proto-design-system/components/feedback/BannerCenter";
 import { SidebarProvider as ProtoSidebarProvider } from "@/proto-design-system/components/navigation/Sidebar";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -16,7 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 	return (
 		<ThemeProvider defaultTheme="terminal">
-			<GlobalBannerProvider>
+			<BannerCenterProvider>
 				<TierProvider>
 					<PersonaProvider persona={persona}>
 						<SidebarProvider>
@@ -24,7 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 						</SidebarProvider>
 					</PersonaProvider>
 				</TierProvider>
-			</GlobalBannerProvider>
+			</BannerCenterProvider>
 		</ThemeProvider>
 	);
 }

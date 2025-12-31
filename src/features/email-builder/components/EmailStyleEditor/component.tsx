@@ -5,9 +5,15 @@
 
 import { Grid2x2, Palette } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
+import { FormField } from "@/proto-design-system/components/forms/FormField";
 import { Input } from "@/proto-design-system/components/forms/Input";
+import { Card } from "@/proto-design-system/components/layout/Card";
 import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 import { EMAIL_DESIGN_TEMPLATES } from "../../constants/emailDesignTemplates";
@@ -136,38 +142,45 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 				</Stack>
 
 				{/* Mode Toggle */}
-				<Stack direction="row" gap="xs" className={styles.modeToggle}>
-					<button
-						type="button"
-						className={`${styles.modeButton} ${mode === "templates" ? styles.active : ""}`}
-						onClick={() => setMode("templates")}
-						aria-pressed={mode === "templates"}
-					>
-						<Icon icon={Grid2x2} size="sm" />
-						Templates
-					</button>
-					<button
-						type="button"
-						className={`${styles.modeButton} ${mode === "custom" ? styles.active : ""}`}
-						onClick={() => setMode("custom")}
-						aria-pressed={mode === "custom"}
-					>
-						<Icon icon={Palette} size="sm" />
-						Custom
-					</button>
-				</Stack>
+				<div className={styles.modeToggle}>
+					<ButtonGroup isAttached isFullWidth>
+						<Button
+							variant={mode === "templates" ? "primary" : "secondary"}
+							size="sm"
+							leftIcon={<Grid2x2 size={16} />}
+							onClick={() => setMode("templates")}
+							aria-pressed={mode === "templates"}
+						>
+							Templates
+						</Button>
+						<Button
+							variant={mode === "custom" ? "primary" : "secondary"}
+							size="sm"
+							leftIcon={<Palette size={16} />}
+							onClick={() => setMode("custom")}
+							aria-pressed={mode === "custom"}
+						>
+							Custom
+						</Button>
+					</ButtonGroup>
+				</div>
 
 				{mode === "templates" ? (
-					<div className={styles.content}>
-						<div className={styles.templateGrid}>
-							{EMAIL_DESIGN_TEMPLATES.map((template) => (
-								<button
-									key={template.id}
-									type="button"
-									className={`${styles.templateCard} ${selectedTemplateId === template.id ? styles.selected : ""}`}
-									onClick={() => handleTemplateSelect(template.id)}
-									aria-pressed={selectedTemplateId === template.id}
-								>
+					<Stack gap="sm" className={styles.content}>
+						{EMAIL_DESIGN_TEMPLATES.map((template) => (
+							<Card
+								key={template.id}
+								variant="outlined"
+								padding="sm"
+								interactive
+								onClick={() => handleTemplateSelect(template.id)}
+								className={
+									selectedTemplateId === template.id
+										? styles.templateSelected
+										: undefined
+								}
+							>
+								<Stack gap="sm">
 									<div
 										className={styles.templatePreview}
 										style={{
@@ -209,27 +222,28 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											</div>
 										</div>
 									</div>
-									<div className={styles.templateInfo}>
-										<span className={styles.templateName}>{template.name}</span>
-										<span className={styles.templateDesc}>
+									<Stack gap="0">
+										<Text size="sm" weight="medium">
+											{template.name}
+										</Text>
+										<Text size="xs" color="muted">
 											{template.description}
-										</span>
-									</div>
-								</button>
-							))}
-						</div>
-					</div>
+										</Text>
+									</Stack>
+								</Stack>
+							</Card>
+						))}
+					</Stack>
 				) : (
-					<div className={styles.content}>
+					<Stack gap="lg" className={styles.content}>
 						{/* Colors Section */}
-						<section className={styles.section}>
+						<Stack gap="md">
 							<Text as="h4" size="md" weight="semibold">
 								Colors
 							</Text>
-							<div className={styles.colorGrid}>
-								<div className={styles.colorItem}>
-									<label htmlFor="email-color-primary-text">Primary</label>
-									<div className={styles.colorInputGroup}>
+							<Stack gap="md">
+								<FormField label="Primary">
+									<Stack direction="row" gap="sm" align="center">
 										<input
 											id="email-color-primary"
 											type="color"
@@ -238,7 +252,6 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 												handleColorChange("primary", e.target.value)
 											}
 											className={styles.colorPicker}
-											aria-label="Primary color"
 										/>
 										<Input
 											id="email-color-primary-text"
@@ -249,14 +262,11 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											}
 											placeholder="#2563EB"
 										/>
-									</div>
-								</div>
+									</Stack>
+								</FormField>
 
-								<div className={styles.colorItem}>
-									<label htmlFor="email-color-background-text">
-										Background
-									</label>
-									<div className={styles.colorInputGroup}>
+								<FormField label="Background">
+									<Stack direction="row" gap="sm" align="center">
 										<input
 											id="email-color-background"
 											type="color"
@@ -265,7 +275,6 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 												handleColorChange("background", e.target.value)
 											}
 											className={styles.colorPicker}
-											aria-label="Background color"
 										/>
 										<Input
 											id="email-color-background-text"
@@ -276,14 +285,11 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											}
 											placeholder="#f5f5f5"
 										/>
-									</div>
-								</div>
+									</Stack>
+								</FormField>
 
-								<div className={styles.colorItem}>
-									<label htmlFor="email-color-content-background-text">
-										Content Background
-									</label>
-									<div className={styles.colorInputGroup}>
+								<FormField label="Content Background">
+									<Stack direction="row" gap="sm" align="center">
 										<input
 											id="email-color-content-background"
 											type="color"
@@ -292,7 +298,6 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 												handleColorChange("contentBackground", e.target.value)
 											}
 											className={styles.colorPicker}
-											aria-label="Content background color"
 										/>
 										<Input
 											id="email-color-content-background-text"
@@ -303,12 +308,11 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											}
 											placeholder="#ffffff"
 										/>
-									</div>
-								</div>
+									</Stack>
+								</FormField>
 
-								<div className={styles.colorItem}>
-									<label htmlFor="email-color-text-text">Text</label>
-									<div className={styles.colorInputGroup}>
+								<FormField label="Text">
+									<Stack direction="row" gap="sm" align="center">
 										<input
 											id="email-color-text"
 											type="color"
@@ -317,7 +321,6 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 												handleColorChange("text", e.target.value)
 											}
 											className={styles.colorPicker}
-											aria-label="Text color"
 										/>
 										<Input
 											id="email-color-text-text"
@@ -328,14 +331,11 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											}
 											placeholder="#1a1a1a"
 										/>
-									</div>
-								</div>
+									</Stack>
+								</FormField>
 
-								<div className={styles.colorItem}>
-									<label htmlFor="email-color-secondary-text-text">
-										Secondary Text
-									</label>
-									<div className={styles.colorInputGroup}>
+								<FormField label="Secondary Text">
+									<Stack direction="row" gap="sm" align="center">
 										<input
 											id="email-color-secondary-text"
 											type="color"
@@ -344,7 +344,6 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 												handleColorChange("secondaryText", e.target.value)
 											}
 											className={styles.colorPicker}
-											aria-label="Secondary text color"
 										/>
 										<Input
 											id="email-color-secondary-text-text"
@@ -355,12 +354,11 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											}
 											placeholder="#6b6b6b"
 										/>
-									</div>
-								</div>
+									</Stack>
+								</FormField>
 
-								<div className={styles.colorItem}>
-									<label htmlFor="email-color-link-text">Link</label>
-									<div className={styles.colorInputGroup}>
+								<FormField label="Link">
+									<Stack direction="row" gap="sm" align="center">
 										<input
 											id="email-color-link"
 											type="color"
@@ -369,7 +367,6 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 												handleColorChange("link", e.target.value)
 											}
 											className={styles.colorPicker}
-											aria-label="Link color"
 										/>
 										<Input
 											id="email-color-link-text"
@@ -380,21 +377,20 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 											}
 											placeholder="#2563EB"
 										/>
-									</div>
-								</div>
-							</div>
-						</section>
+									</Stack>
+								</FormField>
+							</Stack>
+						</Stack>
 
 						<Divider />
 
 						{/* Typography Section */}
-						<section className={styles.section}>
+						<Stack gap="md">
 							<Text as="h4" size="md" weight="semibold">
 								Typography
 							</Text>
-							<div className={styles.inputGrid}>
-								<div>
-									<label htmlFor="email-font-family">Font Family</label>
+							<Stack gap="md">
+								<FormField label="Font Family">
 									<Input
 										id="email-font-family"
 										type="text"
@@ -404,9 +400,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 										}
 										placeholder="Inter, sans-serif"
 									/>
-								</div>
-								<div>
-									<label htmlFor="email-font-size">Font Size (px)</label>
+								</FormField>
+								<FormField label="Font Size (px)">
 									<Input
 										id="email-font-size"
 										type="number"
@@ -420,9 +415,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 										min={12}
 										max={24}
 									/>
-								</div>
-								<div>
-									<label htmlFor="email-heading-weight">Heading Weight</label>
+								</FormField>
+								<FormField label="Heading Weight">
 									<Input
 										id="email-heading-weight"
 										type="number"
@@ -437,22 +431,19 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 										max={900}
 										step={100}
 									/>
-								</div>
-							</div>
-						</section>
+								</FormField>
+							</Stack>
+						</Stack>
 
 						<Divider />
 
 						{/* Spacing Section */}
-						<section className={styles.section}>
+						<Stack gap="md">
 							<Text as="h4" size="md" weight="semibold">
 								Spacing
 							</Text>
-							<div className={styles.inputGrid}>
-								<div>
-									<label htmlFor="email-content-padding">
-										Content Padding (px)
-									</label>
+							<Stack gap="md">
+								<FormField label="Content Padding (px)">
 									<Input
 										id="email-content-padding"
 										type="number"
@@ -466,9 +457,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 										min={16}
 										max={80}
 									/>
-								</div>
-								<div>
-									<label htmlFor="email-block-gap">Block Gap (px)</label>
+								</FormField>
+								<FormField label="Block Gap (px)">
 									<Input
 										id="email-block-gap"
 										type="number"
@@ -482,11 +472,8 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 										min={8}
 										max={48}
 									/>
-								</div>
-								<div>
-									<label htmlFor="email-border-radius">
-										Border Radius (px)
-									</label>
+								</FormField>
+								<FormField label="Border Radius (px)">
 									<Input
 										id="email-border-radius"
 										type="number"
@@ -497,31 +484,28 @@ export const EmailStyleEditor = memo<EmailStyleEditorProps>(
 										min={0}
 										max={32}
 									/>
-								</div>
-							</div>
-						</section>
+								</FormField>
+							</Stack>
+						</Stack>
 
 						<Divider />
 
 						{/* Footer Section */}
-						<section className={styles.section}>
+						<Stack gap="md">
 							<Text as="h4" size="md" weight="semibold">
 								Footer
 							</Text>
-							<div className={styles.inputGrid}>
-								<div>
-									<label htmlFor="email-footer-text">Footer Text</label>
-									<Input
-										id="email-footer-text"
-										type="text"
-										value={design.footerText || ""}
-										onChange={(e) => handleFooterTextChange(e.target.value)}
-										placeholder="If you didn't request this email..."
-									/>
-								</div>
-							</div>
-						</section>
-					</div>
+							<FormField label="Footer Text">
+								<Input
+									id="email-footer-text"
+									type="text"
+									value={design.footerText || ""}
+									onChange={(e) => handleFooterTextChange(e.target.value)}
+									placeholder="If you didn't request this email..."
+								/>
+							</FormField>
+						</Stack>
+					</Stack>
 				)}
 			</div>
 		);

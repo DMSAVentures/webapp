@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { useSubmitLogin } from "@/hooks/useSubmitLogin";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Button } from "@/proto-design-system/components/primitives/Button";
@@ -67,7 +67,7 @@ function formReducer(state: EmailFormState, action: Action) {
 export default function EmailSignIn() {
 	const [state, dispatch] = useReducer(formReducer, initialState);
 	const { submitLogin, data, error, loading } = useSubmitLogin();
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 
 	useEffect(() => {
 		if (data) {
@@ -80,13 +80,14 @@ export default function EmailSignIn() {
 
 	useEffect(() => {
 		if (error) {
-			showBanner({
+			addBanner({
 				type: "error",
-				title: error.message,
-				description: "Login failed",
+				title: "Login failed",
+				description: error.message,
+				dismissible: true,
 			});
 		}
-	}, [error, showBanner]);
+	}, [error, addBanner]);
 
 	// Handle form submission
 	async function handleLogin(event: React.FormEvent<HTMLFormElement>) {

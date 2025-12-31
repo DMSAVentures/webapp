@@ -175,6 +175,63 @@ export const useGetAllEmailTemplates = () => {
 };
 
 // ============================================================================
+// useGetEmailTemplateById - Fetch a single template by ID
+// Fetches all templates and finds the matching one since the API requires campaignId
+// ============================================================================
+
+export const useGetEmailTemplateById = (templateId: string) => {
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<ApiError | null>(null);
+	const [template, setTemplate] = useState<EmailTemplate | null>(null);
+
+	const fetchTemplate = useCallback(
+		async (signal?: AbortSignal): Promise<void> => {
+			if (!templateId) {
+				setTemplate(null);
+				setLoading(false);
+				return;
+			}
+
+			setLoading(true);
+			setError(null);
+			try {
+				// Fetch all templates and find the one we need
+				const response = await fetcher<EmailTemplate[]>(
+					`${import.meta.env.VITE_API_URL}/api/v1/email-templates`,
+					{ method: "GET", signal },
+				);
+				const found = response?.find((t) => t.id === templateId) || null;
+				if (!found) {
+					setError({ error: "Template not found" });
+				}
+				setTemplate(found);
+			} catch (error: unknown) {
+				if (isAbortError(error)) {
+					return;
+				}
+				setError(toApiError(error));
+			} finally {
+				setLoading(false);
+			}
+		},
+		[templateId],
+	);
+
+	useEffect(() => {
+		const controller = new AbortController();
+		fetchTemplate(controller.signal);
+		return () => controller.abort();
+	}, [fetchTemplate]);
+
+	return {
+		template,
+		loading,
+		error,
+		refetch: fetchTemplate,
+	};
+};
+
+// ============================================================================
 // useGetEmailTemplate - Fetch a single template
 // ============================================================================
 

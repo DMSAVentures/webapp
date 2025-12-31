@@ -13,7 +13,6 @@ import {
 	Webhook,
 } from "lucide-react";
 import React, { memo } from "react";
-import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
 import {
@@ -58,7 +57,7 @@ const AppSidebar = memo(function AppSidebar() {
 	return (
 		<Sidebar>
 			<SidebarHeader>
-				<SidebarLogo>DMSA Ventures</SidebarLogo>
+				<SidebarLogo>LaunchCamp</SidebarLogo>
 				<SidebarToggle />
 			</SidebarHeader>
 
@@ -106,7 +105,6 @@ export const Layout = memo(function Layout({ children }: LayoutProps) {
 		<div className={styles.container}>
 			<AppSidebar />
 			<div className={styles.content}>
-				<GlobalBannerContainer />
 				<header className={styles.header}>
 					<SidebarMobileTrigger />
 				</header>

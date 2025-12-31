@@ -4,6 +4,7 @@
  */
 
 import { type HTMLAttributes, memo, useCallback } from "react";
+import { FormField } from "@/proto-design-system/components/forms/FormField";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Switch } from "@/proto-design-system/components/forms/Switch";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -13,6 +14,7 @@ import type {
 	ButtonBlock,
 	DividerBlock,
 	EmailBlock,
+	EmailTemplateType,
 	HeadingBlock,
 	ParagraphBlock,
 	SpacerBlock,
@@ -27,7 +29,7 @@ export interface BlockEditorProps extends HTMLAttributes<HTMLDivElement> {
 	/** Update handler */
 	onUpdate: (block: EmailBlock) => void;
 	/** Email type for filtering variables */
-	emailType?: "verification" | "welcome";
+	emailType?: EmailTemplateType;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -69,7 +71,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 
 	// Render heading editor
 	const renderHeadingEditor = (b: HeadingBlock) => (
-		<>
+		<Stack gap="md">
 			<VariableTextInput
 				value={b.content}
 				onChange={(val) => updateBlock<HeadingBlock>("content", val)}
@@ -78,8 +80,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				emailType={emailType}
 			/>
 
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Heading Level</label>
+			<FormField label="Heading Level">
 				<Dropdown
 					items={[
 						{ id: "1", label: "Heading 1 (Large)" },
@@ -93,10 +94,9 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						updateBlock<HeadingBlock>("level", Number(id) as 1 | 2 | 3)
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Alignment</label>
+			<FormField label="Alignment">
 				<Dropdown
 					items={[
 						{ id: "left", label: "Left" },
@@ -113,16 +113,16 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						)
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.colorField}>
-				<label htmlFor="heading-color">Text Color</label>
-				<div className={styles.colorInputWrapper}>
+			<FormField label="Text Color">
+				<Stack direction="row" gap="sm" align="center">
 					<input
 						type="color"
 						id="heading-color"
 						value={b.color}
 						onChange={(e) => updateBlock<HeadingBlock>("color", e.target.value)}
+						className={styles.colorPicker}
 					/>
 					<Input
 						id="heading-color-hex"
@@ -131,14 +131,14 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						onChange={(e) => updateBlock<HeadingBlock>("color", e.target.value)}
 						placeholder="#000000"
 					/>
-				</div>
-			</div>
-		</>
+				</Stack>
+			</FormField>
+		</Stack>
 	);
 
 	// Render paragraph editor
 	const renderParagraphEditor = (b: ParagraphBlock) => (
-		<>
+		<Stack gap="md">
 			<VariableTextArea
 				value={b.content}
 				onChange={(val) => updateBlock<ParagraphBlock>("content", val)}
@@ -148,8 +148,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				emailType={emailType}
 			/>
 
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Font Size</label>
+			<FormField label="Font Size">
 				<Dropdown
 					items={[
 						{ id: "small", label: "Small (14px)" },
@@ -166,10 +165,9 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						)
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Alignment</label>
+			<FormField label="Alignment">
 				<Dropdown
 					items={[
 						{ id: "left", label: "Left" },
@@ -186,11 +184,10 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						)
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.colorField}>
-				<label htmlFor="paragraph-color">Text Color</label>
-				<div className={styles.colorInputWrapper}>
+			<FormField label="Text Color">
+				<Stack direction="row" gap="sm" align="center">
 					<input
 						type="color"
 						id="paragraph-color"
@@ -198,6 +195,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						onChange={(e) =>
 							updateBlock<ParagraphBlock>("color", e.target.value)
 						}
+						className={styles.colorPicker}
 					/>
 					<Input
 						id="paragraph-color-hex"
@@ -208,14 +206,14 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						}
 						placeholder="#000000"
 					/>
-				</div>
-			</div>
-		</>
+				</Stack>
+			</FormField>
+		</Stack>
 	);
 
 	// Render button editor
 	const renderButtonEditor = (b: ButtonBlock) => (
-		<>
+		<Stack gap="md">
 			<VariableTextInput
 				value={b.text}
 				onChange={(val) => updateBlock<ButtonBlock>("text", val)}
@@ -233,8 +231,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 				emailType={emailType}
 			/>
 
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Alignment</label>
+			<FormField label="Alignment">
 				<Dropdown
 					items={[
 						{ id: "left", label: "Left" },
@@ -248,11 +245,10 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						updateBlock<ButtonBlock>("align", id as "left" | "center" | "right")
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.colorField}>
-				<label htmlFor="button-bg-color">Button Color</label>
-				<div className={styles.colorInputWrapper}>
+			<FormField label="Button Color">
+				<Stack direction="row" gap="sm" align="center">
 					<input
 						type="color"
 						id="button-bg-color"
@@ -260,6 +256,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						onChange={(e) =>
 							updateBlock<ButtonBlock>("backgroundColor", e.target.value)
 						}
+						className={styles.colorPicker}
 					/>
 					<Input
 						id="button-bg-color-hex"
@@ -270,12 +267,11 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						}
 						placeholder="#2563EB"
 					/>
-				</div>
-			</div>
+				</Stack>
+			</FormField>
 
-			<div className={styles.colorField}>
-				<label htmlFor="button-text-color">Text Color</label>
-				<div className={styles.colorInputWrapper}>
+			<FormField label="Text Color">
+				<Stack direction="row" gap="sm" align="center">
 					<input
 						type="color"
 						id="button-text-color"
@@ -283,6 +279,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						onChange={(e) =>
 							updateBlock<ButtonBlock>("textColor", e.target.value)
 						}
+						className={styles.colorPicker}
 					/>
 					<Input
 						id="button-text-color-hex"
@@ -293,10 +290,15 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						}
 						placeholder="#ffffff"
 					/>
-				</div>
-			</div>
+				</Stack>
+			</FormField>
 
-			<div className={styles.toggleField}>
+			<Stack
+				direction="row"
+				gap="md"
+				align="center"
+				className={styles.toggleField}
+			>
 				<Switch
 					id="button-full-width"
 					checked={b.fullWidth}
@@ -304,16 +306,17 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						updateBlock<ButtonBlock>("fullWidth", e.target.checked)
 					}
 				/>
-				<label htmlFor="button-full-width">Full Width</label>
-			</div>
-		</>
+				<Text as="label" size="sm" weight="medium" htmlFor="button-full-width">
+					Full Width
+				</Text>
+			</Stack>
+		</Stack>
 	);
 
 	// Render divider editor
 	const renderDividerEditor = (b: DividerBlock) => (
-		<>
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Thickness</label>
+		<Stack gap="md">
+			<FormField label="Thickness">
 				<Dropdown
 					items={[
 						{ id: "thin", label: "Thin (1px)" },
@@ -330,10 +333,9 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						)
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.fieldGroup}>
-				<label className={styles.fieldLabel}>Style</label>
+			<FormField label="Style">
 				<Dropdown
 					items={[
 						{ id: "solid", label: "Solid" },
@@ -350,16 +352,16 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						)
 					}
 				/>
-			</div>
+			</FormField>
 
-			<div className={styles.colorField}>
-				<label htmlFor="divider-color">Color</label>
-				<div className={styles.colorInputWrapper}>
+			<FormField label="Color">
+				<Stack direction="row" gap="sm" align="center">
 					<input
 						type="color"
 						id="divider-color"
 						value={b.color}
 						onChange={(e) => updateBlock<DividerBlock>("color", e.target.value)}
+						className={styles.colorPicker}
 					/>
 					<Input
 						id="divider-color-hex"
@@ -368,15 +370,14 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 						onChange={(e) => updateBlock<DividerBlock>("color", e.target.value)}
 						placeholder="#e5e5e5"
 					/>
-				</div>
-			</div>
-		</>
+				</Stack>
+			</FormField>
+		</Stack>
 	);
 
 	// Render spacer editor
 	const renderSpacerEditor = (b: SpacerBlock) => (
-		<div className={styles.fieldGroup}>
-			<label className={styles.fieldLabel}>Height</label>
+		<FormField label="Height">
 			<Dropdown
 				items={[
 					{ id: "small", label: "Small (16px)" },
@@ -390,7 +391,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 					updateBlock<SpacerBlock>("height", id as "small" | "medium" | "large")
 				}
 			/>
-		</div>
+		</FormField>
 	);
 
 	// Render editor based on block type
@@ -407,7 +408,7 @@ export const BlockEditor = memo<BlockEditorProps>(function BlockEditor({
 			case "spacer":
 				return renderSpacerEditor(block);
 			default:
-				return <p>Unknown block type</p>;
+				return <Text color="muted">Unknown block type</Text>;
 		}
 	};
 

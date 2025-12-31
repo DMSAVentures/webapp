@@ -39,11 +39,23 @@ import {
 } from "@/hooks/useEmailTemplates";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
+import {
+	Tab,
+	TabList,
+	Tabs,
+} from "@/proto-design-system/components/navigation/Tabs";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
-import { Button } from "@/proto-design-system/components/primitives/Button";
+import {
+	Button,
+	ButtonGroup,
+} from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Text } from "@/proto-design-system/components/primitives/Text";
-import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
+import type {
+	EmailBlock,
+	EmailDesign,
+	EmailTemplateType,
+} from "../../types/emailBlocks";
 import {
 	createBlock,
 	DEFAULT_EMAIL_DESIGN,
@@ -58,7 +70,6 @@ import { VariableTextInput } from "../VariableTextInput/component";
 import styles from "./component.module.scss";
 
 type RightPanelMode = "block" | "appearance";
-type EmailType = "verification" | "welcome";
 type PreviewDevice = "mobile" | "tablet" | "desktop";
 
 export interface EmailBuilderProps
@@ -66,7 +77,7 @@ export interface EmailBuilderProps
 	/** Campaign ID this email belongs to */
 	campaignId: string;
 	/** Initial email type to edit */
-	initialType?: EmailType;
+	initialType?: EmailTemplateType;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -76,15 +87,32 @@ export interface EmailBuilderProps
 // ============================================================================
 
 /** Gets the default subject line for an email type */
-function getDefaultSubject(emailType: EmailType): string {
-	return emailType === "verification"
-		? "Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist"
-		: "Welcome to the {{.campaign_name}} waitlist!";
+function getDefaultSubject(emailType: EmailTemplateType): string {
+	const subjectMap: Record<EmailTemplateType, string> = {
+		verification:
+			"Verify your email - You're #{{.position}} on the {{.campaign_name}} waitlist",
+		welcome: "Welcome to the {{.campaign_name}} waitlist!",
+		position_update:
+			"Your position update - You're now #{{.position}} on {{.campaign_name}}",
+		reward_earned:
+			"Congratulations! You've earned a reward on {{.campaign_name}}",
+		milestone: "Milestone reached! {{.campaign_name}} has hit a new milestone",
+		custom: "{{.campaign_name}} - Important Update",
+	};
+	return subjectMap[emailType];
 }
 
 /** Gets the template name for an email type */
-function getTemplateName(emailType: EmailType): string {
-	return emailType === "verification" ? "Verification Email" : "Welcome Email";
+function getTemplateName(emailType: EmailTemplateType): string {
+	const nameMap: Record<EmailTemplateType, string> = {
+		verification: "Verification Email",
+		welcome: "Welcome Email",
+		position_update: "Position Update",
+		reward_earned: "Reward Earned",
+		milestone: "Milestone",
+		custom: "Custom",
+	};
+	return nameMap[emailType];
 }
 
 // ============================================================================
@@ -92,7 +120,7 @@ function getTemplateName(emailType: EmailType): string {
 // ============================================================================
 
 /** Hook for managing email block operations */
-function useEmailBlocks(initialType: EmailType) {
+function useEmailBlocks(initialType: EmailTemplateType) {
 	const [blocks, setBlocks] = useState<EmailBlock[]>(() =>
 		getDefaultBlocks(initialType),
 	);
@@ -143,7 +171,7 @@ function useEmailBlocks(initialType: EmailType) {
 		setSelectedBlockId(null);
 	}, []);
 
-	const resetToDefaults = useCallback((emailType: EmailType) => {
+	const resetToDefaults = useCallback((emailType: EmailTemplateType) => {
 		setBlocks(getDefaultBlocks(emailType));
 		setSelectedBlockId(null);
 	}, []);
@@ -227,7 +255,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	...props
 }) {
 	// State
-	const [emailType, setEmailType] = useState<EmailType>(initialType);
+	const [emailType, setEmailType] = useState<EmailTemplateType>(initialType);
 	const [subject, setSubject] = useState(() => getDefaultSubject(initialType));
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 	const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
@@ -279,8 +307,8 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 
 	// Handlers
 	const handleTabChange = useCallback(
-		(index: number) => {
-			const newType: EmailType = index === 0 ? "verification" : "welcome";
+		(tabId: string) => {
+			const newType = tabId as EmailTemplateType;
 			setEmailType(newType);
 			setSelectedBlockId(null);
 
@@ -483,7 +511,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				</Stack>
 
 				<div className={styles.headerActions}>
-					<div className={styles.deviceSelector}>
+					<ButtonGroup isAttached>
 						<Button
 							isIconOnly
 							leftIcon={<Smartphone size={16} />}
@@ -505,7 +533,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 							aria-label="Desktop preview"
 							onClick={() => setPreviewDevice("desktop")}
 						/>
-					</div>
+					</ButtonGroup>
 
 					{/* Test Email */}
 					{existingTemplate && (
@@ -575,28 +603,22 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 			)}
 
 			{/* Tabs */}
-			<Stack direction="row" gap="xs" className={styles.modeTabs}>
-				<button
-					type="button"
-					role="tab"
-					className={`${styles.tab} ${emailType === "verification" ? styles.tabActive : ""}`}
-					aria-selected={emailType === "verification"}
-					onClick={() => handleTabChange(0)}
+			<div className={styles.tabsWrapper}>
+				<Tabs
+					defaultTab={emailType}
+					variant="line"
+					onTabChange={handleTabChange}
 				>
-					<Icon icon={ShieldCheck} size="sm" />
-					<span>Verification Email</span>
-				</button>
-				<button
-					type="button"
-					role="tab"
-					className={`${styles.tab} ${emailType === "welcome" ? styles.tabActive : ""}`}
-					aria-selected={emailType === "welcome"}
-					onClick={() => handleTabChange(1)}
-				>
-					<Icon icon={HandHeart} size="sm" />
-					<span>Welcome Email</span>
-				</button>
-			</Stack>
+					<TabList>
+						<Tab id="verification" icon={<ShieldCheck size={16} />}>
+							Verification Email
+						</Tab>
+						<Tab id="welcome" icon={<HandHeart size={16} />}>
+							Welcome Email
+						</Tab>
+					</TabList>
+				</Tabs>
+			</div>
 
 			{/* Three-pane layout */}
 			<div className={styles.builder}>
@@ -731,26 +753,28 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 				{/* Right panel - Block Editor or Appearance Editor */}
 				<aside className={styles.rightPanel}>
 					{/* Panel mode toggle */}
-					<Stack direction="row" gap="xs" className={styles.panelModeToggle}>
-						<button
-							type="button"
-							className={`${styles.panelModeButton} ${rightPanelMode === "block" ? styles.active : ""}`}
-							onClick={() => setRightPanelMode("block")}
-							aria-pressed={rightPanelMode === "block"}
-						>
-							<Icon icon={Layout} size="sm" />
-							Content
-						</button>
-						<button
-							type="button"
-							className={`${styles.panelModeButton} ${rightPanelMode === "appearance" ? styles.active : ""}`}
-							onClick={() => setRightPanelMode("appearance")}
-							aria-pressed={rightPanelMode === "appearance"}
-						>
-							<Icon icon={Palette} size="sm" />
-							Appearance
-						</button>
-					</Stack>
+					<div className={styles.panelModeToggle}>
+						<ButtonGroup isAttached isFullWidth>
+							<Button
+								variant={rightPanelMode === "block" ? "primary" : "secondary"}
+								size="sm"
+								leftIcon={<Layout size={16} />}
+								onClick={() => setRightPanelMode("block")}
+								aria-pressed={rightPanelMode === "block"}
+							>
+								Content
+							</Button>
+							<Button
+								variant={rightPanelMode === "appearance" ? "primary" : "secondary"}
+								size="sm"
+								leftIcon={<Palette size={16} />}
+								onClick={() => setRightPanelMode("appearance")}
+								aria-pressed={rightPanelMode === "appearance"}
+							>
+								Appearance
+							</Button>
+						</ButtonGroup>
+					</div>
 
 					{/* Panel content */}
 					{rightPanelMode === "block" ? (

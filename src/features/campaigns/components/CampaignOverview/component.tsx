@@ -16,7 +16,7 @@ import {
 	Share2,
 } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
@@ -92,25 +92,26 @@ function checkEmailTemplates(
 /** Hook for managing campaign status updates */
 function useCampaignStatusActions(campaignId: string, onRefetch: () => void) {
 	const { updateStatus, loading, error } = useUpdateCampaignStatus();
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 
 	useEffect(() => {
 		if (error) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to update campaign status",
 				description: error.error,
+				dismissible: true,
 			});
 		}
-	}, [error, showBanner]);
+	}, [error, addBanner]);
 
 	const handleGoLive = useCallback(async () => {
 		const updated = await updateStatus(campaignId, { status: "active" });
 		if (updated) {
-			showBanner({ type: "success", title: "Campaign is now live!" });
+			addBanner({ type: "success", title: "Campaign is now live!", dismissible: true });
 			onRefetch();
 		}
-	}, [campaignId, updateStatus, showBanner, onRefetch]);
+	}, [campaignId, updateStatus, addBanner, onRefetch]);
 
 	return {
 		loading,

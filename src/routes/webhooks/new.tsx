@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { useGlobalBanner } from "@/contexts/globalBanner";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import {
 	WebhookForm,
 	type WebhookFormData,
@@ -19,19 +19,20 @@ export const Route = createFileRoute("/webhooks/new")({
 function RouteComponent() {
 	const navigate = useNavigate();
 	const { createWebhook, loading, error } = useCreateWebhook();
-	const { showBanner } = useGlobalBanner();
+	const { addBanner } = useBannerCenter();
 	const [webhookSecret, setWebhookSecret] = useState<string | null>(null);
 	const [copied, setCopied] = useState(false);
 
 	useEffect(() => {
 		if (error) {
-			showBanner({
+			addBanner({
 				type: "error",
 				title: "Failed to create webhook",
 				description: error.error,
+				dismissible: true,
 			});
 		}
-	}, [error, showBanner]);
+	}, [error, addBanner]);
 
 	const handleCopySecret = async () => {
 		if (webhookSecret) {
