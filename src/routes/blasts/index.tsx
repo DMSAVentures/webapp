@@ -1,12 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Send } from "lucide-react";
+import { Mail, Plus, Send } from "lucide-react";
 import { motion } from "motion/react";
-import { memo, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { BlastList } from "@/features/blasts/components/BlastList/component";
+import { useGetBlasts } from "@/hooks/useBlasts";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Select } from "@/proto-design-system/components/forms/Select";
-import { LinkButton } from "@/proto-design-system/components/primitives/Button";
+import {
+	Button,
+	LinkButton,
+} from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { EmailBlast } from "@/types/blast";
 import styles from "./index.module.scss";
@@ -15,44 +19,9 @@ export const Route = createFileRoute("/blasts/")({
 	component: RouteComponent,
 });
 
-const BlastsContent = memo(function BlastsContent({
-	campaignId,
-}: {
-	campaignId: string;
-}) {
-	const navigate = useNavigate();
-
-	const handleCreate = useCallback(() => {
-		navigate({
-			to: "/blasts/new",
-			search: { campaignId },
-		});
-	}, [navigate, campaignId]);
-
-	const handleView = useCallback(
-		(blast: EmailBlast) => {
-			navigate({
-				to: "/blasts/$blastId",
-				params: { blastId: blast.id },
-				search: { campaignId },
-			});
-		},
-		[navigate, campaignId],
-	);
-
-	return (
-		<div className={styles.pageContent}>
-			<BlastList
-				campaignId={campaignId}
-				onCreate={handleCreate}
-				onView={handleView}
-			/>
-		</div>
-	);
-});
-
 function RouteComponent() {
-	const { data, loading } = useGetCampaigns();
+	const navigate = useNavigate();
+	const { data, loading: loadingCampaigns } = useGetCampaigns();
 	const [selectedCampaignId, setSelectedCampaignId] = useState<string>("");
 
 	// Set first campaign as default when data loads
@@ -60,7 +29,27 @@ function RouteComponent() {
 		setSelectedCampaignId(data.campaigns[0].id);
 	}
 
-	if (loading) {
+	const { blasts, loading: loadingBlasts } = useGetBlasts(selectedCampaignId);
+
+	const handleCreate = useCallback(() => {
+		navigate({
+			to: "/blasts/new",
+			search: { campaignId: selectedCampaignId },
+		});
+	}, [navigate, selectedCampaignId]);
+
+	const handleView = useCallback(
+		(blast: EmailBlast) => {
+			navigate({
+				to: "/blasts/$blastId",
+				params: { blastId: blast.id },
+				search: { campaignId: selectedCampaignId },
+			});
+		},
+		[navigate, selectedCampaignId],
+	);
+
+	if (loadingCampaigns) {
 		return <Spinner size="lg" label="Loading campaigns..." />;
 	}
 
@@ -91,6 +80,36 @@ function RouteComponent() {
 		label: c.name,
 	}));
 
+	const renderContent = () => {
+		if (loadingBlasts) {
+			return <Spinner size="lg" label="Loading blasts..." />;
+		}
+
+		if (!blasts || blasts.length === 0) {
+			return (
+				<EmptyState
+					icon={<Mail />}
+					title="No email blasts yet"
+					description="Create your first email blast to reach your audience."
+					action={
+						<Button variant="primary" onClick={handleCreate}>
+							Create Blast
+						</Button>
+					}
+				/>
+			);
+		}
+
+		return (
+			<BlastList
+				campaignId={selectedCampaignId}
+				onCreate={handleCreate}
+				onView={handleView}
+				hideHeader
+			/>
+		);
+	};
+
 	return (
 		<motion.div
 			className={styles.page}
@@ -105,6 +124,15 @@ function RouteComponent() {
 						Send targeted email campaigns to your audience segments
 					</p>
 				</div>
+				{blasts && blasts.length > 0 && (
+					<Button
+						variant="primary"
+						leftIcon={<Plus size={16} />}
+						onClick={handleCreate}
+					>
+						Create Blast
+					</Button>
+				)}
 			</div>
 
 			<div className={styles.campaignSelector}>
@@ -117,7 +145,9 @@ function RouteComponent() {
 				/>
 			</div>
 
-			{selectedCampaignId && <BlastsContent campaignId={selectedCampaignId} />}
+			{selectedCampaignId && (
+				<div className={styles.pageContent}>{renderContent()}</div>
+			)}
 		</motion.div>
 	);
 }

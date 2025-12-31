@@ -1,11 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Filter } from "lucide-react";
+import { Filter, Plus, Users } from "lucide-react";
 import { motion } from "motion/react";
-import { memo, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
+import { useGetSegments } from "@/hooks/useSegments";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Select } from "@/proto-design-system/components/forms/Select";
-import { LinkButton } from "@/proto-design-system/components/primitives/Button";
+import {
+	Button,
+	LinkButton,
+} from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import type { Segment } from "@/types/segment";
 import { SegmentBuilder } from "@/features/segments/components/SegmentBuilder/component";
@@ -16,14 +20,23 @@ export const Route = createFileRoute("/segments/")({
 	component: RouteComponent,
 });
 
-const SegmentsContent = memo(function SegmentsContent({
-	campaignId,
-}: {
-	campaignId: string;
-}) {
+function RouteComponent() {
 	const navigate = useNavigate();
+	const { data, loading: loadingCampaigns } = useGetCampaigns();
+	const [selectedCampaignId, setSelectedCampaignId] = useState<string>("");
 	const [showBuilder, setShowBuilder] = useState(false);
 	const [editingSegment, setEditingSegment] = useState<Segment | null>(null);
+
+	// Set first campaign as default when data loads
+	if (!selectedCampaignId && data?.campaigns?.length) {
+		setSelectedCampaignId(data.campaigns[0].id);
+	}
+
+	const {
+		segments,
+		loading: loadingSegments,
+		refetch,
+	} = useGetSegments(selectedCampaignId);
 
 	const handleCreate = useCallback(() => {
 		setEditingSegment(null);
@@ -38,49 +51,20 @@ const SegmentsContent = memo(function SegmentsContent({
 	const handleClose = useCallback(() => {
 		setShowBuilder(false);
 		setEditingSegment(null);
-	}, []);
+		refetch();
+	}, [refetch]);
 
 	const handleCreateBlast = useCallback(
 		(segment: Segment) => {
 			navigate({
 				to: "/blasts/new",
-				search: { campaignId, segmentId: segment.id },
+				search: { campaignId: selectedCampaignId, segmentId: segment.id },
 			});
 		},
-		[navigate, campaignId],
+		[navigate, selectedCampaignId],
 	);
 
-	return (
-		<div className={styles.pageContent}>
-			{showBuilder ? (
-				<SegmentBuilder
-					campaignId={campaignId}
-					segment={editingSegment}
-					onClose={handleClose}
-					onSave={handleClose}
-				/>
-			) : (
-				<SegmentList
-					campaignId={campaignId}
-					onCreate={handleCreate}
-					onEdit={handleEdit}
-					onCreateBlast={handleCreateBlast}
-				/>
-			)}
-		</div>
-	);
-});
-
-function RouteComponent() {
-	const { data, loading } = useGetCampaigns();
-	const [selectedCampaignId, setSelectedCampaignId] = useState<string>("");
-
-	// Set first campaign as default when data loads
-	if (!selectedCampaignId && data?.campaigns?.length) {
-		setSelectedCampaignId(data.campaigns[0].id);
-	}
-
-	if (loading) {
+	if (loadingCampaigns) {
 		return <Spinner size="lg" label="Loading campaigns..." />;
 	}
 
@@ -111,6 +95,48 @@ function RouteComponent() {
 		label: c.name,
 	}));
 
+	const renderContent = () => {
+		if (loadingSegments) {
+			return <Spinner size="lg" label="Loading segments..." />;
+		}
+
+		if (showBuilder) {
+			return (
+				<SegmentBuilder
+					campaignId={selectedCampaignId}
+					segment={editingSegment}
+					onClose={handleClose}
+					onSave={handleClose}
+				/>
+			);
+		}
+
+		if (!segments || segments.length === 0) {
+			return (
+				<EmptyState
+					icon={<Users />}
+					title="No segments yet"
+					description="Create your first segment to start targeting specific audiences."
+					action={
+						<Button variant="primary" onClick={handleCreate}>
+							Create Segment
+						</Button>
+					}
+				/>
+			);
+		}
+
+		return (
+			<SegmentList
+				campaignId={selectedCampaignId}
+				onCreate={handleCreate}
+				onEdit={handleEdit}
+				onCreateBlast={handleCreateBlast}
+				hideHeader
+			/>
+		);
+	};
+
 	return (
 		<motion.div
 			className={styles.page}
@@ -125,6 +151,15 @@ function RouteComponent() {
 						Create and manage audience segments for targeted email campaigns
 					</p>
 				</div>
+				{!showBuilder && segments && segments.length > 0 && (
+					<Button
+						variant="primary"
+						leftIcon={<Plus size={16} />}
+						onClick={handleCreate}
+					>
+						Create Segment
+					</Button>
+				)}
 			</div>
 
 			<div className={styles.campaignSelector}>
@@ -138,7 +173,7 @@ function RouteComponent() {
 			</div>
 
 			{selectedCampaignId && (
-				<SegmentsContent campaignId={selectedCampaignId} />
+				<div className={styles.pageContent}>{renderContent()}</div>
 			)}
 		</motion.div>
 	);

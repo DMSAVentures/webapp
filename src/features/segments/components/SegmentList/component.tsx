@@ -41,6 +41,8 @@ export interface SegmentListProps {
 	onCreate?: () => void;
 	/** Callback when segment is selected for blast */
 	onCreateBlast?: (segment: Segment) => void;
+	/** Hide the header (when used in a page that provides its own header) */
+	hideHeader?: boolean;
 }
 
 export const SegmentList = memo(function SegmentList({
@@ -48,6 +50,7 @@ export const SegmentList = memo(function SegmentList({
 	onEdit,
 	onCreate,
 	onCreateBlast,
+	hideHeader = false,
 }: SegmentListProps) {
 	const { segments, loading, error, refetch } = useGetSegments(campaignId);
 	const { deleteSegment, loading: deleting } = useDeleteSegment();
@@ -104,17 +107,19 @@ export const SegmentList = memo(function SegmentList({
 
 	return (
 		<div className={styles.root}>
-			<div className={styles.header}>
-				<div className={styles.headerText}>
-					<h2 className={styles.title}>Segments</h2>
-					<p className={styles.subtitle}>
-						Create reusable audience segments for targeted email blasts
-					</p>
+			{!hideHeader && (
+				<div className={styles.header}>
+					<div className={styles.headerText}>
+						<h2 className={styles.title}>Segments</h2>
+						<p className={styles.subtitle}>
+							Create reusable audience segments for targeted email blasts
+						</p>
+					</div>
+					<Button variant="primary" onClick={onCreate}>
+						Create Segment
+					</Button>
 				</div>
-				<Button variant="primary" onClick={onCreate}>
-					Create Segment
-				</Button>
-			</div>
+			)}
 
 			{!loading && segments.length === 0 ? (
 				<div className={styles.emptyState}>

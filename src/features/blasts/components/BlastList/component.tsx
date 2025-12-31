@@ -25,6 +25,8 @@ export interface BlastListProps {
 	onView?: (blast: EmailBlast) => void;
 	/** Callback when create blast is clicked */
 	onCreate?: () => void;
+	/** Hide the header (when used in a page that provides its own header) */
+	hideHeader?: boolean;
 }
 
 const STATUS_VARIANTS: Record<
@@ -56,6 +58,7 @@ export const BlastList = memo(function BlastList({
 	campaignId,
 	onView,
 	onCreate,
+	hideHeader = false,
 }: BlastListProps) {
 	const { blasts, loading, error, refetch } = useGetBlasts(campaignId);
 	const { deleteBlast, loading: deleting } = useDeleteBlast();
@@ -106,19 +109,21 @@ export const BlastList = memo(function BlastList({
 
 	return (
 		<Stack gap="lg" className={styles.root}>
-			<Stack direction="row" justify="between" align="start" wrap>
-				<Stack gap="xs">
-					<Text as="h2" size="xl" weight="semibold">
-						Email Blasts
-					</Text>
-					<Text color="secondary">
-						Send targeted emails to your audience segments
-					</Text>
+			{!hideHeader && (
+				<Stack direction="row" justify="between" align="start" wrap>
+					<Stack gap="xs">
+						<Text as="h2" size="xl" weight="semibold">
+							Email Blasts
+						</Text>
+						<Text color="secondary">
+							Send targeted emails to your audience segments
+						</Text>
+					</Stack>
+					<Button variant="primary" onClick={onCreate}>
+						Create Blast
+					</Button>
 				</Stack>
-				<Button variant="primary" onClick={onCreate}>
-					Create Blast
-				</Button>
-			</Stack>
+			)}
 
 			{blasts.length === 0 ? (
 				<Stack gap="md" align="center" className={styles.emptyState}>

@@ -72,15 +72,6 @@ function RouteComponent() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Blast Details</h1>
-					<p className={styles.pageDescription}>
-						View and manage your email blast
-					</p>
-				</div>
-			</div>
-
 			<div className={styles.campaignSelector}>
 				<Select
 					id="campaign-select"
@@ -92,9 +83,7 @@ function RouteComponent() {
 			</div>
 
 			{selectedCampaignId && (
-				<div className={styles.pageContent}>
-					<BlastDetail campaignId={selectedCampaignId} blastId={blastId} />
-				</div>
+				<BlastDetail campaignId={selectedCampaignId} blastId={blastId} />
 			)}
 		</motion.div>
 	);
