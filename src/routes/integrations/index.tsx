@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Key, Unplug, Zap } from "lucide-react";
 import { useState } from "react";
-import { useTier } from "@/contexts/tier";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import {
 	useZapierDisconnect,
 	useZapierStatus,
@@ -21,8 +21,8 @@ export const Route = createFileRoute("/integrations/")({
 });
 
 function IntegrationsPage() {
-	const { isAtLeast } = useTier();
-	const isPro = isAtLeast("pro");
+	const { hasAccess, requiredTierDisplayName } =
+		useFeatureAccess("webhooks_zapier");
 
 	const {
 		data: zapierStatus,
@@ -43,7 +43,7 @@ function IntegrationsPage() {
 	} | null>(null);
 
 	const handleConnect = () => {
-		if (!isPro) return;
+		if (!hasAccess) return;
 		// Zapier uses API key authentication - users connect from the Zapier app
 		// Direct users to the API keys page to create a key with 'zapier' scope
 		window.location.href = "/api-keys";
@@ -83,12 +83,12 @@ function IntegrationsPage() {
 			</header>
 
 			{/* Team Feature Banner */}
-			{!isPro && (
+			{!hasAccess && (
 				<Banner
 					type="feature"
 					variant="lighter"
-					title="Team Feature"
-					description="Upgrade to Team to connect integrations and automate your workflow."
+					title={`${requiredTierDisplayName} Feature`}
+					description={`Upgrade to ${requiredTierDisplayName} to connect integrations and automate your workflow.`}
 					action={<a href="/billing/plans">Upgrade</a>}
 					dismissible={false}
 				/>
@@ -142,7 +142,7 @@ function IntegrationsPage() {
 										variant="secondary"
 										onClick={() => setShowDisconnectModal(true)}
 										leftIcon={<Unplug size={16} />}
-										disabled={!isPro}
+										disabled={!hasAccess}
 									>
 										Disconnect
 									</Button>
@@ -152,7 +152,7 @@ function IntegrationsPage() {
 									variant="primary"
 									onClick={handleConnect}
 									leftIcon={<Key size={16} />}
-									disabled={!isPro}
+									disabled={!hasAccess}
 								>
 									Get API Key
 								</Button>

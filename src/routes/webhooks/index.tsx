@@ -3,8 +3,8 @@ import { ListChecks, Plus, Trash2 } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
-import { useTier } from "@/contexts/tier";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { useGetWebhooks } from "@/hooks/useGetWebhooks";
 import { useTestWebhook } from "@/hooks/useTestWebhook";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
@@ -29,8 +29,8 @@ interface TestFeedback {
 
 function RouteComponent() {
 	const navigate = useNavigate();
-	const { isAtLeast } = useTier();
-	const isPro = isAtLeast("pro");
+	const { hasAccess, requiredTierDisplayName } =
+		useFeatureAccess("webhooks_zapier");
 
 	const { data: webhooks, loading, error, refetch } = useGetWebhooks();
 	const { deleteWebhook, error: deleteError } = useDeleteWebhook();
@@ -46,7 +46,7 @@ function RouteComponent() {
 	} | null>(null);
 
 	const handleCreateWebhook = () => {
-		if (!isPro) return;
+		if (!hasAccess) return;
 		navigate({ to: "/webhooks/new" });
 	};
 
@@ -178,19 +178,19 @@ function RouteComponent() {
 					variant="primary"
 					leftIcon={<Plus size={16} />}
 					onClick={handleCreateWebhook}
-					disabled={!isPro}
+					disabled={!hasAccess}
 				>
 					Create Webhook
 				</Button>
 			</div>
 
 			{/* Team Feature Banner */}
-			{!isPro && (
+			{!hasAccess && (
 				<Banner
 					type="feature"
 					variant="lighter"
-					title="Team Feature"
-					description="Upgrade to Team to create webhooks and receive real-time notifications."
+					title={`${requiredTierDisplayName} Feature`}
+					description={`Upgrade to ${requiredTierDisplayName} to create webhooks and receive real-time notifications.`}
 					action={<a href="/billing/plans">Upgrade</a>}
 					dismissible={false}
 				/>
@@ -215,7 +215,7 @@ function RouteComponent() {
 							<Button
 								variant="primary"
 								onClick={handleCreateWebhook}
-								disabled={!isPro}
+								disabled={!hasAccess}
 							>
 								Create Your First Webhook
 							</Button>

@@ -2,13 +2,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Filter, Plus, Users } from "lucide-react";
 import { motion } from "motion/react";
 import { useCallback, useState } from "react";
-import { useTier } from "@/contexts/tier";
+import { GatedEmptyState } from "@/components/gating";
 import { SegmentBuilder } from "@/features/segments/components/SegmentBuilder/component";
 import { SegmentList } from "@/features/segments/components/SegmentList/component";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useGetSegments } from "@/hooks/useSegments";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
-import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Select } from "@/proto-design-system/components/forms/Select";
 import {
 	Button,
@@ -24,8 +24,7 @@ export const Route = createFileRoute("/segments/")({
 
 function RouteComponent() {
 	const navigate = useNavigate();
-	const { isAtLeast } = useTier();
-	const isPro = isAtLeast("pro");
+	const { hasAccess } = useFeatureAccess("email_blasts");
 
 	const { data, loading: loadingCampaigns } = useGetCampaigns();
 	const [selectedCampaignId, setSelectedCampaignId] = useState<string>("");
@@ -69,8 +68,8 @@ function RouteComponent() {
 		[navigate, selectedCampaignId],
 	);
 
-	// Show gated empty state for free tier users
-	if (!isPro) {
+	// Show gated empty state for users without access
+	if (!hasAccess) {
 		return (
 			<motion.div
 				className={styles.page}
@@ -86,23 +85,12 @@ function RouteComponent() {
 						</p>
 					</div>
 				</div>
-				<Banner
-					type="feature"
-					variant="lighter"
-					title="Team Feature"
-					description="Upgrade to Team to create audience segments for targeted campaigns."
-					action={<a href="/billing/plans">Upgrade</a>}
-					dismissible={false}
-				/>
-				<EmptyState
+				<GatedEmptyState
+					feature="email_blasts"
 					icon={<Users />}
 					title="Segments"
-					description="Create audience segments to target specific groups with your campaigns. This feature is available on the Team plan."
-					action={
-						<LinkButton variant="primary" href="/billing/plans">
-							Upgrade to Team
-						</LinkButton>
-					}
+					description="Create audience segments to target specific groups with your campaigns."
+					bannerDescription="Upgrade to Team to create audience segments for targeted campaigns."
 				/>
 			</motion.div>
 		);
