@@ -143,6 +143,7 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 				{campaigns.length > 0 && (
 					<Button
 						onClick={handleCreateCampaign}
+                        variant={'primary'}
 					>
 						<Plus size={16} />
 						Create Campaign

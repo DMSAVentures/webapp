@@ -9,8 +9,9 @@ import {
 	useCallback,
 	useState,
 } from "react";
-import { Plus, Search, LayoutGrid, List, Megaphone } from "lucide-react";
+import { Plus, Search, Megaphone } from "lucide-react";
 import { Button } from "@/proto-design-system/components/primitives/Button";
+import { ButtonGroup } from "@/proto-design-system/components/primitives/Button/ButtonGroup";
 import { Grid } from "@/proto-design-system/components/layout/Grid";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Input } from "@/proto-design-system/components/forms/Input";
@@ -141,7 +142,6 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 	// Hooks
 	const {
 		view,
-		setView,
 		statusFilter,
 		setStatusFilter,
 		searchQuery,
@@ -164,7 +164,7 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 					Create your first campaign to start building your waitlist
 				</Text>
 				{onCreateCampaign && (
-					<Button onClick={onCreateCampaign}>
+					<Button onClick={onCreateCampaign} variant={'primary'}>
 						<Plus size={16} />
 						Create Campaign
 					</Button>
@@ -193,49 +193,18 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 							</div>
 
 							{/* Status filter pills */}
-							<Stack direction="row" gap="xs">
+							<ButtonGroup isAttached size="sm">
 								{STATUS_OPTIONS.map((option) => (
-									<button
+									<Button
 										key={option.value}
+										variant={statusFilter === option.value ? "primary" : "outline"}
 										onClick={() => setStatusFilter(option.value)}
 										aria-label={`${option.label} campaigns`}
-										style={{
-											padding: "var(--space-1-5) var(--space-3)",
-											border: "1px solid var(--color-border)",
-											borderRadius: "var(--radius-full)",
-											background: statusFilter === option.value ? "var(--color-base-content)" : "transparent",
-											color: statusFilter === option.value ? "var(--color-base-100)" : "var(--color-muted)",
-											cursor: "pointer",
-											fontSize: "var(--font-size-sm)",
-											whiteSpace: "nowrap",
-										}}
 									>
 										{option.label}
-									</button>
+									</Button>
 								))}
-							</Stack>
-						</Stack>
-					)}
-
-					{/* Right side - View toggle */}
-					{showViewToggle && (
-						<Stack direction="row" gap="xs">
-							<Button
-								variant={view === "grid" ? "secondary" : "ghost"}
-								size="sm"
-								onClick={() => setView("grid")}
-								aria-label="Grid view"
-							>
-								<LayoutGrid size={16} />
-							</Button>
-							<Button
-								variant={view === "list" ? "secondary" : "ghost"}
-								size="sm"
-								onClick={() => setView("list")}
-								aria-label="List view"
-							>
-								<List size={16} />
-							</Button>
+							</ButtonGroup>
 						</Stack>
 					)}
 				</div>
