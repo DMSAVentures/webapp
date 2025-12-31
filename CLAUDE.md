@@ -3,840 +3,631 @@
 ## Project Overview
 This is a **Vite-based React application** with TypeScript, featuring a comprehensive design system and modern development stack. The project uses a component-based architecture with a well-structured design token system.
 
+> **IMPORTANT:** For comprehensive frontend design patterns, component usage, and styling rules, refer to [DESIGN-GUIDELINES.md](./docs/DESIGN-GUIDELINES.md) as the source of truth.
+
 ## Technology Stack
-- **Build Tool**: Vite 6.3.0 with React plugin
-- **React**: Version 19.0.0
+- **Build Tool**: Vite 7.3.0 with React plugin
+- **React**: Version 19.2.3
 - **Routing**: TanStack Router with auto code-splitting
 - **Styling**: SCSS with CSS Modules and BEM naming conventions
-- **UI Icons**: RemixIcon library
-- **Documentation**: Storybook 8.6.12
+- **UI Icons**: RemixIcon + lucide-react
+- **Animation**: Motion (Framer Motion)
+- **Documentation**: Storybook 10.1.10
 - **Payment**: Stripe integration
+- **Linting**: Biome
 - **Type Safety**: TypeScript in strict mode
 
 ## Commands
 - `npm run dev` - Start development server
 - `npm run build` - TypeScript compilation + Vite build
-- `npm run lint` - Run ESLint
+- `npm run lint` - Run Biome linter
+- `npm run lint:fix` - Run Biome with auto-fix
+- `npm run lint:scss` - Run Stylelint for SCSS
 - `npm run preview` - Preview built application
 - `npm run storybook` - Run Storybook (port 6006)
-- `npm run build-storybook` - Build static Storybook
 
 ## Project Structure
 
 ### Directory Organization
 ```
 src/
-├── proto-design-system/  # Design system components (28+ components)
-├── components/
-│   ├── authentication/   # Auth-related components
-│   ├── ai/              # AI features
-│   ├── billing/         # Payment/subscription components
-│   └── [feature]/       # Feature-specific components
-├── design-tokens/       # Design tokens and global styles
-├── hooks/               # Custom React hooks (15+ hooks)
-├── contexts/            # React contexts for state management
-├── routes/              # TanStack Router route definitions
-└── types/               # TypeScript type definitions
+├── proto-design-system/  # Design system (50+ components)
+│   ├── components/       # UI components by category
+│   │   ├── primitives/   # Button, Badge, Icon, Text, etc.
+│   │   ├── forms/        # Input, TextField, Select, Checkbox, etc.
+│   │   ├── feedback/     # Alert, Banner, Toast, Progress
+│   │   ├── overlays/     # Modal, Dropdown, Popover, Tooltip
+│   │   ├── navigation/   # Tabs, Sidebar, Breadcrumb, Pagination
+│   │   ├── data/         # Table, DataGrid, List, StatCard
+│   │   ├── layout/       # Stack, Grid, Card, Container
+│   │   └── composite/    # Accordion, DatePicker, FileUpload
+│   ├── tokens/           # Design tokens (spacing, colors, etc.)
+│   ├── hooks/            # Design system hooks
+│   └── themes/           # Theme definitions
+├── components/           # Feature-specific components
+├── design-tokens/        # Token re-exports
+├── hooks/                # Custom React hooks
+├── api/                  # API client and types
+├── contexts/             # React contexts
+├── routes/               # TanStack Router routes
+└── types/                # TypeScript type definitions
 ```
 
 ### Component File Structure
-Every component follows this consistent pattern:
 ```
 ComponentName/
-├── component.tsx          # Main component with TypeScript interfaces
-├── component.module.scss  # CSS Modules with BEM naming
-├── component.stories.ts   # Storybook stories (co-located)
-└── variations.tsx         # Component variations (if needed)
+├── ComponentName.tsx          # Main component
+├── ComponentName.module.scss  # CSS Modules styles
+├── ComponentName.types.ts     # TypeScript types
+└── ComponentName.stories.tsx  # Storybook stories
 ```
 
 ## Design System Usage
 
-### CRITICAL: Proto Design System First
-**ALWAYS check if a proto design system component exists before creating custom components or styles**
+### CRITICAL: Use Existing Components
+**ALWAYS check if a component exists before creating custom implementations**
 
-Before writing ANY component:
-1. ✅ Check `src/proto-design-system/` for existing components
-2. ✅ Use proto components with their proper APIs
-3. ✅ NEVER create custom implementations of form inputs, buttons, badges, modals, etc.
-4. ✅ NEVER apply custom styles that override proto component behavior
-5. ✅ Let proto components handle their own styling, animations, and interactions
-
-**📚 Detailed Component APIs:** See [docs/proto-components.md](./docs/proto-components.md)
-
-### Design Tokens
-**Always use design tokens from `@/design-tokens/` instead of hardcoded values**
-
-**📚 Complete Design Token Reference:** See [docs/design-tokens.md](./docs/design-tokens.md)
-
-#### Quick Reference - Most Common Tokens
-
-**Typography:**
-```scss
-@use "@/design-tokens/typography" as typography;
-font-size: typography.$font-size-md;  // 13px (base)
-font-size: typography.$font-size-h1;  // 40px (heading)
-font-weight: typography.$font-weight-semibold;  // 700
-```
-
-**Layout:**
-```scss
-@use "@/design-tokens/layout" as layout;
-padding: layout.$spacing-04;  // 12px
-margin: layout.$spacing-05;   // 20px
-gap: layout.$spacing-03;      // 8px
-```
-
-**Borders:**
-```scss
-@use "@/design-tokens/border" as border;
-border-radius: border.$border-radius-medium;  // 8px
-border-radius: border.$border-radius-round;   // 999px (fully rounded)
-```
-
-**Breakpoints:**
-```scss
-@use "@/design-tokens/breakpoints" as breakpoints;
-@media (max-width: breakpoints.$breakpoint-md) { /* tablet */ }
-```
-
-**⚠️ Common Invalid Tokens (DO NOT USE):**
-- ❌ `$font-size-2xl`, `$font-size-3xl`, `$font-size-4xl`, `$font-size-5xl` → Use `$font-size-h1` through `$font-size-h6`
-- ❌ `$font-weight-normal` → Use `$font-weight-regular`
-- ❌ `$border-radius-full` → Use `$border-radius-round`
-- ❌ Hardcoded pixels like `767px`, `768px` → Use `$breakpoint-md`, etc.
-
-#### Color Token Usage
-
-**IMPORTANT: Most components MUST use CSS custom properties from `theme.scss`**
-
-Components with many color variants (Badge, Banner, Feedback, StatusBadge, LinkButton, Tag) are exceptions and can use `colors.$color-*` directly.
-
-```scss
-// ✅ DO: Use CSS custom properties (theme variables) for most components
-background-color: var(--color-bg-primary-default);
-color: var(--color-text-primary-default);
-border: 1px solid var(--color-border-primary-default);
-box-shadow: 0 4px 8px var(--color-shadow-default);
-
-// ✅ DO: Use SCSS color variables ONLY for multi-color components (Badge, Banner, etc.)
-@use "@/design-tokens/colors" as colors;
-background-color: colors.$color-blue-500;
-color: colors.$color-white;
-
-// ❌ DON'T: Use hardcoded values
-background-color: #1a1a1a;
-color: rgb(255, 255, 255);
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-```
-
-**Color Variable Semantic Meanings:**
-- `--color-bg-*` = Backgrounds for **interactive elements** (buttons, inputs, hover states)
-- `--color-surface-*` = Backgrounds for **containers** (cards, modals, sheets, dropdowns, sidebars)
-- `--color-border-*` = All border colors
-- `--color-text-*` = All text colors
-- `--color-icon-*` = Icon colors
-
-**Available Theme Variables:**
-```scss
-// Backgrounds (interactive elements)
---color-bg-primary-default, --color-bg-primary-hover, --color-bg-primary-active
---color-bg-secondary-default, --color-bg-secondary-hover, --color-bg-secondary-active
---color-bg-tertiary-default
---color-bg-primary-disabled, --color-bg-secondary-disabled
-
-// Surfaces (containers)
---color-surface-primary-default
---color-surface-secondary-default
-
-// Borders
---color-border-primary-default, --color-border-primary-hover
---color-border-secondary-default
---color-border-focus-default
---color-border-disabled-default
-
-// Text
---color-text-primary-default
---color-text-secondary-default
---color-text-tertiary-default
---color-text-inverse-default
---color-text-disabled-default
-
-// Icons
---color-icon-primary-default
---color-icon-secondary-default
---color-icon-disabled-default
-
-// Semantic states
---color-error-default, --color-error-text
---color-success-default, --color-text-success-default
---color-warning-default, --color-text-warning-default
---color-info-default, --color-text-info-default
-
-// Semantic backgrounds
---color-bg-danger-default, --color-bg-danger-hover
---color-bg-success-default, --color-bg-success-hover
---color-bg-warning-default, --color-bg-warning-hover
---color-bg-info-default, --color-bg-info-hover
-
-// Alpha backgrounds (for icon backgrounds, overlays)
---color-bg-info-alpha
---color-bg-success-alpha
---color-bg-warning-alpha
---color-bg-danger-alpha
-
-// Semantic borders
---color-border-danger-default
---color-border-success-default
---color-border-warning-default
---color-border-info-default
-
-// Utilities
---color-white
---color-focus-ring-default
---color-shadow-default
---color-shadow-elevated
---color-alpha-focus
---color-alpha-shadow
-
-// Generic aliases (for backward compatibility)
---color-primary (text)
---color-secondary (text)
---color-muted (text)
---color-text (primary text)
---color-bg (surface)
---color-secondary-bg (background)
---color-border (primary border)
---color-hover-primary (background hover)
---color-info (info state)
-```
-
-#### Spacing Token Usage
-```scss
-// ✅ DO: Use spacing tokens
-padding: $spacing-03 $spacing-05;  // 8px 20px
-margin-bottom: $spacing-04;        // 12px
-gap: $spacing-03;                   // 8px
-
-// ❌ DON'T: Use arbitrary values
-padding: 10px 25px;
-margin-bottom: 15px;
-```
-
-#### Motion Token Usage
-```scss
-// ✅ DO: Use motion tokens for animations
-transition: background-color $duration-moderate-01 $easing-productive-standard;
-animation: slideIn $duration-slow-01 $easing-expressive-standard;
-
-// ❌ DON'T: Use arbitrary timing
-transition: background-color 200ms ease-in-out;
-```
-
-### Theming System
-The application uses CSS custom properties for runtime theme switching:
-```scss
-// Theme variables are defined in theme.scss
---color-bg-primary-default: #{$color-neutral-900};
---color-bg-primary-hover: #{$color-neutral-800};
---color-text-primary-default: #{$color-neutral-800};
---color-border-primary-default: #{$color-neutral-300};
---color-focus-ring-default: #{$color-blue-400};
-```
-
-## Component Development
-
-**📚 For Proto Component APIs:** See [docs/proto-components.md](./docs/proto-components.md) for detailed component usage, props, and examples.
-
-### TypeScript Patterns
-All components must be typed with proper interfaces and JSDoc documentation:
+> **📚 Full Component Reference:** See [DESIGN-GUIDELINES.md](./docs/DESIGN-GUIDELINES.md#components-reference)
 
 ```tsx
-export interface ComponentProps extends HTMLAttributes<HTMLDivElement> {
-    /** Visual variant of the component */
-    variant?: 'primary' | 'secondary' | 'tertiary';
-    /** Size of the component */
-    size?: 'small' | 'medium' | 'large';
-    /** Whether the component is disabled */
-    disabled?: boolean;
-    /** Additional CSS class name */
-    className?: string;
-}
+// ✅ CORRECT: Import from design system
+import { Button } from "@/proto-design-system/components/primitives/Button";
+import { Modal } from "@/proto-design-system/components/overlays/Modal";
+import { TextField } from "@/proto-design-system/components/forms/TextField";
+import { Card } from "@/proto-design-system/components/layout/Card";
+import { Badge } from "@/proto-design-system/components/primitives/Badge";
+
+// ❌ WRONG: Creating custom implementations
+<button className={styles.myButton}>Submit</button>
+<div className={styles.customModal}>...</div>
 ```
 
-### Component Implementation Pattern
-Use functional components with hooks and memo for optimization:
+### Key Components Quick Reference
+
+| Category | Components |
+|----------|------------|
+| **Primitives** | `Button`, `Text`, `Badge`, `Avatar`, `Icon`, `Spinner`, `Skeleton`, `Tag` |
+| **Forms** | `Input`, `TextField`, `TextArea`, `Select`, `Checkbox`, `Radio`, `Switch`, `Slider`, `FormField` |
+| **Layout** | `Stack`, `Grid`, `Container`, `Card`, `Divider`, `AspectRatio` |
+| **Navigation** | `Tabs`, `Sidebar`, `Navbar`, `Breadcrumb`, `Pagination`, `StepIndicator` |
+| **Feedback** | `Alert`, `Toast`, `Progress`, `Banner` |
+| **Overlays** | `Modal`, `Dropdown`, `DropdownMenu`, `Popover`, `Tooltip` |
+| **Data** | `Table`, `DataGrid`, `List`, `StatCard`, `EmptyState` |
+
+### Component Props Patterns
 
 ```tsx
-import { memo } from 'react';
-import styles from './component.module.scss';
+// Button variants
+<Button variant="primary">Main Action</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Cancel</Button>
+<Button variant="destructive">Delete</Button>
 
-export const Component = memo(
-    function Component({
-        variant = 'primary',
-        size = 'medium',
-        disabled = false,
-        className: customClassName,
-        children,
-        ...props
-    }: ComponentProps) {
-        // BEM-style class composition
-        const classNames = [
-            styles.root,
-            variant !== 'primary' && styles[`variant_${variant}`],
-            size !== 'medium' && styles[`size_${size}`],
-            disabled && styles.disabled,
-            customClassName
-        ].filter(Boolean).join(' ');
+// Form fields with labels and validation
+<TextField
+  label="Email"
+  helperText="We'll never share your email"
+  errorMessage={errors.email}
+  required
+/>
 
-        return (
-            <div className={classNames} {...props}>
-                {children}
-            </div>
-        );
-    }
-);
+// Modal
+<Modal open={isOpen} onClose={handleClose} size="md">
+  <ModalHeader>Title</ModalHeader>
+  <ModalBody>Content</ModalBody>
+  <ModalFooter>
+    <Button variant="ghost" onClick={handleClose}>Cancel</Button>
+    <Button>Save</Button>
+  </ModalFooter>
+</Modal>
 
-Component.displayName = 'Component';
+// Layout with Stack
+<Stack gap={4} direction="horizontal" align="center">
+  <Avatar name="John Doe" />
+  <Text weight="medium">John Doe</Text>
+  <Badge variant="success">Active</Badge>
+</Stack>
 ```
 
-### Styling Patterns
+## Design Tokens
 
-#### CRITICAL RULES FOR COMPONENT STYLING
+### CRITICAL: Never Hardcode Values
+**Always use CSS custom properties (design tokens)**
 
-**BEFORE creating any new component, ALWAYS:**
-
-1. **Check if a similar component exists in `src/proto-design-system/`** - Reuse existing components whenever possible
-2. **NEVER use hardcoded values** - Always use design tokens from `@/design-tokens/`
-3. **ALWAYS refer to `theme.scss`** - Use CSS custom properties (variables starting with `--color-*`)
-4. **Use semantic variable names** - Choose variables based on purpose (bg vs surface, primary vs secondary)
-
-#### CSS Module Structure with Design Tokens
-
-Always use `@use` syntax and import only the token modules you need:
+> **📚 Full Token Reference:** See [DESIGN-GUIDELINES.md](./docs/DESIGN-GUIDELINES.md#design-tokens)
 
 ```scss
-// ✅ CORRECT: Import specific token modules
-@use "@/design-tokens/layout" as layout;
-@use "@/design-tokens/typography" as typography;
-@use "@/design-tokens/motion" as motion;
-@use "@/design-tokens/border" as border;
-// Only import colors if component has multiple color variants (Badge, Banner, StatusBadge, etc.)
-// @use "@/design-tokens/colors" as colors;
-
-.root {
-    // ✅ CORRECT: Use design tokens and CSS custom properties
-    display: flex;
-    padding: layout.$spacing-03;              // Spacing tokens
-    gap: layout.$spacing-04;
-    border-radius: border.$border-radius-medium;  // Border tokens
-    background-color: var(--color-bg-primary-default);  // Theme variables
-    color: var(--color-text-primary-default);
-    border: 1px solid var(--color-border-primary-default);
-    transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;  // Motion tokens
-
-    // State modifiers with semantic progression
-    &:hover {
-        background-color: var(--color-bg-primary-hover);
-    }
-
-    &:active {
-        background-color: var(--color-bg-primary-active);
-    }
-
-    &:focus-visible {
-        outline: 2px solid var(--color-focus-ring-default);
-        outline-offset: 2px;
-    }
+// ✅ CORRECT: Using tokens
+.card {
+  padding: var(--space-4);           // 16px
+  margin-bottom: var(--space-6);     // 24px
+  border-radius: var(--radius-lg);   // 8px
+  background: var(--color-surface);
 }
 
 // ❌ WRONG: Hardcoded values
-.wrong {
-    padding: 12px 16px;  // ❌ Use layout.$spacing-* instead
-    background-color: #f0f0f0;  // ❌ Use var(--color-*) instead
-    border-radius: 8px;  // ❌ Use border.$border-radius-* instead
-    transition: all 200ms ease;  // ❌ Use motion tokens instead
-    color: #666;  // ❌ Use var(--color-text-*) instead
+.card {
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  background: #ffffff;
 }
 ```
 
-#### Design Token Reference - Always Use These
+### Token Categories
 
-**Spacing (8px base unit system):**
+| Category | Prefix | Example |
+|----------|--------|---------|
+| Spacing | `--space-*` | `var(--space-4)` |
+| Colors | `--color-*` | `var(--color-primary)` |
+| Typography | `--font-*` | `var(--font-size-lg)` |
+| Shadows | `--shadow-*` | `var(--shadow-md)` |
+| Radius | `--radius-*` | `var(--radius-lg)` |
+| Z-index | `--z-*` | `var(--z-modal)` |
+| Motion | `--duration-*`, `--ease-*` | `var(--duration-fast)` |
+
+### Common Token Values
+
+**Spacing (8px grid system):**
 ```scss
-padding: layout.$spacing-03;  // 8px
-margin: layout.$spacing-05;   // 20px
-gap: layout.$spacing-04;      // 16px
-// Available: $spacing-01 through $spacing-13
+var(--space-1)   // 4px
+var(--space-2)   // 8px
+var(--space-3)   // 12px
+var(--space-4)   // 16px
+var(--space-6)   // 24px
+var(--space-8)   // 32px
 ```
 
 **Typography:**
 ```scss
-font-size: typography.$font-size-md;
-font-weight: typography.$font-weight-semibold;
-line-height: typography.$line-height-normal;
+var(--font-size-xs)    // 12px
+var(--font-size-sm)    // 13px
+var(--font-size-base)  // 14px
+var(--font-size-lg)    // 17px
+var(--font-size-xl)    // 19px
+var(--font-size-2xl)   // 21px
+var(--font-size-3xl)   // 25px
 ```
 
-**Motion/Animation:**
-```scss
-transition: background-color motion.$duration-moderate-01 motion.$easing-productive-standard;
-// Durations: $duration-fast-01, $duration-moderate-01, $duration-slow-01
-// Easings: $easing-productive-standard, $easing-expressive-standard
+## Styling Best Practices
+
+### Use SCSS Modules, Not Inline Styles
+
+```tsx
+// ✅ CORRECT: SCSS module
+import styles from './MyComponent.module.scss';
+
+<div className={styles.container}>
+  <Card className={styles.customCard}>
+    <Button variant="primary">Submit</Button>
+  </Card>
+</div>
+
+// ❌ WRONG: Inline styles
+<div style={{ display: 'flex', gap: '16px', padding: '24px' }}>
+  <Card style={{ marginTop: '20px' }}>
+    <Button style={{ backgroundColor: 'blue' }}>Submit</Button>
+  </Card>
+</div>
 ```
 
-**Borders:**
-```scss
-border-radius: border.$border-radius-small;  // or medium, large
-border-width: border.$border-width-small;
+### Use Component Variants, Not Custom CSS
+
+```tsx
+// ✅ CORRECT: Using component props
+<Button variant="primary" size="lg">Large Primary</Button>
+<Badge variant="success">Active</Badge>
+<Text size="lg" weight="semibold" color="secondary">Subtitle</Text>
+
+// ❌ WRONG: Overriding with custom styles
+<Button className={styles.bigBlueButton}>Submit</Button>
+<span className={styles.customBadge}>Active</span>
 ```
 
-**Colors - ALWAYS use theme.scss variables (CSS custom properties):**
-```scss
-// Refer to theme.scss for all available --color-* variables
-background-color: var(--color-bg-primary-default);
-color: var(--color-text-primary-default);
-border-color: var(--color-border-primary-default);
+### SCSS Module Pattern
 
-// For hover/active states, use semantic progression:
-&:hover {
-    background-color: var(--color-bg-primary-hover);
+```scss
+// Component.module.scss
+.container {
+  display: grid;
+  grid-template-columns: var(--space-64) 1fr;
+  gap: var(--space-6);
+  padding: var(--space-page);
 }
-&:active {
-    background-color: var(--color-bg-primary-active);
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+
+  &:hover {
+    background: var(--color-surface-hover);
+  }
 }
-```
 
-#### Reusing Existing Components
-
-**ALWAYS check `src/proto-design-system/` before creating new components:**
-
-Available design system components include:
-- Buttons: Button, IconOnlyButton, LinkButton
-- Forms: TextInput, Dropdown, Checkbox, Toggle
-- Feedback: Badge, StatusBadge, Banner, Toast, ProgressBar
-- Layout: Card, ContentDivider, Modal, Sheet
-- Navigation: DropdownMenu, Tabs
-- Typography: Heading, Text components
-- And 28+ more components
-
-**Example - Reusing existing components instead of creating new ones:**
-```tsx
-// ✅ CORRECT: Reuse existing Button component
-import { Button } from '@/proto-design-system/Button';
-
-<Button variant="secondary" size="medium">
-    Click Me
-</Button>
-
-// ❌ WRONG: Creating a new button component
-// Don't create a new MyCustomButton component if Button already exists
-```
-
-#### When to Create New Components vs. Reuse
-
-**CREATE NEW** when:
-- No similar component exists in proto-design-system
-- The component is feature-specific (e.g., CampaignCard, BillingPlanCard)
-- The component combines multiple design system components
-
-**REUSE EXISTING** when:
-- A component with similar functionality exists
-- You can achieve the design with props/variants
-- It's a common UI pattern (buttons, inputs, badges, etc.)
-
-### Icon Usage Pattern
-Use RemixIcon consistently across all components:
-
-```tsx
-// Icon with proper accessibility
-{leftIcon && (
-    <i 
-        className={`${styles.icon} ri-${leftIcon}`} 
-        aria-hidden="true"  // Hide from screen readers
-    />
-)}
-```
-
-### Accessibility Requirements
-All interactive components must include:
-- Proper ARIA attributes
-- Keyboard navigation support
-- Focus-visible states
-- Semantic HTML elements
-- Screen reader considerations
-
-```tsx
-// Accessibility example
-<button
-    role="button"
-    aria-label={ariaLabel}
-    aria-pressed={isPressed}
-    aria-disabled={disabled}
-    tabIndex={disabled ? -1 : 0}
-    onKeyDown={handleKeyDown}
-    {...props}
-/>
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
 ```
 
 ## API Integration
 
-### HTTP Client Configuration
-Use the centralized `fetcher` utility for all API calls:
+### HTTP Client
+Use the centralized `fetcher` from `@/api`:
 
 ```typescript
-import { fetcher } from '@/hooks/fetcher';
+import { fetcher } from '@/api';
 
 // Type-safe API call
-const response = await fetcher<ResponseType>('/api/endpoint', {
+const response = await fetcher<ResponseType>(
+  `${import.meta.env.VITE_API_URL}/api/endpoint`,
+  {
     method: 'POST',
     body: JSON.stringify(data)
-});
+  }
+);
 ```
 
-### Custom Hook Patterns
-
-#### Data Fetching Hooks (GET operations)
-For data that should load on component mount:
+### Custom Hook Pattern
 
 ```typescript
+import { fetcher, ApiError } from '@/api';
+
 export const useGetData = () => {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ApiError | null>(null);
-    const [data, setData] = useState<DataType | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<ApiError | null>(null);
+  const [data, setData] = useState<DataType | null>(null);
 
-    const fetchData = useCallback(async (signal?: AbortSignal) => {
-        setLoading(true);
-        try {
-            const response = await fetcher<DataType>(
-                `${import.meta.env.VITE_API_URL}/api/data`,
-                { signal }
-            );
-            setData(response);
-        } catch (error: any) {
-            setError({ error: error.message });
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetcher<DataType>(
+        `${import.meta.env.VITE_API_URL}/api/data`
+      );
+      setData(response);
+    } catch (err) {
+      setError(toApiError(err));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-    useEffect(() => {
-        const controller = new AbortController();
-        fetchData(controller.signal);
-        return () => controller.abort();
-    }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-    return { data, loading, error, refetch: fetchData };
+  return { data, loading, error, refetch: fetchData };
 };
 ```
 
-#### Operation Hooks (POST/PUT/DELETE)
-For user-triggered operations:
-
-```typescript
-export const useCreateResource = () => {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ApiError | null>(null);
-    const [data, setData] = useState<ResponseType | null>(null);
-
-    const operation = useCallback(async (payload: RequestType) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await fetcher<ResponseType>(
-                `${import.meta.env.VITE_API_URL}/api/resource`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                }
-            );
-            setData(response);
-            return response;
-        } catch (error: any) {
-            setError({ error: error.message });
-            throw error;
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    return { operation, loading, error, data };
-};
-```
-
-#### Server-Sent Events (SSE)
-For real-time streaming:
-
-```typescript
-const res = await fetch(url, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        Accept: "text/event-stream",
-    },
-    credentials: "include",  // Always include for cookie auth
-    body: JSON.stringify(requestData),
-});
-
-const reader = res.body?.getReader();
-const decoder = new TextDecoder("utf-8");
-// Process stream...
-```
-
-### Authentication Pattern
-Cookie-based authentication is used throughout:
+### Authentication
+Cookie-based authentication:
 - All API calls use `credentials: 'include'`
-- No manual token management in localStorage
+- No manual token management
 - Authentication state managed server-side
 
-### Error Handling
-Standardized error handling across all hooks:
+## Code Organization
 
-```typescript
-export interface ApiError {
-    error: string;
+### Reduce Cognitive Load
+**Extract logic into hooks and pure functions to keep components readable.**
+
+### When to Extract
+
+| Complexity | Action |
+|------------|--------|
+| 3+ related `useState` | Extract into a custom hook |
+| `useEffect` with complex logic | Extract into a data-fetching hook |
+| Handler > 5 lines | Extract into a named function or hook |
+| Validation/transformation logic | Extract into a pure function |
+| Logic reused elsewhere | Move to shared hooks/utils |
+
+### Example: Extracting Complex Logic
+
+```tsx
+// ❌ BAD: Everything inline
+function UserSettingsPage() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => { /* 15 lines of fetch logic */ }, []);
+
+  const handleSubmit = async () => {
+    // 30 lines of validation + submit + error handling
+  };
+
+  return <div>/* 100 lines of JSX */</div>;
 }
 
-// Component usage
-if (error?.error === 'no active subscription found') {
-    navigate({ to: '/billing/plans' });
-}
-```
-
-### TypeScript API Types
-Define all API types in `src/types/`:
-
-```typescript
-// src/types/billing.ts
-export interface GetCurrentSubscriptionResponse {
-    id: string;
-    status: string;
-    start_date: Date;
-    end_date: Date;
-    next_billing_date: Date;
-}
-
-// Date conversion in hooks
-return {
-    ...response,
-    start_date: new Date(response.start_date),
-    end_date: new Date(response.end_date),
-    next_billing_date: new Date(response.next_billing_date)
+// ✅ GOOD: Logic extracted, component is thin
+// -- Pure functions (top of file or separate utils file)
+const validateSettings = (data: FormData): ValidationErrors => {
+  const errors: ValidationErrors = {};
+  if (!data.name.trim()) errors.name = 'Name is required';
+  if (!isValidEmail(data.email)) errors.email = 'Invalid email';
+  return errors;
 };
-```
 
-## Stripe Integration
-Use dedicated hooks for Stripe operations:
+// -- Custom hook (same file, above component)
+function useUserSettings() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
 
-```typescript
-// Checkout session
-const { refetch, loading, error, clientSecret } = useCreateCheckoutSession({
-    priceId: selectedPriceId
-});
+  useEffect(() => {
+    setLoading(true);
+    fetcher<User>('/api/user')
+      .then(setUser)
+      .finally(() => setLoading(false));
+  }, []);
 
-// Customer portal
-const { operation: createPortal } = useCreateCustomerPortal();
+  return { user, loading };
+}
 
-// Subscription management
-const { data: subscription } = useGetCurrentSubscription();
-const { operation: cancelSubscription } = useCancelSubscription();
-```
+function useSettingsForm(user: User | null) {
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [errors, setErrors] = useState<ValidationErrors>({});
 
-## Development Workflow
+  useEffect(() => {
+    if (user) setFormData({ name: user.name, email: user.email });
+  }, [user]);
 
-### Adding New Components
-1. Create component directory in appropriate location:
-   - Design system components → `src/proto-design-system/`
-   - Feature components → `src/components/[feature]/`
-
-2. Follow the standard file structure:
-   ```
-   ComponentName/
-   ├── component.tsx
-   ├── component.module.scss
-   └── component.stories.ts
-   ```
-
-3. Implement with required patterns:
-   - TypeScript interfaces with JSDoc
-   - ForwardRef and memo wrappers
-   - BEM-style CSS modules
-   - Design token usage
-   - Accessibility attributes
-
-### Storybook Documentation
-Every component must have a story file:
-
-```typescript
-import type { Meta, StoryObj } from '@storybook/react';
-import { Component } from './component';
-
-const meta = {
-    title: 'ProtoDesignSystem/Component',
-    component: Component,
-    tags: ['autodocs'],  // Enable auto-documentation
-    parameters: {
-        layout: 'centered',
-    },
-    argTypes: {
-        variant: {
-            control: 'select',
-            options: ['primary', 'secondary', 'tertiary']
-        }
+  const handleSubmit = useCallback(async () => {
+    const validationErrors = validateSettings(formData);
+    if (Object.keys(validationErrors).length) {
+      setErrors(validationErrors);
+      return;
     }
-} satisfies Meta<typeof Component>;
+    await fetcher('/api/user', { method: 'PUT', body: JSON.stringify(formData) });
+  }, [formData]);
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+  return { formData, setFormData, errors, handleSubmit };
+}
 
-export const Default: Story = {
-    args: {
-        children: 'Default Component'
-    }
-};
+// -- Component is now clean and readable
+function UserSettingsPage() {
+  const { user, loading } = useUserSettings();
+  const { formData, setFormData, errors, handleSubmit } = useSettingsForm(user);
 
-export const AllVariants: Story = {
-    render: () => (
-        <>
-            <Component variant="primary">Primary</Component>
-            <Component variant="secondary">Secondary</Component>
-            <Component variant="tertiary">Tertiary</Component>
-        </>
-    )
-};
+  if (loading) return <Spinner />;
+
+  return (
+    <Card>
+      <TextField
+        label="Name"
+        value={formData.name}
+        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+        errorMessage={errors.name}
+      />
+      <Button onClick={handleSubmit}>Save</Button>
+    </Card>
+  );
+}
 ```
 
-### Code Quality Standards
+### Hook Placement
 
-#### TypeScript Requirements
-- Strict mode enabled
-- All props must have interfaces
-- Use proper generic types for hooks
-- Avoid `any` type - use `unknown` or specific types
+| Used by | Location |
+|---------|----------|
+| One component | Same file, above component |
+| Related components in feature | `feature/hooks/` folder |
+| Multiple features | `src/hooks/` |
 
-#### Import Organization
-Follow this import order:
+### Simplifying Handlers
+
+```tsx
+// ❌ BAD: Complex inline handler
+<Button onClick={async () => {
+  const errors = {};
+  if (!name) errors.name = 'Required';
+  if (!email) errors.email = 'Required';
+  if (Object.keys(errors).length) {
+    setErrors(errors);
+    return;
+  }
+  setSubmitting(true);
+  try {
+    await fetch('/api/submit', { method: 'POST', body: JSON.stringify({ name, email }) });
+    toast.success('Saved!');
+  } catch (e) {
+    toast.error('Failed');
+  } finally {
+    setSubmitting(false);
+  }
+}}>Submit</Button>
+
+// ✅ GOOD: Handler calls smaller functions
+const validate = (): boolean => {
+  const errors = validateSettings(formData);
+  setErrors(errors);
+  return Object.keys(errors).length === 0;
+};
+
+const handleSubmit = async () => {
+  if (!validate()) return;
+  await submitSettings(formData);
+};
+
+<Button onClick={handleSubmit}>Submit</Button>
+```
+
+### Component Size Limits
+
+| Metric | Limit | If exceeded... |
+|--------|-------|----------------|
+| Function body | ~50 lines | Extract hooks/components |
+| File length | ~200 lines | Split into sub-components |
+| `useState` calls | ~5 | Combine into hook or reducer |
+| `useEffect` calls | ~2 | Extract into hooks |
+| Props count | ~8 | Consider composition |
+
+---
+
+## TypeScript Patterns
+
+### Component Props Interface
+
+```tsx
+export interface ComponentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Visual variant */
+  variant?: 'primary' | 'secondary' | 'ghost';
+  /** Size of the component */
+  size?: 'sm' | 'md' | 'lg';
+  /** Whether disabled */
+  disabled?: boolean;
+}
+```
+
+### Import Organization
+
 ```typescript
-// 1. React and core libraries
+// 1. React
 import { useState, useEffect, useCallback } from 'react';
 
-// 2. Third-party libraries
+// 2. Third-party
 import { useNavigate } from '@tanstack/react-router';
 
-// 3. Internal utilities and hooks
-import { fetcher } from '@/hooks/fetcher';
+// 3. API/Utils
+import { fetcher } from '@/api';
 
 // 4. Types
 import type { ComponentProps } from '@/types';
 
 // 5. Components
-import { Button } from '@/proto-design-system/Button';
+import { Button } from '@/proto-design-system/components/primitives/Button';
 
 // 6. Styles
-import styles from './component.module.scss';
+import styles from './Component.module.scss';
 ```
 
-#### CSS/SCSS Guidelines
-- Use CSS Modules for all component styles
-- Follow BEM naming convention
-- Always use design tokens
-- Avoid `!important` except for critical overrides
-- Use responsive mixins for breakpoints
+## Accessibility Requirements
 
-### Performance Optimization
-- Use `React.memo` for components that re-render frequently
-- Implement `useCallback` and `useMemo` for expensive operations
-- Use code splitting with TanStack Router
-- Lazy load heavy components
+All interactive components must include:
+- Proper ARIA attributes
+- Keyboard navigation support
+- Focus-visible states
+- Semantic HTML elements
 
-### Testing Requirements
-While no test files are currently present, when adding tests:
-- Place test files alongside components
-- Use `.test.tsx` or `.spec.tsx` extensions
-- Test accessibility with testing-library
-- Mock API calls in integration tests
+```tsx
+// Icon-only buttons need aria-label
+<Button icon={<X />} aria-label="Close" />
+
+// Error messages need aria-describedby
+<TextField
+  label="Email"
+  errorMessage="Invalid email"
+  aria-describedby="email-error"
+/>
+
+// Navigation needs aria-label
+<nav aria-label="Main navigation">
+  <Sidebar>...</Sidebar>
+</nav>
+```
 
 ## Best Practices
 
-### DO's
-- ✅ Use design tokens for all styling values
-- ✅ Follow the established component patterns
-- ✅ Include proper TypeScript types
-- ✅ Add Storybook stories for new components
-- ✅ Use semantic HTML elements
-- ✅ Implement keyboard navigation
-- ✅ Use the centralized fetcher for API calls
-- ✅ Handle loading and error states consistently
-- ✅ Memoize components when appropriate
+### Do's
+- ✅ Use existing design system components
+- ✅ Use design tokens (`var(--space-4)`, not `16px`)
+- ✅ Use SCSS modules for custom layouts
+- ✅ Use component variants/props for styling
+- ✅ Follow TypeScript strict mode
+- ✅ Include proper accessibility attributes
+- ✅ Use the centralized `fetcher` for API calls
 
-### DON'Ts
-- ❌ Don't hardcode colors, spacing, or timing values
-- ❌ Don't create new files unless absolutely necessary
-- ❌ Don't use inline styles
-- ❌ Don't ignore accessibility requirements
-- ❌ Don't store tokens in localStorage
-- ❌ Don't make direct fetch calls - use the fetcher utility
-- ❌ Don't create documentation files unless requested
-- ❌ Don't use arbitrary CSS values
-- ❌ Don't skip TypeScript types
-- ❌ Don't forget to handle error states
+### Don'ts
+- ❌ Don't recreate existing components
+- ❌ Don't hardcode colors, spacing, or sizes
+- ❌ Don't use inline `style` props for static layouts
+- ❌ Don't override component styles with custom CSS
+- ❌ Don't use `any` type
+- ❌ Don't ignore keyboard navigation
+- ❌ Don't make direct `fetch` calls
 
-## Environment Variables
-Required environment variables:
-```env
-VITE_API_URL=http://localhost:3000  # API base URL
+## Common Patterns
+
+### Page Layout
+
+```tsx
+<Container>
+  <Stack gap={8}>
+    {/* Header */}
+    <Stack direction="horizontal" justify="between" align="center">
+      <Stack gap={1}>
+        <Text as="h1" size="3xl" weight="semibold">Page Title</Text>
+        <Text color="secondary">Page description</Text>
+      </Stack>
+      <Button>Action</Button>
+    </Stack>
+
+    {/* Content */}
+    <Card>
+      <CardBody>
+        {/* Content here */}
+      </CardBody>
+    </Card>
+  </Stack>
+</Container>
 ```
 
-## Common Patterns Reference
+### Form Layout
 
-### Form Input with Error State
 ```tsx
-<div className={styles['text-input']}>
-    <label className={styles['text-input__label']}>
-        {label}
-        {required && <span className={styles['text-input__required']}>*</span>}
-    </label>
-    <div className={`${styles['text-input__input-container']} ${error ? styles['text-input__input-container--error'] : ''}`}>
-        <input
-            ref={ref}
-            className={styles['text-input__input']}
-            aria-invalid={!!error}
-            aria-describedby={error ? `${id}-error` : undefined}
-            {...props}
-        />
-    </div>
-    {error && (
-        <span id={`${id}-error`} className={styles['text-input__error-message']}>
-            {error}
-        </span>
-    )}
-</div>
+<Card>
+  <CardBody>
+    <Stack gap={6}>
+      <Text as="h2" size="xl" weight="semibold">Form Title</Text>
+
+      <Grid columns={2} gap={4}>
+        <TextField label="First Name" required />
+        <TextField label="Last Name" required />
+      </Grid>
+
+      <TextField label="Email" type="email" required />
+      <TextArea label="Description" rows={4} />
+
+      <Stack direction="horizontal" gap={2} justify="end">
+        <Button variant="ghost">Cancel</Button>
+        <Button>Submit</Button>
+      </Stack>
+    </Stack>
+  </CardBody>
+</Card>
 ```
 
 ### Loading State Pattern
+
 ```tsx
 if (loading) {
-    return <LoadingSpinner />;
+  return <Spinner />;
 }
 
 if (error) {
-    return <ErrorMessage error={error.error} />;
+  return <Alert variant="error" title="Error">{error.message}</Alert>;
 }
 
 if (!data) {
-    return <EmptyState />;
+  return (
+    <EmptyState
+      title="No data"
+      description="No items found"
+      action={<Button>Add Item</Button>}
+    />
+  );
 }
 
 return <DataDisplay data={data} />;
 ```
 
-### Responsive Typography Mixin
-```scss
-@include responsive-typography(
-    $font-size-md,     // Mobile
-    $font-size-lg,     // Tablet
-    $font-size-xl,     // Desktop
-    $line-height-body, // Line height
-    $font-weight-normal // Font weight
-);
+## Environment Variables
+
+```env
+VITE_API_URL=http://localhost:3000  # API base URL
 ```
 
-This documentation represents the established patterns and conventions in your codebase. Follow these guidelines to maintain consistency and code quality across the application.
+---
+
+**For comprehensive design patterns and component usage, always refer to [DESIGN-GUIDELINES.md](./docs/DESIGN-GUIDELINES.md)**
