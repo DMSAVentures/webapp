@@ -93,7 +93,7 @@ export const CampaignAnalyticsPage = memo(function CampaignAnalyticsPage({
 	const stats = useMemo(() => buildCampaignStats(campaign), [campaign]);
 
 	return (
-		<Stack gap="lg" className={styles.analytics}>
+		<Stack gap="lg" className={styles.analytics} animate>
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Analytics</Text>
 				<Text color="secondary">

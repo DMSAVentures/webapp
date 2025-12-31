@@ -233,7 +233,7 @@ export const LeadsPage = memo(function LeadsPage({
 	const users = usersData?.users || [];
 
 	return (
-		<Stack gap="lg" className={styles.leads}>
+		<Stack gap="lg" className={styles.leads} animate>
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Leads</Text>
 				<Text color="secondary">

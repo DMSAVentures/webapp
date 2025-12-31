@@ -10,6 +10,7 @@ import { useGlobalBanner } from "@/contexts/globalBanner";
 import type { EmailTemplate } from "@/hooks/useEmailTemplates";
 import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
@@ -454,7 +455,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 
 	// Render
 	return (
-		<div className={styles.overviewContent}>
+		<Stack gap="lg" className={styles.overviewContent} animate>
 			{/* Stats Cards Row */}
 			<CampaignStats
 				stats={stats}
@@ -490,7 +491,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 
 			{/* Form Preview */}
 			{hasFormFields && <CampaignFormPreview campaign={campaign} />}
-		</div>
+		</Stack>
 	);
 });
 

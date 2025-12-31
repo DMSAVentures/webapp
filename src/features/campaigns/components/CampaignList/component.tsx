@@ -273,13 +273,6 @@ export const CampaignList = memo<CampaignListProps>(function CampaignList({
 							campaign={campaign}
 							showStats={showStats}
 							onClick={() => onCampaignClick?.(campaign)}
-							actions={{
-								onEdit: onEdit ? () => onEdit(campaign) : undefined,
-								onDuplicate: onDuplicate
-									? () => onDuplicate(campaign)
-									: undefined,
-								onDelete: onDelete ? () => onDelete(campaign) : undefined,
-							}}
 						/>
 					))}
 				</Grid>

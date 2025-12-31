@@ -250,7 +250,7 @@ export const EmbedCodePage = memo(function EmbedCodePage({
 	}
 
 	return (
-		<Stack gap="lg" className={styles.embed}>
+		<Stack gap="lg" className={styles.embed} animate>
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Embed Your Form</Text>
 				<Text size="md" color="secondary">

@@ -178,7 +178,7 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 	const { handleSave } = useSaveFormConfig(campaignId);
 
 	return (
-		<Stack gap="lg" className={styles.formBuilderTab}>
+		<Stack gap="lg" className={styles.formBuilderTab} animate>
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Form Builder</Text>
 				<Text color="secondary">

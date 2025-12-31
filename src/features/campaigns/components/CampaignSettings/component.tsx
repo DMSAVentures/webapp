@@ -287,7 +287,7 @@ export const CampaignSettings = memo(function CampaignSettings({
 	const isCompleted = campaign.status === "completed";
 
 	return (
-		<Stack gap="lg" className={styles.settings}>
+		<Stack gap="lg" className={styles.settings} animate>
 			{/* Page Header */}
 			<Stack gap="xs">
 				<Text as="h2" size="xl" weight="semibold">Campaign Settings</Text>
