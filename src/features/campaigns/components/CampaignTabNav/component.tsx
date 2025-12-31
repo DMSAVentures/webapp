@@ -12,6 +12,8 @@ import {
 	Settings,
 } from "lucide-react";
 import { useTier } from "@/contexts/tier";
+import { useIsMobile } from "@/proto-design-system/hooks/useMediaQuery";
+import { Select } from "@/proto-design-system/components/forms/Select";
 import { Tabs, TabList, Tab } from "@/proto-design-system/components/navigation/Tabs";
 
 interface TabConfig {
@@ -61,6 +63,7 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { isAtLeast } = useTier();
+	const isMobile = useIsMobile();
 
 	const basePath = `/campaigns/${campaignId}`;
 	const isPro = isAtLeast("pro");
@@ -69,6 +72,12 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 	const visibleTabs = useMemo(
 		() => TABS.filter((tab) => !tab.requiresPro || isPro),
 		[isPro],
+	);
+
+	// Convert tabs to select options for mobile
+	const selectOptions = useMemo(
+		() => visibleTabs.map((tab) => ({ value: tab.id, label: tab.label })),
+		[visibleTabs],
 	);
 
 	// Determine active tab ID based on current pathname
@@ -98,6 +107,28 @@ export function CampaignTabNav({ campaignId }: CampaignTabNavProps) {
 		[navigate, basePath, visibleTabs],
 	);
 
+	const handleSelectChange = useCallback(
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			handleTabChange(e.target.value);
+		},
+		[handleTabChange],
+	);
+
+	// Mobile: show dropdown
+	if (isMobile) {
+		return (
+			<nav>
+				<Select
+					options={selectOptions}
+					value={activeTabId}
+					onChange={handleSelectChange}
+					fullWidth
+				/>
+			</nav>
+		);
+	}
+
+	// Desktop: show tabs
 	return (
 		<nav>
 			<Tabs activeTab={activeTabId} onTabChange={handleTabChange} size={'lg'}>
