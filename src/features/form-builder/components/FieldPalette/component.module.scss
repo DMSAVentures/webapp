@@ -68,6 +68,17 @@
   }
 }
 
+// Custom drag image - positioned off-screen with full opacity
+.dragImage {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 200px;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 9999;
+}
+
 .icon {
   font-size: var(--font-size-xl);
   color: var(--color-base-content);

@@ -17,7 +17,7 @@ import {
 	Plus,
 	Type,
 } from "lucide-react";
-import { type HTMLAttributes, memo } from "react";
+import { type DragEvent, type HTMLAttributes, memo, useCallback } from "react";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
@@ -117,6 +117,29 @@ export const FieldPalette = memo<FieldPaletteProps>(function FieldPalette({
 		onFieldSelect(fieldType);
 	};
 
+	// Create custom drag image with full opacity
+	const handleDragStartWithImage = useCallback(
+		(fieldType: FormField["type"]) => (e: DragEvent<HTMLButtonElement>) => {
+			// Create a clone of the drag target
+			const dragImage = e.currentTarget.cloneNode(true) as HTMLElement;
+			dragImage.className = `${styles.fieldItem} ${styles.dragImage}`;
+			document.body.appendChild(dragImage);
+
+			// Set custom drag image with offset to center it on cursor
+			const rect = e.currentTarget.getBoundingClientRect();
+			e.dataTransfer.setDragImage(dragImage, rect.width / 2, rect.height / 2);
+
+			// Clean up the clone after the drag image is captured
+			requestAnimationFrame(() => {
+				document.body.removeChild(dragImage);
+			});
+
+			// Call the original drag start handler
+			handlePaletteDragStart(fieldType)(e);
+		},
+		[handlePaletteDragStart],
+	);
+
 	return (
 		<Stack gap="md" className={classNames} {...props}>
 			<Stack gap="xs" className={styles.header}>
@@ -131,7 +154,7 @@ export const FieldPalette = memo<FieldPaletteProps>(function FieldPalette({
 						type="button"
 						className={styles.fieldItem}
 						draggable
-						onDragStart={handlePaletteDragStart(field.type)}
+						onDragStart={handleDragStartWithImage(field.type)}
 						onDragEnd={handleDragEnd}
 						onClick={() => handleClick(field.type)}
 						aria-label={`Add ${field.label} field`}

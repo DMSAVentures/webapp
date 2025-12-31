@@ -326,7 +326,7 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 							<Stack direction="row" gap="sm" align="center">
 								<Button
 									leftIcon={<ChevronLeft size={16} />}
-									variant="secondary"
+									variant="outline"
 									onClick={() => onNavigate("back")}
 									aria-label="Previous period"
 								/>
@@ -335,7 +335,7 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 								)}
 								<Button
 									leftIcon={<ChevronRight size={16} />}
-									variant="secondary"
+									variant="outline"
 									onClick={() => onNavigate("forward")}
 									disabled={!canGoForward}
 									aria-label="Next period"

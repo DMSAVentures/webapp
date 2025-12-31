@@ -463,7 +463,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 							<Stack direction="row" gap="sm" align="center">
 								<Button
 									leftIcon={<ChevronLeft size={16} />}
-									variant="secondary"
+									variant="outline"
 									onClick={() => onNavigate("back")}
 									aria-label="Previous period"
 								/>
@@ -472,7 +472,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 								)}
 								<Button
 									leftIcon={<ChevronRight size={16} />}
-									variant="secondary"
+									variant="outline"
 									onClick={() => onNavigate("forward")}
 									disabled={!canGoForward}
 									aria-label="Next period"
