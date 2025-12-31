@@ -33,9 +33,14 @@ export interface FormCanvasProps extends HTMLAttributes<HTMLDivElement> {
 // Pure Functions
 // ============================================================================
 
-/** Check if a field can be deleted (email field cannot be deleted) */
-function canDeleteField(field: FormField): boolean {
-	return field.type !== "email";
+/** Check if a field can be deleted (last email field cannot be deleted) */
+function canDeleteField(field: FormField, allFields: FormField[]): boolean {
+	if (field.type !== "email") {
+		return true;
+	}
+	// Allow deletion if there are other email fields
+	const emailFieldCount = allFields.filter((f) => f.type === "email").length;
+	return emailFieldCount > 1;
 }
 
 /** Delete a field and reorder remaining fields */
@@ -74,7 +79,7 @@ function useFieldDeletion(
 		(fieldId: string) => {
 			const fieldToDelete = fields.find((f) => f.id === fieldId);
 
-			if (!fieldToDelete || !canDeleteField(fieldToDelete)) {
+			if (!fieldToDelete || !canDeleteField(fieldToDelete, fields)) {
 				return;
 			}
 
@@ -210,6 +215,7 @@ export const FormCanvas = memo<FormCanvasProps>(function FormCanvas({
 									onDragEnd={handleDragEnd}
 									onSelect={() => onFieldSelect(field.id)}
 									onDelete={() => handleFieldDelete(field.id)}
+									canDelete={canDeleteField(field, fields)}
 									showColumnToggle={isTwoColumn}
 									onColumnToggle={() => handleColumnToggle(field.id)}
 								/>

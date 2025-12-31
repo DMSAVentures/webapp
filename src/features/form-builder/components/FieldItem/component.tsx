@@ -42,6 +42,8 @@ export interface FieldItemProps extends HTMLAttributes<HTMLDivElement> {
 	onSelect: () => void;
 	/** Delete handler */
 	onDelete: () => void;
+    /** Whether the field can be deleted */
+	canDelete?: boolean;
 	/** Whether to show column toggle (two-column layout) */
 	showColumnToggle?: boolean;
 	/** Column toggle handler */
@@ -79,6 +81,7 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 	onDragEnd,
 	onSelect,
 	onDelete,
+	canDelete = true,
 	showColumnToggle = false,
 	onColumnToggle,
 	className: customClassName,
@@ -166,8 +169,8 @@ export const FieldItem = memo<FieldItemProps>(function FieldItem({
 						title={`Move to ${currentColumn === 1 ? "right" : "left"} column`}
 					/>
 				)}
-				{/* Delete button - always visible, but not for email field */}
-				{field.type !== "email" && (
+				{/* Delete button - visible when field can be deleted */}
+				{canDelete && (
 					<Button
 						leftIcon={<Trash2 size={16} />}
 						variant="secondary"
