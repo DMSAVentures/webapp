@@ -4,24 +4,18 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import {
-	Eye,
-	Loader2,
-	Monitor,
-	Save,
-	Smartphone,
-	Tablet,
-} from "lucide-react";
+import { Eye, Loader2, Monitor, Save, Smartphone, Tablet } from "lucide-react";
 import { memo, useCallback, useEffect, useState } from "react";
 import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
-import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import {
 	useGetEmailTemplateById,
 	useUpdateEmailTemplate,
 } from "@/hooks/useEmailTemplates";
+import { useGetCampaigns } from "@/hooks/useGetCampaigns";
+import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { FormField } from "@/proto-design-system/components/forms/FormField";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -33,7 +27,6 @@ import {
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Text } from "@/proto-design-system/components/primitives/Text";
-import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import type { Campaign } from "@/types/campaign";
 import type { EmailBlock, EmailDesign } from "../../types/emailBlocks";
 import {
@@ -46,8 +39,8 @@ import { BlockEditor } from "../BlockEditor/component";
 import { BlockItem } from "../BlockItem/component";
 import { BlockPalette } from "../BlockPalette/component";
 import { EmailStyleEditor } from "../EmailStyleEditor/component";
-import { VariableTextInput } from "../VariableTextInput/component";
 import styles from "../NewEmailTemplatePage/component.module.scss";
+import { VariableTextInput } from "../VariableTextInput/component";
 
 type RightPanelMode = "block" | "appearance";
 type PreviewDevice = "mobile" | "tablet" | "desktop";
@@ -176,7 +169,7 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 	const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>("block");
 
 	// Parse initial blocks from template
-	const initialBlocks = template?.blocks_json?.blocks as EmailBlock[] || [];
+	const initialBlocks = (template?.blocks_json?.blocks as EmailBlock[]) || [];
 	const initialDesign =
 		(template?.blocks_json?.design as EmailDesign) || DEFAULT_EMAIL_DESIGN;
 
@@ -327,7 +320,10 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 				<Text color="muted">
 					Failed to load template: {templateError.error}
 				</Text>
-				<Button variant="secondary" onClick={() => navigate({ to: "/email-templates" })}>
+				<Button
+					variant="secondary"
+					onClick={() => navigate({ to: "/email-templates" })}
+				>
 					Back to Templates
 				</Button>
 			</Stack>
@@ -343,7 +339,10 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 				className={styles.loading}
 			>
 				<Text color="muted">Template not found</Text>
-				<Button variant="secondary" onClick={() => navigate({ to: "/email-templates" })}>
+				<Button
+					variant="secondary"
+					onClick={() => navigate({ to: "/email-templates" })}
+				>
 					Back to Templates
 				</Button>
 			</Stack>
@@ -365,7 +364,8 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 						Edit Email Template
 					</Text>
 					<Text color="muted">
-						{getCampaignName()} - {emailTypeItems.find((i) => i.id === templateType)?.label}
+						{getCampaignName()} -{" "}
+						{emailTypeItems.find((i) => i.id === templateType)?.label}
 					</Text>
 				</Stack>
 
@@ -421,7 +421,9 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 							value={template.campaign_id}
 							placeholder="Campaign"
 							size="md"
-							onChange={() => {}}
+							onChange={() => {
+								// Disabled dropdown - no action needed
+							}}
 							disabled
 						/>
 					</FormField>
@@ -442,7 +444,9 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 							value={templateType}
 							placeholder="Select type"
 							size="md"
-							onChange={() => {}}
+							onChange={() => {
+								// Disabled dropdown - no action needed
+							}}
 							disabled
 						/>
 					</FormField>
@@ -595,8 +599,7 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 									No Block Selected
 								</Text>
 								<Text size="sm" color="muted">
-									Select a content block from the canvas to edit its
-									properties.
+									Select a content block from the canvas to edit its properties.
 								</Text>
 							</Stack>
 						)
