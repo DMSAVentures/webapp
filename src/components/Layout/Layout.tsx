@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Home, Settings, Users, BarChart, CreditCard, User, HelpCircle, LogOut } from "lucide-react";
+import { Home, Settings, Users, BarChart, CreditCard, User, HelpCircle, LogOut, Megaphone, Mail, Webhook, Plug } from "lucide-react";
 import { GlobalBannerContainer } from "@/components/GlobalBannerContainer/component";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
@@ -18,6 +18,10 @@ const iconMap: Record<string, React.ReactNode> = {
 	"team-line": <Users size={18} />,
 	"bar-chart-line": <BarChart size={18} />,
 	"bank-card-line": <CreditCard size={18} />,
+	"megaphone-line": <Megaphone size={18} />,
+	"mail-line": <Mail size={18} />,
+	"webhook-line": <Webhook size={18} />,
+	"plug-line": <Plug size={18} />,
 };
 
 const getIcon = (iconClass?: string) => {
