@@ -4,7 +4,6 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { memo, useCallback, useEffect } from "react";
 import PlanCard from "@/components/billing/plans/planCard";
 import PlanToPay from "@/components/billing/plans/planPay";
@@ -17,6 +16,7 @@ import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import styles from "./component.module.scss";
 
 // ============================================================================
@@ -163,31 +163,25 @@ const NoSubscriptionState = memo(function NoSubscriptionState() {
 	}
 
 	return (
-		<motion.div
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<div style={{ width: "100%" }}>
-				<div className={styles.noSubscription}>
-					<h3>Choose a Plan</h3>
-					<p className={styles.noSubscriptionText}>
-						You don't have an active subscription. Select a plan below to get
-						started.
-					</p>
-					<div className={styles.plansGrid}>
-						{prices.map((price) => (
-							<PlanToPay
-								key={price.priceId}
-								productId={price.productId}
-								priceId={price.priceId}
-								description={price.description}
-							/>
-						))}
-					</div>
+		<Stack gap="lg" animate>
+			<div className={styles.noSubscription}>
+				<h3>Choose a Plan</h3>
+				<p className={styles.noSubscriptionText}>
+					You don't have an active subscription. Select a plan below to get
+					started.
+				</p>
+				<div className={styles.plansGrid}>
+					{prices.map((price) => (
+						<PlanToPay
+							key={price.priceId}
+							productId={price.productId}
+							priceId={price.priceId}
+							description={price.description}
+						/>
+					))}
 				</div>
 			</div>
-		</motion.div>
+		</Stack>
 	);
 });
 
@@ -223,16 +217,9 @@ export const AccountPage = memo(function AccountPage() {
 	}
 
 	return (
-		<motion.div
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-			style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}
-		>
-			<div style={{ width: "100%" }}>
-				<SubscriptionStatus subscription={currentSubscription} />
-			</div>
-			<div style={{ width: "100%", maxWidth: "400px" }}>
+		<Stack gap="lg" animate>
+			<SubscriptionStatus subscription={currentSubscription} />
+			<div style={{ maxWidth: "400px" }}>
 				<SubscriptionActions
 					status={currentSubscription.status}
 					onCancel={cancelSubscription}
@@ -240,7 +227,7 @@ export const AccountPage = memo(function AccountPage() {
 					onUpdatePayment={handleUpdatePaymentMethod}
 				/>
 			</div>
-		</motion.div>
+		</Stack>
 	);
 });
 

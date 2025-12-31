@@ -3,7 +3,6 @@
  * Container component for the global analytics dashboard
  */
 
-import { motion } from "motion/react";
 import { memo, useEffect, useMemo, useState } from "react";
 import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
@@ -173,67 +172,53 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 	// Empty state
 	if (!campaigns || campaigns.length === 0) {
 		return (
-			<motion.div
-				className={styles.page}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6 }}
-			>
-				<Stack gap="lg">
-					<PageHeader showSelector={false} campaignItems={[]} selectedCampaignId="" />
-					<EmptyState
-						title="No campaigns yet"
-						description="Create a campaign to start tracking analytics"
-						icon="bar-chart-2-line"
-					/>
-				</Stack>
-			</motion.div>
+			<Stack gap="lg" className={styles.page} animate>
+				<PageHeader showSelector={false} campaignItems={[]} selectedCampaignId="" />
+				<EmptyState
+					title="No campaigns yet"
+					description="Create a campaign to start tracking analytics"
+					icon="bar-chart-2-line"
+				/>
+			</Stack>
 		);
 	}
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<Stack gap="lg">
-				<PageHeader
-					showSelector={true}
-					campaignItems={campaignItems}
-					selectedCampaignId={selectedCampaignId}
-					onCampaignChange={setSelectedCampaignId}
-				/>
+		<Stack gap="lg" className={styles.page} animate>
+			<PageHeader
+				showSelector={true}
+				campaignItems={campaignItems}
+				selectedCampaignId={selectedCampaignId}
+				onCampaignChange={setSelectedCampaignId}
+			/>
 
-				{selectedCampaignId && (
-					<Stack gap="lg">
-						<SignupsChart
-							data={signups.data?.data ?? []}
-							total={signups.data?.total ?? 0}
-							period={signups.data?.period ?? signups.nav.period}
-							dateRange={signups.nav.dateRange}
-							onPeriodChange={signups.nav.handlePeriodChange}
-							onNavigate={signups.nav.handleNavigate}
-							canGoForward={signups.nav.canGoForward}
-							loading={signups.loading}
-						/>
+			{selectedCampaignId && (
+				<Stack gap="lg">
+					<SignupsChart
+						data={signups.data?.data ?? []}
+						total={signups.data?.total ?? 0}
+						period={signups.data?.period ?? signups.nav.period}
+						dateRange={signups.nav.dateRange}
+						onPeriodChange={signups.nav.handlePeriodChange}
+						onNavigate={signups.nav.handleNavigate}
+						canGoForward={signups.nav.canGoForward}
+						loading={signups.loading}
+					/>
 
-						<SourcesChart
-							data={sources.data?.data ?? []}
-							sources={sources.data?.sources ?? []}
-							total={sources.data?.total ?? 0}
-							period={sources.data?.period ?? sources.nav.period}
-							dateRange={sources.nav.dateRange}
-							onPeriodChange={sources.nav.handlePeriodChange}
-							onNavigate={sources.nav.handleNavigate}
-							canGoForward={sources.nav.canGoForward}
-							loading={sources.loading}
-						/>
-					</Stack>
-				)}
-			</Stack>
-		</motion.div>
+					<SourcesChart
+						data={sources.data?.data ?? []}
+						sources={sources.data?.sources ?? []}
+						total={sources.data?.total ?? 0}
+						period={sources.data?.period ?? sources.nav.period}
+						dateRange={sources.nav.dateRange}
+						onPeriodChange={sources.nav.handlePeriodChange}
+						onNavigate={sources.nav.handleNavigate}
+						canGoForward={sources.nav.canGoForward}
+						loading={sources.loading}
+					/>
+				</Stack>
+			)}
+		</Stack>
 	);
 });
 

@@ -5,7 +5,6 @@
 
 import { useNavigate } from "@tanstack/react-router";
 import { Megaphone, Plus } from "lucide-react";
-import { motion } from "motion/react";
 import { memo, useCallback } from "react";
 import { ErrorState } from "@/components/error/error";
 import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
@@ -127,12 +126,7 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 	const campaigns = data.campaigns;
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
+		<Stack gap="lg" className={styles.page} animate>
 			<Stack direction="row" justify="between" align="start" wrap className={styles.pageHeader}>
 				<Stack gap="xs">
 					<Text as="h1" size="2xl" weight="bold">Campaigns</Text>
@@ -143,7 +137,7 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 				{campaigns.length > 0 && (
 					<Button
 						onClick={handleCreateCampaign}
-                        variant={'primary'}
+						variant="primary"
 					>
 						<Plus size={16} />
 						Create Campaign
@@ -169,7 +163,7 @@ export const CampaignsListPage = memo(function CampaignsListPage() {
 				limitKey="campaigns"
 				resourceName="campaign"
 			/>
-		</motion.div>
+		</Stack>
 	);
 });
 

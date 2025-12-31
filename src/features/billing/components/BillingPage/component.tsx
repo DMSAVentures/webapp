@@ -5,7 +5,6 @@
 
 import { useNavigate } from "@tanstack/react-router";
 import { CreditCard, ExternalLink } from "lucide-react";
-import { motion } from "motion/react";
 import { memo, useCallback, useEffect } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useCreateCustomerPortal } from "@/hooks/useCreateCustomerPortal";
@@ -15,6 +14,7 @@ import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import type { Price, Subscription } from "@/types/billing";
 import styles from "./component.module.scss";
 
@@ -274,12 +274,7 @@ export const BillingPage = memo(function BillingPage() {
 	}
 
 	return (
-		<motion.div
-			className={styles.billing}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.3 }}
-		>
+		<Stack gap="lg" className={styles.billing} animate>
 			<h2 className={styles.pageTitle}>Billing</h2>
 
 			<SubscriptionCard subscription={subscription} />
@@ -292,7 +287,7 @@ export const BillingPage = memo(function BillingPage() {
 				onChangePlan={handleChangePlan}
 				onUpdatePayment={handleUpdatePaymentMethod}
 			/>
-		</motion.div>
+		</Stack>
 	);
 });
 

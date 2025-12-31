@@ -4,7 +4,6 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { memo, useCallback, useEffect } from "react";
 import { LimitUpgradeModal, useLimitGate } from "@/components/gating";
 import { useGlobalBanner } from "@/contexts/globalBanner";
@@ -183,12 +182,7 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 	}
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
+		<Stack gap="lg" className={styles.page} animate>
 			<Stack gap="xs" className={styles.pageHeader}>
 				<Text as="h1" size="2xl" weight="bold">Create Campaign</Text>
 				<Text color="secondary">
@@ -204,7 +198,7 @@ export const NewCampaignPage = memo(function NewCampaignPage() {
 					submitText="Create Campaign"
 				/>
 			</div>
-		</motion.div>
+		</Stack>
 	);
 });
 
