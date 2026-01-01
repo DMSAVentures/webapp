@@ -151,6 +151,8 @@ function useLaunchReadiness(
 			campaign.referralSettings.pointsPerReferral > 0,
 	);
 
+	const emailTemplatesRequired = needsVerificationEmail || needsWelcomeEmail;
+
 	return {
 		hasFormFields,
 		isDraft,
@@ -158,6 +160,7 @@ function useLaunchReadiness(
 		needsWelcomeEmail,
 		hasRequiredEmailTemplates,
 		hasReferralRewards,
+		emailTemplatesRequired,
 	};
 }
 
@@ -172,6 +175,7 @@ interface LaunchChecklistProps {
 	hasRequiredEmailTemplates: boolean;
 	hasReferralRewards: boolean;
 	referralsEnabled: boolean;
+	emailTemplatesRequired: boolean;
 	canGoLive: boolean;
 	isUpdating: boolean;
 	onGoLive: () => void;
@@ -184,17 +188,21 @@ const LaunchChecklist = memo(function LaunchChecklist({
 	hasRequiredEmailTemplates,
 	hasReferralRewards,
 	referralsEnabled,
+	emailTemplatesRequired,
 	canGoLive,
 	isUpdating,
 	onGoLive,
 }: LaunchChecklistProps) {
 	const navigate = useNavigate();
 
-	// Calculate completion count
-	const totalItems = referralsEnabled ? 3 : 2;
+	// Calculate completion count based on what's actually required
+	let totalItems = 1; // Form fields always required
+	if (emailTemplatesRequired) totalItems++;
+	if (referralsEnabled) totalItems++;
+
 	let completedItems = 0;
 	if (hasFormFields) completedItems++;
-	if (hasRequiredEmailTemplates) completedItems++;
+	if (emailTemplatesRequired && hasRequiredEmailTemplates) completedItems++;
 	if (referralsEnabled && hasReferralRewards) completedItems++;
 	const isComplete = completedItems === totalItems;
 
@@ -248,37 +256,39 @@ const LaunchChecklist = memo(function LaunchChecklist({
 					/>
 				</li>
 
-				{/* Set up email templates */}
-				<li
-					className={`${styles.checklistItem} ${hasRequiredEmailTemplates ? styles.checklistItemComplete : ""}`}
-					onClick={() =>
-						navigate({
-							to: "/campaigns/$campaignId/email-builder",
-							params: { campaignId },
-						})
-					}
-				>
-					<Icon
-						icon={hasRequiredEmailTemplates ? CheckCircle2 : Circle}
-						size="md"
-						className={styles.checklistIcon}
-					/>
-					<div className={styles.checklistItemContent}>
-						<span className={styles.checklistItemText}>
-							Set up email templates
-						</span>
-						<span className={styles.checklistItemDescription}>
-							{hasRequiredEmailTemplates
-								? "Email templates configured"
-								: "Configure verification & welcome emails"}
-						</span>
-					</div>
-					<Icon
-						icon={ChevronRight}
-						size="sm"
-						className={styles.checklistArrow}
-					/>
-				</li>
+				{/* Set up email templates - only show if verification or welcome email is enabled */}
+				{emailTemplatesRequired && (
+					<li
+						className={`${styles.checklistItem} ${hasRequiredEmailTemplates ? styles.checklistItemComplete : ""}`}
+						onClick={() =>
+							navigate({
+								to: "/campaigns/$campaignId/email-builder",
+								params: { campaignId },
+							})
+						}
+					>
+						<Icon
+							icon={hasRequiredEmailTemplates ? CheckCircle2 : Circle}
+							size="md"
+							className={styles.checklistIcon}
+						/>
+						<div className={styles.checklistItemContent}>
+							<span className={styles.checklistItemText}>
+								Set up email templates
+							</span>
+							<span className={styles.checklistItemDescription}>
+								{hasRequiredEmailTemplates
+									? "Email templates configured"
+									: "Configure verification & welcome emails"}
+							</span>
+						</div>
+						<Icon
+							icon={ChevronRight}
+							size="sm"
+							className={styles.checklistArrow}
+						/>
+					</li>
+				)}
 
 				{/* Configure referral rewards - only show if referrals enabled */}
 				{referralsEnabled && (
@@ -339,7 +349,7 @@ const LaunchChecklist = memo(function LaunchChecklist({
 									to: "/campaigns/$campaignId/form-builder",
 									params: { campaignId },
 								});
-							} else if (!hasRequiredEmailTemplates) {
+							} else if (emailTemplatesRequired && !hasRequiredEmailTemplates) {
 								navigate({
 									to: "/campaigns/$campaignId/email-builder",
 									params: { campaignId },
@@ -354,7 +364,7 @@ const LaunchChecklist = memo(function LaunchChecklist({
 					>
 						{!hasFormFields
 							? "Configure Form"
-							: !hasRequiredEmailTemplates
+							: emailTemplatesRequired && !hasRequiredEmailTemplates
 								? "Set Up Email Templates"
 								: "Set Up Referral Rewards"}
 						<Icon icon={ChevronRight} size="sm" />
@@ -464,12 +474,15 @@ export const CampaignOverview = memo(function CampaignOverview({
 		isDraft,
 		hasRequiredEmailTemplates,
 		hasReferralRewards,
+		emailTemplatesRequired,
 	} = useLaunchReadiness(campaign, emailTemplates, emailTemplatesLoading);
 
 	// Derived state
 	const stats = useMemo(() => calculateStats(campaign), [campaign]);
 	const referralsEnabled = campaign.referralSettings?.enabled ?? false;
-	const canGoLive = hasFormFields && hasRequiredEmailTemplates;
+	// Can go live if form is configured and email templates are set (or not required)
+	const canGoLive =
+		hasFormFields && (!emailTemplatesRequired || hasRequiredEmailTemplates);
 
 	// Handlers
 	const handleStatCardClick = useCallback(
@@ -512,6 +525,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 						hasRequiredEmailTemplates={hasRequiredEmailTemplates}
 						hasReferralRewards={hasReferralRewards}
 						referralsEnabled={referralsEnabled}
+						emailTemplatesRequired={emailTemplatesRequired}
 						canGoLive={canGoLive}
 						isUpdating={updatingStatus}
 						onGoLive={handleGoLive}
