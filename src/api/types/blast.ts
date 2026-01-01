@@ -2,6 +2,7 @@
  * Email Blast API Types
  *
  * API request/response types matching Go backend (snake_case)
+ * Blasts are now account-level and can target multiple segments.
  */
 
 // ============================================================================
@@ -10,9 +11,9 @@
 
 export interface ApiEmailBlast {
 	id: string;
-	campaign_id: string;
-	segment_id: string;
-	template_id: string;
+	account_id: string;
+	segment_ids: string[];
+	blast_template_id: string;
 	name: string;
 	subject: string;
 	scheduled_at?: string;
@@ -110,8 +111,8 @@ export interface ApiBlastAnalytics {
 
 export interface ApiCreateEmailBlastRequest {
 	name: string;
-	segment_id: string;
-	template_id: string;
+	segment_ids: string[];
+	blast_template_id: string;
 	subject: string;
 	scheduled_at?: string;
 	batch_size?: number;
@@ -156,4 +157,24 @@ export interface ApiListBlastRecipientsResponse {
 export interface ApiListBlastRecipientsParams {
 	page?: number;
 	limit?: number;
+}
+
+// ============================================================================
+// Recipient Preview Types (for multi-segment selection)
+// ============================================================================
+
+export interface ApiRecipientPreview {
+	total_recipients: number;
+	duplicates_removed: number;
+	segment_breakdown: ApiSegmentRecipientCount[];
+}
+
+export interface ApiSegmentRecipientCount {
+	segment_id: string;
+	segment_name: string;
+	count: number;
+}
+
+export interface ApiPreviewRecipientsRequest {
+	segment_ids: string[];
 }

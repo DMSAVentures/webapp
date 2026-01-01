@@ -1,14 +1,15 @@
 /**
  * Email Blast UI Types
  *
- * UI types (camelCase) for email blasts
+ * UI types (camelCase) for email blasts.
+ * Blasts are now account-level and can target multiple segments.
  */
 
 export interface EmailBlast {
 	id: string;
-	campaignId: string;
-	segmentId: string;
-	templateId: string;
+	accountId: string;
+	segmentIds: string[];
+	blastTemplateId: string;
 	name: string;
 	subject: string;
 	scheduledAt?: Date;
@@ -94,8 +95,8 @@ export interface BlastAnalytics {
 
 export interface CreateEmailBlastInput {
 	name: string;
-	segmentId: string;
-	templateId: string;
+	segmentIds: string[];
+	blastTemplateId: string;
 	subject: string;
 	scheduledAt?: Date;
 	batchSize?: number;
@@ -106,4 +107,19 @@ export interface UpdateEmailBlastInput {
 	name?: string;
 	subject?: string;
 	batchSize?: number;
+}
+
+/**
+ * Recipient preview for multi-segment selection
+ */
+export interface RecipientPreview {
+	totalRecipients: number;
+	duplicatesRemoved: number;
+	segmentBreakdown: SegmentRecipientCount[];
+}
+
+export interface SegmentRecipientCount {
+	segmentId: string;
+	segmentName: string;
+	count: number;
 }

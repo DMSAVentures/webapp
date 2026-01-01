@@ -19,8 +19,6 @@ import type { EmailBlast, EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 
 export interface BlastListProps {
-	/** Campaign ID */
-	campaignId: string;
 	/** Callback when blast is selected for viewing */
 	onView?: (blast: EmailBlast) => void;
 	/** Callback when create blast is clicked */
@@ -55,24 +53,23 @@ const STATUS_LABELS: Record<EmailBlastStatus, string> = {
 };
 
 export const BlastList = memo(function BlastList({
-	campaignId,
 	onView,
 	onCreate,
 	hideHeader = false,
 }: BlastListProps) {
-	const { blasts, loading, error, refetch } = useGetBlasts(campaignId);
+	const { blasts, loading, error, refetch } = useGetBlasts();
 	const { deleteBlast, loading: deleting } = useDeleteBlast();
 
 	const handleDelete = useCallback(
 		async (blast: EmailBlast) => {
 			if (window.confirm(`Are you sure you want to delete "${blast.name}"?`)) {
-				const success = await deleteBlast(campaignId, blast.id);
+				const success = await deleteBlast(blast.id);
 				if (success) {
 					refetch();
 				}
 			}
 		},
-		[campaignId, deleteBlast, refetch],
+		[deleteBlast, refetch],
 	);
 
 	const formatDate = (date: Date | undefined) => {

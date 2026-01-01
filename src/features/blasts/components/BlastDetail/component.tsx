@@ -22,8 +22,6 @@ import type { EmailBlastStatus } from "@/types/blast";
 import styles from "./component.module.scss";
 
 export interface BlastDetailProps {
-	/** Campaign ID */
-	campaignId: string;
 	/** Blast ID */
 	blastId: string;
 }
@@ -54,16 +52,13 @@ const STATUS_LABELS: Record<EmailBlastStatus, string> = {
 };
 
 export const BlastDetail = memo(function BlastDetail({
-	campaignId,
 	blastId,
 }: BlastDetailProps) {
 	const navigate = useNavigate();
 
-	const { blast, loading, error, refetch } = useGetBlast(campaignId, blastId);
-	const { analytics, refetch: refetchAnalytics } = useGetBlastAnalytics(
-		campaignId,
-		blastId,
-	);
+	const { blast, loading, error, refetch } = useGetBlast(blastId);
+	const { analytics, refetch: refetchAnalytics } =
+		useGetBlastAnalytics(blastId);
 	const { sendBlast, loading: sending } = useSendBlast();
 	const { pauseBlast, loading: pausing } = usePauseBlast();
 	const { resumeBlast, loading: resuming } = useResumeBlast();
@@ -83,33 +78,32 @@ export const BlastDetail = memo(function BlastDetail({
 	const handleBack = useCallback(() => {
 		navigate({
 			to: "/blasts",
-			search: { campaignId },
 		});
-	}, [navigate, campaignId]);
+	}, [navigate]);
 
 	const handleSend = useCallback(async () => {
 		if (window.confirm("Are you sure you want to send this blast now?")) {
-			await sendBlast(campaignId, blastId);
+			await sendBlast(blastId);
 			refetch();
 		}
-	}, [campaignId, blastId, sendBlast, refetch]);
+	}, [blastId, sendBlast, refetch]);
 
 	const handlePause = useCallback(async () => {
-		await pauseBlast(campaignId, blastId);
+		await pauseBlast(blastId);
 		refetch();
-	}, [campaignId, blastId, pauseBlast, refetch]);
+	}, [blastId, pauseBlast, refetch]);
 
 	const handleResume = useCallback(async () => {
-		await resumeBlast(campaignId, blastId);
+		await resumeBlast(blastId);
 		refetch();
-	}, [campaignId, blastId, resumeBlast, refetch]);
+	}, [blastId, resumeBlast, refetch]);
 
 	const handleCancel = useCallback(async () => {
 		if (window.confirm("Are you sure you want to cancel this blast?")) {
-			await cancelBlast(campaignId, blastId);
+			await cancelBlast(blastId);
 			refetch();
 		}
-	}, [campaignId, blastId, cancelBlast, refetch]);
+	}, [blastId, cancelBlast, refetch]);
 
 	const formatDate = (date: Date | undefined) => {
 		if (!date) return "-";

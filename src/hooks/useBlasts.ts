@@ -1,7 +1,8 @@
 /**
  * Email Blast Hooks
  *
- * Hooks for managing email blasts for campaigns
+ * Hooks for managing email blasts.
+ * Blasts are now account-level and can target multiple segments.
  */
 
 import { useCallback, useEffect, useState } from "react";
@@ -10,21 +11,30 @@ import {
 	toUiBlastAnalytics,
 	toUiBlastRecipient,
 	toUiEmailBlast,
+	toUiRecipientPreview,
 } from "@/api/transforms/blast";
 import type {
 	ApiBlastAnalytics,
 	ApiEmailBlast,
 	ApiListBlastRecipientsResponse,
 	ApiListEmailBlastsResponse,
+	ApiRecipientPreview,
 } from "@/api/types/blast";
-import type { BlastAnalytics, BlastRecipient, EmailBlast } from "@/types/blast";
+import type {
+	BlastAnalytics,
+	BlastRecipient,
+	CreateEmailBlastInput,
+	EmailBlast,
+	RecipientPreview,
+	UpdateEmailBlastInput,
+} from "@/types/blast";
 import { isAbortError, toApiError } from "@/utils";
 
 // ============================================================================
-// useGetBlasts - Fetch all blasts for a campaign
+// useGetBlasts - Fetch all blasts (account-level)
 // ============================================================================
 
-export const useGetBlasts = (campaignId: string) => {
+export const useGetBlasts = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ApiError | null>(null);
 	const [blasts, setBlasts] = useState<EmailBlast[]>([]);
@@ -32,17 +42,11 @@ export const useGetBlasts = (campaignId: string) => {
 
 	const fetchBlasts = useCallback(
 		async (signal?: AbortSignal): Promise<void> => {
-			if (!campaignId) {
-				setBlasts([]);
-				setLoading(false);
-				return;
-			}
-
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiListEmailBlastsResponse>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts`,
 					{ method: "GET", signal },
 				);
 				setBlasts((response.blasts || []).map(toUiEmailBlast));
@@ -57,7 +61,7 @@ export const useGetBlasts = (campaignId: string) => {
 				setLoading(false);
 			}
 		},
-		[campaignId],
+		[],
 	);
 
 	useEffect(() => {
@@ -79,14 +83,14 @@ export const useGetBlasts = (campaignId: string) => {
 // useGetBlast - Fetch a single blast
 // ============================================================================
 
-export const useGetBlast = (campaignId: string, blastId: string) => {
+export const useGetBlast = (blastId: string) => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ApiError | null>(null);
 	const [blast, setBlast] = useState<EmailBlast | null>(null);
 
 	const fetchBlast = useCallback(
 		async (signal?: AbortSignal): Promise<void> => {
-			if (!campaignId || !blastId) {
+			if (!blastId) {
 				setBlast(null);
 				setLoading(false);
 				return;
@@ -96,7 +100,7 @@ export const useGetBlast = (campaignId: string, blastId: string) => {
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}`,
 					{ method: "GET", signal },
 				);
 				setBlast(toUiEmailBlast(response));
@@ -109,7 +113,7 @@ export const useGetBlast = (campaignId: string, blastId: string) => {
 				setLoading(false);
 			}
 		},
-		[campaignId, blastId],
+		[blastId],
 	);
 
 	useEffect(() => {
@@ -136,31 +140,22 @@ export const useCreateBlast = () => {
 	const [data, setData] = useState<EmailBlast | null>(null);
 
 	const createBlast = useCallback(
-		async (
-			campaignId: string,
-			request: {
-				name: string;
-				segmentId: string;
-				templateId: string;
-				subject: string;
-				scheduledAt?: Date;
-				batchSize?: number;
-			},
-		): Promise<EmailBlast | null> => {
+		async (input: CreateEmailBlastInput): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts`,
 					{
 						method: "POST",
 						body: JSON.stringify({
-							name: request.name,
-							segment_id: request.segmentId,
-							template_id: request.templateId,
-							subject: request.subject,
-							scheduled_at: request.scheduledAt?.toISOString(),
-							batch_size: request.batchSize,
+							name: input.name,
+							segment_ids: input.segmentIds,
+							blast_template_id: input.blastTemplateId,
+							subject: input.subject,
+							scheduled_at: input.scheduledAt?.toISOString(),
+							batch_size: input.batchSize,
+							send_throttle_per_second: input.sendThrottlePerSecond,
 						}),
 					},
 				);
@@ -196,19 +191,14 @@ export const useUpdateBlast = () => {
 
 	const updateBlast = useCallback(
 		async (
-			campaignId: string,
 			blastId: string,
-			updates: {
-				name?: string;
-				subject?: string;
-				batchSize?: number;
-			},
+			updates: UpdateEmailBlastInput,
 		): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}`,
 					{
 						method: "PUT",
 						body: JSON.stringify({
@@ -247,25 +237,22 @@ export const useDeleteBlast = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<ApiError | null>(null);
 
-	const deleteBlast = useCallback(
-		async (campaignId: string, blastId: string): Promise<boolean> => {
-			setLoading(true);
-			setError(null);
-			try {
-				await fetcher<void>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}`,
-					{ method: "DELETE" },
-				);
-				return true;
-			} catch (error: unknown) {
-				setError(toApiError(error));
-				return false;
-			} finally {
-				setLoading(false);
-			}
-		},
-		[],
-	);
+	const deleteBlast = useCallback(async (blastId: string): Promise<boolean> => {
+		setLoading(true);
+		setError(null);
+		try {
+			await fetcher<void>(
+				`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}`,
+				{ method: "DELETE" },
+			);
+			return true;
+		} catch (error: unknown) {
+			setError(toApiError(error));
+			return false;
+		} finally {
+			setLoading(false);
+		}
+	}, []);
 
 	return {
 		deleteBlast,
@@ -284,12 +271,12 @@ export const useSendBlast = () => {
 	const [data, setData] = useState<EmailBlast | null>(null);
 
 	const sendBlast = useCallback(
-		async (campaignId: string, blastId: string): Promise<EmailBlast | null> => {
+		async (blastId: string): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/send`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/send`,
 					{ method: "POST" },
 				);
 				const blast = toUiEmailBlast(response);
@@ -323,16 +310,12 @@ export const useScheduleBlast = () => {
 	const [data, setData] = useState<EmailBlast | null>(null);
 
 	const scheduleBlast = useCallback(
-		async (
-			campaignId: string,
-			blastId: string,
-			scheduledAt: Date,
-		): Promise<EmailBlast | null> => {
+		async (blastId: string, scheduledAt: Date): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/schedule`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/schedule`,
 					{
 						method: "POST",
 						body: JSON.stringify({
@@ -371,12 +354,12 @@ export const usePauseBlast = () => {
 	const [data, setData] = useState<EmailBlast | null>(null);
 
 	const pauseBlast = useCallback(
-		async (campaignId: string, blastId: string): Promise<EmailBlast | null> => {
+		async (blastId: string): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/pause`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/pause`,
 					{ method: "POST" },
 				);
 				const blast = toUiEmailBlast(response);
@@ -410,12 +393,12 @@ export const useResumeBlast = () => {
 	const [data, setData] = useState<EmailBlast | null>(null);
 
 	const resumeBlast = useCallback(
-		async (campaignId: string, blastId: string): Promise<EmailBlast | null> => {
+		async (blastId: string): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/resume`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/resume`,
 					{ method: "POST" },
 				);
 				const blast = toUiEmailBlast(response);
@@ -449,12 +432,12 @@ export const useCancelBlast = () => {
 	const [data, setData] = useState<EmailBlast | null>(null);
 
 	const cancelBlast = useCallback(
-		async (campaignId: string, blastId: string): Promise<EmailBlast | null> => {
+		async (blastId: string): Promise<EmailBlast | null> => {
 			setLoading(true);
 			setError(null);
 			try {
 				const response = await fetcher<ApiEmailBlast>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/cancel`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/cancel`,
 					{ method: "POST" },
 				);
 				const blast = toUiEmailBlast(response);
@@ -482,14 +465,14 @@ export const useCancelBlast = () => {
 // useGetBlastAnalytics - Get analytics for a blast
 // ============================================================================
 
-export const useGetBlastAnalytics = (campaignId: string, blastId: string) => {
+export const useGetBlastAnalytics = (blastId: string) => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<ApiError | null>(null);
 	const [analytics, setAnalytics] = useState<BlastAnalytics | null>(null);
 
 	const fetchAnalytics = useCallback(
 		async (signal?: AbortSignal): Promise<void> => {
-			if (!campaignId || !blastId) {
+			if (!blastId) {
 				setAnalytics(null);
 				setLoading(false);
 				return;
@@ -499,7 +482,7 @@ export const useGetBlastAnalytics = (campaignId: string, blastId: string) => {
 			setError(null);
 			try {
 				const response = await fetcher<ApiBlastAnalytics>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/analytics`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/analytics`,
 					{ method: "GET", signal },
 				);
 				setAnalytics(toUiBlastAnalytics(response));
@@ -512,7 +495,7 @@ export const useGetBlastAnalytics = (campaignId: string, blastId: string) => {
 				setLoading(false);
 			}
 		},
-		[campaignId, blastId],
+		[blastId],
 	);
 
 	useEffect(() => {
@@ -534,7 +517,6 @@ export const useGetBlastAnalytics = (campaignId: string, blastId: string) => {
 // ============================================================================
 
 export const useGetBlastRecipients = (
-	campaignId: string,
 	blastId: string,
 	page: number = 1,
 	limit: number = 25,
@@ -547,7 +529,7 @@ export const useGetBlastRecipients = (
 
 	const fetchRecipients = useCallback(
 		async (signal?: AbortSignal): Promise<void> => {
-			if (!campaignId || !blastId) {
+			if (!blastId) {
 				setRecipients([]);
 				setLoading(false);
 				return;
@@ -557,7 +539,7 @@ export const useGetBlastRecipients = (
 			setError(null);
 			try {
 				const response = await fetcher<ApiListBlastRecipientsResponse>(
-					`${import.meta.env.VITE_API_URL}/api/v1/campaigns/${campaignId}/blasts/${blastId}/recipients?page=${page}&limit=${limit}`,
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/${blastId}/recipients?page=${page}&limit=${limit}`,
 					{ method: "GET", signal },
 				);
 				setRecipients((response.recipients || []).map(toUiBlastRecipient));
@@ -573,7 +555,7 @@ export const useGetBlastRecipients = (
 				setLoading(false);
 			}
 		},
-		[campaignId, blastId, page, limit],
+		[blastId, page, limit],
 	);
 
 	useEffect(() => {
@@ -591,3 +573,74 @@ export const useGetBlastRecipients = (
 		refetch: fetchRecipients,
 	};
 };
+
+// ============================================================================
+// usePreviewRecipients - Preview recipients for multi-segment selection
+// ============================================================================
+
+export const usePreviewRecipients = () => {
+	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState<ApiError | null>(null);
+	const [preview, setPreview] = useState<RecipientPreview | null>(null);
+
+	const previewRecipients = useCallback(
+		async (segmentIds: string[]): Promise<RecipientPreview | null> => {
+			if (segmentIds.length === 0) {
+				setPreview(null);
+				return null;
+			}
+
+			setLoading(true);
+			setError(null);
+			try {
+				const response = await fetcher<ApiRecipientPreview>(
+					`${import.meta.env.VITE_API_URL}/api/v1/blasts/preview-recipients`,
+					{
+						method: "POST",
+						body: JSON.stringify({
+							segment_ids: segmentIds,
+						}),
+					},
+				);
+				const result = toUiRecipientPreview(response);
+				setPreview(result);
+				return result;
+			} catch (error: unknown) {
+				setError(toApiError(error));
+				return null;
+			} finally {
+				setLoading(false);
+			}
+		},
+		[],
+	);
+
+	const reset = useCallback(() => {
+		setPreview(null);
+		setError(null);
+	}, []);
+
+	return {
+		previewRecipients,
+		preview,
+		loading,
+		error,
+		reset,
+	};
+};
+
+// ============================================================================
+// Re-export types for convenience
+// ============================================================================
+
+export type {
+	BlastAnalytics,
+	BlastRecipient,
+	BlastRecipientStatus,
+	CreateEmailBlastInput,
+	EmailBlast,
+	EmailBlastStatus,
+	RecipientPreview,
+	SegmentRecipientCount,
+	UpdateEmailBlastInput,
+} from "@/types/blast";

@@ -7,12 +7,12 @@
 import { useNavigate } from "@tanstack/react-router";
 import type React from "react";
 import { type ChangeEvent, memo, useCallback, useState } from "react";
+import { useGetBlastEmailTemplates } from "@/hooks/useBlastEmailTemplates";
 import {
 	useCreateBlast,
 	useScheduleBlast,
 	useSendBlast,
 } from "@/hooks/useBlasts";
-import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
 import { useGetSegments } from "@/hooks/useSegments";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import type { SelectOption } from "@/proto-design-system/components/forms/Select";
@@ -21,8 +21,8 @@ import { Button } from "@/proto-design-system/components/primitives/Button";
 import styles from "./component.module.scss";
 
 export interface BlastWizardProps {
-	/** Campaign ID */
-	campaignId: string;
+	/** Campaign ID for segment selection */
+	campaignId?: string;
 	/** Pre-selected segment ID */
 	segmentId?: string;
 }
@@ -47,12 +47,11 @@ export const BlastWizard = memo(function BlastWizard({
 	const [scheduledDate, setScheduledDate] = useState("");
 	const [scheduledTime, setScheduledTime] = useState("");
 
-	// Data hooks
-	const { segments, loading: loadingSegments } = useGetSegments(campaignId);
-	const { templates, loading: loadingTemplates } = useGetEmailTemplates(
-		campaignId,
-		"custom",
+	// Data hooks - blast templates are account-level
+	const { segments, loading: loadingSegments } = useGetSegments(
+		campaignId || "",
 	);
+	const { templates, loading: loadingTemplates } = useGetBlastEmailTemplates();
 
 	// Action hooks
 	const {
@@ -76,9 +75,8 @@ export const BlastWizard = memo(function BlastWizard({
 	const handleCancel = useCallback(() => {
 		navigate({
 			to: "/blasts",
-			search: { campaignId },
 		});
-	}, [navigate, campaignId]);
+	}, [navigate]);
 
 	const handleNextStep = useCallback(() => {
 		if (step === "details") {
@@ -102,11 +100,11 @@ export const BlastWizard = memo(function BlastWizard({
 		scheduleType === "now" || (scheduledDate && scheduledTime);
 
 	const handleSubmit = useCallback(async () => {
-		// First create the blast
-		const blast = await createBlast(campaignId, {
+		// First create the blast - now uses segmentIds array and blastTemplateId
+		const blast = await createBlast({
 			name,
-			segmentId: selectedSegmentId,
-			templateId: selectedTemplateId,
+			segmentIds: [selectedSegmentId],
+			blastTemplateId: selectedTemplateId,
 			subject,
 		});
 
@@ -114,28 +112,25 @@ export const BlastWizard = memo(function BlastWizard({
 
 		if (scheduleType === "now") {
 			// Send immediately
-			const result = await sendBlast(campaignId, blast.id);
+			const result = await sendBlast(blast.id);
 			if (result) {
 				navigate({
 					to: "/blasts/$blastId",
 					params: { blastId: blast.id },
-					search: { campaignId },
 				});
 			}
 		} else {
 			// Schedule for later
 			const scheduledAt = new Date(`${scheduledDate}T${scheduledTime}`);
-			const result = await scheduleBlast(campaignId, blast.id, scheduledAt);
+			const result = await scheduleBlast(blast.id, scheduledAt);
 			if (result) {
 				navigate({
 					to: "/blasts/$blastId",
 					params: { blastId: blast.id },
-					search: { campaignId },
 				});
 			}
 		}
 	}, [
-		campaignId,
 		name,
 		subject,
 		selectedSegmentId,

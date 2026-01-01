@@ -1,7 +1,7 @@
 /**
  * BlastsPage Component
  *
- * Main page for managing email blasts
+ * Main page for managing email blasts (account-level)
  */
 
 import { useNavigate } from "@tanstack/react-router";
@@ -10,41 +10,28 @@ import type { EmailBlast } from "@/types/blast";
 import { BlastList } from "../BlastList/component";
 import styles from "./component.module.scss";
 
-export interface BlastsPageProps {
-	/** Campaign ID */
-	campaignId: string;
-}
-
-export const BlastsPage = memo(function BlastsPage({
-	campaignId,
-}: BlastsPageProps) {
+export const BlastsPage = memo(function BlastsPage() {
 	const navigate = useNavigate();
 
 	const handleCreate = useCallback(() => {
 		navigate({
 			to: "/blasts/new",
-			search: { campaignId },
 		});
-	}, [navigate, campaignId]);
+	}, [navigate]);
 
 	const handleView = useCallback(
 		(blast: EmailBlast) => {
 			navigate({
 				to: "/blasts/$blastId",
 				params: { blastId: blast.id },
-				search: { campaignId },
 			});
 		},
-		[navigate, campaignId],
+		[navigate],
 	);
 
 	return (
 		<div className={styles.root}>
-			<BlastList
-				campaignId={campaignId}
-				onCreate={handleCreate}
-				onView={handleView}
-			/>
+			<BlastList onCreate={handleCreate} onView={handleView} />
 		</div>
 	);
 });

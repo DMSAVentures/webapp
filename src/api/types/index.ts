@@ -7,8 +7,10 @@
 export * from "./apikey";
 export * from "./billing";
 export * from "./blast";
+export * from "./blastEmailTemplate";
 // Entities
 export * from "./campaign";
+export * from "./campaignEmailTemplate";
 // Common
 export * from "./common";
 // Segments & Blasts

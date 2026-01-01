@@ -1,14 +1,23 @@
 /**
  * Email Blast Transformers
  *
- * Transform between API (snake_case) and UI (camelCase) blast types
+ * Transform between API (snake_case) and UI (camelCase) blast types.
+ * Blasts are now account-level and support multiple segments.
  */
 
-import type { BlastAnalytics, BlastRecipient, EmailBlast } from "@/types/blast";
+import type {
+	BlastAnalytics,
+	BlastRecipient,
+	EmailBlast,
+	RecipientPreview,
+	SegmentRecipientCount,
+} from "@/types/blast";
 import type {
 	ApiBlastAnalytics,
 	ApiBlastRecipient,
 	ApiEmailBlast,
+	ApiRecipientPreview,
+	ApiSegmentRecipientCount,
 } from "../types/blast";
 import { parseDate } from "./base";
 
@@ -19,9 +28,9 @@ import { parseDate } from "./base";
 export function toUiEmailBlast(api: ApiEmailBlast): EmailBlast {
 	return {
 		id: api.id,
-		campaignId: api.campaign_id,
-		segmentId: api.segment_id,
-		templateId: api.template_id,
+		accountId: api.account_id,
+		segmentIds: api.segment_ids ?? [],
+		blastTemplateId: api.blast_template_id,
 		name: api.name,
 		subject: api.subject,
 		scheduledAt: parseDate(api.scheduled_at),
@@ -86,5 +95,27 @@ export function toUiBlastAnalytics(api: ApiBlastAnalytics): BlastAnalytics {
 		startedAt: parseDate(api.started_at),
 		completedAt: parseDate(api.completed_at),
 		durationSeconds: api.duration_seconds,
+	};
+}
+
+export function toUiSegmentRecipientCount(
+	api: ApiSegmentRecipientCount,
+): SegmentRecipientCount {
+	return {
+		segmentId: api.segment_id,
+		segmentName: api.segment_name,
+		count: api.count,
+	};
+}
+
+export function toUiRecipientPreview(
+	api: ApiRecipientPreview,
+): RecipientPreview {
+	return {
+		totalRecipients: api.total_recipients,
+		duplicatesRemoved: api.duplicates_removed,
+		segmentBreakdown: (api.segment_breakdown ?? []).map(
+			toUiSegmentRecipientCount,
+		),
 	};
 }
