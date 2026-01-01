@@ -157,7 +157,8 @@ const PricingCard = memo(function PricingCard({
 		: plan.id === "free"
 			? "Free"
 			: "—";
-	const priceLabel = priceInfo?.interval ?? (plan.id === "free" ? "forever" : "month");
+	const priceLabel =
+		priceInfo?.interval ?? (plan.id === "free" ? "forever" : "month");
 
 	return (
 		<div
