@@ -4,7 +4,7 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { Eye, Loader2, Monitor, Save, Smartphone, Tablet } from "lucide-react";
+import { Eye, Loader2, Monitor, Save, Smartphone, Tablet, X } from "lucide-react";
 import { memo, useCallback, useEffect, useState } from "react";
 import {
 	renderTemplate,
@@ -398,6 +398,16 @@ export const EditCampaignEmailTemplatePage = memo(
 								onClick={() => setPreviewDevice("desktop")}
 							/>
 						</ButtonGroup>
+
+						<Button
+							variant="ghost"
+							size="md"
+							leftIcon={<X size={16} />}
+							onClick={() => navigate({ to: "/email-templates" })}
+							disabled={saving}
+						>
+							Cancel
+						</Button>
 
 						<Button
 							variant="primary"
