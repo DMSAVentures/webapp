@@ -3,7 +3,7 @@
  * Display waitlist users with filters and sorting
  */
 
-import { ArrowUp, Download, Lock, Search, User } from "lucide-react";
+import { ArrowUp, Download, Lock, User } from "lucide-react";
 import { type HTMLAttributes, memo, useCallback, useState } from "react";
 import { useUserHelpers } from "@/hooks/useUserStatus";
 import {
@@ -268,8 +268,11 @@ export const UserList = memo<UserListProps>(function UserList({
 		handleExport(selectedUserIds);
 	}, [handleExport, selectedUserIds]);
 
-	// Empty state
-	if (!loading && users.length === 0) {
+	// Empty state - only show when not loading and no users
+	const showEmptyState = !loading && users.length === 0;
+
+	// Empty state - return early
+	if (showEmptyState) {
 		return (
 			<Stack gap="md" align="center" className={styles.emptyState}>
 				<Icon icon={User} size="2xl" color="muted" />
@@ -286,26 +289,28 @@ export const UserList = memo<UserListProps>(function UserList({
 	// Render
 	return (
 		<Stack gap="md" className={classNames} {...props}>
-			{/* Header with actions */}
-			<Stack direction="row" gap="sm" align="center">
-				<Button
-					variant="secondary"
-					leftIcon={<Download size={16} />}
-					onClick={onExportClick}
-					disabled={isExporting}
-				>
-					{isExporting
-						? "Exporting..."
-						: hasSelection
-							? `Export Selected (${selectedUserIds.length})`
-							: "Export All Users"}
-				</Button>
-				{hasSelection && (
-					<Button variant="secondary" size="sm" onClick={clearSelection}>
-						Clear Selection
+			{/* Header with actions - only show when we have users or are loading */}
+			{(users.length > 0 || loading) && (
+				<Stack direction="row" gap="sm" align="center">
+					<Button
+						variant="secondary"
+						leftIcon={<Download size={16} />}
+						onClick={onExportClick}
+						disabled={isExporting || loading}
+					>
+						{isExporting
+							? "Exporting..."
+							: hasSelection
+								? `Export Selected (${selectedUserIds.length})`
+								: "Export All Users"}
 					</Button>
-				)}
-			</Stack>
+					{hasSelection && (
+						<Button variant="secondary" size="sm" onClick={clearSelection}>
+							Clear Selection
+						</Button>
+					)}
+				</Stack>
+			)}
 
 			{/* Main content */}
 			<Stack gap="md">
@@ -325,13 +330,7 @@ export const UserList = memo<UserListProps>(function UserList({
 				</Stack>
 
 				{/* User table */}
-				{!loading && users.length === 0 ? (
-					<Stack gap="sm" align="center" className={styles.noResults}>
-						<Icon icon={Search} size="lg" color="muted" />
-						<Text color="secondary">No users found</Text>
-					</Stack>
-				) : (
-					<Table loading={loading} loadingMessage="Loading users...">
+				<Table loading={loading} loadingMessage="Loading users...">
 						<TableHeader>
 							<TableRow>
 								<TableHead narrow>
@@ -521,7 +520,6 @@ export const UserList = memo<UserListProps>(function UserList({
 								))}
 						</TableBody>
 					</Table>
-				)}
 
 				{/* Gated leads upgrade CTA */}
 				{hasGatedLeads && (
