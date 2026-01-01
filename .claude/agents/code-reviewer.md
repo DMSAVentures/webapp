@@ -85,6 +85,8 @@ useFormState(...)                         // Use useActionState
 - [ ] Clear naming conventions
 - [ ] No duplicate code
 - [ ] TypeScript strict compliance
+- [ ] No barrel exports (`index.ts` re-exporting modules)
+- [ ] Direct imports from source files (not from index.ts)
 
 ### Security
 

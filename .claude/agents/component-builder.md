@@ -309,5 +309,5 @@ const items = createItems<Item>([...]);
 - [ ] Included TypeScript types with JSDoc comments
 - [ ] Added accessibility attributes (aria-label, role, etc.)
 - [ ] Created Storybook story
-- [ ] Exported from barrel file if needed
+- [ ] **NO index.ts barrel exports** - import directly from source files
 - [ ] Let React Compiler handle memoization (no manual useMemo/useCallback)

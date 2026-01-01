@@ -546,6 +546,59 @@ All interactive components must include:
 - ❌ Don't use `any` type
 - ❌ Don't ignore keyboard navigation
 - ❌ Don't make direct `fetch` calls
+- ❌ Don't use `index.ts` barrel exports (see below)
+
+## No Barrel Exports
+
+**CRITICAL: Do not use `index.ts` files for re-exporting modules (barrel exports).**
+
+### Why We Avoid Barrel Exports
+
+1. **Slower build times** - Bundlers must process entire dependency trees
+2. **Larger bundles** - Tree-shaking is less effective with barrel files
+3. **Circular dependency risks** - Barrel files often create hidden circular imports
+4. **Slower IDE performance** - TypeScript must resolve more files
+5. **Harder debugging** - Stack traces point to index.ts instead of actual source
+
+### Import Directly From Source
+
+```typescript
+// ✅ CORRECT: Import directly from the source file
+import { Button } from '@/proto-design-system/components/primitives/Button/Button';
+import { useAuth } from '@/hooks/useAuth';
+import { fetcher } from '@/api/fetcher';
+import type { User } from '@/types/user';
+
+// ❌ WRONG: Import from barrel/index files
+import { Button } from '@/proto-design-system/components/primitives';
+import { useAuth } from '@/hooks';
+import { fetcher } from '@/api';
+import type { User } from '@/types';
+```
+
+### File Organization Without Barrels
+
+```
+// Instead of:
+hooks/
+├── index.ts          ❌ Don't create this
+├── useAuth.ts
+└── useUser.ts
+
+// Just have:
+hooks/
+├── useAuth.ts        ✅ Import directly: import { useAuth } from '@/hooks/useAuth'
+└── useUser.ts        ✅ Import directly: import { useUser } from '@/hooks/useUser'
+```
+
+### Exception: Design System Components
+
+The design system uses a specific import pattern for consistency:
+```typescript
+// This is acceptable for design system components
+import { Button } from '@/proto-design-system/components/primitives/Button';
+```
+Where `Button` folder contains `Button.tsx` as the main export.
 
 ## Common Patterns
 
