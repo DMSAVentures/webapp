@@ -14,10 +14,6 @@ export interface TierDisplayConfig {
 	name: TierName;
 	displayName: string;
 	description: string;
-	price: {
-		monthly: number;
-		yearly: number;
-	};
 	highlighted?: boolean;
 }
 
@@ -26,20 +22,17 @@ export const TIER_CONFIGS: Record<TierName, TierDisplayConfig> = {
 		name: "free",
 		displayName: "Free",
 		description: "Perfect for getting started",
-		price: { monthly: 0, yearly: 0 },
 	},
 	pro: {
 		name: "pro",
 		displayName: "Pro",
 		description: "For growing businesses",
-		price: { monthly: 29, yearly: 290 },
 		highlighted: true,
 	},
 	team: {
 		name: "team",
 		displayName: "Team",
 		description: "For larger teams and enterprises",
-		price: { monthly: 79, yearly: 790 },
 	},
 };
 

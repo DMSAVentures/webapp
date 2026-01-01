@@ -17,6 +17,9 @@ export function toUiPrice(api: ApiPrice): Price {
 		productId: api.product_id,
 		priceId: api.price_id,
 		description: api.description,
+		unitAmount: api.unit_amount,
+		currency: api.currency,
+		interval: api.interval,
 	};
 }
 

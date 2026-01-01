@@ -124,17 +124,26 @@ export const prices: ApiPrice[] = [
 	{
 		product_id: "prod_free",
 		price_id: "price_free",
-		description: "Free - $0/month",
+		description: "free",
+		unit_amount: 0,
+		currency: "usd",
+		interval: "month",
 	},
 	{
 		product_id: "prod_pro",
 		price_id: "price_pro_monthly",
-		description: "Pro - $29/month",
+		description: "pro",
+		unit_amount: 2900,
+		currency: "usd",
+		interval: "month",
 	},
 	{
 		product_id: "prod_team",
 		price_id: "price_team_monthly",
-		description: "Team - $99/month",
+		description: "team",
+		unit_amount: 9900,
+		currency: "usd",
+		interval: "month",
 	},
 ];
 

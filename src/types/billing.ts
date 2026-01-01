@@ -12,6 +12,9 @@ export interface Price {
 	productId: string;
 	priceId: string;
 	description: string;
+	unitAmount: number | null;
+	currency: string | null;
+	interval: string | null;
 }
 
 // ============================================================================

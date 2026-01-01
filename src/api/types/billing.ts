@@ -12,6 +12,9 @@ export interface ApiPrice {
 	product_id: string;
 	price_id: string;
 	description: string;
+	unit_amount: number | null;
+	currency: string | null;
+	interval: string | null;
 }
 
 export type ApiPriceResponse = ApiPrice[];

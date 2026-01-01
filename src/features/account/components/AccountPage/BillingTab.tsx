@@ -98,12 +98,7 @@ const NoSubscriptionState = memo(function NoSubscriptionState() {
 			</Stack>
 			<div className={styles.plansGrid}>
 				{prices.map((price) => (
-					<PlanToPay
-						key={price.priceId}
-						productId={price.productId}
-						priceId={price.priceId}
-						description={price.description}
-					/>
+					<PlanToPay key={price.priceId} {...price} />
 				))}
 			</div>
 		</Stack>
