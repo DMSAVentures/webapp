@@ -25,7 +25,7 @@ import { BlockEditor } from "../BlockEditor/component";
 import { BlockItem } from "../BlockItem/component";
 import { BlockPalette } from "../BlockPalette/component";
 import { EmailStyleEditor } from "../EmailStyleEditor/component";
-import styles from "../NewEmailTemplatePage/component.module.scss";
+import styles from "../NewCampaignEmailTemplatePage/component.module.scss";
 import { VariableTextInput } from "../VariableTextInput/component";
 
 type RightPanelMode = "block" | "appearance";

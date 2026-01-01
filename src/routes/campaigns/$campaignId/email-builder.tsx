@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Mail } from "lucide-react";
 import { GatedEmptyState } from "@/components/gating";
 import { useCampaignContext } from "@/features/campaigns/contexts/CampaignContext";
-import { EmailBuilder } from "@/features/email-builder/components/EmailBuilder/component";
+import { CampaignEmailBuilder } from "@/features/email-builder/components/CampaignEmailBuilder/component";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import styles from "./email-builder.module.scss";
 
@@ -49,7 +49,7 @@ function RouteComponent() {
 				</p>
 			</div>
 
-			<EmailBuilder campaignId={campaignId} />
+			<CampaignEmailBuilder campaignId={campaignId} />
 		</div>
 	);
 }

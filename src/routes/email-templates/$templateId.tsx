@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { EditBlastEmailTemplatePage } from "@/features/email-builder/components/EditBlastEmailTemplatePage/component";
-import { EditEmailTemplatePage } from "@/features/email-builder/components/EditEmailTemplatePage/component";
+import { EditCampaignEmailTemplatePage } from "@/features/email-builder/components/EditCampaignEmailTemplatePage/component";
 
 type TemplateType = "campaign" | "blast";
 
@@ -24,5 +24,5 @@ function RouteComponent() {
 	}
 
 	// Default to campaign for backwards compatibility (when type is undefined or "campaign")
-	return <EditEmailTemplatePage templateId={templateId} />;
+	return <EditCampaignEmailTemplatePage templateId={templateId} />;
 }

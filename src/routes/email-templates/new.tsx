@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Mail, Megaphone } from "lucide-react";
 import { motion } from "motion/react";
 import { NewBlastEmailTemplatePage } from "@/features/email-builder/components/NewBlastEmailTemplatePage/component";
-import { NewEmailTemplatePage } from "@/features/email-builder/components/NewEmailTemplatePage/component";
+import { NewCampaignEmailTemplatePage } from "@/features/email-builder/components/NewCampaignEmailTemplatePage/component";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
@@ -37,7 +37,7 @@ function RouteComponent() {
 	};
 
 	if (type === "campaign") {
-		return <NewEmailTemplatePage />;
+		return <NewCampaignEmailTemplatePage />;
 	}
 
 	if (type === "blast") {

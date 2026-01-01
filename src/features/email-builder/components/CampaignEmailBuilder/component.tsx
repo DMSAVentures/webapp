@@ -1,5 +1,5 @@
 /**
- * EmailBuilder Component
+ * CampaignEmailBuilder Component
  * Block-based email template editor with live preview
  */
 
@@ -72,7 +72,7 @@ import styles from "./component.module.scss";
 type RightPanelMode = "block" | "appearance";
 type PreviewDevice = "mobile" | "tablet" | "desktop";
 
-export interface EmailBuilderProps
+export interface CampaignEmailBuilderProps
 	extends Omit<HTMLAttributes<HTMLDivElement>, "onSave"> {
 	/** Campaign ID this email belongs to */
 	campaignId: string;
@@ -246,9 +246,9 @@ function useTestEmail() {
 // ============================================================================
 
 /**
- * EmailBuilder provides a block-based interface for editing email templates
+ * CampaignEmailBuilder provides a block-based interface for editing email templates
  */
-export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
+export const CampaignEmailBuilder = memo<CampaignEmailBuilderProps>(function CampaignEmailBuilder({
 	campaignId,
 	initialType = "verification",
 	className: customClassName,
@@ -811,4 +811,4 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	);
 });
 
-EmailBuilder.displayName = "EmailBuilder";
+CampaignEmailBuilder.displayName = "CampaignEmailBuilder";
