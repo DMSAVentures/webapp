@@ -42,10 +42,10 @@ export const SegmentsPage = memo(function SegmentsPage({
 		(segment: Segment) => {
 			navigate({
 				to: "/blasts/new",
-				search: { campaignId, segmentId: segment.id },
+				search: { segmentId: segment.id },
 			});
 		},
-		[navigate, campaignId],
+		[navigate],
 	);
 
 	return (

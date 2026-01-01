@@ -1,0 +1,123 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	min-height: 200px;
+}
+
+.campaignsList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	max-height: 400px;
+	overflow-y: auto;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+}
+
+.campaignGroup {
+	border-bottom: 1px solid var(--color-border);
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.campaignHeader {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	width: 100%;
+	padding: var(--space-3) var(--space-4);
+	background: var(--color-surface-secondary);
+	border: none;
+	cursor: pointer;
+	text-align: left;
+	transition: background var(--duration-fast) var(--ease-default);
+
+	&:hover:not(:disabled) {
+		background: var(--color-surface-hover);
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+}
+
+.expandIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-text-muted);
+	flex-shrink: 0;
+}
+
+.campaignName {
+	flex: 1;
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text);
+	font-size: var(--font-size-sm);
+}
+
+.campaignStats {
+	display: flex;
+	align-items: center;
+	gap: var(--space-1);
+	color: var(--color-text-muted);
+	font-size: var(--font-size-xs);
+}
+
+.segmentList {
+	display: flex;
+	flex-direction: column;
+	background: var(--color-surface);
+}
+
+.loadingSegments {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--space-4);
+}
+
+.emptySegments {
+	padding: var(--space-4);
+	text-align: center;
+}
+
+.segmentItem {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-4);
+	padding-left: calc(var(--space-4) + var(--space-6));
+	cursor: pointer;
+	transition: background var(--duration-fast) var(--ease-default);
+
+	&:hover {
+		background: var(--color-surface-hover);
+	}
+}
+
+.segmentName {
+	flex: 1;
+	font-size: var(--font-size-sm);
+	color: var(--color-text);
+}
+
+.segmentCount {
+	font-size: var(--font-size-xs);
+	color: var(--color-text-muted);
+}
+
+.selectionSummary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+	padding: var(--space-3) var(--space-4);
+	background: var(--color-primary-subtle);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-primary-border);
+}

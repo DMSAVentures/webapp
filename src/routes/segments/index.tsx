@@ -62,10 +62,10 @@ function RouteComponent() {
 		(segment: Segment) => {
 			navigate({
 				to: "/blasts/new",
-				search: { campaignId: selectedCampaignId, segmentId: segment.id },
+				search: { segmentId: segment.id },
 			});
 		},
-		[navigate, selectedCampaignId],
+		[navigate],
 	);
 
 	// Show gated empty state for users without access

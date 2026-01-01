@@ -1,7 +1,7 @@
 /**
  * BlastWizard Component
  *
- * Multi-step wizard for creating email blasts
+ * Multi-step wizard for creating email blasts with multi-segment targeting
  */
 
 import { useNavigate } from "@tanstack/react-router";
@@ -13,24 +13,21 @@ import {
 	useScheduleBlast,
 	useSendBlast,
 } from "@/hooks/useBlasts";
-import { useGetSegments } from "@/hooks/useSegments";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import type { SelectOption } from "@/proto-design-system/components/forms/Select";
 import { Select } from "@/proto-design-system/components/forms/Select";
 import { Button } from "@/proto-design-system/components/primitives/Button";
+import { SegmentMultiSelect } from "../SegmentMultiSelect/component";
 import styles from "./component.module.scss";
 
 export interface BlastWizardProps {
-	/** Campaign ID for segment selection */
-	campaignId?: string;
 	/** Pre-selected segment ID */
 	segmentId?: string;
 }
 
-type Step = "details" | "schedule" | "review";
+type Step = "details" | "segments" | "schedule" | "review";
 
 export const BlastWizard = memo(function BlastWizard({
-	campaignId,
 	segmentId: initialSegmentId,
 }: BlastWizardProps) {
 	const navigate = useNavigate();
@@ -39,8 +36,8 @@ export const BlastWizard = memo(function BlastWizard({
 	const [step, setStep] = useState<Step>("details");
 	const [name, setName] = useState("");
 	const [subject, setSubject] = useState("");
-	const [selectedSegmentId, setSelectedSegmentId] = useState(
-		initialSegmentId || "",
+	const [selectedSegmentIds, setSelectedSegmentIds] = useState<string[]>(
+		initialSegmentId ? [initialSegmentId] : [],
 	);
 	const [selectedTemplateId, setSelectedTemplateId] = useState("");
 	const [scheduleType, setScheduleType] = useState<"now" | "later">("now");
@@ -48,9 +45,6 @@ export const BlastWizard = memo(function BlastWizard({
 	const [scheduledTime, setScheduledTime] = useState("");
 
 	// Data hooks - blast templates are account-level
-	const { segments, loading: loadingSegments } = useGetSegments(
-		campaignId || "",
-	);
 	const { templates, loading: loadingTemplates } = useGetBlastEmailTemplates();
 
 	// Action hooks
@@ -69,7 +63,6 @@ export const BlastWizard = memo(function BlastWizard({
 	const loading = creating || sending || scheduling;
 	const error = createError || sendError || scheduleError;
 
-	const selectedSegment = segments.find((s) => s.id === selectedSegmentId);
 	const selectedTemplate = templates.find((t) => t.id === selectedTemplateId);
 
 	const handleCancel = useCallback(() => {
@@ -80,6 +73,8 @@ export const BlastWizard = memo(function BlastWizard({
 
 	const handleNextStep = useCallback(() => {
 		if (step === "details") {
+			setStep("segments");
+		} else if (step === "segments") {
 			setStep("schedule");
 		} else if (step === "schedule") {
 			setStep("review");
@@ -87,23 +82,25 @@ export const BlastWizard = memo(function BlastWizard({
 	}, [step]);
 
 	const handlePrevStep = useCallback(() => {
-		if (step === "schedule") {
+		if (step === "segments") {
 			setStep("details");
+		} else if (step === "schedule") {
+			setStep("segments");
 		} else if (step === "review") {
 			setStep("schedule");
 		}
 	}, [step]);
 
-	const canProceedDetails =
-		name.trim() && subject.trim() && selectedSegmentId && selectedTemplateId;
+	const canProceedDetails = name.trim() && subject.trim() && selectedTemplateId;
+	const canProceedSegments = selectedSegmentIds.length > 0;
 	const canProceedSchedule =
 		scheduleType === "now" || (scheduledDate && scheduledTime);
 
 	const handleSubmit = useCallback(async () => {
-		// First create the blast - now uses segmentIds array and blastTemplateId
+		// Create the blast with multi-segment support
 		const blast = await createBlast({
 			name,
-			segmentIds: [selectedSegmentId],
+			segmentIds: selectedSegmentIds,
 			blastTemplateId: selectedTemplateId,
 			subject,
 		});
@@ -133,7 +130,7 @@ export const BlastWizard = memo(function BlastWizard({
 	}, [
 		name,
 		subject,
-		selectedSegmentId,
+		selectedSegmentIds,
 		selectedTemplateId,
 		scheduleType,
 		scheduledDate,
@@ -144,22 +141,14 @@ export const BlastWizard = memo(function BlastWizard({
 		navigate,
 	]);
 
-	const segmentOptions: SelectOption[] = segments.map((s) => ({
-		value: s.id,
-		label: `${s.name} (${(s.cachedUserCount ?? 0).toLocaleString()} users)`,
-	}));
-
 	const templateOptions: SelectOption[] = templates.map((t) => ({
 		value: t.id,
 		label: t.name,
 	}));
 
-	const handleSegmentChange = useCallback(
-		(e: React.ChangeEvent<HTMLSelectElement>) => {
-			setSelectedSegmentId(e.target.value);
-		},
-		[],
-	);
+	const handleSegmentChange = useCallback((segmentIds: string[]) => {
+		setSelectedSegmentIds(segmentIds);
+	}, []);
 
 	const handleTemplateChange = useCallback(
 		(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -193,6 +182,13 @@ export const BlastWizard = memo(function BlastWizard({
 		[],
 	);
 
+	const getStepDisabled = () => {
+		if (step === "details") return !canProceedDetails;
+		if (step === "segments") return !canProceedSegments;
+		if (step === "schedule") return !canProceedSchedule;
+		return false;
+	};
+
 	return (
 		<div className={styles.root}>
 			<h2 className={styles.title}>Create Email Blast</h2>
@@ -206,16 +202,23 @@ export const BlastWizard = memo(function BlastWizard({
 				</div>
 				<div className={styles.stepConnector} />
 				<div
-					className={`${styles.step} ${step === "schedule" ? styles.active : ""}`}
+					className={`${styles.step} ${step === "segments" ? styles.active : ""}`}
 				>
 					<span className={styles.stepNumber}>2</span>
+					<span className={styles.stepLabel}>Segments</span>
+				</div>
+				<div className={styles.stepConnector} />
+				<div
+					className={`${styles.step} ${step === "schedule" ? styles.active : ""}`}
+				>
+					<span className={styles.stepNumber}>3</span>
 					<span className={styles.stepLabel}>Schedule</span>
 				</div>
 				<div className={styles.stepConnector} />
 				<div
 					className={`${styles.step} ${step === "review" ? styles.active : ""}`}
 				>
-					<span className={styles.stepNumber}>3</span>
+					<span className={styles.stepNumber}>4</span>
 					<span className={styles.stepLabel}>Review</span>
 				</div>
 			</div>
@@ -246,17 +249,6 @@ export const BlastWizard = memo(function BlastWizard({
 								/>
 							</div>
 							<Select
-								label="Target Segment"
-								options={segmentOptions}
-								onChange={handleSegmentChange}
-								placeholder={
-									loadingSegments ? "Loading..." : "Select a segment"
-								}
-								value={selectedSegmentId}
-								disabled={loadingSegments}
-								size="md"
-							/>
-							<Select
 								label="Email Template"
 								options={templateOptions}
 								onChange={handleTemplateChange}
@@ -268,6 +260,20 @@ export const BlastWizard = memo(function BlastWizard({
 								size="md"
 							/>
 						</div>
+					</div>
+				)}
+
+				{step === "segments" && (
+					<div className={styles.stepContent}>
+						<h3 className={styles.sectionTitle}>Select Target Segments</h3>
+						<p className={styles.sectionDescription}>
+							Choose one or more segments to target. Recipients will be
+							deduplicated if they appear in multiple segments.
+						</p>
+						<SegmentMultiSelect
+							selectedIds={selectedSegmentIds}
+							onChange={handleSegmentChange}
+						/>
 					</div>
 				)}
 
@@ -346,11 +352,10 @@ export const BlastWizard = memo(function BlastWizard({
 								<span className={styles.reviewValue}>{subject}</span>
 							</div>
 							<div className={styles.reviewItem}>
-								<span className={styles.reviewLabel}>Segment</span>
+								<span className={styles.reviewLabel}>Segments</span>
 								<span className={styles.reviewValue}>
-									{selectedSegment?.name} (
-									{(selectedSegment?.cachedUserCount ?? 0).toLocaleString()}{" "}
-									users)
+									{selectedSegmentIds.length} segment
+									{selectedSegmentIds.length !== 1 ? "s" : ""} selected
 								</span>
 							</div>
 							<div className={styles.reviewItem}>
@@ -388,9 +393,7 @@ export const BlastWizard = memo(function BlastWizard({
 						<Button
 							variant="primary"
 							onClick={handleNextStep}
-							disabled={
-								step === "details" ? !canProceedDetails : !canProceedSchedule
-							}
+							disabled={getStepDisabled()}
 						>
 							Continue
 						</Button>

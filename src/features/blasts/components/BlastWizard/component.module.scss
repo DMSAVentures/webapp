@@ -81,7 +81,13 @@
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-semibold);
 	color: var(--color-base-content);
-	margin: 0 0 var(--space-3);
+	margin: 0 0 var(--space-2);
+}
+
+.sectionDescription {
+	font-size: var(--font-size-sm);
+	color: var(--color-base-content-secondary);
+	margin: 0 0 var(--space-4);
 }
 
 .fields {
