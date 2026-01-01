@@ -46,6 +46,12 @@ export const navigationConfig: NavGroup[] = [
 		allowedPersonas: ["admin", "developer"],
 		items: [
 			{
+				label: "API Keys",
+				href: "/api-keys",
+				iconClass: "key-line",
+				allowedPersonas: ["admin", "developer"],
+			},
+			{
 				label: "Webhooks",
 				href: "/webhooks",
 				iconClass: "webhook-line",

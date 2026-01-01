@@ -4,6 +4,7 @@ import {
 	Filter,
 	HelpCircle,
 	Home,
+	Key,
 	LogOut,
 	Mail,
 	Megaphone,
@@ -47,6 +48,7 @@ const iconMap: Record<string, React.ReactNode> = {
 	"plug-line": <Plug size={18} />,
 	"filter-line": <Filter size={18} />,
 	"send-line": <Send size={18} />,
+	"key-line": <Key size={18} />,
 };
 
 const getIcon = (iconClass?: string) => {

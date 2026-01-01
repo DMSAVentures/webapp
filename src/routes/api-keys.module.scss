@@ -9,35 +9,6 @@
   padding: var(--space-6);
 }
 
-.pageHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-4);
-}
-
-.headerContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.pageTitle {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  color: var(--color-base-content);
-  margin: 0;
-}
-
-.pageDescription {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-relaxed);
-  color: var(--color-base-content-secondary);
-  margin: 0;
-}
-
 .pageContent {
   display: flex;
   flex-direction: column;
@@ -71,32 +42,7 @@
   color: var(--color-base-content-secondary);
 }
 
-.scopes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
-
-.scopeTag {
-  font-size: var(--font-size-xs);
-  background-color: oklch(from var(--color-info) l c h / 0.15);
-  color: var(--color-info);
-  padding: var(--space-0-5) var(--space-1);
-  border-radius: var(--radius-sm);
-}
-
-.scopeMore {
-  font-size: var(--font-size-xs);
-  color: var(--color-base-content-tertiary);
-}
-
 // Modal form styles
-.modalForm {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
 .formField {
   display: flex;
   flex-direction: column;
@@ -151,12 +97,6 @@
 .scopeDesc {
   font-size: var(--font-size-xs);
   color: var(--color-base-content-tertiary);
-}
-
-.errorMessage {
-  font-size: var(--font-size-sm);
-  color: var(--color-error);
-  margin: 0;
 }
 
 // Success modal styles

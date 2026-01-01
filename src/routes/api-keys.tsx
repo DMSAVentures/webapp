@@ -4,6 +4,7 @@ import {
 	Check,
 	CheckCircle,
 	Copy,
+	Key,
 	Plus,
 	Sparkles,
 	Trash2,
@@ -11,6 +12,7 @@ import {
 import { motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { useCreateAPIKey } from "@/hooks/useCreateAPIKey";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { useGetAPIKeys } from "@/hooks/useGetAPIKeys";
 import { useRevokeAPIKey } from "@/hooks/useRevokeAPIKey";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
@@ -22,13 +24,16 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/proto-design-system/components/data/Table";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
-import { Input } from "@/proto-design-system/components/forms/Input";
+import { TextField } from "@/proto-design-system/components/forms/TextField";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { APIKey, CreateAPIKeyResponse } from "@/types/apikey";
 import { API_KEY_SCOPES } from "@/types/apikey";
 import styles from "./api-keys.module.scss";
@@ -38,6 +43,8 @@ export const Route = createFileRoute("/api-keys")({
 });
 
 function RouteComponent() {
+	const { hasAccess, requiredTierDisplayName } =
+		useFeatureAccess("webhooks_zapier");
 	const { apiKeys, loading, error, refetch } = useGetAPIKeys();
 	const {
 		createAPIKey,
@@ -175,29 +182,49 @@ function RouteComponent() {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6 }}
 		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>API Keys</h1>
-					<p className={styles.pageDescription}>
+			<Stack direction="row" justify="between" align="start" gap="md">
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="semibold">
+						API Keys
+					</Text>
+					<Text color="secondary">
 						Create and manage API keys for integrations like Zapier
-					</p>
-				</div>
+					</Text>
+				</Stack>
 				<Button
+					variant="primary"
 					leftIcon={<Plus size={16} />}
-					onClick={() => setIsCreateModalOpen(true)}
+					onClick={() => hasAccess && setIsCreateModalOpen(true)}
+					disabled={!hasAccess}
 				>
 					Create API Key
 				</Button>
-			</div>
+			</Stack>
+
+			{/* Team Feature Banner */}
+			{!hasAccess && (
+				<Banner
+					type="feature"
+					variant="lighter"
+					title={`${requiredTierDisplayName} Feature`}
+					description={`Upgrade to ${requiredTierDisplayName} to create API keys and integrate with external services.`}
+					action={<a href="/billing/plans">Upgrade</a>}
+					dismissible={false}
+				/>
+			)}
 
 			<div className={styles.pageContent}>
 				{!apiKeys || apiKeys.length === 0 ? (
 					<EmptyState
-						icon="key-2-line"
+						icon={<Key />}
 						title="No API keys yet"
 						description="Create an API key to enable integrations with external services like Zapier."
 						action={
-							<Button onClick={() => setIsCreateModalOpen(true)}>
+							<Button
+								variant="primary"
+								onClick={() => hasAccess && setIsCreateModalOpen(true)}
+								disabled={!hasAccess}
+							>
 								Create API Key
 							</Button>
 						}
@@ -223,18 +250,18 @@ function RouteComponent() {
 										<code className={styles.keyPrefix}>{key.keyPrefix}</code>
 									</TableCell>
 									<TableCell>
-										<div className={styles.scopes}>
+										<Stack direction="row" gap="xs" wrap>
 											{key.scopes.slice(0, 2).map((scope) => (
-												<span key={scope} className={styles.scopeTag}>
+												<Badge key={scope} variant="primary" size="sm">
 													{scope}
-												</span>
+												</Badge>
 											))}
 											{key.scopes.length > 2 && (
-												<span className={styles.scopeMore}>
+												<Text size="xs" color="muted">
 													+{key.scopes.length - 2}
-												</span>
+												</Text>
 											)}
-										</div>
+										</Stack>
 									</TableCell>
 									<TableCell>
 										<Badge variant={getStatusVariant(key.status)}>
@@ -278,9 +305,7 @@ function RouteComponent() {
 					resetForm();
 				}}
 				footer={
-					<div
-						style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
-					>
+					<Stack direction="row" gap="sm" justify="end">
 						<Button
 							variant="ghost"
 							onClick={() => {
@@ -293,11 +318,12 @@ function RouteComponent() {
 						<Button variant="primary" onClick={handleCreateKey}>
 							{createLoading ? "Creating..." : "Create Key"}
 						</Button>
-					</div>
+					</Stack>
 				}
 			>
-				<div className={styles.modalForm}>
-					<Input
+				<Stack gap="lg">
+					<TextField
+						label="Name"
 						placeholder="e.g., Zapier Integration"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
@@ -324,8 +350,10 @@ function RouteComponent() {
 						</div>
 					</div>
 
-					<Input
-						placeholder="Leave empty for no expiration"
+					<TextField
+						label="Expiration (days)"
+						placeholder="e.g., 30"
+						helperText="Leave empty for no expiration"
 						type="number"
 						min={1}
 						value={expiresInDays}
@@ -333,11 +361,11 @@ function RouteComponent() {
 					/>
 
 					{(formError || createError) && (
-						<p className={styles.errorMessage}>
+						<Text size="sm" color="error">
 							{formError || createError?.error}
-						</p>
+						</Text>
 					)}
-				</div>
+				</Stack>
 			</Modal>
 
 			{/* Success Modal - Show created key */}
@@ -353,9 +381,7 @@ function RouteComponent() {
 					setKeyCopied(false);
 				}}
 				footer={
-					<div
-						style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
-					>
+					<Stack direction="row" gap="sm" justify="end">
 						<Button
 							variant="primary"
 							onClick={() => {
@@ -366,7 +392,7 @@ function RouteComponent() {
 						>
 							Done
 						</Button>
-					</div>
+					</Stack>
 				}
 			>
 				<div className={styles.successContent}>
@@ -391,17 +417,14 @@ function RouteComponent() {
 			<Modal
 				isOpen={isRevokeModalOpen}
 				title="Revoke API Key"
-				description={`Are you sure you want to revoke "${keyToRevoke?.name}"? This action cannot be undone and any integrations using this key will stop working.`}
-				icon={<AlertTriangle />}
-				iconVariant="warning"
+				icon={<Trash2 />}
+				iconVariant="error"
 				onClose={() => {
 					setIsRevokeModalOpen(false);
 					setKeyToRevoke(null);
 				}}
 				footer={
-					<div
-						style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}
-					>
+					<Stack direction="row" gap="sm" justify="end">
 						<Button
 							variant="ghost"
 							onClick={() => {
@@ -411,13 +434,17 @@ function RouteComponent() {
 						>
 							Cancel
 						</Button>
-						<Button variant="primary" onClick={handleRevokeKey}>
+						<Button variant="destructive" onClick={handleRevokeKey}>
 							{revokeLoading ? "Revoking..." : "Revoke Key"}
 						</Button>
-					</div>
+					</Stack>
 				}
 			>
-				{null}
+				<Text color="secondary">
+					Are you sure you want to revoke "{keyToRevoke?.name}"? This action
+					cannot be undone and any integrations using this key will stop
+					working.
+				</Text>
 			</Modal>
 		</motion.div>
 	);
