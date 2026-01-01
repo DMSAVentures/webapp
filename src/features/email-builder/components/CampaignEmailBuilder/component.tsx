@@ -248,567 +248,577 @@ function useTestEmail() {
 /**
  * CampaignEmailBuilder provides a block-based interface for editing email templates
  */
-export const CampaignEmailBuilder = memo<CampaignEmailBuilderProps>(function CampaignEmailBuilder({
-	campaignId,
-	initialType = "verification",
-	className: customClassName,
-	...props
-}) {
-	// State
-	const [emailType, setEmailType] = useState<EmailTemplateType>(initialType);
-	const [subject, setSubject] = useState(() => getDefaultSubject(initialType));
-	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-	const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
-	const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>("block");
+export const CampaignEmailBuilder = memo<CampaignEmailBuilderProps>(
+	function CampaignEmailBuilder({
+		campaignId,
+		initialType = "verification",
+		className: customClassName,
+		...props
+	}) {
+		// State
+		const [emailType, setEmailType] = useState<EmailTemplateType>(initialType);
+		const [subject, setSubject] = useState(() =>
+			getDefaultSubject(initialType),
+		);
+		const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+		const [previewDevice, setPreviewDevice] =
+			useState<PreviewDevice>("desktop");
+		const [rightPanelMode, setRightPanelMode] =
+			useState<RightPanelMode>("block");
 
-	// Custom hooks
-	const {
-		blocks,
-		selectedBlockId,
-		selectedBlock,
-		setSelectedBlockId,
-		addBlock,
-		updateBlock,
-		deleteBlock,
-		moveBlock,
-		setBlocksFromTemplate,
-		resetToDefaults,
-	} = useEmailBlocks(initialType);
-
-	const { design, updateDesign, resetDesign, setDesignFromTemplate } =
-		useEmailDesign();
-
-	const {
-		testEmailRecipient,
-		setTestEmailRecipient,
-		showTestEmailInput,
-		openTestEmailInput,
-		closeTestEmailInput,
-	} = useTestEmail();
-
-	// API hooks
-	const {
-		templates,
-		loading: loadingTemplates,
-		refetch,
-	} = useGetCampaignEmailTemplates(campaignId);
-	const existingTemplate = templates.find((t) => t.type === emailType) || null;
-
-	const { createTemplate, loading: creating } = useCreateCampaignEmailTemplate();
-	const { updateTemplate, loading: updating } = useUpdateCampaignEmailTemplate();
-	const {
-		sendTestEmail,
-		loading: sendingTest,
-		success: testSuccess,
-		reset: resetTestState,
-	} = useSendCampaignTestEmail();
-
-	const saving = creating || updating;
-
-	// Handlers
-	const handleTabChange = useCallback(
-		(tabId: string) => {
-			const newType = tabId as EmailTemplateType;
-			setEmailType(newType);
-			setSelectedBlockId(null);
-
-			const existing = templates.find((t) => t.type === newType);
-
-			if (existing) {
-				setSubject(existing.subject);
-				if (
-					existing.blocksJson?.blocks &&
-					Array.isArray(existing.blocksJson.blocks)
-				) {
-					setBlocksFromTemplate(existing.blocksJson.blocks as EmailBlock[]);
-				} else {
-					resetToDefaults(newType);
-				}
-				if (existing.blocksJson?.design) {
-					setDesignFromTemplate(existing.blocksJson.design as EmailDesign);
-				} else {
-					resetDesign();
-				}
-			} else {
-				setSubject(getDefaultSubject(newType));
-				resetToDefaults(newType);
-				resetDesign();
-			}
-			setHasUnsavedChanges(false);
-		},
-		[
-			templates,
+		// Custom hooks
+		const {
+			blocks,
+			selectedBlockId,
+			selectedBlock,
+			setSelectedBlockId,
+			addBlock,
+			updateBlock,
+			deleteBlock,
+			moveBlock,
 			setBlocksFromTemplate,
 			resetToDefaults,
+		} = useEmailBlocks(initialType);
+
+		const { design, updateDesign, resetDesign, setDesignFromTemplate } =
+			useEmailDesign();
+
+		const {
+			testEmailRecipient,
+			setTestEmailRecipient,
+			showTestEmailInput,
+			openTestEmailInput,
+			closeTestEmailInput,
+		} = useTestEmail();
+
+		// API hooks
+		const {
+			templates,
+			loading: loadingTemplates,
+			refetch,
+		} = useGetCampaignEmailTemplates(campaignId);
+		const existingTemplate =
+			templates.find((t) => t.type === emailType) || null;
+
+		const { createTemplate, loading: creating } =
+			useCreateCampaignEmailTemplate();
+		const { updateTemplate, loading: updating } =
+			useUpdateCampaignEmailTemplate();
+		const {
+			sendTestEmail,
+			loading: sendingTest,
+			success: testSuccess,
+			reset: resetTestState,
+		} = useSendCampaignTestEmail();
+
+		const saving = creating || updating;
+
+		// Handlers
+		const handleTabChange = useCallback(
+			(tabId: string) => {
+				const newType = tabId as EmailTemplateType;
+				setEmailType(newType);
+				setSelectedBlockId(null);
+
+				const existing = templates.find((t) => t.type === newType);
+
+				if (existing) {
+					setSubject(existing.subject);
+					if (
+						existing.blocksJson?.blocks &&
+						Array.isArray(existing.blocksJson.blocks)
+					) {
+						setBlocksFromTemplate(existing.blocksJson.blocks as EmailBlock[]);
+					} else {
+						resetToDefaults(newType);
+					}
+					if (existing.blocksJson?.design) {
+						setDesignFromTemplate(existing.blocksJson.design as EmailDesign);
+					} else {
+						resetDesign();
+					}
+				} else {
+					setSubject(getDefaultSubject(newType));
+					resetToDefaults(newType);
+					resetDesign();
+				}
+				setHasUnsavedChanges(false);
+			},
+			[
+				templates,
+				setBlocksFromTemplate,
+				resetToDefaults,
+				setDesignFromTemplate,
+				resetDesign,
+				setSelectedBlockId,
+			],
+		);
+
+		const handleSave = useCallback(async () => {
+			const templateName = getTemplateName(emailType);
+			const htmlBody = blocksToHtml(blocks, design);
+			const blocksJson = { blocks, design };
+
+			if (existingTemplate) {
+				await updateTemplate(campaignId, existingTemplate.id, {
+					subject,
+					htmlBody: htmlBody,
+					blocksJson: blocksJson,
+				});
+			} else {
+				await createTemplate(campaignId, {
+					name: templateName,
+					type: emailType,
+					subject,
+					htmlBody: htmlBody,
+					blocksJson: blocksJson,
+					enabled: true,
+					sendAutomatically: true,
+				});
+			}
+
+			await refetch();
+			setHasUnsavedChanges(false);
+		}, [
+			campaignId,
+			emailType,
+			existingTemplate,
+			subject,
+			blocks,
+			design,
+			createTemplate,
+			updateTemplate,
+			refetch,
+		]);
+
+		const handleSendTestEmail = useCallback(async () => {
+			if (!testEmailRecipient || !existingTemplate) return;
+			resetTestState();
+			await sendTestEmail(campaignId, existingTemplate.id, testEmailRecipient);
+		}, [
+			campaignId,
+			existingTemplate,
+			testEmailRecipient,
+			sendTestEmail,
+			resetTestState,
+		]);
+
+		const handleAddBlock = useCallback(
+			(type: EmailBlock["type"]) => {
+				addBlock(type);
+				setRightPanelMode("block");
+				setHasUnsavedChanges(true);
+			},
+			[addBlock],
+		);
+
+		const handleUpdateBlock = useCallback(
+			(updatedBlock: EmailBlock) => {
+				updateBlock(updatedBlock);
+				setHasUnsavedChanges(true);
+			},
+			[updateBlock],
+		);
+
+		const handleDeleteBlock = useCallback(
+			(blockId: string) => {
+				deleteBlock(blockId);
+				setHasUnsavedChanges(true);
+			},
+			[deleteBlock],
+		);
+
+		const handleMoveBlock = useCallback(
+			(blockId: string, direction: "up" | "down") => {
+				moveBlock(blockId, direction);
+				setHasUnsavedChanges(true);
+			},
+			[moveBlock],
+		);
+
+		const handleSubjectChange = useCallback((value: string) => {
+			setSubject(value);
+			setHasUnsavedChanges(true);
+		}, []);
+
+		const handleDesignChange = useCallback(
+			(newDesign: EmailDesign) => {
+				updateDesign(newDesign);
+				setHasUnsavedChanges(true);
+			},
+			[updateDesign],
+		);
+
+		const handleBlockSelect = useCallback(
+			(blockId: string) => {
+				setSelectedBlockId(blockId);
+				setRightPanelMode("block");
+			},
+			[setSelectedBlockId],
+		);
+
+		// Load existing template on mount
+		useEffect(() => {
+			if (existingTemplate && !hasUnsavedChanges) {
+				setSubject(existingTemplate.subject);
+				if (
+					existingTemplate.blocksJson?.blocks &&
+					Array.isArray(existingTemplate.blocksJson.blocks)
+				) {
+					setBlocksFromTemplate(
+						existingTemplate.blocksJson.blocks as EmailBlock[],
+					);
+				}
+				if (existingTemplate.blocksJson?.design) {
+					setDesignFromTemplate(
+						existingTemplate.blocksJson.design as EmailDesign,
+					);
+				}
+			}
+		}, [
+			existingTemplate,
+			hasUnsavedChanges,
+			setBlocksFromTemplate,
 			setDesignFromTemplate,
-			resetDesign,
-			setSelectedBlockId,
-		],
-	);
+		]);
 
-	const handleSave = useCallback(async () => {
-		const templateName = getTemplateName(emailType);
-		const htmlBody = blocksToHtml(blocks, design);
-		const blocksJson = { blocks, design };
+		// Derived state
+		const renderedSubject = renderTemplate(subject, SAMPLE_TEMPLATE_DATA);
+		const htmlBody =
+			existingTemplate && !hasUnsavedChanges
+				? existingTemplate.htmlBody
+				: blocksToHtml(blocks, design);
+		const renderedBody = renderTemplate(htmlBody, SAMPLE_TEMPLATE_DATA);
 
-		if (existingTemplate) {
-			await updateTemplate(campaignId, existingTemplate.id, {
-				subject,
-				htmlBody: htmlBody,
-				blocksJson: blocksJson,
-			});
-		} else {
-			await createTemplate(campaignId, {
-				name: templateName,
-				type: emailType,
-				subject,
-				htmlBody: htmlBody,
-				blocksJson: blocksJson,
-				enabled: true,
-				sendAutomatically: true,
-			});
-		}
+		const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
 
-		await refetch();
-		setHasUnsavedChanges(false);
-	}, [
-		campaignId,
-		emailType,
-		existingTemplate,
-		subject,
-		blocks,
-		design,
-		createTemplate,
-		updateTemplate,
-		refetch,
-	]);
-
-	const handleSendTestEmail = useCallback(async () => {
-		if (!testEmailRecipient || !existingTemplate) return;
-		resetTestState();
-		await sendTestEmail(campaignId, existingTemplate.id, testEmailRecipient);
-	}, [
-		campaignId,
-		existingTemplate,
-		testEmailRecipient,
-		sendTestEmail,
-		resetTestState,
-	]);
-
-	const handleAddBlock = useCallback(
-		(type: EmailBlock["type"]) => {
-			addBlock(type);
-			setRightPanelMode("block");
-			setHasUnsavedChanges(true);
-		},
-		[addBlock],
-	);
-
-	const handleUpdateBlock = useCallback(
-		(updatedBlock: EmailBlock) => {
-			updateBlock(updatedBlock);
-			setHasUnsavedChanges(true);
-		},
-		[updateBlock],
-	);
-
-	const handleDeleteBlock = useCallback(
-		(blockId: string) => {
-			deleteBlock(blockId);
-			setHasUnsavedChanges(true);
-		},
-		[deleteBlock],
-	);
-
-	const handleMoveBlock = useCallback(
-		(blockId: string, direction: "up" | "down") => {
-			moveBlock(blockId, direction);
-			setHasUnsavedChanges(true);
-		},
-		[moveBlock],
-	);
-
-	const handleSubjectChange = useCallback((value: string) => {
-		setSubject(value);
-		setHasUnsavedChanges(true);
-	}, []);
-
-	const handleDesignChange = useCallback(
-		(newDesign: EmailDesign) => {
-			updateDesign(newDesign);
-			setHasUnsavedChanges(true);
-		},
-		[updateDesign],
-	);
-
-	const handleBlockSelect = useCallback(
-		(blockId: string) => {
-			setSelectedBlockId(blockId);
-			setRightPanelMode("block");
-		},
-		[setSelectedBlockId],
-	);
-
-	// Load existing template on mount
-	useEffect(() => {
-		if (existingTemplate && !hasUnsavedChanges) {
-			setSubject(existingTemplate.subject);
-			if (
-				existingTemplate.blocksJson?.blocks &&
-				Array.isArray(existingTemplate.blocksJson.blocks)
-			) {
-				setBlocksFromTemplate(
-					existingTemplate.blocksJson.blocks as EmailBlock[],
-				);
-			}
-			if (existingTemplate.blocksJson?.design) {
-				setDesignFromTemplate(
-					existingTemplate.blocksJson.design as EmailDesign,
-				);
-			}
-		}
-	}, [
-		existingTemplate,
-		hasUnsavedChanges,
-		setBlocksFromTemplate,
-		setDesignFromTemplate,
-	]);
-
-	// Derived state
-	const renderedSubject = renderTemplate(subject, SAMPLE_TEMPLATE_DATA);
-	const htmlBody =
-		existingTemplate && !hasUnsavedChanges
-			? existingTemplate.htmlBody
-			: blocksToHtml(blocks, design);
-	const renderedBody = renderTemplate(htmlBody, SAMPLE_TEMPLATE_DATA);
-
-	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
-
-	// Render
-	return (
-		<div className={classNames} {...props}>
-			{/* Header */}
-			<Stack
-				direction="row"
-				justify="between"
-				align="center"
-				className={styles.header}
-			>
+		// Render
+		return (
+			<div className={classNames} {...props}>
+				{/* Header */}
 				<Stack
 					direction="row"
-					gap="sm"
+					justify="between"
 					align="center"
-					className={styles.headerContent}
+					className={styles.header}
 				>
-					<Text as="h2" size="lg" weight="semibold">
-						Email Builder
-					</Text>
-					{hasUnsavedChanges && (
-						<Badge variant="warning" size="sm">
-							Unsaved changes
-						</Badge>
-					)}
-				</Stack>
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.headerContent}
+					>
+						<Text as="h2" size="lg" weight="semibold">
+							Email Builder
+						</Text>
+						{hasUnsavedChanges && (
+							<Badge variant="warning" size="sm">
+								Unsaved changes
+							</Badge>
+						)}
+					</Stack>
 
-				<div className={styles.headerActions}>
-					<ButtonGroup isAttached>
-						<Button
-							isIconOnly
-							leftIcon={<Smartphone size={16} />}
-							variant={previewDevice === "mobile" ? "primary" : "secondary"}
-							aria-label="Mobile preview"
-							onClick={() => setPreviewDevice("mobile")}
-						/>
-						<Button
-							isIconOnly
-							leftIcon={<Tablet size={16} />}
-							variant={previewDevice === "tablet" ? "primary" : "secondary"}
-							aria-label="Tablet preview"
-							onClick={() => setPreviewDevice("tablet")}
-						/>
-						<Button
-							isIconOnly
-							leftIcon={<Monitor size={16} />}
-							variant={previewDevice === "desktop" ? "primary" : "secondary"}
-							aria-label="Desktop preview"
-							onClick={() => setPreviewDevice("desktop")}
-						/>
-					</ButtonGroup>
+					<div className={styles.headerActions}>
+						<ButtonGroup isAttached>
+							<Button
+								isIconOnly
+								leftIcon={<Smartphone size={16} />}
+								variant={previewDevice === "mobile" ? "primary" : "secondary"}
+								aria-label="Mobile preview"
+								onClick={() => setPreviewDevice("mobile")}
+							/>
+							<Button
+								isIconOnly
+								leftIcon={<Tablet size={16} />}
+								variant={previewDevice === "tablet" ? "primary" : "secondary"}
+								aria-label="Tablet preview"
+								onClick={() => setPreviewDevice("tablet")}
+							/>
+							<Button
+								isIconOnly
+								leftIcon={<Monitor size={16} />}
+								variant={previewDevice === "desktop" ? "primary" : "secondary"}
+								aria-label="Desktop preview"
+								onClick={() => setPreviewDevice("desktop")}
+							/>
+						</ButtonGroup>
 
-					{/* Test Email */}
-					{existingTemplate && (
-						<>
-							{showTestEmailInput ? (
-								<div className={styles.testEmailForm}>
-									<Input
-										id="test-email"
-										type="email"
-										value={testEmailRecipient}
-										onChange={(e) => setTestEmailRecipient(e.target.value)}
-										placeholder="your@email.com"
-										className={styles.testEmailInput}
-									/>
+						{/* Test Email */}
+						{existingTemplate && (
+							<>
+								{showTestEmailInput ? (
+									<div className={styles.testEmailForm}>
+										<Input
+											id="test-email"
+											type="email"
+											value={testEmailRecipient}
+											onChange={(e) => setTestEmailRecipient(e.target.value)}
+											placeholder="your@email.com"
+											className={styles.testEmailInput}
+										/>
+										<Button
+											variant="secondary"
+											size="md"
+											onClick={handleSendTestEmail}
+											disabled={sendingTest || !testEmailRecipient}
+										>
+											{sendingTest ? "Sending..." : "Send"}
+										</Button>
+										<Button
+											isIconOnly
+											leftIcon={<X size={16} />}
+											variant="secondary"
+											aria-label="Cancel"
+											onClick={closeTestEmailInput}
+										/>
+									</div>
+								) : (
 									<Button
 										variant="secondary"
 										size="md"
-										onClick={handleSendTestEmail}
-										disabled={sendingTest || !testEmailRecipient}
+										leftIcon={<Send size={16} />}
+										onClick={openTestEmailInput}
 									>
-										{sendingTest ? "Sending..." : "Send"}
+										Send Test
 									</Button>
-									<Button
-										isIconOnly
-										leftIcon={<X size={16} />}
-										variant="secondary"
-										aria-label="Cancel"
-										onClick={closeTestEmailInput}
-									/>
-								</div>
-							) : (
-								<Button
-									variant="secondary"
-									size="md"
-									leftIcon={<Send size={16} />}
-									onClick={openTestEmailInput}
-								>
-									Send Test
-								</Button>
-							)}
-						</>
-					)}
+								)}
+							</>
+						)}
 
-					<Button
-						variant="primary"
-						size="md"
-						leftIcon={<Save size={16} />}
-						onClick={handleSave}
-						disabled={saving || !hasUnsavedChanges}
-					>
-						{saving ? "Saving..." : "Save Email"}
-					</Button>
-				</div>
-			</Stack>
-
-			{/* Success message */}
-			{testSuccess && (
-				<Stack
-					direction="row"
-					gap="sm"
-					align="center"
-					className={styles.successBanner}
-				>
-					<Icon icon={Check} size="sm" color="success" />
-					<Text size="sm">Test email sent successfully!</Text>
-				</Stack>
-			)}
-
-			{/* Tabs */}
-			<div className={styles.tabsWrapper}>
-				<Tabs
-					defaultTab={emailType}
-					variant="line"
-					onTabChange={handleTabChange}
-				>
-					<TabList>
-						<Tab id="verification" icon={<ShieldCheck size={16} />}>
-							Verification Email
-						</Tab>
-						<Tab id="welcome" icon={<HandHeart size={16} />}>
-							Welcome Email
-						</Tab>
-					</TabList>
-				</Tabs>
-			</div>
-
-			{/* Three-pane layout */}
-			<div className={styles.builder}>
-				{/* Left panel - Block Palette */}
-				<aside className={styles.leftPanel}>
-					<BlockPalette onBlockSelect={handleAddBlock} />
-				</aside>
-
-				{/* Center panel - Canvas + Preview */}
-				<main className={styles.centerPanel}>
-					{loadingTemplates ? (
-						<Stack
-							gap="md"
-							align="center"
-							justify="center"
-							className={styles.loadingState}
+						<Button
+							variant="primary"
+							size="md"
+							leftIcon={<Save size={16} />}
+							onClick={handleSave}
+							disabled={saving || !hasUnsavedChanges}
 						>
-							<Icon
-								icon={Loader2}
-								size="xl"
-								color="muted"
-								className={styles.loadingIcon}
-							/>
-							<Text color="muted">Loading templates...</Text>
-						</Stack>
-					) : (
-						<>
-							{/* Subject line editor */}
-							<div className={styles.subjectEditor}>
-								<VariableTextInput
-									value={subject}
-									onChange={handleSubjectChange}
-									label="Subject Line"
-									placeholder="Enter email subject..."
-									emailType={emailType}
-								/>
-							</div>
-
-							{/* Block canvas */}
-							<div className={styles.canvasWrapper}>
-								<Stack
-									direction="row"
-									gap="sm"
-									align="center"
-									className={styles.canvasHeader}
-								>
-									<Icon icon={Layout} size="sm" color="secondary" />
-									<Text size="sm" weight="medium">
-										Email Content
-									</Text>
-									<Text size="xs" color="muted" className={styles.blockCount}>
-										{blocks.length} blocks
-									</Text>
-								</Stack>
-								<div className={styles.canvas}>
-									{blocks.length === 0 ? (
-										<Stack
-											gap="md"
-											align="center"
-											justify="center"
-											className={styles.emptyCanvas}
-										>
-											<Icon icon={Plus} size="2xl" color="muted" />
-											<Text color="muted">
-												Add content blocks from the left panel
-											</Text>
-										</Stack>
-									) : (
-										blocks.map((block, index) => (
-											<BlockItem
-												key={block.id}
-												block={block}
-												isSelected={block.id === selectedBlockId}
-												onSelect={() => handleBlockSelect(block.id)}
-												onDelete={() => handleDeleteBlock(block.id)}
-												onMoveUp={() => handleMoveBlock(block.id, "up")}
-												onMoveDown={() => handleMoveBlock(block.id, "down")}
-												canMoveUp={index > 0}
-												canMoveDown={index < blocks.length - 1}
-											/>
-										))
-									)}
-								</div>
-							</div>
-
-							{/* Live Preview */}
-							<div className={styles.previewWrapper}>
-								<Stack
-									direction="row"
-									gap="sm"
-									align="center"
-									className={styles.previewHeader}
-								>
-									<Icon icon={Eye} size="sm" color="secondary" />
-									<Text size="sm" weight="medium">
-										Live Preview
-									</Text>
-								</Stack>
-								<div
-									className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
-								>
-									{/* Email header */}
-									<div className={styles.emailHeader}>
-										<div className={styles.emailHeaderRow}>
-											<span className={styles.emailLabel}>Subject:</span>
-											<span className={styles.emailValue}>
-												{renderedSubject}
-											</span>
-										</div>
-										<div className={styles.emailHeaderRow}>
-											<span className={styles.emailLabel}>To:</span>
-											<span className={styles.emailValue}>
-												{SAMPLE_TEMPLATE_DATA.email}
-											</span>
-										</div>
-									</div>
-									{/* Email body */}
-									<div className={styles.emailBody}>
-										<iframe
-											srcDoc={renderedBody}
-											title="Email Preview"
-											sandbox="allow-same-origin"
-											className={styles.emailIframe}
-										/>
-									</div>
-								</div>
-							</div>
-						</>
-					)}
-				</main>
-
-				{/* Right panel - Block Editor or Appearance Editor */}
-				<aside className={styles.rightPanel}>
-					{/* Panel mode toggle */}
-					<div className={styles.panelModeToggle}>
-						<ButtonGroup isAttached isFullWidth>
-							<Button
-								variant={rightPanelMode === "block" ? "primary" : "secondary"}
-								size="sm"
-								leftIcon={<Layout size={16} />}
-								onClick={() => setRightPanelMode("block")}
-								aria-pressed={rightPanelMode === "block"}
-							>
-								Content
-							</Button>
-							<Button
-								variant={
-									rightPanelMode === "appearance" ? "primary" : "secondary"
-								}
-								size="sm"
-								leftIcon={<Palette size={16} />}
-								onClick={() => setRightPanelMode("appearance")}
-								aria-pressed={rightPanelMode === "appearance"}
-							>
-								Appearance
-							</Button>
-						</ButtonGroup>
+							{saving ? "Saving..." : "Save Email"}
+						</Button>
 					</div>
+				</Stack>
 
-					{/* Panel content */}
-					{rightPanelMode === "block" ? (
-						selectedBlock ? (
-							<BlockEditor
-								block={selectedBlock}
-								onUpdate={handleUpdateBlock}
-								emailType={emailType}
-							/>
-						) : (
+				{/* Success message */}
+				{testSuccess && (
+					<Stack
+						direction="row"
+						gap="sm"
+						align="center"
+						className={styles.successBanner}
+					>
+						<Icon icon={Check} size="sm" color="success" />
+						<Text size="sm">Test email sent successfully!</Text>
+					</Stack>
+				)}
+
+				{/* Tabs */}
+				<div className={styles.tabsWrapper}>
+					<Tabs
+						defaultTab={emailType}
+						variant="line"
+						onTabChange={handleTabChange}
+					>
+						<TabList>
+							<Tab id="verification" icon={<ShieldCheck size={16} />}>
+								Verification Email
+							</Tab>
+							<Tab id="welcome" icon={<HandHeart size={16} />}>
+								Welcome Email
+							</Tab>
+						</TabList>
+					</Tabs>
+				</div>
+
+				{/* Three-pane layout */}
+				<div className={styles.builder}>
+					{/* Left panel - Block Palette */}
+					<aside className={styles.leftPanel}>
+						<BlockPalette onBlockSelect={handleAddBlock} />
+					</aside>
+
+					{/* Center panel - Canvas + Preview */}
+					<main className={styles.centerPanel}>
+						{loadingTemplates ? (
 							<Stack
 								gap="md"
 								align="center"
 								justify="center"
-								className={styles.noSelection}
+								className={styles.loadingState}
 							>
-								<Icon icon={MousePointer2} size="xl" color="muted" />
-								<Text as="h3" size="md" weight="semibold">
-									No Block Selected
-								</Text>
-								<Text size="sm" color="muted">
-									Select a content block from the canvas to edit its properties.
-								</Text>
+								<Icon
+									icon={Loader2}
+									size="xl"
+									color="muted"
+									className={styles.loadingIcon}
+								/>
+								<Text color="muted">Loading templates...</Text>
 							</Stack>
-						)
-					) : (
-						<EmailStyleEditor design={design} onChange={handleDesignChange} />
-					)}
-				</aside>
+						) : (
+							<>
+								{/* Subject line editor */}
+								<div className={styles.subjectEditor}>
+									<VariableTextInput
+										value={subject}
+										onChange={handleSubjectChange}
+										label="Subject Line"
+										placeholder="Enter email subject..."
+										emailType={emailType}
+									/>
+								</div>
+
+								{/* Block canvas */}
+								<div className={styles.canvasWrapper}>
+									<Stack
+										direction="row"
+										gap="sm"
+										align="center"
+										className={styles.canvasHeader}
+									>
+										<Icon icon={Layout} size="sm" color="secondary" />
+										<Text size="sm" weight="medium">
+											Email Content
+										</Text>
+										<Text size="xs" color="muted" className={styles.blockCount}>
+											{blocks.length} blocks
+										</Text>
+									</Stack>
+									<div className={styles.canvas}>
+										{blocks.length === 0 ? (
+											<Stack
+												gap="md"
+												align="center"
+												justify="center"
+												className={styles.emptyCanvas}
+											>
+												<Icon icon={Plus} size="2xl" color="muted" />
+												<Text color="muted">
+													Add content blocks from the left panel
+												</Text>
+											</Stack>
+										) : (
+											blocks.map((block, index) => (
+												<BlockItem
+													key={block.id}
+													block={block}
+													isSelected={block.id === selectedBlockId}
+													onSelect={() => handleBlockSelect(block.id)}
+													onDelete={() => handleDeleteBlock(block.id)}
+													onMoveUp={() => handleMoveBlock(block.id, "up")}
+													onMoveDown={() => handleMoveBlock(block.id, "down")}
+													canMoveUp={index > 0}
+													canMoveDown={index < blocks.length - 1}
+												/>
+											))
+										)}
+									</div>
+								</div>
+
+								{/* Live Preview */}
+								<div className={styles.previewWrapper}>
+									<Stack
+										direction="row"
+										gap="sm"
+										align="center"
+										className={styles.previewHeader}
+									>
+										<Icon icon={Eye} size="sm" color="secondary" />
+										<Text size="sm" weight="medium">
+											Live Preview
+										</Text>
+									</Stack>
+									<div
+										className={`${styles.emailPreview} ${styles[`device_${previewDevice}`]}`}
+									>
+										{/* Email header */}
+										<div className={styles.emailHeader}>
+											<div className={styles.emailHeaderRow}>
+												<span className={styles.emailLabel}>Subject:</span>
+												<span className={styles.emailValue}>
+													{renderedSubject}
+												</span>
+											</div>
+											<div className={styles.emailHeaderRow}>
+												<span className={styles.emailLabel}>To:</span>
+												<span className={styles.emailValue}>
+													{SAMPLE_TEMPLATE_DATA.email}
+												</span>
+											</div>
+										</div>
+										{/* Email body */}
+										<div className={styles.emailBody}>
+											<iframe
+												srcDoc={renderedBody}
+												title="Email Preview"
+												sandbox="allow-same-origin"
+												className={styles.emailIframe}
+											/>
+										</div>
+									</div>
+								</div>
+							</>
+						)}
+					</main>
+
+					{/* Right panel - Block Editor or Appearance Editor */}
+					<aside className={styles.rightPanel}>
+						{/* Panel mode toggle */}
+						<div className={styles.panelModeToggle}>
+							<ButtonGroup isAttached isFullWidth>
+								<Button
+									variant={rightPanelMode === "block" ? "primary" : "secondary"}
+									size="sm"
+									leftIcon={<Layout size={16} />}
+									onClick={() => setRightPanelMode("block")}
+									aria-pressed={rightPanelMode === "block"}
+								>
+									Content
+								</Button>
+								<Button
+									variant={
+										rightPanelMode === "appearance" ? "primary" : "secondary"
+									}
+									size="sm"
+									leftIcon={<Palette size={16} />}
+									onClick={() => setRightPanelMode("appearance")}
+									aria-pressed={rightPanelMode === "appearance"}
+								>
+									Appearance
+								</Button>
+							</ButtonGroup>
+						</div>
+
+						{/* Panel content */}
+						{rightPanelMode === "block" ? (
+							selectedBlock ? (
+								<BlockEditor
+									block={selectedBlock}
+									onUpdate={handleUpdateBlock}
+									emailType={emailType}
+								/>
+							) : (
+								<Stack
+									gap="md"
+									align="center"
+									justify="center"
+									className={styles.noSelection}
+								>
+									<Icon icon={MousePointer2} size="xl" color="muted" />
+									<Text as="h3" size="md" weight="semibold">
+										No Block Selected
+									</Text>
+									<Text size="sm" color="muted">
+										Select a content block from the canvas to edit its
+										properties.
+									</Text>
+								</Stack>
+							)
+						) : (
+							<EmailStyleEditor design={design} onChange={handleDesignChange} />
+						)}
+					</aside>
+				</div>
 			</div>
-		</div>
-	);
-});
+		);
+	},
+);
 
 CampaignEmailBuilder.displayName = "CampaignEmailBuilder";
