@@ -4,7 +4,15 @@
  */
 
 import { useNavigate } from "@tanstack/react-router";
-import { Eye, Loader2, Monitor, Save, Smartphone, Tablet, X } from "lucide-react";
+import {
+	Eye,
+	Loader2,
+	Monitor,
+	Save,
+	Smartphone,
+	Tablet,
+	X,
+} from "lucide-react";
 import { memo, useCallback, useEffect, useState } from "react";
 import {
 	renderTemplate,
@@ -158,7 +166,7 @@ export const EditBlastEmailTemplatePage = memo(
 		const [previewDevice, setPreviewDevice] =
 			useState<PreviewDevice>("desktop");
 		const [rightPanelMode, setRightPanelMode] =
-			useState<RightPanelMode>("block");
+			useState<RightPanelMode>("appearance");
 
 		// Parse initial blocks from template
 		const initialBlocks = (template?.blocksJson?.blocks as EmailBlock[]) || [];
