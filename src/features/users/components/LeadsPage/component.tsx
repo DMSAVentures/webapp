@@ -6,6 +6,7 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useExportCampaignUsers } from "@/hooks/useExportCampaignUsers";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { useGetCampaignUsers } from "@/hooks/useGetCampaignUsers";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Text } from "@/proto-design-system/components/primitives/Text";
@@ -182,6 +183,9 @@ export const LeadsPage = memo(function LeadsPage({
 	campaignId,
 	campaign,
 }: LeadsPageProps) {
+	// Feature access check
+	const { hasAccess: hasReferralAccess } = useFeatureAccess("referral_system");
+
 	// Hooks
 	const {
 		page,
@@ -209,6 +213,10 @@ export const LeadsPage = memo(function LeadsPage({
 		() => filtersToChips(filters, customFieldLabels),
 		[filters, customFieldLabels],
 	);
+
+	// Show referral features only if user has access AND campaign has it enabled
+	const showReferralFeatures =
+		hasReferralAccess && (campaign.referralSettings?.enabled ?? false);
 
 	// Data fetching
 	const {
@@ -250,6 +258,7 @@ export const LeadsPage = memo(function LeadsPage({
 					onChange={handleFilterChange}
 					onReset={handleFilterReset}
 					formFields={campaign.formFields}
+					showReferralFilters={showReferralFeatures}
 				/>
 
 				{/* Active filter chips */}
@@ -274,7 +283,7 @@ export const LeadsPage = memo(function LeadsPage({
 						onPageChange={handlePageChange}
 						onUserClick={handleUserClick}
 						onExport={handleExport}
-						referralEnabled={campaign.referralSettings?.enabled ?? false}
+						referralEnabled={showReferralFeatures}
 						emailVerificationEnabled={
 							campaign.emailSettings?.verificationRequired ?? false
 						}

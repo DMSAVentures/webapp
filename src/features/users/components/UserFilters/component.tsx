@@ -29,6 +29,8 @@ export interface UserFiltersProps {
 	onReset: () => void;
 	/** Custom form fields for dynamic filters */
 	formFields?: FormField[];
+	/** Whether to show referral-related filters (source, has referrals) */
+	showReferralFilters?: boolean;
 	/** Additional CSS class name */
 	className?: string;
 }
@@ -99,6 +101,7 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	onChange,
 	onReset,
 	formFields,
+	showReferralFilters = false,
 	className: customClassName,
 }) {
 	const classNames = [styles.root, customClassName].filter(Boolean).join(" ");
@@ -106,8 +109,8 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 	// Check if any filters are active
 	const hasActiveFilters =
 		(filters.status && filters.status.length > 0) ||
-		(filters.source && filters.source.length > 0) ||
-		filters.hasReferrals ||
+		(showReferralFilters && filters.source && filters.source.length > 0) ||
+		(showReferralFilters && filters.hasReferrals) ||
 		filters.minPosition !== undefined ||
 		filters.maxPosition !== undefined ||
 		filters.dateRange !== undefined ||
@@ -274,16 +277,18 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 				/>
 			</Stack>
 
-			{/* Source Filter */}
-			<Stack gap="xs" className={styles.filterGroup}>
-				<Label>Source</Label>
-				<MultiSelect
-					items={SOURCE_OPTIONS}
-					value={sourceValue}
-					onChange={handleSourceChange}
-					placeholder="All Sources"
-				/>
-			</Stack>
+			{/* Source Filter - only shown for paid users */}
+			{showReferralFilters && (
+				<Stack gap="xs" className={styles.filterGroup}>
+					<Label>Source</Label>
+					<MultiSelect
+						items={SOURCE_OPTIONS}
+						value={sourceValue}
+						onChange={handleSourceChange}
+						placeholder="All Sources"
+					/>
+				</Stack>
+			)}
 
 			{/* Date Range Filter */}
 			<Stack gap="xs" className={styles.filterGroup}>
@@ -313,41 +318,45 @@ export const UserFilters = memo<UserFiltersProps>(function UserFilters({
 				</Stack>
 			</Stack>
 
-			{/* Position Range Filter */}
-			<Stack gap="xs" className={styles.filterGroup}>
-				<Label>Position</Label>
-				<Stack direction="row" gap="xs" align="center">
-					<Input
-						type="number"
-						placeholder="Min"
-						min={1}
-						value={filters.minPosition ?? ""}
-						onChange={(e) => handlePositionChange("min", e.target.value)}
-					/>
-					<Text size="sm" color="muted">
-						-
-					</Text>
-					<Input
-						type="number"
-						placeholder="Max"
-						min={1}
-						value={filters.maxPosition ?? ""}
-						onChange={(e) => handlePositionChange("max", e.target.value)}
-					/>
+			{/* Position Range Filter - only shown for paid users */}
+			{showReferralFilters && (
+				<Stack gap="xs" className={styles.filterGroup}>
+					<Label>Position</Label>
+					<Stack direction="row" gap="xs" align="center">
+						<Input
+							type="number"
+							placeholder="Min"
+							min={1}
+							value={filters.minPosition ?? ""}
+							onChange={(e) => handlePositionChange("min", e.target.value)}
+						/>
+						<Text size="sm" color="muted">
+							-
+						</Text>
+						<Input
+							type="number"
+							placeholder="Max"
+							min={1}
+							value={filters.maxPosition ?? ""}
+							onChange={(e) => handlePositionChange("max", e.target.value)}
+						/>
+					</Stack>
 				</Stack>
-			</Stack>
+			)}
 
-			{/* Has Referrals Filter */}
-			<Stack gap="xs" className={styles.filterGroup}>
-				<Label>Referrals</Label>
-				<Stack direction="row" gap="sm" align="center">
-					<Checkbox
-						checked={filters.hasReferrals || false}
-						onChange={handleReferralsToggle}
-					/>
-					<Text size="sm">Has referrals</Text>
+			{/* Has Referrals Filter - only shown for paid users */}
+			{showReferralFilters && (
+				<Stack gap="xs" className={styles.filterGroup}>
+					<Label>Referrals</Label>
+					<Stack direction="row" gap="sm" align="center">
+						<Checkbox
+							checked={filters.hasReferrals || false}
+							onChange={handleReferralsToggle}
+						/>
+						<Text size="sm">Has referrals</Text>
+					</Stack>
 				</Stack>
-			</Stack>
+			)}
 
 			{/* Custom Form Field Filters */}
 			{filterableFields.map((field) => {
