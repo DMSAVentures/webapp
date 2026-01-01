@@ -553,11 +553,13 @@ export const UserList = memo<UserListProps>(function UserList({
 
 				{/* Pagination */}
 				{totalPages > 1 && (
-					<Pagination
-						page={currentPage}
-						totalPages={totalPages}
-						onPageChange={onPageChange ?? (() => undefined)}
-					/>
+					<Stack direction="row" justify="center">
+						<Pagination
+							page={currentPage}
+							totalPages={totalPages}
+							onPageChange={onPageChange ?? (() => undefined)}
+						/>
+					</Stack>
 				)}
 			</Stack>
 		</Stack>
