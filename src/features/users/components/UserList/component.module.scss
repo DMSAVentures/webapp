@@ -196,13 +196,6 @@
   line-height: var(--line-height-normal);
 }
 
-// Pagination
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding-top: var(--space-3);
-}
-
 // Phantom rows (gated leads)
 .phantomRow {
   opacity: 0.5;
