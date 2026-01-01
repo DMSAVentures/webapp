@@ -331,195 +331,195 @@ export const UserList = memo<UserListProps>(function UserList({
 
 				{/* User table */}
 				<Table loading={loading} loadingMessage="Loading users...">
-						<TableHeader>
-							<TableRow>
-								<TableHead narrow>
-									<Checkbox
-										checked={isAllSelected}
-										onChange={handleSelectAll}
-										aria-label="Select all users"
-									/>
-								</TableHead>
+					<TableHeader>
+						<TableRow>
+							<TableHead narrow>
+								<Checkbox
+									checked={isAllSelected}
+									onChange={handleSelectAll}
+									aria-label="Select all users"
+								/>
+							</TableHead>
+							<TableHead
+								sortDirection={getSortDirection("email")}
+								onSort={() => handleSort("email")}
+							>
+								Email
+							</TableHead>
+							{emailVerificationEnabled && (
 								<TableHead
-									sortDirection={getSortDirection("email")}
-									onSort={() => handleSort("email")}
+									sortDirection={getSortDirection("status")}
+									onSort={() => handleSort("status")}
 								>
-									Email
+									Status
 								</TableHead>
-								{emailVerificationEnabled && (
+							)}
+							{referralEnabled && (
+								<>
 									<TableHead
-										sortDirection={getSortDirection("status")}
-										onSort={() => handleSort("status")}
+										sortDirection={getSortDirection("position")}
+										onSort={() => handleSort("position")}
 									>
-										Status
+										Position
 									</TableHead>
+									<TableHead
+										sortDirection={getSortDirection("referralCount")}
+										onSort={() => handleSort("referralCount")}
+									>
+										Referrals
+									</TableHead>
+									<TableHead
+										sortDirection={getSortDirection("source")}
+										onSort={() => handleSort("source")}
+									>
+										Source
+									</TableHead>
+									<TableHead>UTM Source</TableHead>
+								</>
+							)}
+							{/* Dynamic columns for custom form fields */}
+							{customFormFields.map((field) => (
+								<TableHead key={field.id}>{field.label}</TableHead>
+							))}
+							<TableHead
+								sortDirection={getSortDirection("createdAt")}
+								onSort={() => handleSort("createdAt")}
+							>
+								Date
+							</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{users.map((user) => (
+							<TableRow
+								key={user.id}
+								selected={isUserSelected(user.id)}
+								onClick={() => onUserClick?.(user)}
+							>
+								<TableCell>
+									<Checkbox
+										checked={isUserSelected(user.id)}
+										onChange={() => handleSelectUser(user.id)}
+										onClick={(e) => e.stopPropagation()}
+									/>
+								</TableCell>
+								<TableCell>
+									<span className={styles.email}>{user.email}</span>
+								</TableCell>
+								{emailVerificationEnabled && (
+									<TableCell>
+										<Badge variant={getStatusVariant(user.status)}>
+											{formatStatus(user.status)}
+										</Badge>
+									</TableCell>
 								)}
 								{referralEnabled && (
 									<>
-										<TableHead
-											sortDirection={getSortDirection("position")}
-											onSort={() => handleSort("position")}
-										>
-											Position
-										</TableHead>
-										<TableHead
-											sortDirection={getSortDirection("referralCount")}
-											onSort={() => handleSort("referralCount")}
-										>
-											Referrals
-										</TableHead>
-										<TableHead
-											sortDirection={getSortDirection("source")}
-											onSort={() => handleSort("source")}
-										>
-											Source
-										</TableHead>
-										<TableHead>UTM Source</TableHead>
+										<TableCell>
+											<span className={styles.position}>
+												{formatPosition(user.position)}
+											</span>
+										</TableCell>
+										<TableCell>
+											<span className={styles.referralCount}>
+												{user.referralCount}
+											</span>
+										</TableCell>
+										<TableCell>
+											<span className={styles.source}>
+												{formatSource(user.source)}
+											</span>
+										</TableCell>
+										<TableCell>
+											<UtmSourceBadge source={user.utmSource} />
+										</TableCell>
 									</>
 								)}
-								{/* Dynamic columns for custom form fields */}
+								{/* Dynamic cells for custom form fields */}
 								{customFormFields.map((field) => (
-									<TableHead key={field.id}>{field.label}</TableHead>
+									<TableCell key={field.id}>
+										<span className={styles.customField}>
+											{user.customFields?.[field.name] ?? "-"}
+										</span>
+									</TableCell>
 								))}
-								<TableHead
-									sortDirection={getSortDirection("createdAt")}
-									onSort={() => handleSort("createdAt")}
-								>
-									Date
-								</TableHead>
+								<TableCell>
+									<span className={styles.date}>
+										{formatDate(user.createdAt)}
+									</span>
+								</TableCell>
 							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{users.map((user) => (
+						))}
+						{/* Phantom rows for gated leads */}
+						{hasGatedLeads &&
+							Array.from({ length: phantomRowCount }).map((_, index) => (
 								<TableRow
-									key={user.id}
-									selected={isUserSelected(user.id)}
-									onClick={() => onUserClick?.(user)}
+									key={`phantom-${index}`}
+									className={styles.phantomRow}
 								>
 									<TableCell>
-										<Checkbox
-											checked={isUserSelected(user.id)}
-											onChange={() => handleSelectUser(user.id)}
-											onClick={(e) => e.stopPropagation()}
-										/>
+										<div className={styles.phantomCell} />
 									</TableCell>
 									<TableCell>
-										<span className={styles.email}>{user.email}</span>
+										<div
+											className={styles.phantomCell}
+											style={{ width: "180px" }}
+										/>
 									</TableCell>
 									{emailVerificationEnabled && (
 										<TableCell>
-											<Badge variant={getStatusVariant(user.status)}>
-												{formatStatus(user.status)}
-											</Badge>
+											<div
+												className={styles.phantomCell}
+												style={{ width: "70px" }}
+											/>
 										</TableCell>
 									)}
 									{referralEnabled && (
 										<>
 											<TableCell>
-												<span className={styles.position}>
-													{formatPosition(user.position)}
-												</span>
+												<div
+													className={styles.phantomCell}
+													style={{ width: "40px" }}
+												/>
 											</TableCell>
 											<TableCell>
-												<span className={styles.referralCount}>
-													{user.referralCount}
-												</span>
+												<div
+													className={styles.phantomCell}
+													style={{ width: "30px" }}
+												/>
 											</TableCell>
 											<TableCell>
-												<span className={styles.source}>
-													{formatSource(user.source)}
-												</span>
+												<div
+													className={styles.phantomCell}
+													style={{ width: "60px" }}
+												/>
 											</TableCell>
 											<TableCell>
-												<UtmSourceBadge source={user.utmSource} />
+												<div
+													className={styles.phantomCell}
+													style={{ width: "50px" }}
+												/>
 											</TableCell>
 										</>
 									)}
-									{/* Dynamic cells for custom form fields */}
 									{customFormFields.map((field) => (
 										<TableCell key={field.id}>
-											<span className={styles.customField}>
-												{user.customFields?.[field.name] ?? "-"}
-											</span>
-										</TableCell>
-									))}
-									<TableCell>
-										<span className={styles.date}>
-											{formatDate(user.createdAt)}
-										</span>
-									</TableCell>
-								</TableRow>
-							))}
-							{/* Phantom rows for gated leads */}
-							{hasGatedLeads &&
-								Array.from({ length: phantomRowCount }).map((_, index) => (
-									<TableRow
-										key={`phantom-${index}`}
-										className={styles.phantomRow}
-									>
-										<TableCell>
-											<div className={styles.phantomCell} />
-										</TableCell>
-										<TableCell>
-											<div
-												className={styles.phantomCell}
-												style={{ width: "180px" }}
-											/>
-										</TableCell>
-										{emailVerificationEnabled && (
-											<TableCell>
-												<div
-													className={styles.phantomCell}
-													style={{ width: "70px" }}
-												/>
-											</TableCell>
-										)}
-										{referralEnabled && (
-											<>
-												<TableCell>
-													<div
-														className={styles.phantomCell}
-														style={{ width: "40px" }}
-													/>
-												</TableCell>
-												<TableCell>
-													<div
-														className={styles.phantomCell}
-														style={{ width: "30px" }}
-													/>
-												</TableCell>
-												<TableCell>
-													<div
-														className={styles.phantomCell}
-														style={{ width: "60px" }}
-													/>
-												</TableCell>
-												<TableCell>
-													<div
-														className={styles.phantomCell}
-														style={{ width: "50px" }}
-													/>
-												</TableCell>
-											</>
-										)}
-										{customFormFields.map((field) => (
-											<TableCell key={field.id}>
-												<div
-													className={styles.phantomCell}
-													style={{ width: "80px" }}
-												/>
-											</TableCell>
-										))}
-										<TableCell>
 											<div
 												className={styles.phantomCell}
 												style={{ width: "80px" }}
 											/>
 										</TableCell>
-									</TableRow>
-								))}
-						</TableBody>
-					</Table>
+									))}
+									<TableCell>
+										<div
+											className={styles.phantomCell}
+											style={{ width: "80px" }}
+										/>
+									</TableCell>
+								</TableRow>
+							))}
+					</TableBody>
+				</Table>
 
 				{/* Gated leads upgrade CTA */}
 				{hasGatedLeads && (

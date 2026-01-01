@@ -467,23 +467,21 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 			</Stack>
 
 			{/* Top-level Mode Tabs */}
-			<div className={styles.modeTabs}>
-				<Tabs
-					activeTab={builderMode}
-					onTabChange={handleBuilderModeChange}
-					variant="line"
-					size="sm"
-				>
-					<TabList aria-label="Form builder sections">
-						<Tab id="form" icon={<FileText size={16} />}>
-							Form
-						</Tab>
-						<Tab id="success-screen" icon={<CheckCheck size={16} />}>
-							Success Screen
-						</Tab>
-					</TabList>
-				</Tabs>
-			</div>
+			<Tabs
+				activeTab={builderMode}
+				onTabChange={handleBuilderModeChange}
+				variant="line"
+				size="md"
+			>
+				<TabList aria-label="Form builder sections">
+					<Tab id="form" icon={<FileText size={16} />}>
+						Form
+					</Tab>
+					<Tab id="success-screen" icon={<CheckCheck size={16} />}>
+						Success Screen
+					</Tab>
+				</TabList>
+			</Tabs>
 
 			{/* Main content based on builder mode */}
 			{builderMode === "form" ? (

@@ -675,7 +675,10 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						<Checkbox
 							checked={formData.settings.emailVerificationRequired}
 							onChange={(e) =>
-								handleSettingChange("emailVerificationRequired", e.target.checked)
+								handleSettingChange(
+									"emailVerificationRequired",
+									e.target.checked,
+								)
 							}
 							disabled={isDisabled || !hasEmail}
 							label="Require email verification"
