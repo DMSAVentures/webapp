@@ -32,11 +32,11 @@ import {
 	SAMPLE_TEMPLATE_DATA,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
-	useCreateEmailTemplate,
-	useGetEmailTemplates,
-	useSendTestEmail,
-	useUpdateEmailTemplate,
-} from "@/hooks/useEmailTemplates";
+	useCreateCampaignEmailTemplate,
+	useGetCampaignEmailTemplates,
+	useSendCampaignTestEmail,
+	useUpdateCampaignEmailTemplate,
+} from "@/hooks/useCampaignEmailTemplates";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import {
@@ -291,17 +291,17 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		templates,
 		loading: loadingTemplates,
 		refetch,
-	} = useGetEmailTemplates(campaignId);
+	} = useGetCampaignEmailTemplates(campaignId);
 	const existingTemplate = templates.find((t) => t.type === emailType) || null;
 
-	const { createTemplate, loading: creating } = useCreateEmailTemplate();
-	const { updateTemplate, loading: updating } = useUpdateEmailTemplate();
+	const { createTemplate, loading: creating } = useCreateCampaignEmailTemplate();
+	const { updateTemplate, loading: updating } = useUpdateCampaignEmailTemplate();
 	const {
 		sendTestEmail,
 		loading: sendingTest,
 		success: testSuccess,
 		reset: resetTestState,
-	} = useSendTestEmail();
+	} = useSendCampaignTestEmail();
 
 	const saving = creating || updating;
 
@@ -317,15 +317,15 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 			if (existing) {
 				setSubject(existing.subject);
 				if (
-					existing.blocks_json?.blocks &&
-					Array.isArray(existing.blocks_json.blocks)
+					existing.blocksJson?.blocks &&
+					Array.isArray(existing.blocksJson.blocks)
 				) {
-					setBlocksFromTemplate(existing.blocks_json.blocks as EmailBlock[]);
+					setBlocksFromTemplate(existing.blocksJson.blocks as EmailBlock[]);
 				} else {
 					resetToDefaults(newType);
 				}
-				if (existing.blocks_json?.design) {
-					setDesignFromTemplate(existing.blocks_json.design as EmailDesign);
+				if (existing.blocksJson?.design) {
+					setDesignFromTemplate(existing.blocksJson.design as EmailDesign);
 				} else {
 					resetDesign();
 				}
@@ -354,18 +354,18 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		if (existingTemplate) {
 			await updateTemplate(campaignId, existingTemplate.id, {
 				subject,
-				html_body: htmlBody,
-				blocks_json: blocksJson,
+				htmlBody: htmlBody,
+				blocksJson: blocksJson,
 			});
 		} else {
 			await createTemplate(campaignId, {
 				name: templateName,
 				type: emailType,
 				subject,
-				html_body: htmlBody,
-				blocks_json: blocksJson,
+				htmlBody: htmlBody,
+				blocksJson: blocksJson,
 				enabled: true,
-				send_automatically: true,
+				sendAutomatically: true,
 			});
 		}
 
@@ -454,16 +454,16 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 		if (existingTemplate && !hasUnsavedChanges) {
 			setSubject(existingTemplate.subject);
 			if (
-				existingTemplate.blocks_json?.blocks &&
-				Array.isArray(existingTemplate.blocks_json.blocks)
+				existingTemplate.blocksJson?.blocks &&
+				Array.isArray(existingTemplate.blocksJson.blocks)
 			) {
 				setBlocksFromTemplate(
-					existingTemplate.blocks_json.blocks as EmailBlock[],
+					existingTemplate.blocksJson.blocks as EmailBlock[],
 				);
 			}
-			if (existingTemplate.blocks_json?.design) {
+			if (existingTemplate.blocksJson?.design) {
 				setDesignFromTemplate(
-					existingTemplate.blocks_json.design as EmailDesign,
+					existingTemplate.blocksJson.design as EmailDesign,
 				);
 			}
 		}
@@ -478,7 +478,7 @@ export const EmailBuilder = memo<EmailBuilderProps>(function EmailBuilder({
 	const renderedSubject = renderTemplate(subject, SAMPLE_TEMPLATE_DATA);
 	const htmlBody =
 		existingTemplate && !hasUnsavedChanges
-			? existingTemplate.html_body
+			? existingTemplate.htmlBody
 			: blocksToHtml(blocks, design);
 	const renderedBody = renderTemplate(htmlBody, SAMPLE_TEMPLATE_DATA);
 

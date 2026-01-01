@@ -11,9 +11,9 @@ import {
 	SAMPLE_TEMPLATE_DATA,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
-	useGetEmailTemplateById,
-	useUpdateEmailTemplate,
-} from "@/hooks/useEmailTemplates";
+	useGetCampaignEmailTemplateById,
+	useUpdateCampaignEmailTemplate,
+} from "@/hooks/useCampaignEmailTemplates";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { FormField } from "@/proto-design-system/components/forms/FormField";
@@ -152,7 +152,7 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 		template,
 		loading: loadingTemplate,
 		error: templateError,
-	} = useGetEmailTemplateById(templateId);
+	} = useGetCampaignEmailTemplateById(templateId);
 
 	// Campaign data for display
 	const { data: campaignsData, loading: loadingCampaigns } = useGetCampaigns();
@@ -169,9 +169,9 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 	const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>("block");
 
 	// Parse initial blocks from template
-	const initialBlocks = (template?.blocks_json?.blocks as EmailBlock[]) || [];
+	const initialBlocks = (template?.blocksJson?.blocks as EmailBlock[]) || [];
 	const initialDesign =
-		(template?.blocks_json?.design as EmailDesign) || DEFAULT_EMAIL_DESIGN;
+		(template?.blocksJson?.design as EmailDesign) || DEFAULT_EMAIL_DESIGN;
 
 	// Custom hooks for email content
 	const {
@@ -188,7 +188,7 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 	const { design, updateDesign } = useEmailDesign(initialDesign);
 
 	// API hooks
-	const { updateTemplate, loading: saving } = useUpdateEmailTemplate();
+	const { updateTemplate, loading: saving } = useUpdateCampaignEmailTemplate();
 
 	// Initialize form when template loads
 	useEffect(() => {
@@ -218,11 +218,11 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 		const blocksJson = { blocks, design };
 
 		try {
-			const result = await updateTemplate(template.campaign_id, templateId, {
+			const result = await updateTemplate(template.campaignId, templateId, {
 				name: templateName,
 				subject,
-				html_body: htmlBody,
-				blocks_json: blocksJson,
+				htmlBody: htmlBody,
+				blocksJson: blocksJson,
 			});
 
 			if (result) {
@@ -281,7 +281,7 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 	const getCampaignName = () => {
 		if (!template) return "";
 		const campaign = campaignsData?.campaigns?.find(
-			(c: Campaign) => c.id === template.campaign_id,
+			(c: Campaign) => c.id === template.campaignId,
 		);
 		return campaign?.name || "Unknown Campaign";
 	};
@@ -417,8 +417,8 @@ export const EditEmailTemplatePage = memo(function EditEmailTemplatePage({
 				<Stack direction="row" gap="md" align="end">
 					<FormField label="Campaign" className={styles.configField}>
 						<Dropdown
-							items={[{ id: template.campaign_id, label: getCampaignName() }]}
-							value={template.campaign_id}
+							items={[{ id: template.campaignId, label: getCampaignName() }]}
+							value={template.campaignId}
 							placeholder="Campaign"
 							size="md"
 							onChange={() => {

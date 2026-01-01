@@ -3,8 +3,88 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { mockCampaigns, mockCampaignsByStatus } from "@/mocks/campaigns.mock";
+import type { Campaign } from "@/types/campaign";
 import { CampaignList } from "./component";
+
+// Create mock campaigns that match the @/types/campaign.Campaign interface
+const createMockCampaign = (overrides: Partial<Campaign> = {}): Campaign => ({
+	id: "campaign-1",
+	accountId: "account-1",
+	name: "SaaS Product Launch 2025",
+	slug: "saas-product-launch-2025",
+	description:
+		"Waitlist for our revolutionary project management tool launching Q2 2025",
+	status: "active",
+	type: "waitlist",
+	totalSignups: 12547,
+	totalVerified: 10234,
+	totalReferrals: 8932,
+	createdAt: new Date("2024-09-15T10:00:00Z"),
+	updatedAt: new Date("2025-11-04T14:22:00Z"),
+	...overrides,
+});
+
+const mockCampaigns: Campaign[] = [
+	createMockCampaign(),
+	createMockCampaign({
+		id: "campaign-2",
+		name: "Mobile App Beta Launch",
+		slug: "mobile-app-beta",
+		description: "Early access to our fitness tracking app",
+		status: "active",
+		totalSignups: 3421,
+		totalVerified: 2567,
+		totalReferrals: 1843,
+	}),
+	createMockCampaign({
+		id: "campaign-3",
+		name: "E-commerce Platform Pre-Launch",
+		slug: "ecommerce-prelaunch",
+		description: "Be the first to sell on our new marketplace",
+		status: "draft",
+		totalSignups: 234,
+		totalVerified: 189,
+		totalReferrals: 145,
+	}),
+	createMockCampaign({
+		id: "campaign-4",
+		name: "AI Writing Assistant Waitlist",
+		slug: "ai-writing-assistant",
+		description: "Join thousands waiting for the smartest writing tool",
+		status: "active",
+		totalSignups: 45782,
+		totalVerified: 42109,
+		totalReferrals: 38654,
+	}),
+	createMockCampaign({
+		id: "campaign-5",
+		name: "Newsletter Signup - Tech Weekly",
+		slug: "tech-weekly-newsletter",
+		description: "Weekly newsletter on startup and tech news",
+		status: "paused",
+		totalSignups: 89,
+		totalVerified: 45,
+		totalReferrals: 12,
+	}),
+	createMockCampaign({
+		id: "campaign-6",
+		name: "Conference 2026 Early Bird",
+		slug: "conference-2026",
+		description: "Secure your spot at the biggest tech conference",
+		status: "completed",
+		endDate: new Date("2025-09-30T18:00:00Z"),
+		totalSignups: 3421,
+		totalVerified: 2567,
+		totalReferrals: 1843,
+	}),
+];
+
+const mockCampaignsByStatus = {
+	active: mockCampaigns.filter((c) => c.status === "active"),
+	draft: mockCampaigns.filter((c) => c.status === "draft"),
+	paused: mockCampaigns.filter((c) => c.status === "paused"),
+	completed: mockCampaigns.filter((c) => c.status === "completed"),
+};
 
 const meta = {
 	title: "Features/Campaigns/CampaignList",

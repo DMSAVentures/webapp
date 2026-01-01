@@ -12,11 +12,11 @@ import {
 	TEMPLATE_VARIABLES,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
-	type EmailTemplate,
-	useCreateEmailTemplate,
-	useSendTestEmail,
-	useUpdateEmailTemplate,
-} from "@/hooks/useEmailTemplates";
+	type CampaignEmailTemplate,
+	useCreateCampaignEmailTemplate,
+	useSendCampaignTestEmail,
+	useUpdateCampaignEmailTemplate,
+} from "@/hooks/useCampaignEmailTemplates";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { TextArea } from "@/proto-design-system/components/forms/TextArea";
 import { Button } from "@/proto-design-system/components/primitives/Button";
@@ -29,11 +29,11 @@ export interface EmailTemplateEditorProps {
 	/** Template type being edited */
 	type: "verification" | "welcome";
 	/** Existing template (null for new) */
-	template: EmailTemplate | null;
+	template: CampaignEmailTemplate | null;
 	/** Handler when editor closes */
 	onClose: () => void;
 	/** Handler when template is saved */
-	onSave: (template: EmailTemplate) => void;
+	onSave: (template: CampaignEmailTemplate) => void;
 }
 
 /**
@@ -57,7 +57,7 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 			template?.subject || defaultTemplate.subject,
 		);
 		const [htmlBody, setHtmlBody] = useState(
-			template?.html_body || defaultTemplate.htmlBody,
+			template?.htmlBody || defaultTemplate.htmlBody,
 		);
 
 		// Test email state
@@ -69,19 +69,19 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 			createTemplate,
 			loading: creating,
 			error: createError,
-		} = useCreateEmailTemplate();
+		} = useCreateCampaignEmailTemplate();
 		const {
 			updateTemplate,
 			loading: updating,
 			error: updateError,
-		} = useUpdateEmailTemplate();
+		} = useUpdateCampaignEmailTemplate();
 		const {
 			sendTestEmail,
 			loading: sendingTest,
 			error: testError,
 			success: testSuccess,
 			reset: resetTestState,
-		} = useSendTestEmail();
+		} = useSendCampaignTestEmail();
 
 		const loading = creating || updating;
 		const error = createError || updateError;
@@ -110,7 +110,7 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 				// Update existing
 				const updated = await updateTemplate(campaignId, template.id, {
 					subject,
-					html_body: htmlBody,
+					htmlBody: htmlBody,
 				});
 				if (updated) {
 					onSave(updated);
@@ -122,9 +122,9 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 					name: templateName,
 					type,
 					subject,
-					html_body: htmlBody,
+					htmlBody: htmlBody,
 					enabled: true,
-					send_automatically: true,
+					sendAutomatically: true,
 				});
 				if (created) {
 					onSave(created);
@@ -171,7 +171,7 @@ export const EmailTemplateEditor = memo<EmailTemplateEditorProps>(
 						text.substring(0, start) + `{{${variable}}}` + text.substring(end);
 					setHtmlBody(newText);
 				} else {
-					setHtmlBody((prev) => prev + `{{${variable}}}`);
+					setHtmlBody((prev: string) => prev + `{{${variable}}}`);
 				}
 			},
 			[htmlBody],

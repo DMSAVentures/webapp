@@ -3,6 +3,7 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
+import { createElement } from "react";
 import { mockCampaignStats } from "@/mocks/campaigns.mock";
 import { CampaignStats } from "./component";
 
@@ -87,182 +88,142 @@ export const Loading: Story = {
  * Stats with different K-Factor values
  */
 export const KFactorComparison: Story = {
-	render: () => ({
-		type: "div",
-		props: {
-			style: {
-				display: "flex",
-				flexDirection: "column",
-				gap: "24px",
+	args: {
+		stats: mockCampaignStats.viral,
+	},
+	render: () =>
+		createElement(
+			"div",
+			{
+				style: {
+					display: "flex",
+					flexDirection: "column" as const,
+					gap: "24px",
+				},
 			},
-			children: [
-				{
-					type: "div",
-					props: {
-						children: [
-							{
-								type: "h3",
-								props: {
-									style: {
-										marginBottom: "8px",
-										fontSize: "14px",
-										color: "#666",
-									},
-									children: "Viral (K > 1)",
-								},
-							},
-							{
-								type: CampaignStats,
-								props: {
-									stats: mockCampaignStats.viral,
-								},
-							},
-						],
+			createElement(
+				"div",
+				{ key: "viral" },
+				createElement(
+					"h3",
+					{
+						style: {
+							marginBottom: "8px",
+							fontSize: "14px",
+							color: "#666",
+						},
 					},
-				},
-				{
-					type: "div",
-					props: {
-						children: [
-							{
-								type: "h3",
-								props: {
-									style: {
-										marginBottom: "8px",
-										fontSize: "14px",
-										color: "#666",
-									},
-									children: "Sub-viral (K < 1)",
-								},
-							},
-							{
-								type: CampaignStats,
-								props: {
-									stats: mockCampaignStats.struggling,
-								},
-							},
-						],
+					"Viral (K > 1)",
+				),
+				createElement(CampaignStats, { stats: mockCampaignStats.viral }),
+			),
+			createElement(
+				"div",
+				{ key: "sub-viral" },
+				createElement(
+					"h3",
+					{
+						style: {
+							marginBottom: "8px",
+							fontSize: "14px",
+							color: "#666",
+						},
 					},
-				},
-			],
-		},
-	}),
+					"Sub-viral (K < 1)",
+				),
+				createElement(CampaignStats, { stats: mockCampaignStats.struggling }),
+			),
+		),
 };
 
 /**
  * Stats progression from early stage to viral
  */
 export const ProgressionStory: Story = {
-	render: () => ({
-		type: "div",
-		props: {
-			style: {
-				display: "flex",
-				flexDirection: "column",
-				gap: "32px",
+	args: {
+		stats: mockCampaignStats.earlyStage,
+	},
+	render: () =>
+		createElement(
+			"div",
+			{
+				style: {
+					display: "flex",
+					flexDirection: "column" as const,
+					gap: "32px",
+				},
 			},
-			children: [
-				{
-					type: "div",
-					props: {
-						children: [
-							{
-								type: "h3",
-								props: {
-									style: {
-										marginBottom: "12px",
-										fontSize: "16px",
-										fontWeight: 600,
-										color: "#111",
-									},
-									children: "Early Stage",
-								},
-							},
-							{
-								type: CampaignStats,
-								props: {
-									stats: mockCampaignStats.earlyStage,
-								},
-							},
-						],
+			createElement(
+				"div",
+				{ key: "early" },
+				createElement(
+					"h3",
+					{
+						style: {
+							marginBottom: "12px",
+							fontSize: "16px",
+							fontWeight: 600,
+							color: "#111",
+						},
 					},
-				},
-				{
-					type: "div",
-					props: {
-						children: [
-							{
-								type: "h3",
-								props: {
-									style: {
-										marginBottom: "12px",
-										fontSize: "16px",
-										fontWeight: 600,
-										color: "#111",
-									},
-									children: "Medium Performance",
-								},
-							},
-							{
-								type: CampaignStats,
-								props: {
-									stats: mockCampaignStats.mediumPerformance,
-								},
-							},
-						],
+					"Early Stage",
+				),
+				createElement(CampaignStats, { stats: mockCampaignStats.earlyStage }),
+			),
+			createElement(
+				"div",
+				{ key: "medium" },
+				createElement(
+					"h3",
+					{
+						style: {
+							marginBottom: "12px",
+							fontSize: "16px",
+							fontWeight: 600,
+							color: "#111",
+						},
 					},
-				},
-				{
-					type: "div",
-					props: {
-						children: [
-							{
-								type: "h3",
-								props: {
-									style: {
-										marginBottom: "12px",
-										fontSize: "16px",
-										fontWeight: 600,
-										color: "#111",
-									},
-									children: "High Performance",
-								},
-							},
-							{
-								type: CampaignStats,
-								props: {
-									stats: mockCampaignStats.highPerformance,
-								},
-							},
-						],
+					"Medium Performance",
+				),
+				createElement(CampaignStats, {
+					stats: mockCampaignStats.mediumPerformance,
+				}),
+			),
+			createElement(
+				"div",
+				{ key: "high" },
+				createElement(
+					"h3",
+					{
+						style: {
+							marginBottom: "12px",
+							fontSize: "16px",
+							fontWeight: 600,
+							color: "#111",
+						},
 					},
-				},
-				{
-					type: "div",
-					props: {
-						children: [
-							{
-								type: "h3",
-								props: {
-									style: {
-										marginBottom: "12px",
-										fontSize: "16px",
-										fontWeight: 600,
-										color: "#111",
-									},
-									children: "Viral Campaign",
-								},
-							},
-							{
-								type: CampaignStats,
-								props: {
-									stats: mockCampaignStats.viral,
-								},
-							},
-						],
+					"High Performance",
+				),
+				createElement(CampaignStats, {
+					stats: mockCampaignStats.highPerformance,
+				}),
+			),
+			createElement(
+				"div",
+				{ key: "viral" },
+				createElement(
+					"h3",
+					{
+						style: {
+							marginBottom: "12px",
+							fontSize: "16px",
+							fontWeight: 600,
+							color: "#111",
+						},
 					},
-				},
-			],
-		},
-	}),
+					"Viral Campaign",
+				),
+				createElement(CampaignStats, { stats: mockCampaignStats.viral }),
+			),
+		),
 };

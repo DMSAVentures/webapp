@@ -82,6 +82,7 @@ export const MinimalSettings: Story = {
 		initialData: {
 			settings: {
 				emailVerificationRequired: false,
+				sendWelcomeEmail: false,
 				duplicateHandling: "allow",
 				enableReferrals: false,
 				enableRewards: false,
@@ -156,6 +157,7 @@ export const FullyConfigured: Story = {
 				"Building anticipation for our revolutionary AI-powered product. Join our exclusive waitlist to be among the first to experience the future of automation.",
 			settings: {
 				emailVerificationRequired: true,
+				sendWelcomeEmail: true,
 				duplicateHandling: "block",
 				enableReferrals: true,
 				enableRewards: true,
@@ -179,6 +181,7 @@ export const DuplicateHandlingBlock: Story = {
 			name: "Campaign with Block Duplicates",
 			settings: {
 				emailVerificationRequired: true,
+				sendWelcomeEmail: true,
 				duplicateHandling: "block",
 				enableReferrals: true,
 				enableRewards: true,
@@ -196,6 +199,7 @@ export const DuplicateHandlingUpdate: Story = {
 			name: "Campaign with Update Duplicates",
 			settings: {
 				emailVerificationRequired: true,
+				sendWelcomeEmail: true,
 				duplicateHandling: "update",
 				enableReferrals: true,
 				enableRewards: true,
@@ -213,6 +217,7 @@ export const DuplicateHandlingAllow: Story = {
 			name: "Campaign with Allow Duplicates",
 			settings: {
 				emailVerificationRequired: true,
+				sendWelcomeEmail: true,
 				duplicateHandling: "allow",
 				enableReferrals: true,
 				enableRewards: true,
@@ -234,6 +239,7 @@ export const MobileView: Story = {
 			description: "Testing mobile layout",
 			settings: {
 				emailVerificationRequired: true,
+				sendWelcomeEmail: true,
 				duplicateHandling: "block",
 				enableReferrals: true,
 				enableRewards: true,

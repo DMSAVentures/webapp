@@ -16,8 +16,8 @@ import {
 	Share2,
 } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo } from "react";
-import type { EmailTemplate } from "@/hooks/useEmailTemplates";
-import { useGetEmailTemplates } from "@/hooks/useEmailTemplates";
+import type { CampaignEmailTemplate } from "@/hooks/useCampaignEmailTemplates";
+import { useGetCampaignEmailTemplates } from "@/hooks/useCampaignEmailTemplates";
 import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -71,7 +71,7 @@ function calculateStats(campaign: Campaign): CampaignStatsType {
 
 /** Check if required email templates are configured */
 function checkEmailTemplates(
-	templates: EmailTemplate[] | undefined,
+	templates: CampaignEmailTemplate[] | undefined,
 	needsVerification: boolean,
 	needsWelcome: boolean,
 	isLoading: boolean,
@@ -126,7 +126,7 @@ function useCampaignStatusActions(campaignId: string, onRefetch: () => void) {
 /** Hook for checking launch readiness */
 function useLaunchReadiness(
 	campaign: Campaign,
-	emailTemplates: EmailTemplate[] | undefined,
+	emailTemplates: CampaignEmailTemplate[] | undefined,
 	emailTemplatesLoading: boolean,
 ) {
 	const hasFormFields = Boolean(
@@ -462,7 +462,7 @@ export const CampaignOverview = memo(function CampaignOverview({
 	// Hooks
 	const navigate = useNavigate();
 	const { templates: emailTemplates, loading: emailTemplatesLoading } =
-		useGetEmailTemplates(campaign.id);
+		useGetCampaignEmailTemplates(campaign.id);
 
 	const { loading: updatingStatus, handleGoLive } = useCampaignStatusActions(
 		campaignId,

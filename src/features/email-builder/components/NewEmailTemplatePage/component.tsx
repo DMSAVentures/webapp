@@ -10,7 +10,7 @@ import {
 	renderTemplate,
 	SAMPLE_TEMPLATE_DATA,
 } from "@/features/campaigns/constants/defaultEmailTemplates";
-import { useCreateEmailTemplate } from "@/hooks/useEmailTemplates";
+import { useCreateCampaignEmailTemplate } from "@/hooks/useCampaignEmailTemplates";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useBannerCenter } from "@/proto-design-system/components/feedback/BannerCenter";
 import { FormField } from "@/proto-design-system/components/forms/FormField";
@@ -170,7 +170,7 @@ export const NewEmailTemplatePage = memo(function NewEmailTemplatePage() {
 	const { design, updateDesign } = useEmailDesign();
 
 	// API hooks
-	const { createTemplate, loading: saving } = useCreateEmailTemplate();
+	const { createTemplate, loading: saving } = useCreateCampaignEmailTemplate();
 
 	// Campaign dropdown items
 	const campaignItems =
@@ -201,10 +201,10 @@ export const NewEmailTemplatePage = memo(function NewEmailTemplatePage() {
 				name: templateName,
 				type: templateType,
 				subject,
-				html_body: htmlBody,
-				blocks_json: blocksJson,
+				htmlBody: htmlBody,
+				blocksJson: blocksJson,
 				enabled: true,
-				send_automatically: true,
+				sendAutomatically: true,
 			});
 
 			if (result) {

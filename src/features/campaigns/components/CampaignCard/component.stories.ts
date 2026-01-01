@@ -3,8 +3,89 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { mockCampaigns, mockCampaignsByStatus } from "@/mocks/campaigns.mock";
+import { createElement } from "react";
+import type { Campaign } from "@/types/campaign";
 import { CampaignCard } from "./component";
+
+// Create mock campaigns that match the @/types/campaign.Campaign interface
+const createMockCampaign = (overrides: Partial<Campaign> = {}): Campaign => ({
+	id: "campaign-1",
+	accountId: "account-1",
+	name: "SaaS Product Launch 2025",
+	slug: "saas-product-launch-2025",
+	description:
+		"Waitlist for our revolutionary project management tool launching Q2 2025",
+	status: "active",
+	type: "waitlist",
+	totalSignups: 12547,
+	totalVerified: 10234,
+	totalReferrals: 8932,
+	createdAt: new Date("2024-09-15T10:00:00Z"),
+	updatedAt: new Date("2025-11-04T14:22:00Z"),
+	...overrides,
+});
+
+const mockCampaigns: Campaign[] = [
+	createMockCampaign(),
+	createMockCampaign({
+		id: "campaign-2",
+		name: "Mobile App Beta Launch",
+		slug: "mobile-app-beta",
+		description: "Early access to our fitness tracking app",
+		status: "active",
+		totalSignups: 3421,
+		totalVerified: 2567,
+		totalReferrals: 1843,
+	}),
+	createMockCampaign({
+		id: "campaign-3",
+		name: "E-commerce Platform Pre-Launch",
+		slug: "ecommerce-prelaunch",
+		description: "Be the first to sell on our new marketplace",
+		status: "draft",
+		totalSignups: 234,
+		totalVerified: 189,
+		totalReferrals: 145,
+	}),
+	createMockCampaign({
+		id: "campaign-4",
+		name: "AI Writing Assistant Waitlist",
+		slug: "ai-writing-assistant",
+		description: "Join thousands waiting for the smartest writing tool",
+		status: "active",
+		totalSignups: 45782,
+		totalVerified: 42109,
+		totalReferrals: 38654,
+	}),
+	createMockCampaign({
+		id: "campaign-5",
+		name: "Newsletter Signup - Tech Weekly",
+		slug: "tech-weekly-newsletter",
+		description: "Weekly newsletter on startup and tech news",
+		status: "paused",
+		totalSignups: 89,
+		totalVerified: 45,
+		totalReferrals: 12,
+	}),
+	createMockCampaign({
+		id: "campaign-6",
+		name: "Conference 2026 Early Bird",
+		slug: "conference-2026",
+		description: "Secure your spot at the biggest tech conference",
+		status: "completed",
+		endDate: new Date("2025-09-30T18:00:00Z"),
+		totalSignups: 3421,
+		totalVerified: 2567,
+		totalReferrals: 1843,
+	}),
+];
+
+const mockCampaignsByStatus = {
+	active: mockCampaigns.filter((c) => c.status === "active"),
+	draft: mockCampaigns.filter((c) => c.status === "draft"),
+	paused: mockCampaigns.filter((c) => c.status === "paused"),
+	completed: mockCampaigns.filter((c) => c.status === "completed"),
+};
 
 const meta = {
 	title: "Features/Campaigns/CampaignCard",
@@ -25,10 +106,6 @@ const meta = {
 		onClick: {
 			description: "Click handler for the card",
 			action: "clicked",
-		},
-		actions: {
-			description: "Action handlers for edit, duplicate, delete",
-			control: "object",
 		},
 	},
 } satisfies Meta<typeof CampaignCard>;
@@ -57,17 +134,13 @@ export const WithStats: Story = {
 };
 
 /**
- * Campaign card with actions
+ * Campaign card with click handler
  */
-export const WithActions: Story = {
+export const WithClickHandler: Story = {
 	args: {
 		campaign: mockCampaigns[0],
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
+		onClick: () => console.log("Card clicked"),
 	},
 };
 
@@ -78,11 +151,6 @@ export const ActiveCampaign: Story = {
 	args: {
 		campaign: mockCampaignsByStatus.active[0],
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -93,11 +161,6 @@ export const DraftCampaign: Story = {
 	args: {
 		campaign: mockCampaignsByStatus.draft[0],
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -108,11 +171,6 @@ export const PausedCampaign: Story = {
 	args: {
 		campaign: mockCampaignsByStatus.paused[0],
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -123,11 +181,6 @@ export const CompletedCampaign: Story = {
 	args: {
 		campaign: mockCampaignsByStatus.completed[0],
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -138,11 +191,6 @@ export const HighPerformance: Story = {
 	args: {
 		campaign: mockCampaigns[3], // AI Writing Assistant - viral stats
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -153,11 +201,6 @@ export const EarlyStage: Story = {
 	args: {
 		campaign: mockCampaigns[2], // E-commerce Platform - early stage
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -166,16 +209,8 @@ export const EarlyStage: Story = {
  */
 export const NoDescription: Story = {
 	args: {
-		campaign: {
-			...mockCampaigns[0],
-			description: undefined,
-		},
+		campaign: createMockCampaign({ description: undefined }),
 		showStats: true,
-		actions: {
-			onEdit: () => console.log("Edit clicked"),
-			onDuplicate: () => console.log("Duplicate clicked"),
-			onDelete: () => console.log("Delete clicked"),
-		},
 	},
 };
 
@@ -183,28 +218,27 @@ export const NoDescription: Story = {
  * Multiple cards in a grid
  */
 export const GridLayout: Story = {
-	render: () => ({
-		type: "div",
-		props: {
-			style: {
-				display: "grid",
-				gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-				gap: "16px",
-				padding: "16px",
+	args: {
+		campaign: mockCampaigns[0],
+		showStats: true,
+	},
+	render: () =>
+		createElement(
+			"div",
+			{
+				style: {
+					display: "grid",
+					gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+					gap: "16px",
+					padding: "16px",
+				},
 			},
-			children: mockCampaigns.slice(0, 4).map((campaign) => ({
-				type: CampaignCard,
-				key: campaign.id,
-				props: {
+			mockCampaigns.slice(0, 4).map((campaign) =>
+				createElement(CampaignCard, {
+					key: campaign.id,
 					campaign,
 					showStats: true,
-					actions: {
-						onEdit: () => console.log("Edit", campaign.id),
-						onDuplicate: () => console.log("Duplicate", campaign.id),
-						onDelete: () => console.log("Delete", campaign.id),
-					},
-				},
-			})),
-		},
-	}),
+				}),
+			),
+		),
 };

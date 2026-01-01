@@ -11,9 +11,9 @@ import { Info, Mail, MailX, Pencil } from "lucide-react";
 import { memo } from "react";
 import { DEFAULT_EMAIL_TEMPLATES } from "@/features/campaigns/constants/defaultEmailTemplates";
 import {
-	type EmailTemplate,
-	useGetEmailTemplates,
-} from "@/hooks/useEmailTemplates";
+	type CampaignEmailTemplate,
+	useGetCampaignEmailTemplates,
+} from "@/hooks/useCampaignEmailTemplates";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -40,7 +40,7 @@ export interface EmailSettingsSectionProps {
 
 interface TemplateCardProps {
 	type: "verification" | "welcome";
-	template: EmailTemplate | null;
+	template: CampaignEmailTemplate | null;
 	campaignId?: string;
 	onEdit: () => void;
 	disabled?: boolean;
@@ -128,7 +128,7 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 		const isDisabled = disabled || locked;
 
 		// Fetch templates for this campaign
-		const { templates } = useGetEmailTemplates(campaignId || "");
+		const { templates } = useGetCampaignEmailTemplates(campaignId || "");
 
 		// Find templates by type
 		const verificationTemplate =
