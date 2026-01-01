@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ListChecks, Plus, Trash2 } from "lucide-react";
-import { motion } from "motion/react";
 import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
 import { useDeleteWebhook } from "@/hooks/useDeleteWebhook";
@@ -10,10 +9,12 @@ import { useTestWebhook } from "@/hooks/useTestWebhook";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Toast } from "@/proto-design-system/components/feedback/Toast";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { WebhookStatus } from "@/types/webhook";
 import styles from "./webhooks.module.scss";
 
@@ -160,20 +161,17 @@ function RouteComponent() {
 	};
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Webhooks</h1>
-					<p className={styles.pageDescription}>
+		<Stack gap="lg" className={styles.page} animate>
+			<Stack direction="row" justify="between" align="start" wrap>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Webhooks
+					</Text>
+					<Text color="muted">
 						Configure webhook endpoints to receive real-time notifications when
 						events occur
-					</p>
-				</div>
+					</Text>
+				</Stack>
 				<Button
 					variant="primary"
 					leftIcon={<Plus size={16} />}
@@ -182,7 +180,7 @@ function RouteComponent() {
 				>
 					Create Webhook
 				</Button>
-			</div>
+			</Stack>
 
 			{/* Team Feature Banner */}
 			{!hasAccess && (
@@ -338,6 +336,6 @@ function RouteComponent() {
 			>
 				{null}
 			</Modal>
-		</motion.div>
+		</Stack>
 	);
 }

@@ -9,10 +9,12 @@ import {
 } from "@/hooks/useZapierIntegration";
 import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Toast } from "@/proto-design-system/components/feedback/Toast";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Modal } from "@/proto-design-system/components/overlays/Modal";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import "remixicon/fonts/remixicon.css";
 import styles from "./integrations.module.scss";
 
@@ -73,14 +75,16 @@ function IntegrationsPage() {
 	const loading = statusLoading || subsLoading;
 
 	return (
-		<div className={styles.page}>
+		<Stack gap="lg" className={styles.page} animate>
 			{/* Header */}
-			<header className={styles.header}>
-				<h1 className={styles.title}>Integrations</h1>
-				<p className={styles.description}>
+			<Stack gap="xs">
+				<Text as="h1" size="2xl" weight="bold">
+					Integrations
+				</Text>
+				<Text color="muted">
 					Connect your favorite apps to automate your workflow
-				</p>
-			</header>
+				</Text>
+			</Stack>
 
 			{/* Team Feature Banner */}
 			{!hasAccess && (
@@ -248,7 +252,7 @@ function IntegrationsPage() {
 			>
 				{null}
 			</Modal>
-		</div>
+		</Stack>
 	);
 }
 

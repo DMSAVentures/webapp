@@ -3,6 +3,7 @@
  * Container component for the global analytics dashboard
  */
 
+import { BarChart2 } from "lucide-react";
 import { memo, useEffect, useMemo, useState } from "react";
 import { useChartNavigation } from "@/hooks/useChartNavigation";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
@@ -182,7 +183,7 @@ export const AnalyticsPage = memo(function AnalyticsPage() {
 				<EmptyState
 					title="No campaigns yet"
 					description="Create a campaign to start tracking analytics"
-					icon="bar-chart-2-line"
+					icon={<BarChart2 />}
 				/>
 			</Stack>
 		);

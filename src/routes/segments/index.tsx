@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Filter, Plus, Users } from "lucide-react";
-import { motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { GatedEmptyState } from "@/components/gating";
 import { SegmentBuilder } from "@/features/segments/components/SegmentBuilder/component";
@@ -10,11 +9,13 @@ import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { useGetSegments } from "@/hooks/useSegments";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
 import { Select } from "@/proto-design-system/components/forms/Select";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import {
 	Button,
 	LinkButton,
 } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { Segment } from "@/types/segment";
 import styles from "./index.module.scss";
 
@@ -71,20 +72,15 @@ function RouteComponent() {
 	// Show gated empty state for users without access
 	if (!hasAccess) {
 		return (
-			<motion.div
-				className={styles.page}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6 }}
-			>
-				<div className={styles.pageHeader}>
-					<div className={styles.headerContent}>
-						<h1 className={styles.pageTitle}>Segments</h1>
-						<p className={styles.pageDescription}>
-							Create and manage audience segments for targeted email campaigns
-						</p>
-					</div>
-				</div>
+			<Stack gap="lg" className={styles.page} animate>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Segments
+					</Text>
+					<Text color="muted">
+						Create and manage audience segments for targeted email campaigns
+					</Text>
+				</Stack>
 				<GatedEmptyState
 					feature="email_blasts"
 					icon={<Users />}
@@ -92,7 +88,7 @@ function RouteComponent() {
 					description="Create audience segments to target specific groups with your campaigns."
 					bannerDescription="Upgrade to Team to create audience segments for targeted campaigns."
 				/>
-			</motion.div>
+			</Stack>
 		);
 	}
 
@@ -102,12 +98,7 @@ function RouteComponent() {
 
 	if (!data?.campaigns?.length) {
 		return (
-			<motion.div
-				className={styles.page}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6 }}
-			>
+			<Stack gap="lg" className={styles.page} animate>
 				<EmptyState
 					icon={<Filter />}
 					title="No campaigns"
@@ -118,7 +109,7 @@ function RouteComponent() {
 						</LinkButton>
 					}
 				/>
-			</motion.div>
+			</Stack>
 		);
 	}
 
@@ -170,19 +161,16 @@ function RouteComponent() {
 	};
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Segments</h1>
-					<p className={styles.pageDescription}>
+		<Stack gap="lg" className={styles.page} animate>
+			<Stack direction="row" justify="between" align="start" wrap>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Segments
+					</Text>
+					<Text color="muted">
 						Create and manage audience segments for targeted email campaigns
-					</p>
-				</div>
+					</Text>
+				</Stack>
 				{!showBuilder && segments && segments.length > 0 && (
 					<Button
 						variant="primary"
@@ -192,7 +180,7 @@ function RouteComponent() {
 						Create Segment
 					</Button>
 				)}
-			</div>
+			</Stack>
 
 			<div className={styles.campaignSelector}>
 				<Select
@@ -207,6 +195,6 @@ function RouteComponent() {
 			{selectedCampaignId && (
 				<div className={styles.pageContent}>{renderContent()}</div>
 			)}
-		</motion.div>
+		</Stack>
 	);
 }

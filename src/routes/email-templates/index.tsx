@@ -1,16 +1,19 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Mail, Plus } from "lucide-react";
-import { motion } from "motion/react";
 import { useState } from "react";
 import { ErrorState } from "@/components/error/error";
+import { GatedEmptyState } from "@/components/gating";
 import { useGetBlastEmailTemplates } from "@/hooks/useBlastEmailTemplates";
 import { useGetAllCampaignEmailTemplates } from "@/hooks/useCampaignEmailTemplates";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { useGetCampaigns } from "@/hooks/useGetCampaigns";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { ButtonGroup } from "@/proto-design-system/components/primitives/Button/ButtonGroup";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { BlastEmailTemplate } from "@/types/blastEmailTemplate";
 import type { Campaign } from "@/types/campaign";
 import type { CampaignEmailTemplate } from "@/types/campaignEmailTemplate";
@@ -38,6 +41,7 @@ interface UnifiedTemplate {
 function RouteComponent() {
 	const navigate = useNavigate();
 	const [filter, setFilter] = useState<TemplateFilter>("all");
+	const { hasAccess } = useFeatureAccess("visual_email_builder");
 
 	const {
 		templates: campaignTemplates,
@@ -59,6 +63,27 @@ function RouteComponent() {
 	const handleCreateTemplate = () => {
 		navigate({ to: "/email-templates/new" });
 	};
+
+	// Show gated empty state for users without access
+	if (!hasAccess) {
+		return (
+			<Stack gap="lg" className={styles.page} animate>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Email Templates
+					</Text>
+					<Text color="muted">Manage campaign and blast email templates</Text>
+				</Stack>
+				<GatedEmptyState
+					feature="visual_email_builder"
+					icon={<Mail />}
+					title="Email Templates"
+					description="Create and manage email templates for your campaigns and blasts."
+					bannerDescription="Upgrade to Pro to create and manage email templates."
+				/>
+			</Stack>
+		);
+	}
 
 	const handleEditTemplate = (
 		templateId: string,
@@ -264,19 +289,14 @@ function RouteComponent() {
 	};
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Email Templates</h1>
-					<p className={styles.pageDescription}>
-						Manage campaign and blast email templates
-					</p>
-				</div>
+		<Stack gap="lg" className={styles.page} animate>
+			<Stack direction="row" justify="between" align="start" wrap>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Email Templates
+					</Text>
+					<Text color="muted">Manage campaign and blast email templates</Text>
+				</Stack>
 				<Button
 					variant="primary"
 					leftIcon={<Plus size={16} />}
@@ -284,7 +304,7 @@ function RouteComponent() {
 				>
 					Create Email Template
 				</Button>
-			</div>
+			</Stack>
 
 			<div className={styles.filterBar}>
 				<ButtonGroup isAttached>
@@ -336,6 +356,6 @@ function RouteComponent() {
 					</div>
 				)}
 			</div>
-		</motion.div>
+		</Stack>
 	);
 }

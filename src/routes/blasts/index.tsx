@@ -1,14 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Mail, Plus, Send } from "lucide-react";
-import { motion } from "motion/react";
 import { useCallback } from "react";
 import { GatedEmptyState } from "@/components/gating";
 import { BlastList } from "@/features/blasts/components/BlastList/component";
 import { useGetBlasts } from "@/hooks/useBlasts";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { EmptyState } from "@/proto-design-system/components/data/EmptyState";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
+import { Text } from "@/proto-design-system/components/primitives/Text";
 import type { EmailBlast } from "@/types/blast";
 import styles from "./index.module.scss";
 
@@ -42,20 +43,15 @@ function RouteComponent() {
 	// Show gated empty state for users without access
 	if (!hasAccess) {
 		return (
-			<motion.div
-				className={styles.page}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6 }}
-			>
-				<div className={styles.pageHeader}>
-					<div className={styles.headerContent}>
-						<h1 className={styles.pageTitle}>Email Blasts</h1>
-						<p className={styles.pageDescription}>
-							Send targeted email campaigns to your audience segments
-						</p>
-					</div>
-				</div>
+			<Stack gap="lg" className={styles.page} animate>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Email Blasts
+					</Text>
+					<Text color="muted">
+						Send targeted email campaigns to your audience segments
+					</Text>
+				</Stack>
 				<GatedEmptyState
 					feature="email_blasts"
 					icon={<Send />}
@@ -63,7 +59,7 @@ function RouteComponent() {
 					description="Send targeted emails to your audience segments."
 					bannerDescription="Upgrade to Team to send email blasts to your audience."
 				/>
-			</motion.div>
+			</Stack>
 		);
 	}
 
@@ -91,19 +87,16 @@ function RouteComponent() {
 	};
 
 	return (
-		<motion.div
-			className={styles.page}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6 }}
-		>
-			<div className={styles.pageHeader}>
-				<div className={styles.headerContent}>
-					<h1 className={styles.pageTitle}>Email Blasts</h1>
-					<p className={styles.pageDescription}>
+		<Stack gap="lg" className={styles.page} animate>
+			<Stack direction="row" justify="between" align="start" wrap>
+				<Stack gap="xs">
+					<Text as="h1" size="2xl" weight="bold">
+						Email Blasts
+					</Text>
+					<Text color="muted">
 						Send targeted email campaigns to your audience segments
-					</p>
-				</div>
+					</Text>
+				</Stack>
 				{blasts && blasts.length > 0 && (
 					<Button
 						variant="primary"
@@ -113,9 +106,9 @@ function RouteComponent() {
 						Create Blast
 					</Button>
 				)}
-			</div>
+			</Stack>
 
 			<div className={styles.pageContent}>{renderContent()}</div>
-		</motion.div>
+		</Stack>
 	);
 }
