@@ -131,3 +131,31 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-base-content);
 }
+
+// =============================================================================
+// FILTER BAR
+// =============================================================================
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+// =============================================================================
+// TYPE SELECTION CARDS
+// =============================================================================
+
+.typeSelectionCard {
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
