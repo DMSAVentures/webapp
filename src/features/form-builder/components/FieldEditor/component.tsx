@@ -11,6 +11,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
+import { OptionsEditor } from "@/features/form-builder/components/OptionsEditor/component";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { FormField as ProtoFormField } from "@/proto-design-system/components/forms/FormField";
 import { Input } from "@/proto-design-system/components/forms/Input";
@@ -44,7 +45,6 @@ interface FieldFormData {
 	required: boolean;
 	helpText?: string;
 	options?: string[];
-	optionsText?: string;
 	validation?: {
 		minLength?: number;
 		maxLength?: number;
@@ -89,24 +89,14 @@ function validateLabel(
 	return null;
 }
 
-/** Parse options from text (one per line) */
-function parseOptionsFromText(text: string): string[] {
-	return text
-		.split("\n")
-		.map((opt) => opt.trim())
-		.filter((opt) => opt.length > 0);
-}
-
 /** Create initial form data from a field */
 function createFormDataFromField(field: FormField): FieldFormData {
-	const optionsArray = field.options || [];
 	return {
 		label: field.label || "",
 		placeholder: field.placeholder || "",
 		required: field.required || false,
 		helpText: field.helpText || "",
-		options: optionsArray,
-		optionsText: optionsArray.join("\n"),
+		options: field.options || [],
 		validation: field.validation || {},
 	};
 }
@@ -198,9 +188,8 @@ function useFieldForm(field: FormField | null, allFields: FormField[]) {
 		setFormData((prev) => ({ ...prev, helpText: value }));
 	}, []);
 
-	const handleOptionsChange = useCallback((value: string) => {
-		const options = parseOptionsFromText(value);
-		setFormData((prev) => ({ ...prev, options, optionsText: value }));
+	const handleOptionsChange = useCallback((options: string[]) => {
+		setFormData((prev) => ({ ...prev, options }));
 	}, []);
 
 	const handleValidationChange = useCallback(
@@ -286,7 +275,7 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 			placeholder: formData.placeholder.trim(),
 			required: formData.required,
 			helpText: formData.helpText?.trim(),
-			options: formData.options,
+			options: formData.options?.filter((opt) => opt.trim().length > 0),
 			validation: formData.validation,
 		});
 
@@ -391,21 +380,12 @@ export const FieldEditor = memo<FieldEditorProps>(function FieldEditor({
 				{supportsOptions(field.type) && (
 					<>
 						<Divider />
-						<ProtoFormField
+						<OptionsEditor
+							options={formData.options ?? []}
+							onChange={handleOptionsChange}
 							label="Options"
 							required
-							id="field-options"
-							helperText="Each line will be a separate option"
-						>
-							<TextArea
-								id="field-options"
-								value={formData.optionsText ?? ""}
-								onChange={(e) => handleOptionsChange(e.target.value)}
-								placeholder="Enter one option per line"
-								rows={6}
-								required
-							/>
-						</ProtoFormField>
+						/>
 					</>
 				)}
 

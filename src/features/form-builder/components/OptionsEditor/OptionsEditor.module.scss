@@ -1,0 +1,44 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.label {
+	display: flex;
+	align-items: center;
+	gap: var(--space-1);
+}
+
+.required {
+	color: var(--color-error);
+}
+
+.optionsList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+}
+
+.optionRow {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.optionInput {
+	flex: 1;
+}
+
+.deleteButton {
+	flex-shrink: 0;
+}
+
+.addButton {
+	align-self: flex-start;
+}
+
+.helperText {
+	color: var(--color-text-muted);
+	font-size: var(--font-size-sm);
+}
