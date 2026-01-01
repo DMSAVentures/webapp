@@ -18,6 +18,8 @@ export interface FormBuilderPageProps {
 	campaignId: string;
 	/** Campaign data */
 	campaign: Campaign;
+	/** Callback when cancel is clicked */
+	onCancel?: () => void;
 }
 
 // ============================================================================
@@ -174,6 +176,7 @@ function useSaveFormConfig(campaignId: string) {
 export const FormBuilderPage = memo(function FormBuilderPage({
 	campaignId,
 	campaign,
+	onCancel,
 }: FormBuilderPageProps) {
 	// Hooks
 	const formConfig = useFormConfigFromCampaign(campaign);
@@ -194,6 +197,7 @@ export const FormBuilderPage = memo(function FormBuilderPage({
 				campaignId={campaignId}
 				initialConfig={formConfig || undefined}
 				onSave={handleSave}
+				onCancel={onCancel}
 				enabledReferralChannels={campaign.referralSettings?.sharingChannels}
 			/>
 		</Stack>

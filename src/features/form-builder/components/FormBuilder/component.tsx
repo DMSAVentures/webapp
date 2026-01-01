@@ -12,6 +12,7 @@ import {
 	Pencil,
 	Save,
 	Share2,
+	X,
 } from "lucide-react";
 import {
 	type HTMLAttributes,
@@ -26,7 +27,6 @@ import {
 	TabList,
 	Tabs,
 } from "@/proto-design-system/components/navigation/Tabs";
-import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import {
 	Button,
 	ButtonGroup,
@@ -61,6 +61,8 @@ export interface FormBuilderProps
 	initialConfig?: FormConfig;
 	/** Callback when form is saved */
 	onSave: (config: FormConfig) => Promise<void>;
+	/** Callback when cancel is clicked */
+	onCancel?: () => void;
 	/** Enabled referral channels for success message preview */
 	enabledReferralChannels?: SharingChannel[];
 	/** Additional CSS class name */
@@ -289,6 +291,7 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	campaignId,
 	initialConfig,
 	onSave,
+	onCancel,
 	enabledReferralChannels = [],
 	className: customClassName,
 	...props
@@ -398,24 +401,13 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 	// Render
 	return (
 		<Stack gap="md" className={classNames} {...props}>
-			{/* Header */}
+			{/* Header with action buttons */}
 			<Stack
 				direction="row"
-				justify="between"
+				justify="end"
 				align="center"
 				className={styles.header}
 			>
-				<Stack direction="row" gap="sm" align="center">
-					<Text as="h2" size="lg" weight="semibold">
-						Form Builder
-					</Text>
-					{hasUnsavedChanges && (
-						<Badge variant="warning" size="sm">
-							Unsaved changes
-						</Badge>
-					)}
-				</Stack>
-
 				<Stack direction="row" gap="sm" align="center">
 					{showPreview && (
 						<ButtonGroup isAttached>
@@ -434,6 +426,17 @@ export const FormBuilder = memo<FormBuilderProps>(function FormBuilder({
 								Mobile
 							</Button>
 						</ButtonGroup>
+					)}
+
+					{onCancel && (
+						<Button
+							variant="ghost"
+							size="md"
+							leftIcon={<X size={16} />}
+							onClick={onCancel}
+						>
+							Cancel
+						</Button>
 					)}
 
 					<Button
