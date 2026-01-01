@@ -1,11 +1,16 @@
 "use client";
+
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/auth";
+import { Stack } from "@/proto-design-system/components/layout/Stack";
+import { useSidebarContext } from "@/proto-design-system/components/navigation/Sidebar";
 import { Avatar } from "@/proto-design-system/components/primitives/Avatar";
 import { Text } from "@/proto-design-system/components/primitives/Text";
 
 export default function UserName() {
 	const auth = useContext(AuthContext);
+	const { collapsed } = useSidebarContext();
+
 	if (!auth.user) {
 		return null;
 	}
@@ -15,12 +20,16 @@ export default function UserName() {
 	const fullName =
 		`${auth.user.firstName || ""} ${auth.user.lastName || ""}`.trim();
 
+	if (collapsed) {
+		return <Avatar size="sm" fallback={initials} />;
+	}
+
 	return (
-		<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+		<Stack direction="row" gap="sm" align="center">
 			<Avatar size="sm" fallback={initials} />
 			<Text size="sm" weight="medium">
 				{fullName}
 			</Text>
-		</div>
+		</Stack>
 	);
 }

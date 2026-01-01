@@ -5,7 +5,6 @@ import {
 	HelpCircle,
 	Home,
 	Key,
-	LogOut,
 	Mail,
 	Megaphone,
 	Plug,
@@ -93,9 +92,6 @@ const AppSidebar = memo(function AppSidebar() {
 				</SidebarItem>
 				<SidebarItem icon={<HelpCircle size={18} />} href="/help">
 					Help
-				</SidebarItem>
-				<SidebarItem icon={<LogOut size={18} />} href="/signout">
-					Log out
 				</SidebarItem>
 			</SidebarSection>
 
