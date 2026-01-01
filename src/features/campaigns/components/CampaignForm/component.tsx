@@ -11,6 +11,7 @@ import {
 	useCallback,
 	useState,
 } from "react";
+import { FeatureGate } from "@/components/gating";
 import { useTier } from "@/contexts/tier";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Input } from "@/proto-design-system/components/forms/Input";
@@ -670,15 +671,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						</Text>
 					</Stack>
 
-					<Checkbox
-						checked={formData.settings.emailVerificationRequired}
-						onChange={(e) =>
-							handleSettingChange("emailVerificationRequired", e.target.checked)
-						}
-						disabled={isDisabled || !hasEmail}
-						label="Require email verification"
-						description="Users must verify their email before being added to waitlist"
-					/>
+					<FeatureGate feature="email_verification">
+						<Checkbox
+							checked={formData.settings.emailVerificationRequired}
+							onChange={(e) =>
+								handleSettingChange("emailVerificationRequired", e.target.checked)
+							}
+							disabled={isDisabled || !hasEmail}
+							label="Require email verification"
+							description="Users must verify their email before being added to waitlist"
+						/>
+					</FeatureGate>
 
 					<Stack gap="xs">
 						<Label>Duplicate Email Handling</Label>
@@ -708,15 +711,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						/>
 					</Stack>
 
-					<Checkbox
-						checked={formData.formConfig?.captchaEnabled ?? false}
-						onChange={(e) =>
-							handleFormConfigChange("captchaEnabled", e.target.checked)
-						}
-						disabled={isDisabled || !hasAntiSpam}
-						label="Enable CAPTCHA"
-						description="Protect your waitlist from bots and spam submissions"
-					/>
+					<FeatureGate feature="anti_spam_protection">
+						<Checkbox
+							checked={formData.formConfig?.captchaEnabled ?? false}
+							onChange={(e) =>
+								handleFormConfigChange("captchaEnabled", e.target.checked)
+							}
+							disabled={isDisabled || !hasAntiSpam}
+							label="Enable CAPTCHA"
+							description="Protect your waitlist from bots and spam submissions"
+						/>
+					</FeatureGate>
 				</Stack>
 
 				<Divider />
@@ -746,15 +751,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						</Text>
 					</Stack>
 
-					<Checkbox
-						checked={formData.settings.enableReferrals}
-						onChange={(e) =>
-							handleSettingChange("enableReferrals", e.target.checked)
-						}
-						disabled={isDisabled || !hasReferrals}
-						label="Enable referral system"
-						description="Allow users to refer others and track viral growth"
-					/>
+					<FeatureGate feature="referral_system">
+						<Checkbox
+							checked={formData.settings.enableReferrals}
+							onChange={(e) =>
+								handleSettingChange("enableReferrals", e.target.checked)
+							}
+							disabled={isDisabled || !hasReferrals}
+							label="Enable referral system"
+							description="Allow users to refer others and track viral growth"
+						/>
+					</FeatureGate>
 
 					{/* Referral Configuration - Only show if referrals are enabled */}
 					{formData.settings.enableReferrals && (
@@ -858,15 +865,17 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 						</Card>
 					)}
 
-					<Checkbox
-						checked={formData.settings.enableRewards}
-						onChange={(e) =>
-							handleSettingChange("enableRewards", e.target.checked)
-						}
-						disabled={isDisabled || !hasReferrals}
-						label="Enable reward system"
-						description="Reward users for reaching referral milestones"
-					/>
+					<FeatureGate feature="referral_system">
+						<Checkbox
+							checked={formData.settings.enableRewards}
+							onChange={(e) =>
+								handleSettingChange("enableRewards", e.target.checked)
+							}
+							disabled={isDisabled || !hasReferrals}
+							label="Enable reward system"
+							description="Reward users for reaching referral milestones"
+						/>
+					</FeatureGate>
 				</Stack>
 
 				<Divider />
@@ -884,22 +893,24 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 
 					{/* Add Integration Dropdown */}
 					{availableIntegrations.length > 0 && (
-						<Stack gap="xs">
-							<Label>Add Tracking Integration</Label>
-							<Dropdown
-								placeholder="Select a tracking platform..."
-								size="md"
-								items={availableIntegrations.map((integration) => ({
-									id: integration.type,
-									label: integration.label,
-									description: `ID format: ${integration.placeholder}`,
-								}))}
-								disabled={isDisabled || !hasTracking}
-								onChange={(id) =>
-									handleAddTrackingIntegration(id as TrackingIntegrationType)
-								}
-							/>
-						</Stack>
+						<FeatureGate feature="tracking_pixels">
+							<Stack gap="xs">
+								<Label>Add Tracking Integration</Label>
+								<Dropdown
+									placeholder="Select a tracking platform..."
+									size="md"
+									items={availableIntegrations.map((integration) => ({
+										id: integration.type,
+										label: integration.label,
+										description: `ID format: ${integration.placeholder}`,
+									}))}
+									disabled={isDisabled || !hasTracking}
+									onChange={(id) =>
+										handleAddTrackingIntegration(id as TrackingIntegrationType)
+									}
+								/>
+							</Stack>
+						</FeatureGate>
 					)}
 
 					{/* Configured Integrations List */}

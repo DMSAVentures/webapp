@@ -1,12 +1,12 @@
 /**
  * FeatureGate Component
- * Wraps features that require a higher tier plan, showing an inline Pro badge
+ * Wraps features that require a higher tier plan, showing an inline badge with tier name
  */
 
 import { useNavigate } from "@tanstack/react-router";
 import { Lock } from "lucide-react";
 import { type HTMLAttributes, memo, type ReactNode, useCallback } from "react";
-import { useTier } from "@/contexts/tier";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
 import { Icon } from "@/proto-design-system/components/primitives/Icon";
 import styles from "./component.module.scss";
 
@@ -45,8 +45,7 @@ export const FeatureGate = memo(function FeatureGate({
 	...props
 }: FeatureGateProps) {
 	const navigate = useNavigate();
-	const { hasFeature } = useTier();
-	const hasAccess = hasFeature(feature);
+	const { hasAccess, requiredTierDisplayName } = useFeatureAccess(feature);
 
 	const handleBadgeClick = useCallback(() => {
 		navigate({ to: "/billing/plans" });
@@ -66,10 +65,10 @@ export const FeatureGate = memo(function FeatureGate({
 				type="button"
 				className={styles.badge}
 				onClick={handleBadgeClick}
-				title="Upgrade to Pro"
+				title={`Upgrade to ${requiredTierDisplayName}`}
 			>
 				<Icon icon={Lock} size="sm" />
-				<span>Pro</span>
+				<span>{requiredTierDisplayName}</span>
 			</button>
 		</div>
 	);
