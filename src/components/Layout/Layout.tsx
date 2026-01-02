@@ -7,9 +7,11 @@ import {
 	Key,
 	Mail,
 	Megaphone,
+	Moon,
 	Plug,
 	Send,
 	Settings,
+	Sun,
 	User,
 	Users,
 	Webhook,
@@ -17,6 +19,7 @@ import {
 import React, { memo } from "react";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
+import { useTheme } from "@/proto-design-system/hooks/useTheme";
 import {
 	Sidebar,
 	SidebarDivider,
@@ -58,6 +61,8 @@ const getIcon = (iconClass?: string) => {
 const AppSidebar = memo(function AppSidebar() {
 	const { getNavigationGroups } = usePersona();
 	const navigationGroups = getNavigationGroups();
+	const { theme, setTheme } = useTheme();
+	const isDark = theme === "midnight";
 
 	return (
 		<Sidebar>
@@ -92,6 +97,12 @@ const AppSidebar = memo(function AppSidebar() {
 				</SidebarItem>
 				<SidebarItem icon={<HelpCircle size={18} />} href="/help">
 					Help
+				</SidebarItem>
+				<SidebarItem
+					icon={isDark ? <Sun size={18} /> : <Moon size={18} />}
+					onClick={() => setTheme(isDark ? "neon-orange" : "midnight")}
+				>
+					{isDark ? "Light Mode" : "Dark Mode"}
 				</SidebarItem>
 			</SidebarSection>
 
