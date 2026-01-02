@@ -202,7 +202,7 @@ function CustomXAxisTick({ x, y, payload, period }: CustomXAxisTickProps) {
 				y={0}
 				dy={12}
 				textAnchor="middle"
-				fill="var(--color-text-tertiary-default)"
+				fill="var(--color-base-content-tertiary)"
 				fontSize={12}
 			>
 				{formatted.line1}
@@ -213,7 +213,7 @@ function CustomXAxisTick({ x, y, payload, period }: CustomXAxisTickProps) {
 					y={0}
 					dy={26}
 					textAnchor="middle"
-					fill="var(--color-text-tertiary-default)"
+					fill="var(--color-base-content-tertiary)"
 					fontSize={11}
 				>
 					{formatted.line2}
@@ -383,33 +383,33 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 									>
 										<stop
 											offset="5%"
-											stopColor="var(--color-info-default)"
+											stopColor="var(--color-primary)"
 											stopOpacity={0.3}
 										/>
 										<stop
 											offset="95%"
-											stopColor="var(--color-info-default)"
+											stopColor="var(--color-primary)"
 											stopOpacity={0}
 										/>
 									</linearGradient>
 								</defs>
 								<CartesianGrid
 									strokeDasharray="3 3"
-									stroke="var(--color-border-secondary-default)"
+									stroke="var(--color-border)"
 									vertical={false}
 								/>
 								<XAxis
 									dataKey="date"
-									stroke="var(--color-text-tertiary-default)"
+									stroke="var(--color-base-content-tertiary)"
 									tick={<CustomXAxisTick period={selectedPeriod} />}
 									tickLine={false}
 									axisLine={false}
 									height={selectedPeriod === "hour" ? 45 : 30}
 								/>
 								<YAxis
-									stroke="var(--color-text-tertiary-default)"
+									stroke="var(--color-base-content-tertiary)"
 									tick={{
-										fill: "var(--color-text-tertiary-default)",
+										fill: "var(--color-base-content-tertiary)",
 										fontSize: 12,
 									}}
 									tickFormatter={formatNumber}
@@ -420,21 +420,21 @@ export const SignupsChart = memo<SignupsChartProps>(function SignupsChart({
 								<Tooltip
 									content={<CustomTooltip period={selectedPeriod} />}
 									cursor={{
-										stroke: "var(--color-border-primary-default)",
+										stroke: "var(--color-border)",
 										strokeDasharray: "3 3",
 									}}
 								/>
 								<Area
 									type="monotone"
 									dataKey="count"
-									stroke="var(--color-info-default)"
+									stroke="var(--color-primary)"
 									strokeWidth={2}
 									fill="url(#signupGradient)"
 									dot={false}
 									activeDot={{
 										r: 4,
-										fill: "var(--color-info-default)",
-										stroke: "var(--color-surface-primary-default)",
+										fill: "var(--color-primary)",
+										stroke: "var(--color-primary)",
 										strokeWidth: 2,
 									}}
 								/>

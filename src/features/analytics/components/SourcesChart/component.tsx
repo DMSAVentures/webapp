@@ -319,7 +319,7 @@ function CustomXAxisTick({ x, y, payload, period }: CustomXAxisTickProps) {
 				y={0}
 				dy={12}
 				textAnchor="middle"
-				fill="var(--color-text-tertiary-default)"
+				fill="var(--color-base-content-tertiary)"
 				fontSize={12}
 			>
 				{formatted.line1}
@@ -330,7 +330,7 @@ function CustomXAxisTick({ x, y, payload, period }: CustomXAxisTickProps) {
 					y={0}
 					dy={26}
 					textAnchor="middle"
-					fill="var(--color-text-tertiary-default)"
+					fill="var(--color-base-content-tertiary)"
 					fontSize={11}
 				>
 					{formatted.line2}
@@ -522,21 +522,21 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 							>
 								<CartesianGrid
 									strokeDasharray="3 3"
-									stroke="var(--color-border-secondary-default)"
+									stroke="var(--color-border)"
 									vertical={false}
 								/>
 								<XAxis
 									dataKey="date"
-									stroke="var(--color-text-tertiary-default)"
+									stroke="var(--color-base-content-tertiary)"
 									tick={<CustomXAxisTick period={selectedPeriod} />}
 									tickLine={false}
 									axisLine={false}
 									height={selectedPeriod === "hour" ? 45 : 30}
 								/>
 								<YAxis
-									stroke="var(--color-text-tertiary-default)"
+									stroke="var(--color-base-content-tertiary)"
 									tick={{
-										fill: "var(--color-text-tertiary-default)",
+										fill: "var(--color-base-content-tertiary)",
 										fontSize: 12,
 									}}
 									tickFormatter={formatNumber}
@@ -547,7 +547,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 								<Tooltip
 									content={<CustomTooltip period={selectedPeriod} />}
 									cursor={{
-										fill: "var(--color-bg-secondary-default)",
+										fill: "var(--color-base-200)",
 										opacity: 0.5,
 									}}
 								/>
@@ -557,7 +557,7 @@ export const SourcesChart = memo<SourcesChartProps>(function SourcesChart({
 									}}
 									formatter={(value) => (
 										<span
-											style={{ color: "var(--color-text-secondary-default)" }}
+											style={{ color: "var(--color-base-content-secondary)" }}
 										>
 											{getSourceDisplayName(value)}
 										</span>
