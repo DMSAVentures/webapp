@@ -104,7 +104,7 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 			tabIndex={onClick ? 0 : undefined}
 			{...props}
 		>
-			<Stack gap="sm">
+			<Stack gap="sm" style={{ flex: 1 }}>
 				{/* Header */}
 				<Stack direction="row" justify="between" align="center">
 					<Text as="h3" size="md" weight="semibold" className={styles.title}>
@@ -171,12 +171,17 @@ export const CampaignCard = memo<CampaignCardProps>(function CampaignCard({
 				)}
 
 				{/* Footer */}
-				<div className={styles.footer}>
+				<Stack
+					direction="row"
+					gap="xs"
+					align="center"
+					style={{ marginTop: "auto" }}
+				>
 					<Icon icon={Calendar} size="xs" color="muted" />
 					<Text size="xs" color="muted">
 						{formatCampaignDate(campaign)}
 					</Text>
-				</div>
+				</Stack>
 			</Stack>
 		</div>
 	);
