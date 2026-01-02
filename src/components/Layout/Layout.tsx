@@ -19,7 +19,6 @@ import {
 import React, { memo } from "react";
 import UserName from "@/components/user/Username";
 import { usePersona } from "@/contexts/persona";
-import { useTheme } from "@/proto-design-system/hooks/useTheme";
 import {
 	Sidebar,
 	SidebarDivider,
@@ -30,6 +29,7 @@ import {
 	SidebarSection,
 	SidebarToggle,
 } from "@/proto-design-system/components/navigation/Sidebar";
+import { useTheme } from "@/proto-design-system/hooks/useTheme";
 import styles from "./layout.module.scss";
 
 interface LayoutProps {

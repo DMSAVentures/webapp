@@ -29,7 +29,8 @@
       "Bash(npm run lint:*)",
       "Bash(make test-integration:*)",
       "Bash(go clean:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm run lint:fix:*)"
     ],
     "deny": [],
     "ask": []
