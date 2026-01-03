@@ -1,3 +1,4 @@
+import { Link, useLocation } from "@tanstack/react-router";
 import {
 	BarChart,
 	CreditCard,
@@ -63,6 +64,7 @@ const AppSidebar = memo(function AppSidebar() {
 	const navigationGroups = getNavigationGroups();
 	const { theme, setTheme } = useTheme();
 	const isDark = theme === "midnight";
+	const location = useLocation();
 
 	return (
 		<Sidebar>
@@ -78,10 +80,8 @@ const AppSidebar = memo(function AppSidebar() {
 							key={item.href}
 							icon={getIcon(item.iconClass)}
 							href={item.href}
-							active={
-								typeof window !== "undefined" &&
-								window.location.pathname === item.href
-							}
+							active={location.pathname === item.href}
+							LinkComponent={Link}
 						>
 							{item.label}
 						</SidebarItem>
@@ -92,10 +92,20 @@ const AppSidebar = memo(function AppSidebar() {
 			<SidebarDivider />
 
 			<SidebarSection title="Settings">
-				<SidebarItem icon={<Settings size={18} />} href="/account">
+				<SidebarItem
+					icon={<Settings size={18} />}
+					href="/account"
+					active={location.pathname === "/account"}
+					LinkComponent={Link}
+				>
 					Settings
 				</SidebarItem>
-				<SidebarItem icon={<HelpCircle size={18} />} href="/help">
+				<SidebarItem
+					icon={<HelpCircle size={18} />}
+					href="/help"
+					active={location.pathname === "/help"}
+					LinkComponent={Link}
+				>
 					Help
 				</SidebarItem>
 				<SidebarItem

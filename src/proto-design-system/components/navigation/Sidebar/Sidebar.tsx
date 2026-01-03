@@ -615,6 +615,14 @@ export interface SidebarItemProps {
 	onClick?: () => void;
 	/** Additional className */
 	className?: string;
+	/** Custom link component for client-side routing (e.g., TanStack Router's Link) */
+	LinkComponent?: React.ComponentType<{
+		to: string;
+		className?: string;
+		"aria-current"?: "page" | undefined;
+		onClick?: () => void;
+		children: ReactNode;
+	}>;
 }
 
 export function SidebarItem({
@@ -626,6 +634,7 @@ export function SidebarItem({
 	children,
 	onClick,
 	className,
+	LinkComponent,
 }: SidebarItemProps) {
 	const { collapsed, isMobile, closeMobile } = useSidebarContext();
 
@@ -659,6 +668,20 @@ export function SidebarItem({
 	);
 
 	if (href && !disabled) {
+		// Use custom LinkComponent for client-side routing if provided
+		if (LinkComponent) {
+			return (
+				<LinkComponent
+					to={href}
+					className={itemClass}
+					aria-current={active ? "page" : undefined}
+					onClick={handleClick}
+				>
+					{content}
+				</LinkComponent>
+			);
+		}
+
 		return (
 			<a
 				href={href}
