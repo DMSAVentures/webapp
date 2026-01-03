@@ -1,13 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Check, X } from "lucide-react";
-import { memo, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
+import { fetcher } from "@/api";
 import { useGetAllPrices } from "@/hooks/useGetAllPrices";
+import { useGetCurrentSubscription } from "@/hooks/useGetCurrentSubscription";
+import { Banner } from "@/proto-design-system/components/feedback/Banner";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
 import { Badge } from "@/proto-design-system/components/primitives/Badge";
 import { Button } from "@/proto-design-system/components/primitives/Button";
 import { Spinner } from "@/proto-design-system/components/primitives/Spinner";
 import { Text } from "@/proto-design-system/components/primitives/Text";
-import type { Price } from "@/types/billing";
+import type { CustomerPortalResponse, Price } from "@/types/billing";
 import { formatPrice } from "@/utils/formatPrice";
 import styles from "./plans.module.scss";
 
@@ -145,12 +148,16 @@ interface PricingCardProps {
 	plan: Plan;
 	priceInfo: PlanPriceInfo | null;
 	onSelect: (planId: string) => void;
+	isCurrentPlan?: boolean;
+	isLoading?: boolean;
 }
 
 const PricingCard = memo(function PricingCard({
 	plan,
 	priceInfo,
 	onSelect,
+	isCurrentPlan = false,
+	isLoading = false,
 }: PricingCardProps) {
 	const priceDisplay = priceInfo
 		? formatPrice(priceInfo.unitAmount, priceInfo.currency)
@@ -238,11 +245,14 @@ const PricingCard = memo(function PricingCard({
 
 			<div className={styles.cardFooter}>
 				<Button
-					variant={plan.highlighted ? "secondary" : "outline"}
+					variant={
+						isCurrentPlan ? "ghost" : plan.highlighted ? "secondary" : "outline"
+					}
 					onClick={() => onSelect(plan.id)}
 					className={styles.ctaButton}
+					disabled={isCurrentPlan || isLoading}
 				>
-					Change plan
+					{isCurrentPlan ? "Current plan" : "Change plan"}
 				</Button>
 				{plan.note && (
 					<Text size="sm" color="muted" align="center">
@@ -319,20 +329,41 @@ function buildPriceMap(prices: Price[] | undefined): PriceMap {
 function PlansPage() {
 	const navigate = useNavigate();
 	const [isYearly, setIsYearly] = useState(false);
+	const [portalLoading, setPortalLoading] = useState(false);
+	const [portalError, setPortalError] = useState<string | null>(null);
 	const { prices, loading, error } = useGetAllPrices();
+	const { currentSubscription, loading: subscriptionLoading } =
+		useGetCurrentSubscription();
+
+	// Redirect to Stripe billing portal for plan changes
+	const redirectToBillingPortal = useCallback(async () => {
+		setPortalLoading(true);
+		setPortalError(null);
+		try {
+			const response = await fetcher<CustomerPortalResponse>(
+				`${import.meta.env.VITE_API_URL}/api/protected/billing/create-customer-portal`,
+				{ method: "POST" },
+			);
+			// Open billing portal in same window
+			window.location.href = response.url;
+		} catch {
+			setPortalError("Failed to open billing portal. Please try again.");
+			setPortalLoading(false);
+		}
+	}, []);
 
 	// Build price map from API prices
 	const priceMap = useMemo(() => buildPriceMap(prices), [prices]);
 
-	const handleSelectPlan = (planId: string) => {
-		if (planId === "free") {
-			// Free plan - redirect to dashboard
-			navigate({ to: "/" });
-			return;
-		}
+	// Check if user has an active subscription (including free $0 subscription)
+	const hasActiveSubscription =
+		currentSubscription && currentSubscription.status === "active";
 
+	const handleSelectPlan = async (planId: string) => {
 		// Get the Stripe price ID for this plan and billing period
-		const billingPeriod = isYearly ? "yearly" : "monthly";
+		// For free plan, always use monthly (it's $0 either way)
+		const billingPeriod =
+			planId === "free" ? "monthly" : isYearly ? "yearly" : "monthly";
 		const priceInfo = priceMap[planId]?.[billingPeriod];
 
 		if (!priceInfo) {
@@ -340,7 +371,28 @@ function PlansPage() {
 			return;
 		}
 
-		// Navigate to checkout with actual Stripe price ID
+		// If user already has an active subscription (including free), redirect to billing portal
+		// The portal handles upgrades, downgrades, and plan changes with proper proration
+		if (hasActiveSubscription) {
+			// Check if selecting the same plan
+			if (currentSubscription.priceId === priceInfo.priceId) {
+				return; // Already on this plan
+			}
+
+			// Redirect to Stripe billing portal for plan change
+			await redirectToBillingPortal();
+			return;
+		}
+
+		// No subscription at all
+		if (planId === "free") {
+			// Free plan with no existing subscription - redirect to dashboard
+			// The free subscription will be created on signup
+			navigate({ to: "/" });
+			return;
+		}
+
+		// Paid plan with no subscription - navigate to checkout for new subscription
 		navigate({
 			to: "/billing/pay",
 			search: { plan: priceInfo.priceId },
@@ -352,7 +404,15 @@ function PlansPage() {
 		return priceMap[planId]?.[billingPeriod] ?? null;
 	};
 
-	if (loading) {
+	// Check if a plan is the current plan
+	const isCurrentPlan = (planId: string): boolean => {
+		if (!hasActiveSubscription) return false;
+		const billingPeriod = isYearly ? "yearly" : "monthly";
+		const priceInfo = priceMap[planId]?.[billingPeriod];
+		return priceInfo?.priceId === currentSubscription.priceId;
+	};
+
+	if (loading || subscriptionLoading) {
 		return (
 			<div className={styles.page}>
 				<Stack gap="xl" align="center" justify="center">
@@ -375,6 +435,24 @@ function PlansPage() {
 	return (
 		<div className={styles.page}>
 			<Stack gap="xl" align="center">
+				{portalError && (
+					<Banner
+						type="error"
+						variant="filled"
+						title="Error"
+						description={portalError}
+					/>
+				)}
+
+				{portalLoading && (
+					<Banner
+						type="info"
+						variant="filled"
+						title="Opening Billing Portal"
+						description="Redirecting you to manage your subscription..."
+					/>
+				)}
+
 				<BillingToggle
 					isYearly={isYearly}
 					onToggle={() => setIsYearly(!isYearly)}
@@ -387,6 +465,8 @@ function PlansPage() {
 							plan={plan}
 							priceInfo={getPriceInfo(plan.id)}
 							onSelect={handleSelectPlan}
+							isCurrentPlan={isCurrentPlan(plan.id)}
+							isLoading={portalLoading}
 						/>
 					))}
 				</div>
