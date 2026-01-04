@@ -16,6 +16,7 @@ import { useTier } from "@/contexts/tier";
 import { Checkbox } from "@/proto-design-system/components/forms/Checkbox";
 import { Input } from "@/proto-design-system/components/forms/Input";
 import { Label } from "@/proto-design-system/components/forms/Label";
+import { TextField } from "@/proto-design-system/components/forms/TextField";
 import { Card } from "@/proto-design-system/components/layout/Card";
 import { Divider } from "@/proto-design-system/components/layout/Divider";
 import { Stack } from "@/proto-design-system/components/layout/Stack";
@@ -770,8 +771,9 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 					{formData.settings.enableReferrals && (
 						<Card variant="filled" padding="md" className={styles.subsection}>
 							<Stack gap="md">
-								<Input
+								<TextField
 									id="points-per-referral"
+									label="Points per Referral"
 									type="number"
 									value={
 										formData.referralConfig?.pointsPerReferral.toString() || "1"
@@ -798,8 +800,10 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 									description="Only count referrals that have verified their email"
 								/>
 
-								<Input
+								<TextField
 									id="referrer-positions-to-jump"
+									label="Referrer Bonus"
+									helperText="Positions the referrer moves up per successful referral"
 									type="number"
 									value={
 										formData.referralConfig?.referrerPositionsToJump.toString() ||
@@ -817,8 +821,10 @@ export const CampaignForm = memo<CampaignFormProps>(function CampaignForm({
 									max={1000}
 								/>
 
-								<Input
+								<TextField
 									id="positions-to-jump"
+									label="Referee Bonus"
+									helperText="Positions new signups move up when using a referral link"
 									type="number"
 									value={
 										formData.referralConfig?.positionsToJump.toString() || "0"
