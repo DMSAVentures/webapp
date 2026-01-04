@@ -44,6 +44,7 @@ interface TemplateCardProps {
 	campaignId?: string;
 	onEdit: () => void;
 	disabled?: boolean;
+	verificationRequired?: boolean;
 }
 
 const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
@@ -51,16 +52,21 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 	template,
 	onEdit,
 	disabled,
+	verificationRequired,
 }) {
 	const typeLabels = {
 		verification: "Verification Email",
 		welcome: "Welcome Email",
 	};
 
-	const typeDescriptions = {
-		verification: "Sent when users sign up to verify their email address",
-		welcome:
-			"Sent after verification or immediately if verification is disabled",
+	const getDescription = () => {
+		if (type === "verification") {
+			return "Sent when users sign up to verify their email address";
+		}
+		// Welcome email description depends on verification setting
+		return verificationRequired
+			? "Sent after verification"
+			: "Sent immediately when users sign up";
 	};
 
 	const defaultTemplate = DEFAULT_EMAIL_TEMPLATES[type];
@@ -84,7 +90,7 @@ const TemplateCard = memo<TemplateCardProps>(function TemplateCard({
 
 				<Stack gap="xs" className={styles.templateCardContent}>
 					<Text size="sm" color="muted">
-						{typeDescriptions[type]}
+						{getDescription()}
 					</Text>
 					<div className={styles.templateCardSubject}>
 						<Text as="span" size="xs" weight="medium" color="muted">
@@ -145,10 +151,6 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 			}
 		};
 
-		// Determine which templates to show based on settings
-		const showVerificationTemplate = verificationRequired;
-		const showWelcomeTemplate = verificationRequired || sendWelcomeEmail;
-
 		return (
 			<Stack gap="lg">
 				<Stack gap="xs" className={styles.sectionHeader}>
@@ -160,40 +162,57 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 					</Text>
 				</Stack>
 
-				{/* Send Welcome Email Toggle - only show when verification is disabled */}
-				{!verificationRequired && (
-					<Checkbox
-						checked={sendWelcomeEmail}
-						onChange={(e) => onSendWelcomeEmailChange(e.target.checked)}
-						disabled={isDisabled}
-						label="Send welcome email on signup"
-						description="Send a welcome email immediately when users sign up (no verification required)"
-					/>
-				)}
-
-				{/* Template Cards */}
-				<Stack gap="sm">
-					{showVerificationTemplate && (
-						<TemplateCard
-							type="verification"
-							template={verificationTemplate}
-							campaignId={campaignId}
-							onEdit={handleCustomize}
-							disabled={isDisabled || !campaignId}
-						/>
+				<Stack gap="md">
+					{/* Verification Email - shown when verification is required */}
+					{verificationRequired && (
+						<Stack gap="sm">
+							<Checkbox
+								checked={true}
+								disabled={true}
+								label="Verification Email"
+								description="Sent when users sign up to verify their email address"
+							/>
+							<div className={styles.templateCardIndented}>
+								<TemplateCard
+									type="verification"
+									template={verificationTemplate}
+									campaignId={campaignId}
+									onEdit={handleCustomize}
+									disabled={isDisabled || !campaignId}
+								/>
+							</div>
+						</Stack>
 					)}
 
-					{showWelcomeTemplate && (
-						<TemplateCard
-							type="welcome"
-							template={welcomeTemplate}
-							campaignId={campaignId}
-							onEdit={handleCustomize}
-							disabled={isDisabled || !campaignId}
+					{/* Welcome Email - always toggleable */}
+					<Stack gap="sm">
+						<Checkbox
+							checked={sendWelcomeEmail}
+							onChange={(e) => onSendWelcomeEmailChange(e.target.checked)}
+							disabled={isDisabled}
+							label="Welcome Email"
+							description={
+								verificationRequired
+									? "Sent after verification"
+									: "Sent immediately when users sign up"
+							}
 						/>
-					)}
+						{sendWelcomeEmail && (
+							<div className={styles.templateCardIndented}>
+								<TemplateCard
+									type="welcome"
+									template={welcomeTemplate}
+									campaignId={campaignId}
+									onEdit={handleCustomize}
+									disabled={isDisabled || !campaignId}
+									verificationRequired={verificationRequired}
+								/>
+							</div>
+						)}
+					</Stack>
 
-					{!showVerificationTemplate && !showWelcomeTemplate && (
+					{/* Empty state - only when verification is off and welcome email is unchecked */}
+					{!verificationRequired && !sendWelcomeEmail && (
 						<Card variant="filled" padding="lg">
 							<Stack gap="xs" align="center">
 								<Icon icon={MailX} size="lg" />
@@ -201,8 +220,8 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 									No automatic emails are configured.
 								</Text>
 								<Text size="xs" color="muted">
-									Enable email verification above or toggle "Send welcome email"
-									to configure automatic emails.
+									Enable email verification above or toggle "Welcome Email" to
+									configure automatic emails.
 								</Text>
 							</Stack>
 						</Card>
@@ -210,7 +229,7 @@ export const EmailSettingsSection = memo<EmailSettingsSectionProps>(
 				</Stack>
 
 				{/* Note for new campaigns */}
-				{!campaignId && (showVerificationTemplate || showWelcomeTemplate) && (
+				{!campaignId && (verificationRequired || sendWelcomeEmail) && (
 					<div className={styles.saveNote}>
 						<Icon icon={Info} size="sm" />
 						<Text size="sm">
